@@ -1,0 +1,2 @@
+nexo_detailled_daily_report  :  retourne le chaine comportant l'auteur de l'impression du document du rapport journalier detaillé
+nexo_stats_des_ventes_report:  retourne le chaine comportant l'auteur de l'impression du document des stats des ventes

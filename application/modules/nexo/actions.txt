@@ -1,0 +1,89 @@
+Actions: 
+========
+Regroupe toutes les actions de la boutique
+
+/**
+ *	nexo_checkout_footer
+ *  Exécute une action au pied de page de la boutique
+**/
+	
+/**
+ * nexo_daily_report_footer 
+ * Execute une action au peid de page du rapport journalier
+**/	
+
+/**
+ * nexo_escape_nexoadds
+ * Permet de désactiver les annonces
+**/
+
+/**
+ * nexo_before_customers
+ * execute une actions avant le menu customers
+**/
+
+/**
+ * nexo_before_shipping
+ * execute une actions avant le menu shippnig
+**/
+
+/**
+ * nexo_before_checkout
+ * execute une actions avant le menu checkout
+**/
+
+/**
+ * nexo_before_accounting
+ * execute une actions avant le menu Accounting
+**/
+
+/**
+ * nexo_before_settings
+ * execute une actions avant le menu nexo settings
+**/
+
+/**
+ * nexo_before_history
+ * execute une actions avant le menu history
+**/
+
+/**
+ * before_nexo_email_settings
+ * execute une actions avant les réglages emails
+**/
+
+/**
+ * after_nexo_email_settings
+ * execute une actions après les réglages emails
+**/
+
+/**
+ * before_nexo_payments_settings
+ * execute une actions avant les réglages des moyens de paiements
+**/
+
+/**
+ * after_nexo_payments_settings
+ * execute une actions après les réglages des moyens de paiements
+**/
+
+/**
+ * nexo_edit_order
+ * Execute après la mise à jour dune commande
+**/
+
+
+/**
+ * nexo_delete_order
+ * Execute après la suppréssion dune commande
+**/
+
+/**
+ * load_nexo_checkout_settings
+ * S'exécute durant le chargement de la page de la caisse
+**/
+
+/** 
+ * load_nexo_general_settings
+ * S'exécute sur la page des réglages généraux
+**/

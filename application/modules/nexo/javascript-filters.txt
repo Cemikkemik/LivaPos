@@ -1,0 +1,4 @@
+nexo_checkout_codebar_wrapper 	: 	apply_filter for codebar dom wrapper
+nexo_customer_dom_popup			:	apply_filter to customer dom popup
+check_customer_fields			:	apply_filter to Customer creation form validation from checkout screen
+nexo_customer_fields_object		:	hold customer form field object before sending to server for registration.

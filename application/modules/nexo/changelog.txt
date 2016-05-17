@@ -1,0 +1,26 @@
+v2.4.5
+======
+- 4 new actions
+	before_nexo_email_settings
+	after_nexo_email_settings
+	before_nexo_payments_settings
+	after_nexo_payments_settings
+- New Settings UI
+v2.4.2
+======
+- Fix automatic discount feature while changing customer
+- Fix translation
+- Fix search bug with set_relation which cause ambiguous field.
+- Fix cache conflict with TendooCMS
+
+v2.2
+====
+- Introduce demo content
+- Search box
+- New settings option
+- Bug fix !
+
+v2.1
+====
+- Creating Bon_davoir table
+- Removing unused table

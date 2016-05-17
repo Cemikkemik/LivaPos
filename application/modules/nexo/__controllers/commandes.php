@@ -83,7 +83,7 @@ class Nexo_Commandes extends CI_Model
         $crud->change_field_type('TOTAL', 'invisible');
         $crud->change_field_type('DATE_CREATION', 'invisible');
         $crud->change_field_type('DATE_MOD', 'invisible');
-        $crud->change_field_type('AUTHOR', 'readonly');
+        $crud->change_field_type('AUTHOR', 'invisible');
         $crud->change_field_type('DISCOUNT_TYPE', 'invisible');
         $crud->change_field_type('TVA', 'invisible');
 		

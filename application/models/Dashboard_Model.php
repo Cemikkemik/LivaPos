@@ -37,11 +37,14 @@ class Dashboard_Model extends CI_Model
         $this->enqueue->css('../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min'); // CSS for WYSIHTML5
 
         // Highlight
-        $this->enqueue->css('highlight-min');
+        // $this->enqueue->css('highlight-min');
         
         // Bootsrap Notify
         $this->enqueue->js('../plugins/bootstrap-notify-master/bootstrap-notify.min');
         $this->enqueue->js('tendoo.core');
+		
+		// ParseParams
+		$this->enqueue->js('jquery.parseParams');
         
         // Bootbox
         $this->enqueue->js('../plugins/bootbox/bootbox.min');
@@ -217,6 +220,13 @@ tendoo.user				=	{
     id			:		<?php echo $this->events->apply_filters('tendoo_object_user_id', 'false');
         ?>
 }
+tendoo.csrf_field_name	=	'<?php echo $this->security->get_csrf_token_name(); ?>';
+
+tendoo.csrf_field_value	=	'<?php echo $this->security->get_csrf_hash(); ?>';
+
+tendoo.csrf_data		=	{
+	'<?php echo $this->security->get_csrf_token_name(); ?>'	:	'<?php echo $this->security->get_csrf_hash(); ?>'
+};
 // Date Object
 tendoo.date				=	new Date();
 tendoo.now				=	function(){
@@ -255,8 +265,10 @@ tendoo.options			=	new function(){
         }		
 		value					=	( typeof value == 'object' ) ? JSON.stringify( value ) : value
 		var post_data			=	_.object( [ key ], [ value ] );
-		
+		// Add CSRF Secure for POST Ajax
+		tendoo.options_data		=	_.extend( tendoo.options_data, tendoo.csrf_data );
         tendoo.options_data		=	_.extend( tendoo.options_data, post_data );
+		
         $.ajax( '<?php echo site_url(array( 'dashboard', 'options' ));
         ?>/'+save_slug, {
             data			:	tendoo.options_data,
@@ -280,6 +292,7 @@ tendoo.options			=	new function(){
             save_slug	=	'merge';
         }
         var post_data			=	_.object( [ key ], [ value ] );
+		tendoo.options_data		=	_.extend( tendoo.options_data, tendoo.csrf_data );
         tendoo.options_data	=	_.extend( tendoo.options_data, post_data );
         $.ajax( '<?php echo site_url(array( 'dashboard', 'options' ));
         ?>/' + save_slug, {
@@ -299,6 +312,7 @@ tendoo.options			=	new function(){
     };
     this.get				=	function( key, callback ) {
         var post_data		=	_.object( [ 'option_key' ], [ key ] );
+		tendoo.options_data		=	_.extend( tendoo.options_data, tendoo.csrf_data );
         tendoo.options_data	=	_.extend( tendoo.options_data, post_data );
         $.ajax( '<?php echo site_url(array( 'dashboard', 'options', 'get' ));
         ?>', {
@@ -375,6 +389,19 @@ $(document).ready(function(){
 	});
 	$( document ).ajaxSend(function() {
 	  tendoo.loader.show();
+	});
+	
+	// Add CSRF Protection to each request
+	$.ajaxPrefilter(function(options, originalOptions, jqXHR) {		
+		if( typeof originalOptions.type != 'undefined' ) {
+			if ( originalOptions.type.toUpperCase() === 'POST' || options.type.toUpperCase() === 'POST') {
+				if( typeof originalOptions.data == 'string' ) {
+					options.data	=	$.param( _.extend( tendoo.csrf_data, $.parseParams( originalOptions.data ) ) );
+				} else if( typeof originalOptions.data == 'object' ) {
+					options.data	=	$.param( _.extend( tendoo.csrf_data, originalOptions.data ) );	
+				}
+			}
+		}
 	});
 });
 </script><?php

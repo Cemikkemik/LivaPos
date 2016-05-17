@@ -114,6 +114,7 @@ class Nexo_Clients extends CI_Model
         // Field Visibility
         $crud->change_field_type('DATE_CREATION', 'invisible');
         $crud->change_field_type('DATE_MODIFICATION', 'invisible');
+		$crud->change_field_type('AUTHOR', 'readonly');
 
         $crud->required_fields('NAME');
 

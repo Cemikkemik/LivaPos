@@ -16,9 +16,7 @@
                 foreach ($fields as $field) {
                     $even_odd = $counter % 2 == 0 ? 'odd' : 'even';
                     $counter++;
-                    // id="<?php echo $field->field_name; _display_as_box"
-                    // <?php echo $input_fields[$field->field_name]->input
-                    // var_dump( $input_fields );
+					if( $input_fields[ $field->field_name ]->crud_type != 'relation_invisible' ) {
             ?>
             <div class="form-group <?php echo $even_odd?>" id="<?php echo $field->field_name;
                     ?>_field_box">
@@ -30,6 +28,7 @@
               </div>
 
 			<?php 
+					}
                 }?>
 			<!-- Start of hidden inputs -->
 				<?php

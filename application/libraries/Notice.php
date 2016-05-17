@@ -1,5 +1,5 @@
 <?php
-class notice
+class Notice
 {
 	/**
 	 * Notice class

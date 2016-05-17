@@ -1,7 +1,6 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class GUI extends CI_Model
+class Gui extends CI_Model
 {
 	public $cols	=	array( 
 		1 			=>	array(),
@@ -12,7 +11,7 @@ class GUI extends CI_Model
 
 	private $created_page	=	array();
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 	}
@@ -24,7 +23,7 @@ class GUI extends CI_Model
 	 * @return void
 	**/
 	
-	function register_page( $page_slug , $function )
+	public function register_page( $page_slug , $function )
 	{
 		$this->created_page[ $page_slug ]	=	array(
 			'page-slug'		=>	$page_slug,
@@ -135,7 +134,7 @@ class GUI extends CI_Model
 	 * @return void
 	**/
 	
-	function add_meta( $namespace , $title = 'Unamed' , $type = 'box-default' , $col_id = 1 )
+	public function add_meta( $namespace , $title = 'Unamed' , $type = 'box-default' , $col_id = 1 )
 	{
 		if( in_array( $col_id , array( 1 , 2 , 3 , 4 ) ) )
 		{
@@ -206,7 +205,7 @@ class GUI extends CI_Model
 	 *	@returns	:	Array
 	**/
 	
-	function get_cols()
+	public function get_cols()
 	{
 		return $this->cols;
 	}
@@ -219,7 +218,7 @@ class GUI extends CI_Model
 	 * @return void
 	**/
 	
-	function config( $config )
+	public function config( $config )
 	{
 		$this->config	=	$config;
 	}

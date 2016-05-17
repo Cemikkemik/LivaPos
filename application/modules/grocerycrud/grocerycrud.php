@@ -1,5 +1,5 @@
 <?php
-class GroceryCrud extends CI_Model
+class grocerycrud extends CI_Model
 {
 	function __construct()
 	{

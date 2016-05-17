@@ -9,6 +9,7 @@
         <p><?php echo validation_errors();?></p>
         <p><?php echo $this->notice->output_notice();?></p>
         <form  method="post">
+        	<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
           <?php echo $this->events->apply_filters('displays_registration_fields', '');?>
         </form> 
         <?php

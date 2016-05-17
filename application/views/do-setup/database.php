@@ -14,6 +14,7 @@
         <?php echo form_error('_db_pref', '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-warning"></i> <span>', '</span></div>');?>
         <?php echo form_error('_db_driv', '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button><i style="font-size:18px;margin-right:5px;" class="fa fa-warning"></i> <span>', '</span></div>');?>
         <form method="post">
+        	<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
           <div class="form-group has-feedback">
             <input type="text" name="_ht_name" class="form-control" placeholder="<?php _e('Host Name');?>" value="<?php echo set_value('_ht_name', 'localhost'); ?>">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>

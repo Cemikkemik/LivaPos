@@ -55,7 +55,6 @@ if (is_file($migrate_file)) {
     ?> : ' + MigrationData[0] + '</p>' );
 					},
 					success: function( result ) {
-						console.log( result );
 						if( result.code == 'success' ) {
 							$( '#migration-progress p:last-child' ).append( ' &mdash; ' + '<?php _e('done.');
     ?>' );						

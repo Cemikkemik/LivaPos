@@ -95,6 +95,7 @@ Tendoo Version Required : 1.5
                         ?>" />
 							<input type="hidden" name="gui_saver_use_namespace" value="<?php echo $use_namespace ? 'true' : 'false';
                         ?>" />
+                        	<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 						<?php
 
                     } elseif (in_array($action, array( null, false ), true)) {
@@ -135,9 +136,6 @@ Tendoo Version Required : 1.5
                     ?>"></i>
                           <?php endif;
                     ?>
-                          <?php
-                          // get title;
-                          ?>
                           <h3 class="box-title"><?php echo riake('title', $meta);
                     ?></h3>
                           <div class="box-tools pull-right">
@@ -231,6 +229,7 @@ Tendoo Version Required : 1.5
                         ?>" />
 							<input type="hidden" name="gui_saver_use_namespace" value="<?php echo $use_namespace ? 'true' : 'false';
                         ?>" />
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
 						<?php
 
                     } elseif (in_array($action, array( null, false ), true)) {
@@ -258,7 +257,7 @@ Tendoo Version Required : 1.5
 
                         }
                         // if pagination is enabled
-                        if (riake('pagination', $footer)) {
+                        /*if (riake('pagination', $footer)) {
                             ?>
 						<ul class="pagination pagination-sm no-margin pull-right">
 							<li><a href="#">«</a></li>
@@ -269,7 +268,7 @@ Tendoo Version Required : 1.5
 						  </ul>
 						<?php
 
-                        }
+                        }*/
                     }
                                         
                     // enable gui form saver
@@ -277,7 +276,6 @@ Tendoo Version Required : 1.5
                         ?>
 						</form>
 						<?php
-
                     }
                 }
             }
@@ -287,17 +285,6 @@ Tendoo Version Required : 1.5
         </div>
         <?php echo $this->events->apply_filters('gui_footer', '');    ?>
         <?php endforeach;?>
-        <script>
-        /** $(document).ready(function(e) {
-            $('section[namespace]').each(function(){
-                var parent	=	$(this);
-                $(this).find('.box-header button').bind('click',function(){
-                    var status	=	$(parent).hasClass('collapsed-box') ? "default" : "collapsed-box";
-                    tendoo.set_user_meta( 'gui_'+ $(parent).attr('namespace') , status );
-                });
-            });
-        }); **/
-        </script>
         <?php if (in_array('dynamic-tables', $this->events->apply_filters('gui_enabled', array()))) : ;?>
             <?php get_instance()->load->view('admin/gui/gui_dynamic_table_css');?>
             <?php get_instance()->load->view('admin/gui/gui_dynamic_table_js');?>

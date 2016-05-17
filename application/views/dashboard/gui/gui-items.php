@@ -37,31 +37,32 @@ foreach (force_array(riake('items', $meta)) as $_item) {
     }
     if (in_array($type, array( 'text', 'password', 'email', 'tel' ))) {
         if (riake('label', $_item)) {
-		?>
+            ?>
         <div class="input-group" style="margin-bottom:5px;">
             <span class="input-group-addon"><?php echo riake('label', $_item);
-        ?></span>
+            ?></span>
             <input <?php echo $disabled === true ? 'readonly="readonly"' : '';
-        ?> type="<?php echo $type;
-        ?>" name="<?php echo riake('name', $_item);
-        ?>" class="form-control" placeholder="<?php echo riake('placeholder', $_item);
-        ?>" value="<?php echo $value;
-        ?>">
+            ?> type="<?php echo $type;
+            ?>" name="<?php echo riake('name', $_item);
+            ?>" class="form-control" placeholder="<?php echo riake('placeholder', $_item);
+            ?>" value="<?php echo $value;
+            ?>">
         </div>
         
         <p>
-		<?php echo xss_clean($description);        
-		} else {
-		?>
+		<?php echo xss_clean($description);
+        } else {
+            ?>
          <input <?php echo $disabled === true ? 'readonly="readonly"' : '';
-        ?> type="<?php echo $type;
-        ?>" name="<?php echo riake('name', $_item);
-        ?>" class="form-control" placeholder="<?php echo riake('placeholder', $_item);
-        ?>" value="<?php echo $value;
-        ?>">
-         <p><?php echo xss_clean($description);?></p><?php
-		}
+            ?> type="<?php echo $type;
+            ?>" name="<?php echo riake('name', $_item);
+            ?>" class="form-control" placeholder="<?php echo riake('placeholder', $_item);
+            ?>" value="<?php echo $value;
+            ?>">
+         <p><?php echo xss_clean($description);
+            ?></p><?php
 
+        }
     } elseif ($type == 'textarea') {
         ?>
      <div class="form-group">
@@ -177,7 +178,7 @@ foreach (force_array(riake('items', $meta)) as $_item) {
      <?php
 
     } elseif (in_array($type, array( 'select', 'multiple' ))) {
-	 /**
+        /**
      * Form
      *
      * add_meta( array(
@@ -229,7 +230,7 @@ foreach (force_array(riake('items', $meta)) as $_item) {
         <?php
 
     } elseif ($type == 'html-list') {
-	/**
+        /**
      *  ..add_meta( array(
              'type'		=>		'html-list',
             'options'	=>		array(
@@ -286,7 +287,7 @@ foreach (force_array(riake('items', $meta)) as $_item) {
         <?php
 
     } elseif ($type == 'table') {
-	/**
+        /**
      * ->add_item( array(
      *		'type'		=>	'table',
      *		'cols'		=>	array( __( 'Id' ) , __( 'Title' ) , __( 'Name' ), __( 'Description' ) ),
@@ -298,8 +299,8 @@ foreach (force_array(riake('items', $meta)) as $_item) {
      * 		)
      *	) , 'settings' , 2 );
     **/
-	// Optional riake( 'width' , $_item )
-	?>
+    // Optional riake( 'width' , $_item )
+    ?>
       <table class="table table-bordered">
         <tbody><tr>
         	<?php 

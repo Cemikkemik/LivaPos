@@ -19,8 +19,8 @@ class Update_Model extends CI_model
     public function auto_update()
     {
         if (! User::can('manage_settings')) {
-			return false;
-		}
+            return false;
+        }
 
         $this->cache                =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'tendoo_update_' ));
 

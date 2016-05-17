@@ -17,9 +17,9 @@ class Nexo_Clients extends CI_Model
     public function crud_header()
     {
         // Protecting
-        if (! User::can('manage_shop')){
-			redirect(array( 'dashboard', 'access-denied?from=Nexo_client_controller' ));
-		}
+        if (! User::can('manage_shop')) {
+            redirect(array( 'dashboard', 'access-denied?from=Nexo_client_controller' ));
+        }
 
         $crud = new grocery_CRUD();
         $crud->set_subject(__('Clients', 'nexo'));
@@ -40,10 +40,10 @@ class Nexo_Clients extends CI_Model
         $crud->display_as('TAILLE', __('Taille', 'nexo'));
         $crud->display_as('DESCRIPTION', __('Description', 'nexo'));
         $crud->display_as('REF_GROUP', __('Groupe', 'nexo'));
-		
-		// XSS Cleaner
-		$this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ) );
-		$this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ) );
+        
+        // XSS Cleaner
+        $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
+        $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
 
         $crud->required_fields('NOM', 'REF_GROUP');
         $crud->set_relation('REF_GROUP', 'nexo_clients_groups', 'NAME');
@@ -87,9 +87,9 @@ class Nexo_Clients extends CI_Model
     public function groups_header()
     {
         // Protecting
-        if (! User::can('manage_shop')){
-			redirect(array( 'dashboard', 'access-denied' ));
-		}
+        if (! User::can('manage_shop')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
 
         $crud = new grocery_CRUD();
         $crud->set_subject(__('Groupes d\'utilisateurs', 'nexo'));
@@ -114,7 +114,7 @@ class Nexo_Clients extends CI_Model
         // Field Visibility
         $crud->change_field_type('DATE_CREATION', 'invisible');
         $crud->change_field_type('DATE_MODIFICATION', 'invisible');
-		$crud->change_field_type('AUTHOR', 'readonly');
+        $crud->change_field_type('AUTHOR', 'readonly');
 
         $crud->required_fields('NAME');
 

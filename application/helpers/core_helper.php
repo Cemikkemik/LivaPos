@@ -84,23 +84,23 @@ if (!function_exists('tendoo_info')) {
 if (!function_exists('fetch_error')) {
     function fetch_notice_output($e, $extends_msg= '', $sort = false)
     {
-		if (is_string($e)) {
-			$notices        =    force_array(get_core_vars('tendoo_notices'));
-			if (in_array($e, $notices) || array_key_exists($e, $notices)) {
-				return $notices[$e];
-			} elseif (isset($notices)) {
-				if (array_key_exists($e, $notices)) {
-					return $notices[$e];
-				} else {
-					return tendoo_warning(__(sprintf('"%s" is not a valid error code', $e)));
-				}
-			} elseif ($e != '' && strlen($e) <= 50) {
-				return tendoo_warning(__(sprintf('"%s" is not a valid error code', $e)));
-			} else {
-				return $e;
-			}
-		}
-		return false;
+        if (is_string($e)) {
+            $notices        =    force_array(get_core_vars('tendoo_notices'));
+            if (in_array($e, $notices) || array_key_exists($e, $notices)) {
+                return $notices[$e];
+            } elseif (isset($notices)) {
+                if (array_key_exists($e, $notices)) {
+                    return $notices[$e];
+                } else {
+                    return tendoo_warning(__(sprintf('"%s" is not a valid error code', $e)));
+                }
+            } elseif ($e != '' && strlen($e) <= 50) {
+                return tendoo_warning(__(sprintf('"%s" is not a valid error code', $e)));
+            } else {
+                return $e;
+            }
+        }
+        return false;
     }
 }
 
@@ -192,7 +192,8 @@ function get($key) // add to doc
     }
 }
 
-if (!function_exists('translate')) {// gt = Get Text
+if (!function_exists('translate')) {
+    // gt = Get Text
     function __($code, $templating = 'tendoo-core')
     {
         return translate($code, $templating);

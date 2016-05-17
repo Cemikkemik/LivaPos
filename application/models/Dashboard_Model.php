@@ -38,13 +38,13 @@ class Dashboard_Model extends CI_Model
 
         // Highlight
         // $this->enqueue->css('highlight-min');
-        
+
         // Bootsrap Notify
         $this->enqueue->js('../plugins/bootstrap-notify-master/bootstrap-notify.min');
         $this->enqueue->js('tendoo.core');
-		
-		// ParseParams
-		$this->enqueue->js('jquery.parseParams');
+        
+        // ParseParams
+        $this->enqueue->js('jquery.parseParams');
         
         // Bootbox
         $this->enqueue->js('../plugins/bootbox/bootbox.min');
@@ -220,12 +220,16 @@ tendoo.user				=	{
     id			:		<?php echo $this->events->apply_filters('tendoo_object_user_id', 'false');
         ?>
 }
-tendoo.csrf_field_name	=	'<?php echo $this->security->get_csrf_token_name(); ?>';
+tendoo.csrf_field_name	=	'<?php echo $this->security->get_csrf_token_name();
+        ?>';
 
-tendoo.csrf_field_value	=	'<?php echo $this->security->get_csrf_hash(); ?>';
+tendoo.csrf_field_value	=	'<?php echo $this->security->get_csrf_hash();
+        ?>';
 
 tendoo.csrf_data		=	{
-	'<?php echo $this->security->get_csrf_token_name(); ?>'	:	'<?php echo $this->security->get_csrf_hash(); ?>'
+	'<?php echo $this->security->get_csrf_token_name();
+        ?>'	:	'<?php echo $this->security->get_csrf_hash();
+        ?>'
 };
 // Date Object
 tendoo.date				=	new Date();
@@ -468,41 +472,35 @@ $(document).ready(function(){
         );
         
         if (User::can('manage_options')) {
-        
-        $admin_menus[ 'dashboard' ][]    =    array(
+            $admin_menus[ 'dashboard' ][]    =    array(
             'href'            =>        site_url(array( 'dashboard', 'update' )),
             'icon'            =>        'fa fa-dashboard',
             'title'            =>        __('Update Center'),
             'notices_nbr'    =>        $this->events->apply_filters('update_center_notice_nbr', 0)
         );
         
-        $admin_menus[ 'dashboard' ][]    =    array(
+            $admin_menus[ 'dashboard' ][]    =    array(
             'href'            =>        site_url(array( 'dashboard', 'about' )),
             'icon'            =>        'fa fa-dashboard',
             'title'            =>        __('About'),
         );
+        }
         
-		}
-        
-        if (User::can('manage_modules')){
-        
-        $admin_menus[ 'modules' ][]        =    array(
+        if (User::can('manage_modules')) {
+            $admin_menus[ 'modules' ][]        =    array(
             'title'            =>        __('Modules'),
             'icon'            =>        'fa fa-puzzle-piece',
             'href'            =>        site_url('dashboard/modules')
         );
+        }
         
-		}
-        
-        if (User::can('manage_options')){
-        
-        $admin_menus[ 'settings' ][]    =    array(
+        if (User::can('manage_options')) {
+            $admin_menus[ 'settings' ][]    =    array(
             'title'            =>        __('Settings'),
             'icon'            =>        'fa fa-cogs',
             'href'            =>        site_url('dashboard/settings')
         );
-        
-		}
+        }
         
         foreach (force_array($this->events->apply_filters('admin_menus', $admin_menus)) as $namespace => $menus) {
             foreach ($menus as $menu) {

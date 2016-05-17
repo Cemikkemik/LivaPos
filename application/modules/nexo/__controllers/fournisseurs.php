@@ -18,8 +18,8 @@ class Nexo_Categories extends CI_Model
     {
         // Protecting
         if (! User::can('manage_vendor')) {
-			redirect(array( 'dashboard', 'access-denied' ));
-		}
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
         
         $crud = new grocery_CRUD();
         $crud->set_subject(__('Fournisseurs', 'nexo'));
@@ -34,10 +34,10 @@ class Nexo_Categories extends CI_Model
         $crud->display_as('BP', __('BP du fournisseur', 'nexo'));
         $crud->display_as('TEL', __('Tel du fournisseur', 'nexo'));
         $crud->display_as('DESCRIPTION', __('Description du fournisseur', 'nexo'));
-		
-		// XSS Cleaner
-		$this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ) );
-		$this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ) );
+        
+        // XSS Cleaner
+        $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
+        $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
         
         $crud->required_fields('NOM');
         

@@ -18,8 +18,8 @@ class Nexo_Arrivages extends CI_Model
     {
         // Protecting
         if (! User::can('manage_shipping')) {
-			redirect(array( 'dashboard', 'access-denied?from=Nexo_shipping_page' ));
-		}
+            redirect(array( 'dashboard', 'access-denied?from=Nexo_shipping_page' ));
+        }
         
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');
@@ -38,9 +38,9 @@ class Nexo_Arrivages extends CI_Model
         
         // Liste des produits
         $crud->add_action(__('Etiquettes des articles', 'nexo'), '', site_url(array( 'dashboard', 'nexo', 'print', 'shipping_item_codebar' )) . '/', 'btn btn-success fa fa-file');
-				
-		$this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ) );
-		$this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ) );
+                
+        $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
+        $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
         
         $crud->required_fields('TITRE', 'FOURNISSEUR_REF_ID');
         

@@ -20,7 +20,7 @@ class grocerycrud extends CI_Model
         
         $this->config->load('grocery_crud');
         $this->load->library('Grocery_CRUD');
-		$this->load->library('GroceryCrudCleaner');
+        $this->load->library('GroceryCrudCleaner');
     }
 }
 new GroceryCrud;

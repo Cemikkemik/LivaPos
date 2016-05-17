@@ -166,8 +166,8 @@ class Nexo_Products extends CI_Model
     {
         // Protecting
         if (! User::can('create_items')) {
-			redirect(array( 'dashboard', 'access-denied' ));
-		}
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
         
         global $Options;
         $param[ 'CODEBAR' ]                =    $this->generate_barcode();
@@ -191,8 +191,8 @@ class Nexo_Products extends CI_Model
     {
         // Protecting
         if (! User::can('edit_items')) {
-			redirect(array( 'dashboard', 'access-denied' ));
-		}
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
         
         global $Options;
         $article                        =    $this->get('nexo_articles', $param[ 'DESIGN' ], 'DESIGN');
@@ -226,8 +226,8 @@ class Nexo_Products extends CI_Model
     {
         // Protecting
         if (! User::can('delete_items')) {
-			redirect(array( 'dashboard', 'access-denied' ));
-		}
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
         
         return $param;
     }

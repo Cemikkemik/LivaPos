@@ -17,9 +17,9 @@ class Nexo_Rayons extends CI_Model
     public function crud_header()
     {
         // Protecting
-        if (! User::can('manage_shop')){
-			redirect(array( 'dashboard', 'access-denied?from=Nexo_payment_means_controller' ));
-		}
+        if (! User::can('manage_shop')) {
+            redirect(array( 'dashboard', 'access-denied?from=Nexo_payment_means_controller' ));
+        }
         
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');
@@ -30,10 +30,10 @@ class Nexo_Rayons extends CI_Model
         
         $crud->display_as('DESIGN', __('Intitulé du moyen', 'nexo'));
         $crud->display_as('DESCRIPTION', __('Description', 'nexo'));
-		
-		// XSS Cleaner
-		$this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ) );
-		$this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ) );
+        
+        // XSS Cleaner
+        $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
+        $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
         
         $crud->required_fields('DESIGN');
         

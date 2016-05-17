@@ -20,8 +20,8 @@ class Nexo_Checkout extends CI_Model
     {
         // Protecting
         if (! User::can('create_orders')) {
-			redirect(array( 'dashboard', 'access-denied' ));
-		}
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
         
         global $Options;
         /**
@@ -204,8 +204,8 @@ class Nexo_Checkout extends CI_Model
         
         // Protecting
         if (! User::can('edit_orders')) {
-			redirect(array( 'dashboard', 'access-denied' ));
-		}
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
         
         global $Options;
         $segments        =    $this->uri->segment_array();
@@ -397,8 +397,8 @@ class Nexo_Checkout extends CI_Model
         if (class_exists('User')) {
             // Protecting
             if (! User::can('delete_orders')) {
-				redirect(array( 'dashboard', 'access-denied' ));
-			}
+                redirect(array( 'dashboard', 'access-denied' ));
+            }
         }
         
         

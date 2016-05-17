@@ -17,9 +17,9 @@ class Nexo_Rayons extends CI_Model
     public function crud_header()
     {
         // Protecting
-        if (! User::can('manage_radius')){
-			redirect(array( 'dashboard', 'access-denied?from=Nexo_ray_c' ));
-		}
+        if (! User::can('manage_radius')) {
+            redirect(array( 'dashboard', 'access-denied?from=Nexo_ray_c' ));
+        }
         
         
         $crud = new grocery_CRUD();
@@ -31,10 +31,10 @@ class Nexo_Rayons extends CI_Model
         
         $crud->display_as('TITRE', __('Nom du rayon', 'nexo'));
         $crud->display_as('DESCRIPTION', __('Description du rayon', 'nexo'));
-		
-		// XSS Cleaner
-		$this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ) );
-		$this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ) );
+        
+        // XSS Cleaner
+        $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
+        $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
         
         $crud->required_fields('TITRE');
         

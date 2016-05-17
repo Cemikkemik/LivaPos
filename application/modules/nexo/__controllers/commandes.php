@@ -86,10 +86,10 @@ class Nexo_Commandes extends CI_Model
         $crud->change_field_type('AUTHOR', 'invisible');
         $crud->change_field_type('DISCOUNT_TYPE', 'invisible');
         $crud->change_field_type('TVA', 'invisible');
-		
-		// XSS Cleaner
-		$this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ) );
-		$this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ) );
+        
+        // XSS Cleaner
+        $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
+        $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
         
         // $crud->required_fields( 'PAYMENT_TYPE', 'SOMME_PERCU' );
         $crud->callback_before_insert(array( $this->Nexo_Checkout, 'commandes_save' ));
@@ -114,7 +114,7 @@ class Nexo_Commandes extends CI_Model
         $NexoEditScreen    =    ( bool ) preg_match('#dashboard\/nexo/commandes\/lists\/edit#', uri_string());
         $NexoAddScreen    =    ( bool ) preg_match('#dashboard\/nexo/commandes\/lists\/add#', uri_string());
         
-        $this->events->add_action('dashboard_header', function () use ($NexoAddScreen,$NexoEditScreen) {
+        $this->events->add_action('dashboard_header', function () use ($NexoAddScreen, $NexoEditScreen) {
             /** 
              * We Want to make sure that nothing appear before checkout load
             **/
@@ -139,8 +139,8 @@ class Nexo_Commandes extends CI_Model
             
             // Protecting
             if (! User::can('create_orders')) {
-				redirect(array( 'dashboard', 'access-denied?from=Nexo_orders_conroller' ));
-			}
+                redirect(array( 'dashboard', 'access-denied?from=Nexo_orders_conroller' ));
+            }
             
             $data[ 'crud_content' ]    =    $this->crud_header();
             $_var1    =    'commandes';
@@ -153,9 +153,9 @@ class Nexo_Commandes extends CI_Model
             global $order_id;
             $order_id    =    $id;
             // Protecting
-            if (! User::can('edit_orders')){
-				redirect(array( 'dashboard', 'access-denied?from=Nexo_orders_conroller' ));
-			}
+            if (! User::can('edit_orders')) {
+                redirect(array( 'dashboard', 'access-denied?from=Nexo_orders_conroller' ));
+            }
             
             $data[ 'crud_content' ]    =    $this->crud_header();
             $_var1    =    'commandes';
@@ -184,8 +184,8 @@ class Nexo_Commandes extends CI_Model
             
             // Protecting
             if (! User::can('create_orders')) {
-				redirect(array( 'dashboard', 'access-denied?from=Nexo_orders_conroller' ));
-			}
+                redirect(array( 'dashboard', 'access-denied?from=Nexo_orders_conroller' ));
+            }
             
             $data[ 'crud_content' ]    =    $this->crud_header();
             $_var1    =    'commandes';

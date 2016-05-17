@@ -86,6 +86,10 @@ class Nexo_Commandes extends CI_Model
         $crud->change_field_type('AUTHOR', 'readonly');
         $crud->change_field_type('DISCOUNT_TYPE', 'invisible');
         $crud->change_field_type('TVA', 'invisible');
+		
+		// XSS Cleaner
+		$this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ) );
+		$this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ) );
         
         // $crud->required_fields( 'PAYMENT_TYPE', 'SOMME_PERCU' );
         $crud->callback_before_insert(array( $this->Nexo_Checkout, 'commandes_save' ));

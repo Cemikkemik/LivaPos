@@ -31,6 +31,10 @@ class Nexo_Rayons extends CI_Model
         
         $crud->display_as('TITRE', __('Nom du rayon', 'nexo'));
         $crud->display_as('DESCRIPTION', __('Description du rayon', 'nexo'));
+		
+		// XSS Cleaner
+		$this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ) );
+		$this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ) );
         
         $crud->required_fields('TITRE');
         

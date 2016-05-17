@@ -16,6 +16,7 @@ class Nexo_Print extends CI_Model
     
     public function defaults()
     {
+		show_404();
     }
     
     public function order_receipt($order_id = null)

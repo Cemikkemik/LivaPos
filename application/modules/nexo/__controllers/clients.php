@@ -40,6 +40,10 @@ class Nexo_Clients extends CI_Model
         $crud->display_as('TAILLE', __('Taille', 'nexo'));
         $crud->display_as('DESCRIPTION', __('Description', 'nexo'));
         $crud->display_as('REF_GROUP', __('Groupe', 'nexo'));
+		
+		// XSS Cleaner
+		$this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ) );
+		$this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ) );
 
         $crud->required_fields('NOM', 'REF_GROUP');
         $crud->set_relation('REF_GROUP', 'nexo_clients_groups', 'NAME');

@@ -65,7 +65,7 @@ class Nexo extends CI_Model
     public function after_app_init()
     {
         global $Options;
-
+		
         $this->lang->load_lines(dirname(__FILE__) . '/language/nexo_lang.php');
     }
     
@@ -77,6 +77,7 @@ class Nexo extends CI_Model
     
     public function footer()
     {
+		return false;
         ?>
         <style type="text/css">
 		.flexigrid div.form-div input[type=text], .flexigrid div.form-div select, .flexigrid div.form-div textarea,

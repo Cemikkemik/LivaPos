@@ -206,6 +206,10 @@ class Nexo_Premium_Controller extends CI_Model
         $crud->display_as('AUTHOR', __('Auteur', 'nexo_premium'));
         $crud->display_as('DATE_CREATION', __('Date de création', 'nexo_premium'));
         $crud->display_as('DATE_MODIFICATION', __('Date de modification', 'nexo_premium'));
+		
+		// XSS Cleaner
+		$this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ) );
+		$this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ) );
         
         $crud->required_fields('INTITULE', 'MONTANT');
         
@@ -252,6 +256,10 @@ class Nexo_Premium_Controller extends CI_Model
         $crud->display_as('AUTHOR', __('Auteur', 'nexo_premium'));
         $crud->display_as('DATE_CREATION', __('Date de création', 'nexo_premium'));
         $crud->display_as('DATE_MODIFICATION', __('Date de modification', 'nexo_premium'));
+		
+		// XSS Cleaner
+		$this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ) );
+		$this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ) );
         
         $crud->change_field_type('FILE_LOCATION', 'invisible');
         $crud->change_field_type('AUTHOR', 'invisible');

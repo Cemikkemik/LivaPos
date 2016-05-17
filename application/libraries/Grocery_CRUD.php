@@ -833,6 +833,9 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
             $post_data = $state_info->unwrapped_data;
 
             $add_fields = $this->get_add_fields();
+			
+			// We're not more using grocerycrud callback
+			$post_data	=	get_instance()->events->apply_filters('grocery_callback_insert', $post_data);
 
             if ($this->callback_insert === null) {
                 if ($this->callback_before_insert !== null) {
@@ -922,6 +925,9 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
         if ($validation_result->success) {
             $post_data        = $state_info->unwrapped_data;
             $primary_key    = $state_info->primary_key;
+
+			// We're not more using grocerycrud callback
+			$post_data	=	get_instance()->events->apply_filters('grocery_callback_update', $post_data);
 
             if ($this->callback_update === null) {
                 if ($this->callback_before_update !== null) {

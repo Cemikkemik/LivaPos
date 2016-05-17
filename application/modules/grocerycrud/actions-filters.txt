@@ -1,3 +1,13 @@
 filter	:	grocery_crud_list_item_class, 
 During items listing, send current row class and current row array
 
+grocery_callback_update	{
+	type : action
+	desc : callback before update
+}
+
+grocery_callback_insert	{
+	type : action
+	desc : callback before update
+}
+

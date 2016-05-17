@@ -38,6 +38,10 @@ class Nexo_Categories extends CI_Model
         $crud->display_as('NOM', __('Nom de la catégorie', 'nexo'));
         $crud->display_as('DESCRIPTION', __('Description de la catégorie', 'nexo'));
         $crud->display_as('PARENT_REF_ID', __('Catégorie parente', 'nexo'));
+		
+		// XSS Cleaner
+		$this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ) );
+		$this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ) );
         
         $crud->required_fields('NOM');
         

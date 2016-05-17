@@ -61,6 +61,10 @@ class Nexo_Produits extends CI_Model
         $crud->display_as('PRIX_PROMOTIONEL', __('Prix promotionnel', 'nexo'));
         $crud->display_as('SPECIAL_PRICE_START_DATE', __('Début de la promotion', 'nexo'));
         $crud->display_as('SPECIAL_PRICE_END_DATE', __('Fin de la promotion', 'nexo'));
+		
+		// XSS Cleaner
+		$this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ) );
+		$this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ) );
         
         $crud->required_fields('DESIGN', 'REF_RAYON', 'REF_CATEGORIE', 'REF_SHIPPING', 'TAUX_DE_MARGE', 'FRAIS_ACCESSOIRE', 'PRIX_DE_VENTE', 'DEFECTUEUX', 'QUANTITY', 'PRIX_DACHAT');
         

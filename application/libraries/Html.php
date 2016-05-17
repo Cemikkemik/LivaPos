@@ -42,7 +42,7 @@ class Html
     public static function title()
     {
         ?>
-        <title><?php echo self::$page_title;
+        <title><?php echo xss_clean( self::$page_title );
         ?></title>
         <?php
 

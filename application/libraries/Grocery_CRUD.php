@@ -1498,7 +1498,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
         header('Content-type: application/vnd.ms-excel;charset=UTF-16LE');
         header('Content-Disposition: attachment; filename='.$filename);
         header("Cache-Control: no-cache");
-        echo $string_to_export;
+        echo xss_clean( $string_to_export );
         die();
     }
 
@@ -1549,7 +1549,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 
         $string_to_print .= "</table></div>";
 
-        echo $string_to_print;
+        echo xss_clean( $string_to_print );
         die();
     }
 
@@ -1960,7 +1960,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
                     'output' => $this->views_as_string,
             );
         } elseif ($this->echo_and_die === true) {
-            echo $this->views_as_string;
+            echo xss_clean( $this->views_as_string );
             die();
         }
     }

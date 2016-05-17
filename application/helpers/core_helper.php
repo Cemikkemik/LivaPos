@@ -84,81 +84,23 @@ if (!function_exists('tendoo_info')) {
 if (!function_exists('fetch_error')) {
     function fetch_notice_output($e, $extends_msg= '', $sort = false)
     {
-        if ($e === true) {
-            ?><style>
-			.notice_sorter
-			{
-				border:solid 1px #999;
-				color:#333;
+		if (is_string($e)) {
+			$notices        =    force_array(get_core_vars('tendoo_notices'));
+			if (in_array($e, $notices) || array_key_exists($e, $notices)) {
+				return $notices[$e];
+			} elseif (isset($notices)) {
+				if (array_key_exists($e, $notices)) {
+					return $notices[$e];
+				} else {
+					return tendoo_warning(__(sprintf('"%s" is not a valid error code', $e)));
+				}
+			} elseif ($e != '' && strlen($e) <= 50) {
+				return tendoo_warning(__(sprintf('"%s" is not a valid error code', $e)));
+			} else {
+				return $e;
 			}
-			.notice_sorter thead td
-			{
-				padding:2px 10px;
-				text-align:center;
-				background:#EEE;
-				background:-moz-linear-gradient(top,#EEE,#CCC);
-				border:solid 1px #999;
-			}
-			.notice_sorter tbody td
-			{
-				padding:2px 10px;
-				text-align:justify;
-				background:#FFF;
-				border:solid 1px #999;
-			}
-			</style><table class="notice_sorter"><thead>
-            <style>
-			.notice_sorter
-			{
-				border:solid 1px #999;
-				color:#333;
-			}
-			.notice_sorter thead td
-			{
-				padding:2px 10px;
-				text-align:center;
-				background:#EEE;
-				background:-moz-linear-gradient(top,#EEE,#CCC);
-				border:solid 1px #999;
-			}
-			.notice_sorter tbody td
-			{
-				padding:2px 10px;
-				text-align:justify;
-				background:#FFF;
-				border:solid 1px #999;
-			}
-			</style>
-            <tr><td>Index</td><td>Code</td><td>Description</td></tr></thead><tbody><?php 
-            $index        =    1;
-            foreach ($__ as $k => $v) {
-                ?><tr><td><?php echo $index;
-                ?></td><td><?php echo $k;
-                ?></td><td><?php echo strip_tags($v);
-                ?></td></tr><?php
-                $index++;
-            }
-            ?></tbody></table><?php
-
-        } else {
-            if (is_string($e)) {
-                $notices        =    force_array(get_core_vars('tendoo_notices'));
-                if (in_array($e, $notices) || array_key_exists($e, $notices)) {
-                    return $notices[$e];
-                } elseif (isset($notices)) {
-                    if (array_key_exists($e, $notices)) {
-                        return $notices[$e];
-                    } else {
-                        return tendoo_warning(__(sprintf('"%s" is not a valid error code', $e)));
-                    }
-                } elseif ($e != '' && strlen($e) <= 50) {
-                    return tendoo_warning(__(sprintf('"%s" is not a valid error code', $e)));
-                } else {
-                    return $e;
-                }
-            }
-            return false;
-        }
+		}
+		return false;
     }
 }
 

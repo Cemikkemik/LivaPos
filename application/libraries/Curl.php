@@ -72,7 +72,7 @@ class Curl
             if ($this->returnContent == true) {
                 return $content;
             } else {
-                echo $content;
+                echo xss_clean( $content );
             }
         }
     }

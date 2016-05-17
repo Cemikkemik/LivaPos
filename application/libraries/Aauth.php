@@ -1881,7 +1881,7 @@ class Aauth
             }
             $i++;
         }
-        echo $msg;
+        echo xss_clean( $msg );
     }
     
     /**
@@ -1970,7 +1970,7 @@ class Aauth
             }
             $i++;
         }
-        echo $msg;
+        echo xss_clean( $msg );
     }
     
     /**

@@ -45,3 +45,11 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+/application/cache/app/*
+/public/upload/codebar/*
+/public/upload/nexo_premium_backups/*
+
+!/application/cache/app/index.html
+!/public/upload/codebar/index.html
+!/public/upload/nexo_premium_backups/index.html

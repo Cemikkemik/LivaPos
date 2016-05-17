@@ -1,47 +1,47 @@
 <div class="btn-group">
-	<button type="button" class="reset_barcode btn btn-primary"><?php _e( 'Recréer les codes barres', 'nexo' );?></button>
+	<button type="button" class="reset_barcode btn btn-primary"><?php _e('Recréer les codes barres', 'nexo');?></button>
 </div>
-<p><?php echo tendoo_warning( __( 'Après avoir lancé le processus, veuillez patienter qu\'il s\'acheve.', 'nexo' ) );?></p>
+<p><?php echo tendoo_warning(__('Après avoir lancé le processus, veuillez patienter qu\'il s\'acheve.', 'nexo'));?></p>
 
 <p class="reset_barcode_notice"></p>
 
 <div class="progress xs reset_barcode_progress" style="display:none;">
   <div class="progress-bar progress-bar-aqua barcode_progress_line" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-    <span class="sr-only"><span class="progress_id">0</span>% <?php _e( 'Complete', 'nexo' );?></span>
+    <span class="sr-only"><span class="progress_id">0</span>% <?php _e('Complete', 'nexo');?></span>
   </div>
 </div>
 
 <script>
 $( document ).ready(function(e) {
 	<?php
-	global $Options;	 
-	if( @$Options[ 'nexo_product_codebar' ] == 'ean13' ) {
-		$divider		=	80;
-	} else if( @$Options[ 'nexo_product_codebar' ] == 'ean8' ) {
-		$divider		=	80;
-	} else {
-		$divider 		=	100;
-	}
-	?>
+    global $Options;
+    if (@$Options[ 'nexo_product_codebar' ] == 'ean13') {
+        $divider        =    80;
+    } elseif (@$Options[ 'nexo_product_codebar' ] == 'ean8') {
+        $divider        =    80;
+    } else {
+        $divider        =    100;
+    }
+    ?>
 	var	NexoBarcodeSettings		=	new function(){
 		this.ResampleIterator	=	0;
 		this.ProductLength		=	0;
 		this.FetchProduct		=	function(){
-			$.ajax( '<?php echo site_url( array( 'dashboard', 'nexo', 'rest', 'get', 'nexo_articles', 'null' ) );?>', {
+			$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'get', 'nexo_articles', 'null' ));?>', {
 				beforeSend	: function() {
-					NexoBarcodeSettings.Notice( '<?php echo addslashes( __( 'Récupération des produits en cours...', 'nexo' ) );?>' );
+					NexoBarcodeSettings.Notice( '<?php echo addslashes(__('Récupération des produits en cours...', 'nexo'));?>' );
 				},
 				success		: function( data ){
 					if( data.length > 0 ) {
 						NexoBarcodeSettings.TreatProducts( data );					
 					} else {
-						tendoo.notify.warning( '<?php echo addslashes( __( 'Aucun produit n\'a été retrouvé', 'nexo' ) );?>', '<?php echo addslashes( __( 'Le rafraichissement des codebarres ne peut se faire, car aucun produit n\'est disponible.', 'nexo' ) );?>', true );
-						NexoBarcodeSettings.Notice( '<?php echo addslashes( __( 'Aucun produit n\'a été retrouvé.', 'nexo' ) );?>' );
+						tendoo.notify.warning( '<?php echo addslashes(__('Aucun produit n\'a été retrouvé', 'nexo'));?>', '<?php echo addslashes(__('Le rafraichissement des codebarres ne peut se faire, car aucun produit n\'est disponible.', 'nexo'));?>', true );
+						NexoBarcodeSettings.Notice( '<?php echo addslashes(__('Aucun produit n\'a été retrouvé.', 'nexo'));?>' );
 					}
 				},
 				dataType	:"json",
 				error		: function(){
-					NexoBarcodeSettings.Notice( '<?php echo addslashes( __( 'Une erreur s\'est produite.', 'nexo' ) );?>' );
+					NexoBarcodeSettings.Notice( '<?php echo addslashes(__('Une erreur s\'est produite.', 'nexo'));?>' );
 				}
 			});
 		}
@@ -54,17 +54,17 @@ $( document ).ready(function(e) {
 			this.products		=	data;
 			this.ProductLength	=	NexoBarcodeSettings.products.length;
 			
-			NexoBarcodeSettings.Notice( '<?php echo addslashes( __( 'Produits trouvés: ' , 'nexo' ) );?>' + NexoBarcodeSettings.products.length );
+			NexoBarcodeSettings.Notice( '<?php echo addslashes(__('Produits trouvés: ', 'nexo'));?>' + NexoBarcodeSettings.products.length );
 			NexoBarcodeSettings.ResetSavedBarcode();			
 		}
 		
 		this.ResetSavedBarcode	=	function() {
-			$.ajax( '<?php echo site_url( array( 'dashboard', 'nexo', 'rest', 'trigger', 'model', 'Nexo_Products', 'reset_barcode' ) );?>', {
+			$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'trigger', 'model', 'Nexo_Products', 'reset_barcode' ));?>', {
 				beforeSend : function(){
-					NexoBarcodeSettings.Notice( '<?php echo addslashes( __( 'Suppression du cache...', 'nexo' ) );?>' );
+					NexoBarcodeSettings.Notice( '<?php echo addslashes(__('Suppression du cache...', 'nexo'));?>' );
 				},
 				success		: function(){
-					NexoBarcodeSettings.Notice( '<?php echo addslashes( __( 'Rafraichissement en cours...', 'nexo' ) );?>' );
+					NexoBarcodeSettings.Notice( '<?php echo addslashes(__('Rafraichissement en cours...', 'nexo'));?>' );
 					NexoBarcodeSettings.Resample();
 				}
 			});
@@ -72,7 +72,7 @@ $( document ).ready(function(e) {
 		
 		this.Resample			=	function( ){
 			this.ResampleIterator++;
-			$.ajax( '<?php echo site_url( array( 'dashboard', 'nexo', 'rest', 'trigger', 'model', 'Nexo_Products', 'resample_codebar' ) );?>/' + NexoBarcodeSettings.products[0].ID, 
+			$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'trigger', 'model', 'Nexo_Products', 'resample_codebar' ));?>/' + NexoBarcodeSettings.products[0].ID, 
 			{
 				success			:	function( data ){
 					if( NexoBarcodeSettings.ResampleIterator < NexoBarcodeSettings.ProductLength ) {
@@ -85,7 +85,7 @@ $( document ).ready(function(e) {
 						});
 						NexoBarcodeSettings.Notice( '' );
 						NexoBarcodeSettings.ResampleIterator	=	0;
-						bootbox.alert( '<?php echo addslashes( __( 'Les codes barres des produits ont été correctement mis à jour', 'nexo' ) );?>' );
+						bootbox.alert( '<?php echo addslashes(__('Les codes barres des produits ont été correctement mis à jour', 'nexo'));?>' );
 					}
 				}
 			});

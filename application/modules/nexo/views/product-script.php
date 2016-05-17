@@ -16,7 +16,7 @@ function isInt(n){
 	}
 	function check_if_product_exists()
 	{
-		$.ajax( '<?php echo site_url( array( 'nexo', 'special_get_item' ) );?>/DESIGN',{
+		$.ajax( '<?php echo site_url(array( 'nexo', 'special_get_item' ));?>/DESIGN',{
 			success	:	function( a ){
 				__check_if_product_exist( a );
 			},
@@ -43,7 +43,7 @@ function isInt(n){
 	{
 		if( passed.length > 0 )
 		{
-			bootbox.confirm( '<?php _e( 'Un produit avec cette désignation existe déjà, souhaitez-vous pré-remplir ce formulaire ?', 'nexo' );?>' , function( result ){
+			bootbox.confirm( '<?php _e('Un produit avec cette désignation existe déjà, souhaitez-vous pré-remplir ce formulaire ?', 'nexo');?>' , function( result ){
 				$('[name="TAUX_DE_MARGE"]').val( passed[0].TAUX_DE_MARGE );
 				$('[name="PRIX_DE_VENTE"]').val( passed[0].PRIX_DE_VENTE );
 				$('[name="PRIX_DACHAT"]').val( passed[0].PRIX_DACHAT );
@@ -54,7 +54,7 @@ function isInt(n){
 	}
 
 $(document).ready( function(){
-	$('#PRIX_DE_VENTE_field_box' ).after( '<div id="PRIX_DE_VENTE_AFFICHE" class="form-field-box even"><h3>' + '<?php echo __( 'Prix', 'nexo' );?>'  + ' : <span class="price"></span></h3><div/>' );
+	$('#PRIX_DE_VENTE_field_box' ).after( '<div id="PRIX_DE_VENTE_AFFICHE" class="form-field-box even"><h3>' + '<?php echo __('Prix', 'nexo');?>'  + ' : <span class="price"></span></h3><div/>' );
 		$('[name="PRIX_DACHAT"]').bind( 'keyup' , function(){
 			show_PRIX_DE_VENTE();
 		})

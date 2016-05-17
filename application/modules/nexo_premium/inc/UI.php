@@ -1,5 +1,5 @@
 <?php
-! defined( 'APPPATH' ) ? die() : null;
+! defined('APPPATH') ? die() : null;
 
 /**
  * Nexo Premium UI
@@ -10,9 +10,9 @@
 
 class Nexo_Premium_UI extends CI_Model
 {
-	public function Checkout_Script()
-	{
-		?>
+    public function Checkout_Script()
+    {
+        ?>
 <script type="text/javascript">
 
 	"use strict";
@@ -21,12 +21,14 @@ class Nexo_Premium_UI extends CI_Model
 		var dom	=	$.parseHTML( value );
 		
 		$( dom ).find( '.form-group' ).last().after(
-			'<input type="checkbox" placeholder="<?php echo addslashes( __( 'Name', 'nexo' ) );?>" name="subcribe_to_mailchimp">'
+			'<input type="checkbox" placeholder="<?php echo addslashes(__('Name', 'nexo'));
+        ?>" name="subcribe_to_mailchimp">'
 		);
 		
 		return $( dom ).html();
 	})
 </script>
         <?php
-	}
+
+    }
 }

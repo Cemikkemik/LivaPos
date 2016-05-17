@@ -2,29 +2,29 @@
 
 global $Options;
 
-$this->Gui->col_width( 1, 4 );
+$this->Gui->col_width(1, 4);
 
-$this->Gui->add_meta( array(
-	'col_id'	=>	1,
-	'namespace'	=>	'cashier_performance'
-) );
+$this->Gui->add_meta(array(
+    'col_id'    =>    1,
+    'namespace'    =>    'cashier_performance'
+));
 
 ob_start();
 
-echo tendoo_info( __( 'Ne récupère que les caissiers et non tous les utilisateurs qui ont la permission de vendre.', 'nexo_premium' ) );
+echo tendoo_info(__('Ne récupère que les caissiers et non tous les utilisateurs qui ont la permission de vendre.', 'nexo_premium'));
 
 ?>
 <div class="input-group"> <span class="input-group-addon" id="basic-addon1">
-	<?php _e( 'Veuillez choisir un caissier', 'nexo_premium' );?>
+	<?php _e('Veuillez choisir un caissier', 'nexo_premium');?>
     </span>
     <select name="cashier_id" class="form-control chosen-select" multiple>
-        <?php if( ! empty( $cashiers ) ):?>
-        <?php foreach( $cashiers as $cashier ):?>
+        <?php if (! empty($cashiers)):?>
+        <?php foreach ($cashiers as $cashier):?>
         <option value="<?php echo $cashier->user_id;?>"><?php echo $cashier->user_name;?></option>
         <?php endforeach;?>
         <?php else :?>
         <option value="">
-        <?php _e( 'Aucun caissier n\'est disponible', 'nexo_premium' );?>
+        <?php _e('Aucun caissier n\'est disponible', 'nexo_premium');?>
         </option>
         <?php endif;?>
     </select>
@@ -32,16 +32,16 @@ echo tendoo_info( __( 'Ne récupère que les caissiers et non tous les utilisate
 <br />
 <form class="form-inline">
     <div class='input-group date' id='datetimepicker6'>
-    	<span class="input-group-addon"><?php _e( 'Date de départ', 'nexo_premium' );?></span>
+    	<span class="input-group-addon"><?php _e('Date de départ', 'nexo_premium');?></span>
         <input type='text' class="form-control" name="start" value="<?php echo $start_date;?>" />
         <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span> 
 	</div>
     <div class='input-group date' id='datetimepicker7'>
-    	<span class="input-group-addon"><?php _e( 'Date de fin', 'nexo_premium' );?></span>
+    	<span class="input-group-addon"><?php _e('Date de fin', 'nexo_premium');?></span>
         <input type='text' class="form-control" name="end" value="<?php echo $end_date;?>" />
         <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span> 
 	</div>
-    <input type="button" class="btn btn-primary trigger_fetch" value="<?php _e( 'Afficher les résultats', 'nexo_premium' );?>" />
+    <input type="button" class="btn btn-primary trigger_fetch" value="<?php _e('Afficher les résultats', 'nexo_premium');?>" />
 </form>
 <br />
 <div class="box">
@@ -52,7 +52,7 @@ echo tendoo_info( __( 'Ne récupère que les caissiers et non tous les utilisate
 "use strict";
 
 var cashiers_names	=	new Array;
-<?php foreach( $cashiers as $cashier ):?>
+<?php foreach ($cashiers as $cashier):?>
 	cashiers_names[ <?php echo $cashier->user_id;?> ]	=	'<?php echo $cashier->user_name;?>';
 <?php endforeach;?>
 
@@ -88,12 +88,12 @@ var NexoCashierPerformance	=	new function(){
 	
 	this.GetStats			=	function( cashier_id, start_date, end_date ){
 		if( cashier_id == '' ) {
-			bootbox.alert( '<?php echo addslashes( __( 'Impossible d\'afficher les données pour cette sélection.', 'nexo_premium' ) );?>' );
+			bootbox.alert( '<?php echo addslashes(__('Impossible d\'afficher les données pour cette sélection.', 'nexo_premium'));?>' );
 			return;
 		}
 		
 		$.post( 
-			'<?php echo site_url( array( 'nexo', 'cashier_performance' ) );?>/by-days/' + start_date + '/' + end_date, 
+			'<?php echo site_url(array( 'nexo', 'cashier_performance' ));?>/by-days/' + start_date + '/' + end_date, 
 			_.object( [ 'cashier_id' ], [ cashier_id ] ), 
 			function( data ){
 				NexoCashierPerformance.ShowChart( data );
@@ -197,9 +197,9 @@ $( document ).ready(function(e) {
 </script>
 <?php
 
-$this->Gui->add_item( array(
-	'type'		=>	'dom',
-	'content'	=>	ob_get_clean()
-), 'cashier_performance', 1 );
+$this->Gui->add_item(array(
+    'type'        =>    'dom',
+    'content'    =>    ob_get_clean()
+), 'cashier_performance', 1);
 
 $this->Gui->output();

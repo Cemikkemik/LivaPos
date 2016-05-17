@@ -1,4 +1,6 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 
 /* Original translation by @KaBaDaBrA, improved by Kobus Myburgh (@impero_consult) */
 
@@ -73,8 +75,8 @@ $lang['error_max_file_size'] = "Die opgelaaide lêer se grootte is meer as die ma
 $lang['error_min_file_size'] = "Jy kan nie 'n leë lêer oplaai nie.";
 
 /* Added in version 1.3.1 */
-$lang['list_export'] 	= "Laai af";
-$lang['list_print'] 	= "Druk";
+$lang['list_export']    = "Laai af";
+$lang['list_print']    = "Druk";
 $lang['minimize_maximize'] = 'Minimeer/Maksimeer';
 
 /* Added in version 1.4 */
@@ -86,6 +88,5 @@ $lang['ui_month'] = 'mm';
 $lang['ui_year'] = 'yyyy';
 
 
-	/* Added in version 1.5.2 */
-	$lang['list_more'] = 'More';
-
+    /* Added in version 1.5.2 */
+    $lang['list_more'] = 'More';

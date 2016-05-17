@@ -1,14 +1,14 @@
 <div id="tutorial-wrapper">
-	<p class="text-center" style="line-height:45px;"><?php _e( 'Chargement...', 'nexo' );?></p>
+	<p class="text-center" style="line-height:45px;"><?php _e('Chargement...', 'nexo');?></p>
 </div>
 <script>
 "use strict";
 
 var NexoTutorials	=	new function(){
 	this.Get		=	function(){
-		$.ajax( '<?php echo site_url( array( 'nexo', 'feed' ) );?>', {
+		$.ajax( '<?php echo site_url(array( 'nexo', 'feed' ));?>', {
 			error		: 	function(){
-				$( '#tutorial-wrapper' ).find( 'p' ).html( '<?php echo addslashes( __( 'Une erreur s\'est produite durant la récupération des données', 'nexo' ) );?>' );
+				$( '#tutorial-wrapper' ).find( 'p' ).html( '<?php echo addslashes(__('Une erreur s\'est produite durant la récupération des données', 'nexo'));?>' );
 			},
 			success 	:	function( data ) {
 				if( ! _.isUndefined( data.item ) ) {

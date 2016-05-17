@@ -1,8 +1,8 @@
 <?php
 use Carbon\Carbon;
 
-$this->events->add_filter( 'gui_page_title' , function( $title ){
-	return '<section class="content-header"><h1>' . strip_tags( $title ) . ' <span class="pull-right"><a class="btn btn-primary btn-sm" href="' . current_url() . '?refresh=true">' . __( 'Vider le cache', 'nexo' ) . '</a> <a class="btn btn-default btn-sm" href="javascript:void(0)" print-item="#nexo-global-wrapper">' . __( 'Imprimer', 'nexo' ) . '</a></span></h1></section>';
+$this->events->add_filter('gui_page_title', function ($title) {
+    return '<section class="content-header"><h1>' . strip_tags($title) . ' <span class="pull-right"><a class="btn btn-primary btn-sm" href="' . current_url() . '?refresh=true">' . __('Vider le cache', 'nexo') . '</a> <a class="btn btn-default btn-sm" href="javascript:void(0)" print-item="#nexo-global-wrapper">' . __('Imprimer', 'nexo') . '</a></span></h1></section>';
 });
 
 
@@ -10,18 +10,17 @@ $this->events->add_filter( 'gui_page_title' , function( $title ){
 global $Options;
 
 // Set Cols Width
-$this->Gui->col_width( 1, 4 );
+$this->Gui->col_width(1, 4);
 
 // Add meta wrapper
-$this->Gui->add_meta( array(
-	'type'		=>		'unwrapped',
-	'namespace'	=>		'daily_report'
-) );
+$this->Gui->add_meta(array(
+    'type'        =>        'unwrapped',
+    'namespace'    =>        'daily_report'
+));
 
-if( ! $Cache->get( $report_slug ) || @$_GET[ 'refresh' ] == 'true' )
-{
-	ob_start();
-	?>
+if (! $Cache->get($report_slug) || @$_GET[ 'refresh' ] == 'true') {
+    ob_start();
+    ?>
 
 <div id="nexo-global-wrapper">
 
@@ -30,13 +29,15 @@ if( ! $Cache->get( $report_slug ) || @$_GET[ 'refresh' ] == 'true' )
 
 <div class="well well-sm">
 
-<h2 class="text-center"><?php echo @$Options[ 'site_name' ] ? $Options[ 'site_name' ] : __( 'Nom indisponible', 'nexo' );?></h2>
+<h2 class="text-center"><?php echo @$Options[ 'site_name' ] ? $Options[ 'site_name' ] : __('Nom indisponible', 'nexo');
+    ?></h2>
 
-<h4 class="text-center"><?php echo sprintf( 
-    __( 'Rapport des ventes journalières <br> du %s au %s', 'nexo' ), 
-    $CarbonStart->formatLocalized('%A %d %B %Y'), 
+<h4 class="text-center"><?php echo sprintf(
+    __('Rapport des ventes journalières <br> du %s au %s', 'nexo'),
+    $CarbonStart->formatLocalized('%A %d %B %Y'),
     $CarbonEnd->formatLocalized('%A %d %B %Y')
-);?></h4>
+);
+    ?></h4>
 
 <div class="hideOnPrint">
     <div class="container">
@@ -44,7 +45,8 @@ if( ! $Cache->get( $report_slug ) || @$_GET[ 'refresh' ] == 'true' )
             <div class='col-md-5'>
                <div class="form-group">
                     <div class='input-group date' id='datetimepicker6'>
-                        <input type='text' class="form-control" name="start" value="<?php echo $start_date;?>" />
+                        <input type='text' class="form-control" name="start" value="<?php echo $start_date;
+    ?>" />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -54,7 +56,8 @@ if( ! $Cache->get( $report_slug ) || @$_GET[ 'refresh' ] == 'true' )
             <div class='col-md-6'>
                 <div class="form-group">
                     <div class='input-group date' id='datetimepicker7'>
-                        <input type='text' class="form-control" name="end" value="<?php echo $end_date;?>" />
+                        <input type='text' class="form-control" name="end" value="<?php echo $end_date;
+    ?>" />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -62,7 +65,8 @@ if( ! $Cache->get( $report_slug ) || @$_GET[ 'refresh' ] == 'true' )
                 </div>
             </div>
             <div class="col-lg-12">
-                <input class="btn btn-primary submitTime" type="submit" value="<?php _e( 'Circonscrire les résultats', 'nexo' );?>">
+                <input class="btn btn-primary submitTime" type="submit" value="<?php _e('Circonscrire les résultats', 'nexo');
+    ?>">
             </div>
         </div>
     </div>
@@ -70,57 +74,64 @@ if( ! $Cache->get( $report_slug ) || @$_GET[ 'refresh' ] == 'true' )
 
 <?php
 $i = 0;
-$Dates				=	array();
-$CarbonStartCopy	=	$CarbonStart->copy();
+    $Dates                =    array();
+    $CarbonStartCopy    =    $CarbonStart->copy();
 // $CarbonEnd->isSameDay( $CarbonStartCopy ) == true 
-while( $CarbonEnd->diffInDays( $CarbonStartCopy ) > 0 || $CarbonEnd->isSameDay( $CarbonStartCopy ) ) {
-    $Dates[]		=	$CarbonStartCopy->toW3cString();			
-    if( $CarbonEnd->isSameDay( $CarbonStartCopy ) ) {
+while ($CarbonEnd->diffInDays($CarbonStartCopy) > 0 || $CarbonEnd->isSameDay($CarbonStartCopy)) {
+    $Dates[]        =    $CarbonStartCopy->toW3cString();
+    if ($CarbonEnd->isSameDay($CarbonStartCopy)) {
         break;
     }
     $CarbonStartCopy->addDay();
 }
 
 // Looping Dates
-$DatesArray			=	array();
-foreach( $Dates as $date ) {
-    $CurrentDate		=	Carbon::parse( $date );
-    $realWeekOfMonth	=	($CurrentDate->weekOfYear - $CurrentDate->copy()->startOfMonth()->weekOfYear + 53) % 52;
-    $realWeekOfMonth	=	get_instance()->Nexo_Misc->getWeeks( $CurrentDate->toDateString(), 'monday' );
-    $realWeekOfMonth	=	get_instance()->Nexo_Misc->getWeek( $CurrentDate->timestamp );
+$DatesArray            =    array();
+    foreach ($Dates as $date) {
+        $CurrentDate        =    Carbon::parse($date);
+        $realWeekOfMonth    =    ($CurrentDate->weekOfYear - $CurrentDate->copy()->startOfMonth()->weekOfYear + 53) % 52;
+        $realWeekOfMonth    =    get_instance()->Nexo_Misc->getWeeks($CurrentDate->toDateString(), 'monday');
+        $realWeekOfMonth    =    get_instance()->Nexo_Misc->getWeek($CurrentDate->timestamp);
     
-    if( ! isset( $DatesArray[ $CurrentDate->year ] ) ) {
-        $DatesArray[ $CurrentDate->year ]	=	array();
-    } 
+        if (! isset($DatesArray[ $CurrentDate->year ])) {
+            $DatesArray[ $CurrentDate->year ]    =    array();
+        }
     
-    if( ! isset( $DatesArray[ $CurrentDate->year ][ $CurrentDate->month ] ) ) {
-        $DatesArray[ $CurrentDate->year ][ $CurrentDate->month ]	=	array();
-    }
+        if (! isset($DatesArray[ $CurrentDate->year ][ $CurrentDate->month ])) {
+            $DatesArray[ $CurrentDate->year ][ $CurrentDate->month ]    =    array();
+        }
     
-    if( ! isset( $DatesArray[ $CurrentDate->year ][ $CurrentDate->month ][ $CurrentDate->dayOfWeek ] ) ) {
-        $DatesArray[ $CurrentDate->year ][ $CurrentDate->month ][ $CurrentDate->dayOfWeek ]	=	array();
-    }
+        if (! isset($DatesArray[ $CurrentDate->year ][ $CurrentDate->month ][ $CurrentDate->dayOfWeek ])) {
+            $DatesArray[ $CurrentDate->year ][ $CurrentDate->month ][ $CurrentDate->dayOfWeek ]    =    array();
+        }
     
-    if( ! isset( $DatesArray[ $CurrentDate->year ][ $CurrentDate->month ][ $CurrentDate->dayOfWeek ][ $realWeekOfMonth ] ) ) {
-        $DatesArray[ $CurrentDate->year ][ $CurrentDate->month ][ $CurrentDate->dayOfWeek ][ $realWeekOfMonth ]	=	array();
-    }
+        if (! isset($DatesArray[ $CurrentDate->year ][ $CurrentDate->month ][ $CurrentDate->dayOfWeek ][ $realWeekOfMonth ])) {
+            $DatesArray[ $CurrentDate->year ][ $CurrentDate->month ][ $CurrentDate->dayOfWeek ][ $realWeekOfMonth ]    =    array();
+        }
      
-    $DatesArray[ $CurrentDate->year ][ $CurrentDate->month ][ $CurrentDate->dayOfWeek ][ $realWeekOfMonth ]	=	$date;
-}
-?>
+        $DatesArray[ $CurrentDate->year ][ $CurrentDate->month ][ $CurrentDate->dayOfWeek ][ $realWeekOfMonth ]    =    $date;
+    }
+    ?>
 
 
 </div>
 
 <div class="well well-sm">
-    <h4><?php _e( 'Détails des expressions utilisées', 'nexo' );?></h4>
-    <?php _e( 'Ca: Chiffre d\'affaire', 'nexo' );?><br>
-    <?php _e( 'Cc: Charges commerciales', 'nexo' );?><br>
-    <?php _e( 'CaN: Chiffre d\'Affaire Net (sans remise, ristourne et rabais)', 'nexo' );?><br>
-    <?php _e( 'Cr: Créances', 'nexo' );?><br>            
-    <?php _e( 'Nc: Nombre de commandes', 'nexo' );?><br>
+    <h4><?php _e('Détails des expressions utilisées', 'nexo');
+    ?></h4>
+    <?php _e('Ca: Chiffre d\'affaire', 'nexo');
+    ?><br>
+    <?php _e('Cc: Charges commerciales', 'nexo');
+    ?><br>
+    <?php _e('CaN: Chiffre d\'Affaire Net (sans remise, ristourne et rabais)', 'nexo');
+    ?><br>
+    <?php _e('Cr: Créances', 'nexo');
+    ?><br>            
+    <?php _e('Nc: Nombre de commandes', 'nexo');
+    ?><br>
     <div class="hideOnPrint">
-		<?php echo sprintf( __( '%s : Voir plus de détails', 'nexo' ), '<span class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-search"></i></span>' );?><br>
+		<?php echo sprintf(__('%s : Voir plus de détails', 'nexo'), '<span class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-search"></i></span>');
+    ?><br>
 	</div>
 </div>
 
@@ -131,7 +142,8 @@ foreach( $Dates as $date ) {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><?php _e( 'Chargement en cours...', 'nexo' );?></h4>
+        <h4 class="modal-title" id="myModalLabel"><?php _e('Chargement en cours...', 'nexo');
+    ?></h4>
       </div>
       <div class="modal-body">
         <div class="progress">
@@ -156,100 +168,140 @@ foreach( $Dates as $date ) {
 </style>
 <?php 
 // Creating Calendar
-foreach( $DatesArray as $DateYears ):
+foreach ($DatesArray as $DateYears):
 ?>
-<?php foreach( $DateYears as $MonthId => $DateMonths ):?>
+<?php foreach ($DateYears as $MonthId => $DateMonths):?>
 	<?php
-    $FakeDateMonth		=	@$DateMonths;
-    $FakeDateMonth		=	reset( $FakeDateMonth );
-    $FakeDateMonthFirst	=	@reset( $FakeDateMonth );
-    $CurrentDate		=	Carbon::parse( $FakeDateMonthFirst );
+    $FakeDateMonth        =    @$DateMonths;
+    $FakeDateMonth        =    reset($FakeDateMonth);
+    $FakeDateMonthFirst    =    @reset($FakeDateMonth);
+    $CurrentDate        =    Carbon::parse($FakeDateMonthFirst);
     ?>
 		<table class="table table-bordered table-striped box">
 			<thead>
 				<tr>
-					<td colspan="7" class="text-center"><?php echo sprintf( __( 'Détails du mois : %s', 'nexo' ), $CurrentDate->format('F Y') );?></td>
+					<td colspan="7" class="text-center"><?php echo sprintf(__('Détails du mois : %s', 'nexo'), $CurrentDate->format('F Y'));
+    ?></td>
 				</tr>
 				<tr>
-					<td width="150"><?php _e( 'Lundi', 'nexo' );?></td>
-					<td width="150"><?php _e( 'Mardi', 'nexo' );?></td>
-					<td width="150"><?php _e( 'Mercredi', 'nexo' );?></td>
-					<td width="150"><?php _e( 'Jeudi', 'nexo' );?></td>
-					<td width="150"><?php _e( 'Vendredi', 'nexo' );?></td>
-					<td width="150"><?php _e( 'Samedi', 'nexo' );?></td>
-					<td width="150"><?php _e( 'Dimanche', 'nexo' );?></td>
+					<td width="150"><?php _e('Lundi', 'nexo');
+    ?></td>
+					<td width="150"><?php _e('Mardi', 'nexo');
+    ?></td>
+					<td width="150"><?php _e('Mercredi', 'nexo');
+    ?></td>
+					<td width="150"><?php _e('Jeudi', 'nexo');
+    ?></td>
+					<td width="150"><?php _e('Vendredi', 'nexo');
+    ?></td>
+					<td width="150"><?php _e('Samedi', 'nexo');
+    ?></td>
+					<td width="150"><?php _e('Dimanche', 'nexo');
+    ?></td>
 				</tr>                	
 			</thead>
 			<tbody>
-				<?php for( $weekCounter = 1; $weekCounter <= 7; $weekCounter++ ):?>
+				<?php for ($weekCounter = 1; $weekCounter <= 7; $weekCounter++):?>
 					<?php 
-					// Avoid to create empty line
-					if( 
-					isset( $DateMonths[ 0 ][ $weekCounter ] ) ||
-					isset( $DateMonths[ 1 ][ $weekCounter ] ) ||
-					isset( $DateMonths[ 2 ][ $weekCounter ] ) ||
-					isset( $DateMonths[ 3 ][ $weekCounter ] ) ||
-					isset( $DateMonths[ 4 ][ $weekCounter ] ) ||
-					isset( $DateMonths[ 5 ][ $weekCounter ] ) ||
-					isset( $DateMonths[ 6 ][ $weekCounter ] ) || 
-					isset( $DateMonths[ 7 ][ $weekCounter ] ) ):?>
+                    // Avoid to create empty line
+                    if (
+                    isset($DateMonths[ 0 ][ $weekCounter ]) ||
+                    isset($DateMonths[ 1 ][ $weekCounter ]) ||
+                    isset($DateMonths[ 2 ][ $weekCounter ]) ||
+                    isset($DateMonths[ 3 ][ $weekCounter ]) ||
+                    isset($DateMonths[ 4 ][ $weekCounter ]) ||
+                    isset($DateMonths[ 5 ][ $weekCounter ]) ||
+                    isset($DateMonths[ 6 ][ $weekCounter ]) ||
+                    isset($DateMonths[ 7 ][ $weekCounter ])):?>
 					<tr>
-					<?php for( $i = 1; $i <= 7; $i++ ):?>
-						<?php $item = ( $i == 7 ) ? 0 : $i;?>
-						<?php if( isset( $DateMonths[ $item ][ $weekCounter ] ) ):?>
+					<?php for ($i = 1; $i <= 7; $i++):?>
+						<?php $item = ($i == 7) ? 0 : $i;
+    ?>
+						<?php if (isset($DateMonths[ $item ][ $weekCounter ])):?>
 							<?php
-							$CurrentDay		=	Carbon::parse( $DateMonths[ $item ][ $weekCounter ] );
-							if( $CurrentDay->lt( Carbon::parse( date_now() ) ) ) {
-							?>
+                            $CurrentDay        =    Carbon::parse($DateMonths[ $item ][ $weekCounter ]);
+    if ($CurrentDay->lt(Carbon::parse(date_now()))) {
+        ?>
 							<td>
-								<div class="row get-reports" data-day="<?php echo $CurrentDay->toDateString();?>">
-									<div class="col-lg-2"><h3 class="text-center"><?php echo $CurrentDay->day;?></h3></div>
+								<div class="row get-reports" data-day="<?php echo $CurrentDay->toDateString();
+        ?>">
+									<div class="col-lg-2"><h3 class="text-center"><?php echo $CurrentDay->day;
+        ?></h3></div>
 									<div class="col-lg-9">
-										<small><?php _e( 'Ca :', 'nexo' );?></small>
-										<span class="total_des_commandes pull-right"><?php echo get_instance()->Nexo_Misc->display_currency( 'before' );?> 0 <?php echo get_instance()->Nexo_Misc->display_currency( 'after' );?></span>
+										<small><?php _e('Ca :', 'nexo');
+        ?></small>
+										<span class="total_des_commandes pull-right"><?php echo get_instance()->Nexo_Misc->display_currency('before');
+        ?> 0 <?php echo get_instance()->Nexo_Misc->display_currency('after');
+        ?></span>
 										<br>
-										<small><?php _e( 'Cc :', 'nexo' );?></small>
-										<span class="total_sommes_rrr pull-right"><?php echo get_instance()->Nexo_Misc->display_currency( 'before' );?> 0 <?php echo get_instance()->Nexo_Misc->display_currency( 'after' );?></span><br>
-										<small><?php _e( 'CaN :', 'nexo' );?></small>
-										<span class="total_chiffre_daffaire_net pull-right"><?php echo get_instance()->Nexo_Misc->display_currency( 'before' );?> 0 <?php echo get_instance()->Nexo_Misc->display_currency( 'after' );?></span><br>
-										<small><?php _e( 'Cr :', 'nexo' );?></small>
-										<span class="total_sommes_due pull-right"><?php echo get_instance()->Nexo_Misc->display_currency( 'before' );?> 0 <?php echo get_instance()->Nexo_Misc->display_currency( 'after' );?></span><br>
-										<small><?php _e( 'Nc :', 'nexo' );?></small> <span class="order_nbr pull-right">0</span><br><br>
-										<a class="hideOnPrint btn btn-xs btn-primary" href="<?php echo get_instance()->events->apply_filters( 'nexo_daily_details_link', '', $CurrentDay->toDateString() );?>"><i class="glyphicon glyphicon-search"></i></a> 
-										<!--<a class="hideOnPrint btn btn-xs btn-default btn_refresh" href="<?php echo get_instance()->events->apply_filters( 'nexo_daily_refresh_link', '', $CurrentDay->toDateString() );?>"><i class="glyphicon glyphicon-refresh"></i></a>-->
+										<small><?php _e('Cc :', 'nexo');
+        ?></small>
+										<span class="total_sommes_rrr pull-right"><?php echo get_instance()->Nexo_Misc->display_currency('before');
+        ?> 0 <?php echo get_instance()->Nexo_Misc->display_currency('after');
+        ?></span><br>
+										<small><?php _e('CaN :', 'nexo');
+        ?></small>
+										<span class="total_chiffre_daffaire_net pull-right"><?php echo get_instance()->Nexo_Misc->display_currency('before');
+        ?> 0 <?php echo get_instance()->Nexo_Misc->display_currency('after');
+        ?></span><br>
+										<small><?php _e('Cr :', 'nexo');
+        ?></small>
+										<span class="total_sommes_due pull-right"><?php echo get_instance()->Nexo_Misc->display_currency('before');
+        ?> 0 <?php echo get_instance()->Nexo_Misc->display_currency('after');
+        ?></span><br>
+										<small><?php _e('Nc :', 'nexo');
+        ?></small> <span class="order_nbr pull-right">0</span><br><br>
+										<a class="hideOnPrint btn btn-xs btn-primary" href="<?php echo get_instance()->events->apply_filters('nexo_daily_details_link', '', $CurrentDay->toDateString());
+        ?>"><i class="glyphicon glyphicon-search"></i></a> 
+										<!--<a class="hideOnPrint btn btn-xs btn-default btn_refresh" href="<?php echo get_instance()->events->apply_filters('nexo_daily_refresh_link', '', $CurrentDay->toDateString());
+        ?>"><i class="glyphicon glyphicon-refresh"></i></a>-->
 									</div>
 								</div>
 							</td>
 							<?php
-							} else {
-								?>
+
+    } else {
+        ?>
 								<td>
 								<div class="row">
-									<div class="col-lg-2"><h3><?php echo $CurrentDay->day;?></h3></div>
+									<div class="col-lg-2"><h3><?php echo $CurrentDay->day;
+        ?></h3></div>
 									<div class="col-lg-9">
-										<small><?php _e( 'Ca :', 'nexo' );?></small><span class="total_des_commandes pull-right">--</span><br>
-										<small><?php _e( 'CaN :', 'nexo' );?></small><span class="total_chiffre_daffaire_net pull-right">--</span><br>
-										<small><?php _e( 'Cr :', 'nexo' );?></small><span class="total_sommes_due pull-right">--</span><br>
-										<small><?php _e( 'Cc :', 'nexo' );?></small><span class="total_sommes_rrr pull-right">--</span><br>
-										<small><?php _e( 'Nc :', 'nexo' );?></small> <span class="order_nbr pull-right">--</span><br><br>
+										<small><?php _e('Ca :', 'nexo');
+        ?></small><span class="total_des_commandes pull-right">--</span><br>
+										<small><?php _e('CaN :', 'nexo');
+        ?></small><span class="total_chiffre_daffaire_net pull-right">--</span><br>
+										<small><?php _e('Cr :', 'nexo');
+        ?></small><span class="total_sommes_due pull-right">--</span><br>
+										<small><?php _e('Cc :', 'nexo');
+        ?></small><span class="total_sommes_rrr pull-right">--</span><br>
+										<small><?php _e('Nc :', 'nexo');
+        ?></small> <span class="order_nbr pull-right">--</span><br><br>
 									</div>
 								</div>
 								</td>
 								<?php
-							}
-							?>
+
+    }
+    ?>
 							
 						<?php else:?>
 							<td></td>
-						<?php endif;?>
-					<?php endfor;?>
+						<?php endif;
+    ?>
+					<?php endfor;
+    ?>
 					</tr>
-					<?php endif;?>
-				<?php endfor;?>
+					<?php endif;
+    ?>
+				<?php endfor;
+    ?>
 			</tbody>
 		</table>
-	<?php endforeach;?>
-<?php endforeach;?>
+	<?php endforeach;
+    ?>
+<?php endforeach;
+    ?>
 </div>
 <script type="text/javascript">
 
@@ -276,22 +328,29 @@ $(function () {
 $( document ).ready(function(e) {
 	$( '.submitTime' ).bind( 'click', function(){
 		if( $( '[name="start"]' ).val() != '' && $( '[name="end"]' ).val() != '' ) {
-			document.location	=	'<?php echo site_url( array( 'dashboard', 'nexo', 'rapports', 'journalier' ) ) . '/';?>' + $( '[name="start"]' ).val() + '/' + $( '[name="end"]' ).val() + '?refresh=true';
+			document.location	=	'<?php echo site_url(array( 'dashboard', 'nexo', 'rapports', 'journalier' )) . '/';
+    ?>' + $( '[name="start"]' ).val() + '/' + $( '[name="end"]' ).val() + '?refresh=true';
 		} else {
-			alert( '<?php echo addslashes( __( 'Les dates ne sont pas spécifiée', 'nexo' ) );?>' );
+			alert( '<?php echo addslashes(__('Les dates ne sont pas spécifiée', 'nexo'));
+    ?>' );
 		}
 	});
 });
 
 var	Nexo_Daily_Report	=	new function(){
 	// Currency
-	this.CurrencyBefore	=	'<?php echo get_instance()->Nexo_Misc->display_currency( 'before' );?>';
-	this.CurrencyAfter	=	'<?php echo get_instance()->Nexo_Misc->display_currency( 'after' );?>';
+	this.CurrencyBefore	=	'<?php echo get_instance()->Nexo_Misc->display_currency('before');
+    ?>';
+	this.CurrencyAfter	=	'<?php echo get_instance()->Nexo_Misc->display_currency('after');
+    ?>';
 
 	// Order Types
-	this.CommandeCash	=	'<?php echo $Options[ 'nexo_order_comptant' ];?>';
-	this.CommandeDevis	=	'<?php echo $Options[ 'nexo_order_devis' ];?>';
-	this.CommandeAvance	=	'<?php echo $Options[ 'nexo_order_advance' ];?>';
+	this.CommandeCash	=	'<?php echo $Options[ 'nexo_order_comptant' ];
+    ?>';
+	this.CommandeDevis	=	'<?php echo $Options[ 'nexo_order_devis' ];
+    ?>';
+	this.CommandeAvance	=	'<?php echo $Options[ 'nexo_order_advance' ];
+    ?>';
 
 	// Storing Dates
 	this.Dates			=	[];
@@ -327,7 +386,8 @@ var	Nexo_Daily_Report	=	new function(){
 		this.DisplayModal();
 		var tableItemId		=	this.Dates[0];
 		
-		$.ajax( '<?php echo site_url( array( 'dashboard', 'nexo', 'rest', 'get', 'nexo_commandes', 'DATE_CREATION', 'filter_date_interval' ) );?>', {
+		$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'get', 'nexo_commandes', 'DATE_CREATION', 'filter_date_interval' ));
+    ?>', {
 			data			:	_.object( [ 'key' ], [ this.Dates[0] ] ),
 			type			:	'POST',
 			dataType		:	'json',
@@ -461,18 +521,18 @@ $( document ).ready(function(e) {
 
 }
 
-get_instance()->events->do_action( 'nexo_daily_report_footer', $CarbonStart, $CarbonEnd );
+get_instance()->events->do_action('nexo_daily_report_footer', $CarbonStart, $CarbonEnd);
 
-if( ! $Cache->get( $report_slug ) || @$_GET[ 'refresh' ] == 'true' ) {
-	$Content	=	ob_get_clean();
-	$Cache->save( $report_slug, $Content, ( 43200 * 2 ) ); // for one day
+if (! $Cache->get($report_slug) || @$_GET[ 'refresh' ] == 'true') {
+    $Content    =    ob_get_clean();
+    $Cache->save($report_slug, $Content, (43200 * 2)); // for one day
 } else {
-	$Content	=	$Cache->get( $report_slug );
+    $Content    =    $Cache->get($report_slug);
 }
 
-$this->Gui->add_item( array(
-	'type'		=>		'dom',
-	'content'	=>		$Content
-), 'daily_report', 1 );
+$this->Gui->add_item(array(
+    'type'        =>        'dom',
+    'content'    =>        $Content
+), 'daily_report', 1);
 
 $this->Gui->output();

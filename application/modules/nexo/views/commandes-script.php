@@ -18,29 +18,29 @@ var Nexo_Moment			=	moment( Nexo_Server_Time );
 
 NexoAPI.events.addFilter( 'nexo_customer_dom_popup', function( value ) {
 	return '<form id="NewClientForm" method="POST">' +
-				'<?php echo tendoo_warning( addslashes( __( 'Toutes les autres informations comme la "date de naissance" pourront être remplis ultérieurement.', 'nexo' ) ) );?>' +
+				'<?php echo tendoo_warning(addslashes(__('Toutes les autres informations comme la "date de naissance" pourront être remplis ultérieurement.', 'nexo')));?>' +
 			'<div class="form-group">'+
 				'<div class="input-group">' +
-				  '<span class="input-group-addon" id="basic-addon1"><?php echo addslashes( __( 'Nom du client', 'nexo' ) );?></span>'+
-				  '<input type="text" class="form-control" placeholder="<?php echo addslashes( __( 'Name', 'nexo' ) );?>" name="customer_name" aria-describedby="basic-addon1">' +
+				  '<span class="input-group-addon" id="basic-addon1"><?php echo addslashes(__('Nom du client', 'nexo'));?></span>'+
+				  '<input type="text" class="form-control" placeholder="<?php echo addslashes(__('Name', 'nexo'));?>" name="customer_name" aria-describedby="basic-addon1">' +
 				'</div>'+
 			'</div>' +
 			'<div class="form-group">'+
 				'<div class="input-group">' +
-				  '<span class="input-group-addon" id="basic-addon1"><?php echo addslashes( __( 'Prénom du client', 'nexo' ) );?></span>'+
-				  '<input type="text" class="form-control" placeholder="<?php echo addslashes( __( 'Prénom', 'nexo' ) );?>" name="customer_surname" aria-describedby="basic-addon1">' +
+				  '<span class="input-group-addon" id="basic-addon1"><?php echo addslashes(__('Prénom du client', 'nexo'));?></span>'+
+				  '<input type="text" class="form-control" placeholder="<?php echo addslashes(__('Prénom', 'nexo'));?>" name="customer_surname" aria-describedby="basic-addon1">' +
 				'</div>'+
 			'</div>' +
 			'<div class="form-group">'+
 				'<div class="input-group">' +
-				  '<span class="input-group-addon" id="basic-addon1"><?php echo addslashes( __( 'Email du client', 'nexo' ) );?></span>'+
-				  '<input type="text" class="form-control" placeholder="<?php echo addslashes( __( 'Email', 'nexo' ) );?>" name="customer_email" aria-describedby="basic-addon1">' +
+				  '<span class="input-group-addon" id="basic-addon1"><?php echo addslashes(__('Email du client', 'nexo'));?></span>'+
+				  '<input type="text" class="form-control" placeholder="<?php echo addslashes(__('Email', 'nexo'));?>" name="customer_email" aria-describedby="basic-addon1">' +
 				'</div>'+
 			'</div>' +
 			'<div class="form-group">'+
 				'<div class="input-group">' +
-				  '<span class="input-group-addon" id="basic-addon1"><?php echo addslashes( __( 'Téléphone du client', 'nexo' ) );?></span>'+
-				  '<input type="text" class="form-control" placeholder="<?php echo addslashes( __( 'Téléphone', 'nexo' ) );?>" name="customer_tel" aria-describedby="basic-addon1">' +
+				  '<span class="input-group-addon" id="basic-addon1"><?php echo addslashes(__('Téléphone du client', 'nexo'));?></span>'+
+				  '<input type="text" class="form-control" placeholder="<?php echo addslashes(__('Téléphone', 'nexo'));?>" name="customer_tel" aria-describedby="basic-addon1">' +
 				'</div>'+
 			'</div>' +
 		'</form>' + value;
@@ -71,7 +71,7 @@ var	NexoCommandes			=	new function(){
 				NexoCommandes.TreatProduct(a);
 			}, 
 			error 	:	function(){
-				bootbox.alert( '<?php _e( 'Cet article est introuvable ou le code est incorrect.', 'nexo' );?>' );
+				bootbox.alert( '<?php _e('Cet article est introuvable ou le code est incorrect.', 'nexo');?>' );
 				NexoCommandes.Sound(2);
 			}
 		});
@@ -94,7 +94,7 @@ var	NexoCommandes			=	new function(){
 						this.CommandCart[ product[0].CODEBAR ][0].ADDED_TO_CART++;  // incremente la quantité du produit
 						this.RefreshCart();
 					} else {
-						bootbox.alert( "<?php _e( 'Impossible d\'ajouter cet article, car le stock vient de s\'épuiser.', 'nexo' );?>" );
+						bootbox.alert( "<?php _e('Impossible d\'ajouter cet article, car le stock vient de s\'épuiser.', 'nexo');?>" );
 						this.Sound(2);
 					}
 
@@ -105,11 +105,11 @@ var	NexoCommandes			=	new function(){
 				}
 
 			} else {
-				bootbox.alert( "<?php _e( 'Impossible d\'ajouter cet article, car le stock est épuisé.', 'nexo' );?>" );
+				bootbox.alert( "<?php _e('Impossible d\'ajouter cet article, car le stock est épuisé.', 'nexo');?>" );
 				this.Sound(2);
 			}
 		} else {
-			bootbox.alert( '<?php _e( 'Cet article est introuvable ou le code est incorrect.', 'nexo' );?>' );
+			bootbox.alert( '<?php _e('Cet article est introuvable ou le code est incorrect.', 'nexo');?>' );
 			this.Sound(2);
 		}
 	};
@@ -163,7 +163,7 @@ var	NexoCommandes			=	new function(){
 			}
 			
 			var ReduceButtons				=	( NexoCommandes.DisplayReduceButtons	) ? 
-				'<td><a href="javascript:void(0);" class="btn-primary btn btn-xs Nexo-cart-reduce"><?php echo _e( 'Retirer', 'nexo' );?></a> - <a href="javascript:void(0);" class="btn-warning btn btn-xs Nexo-cart-add"><?php echo _e( 'Ajouter', 'nexo' );?></a></td>' : '';
+				'<td><a href="javascript:void(0);" class="btn-primary btn btn-xs Nexo-cart-reduce"><?php echo _e('Retirer', 'nexo');?></a> - <a href="javascript:void(0);" class="btn-warning btn btn-xs Nexo-cart-add"><?php echo _e('Ajouter', 'nexo');?></a></td>' : '';
 			
 			$('.Nexo-cart-table tbody').append(
 			'<tr data-item-codebar="' + value[0].CODEBAR + '" ' + Class + '>' +
@@ -187,7 +187,7 @@ var	NexoCommandes			=	new function(){
 	**/
 
 	this.DisplayEmptyCart				=	function(){
-		$('.Nexo-cart-table tbody').html('<tr class="cart-empty"><td colspan="5"><?php echo addslashes( __( 'Aucun article n\'a été ajouté au panier', 'nexo' ) );?></td></tr>');
+		$('.Nexo-cart-table tbody').html('<tr class="cart-empty"><td colspan="5"><?php echo addslashes(__('Aucun article n\'a été ajouté au panier', 'nexo'));?></td></tr>');
 	}
 
 	/**
@@ -283,7 +283,7 @@ var	NexoCommandes			=	new function(){
 			}
 			this.RefreshCart();
 		} else {
-			bootbox.alert( "<?php echo addslashes( __( 'Une erreur fatale s\'est produite durant la suppression de l\'article. Nous vous recommandons de recommencer le processus de commande. <br><strong>Si le problème persiste, veuillez contacter l\'administrateur ou soumettre un bug via le formulaire d\'assistance.</strong>', 'nexo' ) );?>" );
+			bootbox.alert( "<?php echo addslashes(__('Une erreur fatale s\'est produite durant la suppression de l\'article. Nous vous recommandons de recommencer le processus de commande. <br><strong>Si le problème persiste, veuillez contacter l\'administrateur ou soumettre un bug via le formulaire d\'assistance.</strong>', 'nexo'));?>" );
 			NexoCommandes.Sound(2);
 		}// JavaScript Document
 	}
@@ -399,7 +399,7 @@ var	NexoCommandes			=	new function(){
 			this.RefreshHiddenProducts();
 		} else {
 			setTimeout( function(){
-				bootbox.alert( '<?php _e( 'Une commande sans article ne peut être soumise.', 'nexo' );?>' );
+				bootbox.alert( '<?php _e('Une commande sans article ne peut être soumise.', 'nexo');?>' );
 				NexoCommandes.Sound(2);
 			}, 500 );
 		}
@@ -438,14 +438,14 @@ var	NexoCommandes			=	new function(){
 	this.TreatSuccess					=	function(){
 		if( $( '.go-to-edit-form' ).length > 0 ){
 			var url				=	$( '.go-to-edit-form' ).attr( 'href' );
-			var lengthToSplit	=	'<?php echo site_url( array( 'dashboard', 'nexo', 'commandes', 'lists', 'edit' ) );?>/';
+			var lengthToSplit	=	'<?php echo site_url(array( 'dashboard', 'nexo', 'commandes', 'lists', 'edit' ));?>/';
 			var id				=	url.substr( lengthToSplit.length );
 
 			if( this.AutoPrintReceipt ) {
 				
-				tendoo.notify.success( '<?php _e( 'Commande valide !', 'nexo' );?>', '<?php _e( "La facture est en cours d\'impression.", 'nexo' );?>' );
+				tendoo.notify.success( '<?php _e('Commande valide !', 'nexo');?>', '<?php _e("La facture est en cours d\'impression.", 'nexo');?>' );
 				
-				$( 'body' ).append( '<iframe style="display:none;" id="CurrentReceipt" name="CurrentReceipt" src="<?php echo site_url( array( 'dashboard', 'nexo', 'print', 'order_receipt' ) );?>/' + id + '"></iframe>' );
+				$( 'body' ).append( '<iframe style="display:none;" id="CurrentReceipt" name="CurrentReceipt" src="<?php echo site_url(array( 'dashboard', 'nexo', 'print', 'order_receipt' ));?>/' + id + '"></iframe>' );
 				
 				window.frames["CurrentReceipt"].focus();
 				window.frames["CurrentReceipt"].print();
@@ -456,7 +456,7 @@ var	NexoCommandes			=	new function(){
 				
 			
 			} else {
-				tendoo.notify.success( '<?php _e( 'Commande valide !', 'nexo' );?>', '<?php _e( "La facture a été enregistrée.", 'nexo' );?>' );
+				tendoo.notify.success( '<?php _e('Commande valide !', 'nexo');?>', '<?php _e("La facture a été enregistrée.", 'nexo');?>' );
 			}
 			
 			// En cas de nouvelle commande, le panier est remis à zero
@@ -468,8 +468,8 @@ var	NexoCommandes			=	new function(){
 			if( $( '#report-success' && NexoScreen == 'edit' ).length > 0 ) {
 				
 				bootbox.dialog({
-					title	:	'<?php _e( 'Veuillez patienter SVP.', 'nexo' );?>',
-					message : 	'<?php _e( 'La commande est en cours de rafraichissement.', 'nexo' );?>'
+					title	:	'<?php _e('Veuillez patienter SVP.', 'nexo');?>',
+					message : 	'<?php _e('La commande est en cours de rafraichissement.', 'nexo');?>'
 				})
 				
 				// On evite d'affaire une notificatin pour l'édition des commandes actives
@@ -502,30 +502,32 @@ var	NexoCommandes			=	new function(){
 				success	:	function( a ){
 					if( typeof a[0] != 'undefined' ) {
 						if( a[0].DISCOUNT_ACTIVE == '1' )  {
-							tendoo.notify.info( "<?php echo __( 'Eligible pour une réduction automatique<br>', 'nexo' );?>", "<?php echo sprintf( __( "Ce client bénéficiera d\'une réduction automatique. Le nombre d\'achats requis a été atteint : %s", 'nexo' ), $Options[ 'how_many_before_discount' ] );?>" );
+							tendoo.notify.info( "<?php echo __('Eligible pour une réduction automatique<br>', 'nexo');?>", "<?php echo sprintf(__("Ce client bénéficiera d\'une réduction automatique. Le nombre d\'achats requis a été atteint : %s", 'nexo'), $Options[ 'how_many_before_discount' ]);?>" );
 							NexoCommandes.Sound(1); // notice
 							NexoCommandes.DisplayDiscountText();
 							<?php
-							if( @$Options[ 'discount_type' ] == 'amount' ) {
-								?>
+                            if (@$Options[ 'discount_type' ] == 'amount') {
+                                ?>
 								NexoCommandes.SetOtherCharge( NexoCommandes.ChargeAmount );
 								<?php
-							} else if( @$Options[ 'discount_type' ] == 'percent' ) {
-								?>
+
+                            } elseif (@$Options[ 'discount_type' ] == 'percent') {
+                                ?>
 								NexoCommandes.ProceedPercentDiscount = true;
 								NexoCommandes.AutomatePercentDiscount = true; // Restauration des remises automatiques
 								NexoCommandes.RefreshCart();
 								<?php
-							}
-							
-							/**
-							 * Corrige le blug majeure de la version 2.4.2
-							 * Les commandes soumis à une réduction automatique au pourcentage conservait leur charge après changement du client
-							 * #2.4.2
-							 * @author Blair Jersyer
-							**/
-							
-							?>
+
+                            }
+                            
+                            /**
+                             * Corrige le blug majeure de la version 2.4.2
+                             * Les commandes soumis à une réduction automatique au pourcentage conservait leur charge après changement du client
+                             * #2.4.2
+                             * @author Blair Jersyer
+                            **/
+                            
+                            ?>
 							
 						} else {
 							NexoCommandes.RefreshCart();
@@ -544,15 +546,15 @@ var	NexoCommandes			=	new function(){
 	this.DisplayDiscountText			=	function ( discount_type ) {
 		if( typeof discount_type == 'undefined' ) {
 			<?php
-			$remise_type	=	@$Options[ 'discount_type' ] == 'percent' ? 
-				sprintf( __( 'Remise à %s %%', 'nexo' ), @$Options[ 'discount_percent' ] ) 
-				: __( 'Remise à taux fixe', 'nexo' );
-			?>
+            $remise_type    =    @$Options[ 'discount_type' ] == 'percent' ?
+                sprintf(__('Remise à %s %%', 'nexo'), @$Options[ 'discount_percent' ])
+                : __('Remise à taux fixe', 'nexo');
+            ?>
 			var discount_type_text	=	'<?php echo $remise_type;?>';
 		} else {
 			var discount_type_text	=	discount_type == 'percent' ? 
-				'<?php echo sprintf( __( 'Remise à %s %%', 'nexo' ), @$Options[ 'discount_percent' ] );?>' 
-				: '<?php echo __( 'Remise à taux fixe', 'nexo' );?>';
+				'<?php echo sprintf(__('Remise à %s %%', 'nexo'), @$Options[ 'discount_percent' ]);?>' 
+				: '<?php echo __('Remise à taux fixe', 'nexo');?>';
 		}
 		$( '#cart-price-list thead #discount-wrapper' ).append( '<div class="badge badge-warning pull-right" id="discount-notice">' + discount_type_text + '</div>' );
 		
@@ -566,23 +568,25 @@ var	NexoCommandes			=	new function(){
 	
 	this.DisplayRemoveDiscountButton	=	function(){
 		if( this.DisplayCancelDiscountButton ) {
-			var button	=	$( '.box-footer #checkout' ).after( '<div class="btn-group" role="group" id="cancel_discount_button"><button type="button" class="btn btn-warning" id="checkout"><?php echo addslashes( __( 'Cancel discount', 'nexo' ) );?></button></div>' );
+			var button	=	$( '.box-footer #checkout' ).after( '<div class="btn-group" role="group" id="cancel_discount_button"><button type="button" class="btn btn-warning" id="checkout"><?php echo addslashes(__('Cancel discount', 'nexo'));?></button></div>' );
 			$( '#cancel_discount_button' ).bind( 'click', function(){
 				// Tout ce qui concerne les remises automatique sont retiré
 				<?php 
-				if( @$Options[ 'discunt_type' ] == 'amount' ) {
-					?>
+                if (@$Options[ 'discunt_type' ] == 'amount') {
+                    ?>
 					NexoCommandes.SetOtherCharge(0);
 					<?php
-				} else if( @$Options[ 'discount_type' ] == 'percent' ) {
-					?>
+
+                } elseif (@$Options[ 'discount_type' ] == 'percent') {
+                    ?>
 					NexoCommandes.ProceedPercentDiscount = false;
 					NexoCommandes.AutomatePercentDiscount = false;
 					NexoCommandes.SetOtherCharge(0);
 					NexoCommandes.RefreshCart();
 					<?php
-				}
-				?>
+
+                }
+                ?>
 				NexoCommandes.HideDiscountText();
 			});
 		}
@@ -609,7 +613,7 @@ var	NexoCommandes			=	new function(){
 
 			// Si la réduction automatique s'applique, la valeur "globalcharge" sera modifiée
 			if( this.ProceedPercentDiscount ) {
-				this.OtherCharge		=	Math.floor( ( this.CartValue * parseInt( <?php echo intval( @$Options[ 'discount_percent' ] );?> ) ) / 100 );
+				this.OtherCharge		=	Math.floor( ( this.CartValue * parseInt( <?php echo intval(@$Options[ 'discount_percent' ]);?> ) ) / 100 );
 				this.GlobalCharge		=	this.OtherCharge + this.Charge;
 			}
 		}
@@ -640,12 +644,12 @@ var	NexoCommandes			=	new function(){
 		var wrapper					=	this.FetchCodebarWrapper;
 		// Si le panel n'est pas ouvert
 		if( ! $( wrapper ).data( 'is-open' ) || $( wrapper ).data( 'is-open' ) == 'false' ) {
-			$( '#fetch_codebar' ).text( '<?php echo addslashes( __( 'Fermer La Liste', 'nexo' ) );?>' );
+			$( '#fetch_codebar' ).text( '<?php echo addslashes(__('Fermer La Liste', 'nexo'));?>' );
 			$( wrapper ).data( 'is-open', 'true' );
 			$( wrapper ).slideDown(500);
 			this.__FetchCodebarLoading();
 		} else { // Si le panel est ouvert
-			$( '#fetch_codebar' ).text( '<?php echo addslashes( __( 'Afficher La Liste', 'nexo' ) );?>' );
+			$( '#fetch_codebar' ).text( '<?php echo addslashes(__('Afficher La Liste', 'nexo'));?>' );
 			$( wrapper ).data( 'is-open', 'false' );
 			$( wrapper ).slideUp(500);
 			$( wrapper ).find( '#filter-list' ).html(''); // Nettoyage
@@ -653,15 +657,15 @@ var	NexoCommandes			=	new function(){
 	}
 	
 	this.__FetchCodebarLoading			=	function(){
-		$.ajax( '<?php echo site_url( array( 'nexo', 'item' ) );?>',{
+		$.ajax( '<?php echo site_url(array( 'nexo', 'item' ));?>',{
 			dataType:"json",
 			beforeSend: function(){
-				$( '#filter-list' ).html( '<div class="col-lg-12"><span id="fetchcodebar_notice" style="line-height:40px;"><?php _e( 'Chargement...', 'nexo' );?></span></div>' );
+				$( '#filter-list' ).html( '<div class="col-lg-12"><span id="fetchcodebar_notice" style="line-height:40px;"><?php _e('Chargement...', 'nexo');?></span></div>' );
 			},
 			success: function( data ){
 				if( data.length == 0 ) {
-					$( '#fetchcodebar_notice' ).html( '<?php echo 
-			addslashes( sprintf( __( 'Aucun produit disponible. <a href="%s" class="btn btn-primary btn-xs">Créer un nouveau produit</a>', 'nexo' ), site_url( array( 'dashboard', 'nexo', 'produits', 'add' ) ) ) );?>' );
+					$( '#fetchcodebar_notice' ).html( '<?php echo
+            addslashes(sprintf(__('Aucun produit disponible. <a href="%s" class="btn btn-primary btn-xs">Créer un nouveau produit</a>', 'nexo'), site_url(array( 'dashboard', 'nexo', 'produits', 'add' ))));?>' );
 				} else {
 					$( '#fetchcodebar_notice' ).remove();
 					_.each( data, function( value, key ) {
@@ -681,8 +685,8 @@ var	NexoCommandes			=	new function(){
 							if( Product_Promo_End_Obj.isAfter( Nexo_Server_Time, 'minutes' ) && Product_Promo_Start_Obj.isBefore( Nexo_Server_Time, 'minutes' ) ) {
 								PrixDeVente				=	parseInt( value.PRIX_PROMOTIONEL );
 								PrixRegulier			=	parseInt( value.PRIX_DE_VENTE );
-								RegularPrice			=	'<small><strike><?php echo addslashes( $this->Nexo_Misc->display_currency( 'before' ) );?> ' + 
-								NexoAPI.Format( parseInt( value.PRIX_DE_VENTE ) )  + ' <?php echo addslashes( $this->Nexo_Misc->display_currency( 'after' ) );?></strike></small>';
+								RegularPrice			=	'<small><strike><?php echo addslashes($this->Nexo_Misc->display_currency('before'));?> ' + 
+								NexoAPI.Format( parseInt( value.PRIX_DE_VENTE ) )  + ' <?php echo addslashes($this->Nexo_Misc->display_currency('after'));?></strike></small>';
 							}
 						}
 						
@@ -696,17 +700,17 @@ var	NexoCommandes			=	new function(){
 							// '<div class="thumbnail">'+
 							  '<img src="<?php echo upload_url();?>' + value.APERCU + '" style="max-height:120px;width:100%">'+
 							  '<div class="caption" style="padding:2px;">'+
-								'<strong>' + value.DESIGN + '</strong><br><span><?php echo addslashes( $this->Nexo_Misc->display_currency( 'before' ) );?>' + 
-								NexoAPI.Format( PrixDeVente )  + ' <?php echo addslashes( $this->Nexo_Misc->display_currency( 'after' ) );?></span>' + RegularPrice + '<br><br>'+
+								'<strong>' + value.DESIGN + '</strong><br><span><?php echo addslashes($this->Nexo_Misc->display_currency('before'));?>' + 
+								NexoAPI.Format( PrixDeVente )  + ' <?php echo addslashes($this->Nexo_Misc->display_currency('after'));?></span>' + RegularPrice + '<br><br>'+
 								'<div class="btn-group btn-group-justified" role="group" aria-label="...">' +
 									'<div class="btn-group">'+
 										'<button class="btn btn-primary btn-sm filter-add-product" data-codebar="' + value.CODEBAR + '">'+
-											'<?php _e( 'Ajouter', 'nexo' );?>'+
+											'<?php _e('Ajouter', 'nexo');?>'+
 										'</button> '+
 									'</div>'+
 									'<div class="btn-group">'+
-										'<a href="<?php echo site_url( array( 'dashboard', 'nexo', 'produits', 'list', 'edit' ) );?>/' + value.ID + '" class="btn btn-default btn-sm filter-product-details" data-codebar="' + value.CODEBAR + '">'+
-											'<?php _e( 'Détails', 'nexo' );?>'+
+										'<a href="<?php echo site_url(array( 'dashboard', 'nexo', 'produits', 'list', 'edit' ));?>/' + value.ID + '" class="btn btn-default btn-sm filter-product-details" data-codebar="' + value.CODEBAR + '">'+
+											'<?php _e('Détails', 'nexo');?>'+
 										'</a> '+
 									'</div>'+
 								'</div>'+
@@ -758,7 +762,7 @@ var	NexoCommandes			=	new function(){
 					return customserFieldValidation;
 				}				
 				
-				$.ajax( '<?php echo site_url( array( 'nexo', 'customer' ) );?>', {
+				$.ajax( '<?php echo site_url(array( 'nexo', 'customer' ));?>', {
 					type:	"POST",
 					data: 	content,
 					dataType: "json",
@@ -766,11 +770,11 @@ var	NexoCommandes			=	new function(){
 						if( data.status == 'success' ) {
 							// Notice
 							tendoo.notify.success( 
-								'<?php echo addslashes( __( 'Le client a été correctement crée', 'nexo' ) );?>',
-								'<?php echo addslashes( __( 'Un nouveau client a été ajouté à la base de données', 'nexo' ) );?>'
+								'<?php echo addslashes(__('Le client a été correctement crée', 'nexo'));?>',
+								'<?php echo addslashes(__('Un nouveau client a été ajouté à la base de données', 'nexo'));?>'
 							);
 							//  Refresh Client List
-							$.ajax( '<?php echo site_url( array( 'nexo', 'customer' ) );?>', {
+							$.ajax( '<?php echo site_url(array( 'nexo', 'customer' ));?>', {
 								success : function( clients ) {
 									$( '#field-REF_CLIENT' ).html('');
 									_.each( clients, function( value, key ) {
@@ -781,7 +785,7 @@ var	NexoCommandes			=	new function(){
 								dataType : 'json'
 							});
 						} else {
-							bootbox.alert( '<?php echo addslashes( __( 'Une erreur s\'est produite durant la création du client', 'nexo' ) );?>' );
+							bootbox.alert( '<?php echo addslashes(__('Une erreur s\'est produite durant la création du client', 'nexo'));?>' );
 						}
 					}
 				});
@@ -805,13 +809,13 @@ $(document).ready(function(e) {
 		return '<div class="input-group input-group">' +
 			'<span class="input-group-btn">' +
 				'<button class="btn btn-primary " type="button" id="fetch_codebar" >' +
-					'<?php _e( 'Afficher La Liste','nexo' );?>' +
+					'<?php _e('Afficher La Liste', 'nexo');?>' +
 				'</button>' +
 			'</span>' +
-			'<input type="text" class="form-control" placeholder="<?php echo addslashes( __( 'Code de l\'article', 'nexo' ) );?>" aria-describedby="basic-addon1" id="codebar_field">' +
+			'<input type="text" class="form-control" placeholder="<?php echo addslashes(__('Code de l\'article', 'nexo'));?>" aria-describedby="basic-addon1" id="codebar_field">' +
 			'<span class="input-group-btn">' +
 				'<button class="btn btn-primary " type="button" id="submit_codebar_code" >' +
-					'<?php echo addslashes( __( 'Ajouter','nexo' ) );?>' +
+					'<?php echo addslashes(__('Ajouter', 'nexo'));?>' +
 				'</button>' +
 			'</span>' +
 		'</div>' + dom;
@@ -819,7 +823,7 @@ $(document).ready(function(e) {
 	
     $('#codebar-wrapper').html(	NexoAPI.events.applyFilters( 'nexo_checkout_codebar_wrapper', '' )	);
 	
-	$( '#REF_CLIENT_field_box' ).append( '<button class="nexo_add_client btn btn-sm btn-primary" type="button" style="margin-top:10px;">' + '<?php echo addslashes( __( 'Enregistrer un nouveau client', 'nexo' ) );?>' + '</button>' );
+	$( '#REF_CLIENT_field_box' ).append( '<button class="nexo_add_client btn btn-sm btn-primary" type="button" style="margin-top:10px;">' + '<?php echo addslashes(__('Enregistrer un nouveau client', 'nexo'));?>' + '</button>' );
 	
 	$( '.nexo_add_client' ).bind( 'click', function(){
 		NexoCommandes.CreateNewClientPopup();
@@ -859,7 +863,7 @@ $(document).ready(function(e) {
 	$('#checkout').bind( 'click', function(){
 		// Get current Cart State
 		var CartState		=	$( '#cart-price-list' );
-		bootbox.confirm( '<h3 class="text-center"><?php echo _e( 'Souhaitez-vous confirmer cette commande ?', 'nexo' );?></h3>' + $( CartState )[0].outerHTML, function( action ){
+		bootbox.confirm( '<h3 class="text-center"><?php echo _e('Souhaitez-vous confirmer cette commande ?', 'nexo');?></h3>' + $( CartState )[0].outerHTML, function( action ){
 			if( action ) { // Si la confirm box est acceptée.
 				NexoCommandes.SubmitOrder();
 			}
@@ -882,17 +886,18 @@ $(document).ready(function(e) {
 	**/
 
 	<?php
-	global $Options;
-	if( @$Options[ 'discount_type' ] != 'disable' ) {
-	?>
+    global $Options;
+    if (@$Options[ 'discount_type' ] != 'disable') {
+        ?>
 
 	$('[name="REF_CLIENT"]').bind( 'change', function(){
 		NexoCommandes.CheckIfDiscountIsEnabled( $(this).val() );
 	});
 
 	<?php
-	}
-	?>
+
+    }
+    ?>
 
 	/**
 	 * Fin gestion des réductions automatiques
@@ -941,7 +946,7 @@ $(document).ready(function(e) {
 	
 	$(window).on("beforeunload", function() { 
 		if( ( inFormOrLink && NexoCommandes.HasProducts() && NexoCommandes.RequireConfirm ) || ( NexoCommandes.HasProducts() && NexoCommandes.RequireConfirm ) ) {
-			return "<?php echo addslashes( __( 'Le processus de commande à commencé. Si vous continuez, vous perdrez toutes les informations non enregistrées', 'nexo' ) );?>";
+			return "<?php echo addslashes(__('Le processus de commande à commencé. Si vous continuez, vous perdrez toutes les informations non enregistrées', 'nexo'));?>";
 		}
 	})
 	
@@ -978,7 +983,7 @@ $(document).ready(function(e) {
 		
 		if( action ) {
 			if( customer_name.length == 0 ) {					
-				bootbox.alert( '<?php echo addslashes( __( 'Vous devez fournir un nom pour le nouveau client', 'nexo' ) );?>' );
+				bootbox.alert( '<?php echo addslashes(__('Vous devez fournir un nom pour le nouveau client', 'nexo'));?>' );
 				return false;
 			}
 		}
@@ -987,14 +992,14 @@ $(document).ready(function(e) {
 	
 	// Load groups
 	
-	$.ajax( '<?php echo site_url( array( 'nexo', 'customers_groups' ) );?>', {
+	$.ajax( '<?php echo site_url(array( 'nexo', 'customers_groups' ));?>', {
 		success		:	function( groups ) {
 			NexoAPI.events.addFilter( 'nexo_customer_dom_popup', function( value ) {
 				var dom				=	$.parseHTML( value );
 				var selectGroups	=	'<select name="customer_group_id" class="form-control">';
 				var selectDom		=	'';
 				
-				selectGroups +=	'<option value=""><?php echo addslashes( __( 'Veuillez choisir un groupe', 'nexo' ) );?></option>';
+				selectGroups +=	'<option value=""><?php echo addslashes(__('Veuillez choisir un groupe', 'nexo'));?></option>';
 				
 				_.each( groups, function( group, group_key ) {
 					selectGroups +=	'<option value="' + group.ID + '">' + group.NAME + '</option>';
@@ -1004,7 +1009,7 @@ $(document).ready(function(e) {
 				
 				selectDom			=	'<div class="form-group">'+
 					'<div class="input-group">' +
-					  '<span class="input-group-addon" id="basic-addon1"><?php echo addslashes( __( 'Affecter à un groupe', 'nexo' ) );?></span>'+
+					  '<span class="input-group-addon" id="basic-addon1"><?php echo addslashes(__('Affecter à un groupe', 'nexo'));?></span>'+
 					  selectGroups +
 					'</div>'+
 				'</div>';
@@ -1023,7 +1028,7 @@ $(document).ready(function(e) {
 	NexoAPI.events.addFilter( 'check_customer_fields', function( action ) {
 		if( action ) {
 			if( $( '#NewClientPopup' ).find( '[name="customer_group_id"]' ).val().length == 0 ) {					
-				bootbox.alert( '<?php echo addslashes( __( 'Vous devez affecter le client à un groupe', 'nexo' ) );?>' );
+				bootbox.alert( '<?php echo addslashes(__('Vous devez affecter le client à un groupe', 'nexo'));?>' );
 				return false;
 			}
 		}
@@ -1035,7 +1040,7 @@ $(document).ready(function(e) {
 	$( '#field_PAYMENT_TYPE_chosen' ).width( '100%' );
 	
 	// Show
-	<?php if( ! $NexoEditScreen ):?>
+	<?php if (! $NexoEditScreen):?>
 	// Disable when on edit screen, since this one already have his own system.
 	$( '.content-wrapper .content' ).eq(0).css({
 		'display' : 'inherit'
@@ -1051,4 +1056,4 @@ $(document).ready(function(e) {
 </script>
 
 <!-- Trigger Nexo Checkout Footer -->
-<?php $this->events->do_action( 'nexo_checkout_footer' );?>
+<?php $this->events->do_action('nexo_checkout_footer');?>

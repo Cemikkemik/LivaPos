@@ -1,68 +1,68 @@
 <?php
 class Nexo_Install extends CI_Model
 {
-	function __construct()
-	{
-		parent::__construct();
-		$this->events->add_action( 'do_enable_module', array( $this, 'enable' ) );
-		$this->events->add_action( 'do_remove_module', array( $this, 'uninstall' ) );
-		$this->events->add_action( 'tendoo_settings_tables', array( $this, 'install_tables' ) );
-		$this->events->add_action( 'tendoo_settings_final_config', array( $this, 'final_config' ) );
-	}
-	function enable( $namespace )
-	{
-		if( $namespace === 'nexo' && $this->options->get( 'nexo_installed' ) == NULL ) {
-			// Install Tables
-			$this->install_tables();
-			$this->final_config();
-		}
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->events->add_action('do_enable_module', array( $this, 'enable' ));
+        $this->events->add_action('do_remove_module', array( $this, 'uninstall' ));
+        $this->events->add_action('tendoo_settings_tables', array( $this, 'install_tables' ));
+        $this->events->add_action('tendoo_settings_final_config', array( $this, 'final_config' ));
+    }
+    public function enable($namespace)
+    {
+        if ($namespace === 'nexo' && $this->options->get('nexo_installed') == null) {
+            // Install Tables
+            $this->install_tables();
+            $this->final_config();
+        }
+    }
 
-	/**
-	 * Final Config
-	 *
-	 * @return void
-	**/
+    /**
+     * Final Config
+     *
+     * @return void
+    **/
 
-	function final_config()
-	{
-		$this->load->model( 'Nexo_Checkout' );
-		$this->Nexo_Checkout->create_permissions();
+    public function final_config()
+    {
+        $this->load->model('Nexo_Checkout');
+        $this->Nexo_Checkout->create_permissions();
 
-		// Defaut options
-		$this->options->set( 'nexo_installed', true, true );
-		$this->options->set( 'nexo_display_select_client', 'enable', true );
-		$this->options->set( 'nexo_display_payment_means', 'enable', true );
-		$this->options->set( 'nexo_display_amount_received', 'enable', true );
-		$this->options->set( 'nexo_display_discount', 'enable', true );
-		$this->options->set( 'nexo_currency_position', 'before', true );
-		$this->options->set( 'nexo_receipt_theme', 'default', true );
-		$this->options->set( 'nexo_enable_autoprinting', 'no', true );
-		$this->options->set( 'nexo_devis_expiration', 7, true );
-		$this->options->set( 'nexo_shop_street', 'Cameroon, Yaoundé Ngousso Av.', true );
-		$this->options->set( 'nexo_shop_pobox', '45 Edéa Cameroon', true );
-		$this->options->set( 'nexo_shop_email', 'carlosjohnsonluv2004@gmail.com', true );
-		$this->options->set( 'how_many_before_discount', 0, true );
-		$this->options->set( 'nexo_products_labels', 5, true );
-		$this->options->set( 'nexo_codebar_height', 100, true );
-		$this->options->set( 'nexo_bar_width', 3, true );
-		$this->options->set( 'nexo_soundfx', 'enable', true );
-		$this->options->set( 'nexo_currency', '$', true );
-	}
+        // Defaut options
+        $this->options->set('nexo_installed', true, true);
+        $this->options->set('nexo_display_select_client', 'enable', true);
+        $this->options->set('nexo_display_payment_means', 'enable', true);
+        $this->options->set('nexo_display_amount_received', 'enable', true);
+        $this->options->set('nexo_display_discount', 'enable', true);
+        $this->options->set('nexo_currency_position', 'before', true);
+        $this->options->set('nexo_receipt_theme', 'default', true);
+        $this->options->set('nexo_enable_autoprinting', 'no', true);
+        $this->options->set('nexo_devis_expiration', 7, true);
+        $this->options->set('nexo_shop_street', 'Cameroon, Yaoundé Ngousso Av.', true);
+        $this->options->set('nexo_shop_pobox', '45 Edéa Cameroon', true);
+        $this->options->set('nexo_shop_email', 'carlosjohnsonluv2004@gmail.com', true);
+        $this->options->set('how_many_before_discount', 0, true);
+        $this->options->set('nexo_products_labels', 5, true);
+        $this->options->set('nexo_codebar_height', 100, true);
+        $this->options->set('nexo_bar_width', 3, true);
+        $this->options->set('nexo_soundfx', 'enable', true);
+        $this->options->set('nexo_currency', '$', true);
+    }
 
-	/**
-	 * Install tables
-	 *
-	 * @return void
-	**/
+    /**
+     * Install tables
+     *
+     * @return void
+    **/
 
-	function install_tables()
-	{
-		// let's set this module active
-		Modules::enable( 'grocerycrud' );
-		Modules::enable( 'nexo' );
+    public function install_tables()
+    {
+        // let's set this module active
+        Modules::enable('grocerycrud');
+        Modules::enable('nexo');
 
-		$this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_clients` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_clients` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `NOM` varchar(200) NOT NULL,
 		  `PRENOM` varchar(200) NOT NULL,
@@ -79,9 +79,9 @@ class Nexo_Install extends CI_Model
 		  `DISCOUNT_ACTIVE` int NOT NULL,
 			`REF_GROUP` int NOT NULL,
 		  PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;' );
+		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-		$this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_clients_groups` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_clients_groups` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `NAME` varchar(200) NOT NULL,
 		  `DESCRIPTION` text NOT NULL,
@@ -89,42 +89,42 @@ class Nexo_Install extends CI_Model
 		  `DATE_MODIFICATION` datetime NOT NULL,
 		  `AUTHOR` int(11) NOT NULL,
 		  PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;' );
+		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-		$this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_paiements` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_paiements` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `DESIGN` varchar(200) NOT NULL,
 		  `DESCRIPTION` text NOT NULL,
 		  PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;' );
+		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-		$this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_types_de_commandes` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_types_de_commandes` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `DESIGN` varchar(200) NOT NULL,
 		  `DESCRIPTION` text NOT NULL,
 		  PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;' );
+		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-		// Bon d'voir @since 2.1
-		/** 
-		$this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_bon_davoir` (
-		  `ID` int(11) NOT NULL AUTO_INCREMENT,
-		  `RAISON` varchar(200) NOT NULL,
-		  `DESCRIPTION` text NOT NULL,
-		  `TYPE` varchar(200) NOT NULL,
-		  `COMMANDE_REF_ID` int(11) NOT NULL,
-		  `MONTANT` int(11) NOT NULL,
-		  `ARTICLE_CODEBAR` int(11) NOT NULL,
-		  `DATE_CREATION` datetime NOT NULL,
-		   `DATE_MOD` datetime NOT NULL,
-		  `AUTHOR` int(11) NOT NULL,
-		  `REF_CLIENT` int(11) NOT NULL,
-		  `REF_PRODUCT_CODEBAR` varchar(200) NOT NULL,
-		  PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;' );
-		**/
+        // Bon d'voir @since 2.1
+        /** 
+        $this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_bon_davoir` (
+          `ID` int(11) NOT NULL AUTO_INCREMENT,
+          `RAISON` varchar(200) NOT NULL,
+          `DESCRIPTION` text NOT NULL,
+          `TYPE` varchar(200) NOT NULL,
+          `COMMANDE_REF_ID` int(11) NOT NULL,
+          `MONTANT` int(11) NOT NULL,
+          `ARTICLE_CODEBAR` int(11) NOT NULL,
+          `DATE_CREATION` datetime NOT NULL,
+           `DATE_MOD` datetime NOT NULL,
+          `AUTHOR` int(11) NOT NULL,
+          `REF_CLIENT` int(11) NOT NULL,
+          `REF_PRODUCT_CODEBAR` varchar(200) NOT NULL,
+          PRIMARY KEY (`ID`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;' );
+        **/
 
-		$this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_commandes` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_commandes` (
 		  `ID` int(50) NOT NULL AUTO_INCREMENT,
 		  `TITRE` varchar(200) NOT NULL,
 		  `DESCRIPTION` varchar(200) NOT NULL,
@@ -145,7 +145,7 @@ class Nexo_Install extends CI_Model
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-		$this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_commandes_produits` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_commandes_produits` (
 		  `ID` int(50) NOT NULL AUTO_INCREMENT,
 		  `REF_PRODUCT_CODEBAR` varchar(250) NOT NULL,
 		  `REF_COMMAND_CODE` varchar(250) NOT NULL,
@@ -155,15 +155,15 @@ class Nexo_Install extends CI_Model
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-		// Articles tables
-		// 			  `REF_CODE` INT NOT NULL,
-		/*
-			  `ACTIVER_PROMOTION` BOOLEAN NOT NULL,
-			  `DEBUT_PROMOTION` DATETIME NOT NULL,
-			  `FIN_PROMOTION` DATETIME NOT NULL,
-		*/
+        // Articles tables
+        // 			  `REF_CODE` INT NOT NULL,
+        /*
+              `ACTIVER_PROMOTION` BOOLEAN NOT NULL,
+              `DEBUT_PROMOTION` DATETIME NOT NULL,
+              `FIN_PROMOTION` DATETIME NOT NULL,
+        */
 
-		$this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_articles` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_articles` (
 		  `ID` int(50) NOT NULL AUTO_INCREMENT,
 		  `DESIGN` varchar(200) NOT NULL,
 		  `REF_RAYON` INT NOT NULL,
@@ -196,9 +196,9 @@ class Nexo_Install extends CI_Model
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-		// Catégories d'articles
+        // Catégories d'articles
 
-		$this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_categories` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_categories` (
 		  `ID` int(50) NOT NULL AUTO_INCREMENT,
 		  `NOM` varchar(200) NOT NULL,
 		  `DESCRIPTION` text NOT NULL,
@@ -209,9 +209,9 @@ class Nexo_Install extends CI_Model
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-		// Fournisseurs table
+        // Fournisseurs table
 
-		$this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_fournisseurs` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_fournisseurs` (
 		  `ID` int(50) NOT NULL AUTO_INCREMENT,
 		  `NOM` varchar(200) NOT NULL,
 		  `BP` varchar(200) NOT NULL,
@@ -224,9 +224,9 @@ class Nexo_Install extends CI_Model
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-		// Log Modification
+        // Log Modification
 
-		$this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_historique` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_historique` (
 		  `ID` int(50) NOT NULL AUTO_INCREMENT,
 		  `TITRE` varchar(200) NOT NULL,
 		  `DETAILS` text NOT NULL,
@@ -235,9 +235,9 @@ class Nexo_Install extends CI_Model
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-		// Arrivage
+        // Arrivage
 
-		$this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_arrivages` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_arrivages` (
 		  `ID` int(50) NOT NULL AUTO_INCREMENT,
 		  `TITRE` varchar(200) NOT NULL,
 		  `DESCRIPTION` text NOT NULL,
@@ -248,7 +248,7 @@ class Nexo_Install extends CI_Model
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-		$this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_rayons` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_rayons` (
 		  `ID` int(50) NOT NULL AUTO_INCREMENT,
 		  `TITRE` varchar(200) NOT NULL,
 		  `DESCRIPTION` text NOT NULL,
@@ -257,42 +257,42 @@ class Nexo_Install extends CI_Model
 		  `AUTHOR` int(50) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
-	}
+    }
 
-	/**
-	 * unistall Nexo
-	 *
-	 * @return void
-	**/
+    /**
+     * unistall Nexo
+     *
+     * @return void
+    **/
 
-	function uninstall( $namespace )
-	{
-		// retrait des tables Nexo
-		if( $namespace === 'nexo' ) {
-			// $this->db->query( 'DROP TABLE IF EXISTS `'.$this->db->dbprefix.'bon_davoir`;' );
-			$this->db->query( 'DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_commandes`;' );
-			$this->db->query( 'DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_commandes_produits`;' );
-			$this->db->query( 'DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_articles`;' );
+    public function uninstall($namespace)
+    {
+        // retrait des tables Nexo
+        if ($namespace === 'nexo') {
+            // $this->db->query( 'DROP TABLE IF EXISTS `'.$this->db->dbprefix.'bon_davoir`;' );
+            $this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_commandes`;');
+            $this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_commandes_produits`;');
+            $this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_articles`;');
 
-			$this->db->query( 'DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_categories`;' );
-			$this->db->query( 'DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_fournisseurs`;' );
-			$this->db->query( 'DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_historique`;' );
-			$this->db->query( 'DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_arrivages`;' );
+            $this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_categories`;');
+            $this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_fournisseurs`;');
+            $this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_historique`;');
+            $this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_arrivages`;');
 
-			$this->db->query( 'DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_rayons`;' );
-			$this->db->query( 'DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_clients`;' );
-			$this->db->query( 'DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_paiements`;' );
+            $this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_rayons`;');
+            $this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_clients`;');
+            $this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_paiements`;');
 
-			$this->options->delete( 'nexo_installed' );
-			$this->options->delete( 'nexo_saved_barcode' );
-			$this->options->delete( 'order_code' );
-			$this->options->delete( 'nexo_order_advance' );
-			$this->options->delete( 'nexo_order_comptant' );
-			$this->options->delete( 'nexo_order_devis' );
+            $this->options->delete('nexo_installed');
+            $this->options->delete('nexo_saved_barcode');
+            $this->options->delete('order_code');
+            $this->options->delete('nexo_order_advance');
+            $this->options->delete('nexo_order_comptant');
+            $this->options->delete('nexo_order_devis');
 
-			$this->load->model( 'Nexo_Checkout' );
-			$this->Nexo_Checkout->delete_permissions();
-		}
-	}
+            $this->load->model('Nexo_Checkout');
+            $this->Nexo_Checkout->delete_permissions();
+        }
+    }
 }
 new Nexo_Install;

@@ -1,22 +1,22 @@
 <form class="form-inline">
     <div class='input-group date' id='datetimepicker6'>
-    	<span class="input-group-addon"><?php _e( 'Date de départ', 'nexo_premium' );?></span>
+    	<span class="input-group-addon"><?php _e('Date de départ', 'nexo_premium');?></span>
         <input type='text' class="form-control" name="start" value="<?php echo $start_date;?>" />
         <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span> 
 	</div>
     <div class='input-group date' id='datetimepicker7'>
-    	<span class="input-group-addon"><?php _e( 'Date de fin', 'nexo_premium' );?></span>
+    	<span class="input-group-addon"><?php _e('Date de fin', 'nexo_premium');?></span>
         <input type='text' class="form-control" name="end" value="<?php echo $end_date;?>" />
         <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span> 
 	</div>
-    <input type="button" class="btn btn-primary trigger_fetch" value="<?php _e( 'Afficher les résultats', 'nexo_premium' );?>" />
+    <input type="button" class="btn btn-primary trigger_fetch" value="<?php _e('Afficher les résultats', 'nexo_premium');?>" />
     <div class="input-group">
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button"><?php _e( 'Filter par', 'nexo_premium' );?></button>
+        <button class="btn btn-default" type="button"><?php _e('Filter par', 'nexo_premium');?></button>
       </span>
       <select type="text" class="form-control" name="filtre">
-      	<option value="by_sales"><?php _e( 'quantité', 'nexo_premium' );?></option>
-        <option value="by_cash"><?php _e( 'par chiffre d\'affaire', 'nexo_premium' );?></option>
+      	<option value="by_sales"><?php _e('quantité', 'nexo_premium');?></option>
+        <option value="by_cash"><?php _e('par chiffre d\'affaire', 'nexo_premium');?></option>
       </select>
     </div>
 </form>
@@ -24,10 +24,10 @@
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
       <li class="active">
-      	<a href="#item_tab" data-toggle="tab" aria-expanded="true" data-url="<?php echo site_url( array( 'nexo_premium', 'best_items' ) );?>"><?php _e( 'Produits', 'nexo_premium' );?></a>
+      	<a href="#item_tab" data-toggle="tab" aria-expanded="true" data-url="<?php echo site_url(array( 'nexo_premium', 'best_items' ));?>"><?php _e('Produits', 'nexo_premium');?></a>
 		</li>
-      <li class=""><a href="#categories_tab" data-toggle="tab" aria-expanded="false" data-url="<?php echo site_url( array( 'nexo_premium', 'best_categories' ) );?>"><?php _e( 'Catégories', 'nexo_premium' );?></a></li>
-      <li class=""><a href="#shippings_tab" data-toggle="tab" aria-expanded="false" data-url="<?php echo site_url( array( 'nexo_premium', 'best_shippings' ) );?>"><?php _e( 'Livraisons', 'nexo_premium' );?></a></li>
+      <li class=""><a href="#categories_tab" data-toggle="tab" aria-expanded="false" data-url="<?php echo site_url(array( 'nexo_premium', 'best_categories' ));?>"><?php _e('Catégories', 'nexo_premium');?></a></li>
+      <li class=""><a href="#shippings_tab" data-toggle="tab" aria-expanded="false" data-url="<?php echo site_url(array( 'nexo_premium', 'best_shippings' ));?>"><?php _e('Livraisons', 'nexo_premium');?></a></li>
     </ul>
     <div class="tab-content">
       <div class="tab-pane active" id="item_tab">
@@ -48,7 +48,7 @@ var Nexo_Best_Of		=	new function(){
 				
 		$.ajax( this.last_url, {
 			beforeSend	:	function() {
-				$( output_wrapper ).html( '<h3 style="margin:10px 0px" class="text-center"><?php echo addslashes( __( 'Chargement...', 'nexo_premium' ) );?></h3>' );
+				$( output_wrapper ).html( '<h3 style="margin:10px 0px" class="text-center"><?php echo addslashes(__('Chargement...', 'nexo_premium'));?></h3>' );
 			},
 			success		:	function( content ){
 				Nexo_Best_Of.DisplayChart( content, output_wrapper, filtre );
@@ -56,7 +56,7 @@ var Nexo_Best_Of		=	new function(){
 			type		: 'POST',
 			data		:	_.object( [ 'start', 'end' ], [ $( '[name=start]' ).val(), $( '[name=end]' ).val() ] ),
 			error		: function() {
-				$( output_wrapper ).html( '<h3 style="margin:10px 0px" class="text-center"><?php echo addslashes( __( 'Une erreur s\'est produite durant le chargement ! Veuillez recommencer', 'nexo_premium' ) );?></h3>' ); 
+				$( output_wrapper ).html( '<h3 style="margin:10px 0px" class="text-center"><?php echo addslashes(__('Une erreur s\'est produite durant le chargement ! Veuillez recommencer', 'nexo_premium'));?></h3>' ); 
 			}
 		});
 	}

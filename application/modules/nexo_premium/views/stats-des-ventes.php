@@ -1,45 +1,45 @@
 <?php
-! defined( 'APPPATH' ) ? die() : NULL;
+! defined('APPPATH') ? die() : null;
 
 global $Options;
 
-$this->Gui->col_width( 1, 4 );
+$this->Gui->col_width(1, 4);
 
-$this->Gui->add_meta( array(
-	'namespace'		=>	'stats_ventes',
-	'type'			=>	'unwrapped'
-) );
+$this->Gui->add_meta(array(
+    'namespace'        =>    'stats_ventes',
+    'type'            =>    'unwrapped'
+));
 
-$this->events->add_filter( 'gui_page_title' , function( $title ){
-	return '<section class="content-header"><h1>' . strip_tags( $title ) . ' <span class="pull-right"><a class="btn btn-primary btn-sm" href="' . current_url() . '?refresh=true">' . __( 'Vider le cache', 'nexo' ) . '</a> <a class="btn btn-default btn-sm" href="javascript:void(0)" print-item="#nexo-global-wrapper">' . __( 'Imprimer', 'nexo' ) . '</a></span></h1></section>';
+$this->events->add_filter('gui_page_title', function ($title) {
+    return '<section class="content-header"><h1>' . strip_tags($title) . ' <span class="pull-right"><a class="btn btn-primary btn-sm" href="' . current_url() . '?refresh=true">' . __('Vider le cache', 'nexo') . '</a> <a class="btn btn-default btn-sm" href="javascript:void(0)" print-item="#nexo-global-wrapper">' . __('Imprimer', 'nexo') . '</a></span></h1></section>';
 });
 
-$this->events->add_action( 'dashboard_header', function() { ?>
-<script type="text/javascript" src="<?php echo module_url( 'nexo' );?>/bower_components/moment/min/moment.min.js"></script>
-<script type="text/javascript" src="<?php echo module_url( 'nexo' );?>/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-<script type="text/javascript" src="<?php echo module_url( 'nexo' );?>/bower_components/underscore/underscore-min.js"></script>
-<link rel="stylesheet" href="<?php echo module_url( 'nexo' );?>/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+$this->events->add_action('dashboard_header', function () { ?>
+<script type="text/javascript" src="<?php echo module_url('nexo');?>/bower_components/moment/min/moment.min.js"></script>
+<script type="text/javascript" src="<?php echo module_url('nexo');?>/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="<?php echo module_url('nexo');?>/bower_components/underscore/underscore-min.js"></script>
+<link rel="stylesheet" href="<?php echo module_url('nexo');?>/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
 <?php 
 });
 
-if( $Cache->get( $report_slug ) == false || @$_GET[ 'refresh' ] == 'true' ) {
-	// Start OB
-	ob_start();		
-	
-	$Months		=	array( 
-		__( 'Janvier', 'nexo_premium' ),
-		__( 'Février', 'nexo_premium' ),
-		__( 'Mars', 'nexo_premium' ),
-		__( 'Avril', 'nexo_premium' ),
-		__( 'Mai', 'nexo_premium' ),
-		__( 'Juin', 'nexo_premium' ),
-		__( 'Juillet', 'nexo_premium' ),
-		__( 'Aout', 'nexo_premium' ),
-		__( 'Septembre', 'nexo_premium' ),
-		__( 'Octobre', 'nexo_premium' ),
-		__( 'Novembre', 'nexo_premium' ),
-		__( 'Decembre', 'nexo_premium' )
-	);
+if ($Cache->get($report_slug) == false || @$_GET[ 'refresh' ] == 'true') {
+    // Start OB
+    ob_start();
+    
+    $Months        =    array(
+        __('Janvier', 'nexo_premium'),
+        __('Février', 'nexo_premium'),
+        __('Mars', 'nexo_premium'),
+        __('Avril', 'nexo_premium'),
+        __('Mai', 'nexo_premium'),
+        __('Juin', 'nexo_premium'),
+        __('Juillet', 'nexo_premium'),
+        __('Aout', 'nexo_premium'),
+        __('Septembre', 'nexo_premium'),
+        __('Octobre', 'nexo_premium'),
+        __('Novembre', 'nexo_premium'),
+        __('Decembre', 'nexo_premium')
+    );
 
 /**
  * Daily Advanced Report
@@ -49,13 +49,17 @@ if( $Cache->get( $report_slug ) == false || @$_GET[ 'refresh' ] == 'true' ) {
 ?>
 <form class="form-inline circonstrire">
   <div class="form-group">
-    <label class="sr-only" for="report_date"><?php _e( 'Spécifier une date', 'nexo_premium' );?></label>
+    <label class="sr-only" for="report_date"><?php _e('Spécifier une date', 'nexo_premium');
+    ?></label>
     <div class="input-group">
-      <div class="input-group-addon"><?php _e( 'Spécifier une date', 'nexo_premium' );?></div>
-      <input type="text" class="form-control" id="report_date" placeholder="<?php echo sprintf( __( 'Exemple : %s', 'nexo_premium' ), $CarbonReportDate->formatLocalized('%Y') );?>">
+      <div class="input-group-addon"><?php _e('Spécifier une date', 'nexo_premium');
+    ?></div>
+      <input type="text" class="form-control" id="report_date" placeholder="<?php echo sprintf(__('Exemple : %s', 'nexo_premium'), $CarbonReportDate->formatLocalized('%Y'));
+    ?>">
     </div>
   </div>
-  <button type="submit" class="btn btn-primary circonstrire"><?php _e( 'Afficher le rapport', 'nexo_premium' );?></button>
+  <button type="submit" class="btn btn-primary circonstrire"><?php _e('Afficher le rapport', 'nexo_premium');
+    ?></button>
 </form>
 <br />
 <script type="text/javascript">
@@ -65,9 +69,11 @@ if( $Cache->get( $report_slug ) == false || @$_GET[ 'refresh' ] == 'true' ) {
 $( document ).ready(function(e) {
     $( '.circonstrire' ).bind( 'submit', function() {
 		if( $( '#report_date' ).val() != '' ) {
-			document.location =	'<?php echo site_url( array( 'dashboard', 'nexo_premium', 'Controller_Stats_Des_Ventes' ) );?>/' + $( '#report_date' ).val();
+			document.location =	'<?php echo site_url(array( 'dashboard', 'nexo_premium', 'Controller_Stats_Des_Ventes' ));
+    ?>/' + $( '#report_date' ).val();
 		} else {
-			bootbox.alert( '<?php _e( 'Vous devez spécifier une date', 'nexo_premium' );?>' );
+			bootbox.alert( '<?php _e('Vous devez spécifier une date', 'nexo_premium');
+    ?>' );
 		}
 		return false;
 	});
@@ -75,66 +81,81 @@ $( document ).ready(function(e) {
 </script>
 <div id="nexo-global-wrapper">
   <div class="well well-sm">
-    <h2 class="text-center"><?php echo @$Options[ 'site_name' ] ? $Options[ 'site_name' ] : __( 'Nom indisponible', 'nexo' );?></h2>
-    <h4 class="text-center"><?php echo sprintf( 
-            __( 'Statistiques des ventes <br> pour %s', 'nexo' ), 
+    <h2 class="text-center"><?php echo @$Options[ 'site_name' ] ? $Options[ 'site_name' ] : __('Nom indisponible', 'nexo');
+    ?></h2>
+    <h4 class="text-center"><?php echo sprintf(
+            __('Statistiques des ventes <br> pour %s', 'nexo'),
             $CarbonReportDate->formatLocalized('%Y')
-        );?></h4>
+        );
+    ?></h4>
     <?php
-        $by			=	sprintf( __( 'Document imprimé par : %s', 'nexo_premium' ), User::pseudo() );
-        ?>
-    <p class="text-center"><?php echo $this->events->apply_filters( 'nexo_stats_des_ventes_report', $by );?></p>
+        $by            =    sprintf(__('Document imprimé par : %s', 'nexo_premium'), User::pseudo());
+    ?>
+    <p class="text-center"><?php echo $this->events->apply_filters('nexo_stats_des_ventes_report', $by);
+    ?></p>
   </div>
-  <div class="hidden-print"> <?php echo tendoo_info( __( 'Aperçu mensuel de l\'etat des ventes d\'articles selon la hierarchie des catégories. Tous les montants affichés sont brut.', 'nexo_premium' ) );?> </div>
+  <div class="hidden-print"> <?php echo tendoo_info(__('Aperçu mensuel de l\'etat des ventes d\'articles selon la hierarchie des catégories. Tous les montants affichés sont brut.', 'nexo_premium'));
+    ?> </div>
   <table class="table table-bordered table-striped box">
     <thead>
       <tr id="table_name">
-        <td colspan="<?php echo count( $Months ) + 1 + intval( $Categories_Depth );?>"><?php _e( 'Statistique des ventes', 'nexo_premium' );?></td>
+        <td colspan="<?php echo count($Months) + 1 + intval($Categories_Depth);
+    ?>"><?php _e('Statistique des ventes', 'nexo_premium');
+    ?></td>
       </tr>
       <tr id="table-content">
         <?php
-		
-				// Counting Depth Length
-				for( $i = 1; $i <= intval( $Categories_Depth ); $i++ ) {
-					echo '<td width="100">' . sprintf( __( 'Level %s', 'nexo_premium' ), $i ) . '</td>';
-				}
-				
-                foreach( $Months as $Month ) {
-                    ?>
-        <td width="80" class="text-right"><?php echo $Month;?></td>
-        			<?php
+
+                // Counting Depth Length
+                for ($i = 1; $i <= intval($Categories_Depth); $i++) {
+                    echo '<td width="100">' . sprintf(__('Level %s', 'nexo_premium'), $i) . '</td>';
                 }
-                ?>
+                
+    foreach ($Months as $Month) {
+        ?>
+        <td width="80" class="text-right"><?php echo $Month;
+        ?></td>
+        			<?php
+
+    }
+    ?>
         <td width="100" class="text-right"><strong>
-          <?php _e( 'Total', 'nexo_premium' );?>
+          <?php _e('Total', 'nexo_premium');
+    ?>
           </strong></td>
       </tr>
     </thead>
     <tbody id="bodyContent">
       <?php
-		echo $this->Nexo_Misc->build_table( $Categories_Hierarchy, $Categories_Depth, 1, '', count( $Months ) + 1 );
-		?>
+        echo $this->Nexo_Misc->build_table($Categories_Hierarchy, $Categories_Depth, 1, '', count($Months) + 1);
+    ?>
       <tr class="success">
-        <?php for( $i = 0; $i < $Categories_Depth + count( $Months ) + 1; $i++ ):?>
-        <?php if( $i == 0 ):?>
+        <?php for ($i = 0; $i < $Categories_Depth + count($Months) + 1; $i++):?>
+        <?php if ($i == 0):?>
         <td><strong>
-          <?php _e( 'Total', 'nexo' );?>
+          <?php _e('Total', 'nexo');
+    ?>
           </strong></td>
         <?php else :?>
-        <?php if( $i < $Categories_Depth ):?>
+        <?php if ($i < $Categories_Depth):?>
         <td></td>
-        <?php elseif( ( $i - $Categories_Depth ) < count( $Months ) ) :?>
-        <td total-id="<?php echo $i - ( $Categories_Depth - 1 );?>" class="text-right"></td>
+        <?php elseif (($i - $Categories_Depth) < count($Months)) :?>
+        <td total-id="<?php echo $i - ($Categories_Depth - 1);
+    ?>" class="text-right"></td>
         <?php else:?>
         <td global-total class="text-right"></td>
-        <?php endif;?>
-        <?php endif;?>
-        <?php endfor;?>
+        <?php endif;
+    ?>
+        <?php endif;
+    ?>
+        <?php endfor;
+    ?>
       </tr>
     </tbody>
   </table>
   <hr />
-  <p><?php echo @$Options[ 'nexo_other_details' ];?></p>
+  <p><?php echo @$Options[ 'nexo_other_details' ];
+    ?></p>
   <br />
   <script type="text/javascript">
 	
@@ -142,15 +163,21 @@ $( document ).ready(function(e) {
 	
 	var NexoPremium_Sales_Statistics	=	new function(){
 		
-		this.CurrentDate				=	'<?php echo $CarbonReportDate->formatLocalized('%Y');?>';
+		this.CurrentDate				=	'<?php echo $CarbonReportDate->formatLocalized('%Y');
+    ?>';
 		this.LatestIds					=	new Array();
 		this.Index						=	0;
 		this.__TimeCalled				=	0;
-		this.Nexo_Order_Avance			=	'<?php echo $Options[ 'nexo_order_advance' ];?>'
-		this.Nexo_Order_Cash			=	'<?php echo $Options[ 'nexo_order_comptant' ];?>'
-		this.Nexo_Order_Devis			=	'<?php echo $Options[ 'nexo_order_devis' ];?>'
-		this.CurrencyBefore				=	'<?php echo $this->Nexo_Misc->display_currency( 'before' );?>';
-		this.CurrencyAfter				=	'<?php echo $this->Nexo_Misc->display_currency( 'after' );?>'; 
+		this.Nexo_Order_Avance			=	'<?php echo $Options[ 'nexo_order_advance' ];
+    ?>'
+		this.Nexo_Order_Cash			=	'<?php echo $Options[ 'nexo_order_comptant' ];
+    ?>'
+		this.Nexo_Order_Devis			=	'<?php echo $Options[ 'nexo_order_devis' ];
+    ?>'
+		this.CurrencyBefore				=	'<?php echo $this->Nexo_Misc->display_currency('before');
+    ?>';
+		this.CurrencyAfter				=	'<?php echo $this->Nexo_Misc->display_currency('after');
+    ?>'; 
 
 		
 		/**
@@ -197,7 +224,8 @@ $( document ).ready(function(e) {
 		this.__FillTableValue			=	function( depth ) {
 			if( this.Index < this.EntryLength ) {
 				// Looping IDS
-				$.ajax( '<?php echo site_url( array( 'nexo_premium', 'sales_stats' ) );?>' + '/' + this.CurrentDate, {
+				$.ajax( '<?php echo site_url(array( 'nexo_premium', 'sales_stats' ));
+    ?>' + '/' + this.CurrentDate, {
 					beforeSend	:	function(){
 						NexoPremium_Sales_Statistics.DisplayModal();
 					},
@@ -361,7 +389,8 @@ $( document ).ready(function(e) {
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel">
-            <?php _e( 'Chargement en cours...', 'nexo' );?>
+            <?php _e('Chargement en cours...', 'nexo');
+    ?>
           </h4>
         </div>
         <div class="modal-body">
@@ -375,18 +404,18 @@ $( document ).ready(function(e) {
   </div>
 </div>
 <?php
-	$Content	=	ob_get_clean();
+    $Content    =    ob_get_clean();
 }
 // Fetch cache if exists
-if( $Cache->get( $report_slug ) == false || @$_GET[ 'refresh' ] == 'true' ) {
-	$Cache->save( $report_slug, $Content, 999999999 ); // long time
+if ($Cache->get($report_slug) == false || @$_GET[ 'refresh' ] == 'true') {
+    $Cache->save($report_slug, $Content, 999999999); // long time
 } else {
-	$Content	=	$Cache->get( $report_slug );
+    $Content    =    $Cache->get($report_slug);
 }
 
-$this->Gui->add_item( array(
-	'type'		=>	'dom',
-	'content'	=>	$Content
-), 'stats_ventes', 1 );
+$this->Gui->add_item(array(
+    'type'        =>    'dom',
+    'content'    =>    $Content
+), 'stats_ventes', 1);
 
 $this->Gui->output();

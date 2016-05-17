@@ -9,7 +9,7 @@ var NexoCommandesEdit	=	new function(){
 		this.Nexo_Order_Avance	=	'<?php echo @$Options[ 'nexo_order_advance' ];?>';
 		this.Nexo_Order_Cash	=	'<?php echo @$Options[ 'nexo_order_comptant' ];?>';
 		this.Nexo_Order_Devis	=	'<?php echo @$Options[ 'nexo_order_devis' ];?>';
-		this.AllowAddItem		=	<?php echo in_array( @$Options[ 'nexo_enable_additem' ], array( NULL, 'no' ), TRUE ) ? 'false' : 'true';?>;
+		this.AllowAddItem		=	<?php echo in_array(@$Options[ 'nexo_enable_additem' ], array( null, 'no' ), true) ? 'false' : 'true';?>;
 		this.GetOrder			=	function( orderID ){
 			
 			$.ajax( tendoo.site_url  + 'nexo_checkout/orders/' + orderID,{
@@ -35,9 +35,9 @@ var NexoCommandesEdit	=	new function(){
 							NexoCommandes.DisplayCancelDiscountButton	=	false;
 							
 							$( '#SOMME_PERCU_field_box' ).hide( 500 );
-							$( '#checkout.btn.btn-primary' ).html( '<?php echo addslashes( __( 'Modifier', 'nexo' ) );?>' );
+							$( '#checkout.btn.btn-primary' ).html( '<?php echo addslashes(__('Modifier', 'nexo'));?>' );
 						} else {
-							// $( '#checkout.btn.btn-primary' ).html( '<?php echo addslashes( __( 'Payer', 'nexo' ) );?>' );
+							// $( '#checkout.btn.btn-primary' ).html( '<?php echo addslashes(__('Payer', 'nexo'));?>' );
 						}
 					} else { // For Quote Order
 						if( ! NexoCommandesEdit.AllowAddItem ) { // if adding item to quote order is disabled
@@ -110,7 +110,7 @@ var NexoCommandesEdit	=	new function(){
 		}
 	}
 	var url			=	document.location.href,
-		urlToRemove	=	'<?php echo site_url( array( 'dashboard', 'nexo', 'commandes', 'lists', 'edit' ) );?>/',
+		urlToRemove	=	'<?php echo site_url(array( 'dashboard', 'nexo', 'commandes', 'lists', 'edit' ));?>/',
 		NexoOrderId	=	url.substr( urlToRemove.length );
 $(document).ready(function(e) {		
 	// Modification de l'écran	

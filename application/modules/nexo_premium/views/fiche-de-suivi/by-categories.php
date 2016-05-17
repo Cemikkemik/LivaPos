@@ -1,42 +1,42 @@
 <div class="input-group"> <span class="input-group-btn">
   <button class="btn btn-default trigger-shipping-selection" type="button">
-  <?php _e( 'Choisir l\'arrivage', 'nexo_premium' );?>
+  <?php _e('Choisir l\'arrivage', 'nexo_premium');?>
   </button>
   </span>
   <select name="select_shipping" class="form-control">
-    <?php if( $shippings ):?>
-    <?php foreach( $shippings as $ship ):?>
+    <?php if ($shippings):?>
+    <?php foreach ($shippings as $ship):?>
     <option value="<?php echo @$ship[ 'ID' ];?>"><?php echo $ship[ 'TITRE' ];?></option>
     <?php endforeach;?>
     <?php else:?>
     <option>
-    <?php _e( 'Aucun arrivage disponible', 'nexo_premium' );?>
+    <?php _e('Aucun arrivage disponible', 'nexo_premium');?>
     </option>
     <?php endif;?>
   </select>
 </div>
 <br>
-<?php echo tendoo_info( __( 'Ce tableau vous permet de suivre les approvisionnements et les sorties d\'une collection, tout en vous permettant de voir les quantités restantes dans le stock général.', 'nexo_premium' ) );?>
-<?php echo tendoo_warning( __( 'Les stocks affichés ici, ne sont que les stocks des produits dont les catégories sont situées au fond de la hierarchie des catégories. Les produits sauvegardés dans des catégories intermédiaires seront ignorés.', 'nexo_premium' ) );?>
+<?php echo tendoo_info(__('Ce tableau vous permet de suivre les approvisionnements et les sorties d\'une collection, tout en vous permettant de voir les quantités restantes dans le stock général.', 'nexo_premium'));?>
+<?php echo tendoo_warning(__('Les stocks affichés ici, ne sont que les stocks des produits dont les catégories sont situées au fond de la hierarchie des catégories. Les produits sauvegardés dans des catégories intermédiaires seront ignorés.', 'nexo_premium'));?>
 
 <table class="table-bordered table table-striped FicheDeSuiviParCategory">
     <thead>
       <tr>
-        <td colspan="5"><?php _e( 'Fiche de suivi de stock', 'nexo_premium' );?></td>
+        <td colspan="5"><?php _e('Fiche de suivi de stock', 'nexo_premium');?></td>
       </tr>
       <tr>
-        <td width="300"><?php _e( 'Categories', 'nexo_premium' );?></td>
-        <td width="200"><?php _e( 'Stock initial', 'nexo_premium' );?></td>
-        <td width="150"><?php _e( 'Entrées', 'nexo_premium' );?></td>
-        <td width="150"><?php _e( 'Sorties', 'nexo_premium' );?></td>
-        <td width="200"><?php _e( 'Stock Final', 'nexo_premium' );?></td>
+        <td width="300"><?php _e('Categories', 'nexo_premium');?></td>
+        <td width="200"><?php _e('Stock initial', 'nexo_premium');?></td>
+        <td width="150"><?php _e('Entrées', 'nexo_premium');?></td>
+        <td width="150"><?php _e('Sorties', 'nexo_premium');?></td>
+        <td width="200"><?php _e('Stock Final', 'nexo_premium');?></td>
       </tr>
     </thead>
     <tbody class="fiche-suivi-table">
     </tbody>
     <tfoot>
       <tr class="info">
-        <td width="300"><?php _e( 'Total', 'nexo_premium' );?></td>
+        <td width="300"><?php _e('Total', 'nexo_premium');?></td>
         <td width="200"></td>
         <td width="150"></td>
         <td width="150"></td>
@@ -111,7 +111,7 @@ var NexoFicheSuivi		=	new function(){
 	
 	this.LoadPreviousStock		=	function( shipping_id ){
 		if( _.isObject( this.LatestCategories ) ) {
-			$.ajax( '<?php echo site_url( array( 'nexo_premium', 'previous_stock' ) );?>' + '/' + shipping_id, {
+			$.ajax( '<?php echo site_url(array( 'nexo_premium', 'previous_stock' ));?>' + '/' + shipping_id, {
 				type 		:		'POST',
 				dataType	:		'json',
 				data		:		_.object( [ 'categories_id' ], [ this.LatestCategories ] ),
@@ -180,7 +180,7 @@ var NexoFicheSuivi		=	new function(){
 	**/
 	
 	this.LoadCurrentStock			=	function( shipping_id ){
-		$.post( '<?php echo site_url( array( 'nexo_premium', 'current_stock' ) );?>' + '/' + shipping_id, 
+		$.post( '<?php echo site_url(array( 'nexo_premium', 'current_stock' ));?>' + '/' + shipping_id, 
 		_.object( [ 'categories_id' ], [ this.LatestCategories ] ),
 		function( current_stock ){
 			NexoFicheSuivi.FillColStock( 'new', current_stock, shipping_id );
@@ -224,7 +224,7 @@ var NexoFicheSuivi		=	new function(){
 };
 
 $( document ).ready(function(e) {
-    $.ajax( '<?php echo site_url( array( 'nexo_categories', 'get' ) );?>', {
+    $.ajax( '<?php echo site_url(array( 'nexo_categories', 'get' ));?>', {
 		success		:	function( e ) {
 			NexoFicheSuivi.BuildCategoryList( e );
 		},

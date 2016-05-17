@@ -17,8 +17,9 @@ class Nexo_Arrivages extends CI_Model
     public function crud_header()
     {
         // Protecting
-        if (! User::can('manage_shipping')) : redirect(array( 'dashboard', 'access-denied?from=Nexo_shipping_page' ));
-        endif;
+        if (! User::can('manage_shipping')) {
+			redirect(array( 'dashboard', 'access-denied?from=Nexo_shipping_page' ));
+		}
         
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');

@@ -68,9 +68,9 @@ class Dashboard extends Tendoo_Controller
      */
     public function modules($page = 'list', $arg2 = null, $arg3 = null, $arg4 = null)
     {
-        if (class_exists('User')) :
+        if (class_exists('User')) {
             (! User::can('manage_modules')) ? redirect(array( 'dashboard', 'access-denied' )): null;
-        endif;
+		}
         
         if ($page === 'list') {
             $this->events->add_filter('gui_page_title', function ($title) {
@@ -347,8 +347,13 @@ class Dashboard extends Tendoo_Controller
      */
     public function update($page = 'home',  $version = null)
     {
-        (! Modules::is_active('aauth')) ? redirect(array( 'dashboard', 'error-occurred?notice=required_module_missing' )) : null;
-        (! User::can('manage_options')) ? redirect(array( 'dashboard', 'access-denied' )): null;
+        if(! Modules::is_active('aauth')) {
+			redirect(array( 'dashboard', 'error-occurred?notice=required_module_missing' ));
+		}
+        
+		if(! User::can('manage_options')) {
+			redirect(array( 'dashboard', 'access-denied' ));
+		}
         
         if ($page === 'core') {
             $this->Gui->set_title(sprintf(__('Updating... &mdash; %s'), get('core_signature')));

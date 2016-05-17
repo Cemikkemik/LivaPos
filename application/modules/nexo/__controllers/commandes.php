@@ -134,8 +134,9 @@ class Nexo_Commandes extends CI_Model
             $this->enqueue->js('../modules/nexo/js/core/checkout-customer-creation');
             
             // Protecting
-            if (! User::can('create_orders')) : redirect(array( 'dashboard', 'access-denied?from=Nexo_orders_conroller' ));
-            endif;
+            if (! User::can('create_orders')) {
+				redirect(array( 'dashboard', 'access-denied?from=Nexo_orders_conroller' ));
+			}
             
             $data[ 'crud_content' ]    =    $this->crud_header();
             $_var1    =    'commandes';
@@ -148,8 +149,9 @@ class Nexo_Commandes extends CI_Model
             global $order_id;
             $order_id    =    $id;
             // Protecting
-            if (! User::can('edit_orders')) : redirect(array( 'dashboard', 'access-denied?from=Nexo_orders_conroller' ));
-            endif;
+            if (! User::can('edit_orders')){
+				redirect(array( 'dashboard', 'access-denied?from=Nexo_orders_conroller' ));
+			}
             
             $data[ 'crud_content' ]    =    $this->crud_header();
             $_var1    =    'commandes';
@@ -177,8 +179,9 @@ class Nexo_Commandes extends CI_Model
         } else {
             
             // Protecting
-            if (! User::can('create_orders')) : redirect(array( 'dashboard', 'access-denied?from=Nexo_orders_conroller' ));
-            endif;
+            if (! User::can('create_orders')) {
+				redirect(array( 'dashboard', 'access-denied?from=Nexo_orders_conroller' ));
+			}
             
             $data[ 'crud_content' ]    =    $this->crud_header();
             $_var1    =    'commandes';

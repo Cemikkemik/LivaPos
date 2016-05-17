@@ -17,8 +17,9 @@ class Nexo_Rayons extends CI_Model
     public function crud_header()
     {
         // Protecting
-        if (! User::can('manage_shop')) : redirect(array( 'dashboard', 'access-denied?from=Nexo_payment_means_controller' ));
-        endif;
+        if (! User::can('manage_shop')){
+			redirect(array( 'dashboard', 'access-denied?from=Nexo_payment_means_controller' ));
+		}
         
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');

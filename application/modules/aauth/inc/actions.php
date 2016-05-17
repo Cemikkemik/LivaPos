@@ -20,8 +20,9 @@ class aauth_action extends CI_model
     
     public function module_access()
     {
-        if (! User::can('manage_modules')): redirect(array( 'dashboard?notice=access-denied' ));
-        endif;
+        if (! User::can('manage_modules')) {
+			redirect(array( 'dashboard?notice=access-denied' ));
+		}
     }
     public function do_verify_user($user_id, $ver_code)
     {

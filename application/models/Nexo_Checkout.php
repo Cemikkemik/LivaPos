@@ -19,8 +19,9 @@ class Nexo_Checkout extends CI_Model
     public function commandes_save($post)
     {
         // Protecting
-        if (! User::can('create_orders')) : redirect(array( 'dashboard', 'access-denied' ));
-        endif;
+        if (! User::can('create_orders')) {
+			redirect(array( 'dashboard', 'access-denied' ));
+		}
         
         global $Options;
         /**
@@ -202,8 +203,9 @@ class Nexo_Checkout extends CI_Model
     {
         
         // Protecting
-        if (! User::can('edit_orders')) : redirect(array( 'dashboard', 'access-denied' ));
-        endif;
+        if (! User::can('edit_orders')) {
+			redirect(array( 'dashboard', 'access-denied' ));
+		}
         
         global $Options;
         $segments        =    $this->uri->segment_array();

@@ -440,7 +440,7 @@ $(document).ready(function(){
             'title'            =>        __('Dashboard')
         );
         
-        if (User::can('manage_options')):
+        if (User::can('manage_options')) {
         
         $admin_menus[ 'dashboard' ][]    =    array(
             'href'            =>        site_url(array( 'dashboard', 'update' )),
@@ -455,9 +455,9 @@ $(document).ready(function(){
             'title'            =>        __('About'),
         );
         
-        endif;
+		}
         
-        if (User::can('manage_modules')):
+        if (User::can('manage_modules')){
         
         $admin_menus[ 'modules' ][]        =    array(
             'title'            =>        __('Modules'),
@@ -465,9 +465,9 @@ $(document).ready(function(){
             'href'            =>        site_url('dashboard/modules')
         );
         
-        endif;
+		}
         
-        if (User::can('manage_options')):
+        if (User::can('manage_options')){
         
         $admin_menus[ 'settings' ][]    =    array(
             'title'            =>        __('Settings'),
@@ -475,7 +475,7 @@ $(document).ready(function(){
             'href'            =>        site_url('dashboard/settings')
         );
         
-        endif;
+		}
         
         foreach (force_array($this->events->apply_filters('admin_menus', $admin_menus)) as $namespace => $menus) {
             foreach ($menus as $menu) {

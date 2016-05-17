@@ -109,8 +109,9 @@ class Nexo_Produits extends CI_Model
             $this->Gui->set_title(__('Ajouter un nouvel article &mdash; Nexo', 'nexo'));
         }
         // Protecting
-        if (! User::can('create_items')) : redirect(array( 'dashboard', 'access-denied?from=Nexo_items_c' ));
-        endif;
+        if (! User::can('create_items')){
+			redirect(array( 'dashboard', 'access-denied?from=Nexo_items_c' ));
+		}
             
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1    =    'articles';
@@ -120,8 +121,9 @@ class Nexo_Produits extends CI_Model
     public function add()
     {
         // Protecting
-        if (! User::can('create_items')) : redirect(array( 'dashboard', 'access-denied?from=Nexo_items_c' ));
-        endif;
+        if (! User::can('create_items')) {
+			redirect(array( 'dashboard', 'access-denied?from=Nexo_items_c' ));
+		}
         
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1    =    'articles';

@@ -17,8 +17,9 @@ class Nexo_Categories extends CI_Model
     public function crud_header()
     {
         // Protecting
-        if (! User::can('manage_vendor')) : redirect(array( 'dashboard', 'access-denied?from=Nexo_vendor_controller' ));
-        endif;
+        if (! User::can('manage_vendor')) {
+			redirect(array( 'dashboard', 'access-denied' ));
+		}
         
         $crud = new grocery_CRUD();
         $crud->set_subject(__('Fournisseurs', 'nexo'));

@@ -57,15 +57,15 @@ class aauth_dashboard extends CI_model
          * Checks whether a user can manage user
         **/
         
-        if (User::can('manage_users')) :
+        if (User::can('manage_users')) {
         
-        $menus[ 'users' ][]    =                array(
-            'title'            =>        __('Create a new User'),
-            'icon'            =>        'fa fa-users',
-            'href'            =>        site_url('dashboard/users/create')
-        );
+            $menus[ 'users' ][]    =                array(
+                'title'            =>        __('Create a new User'),
+                'icon'            =>        'fa fa-users',
+                'href'            =>        site_url('dashboard/users/create')
+            );
         
-        endif; // for manage_users permission
+		}
 
         $menus[ 'roles' ]        =        array(
             /** 
@@ -195,8 +195,9 @@ class aauth_dashboard extends CI_model
         **/
         
         elseif ($page == 'edit') {
-            if (! User::can('manage_users')) : redirect(array( 'dashboard?notice=access-denied' ));
-            endif; // permission checks
+            if (! User::can('manage_users')) {
+				redirect(array( 'dashboard?notice=access-denied' ));
+			}
 
             // if current user matches user id
             if ($this->users->auth->get_user_id() == $index) {
@@ -260,8 +261,9 @@ class aauth_dashboard extends CI_model
         **/
         
         elseif ($page == 'create') {
-            if (! User::can('manage_users')) : redirect(array( 'dashboard?notice=access-denied' ));
-            endif; // permission checks
+            if (! User::can('manage_users')) {
+				redirect(array( 'dashboard?notice=access-denied' ));
+			}
 
             $this->load->library('form_validation');
             
@@ -308,8 +310,9 @@ class aauth_dashboard extends CI_model
         **/
         
         elseif ($page == 'delete') {
-            if (! User::can('manage_users')) : redirect(array( 'dashboard?notice=access-denied' ));
-            endif; // permission checks
+            if (! User::can('manage_users')) {
+				redirect(array( 'dashboard?notice=access-denied' ));
+			}
 
             $user    =    $this->users->auth->user_exsist_by_id($index);
             if ($user) {
@@ -373,8 +376,9 @@ class aauth_dashboard extends CI_model
         **/
         
         elseif ($page == 'new') {
-            if (! User::can('manage_users')) : redirect(array( 'dashboard?notice=access-denied' ));
-            endif; // permission checks
+            if (! User::can('manage_users')) {
+				redirect(array( 'dashboard?notice=access-denied' ));
+			}
 
             // Validating role creation form
             $this->load->library('form_validation');
@@ -405,8 +409,9 @@ class aauth_dashboard extends CI_model
         **/
         
         elseif ($page == 'edit') {
-            if (! User::can('manage_users')) : redirect(array( 'dashboard?notice=access-denied' ));
-            endif; // permission checks
+            if (! User::can('manage_users')){
+				redirect(array( 'dashboard?notice=access-denied' ));
+			}
 
             $this->load->library('form_validation');
             $this->form_validation->set_rules('role_name', __('Role Name'), 'required');

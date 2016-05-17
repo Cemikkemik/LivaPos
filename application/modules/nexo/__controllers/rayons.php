@@ -17,8 +17,9 @@ class Nexo_Rayons extends CI_Model
     public function crud_header()
     {
         // Protecting
-        if (! User::can('manage_radius')) : redirect(array( 'dashboard', 'access-denied?from=Nexo_ray_c' ));
-        endif;
+        if (! User::can('manage_radius')){
+			redirect(array( 'dashboard', 'access-denied?from=Nexo_ray_c' ));
+		}
         
         
         $crud = new grocery_CRUD();

@@ -16,8 +16,9 @@ class Nexo_Type_De_Commandes extends CI_Model
     
     public function crud_header()
     {
-        if (! User::can('manage_shop')): redirect(array( 'dashboard?notice=access-denied' ));
-        endif;
+        if (! User::can('manage_shop')){
+			redirect(array( 'dashboard?notice=access-denied' ));
+		}
         
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');

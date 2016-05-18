@@ -35,6 +35,7 @@
     </div><!-- /.register-box -->
 
     <script>
+	"use strict";	
       $(function () {
         $('input').iCheck({
           checkboxClass: 'icheckbox_square-blue',

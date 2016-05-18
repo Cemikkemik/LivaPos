@@ -110,6 +110,10 @@ class Nexo_Clients extends CI_Model
         // Callback avant l'insertion
         $crud->callback_before_insert(array( $this, '__group_insert' ));
         $crud->callback_before_update(array( $this, '__group_update' ));
+		
+		// XSS Cleaner
+        $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
+        $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
 
         // Field Visibility
         $crud->change_field_type('DATE_CREATION', 'invisible');

@@ -10,6 +10,7 @@
         <p><?php echo $this->notice->output_notice();?></p>
         <p><?php echo validation_errors();?></p>
         <form method="post">
+            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" placeholder="<?php _e('Site Name');?>" name="site_name" value="<?php echo set_value('site_name');?>">
           </div>

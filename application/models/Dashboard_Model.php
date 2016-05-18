@@ -31,10 +31,7 @@ class Dashboard_Model extends CI_Model
     {
         // Enqueuing slimscroll
         $this->enqueue->js('../plugins/slimScroll/jquery.slimscroll.min');
-        $this->enqueue->js('advanced');
         $this->enqueue->js('../plugins/heartcode/heartcode-canvasloader-min');
-        $this->enqueue->js('../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min'); // WYSIHTML5 @since 1.5
-        $this->enqueue->css('../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min'); // CSS for WYSIHTML5
 
         // Highlight
         // $this->enqueue->css('highlight-min');

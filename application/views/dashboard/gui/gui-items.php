@@ -86,7 +86,7 @@ foreach (force_array(riake('items', $meta)) as $_item) {
      <div class="form-group">
        <label><?php echo $label;
         ?></label>
-       <textarea id="wysihtml5-<?php echo $editor_time_called;
+       <textarea id="editor-<?php echo $editor_time_called;
         ?>" <?php echo $disabled === true ? 'disabled="disabled"' : '';
         ?> class="form-control" rows="3" placeholder="<?php echo $placeholder;
         ?>" name="<?php echo $name;
@@ -94,17 +94,6 @@ foreach (force_array(riake('items', $meta)) as $_item) {
         ?></textarea>
      </div>
      <p><?php echo xss_clean($description);
-        ?>
-     <script>
-		$(document).ready(function(e) {
-			$("#wysihtml5-<?php echo $editor_time_called;
-        ?>").wysihtml5();
-			$("#wysihtml5-<?php echo $editor_time_called;
-        ?>").height( screen.height - 440 );
-		});
-	</script>
-     <?php
-
     } elseif ($type == 'file-input') {
         ?>
         <div class="form-group">

@@ -39,3 +39,4 @@ NexoPOS Licence
 - Bootstrap Datepicker > Mit http://eonasdan.github.io/bootstrap-datetimepicker/
 - Moment JS > MIT Licence http://momentjs.com/
 - Underscore JS > MIT http://underscorejs.org/docs/underscore.html
+- GlyphIcons > Common Creative http://glyphicons.com/license/

@@ -56,11 +56,12 @@ class Nexo_Tours extends CI_Model
         ?>',
 				content: '<?php echo addslashes(__('Veuillez choisir une option dans la liste de réinitialisation', 'nexo'));
         ?>',
-				placement: 'right',
-				backdrop	: true,
-				storage		: false
+				placement: 'right'
+				
 			  }
-			]});
+			], 
+			backdrop	: true,
+			storage		: false });
 			// Initialize the tour
 			tour.init();
 			

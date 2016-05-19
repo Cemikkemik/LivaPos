@@ -3186,8 +3186,8 @@ class Grocery_CRUD extends grocery_CRUD_States
     const    VERSION = "1.5.2";
 
     const    JQUERY            = "jquery-1.11.1.min.js";
-    const    JQUERY_UI_JS    = "jquery-ui-1.10.3.custom.min.js";
-    const    JQUERY_UI_CSS    = "jquery-ui-1.10.1.custom.min.css";
+    const    JQUERY_UI_JS    = "jquery-ui.min.js";
+    const    JQUERY_UI_CSS    = "jquery-ui.css";
 
     protected $state_code            = null;
     protected $state_info            = null;
@@ -3246,7 +3246,7 @@ class Grocery_CRUD extends grocery_CRUD_States
     protected $unset_delete            = false;
     protected $unset_read            = false;
     protected $unset_jquery            = false;
-    protected $unset_jquery_ui        = false;
+    protected $unset_jquery_ui        = true;
     protected $unset_bootstrap        = false;
     protected $unset_list            = false;
     protected $unset_export            = false;

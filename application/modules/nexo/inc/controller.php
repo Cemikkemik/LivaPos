@@ -63,7 +63,7 @@ class Nexo_Controller extends CI_Model
             array(
                 'title'       =>    __('Ajouter un moyen de paiment', 'nexo'), // menu title
                 'icon'        =>    'fa fa-star', // menu icon
-                'href'        =>    site_url('dashboard/nexo/paiements/add'), // url to the page,
+                'href'        =>    site_url('dashboard/nexo/paiements/lists/add'), // url to the page,
             ),
             array(
                 'title'       =>    __('Liste des types de commandes', 'nexo'), // menu title
@@ -92,7 +92,7 @@ class Nexo_Controller extends CI_Model
             ),
             array(
                 'title'        =>    __('Ajouter un client', 'nexo'),
-                'href'        =>    site_url('dashboard/nexo/clients/add'),
+                'href'        =>    site_url('dashboard/nexo/clients/lists/add'),
             ),
             array(
                 'title'        =>    __('Groupes', 'nexo'),
@@ -127,7 +127,7 @@ class Nexo_Controller extends CI_Model
             ),
             array(
                 'title'        =>    __('Ajouter un article', 'nexo'),
-                'href'        =>    site_url('dashboard/nexo/produits/add'),
+                'href'        =>    site_url('dashboard/nexo/produits/lists/add'),
             ),
             array(
                 'title'        =>    __('Liste des fournisseurs', 'nexo'),
@@ -135,7 +135,7 @@ class Nexo_Controller extends CI_Model
             ),
             array(
                 'title'        =>    __('Ajouter un fournisseur', 'nexo'),
-                'href'        =>    site_url('dashboard/nexo/fournisseurs/add'),
+                'href'        =>    site_url('dashboard/nexo/fournisseurs/lists/add'),
             ),
             array(
                 'title'        =>    __('Liste des rayons', 'nexo'),
@@ -143,7 +143,7 @@ class Nexo_Controller extends CI_Model
             ),
             array(
                 'title'        =>    __('Ajouter un rayon', 'nexo'),
-                'href'        =>    site_url('dashboard/nexo/rayons/add'),
+                'href'        =>    site_url('dashboard/nexo/rayons/lists/add'),
             ),
             array(
                 'title'        =>    __('Liste des catégories', 'nexo'),
@@ -151,7 +151,7 @@ class Nexo_Controller extends CI_Model
             ),
             array(
                 'title'        =>    __('Ajouter une catégorie', 'nexo'),
-                'href'        =>    site_url('dashboard/nexo/categories/add'),
+                'href'        =>    site_url('dashboard/nexo/categories/lists/add'),
             ),
         ));
         

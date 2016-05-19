@@ -44,6 +44,8 @@ class Nexo_Restful extends CI_Model
         $this->db->query('CREATE TABLE IF NOT EXISTS `' . $this->db->dbprefix . 'restapi_keys` (
 			`id` INT(11) NOT NULL AUTO_INCREMENT,
 			`key` VARCHAR(40) NOT NULL,
+			`scopes` text,
+			`app_name` VARCHAT(40) NOT NULL,
 			`level` INT(2) NOT NULL,
 			`ignore_limits` TINYINT(1) NOT NULL DEFAULT "0",
 			`date_created` INT(11) NOT NULL,

@@ -1,18 +1,7 @@
 <?php
-
-defined('BASEPATH') or exit('No direct script access allowed');
-
-include_once(APPPATH . '/libraries/REST_Controller.php');
-
-class Rest extends REST_Controller
-{
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->library('session');
-        $this->load->database();
-    }
-    public function user_get($id = null)
+trait Rest_Users
+{	
+	public function user_get($id = null)
     {
         if ($id != null) {
             $result            =    $this->db->where('id', $id)->get('aauth_users')->result();

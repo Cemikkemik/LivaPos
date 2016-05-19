@@ -206,7 +206,7 @@ class Nexo_Products extends CI_Model
         
         return $param;
     }
-    
+	   
     // Deprecated
 
     public function get($element, $key, $as = 'ID')
@@ -222,12 +222,25 @@ class Nexo_Products extends CI_Model
      * @return Array
     */
     
-    public function product_delete($param)
+    public function product_delete( $param )
     {
         // Protecting
         if (! User::can('delete_items')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
+		
+		$query	=	$this->db->where( 'ID', $param )->get( 'nexo_articles' );
+		$product	=	$query->result_array();
+		
+		$codebar	=	$product[0][ 'CODEBAR' ];
+		// check if product is in use
+		$query		=	$this->db->where( 'REF_PRODUCT_CODEBAR', $codebar )->get( 'nexo_commandes_produits' );
+		// If it's in use.. just die
+
+		if( $query->result() ) {
+			echo '{"success":false,"error_message":"<p>' . __( 'You cannot delete an item in use, please make sure to remove (delete) order where the item is used.' ) . '<\/p>"}';
+			die;
+		} 
         
         return $param;
     }

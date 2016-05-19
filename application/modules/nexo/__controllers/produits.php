@@ -88,6 +88,7 @@ class Nexo_Produits extends CI_Model
         // Callback avant l'insertion
         $crud->callback_before_insert(array( $this->Nexo_Products, 'product_save' ));
         $crud->callback_before_update(array( $this->Nexo_Products, 'product_update' ));
+		$crud->callback_before_delete(array( $this->Nexo_Products, 'product_delete' ));
         
         // $crud->unset_jquery();
         $output = $crud->render();

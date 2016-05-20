@@ -120,7 +120,7 @@ class User
      * @return string
     **/
     
-    public static function create_group($name, $definition, bool $is_admin, $description)
+    public static function create_group($name, $definition, boolean $is_admin, $description)
     {
         return get_instance()->auth->create_group($name, $definition, $is_admin, $description);
     }

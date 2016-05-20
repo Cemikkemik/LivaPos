@@ -16,10 +16,13 @@ class Nexo_Categories extends CI_Model
     
     public function crud_header()
     {
-        // Protecting
-        if (! User::can('manage_categories')) {
-            redirect(array( 'dashboard', 'access-denied?from=nexo_categories_controller' ));
-        }
+        if( 
+			! User::can('create_shop_categories')  ||
+			! User::can('edit_shop_categories') ||
+			! User::can('delete_shop_categories') 
+		) {
+			redirect( array( 'dashboard', 'access-denied' ) );
+		}
         
         $crud = new grocery_CRUD();
 
@@ -68,6 +71,10 @@ class Nexo_Categories extends CI_Model
     
     public function add()
     {
+		if( ! User::can('create_shop_shippings')	) {
+			redirect( array( 'dashboard', 'access-denied' ) );
+		}
+		
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1                    =    'categories';
         $this->Gui->set_title(__('Créer une nouvelle catégorie &mdash; Nexo', 'nexo'));

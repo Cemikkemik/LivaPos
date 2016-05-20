@@ -16,11 +16,6 @@ class Nexo_Arrivages extends CI_Model
     
     public function crud_header()
     {
-        // Protecting
-        if (! User::can('manage_shipping')) {
-            redirect(array( 'dashboard', 'access-denied?from=Nexo_shipping_page' ));
-        }
-        
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');
         $crud->set_subject(__('Livraisons', 'nexo'));
@@ -58,6 +53,14 @@ class Nexo_Arrivages extends CI_Model
     
     public function lists($page = 'index')
     {
+		if( 
+			! User::can('create_shop_shippings')  ||
+			! User::can('edit_shop_shippings') ||
+			! User::can('delete_shop_shippings') 
+		) {
+			redirect( array( 'dashboard', 'access-denied' ) );
+		}
+		
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1    =    'arrivages';
         
@@ -71,6 +74,10 @@ class Nexo_Arrivages extends CI_Model
     
     public function add()
     {
+		if( ! User::can('create_shop_shippings')	) {
+			redirect( array( 'dashboard', 'access-denied' ) );
+		}
+		
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1    =    'arrivages';
         $this->Gui->set_title(sprintf(__('Ajouter une nouvelle livraison : &mdash; %s', 'nexo'), ucwords(str_replace('_', ' ', $_var1)), get('core_signature')));

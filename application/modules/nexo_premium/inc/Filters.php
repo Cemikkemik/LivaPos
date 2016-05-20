@@ -77,8 +77,7 @@ class Nexo_Premium_Filters extends CI_Model
             
         ));
         
-        if (User::can('manage_shop')) {
-            $menus[ 'activite' ]    =    array(
+		$menus[ 'activite' ]    =    array(
             array(
                 'title'            =>    __('Maintenance & Historique', 'nexo_premium'),
                 'icon'            =>    'fa fa-shield',
@@ -97,7 +96,6 @@ class Nexo_Premium_Filters extends CI_Model
                 'href'            =>    site_url(array( 'dashboard', 'nexo_premium', 'Controller_Restore' )),
             ),
         );
-        }
         
         return $menus;
     }

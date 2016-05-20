@@ -16,11 +16,13 @@ class Nexo_Rayons extends CI_Model
     
     public function crud_header()
     {
-        // Protecting
-        if (! User::can('manage_radius')) {
-            redirect(array( 'dashboard', 'access-denied?from=Nexo_ray_c' ));
-        }
-        
+        if( 
+			! User::can('edit_shop_radius') ||
+			! User::can('create_shop_radius') ||
+			! User::can('delete_shop_radius')
+		) {
+			redirect( array( 'dashboard', 'access-denied' ) );
+		}       
         
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');
@@ -67,6 +69,10 @@ class Nexo_Rayons extends CI_Model
     
     public function add()
     {
+		if( ! User::can('create_shop_radius') ) {
+			redirect( array( 'dashboard', 'access-denied' ) );
+		}
+		
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1                    =    'rayons';
         $this->Gui->set_title(__('Créer une nouveau rayon &mdash; Nexo', 'nexo'));

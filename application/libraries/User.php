@@ -108,38 +108,9 @@ class User
     {
         return get_instance()->auth->update_perm($perm_id, $name, $definition, $is_admin, $description);
     }
-    
-    // Groups
-
-    /**
-     * Create group
-     * let you create more group for tendoo
-     * 
-     * @access public
-     * @params string, string, string
-     * @return string
-    **/
-    
-    public static function create_group($name, $definition, bool $is_admin, $description)
-    {
-        return get_instance()->auth->create_group($name, $definition, $is_admin, $description);
-    }
-    
-    /**
-     * Update Group
-     * let you update existent group
-     * 
-     * @access group
-     * @params string, string, string, int
-    **/
-    
-    public static function update_group($id, $name, $definition, bool $is_admin, $description)
-    {
-        return get_instance()->auth->update_group($id, $name, $definition, $is_admin, $description);
-    }
-    
-    /**
-     * Group Is
+	
+	/**
+     * In Group
      *
      * Check whether a user belong to a specific group
      *
@@ -151,43 +122,5 @@ class User
     public static function in_group($group_name)
     {
         return get_instance()->auth->is_member($group_name);
-    }
-    
-    /**
-     * Allow Group 
-     * Add a permission to a group
-     * 
-     * @params int Group id
-     * @params int Permission id
-     * @return bool
-    **/
-    
-    public static function allow_group($group_id, $permission_id)
-    {
-        return get_instance()->auth->allow_group($group_id, $permission_id);
-    }
-    
-    /**
-     * Delete User Group
-     * 
-     * @params int Group Id
-     * @return bool
-    **/
-    
-    public static function delete_group($group_id)
-    {
-        return get_instance()->auth->delete_group($group_id);
-    }
-    
-    /**
-     * User Group
-     *
-     * @param int user id
-     * @return object
-    **/
-    
-    public static function groups($user_id = null)
-    {
-        return get_instance()->auth->get_user_groups();
     }
 }

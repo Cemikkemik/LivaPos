@@ -105,6 +105,24 @@ class Nexo_Controller extends CI_Model
         ));
         
         $this->events->do_action('nexo_before_shipping', $Nexo_Menus);
+		
+		if( 
+			User::can( 'create_shop_items' ) ||
+			User::can( 'edit_shop_items' ) ||
+			User::can( 'delete_shop_items' ) ||
+			User::can( 'create_shop_categories' ) ||
+			User::can( 'edit_shop_categories' ) ||
+			User::can( 'delete_shop_categories' ) ||
+			User::can( 'create_shop_radius' ) ||
+			User::can( 'edit_shop_radius' ) ||
+			User::can( 'delete_shop_radius' ) ||
+			User::can( 'create_shop_providers' ) ||
+			User::can( 'edit_shop_providers' ) ||
+			User::can( 'delete_shop_providers' ) ||
+			User::can( 'create_shop_shippings' ) ||
+			User::can( 'edit_shop_shippings' ) ||
+			User::can( 'delete_shop_shippings' )
+		) {
         
         $Nexo_Menus[ 'arrivages' ]    =    $this->events->apply_filters('nexo_shipping_menu_array', array(
             array(
@@ -154,62 +172,42 @@ class Nexo_Controller extends CI_Model
                 'href'        =>    site_url('dashboard/nexo/categories/lists/add'),
             ),
         ));
+		
+		}
         
         $this->events->do_action('nexo_before_reports', $Nexo_Menus);
+		
+		if( User::can( 'read_shop_reports' ) ) {
         
-        $Nexo_Menus[ 'rapports' ]    =    $this->events->apply_filters('nexo_reports_menu_array', array(
-            array(
-                'title'        =>    __('Rapports & Statistiques', 'nexo'),
-                'href'        =>    '#',
-                'disable'    =>    true,
-                'icon'        =>    'fa fa-bar-chart'
-            ),
-            array(
-                'title'       =>    __('Rapport Journalier', 'nexo'), // menu title
-                'href'        =>    site_url('dashboard/nexo/rapports/journalier'), // url to the page,
-            ),
-            array(
-                'title'       =>    __('Rendement Mensuel', 'nexo'), // menu title
-                'href'        =>    'http://nexo.tendoo.org/get-premium', // site_url('dashboard/nexo/rapports/rendement_mensuel'), // url to the page,
-            ),
-            array(
-                'title'       =>    __('Statistiques des ventes', 'nexo'), // menu title
-                'href'        =>    'http://nexo.tendoo.org/get-premium', // site_url('dashboard/nexo/rapports/statistique_des_ventes'), // url to the page,
-            ),
-            array(
-                'title'       =>    __('Fiche de suivi de stocks général', 'nexo'), // menu title
-                'href'        =>    'http://nexo.tendoo.org/get-premium', // site_url('dashboard/nexo/rapports/fiche_de_suivi_de_stock'), // url to the page,
-            ),
-        ));
+			$Nexo_Menus[ 'rapports' ]    =    $this->events->apply_filters('nexo_reports_menu_array', array(
+				array(
+					'title'        =>    __('Rapports & Statistiques', 'nexo'),
+					'href'        =>    '#',
+					'disable'    =>    true,
+					'icon'        =>    'fa fa-bar-chart'
+				),
+				array(
+					'title'       =>    __('Rapport Journalier', 'nexo'), // menu title
+					'href'        =>    site_url('dashboard/nexo/rapports/journalier'), // url to the page,
+				),
+				array(
+					'title'       =>    __('Rendement Mensuel', 'nexo'), // menu title
+					'href'        =>    'http://nexo.tendoo.org/get-premium', // site_url('dashboard/nexo/rapports/rendement_mensuel'), // url to the page,
+				),
+				array(
+					'title'       =>    __('Statistiques des ventes', 'nexo'), // menu title
+					'href'        =>    'http://nexo.tendoo.org/get-premium', // site_url('dashboard/nexo/rapports/statistique_des_ventes'), // url to the page,
+				),
+				array(
+					'title'       =>    __('Fiche de suivi de stocks général', 'nexo'), // menu title
+					'href'        =>    'http://nexo.tendoo.org/get-premium', // site_url('dashboard/nexo/rapports/fiche_de_suivi_de_stock'), // url to the page,
+				),
+			));
+					
+		}
         
         $this->events->do_action('nexo_before_accounting', $Nexo_Menus);
-        
-        /** 
-         * Accounting is disabled
-        
-        $Nexo_Menus[ 'comptabilite' ]	=	$this->events->apply_filters( 'nexo_accounting_menu_array', array(
-            array( 
-                'title'		=>	__( 'Comptabilité', 'nexo' ),
-                'href'		=>	'#',
-                'disable'	=>	true,
-                'icon'		=>	'fa fa-line-chart'
-            ),
-            array(
-                'title'       =>	__( 'Livre journal des ventes', 'nexo' ), // menu title
-                'href'        =>	'http://nexo.tendoo.org/get-premium', // site_url('dashboard/nexo/comptabilite/livre_journal_des_ventes'), // url to the page,
-            ),
-            array(
-                'title'       =>	__( 'Livre journal du patrimoine', 'nexo' ), // menu title
-                'href'        =>	'http://nexo.tendoo.org/get-premium' , // site_url('dashboard/nexo/comptabilite/livre_journal_du_patrimoine'), // url to the page,
-            ),
-            array(
-                'title'       =>	__( 'Livre journal de l\'exploitation', 'nexo' ), // menu title
-                'href'        =>	'http://nexo.tendoo.org/get-premium', // site_url('dashboard/nexo/comptabilite/livre_journal_dexploitation'), // url to the page,
-            ),
-        ) );
-        
-        **/
-        
+                
         $this->events->do_action('nexo_before_history', $Nexo_Menus);
         
         $Nexo_Menus[ 'activite' ]    =    $this->events->apply_filters('nexo_history_menu_array', array(
@@ -229,41 +227,49 @@ class Nexo_Controller extends CI_Model
         ));
         
         $this->events->do_action('nexo_before_settings', $Nexo_Menus);
+		
+		if( 
+			User::can( 'create_options' ) ||
+			User::can( 'edit_options' ) ||
+			User::can( 'delete_options' )
+		) {
         
-        $Nexo_Menus[ 'nexo_settings' ]    =    $this->events->apply_filters('nexo_settings_menu_array', array(
-            array(
-                'title'            =>    __('Réglages Nexo', 'nexo'),
-                'icon'            =>    'fa fa-gear',
-                'href'            =>    '#',
-                'disable'        =>    true
-            ),
-            array(
-                'title'            =>    __('Général', 'nexo'),
-                'icon'            =>    'fa fa-gear',
-                'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings' ))
-            ),
-            array(
-                'title'            =>    __('Caisse', 'nexo'),
-                'icon'            =>    'fa fa-gear',
-                'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings', 'checkout' ))
-            ),
-            array(
-                'title'            =>    __('Articles', 'nexo'),
-                'icon'            =>    'fa fa-gear',
-                'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings', 'items' ))
-            ),
-            array(
-                'title'            =>    __('Clients', 'nexo'),
-                'icon'            =>    'fa fa-gear',
-                'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings', 'customers' ))
-            ),
-            array(
-                'title'            =>    __('Réinitialisation', 'nexo'),
-                'icon'            =>    'fa fa-gear',
-                'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings', 'reset' ))
-            )
-            
-        ));
+			$Nexo_Menus[ 'nexo_settings' ]    =    $this->events->apply_filters('nexo_settings_menu_array', array(
+				array(
+					'title'            =>    __('Réglages Nexo', 'nexo'),
+					'icon'            =>    'fa fa-gear',
+					'href'            =>    '#',
+					'disable'        =>    true
+				),
+				array(
+					'title'            =>    __('Général', 'nexo'),
+					'icon'            =>    'fa fa-gear',
+					'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings' ))
+				),
+				array(
+					'title'            =>    __('Caisse', 'nexo'),
+					'icon'            =>    'fa fa-gear',
+					'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings', 'checkout' ))
+				),
+				array(
+					'title'            =>    __('Articles', 'nexo'),
+					'icon'            =>    'fa fa-gear',
+					'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings', 'items' ))
+				),
+				array(
+					'title'            =>    __('Clients', 'nexo'),
+					'icon'            =>    'fa fa-gear',
+					'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings', 'customers' ))
+				),
+				array(
+					'title'            =>    __('Réinitialisation', 'nexo'),
+					'icon'            =>    'fa fa-gear',
+					'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings', 'reset' ))
+				)
+				
+			));
+		
+		}
         
         $start    =    array_slice($final, 0, 1);
         $end    =    array_slice($final, 1);

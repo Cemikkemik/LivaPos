@@ -16,10 +16,13 @@ class Nexo_Clients extends CI_Model
 
     public function crud_header()
     {
-        // Protecting
-        if (! User::can('manage_shop')) {
-            redirect(array( 'dashboard', 'access-denied?from=Nexo_client_controller' ));
-        }
+        if( 
+			! User::can('create_shop_customers')  ||
+			! User::can('edit_shop_customers') ||
+			! User::can('delete_shop_customers') 
+		) {
+			redirect( array( 'dashboard', 'access-denied' ) );
+		}
 
         $crud = new grocery_CRUD();
         $crud->set_subject(__('Clients', 'nexo'));
@@ -73,6 +76,10 @@ class Nexo_Clients extends CI_Model
 
     public function add()
     {
+		if( ! User::can('create_shop_customers')	) {
+			redirect( array( 'dashboard', 'access-denied' ) );
+		}
+		
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1                    =    'clients';
         $this->Gui->set_title(__('Ajouter un nouveau client &mdash; Nexo', 'nexo'));
@@ -86,10 +93,13 @@ class Nexo_Clients extends CI_Model
 
     public function groups_header()
     {
-        // Protecting
-        if (! User::can('manage_shop')) {
-            redirect(array( 'dashboard', 'access-denied' ));
-        }
+        if( 
+			! User::can('create_shop_customers_groups')  ||
+			! User::can('edit_shop_customers_groups') ||
+			! User::can('delete_shop_customers_groups') 
+		) {
+			redirect( array( 'dashboard', 'access-denied' ) );
+		}
 
         $crud = new grocery_CRUD();
         $crud->set_subject(__('Groupes d\'utilisateurs', 'nexo'));

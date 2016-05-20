@@ -53,7 +53,7 @@ class Nexo extends CI_Model
     public function load_frontend()
     {
         // Prevent Frontend display
-        redirect(array( 'dashboard' ));
+        // redirect(array( 'dashboard' ));
     }
         
     /**

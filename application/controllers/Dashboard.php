@@ -36,7 +36,8 @@ class Dashboard extends Tendoo_Controller
         // which was called every time "create_dashboard_pages" was triggered
         $this->events->do_action('load_dashboard');
     }
-    /**
+    
+	/**
      * Remap controller methods
      *
      *
@@ -47,6 +48,7 @@ class Dashboard extends Tendoo_Controller
      * @param 		  array $params the siblings segments
      * @since        3.0.1
      */
+	 
     public function _remap($page, $params = array())
     {
         if (method_exists($this, $page)) {
@@ -55,9 +57,10 @@ class Dashboard extends Tendoo_Controller
             $this->Gui->load_page($page, $params);
         }
     }
+   
     /**
      * Module List and management controller
-     *
+     * [New Permission Ready]
      *
      * @access       public
      * @author       Blair Jersyer
@@ -66,13 +69,19 @@ class Dashboard extends Tendoo_Controller
      * @param		  string $arg2
      * @since        3.0.1
      */
+	 
     public function modules($page = 'list', $arg2 = null, $arg3 = null, $arg4 = null)
     {
-        if (class_exists('User')) {
-            (! User::can('manage_modules')) ? redirect(array( 'dashboard', 'access-denied' )): null;
-        }
-        
         if ($page === 'list') {
+			// Can user access modules ?
+			if(	! User::can( 'install_modules' ) && 
+				! User::can( 'update_modules' ) && 
+				! User::can( 'delete_modules' ) && 
+				! User::can( 'toggle_modules' )
+			) {
+				redirect(array( 'dashboard', 'access-denied' )); 
+			}
+			
             $this->events->add_filter('gui_page_title', function ($title) {
                 return '<section class="content-header"><h1>' . strip_tags($title) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url(array( 'dashboard', 'modules', 'install_zip' )) . '">' . __('Upload a zip file') . '</a></h1></section>';
             });
@@ -85,6 +94,14 @@ class Dashboard extends Tendoo_Controller
             $this->Gui->set_title(sprintf(__('Module List &mdash; %s'), get('core_signature')));
             $this->load->view('dashboard/modules/list');
         } elseif ($page === 'install_zip') {
+			
+			// Can user update/install modules ?
+			if(	! User::can( 'install_modules' ) ||
+				! User::can( 'update_modules' )
+			) {
+				redirect(array( 'dashboard', 'access-denied' )); 
+			}
+			
             $this->events->add_filter('gui_page_title', function ($title) {
                 return '<section class="content-header"><h1>' . strip_tags($title) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url(array( 'dashboard', 'modules' )) . '">' . __('Back to modules list') . '</a></h1></section>';
             });
@@ -107,7 +124,13 @@ class Dashboard extends Tendoo_Controller
             $this->Gui->set_title(sprintf(__('Add a new extension &mdash; %s'), get('core_signature')));
             $this->load->view('dashboard/modules/install');
         } elseif ($page === 'enable') {
-            /**
+            
+			// Can user access modules ?
+			if(	! User::can( 'toggle_modules' ) ) {
+				redirect(array( 'dashboard', 'access-denied' )); 
+			}
+			
+			/**
              * Module should be enabled before trigger this action
             **/
 
@@ -123,7 +146,13 @@ class Dashboard extends Tendoo_Controller
                 redirect(array( 'dashboard', 'modules?notice=' . $this->events->apply_filters('module_activation_status', 'module-enabled') ));
             }
         } elseif ($page === 'disable') {
-            $this->events->add_action('do_disable_module', function ($arg2) {
+            
+			// Can user toggle modules ?
+			if(	! User::can( 'toggle_modules' ) ) {
+				redirect(array( 'dashboard', 'access-denied' )); 
+			}
+			
+			$this->events->add_action('do_disable_module', function ($arg2) {
                 Modules::disable($arg2);
             });
             //
@@ -131,6 +160,12 @@ class Dashboard extends Tendoo_Controller
 
             redirect(array( 'dashboard', 'modules?notice=' . $this->events->apply_filters('module_disabling_status', 'module-disabled') ));
         } elseif ($page === 'remove') {
+			
+			// Can user delete modules ?
+			if(	! User::can( 'delete_modules' ) ) {
+				redirect(array( 'dashboard', 'access-denied' )); 
+			}
+			
             $this->events->add_action('do_remove_module', function ($arg2) {
                 Modules::uninstall($arg2);
                 redirect(array( 'dashboard', 'modules?notice=module-removed' ));
@@ -138,12 +173,25 @@ class Dashboard extends Tendoo_Controller
 
             $this->events->do_action('do_remove_module', $arg2);
         } elseif ($page === 'extract') {
+			
+			// Can user extract modules ?
+			if(	! User::can( 'extract_modules' ) ) {
+				redirect(array( 'dashboard', 'access-denied' )); 
+			}
+			
             $this->events->add_action('do_extract_module', function ($arg2) {
                 Modules::extract($arg2);
             });
 
             $this->events->do_action('do_extract_module', $arg2);
+			
         } elseif ($page == 'migrate' && $arg2 != null && $arg3 == null) {
+			
+			// Can user extract modules ?
+			if(	! User::can( 'updates_modules' ) ) {
+				redirect(array( 'dashboard', 'access-denied' )); 
+			}
+			
             $module        =    Modules::get($arg2);
             if (! $module) {
                 redirect(array( 'dashboard', 'module-not-found' ));
@@ -153,6 +201,12 @@ class Dashboard extends Tendoo_Controller
                 'module'    =>    $module
             ));
         } elseif ($page == 'migrate' && $arg3 == 'run' && $arg2 != null) {
+			
+			// Can user extract modules ?
+			if(	! User::can( 'updates_modules' ) ) {
+				redirect(array( 'dashboard', 'access-denied' )); 
+			}
+			
             $module        =    Modules::get($arg2);
             if (! $module) {
                 echo json_encode(array(
@@ -211,10 +265,12 @@ class Dashboard extends Tendoo_Controller
                 }
             }
         }
+		
     }
+	
     /**
      * Options Management ocntroller
-     *
+     * [New Permission Ready]
      *
      * @access       public
      * @author       blair Jersyer
@@ -223,20 +279,25 @@ class Dashboard extends Tendoo_Controller
      * @param		 string $arg2
      * @since        3.0.1
      */
-    public function options($mode = 'list')
-    {
-        (! Modules::is_active('aauth')) ? redirect(array( 'dashboard', 'error-occurred?notice=required_module_missing' )) : null;
-        (! User::can('manage_options')) ? redirect(array( 'dashboard', 'access-denied' )): null;
-        
+    
+	public function options($mode = 'list')
+    {        
         if (in_array($mode, array( 'save', 'merge' ))) {
+			
+			// Can user extract modules ?
+			if(	! User::can( 'create_options' ) ) {
+				redirect(array( 'dashboard', 'access-denied' )); 
+			}
+						
             if (! $this->input->post('gui_saver_ref') && ! $this->input->post('gui_json')) {
                 // if JSON mode is enabled redirect is disabled
-
                 redirect(array( 'dashboard', 'options' ));
             }
             if ($this->input->post('gui_saver_expiration_time') >  gmt_to_local(time(), 'UTC')) {
-                $content    =    array();
-                // loping post value
+                
+				$content    =    array();
+                
+				// loping post value
                 global $Options;
                 foreach ($_POST as $key => $value) {
                     if (! in_array($key, array( 'gui_saver_option_namespace', 'gui_saver_ref', 'gui_saver_expiration_time', 'gui_saver_use_namespace', 'gui_delete_option_field', 'gui_json' ))) {
@@ -261,12 +322,12 @@ class Dashboard extends Tendoo_Controller
                             }
                         } else {
                             if ($this->input->post('gui_saver_use_namespace') === 'true') {
-                                $content[ $key ]    =    ($mode == 'merge') ? $options : $_POST[ $key ];
+                                $content[ $key ]    =    ($mode == 'merge') ? $options : xss_clean( $_POST[ $key ] );
                             } else {
                                 if ($mode == 'merge' && is_array($value)) {
                                     $this->options->set($key, $options, true);
                                 } else {
-                                    $this->options->set($key, $_POST[ $key ], true);
+                                    $this->options->set($key, xss_clean( $_POST[ $key ] ), true);
                                 }
                             }
                         }
@@ -283,21 +344,34 @@ class Dashboard extends Tendoo_Controller
                         }
                     }
                 }
+				
                 // saving all post using namespace
                 if ($this->input->post('gui_saver_use_namespace') == 'true') {
                     $this->options->set($this->input->post('gui_saver_option_namespace'), $content, true);
                 }
+				
                 if (! $this->input->post('gui_json')) { // if JSON mode is enabled redirect is disabled
                     redirect(urldecode($this->input->post('gui_saver_ref')) . '?notice=option-saved');
                 }
             }
         } elseif ($mode == 'get') {
+			
+			// Can user extract modules ?
+			if(	! User::can( 'read_options' ) ) {
+				redirect(array( 'dashboard', 'access-denied' )); 
+			}		
+							
             // Since Option Module already decode JSON
             // Fix bug
             // @since 3.0.5
-            echo json_encode($this->options->get($_POST[ 'option_key' ]));
-            // echo json_decode( $this->options->get( $_POST[ 'option_key' ] ) );
+            echo json_encode($this->options->get( xss_clean( $_POST[ 'option_key' ] ) ) );
+
         } elseif (in_array($mode, array( 'save_user_meta', 'merge_user_meta' ))) {
+			
+			if(	! User::can( 'edit_profile' ) ) {
+				redirect(array( 'dashboard', 'access-denied' )); 
+			}
+			
             if ($this->input->post('gui_saver_expiration_time') >  gmt_to_local(time(), 'UTC')) {
                 $content    =    array();
                 // loping post value
@@ -320,12 +394,12 @@ class Dashboard extends Tendoo_Controller
                             }
                         } else {
                             if ($this->input->post('gui_saver_use_namespace') === 'true') {
-                                $content[ $key ]    =    ($mode == 'merge') ? $options : $_POST[ $key ];
+                                $content[ $key ]    =    ($mode == 'merge') ? $options : xss_clean( $_POST[ $key ] );
                             } else {
                                 if ($mode == 'merge' && is_array($value)) {
                                     $this->options->set($key, $options, true, $this->input->post('user_id'));
                                 } else {
-                                    $this->options->set($key, $_POST[ $key ], true, $this->input->post('user_id'));
+                                    $this->options->set($key, xss_clean( $_POST[ $key ] ), true, $this->input->post('user_id'));
                                 }
                             }
                         }
@@ -334,9 +408,10 @@ class Dashboard extends Tendoo_Controller
             }
         }
     }
-        /**
+	
+    /**
      * Options Management ocntroller
-     *
+     * [New Permission Ready]
      *
      * @access       public
      * @author       Blair Jersyer
@@ -351,15 +426,18 @@ class Dashboard extends Tendoo_Controller
             redirect(array( 'dashboard', 'error-occurred?notice=required_module_missing' ));
         }
         
-        if (! User::can('manage_options')) {
+        if (! User::can('manage_core')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
         
         if ($page === 'core') {
-            $this->Gui->set_title(sprintf(__('Updating... &mdash; %s'), get('core_signature')));
-            $this->load->view('dashboard/update/core', array(
+            
+			$this->Gui->set_title(sprintf(__('Updating... &mdash; %s'), get('core_signature')));
+            
+			$this->load->view('dashboard/update/core', array(
                 'release'    =>    $version
             ));
+			
         } elseif ($page === 'download') {
             echo json_encode($this->Update_Model->install(1, $version));
         } elseif ($page === 'extract') {
@@ -374,15 +452,20 @@ class Dashboard extends Tendoo_Controller
 
     /**
      * About controller
-     *
+     * [New Permission Ready]
      *
      * @access       public
      * @author       blair Jersyer
      * @copyright    name date
      * @since        3.0.1
      */
+	 
     public function about()
     {
+		if (! User::can('manage_core')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+		
         $this->events-> add_filter('gui_page_title', function () { // disabling header
             return;
         });

@@ -16,6 +16,14 @@ class Nexo_Produits extends CI_Model
     
     public function crud_header()
     {
+		if( 
+			! User::can('edit_shop_items') ||
+			! User::can('create_shop_items') ||
+			! User::can('delete_shop_items')
+		) {
+			redirect( array( 'dashboard', 'access-denied' ) );
+		}
+		
         $this->load->model('Nexo_Products');
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');
@@ -108,14 +116,10 @@ class Nexo_Produits extends CI_Model
     
     public function lists($page = 'index')
     {
-        if ($page == 'index') {
+		if ($page == 'index') {
             $this->Gui->set_title(__('Liste des articles &mdash; Nexo', 'nexo'));
         } else {
             $this->Gui->set_title(__('Ajouter un nouvel article &mdash; Nexo', 'nexo'));
-        }
-        // Protecting
-        if (! User::can('create_items')) {
-            redirect(array( 'dashboard', 'access-denied?from=Nexo_items_c' ));
         }
             
         $data[ 'crud_content' ]    =    $this->crud_header();
@@ -126,8 +130,8 @@ class Nexo_Produits extends CI_Model
     public function add()
     {
         // Protecting
-        if (! User::can('create_items')) {
-            redirect(array( 'dashboard', 'access-denied?from=Nexo_items_c' ));
+        if (! User::can('create_shop_items') ) {
+            redirect(array( 'dashboard', 'access-denied' ));
         }
         
         $data[ 'crud_content' ]    =    $this->crud_header();

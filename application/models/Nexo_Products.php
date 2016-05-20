@@ -165,7 +165,7 @@ class Nexo_Products extends CI_Model
     public function product_save($param)
     {
         // Protecting
-        if (! User::can('create_items')) {
+        if (! User::can('create_shop_items')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
         
@@ -190,7 +190,7 @@ class Nexo_Products extends CI_Model
     public function product_update($param)
     {
         // Protecting
-        if (! User::can('edit_items')) {
+        if (! User::can('edit_shop_items')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
         
@@ -225,7 +225,7 @@ class Nexo_Products extends CI_Model
     public function product_delete( $param )
     {
         // Protecting
-        if (! User::can('delete_items')) {
+        if (! User::can('delete_shop_items')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
 		

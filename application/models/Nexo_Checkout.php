@@ -19,7 +19,7 @@ class Nexo_Checkout extends CI_Model
     public function commandes_save($post)
     {
         // Protecting
-        if (! User::can('create_orders')) {
+        if (! User::can('create_shop_orders')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
         
@@ -194,6 +194,7 @@ class Nexo_Checkout extends CI_Model
     /**
      * Command Update
      * Update a command
+	 * [new permission ready]
      *
      * @param Array
      * @return Array
@@ -201,9 +202,8 @@ class Nexo_Checkout extends CI_Model
     
     public function commandes_update($post)
     {
-        
         // Protecting
-        if (! User::can('edit_orders')) {
+        if (! User::can('edit_shop_orders')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
         
@@ -396,9 +396,10 @@ class Nexo_Checkout extends CI_Model
     {
         if (class_exists('User')) {
             // Protecting
-            if (! User::can('delete_orders')) {
-                redirect(array( 'dashboard', 'access-denied' ));
-            }
+            // Protecting
+			if (! User::can('delete_shop_orders')) {
+				redirect(array( 'dashboard', 'access-denied' ));
+			}
         }
         
         
@@ -459,71 +460,285 @@ class Nexo_Checkout extends CI_Model
     public function create_permissions()
     {
         $this->aauth        =    $this->users->auth;
-        User::create_group('nexo_cashier', __('Gérant de la caisse', 'nexo'), true, __('Permet de gérer la vente des articles, la gestion des clients', 'nexo'));
-        User::create_group('shop_manager', __('Gérant de la boutique', 'nexo'), true, __('Permet de gérer la vente des articles, la gestion des clients, la modification des réglages et accède aux rapports.', 'nexo'));
-        User::create_group('tester', __('Privilège pour testeur', 'nexo'), true, __('Peut vendre des articles et ajouter des clients', 'nexo'));
+		// Create Cashier
+        Group::create(
+			'shop_clashier', 
+			__('Caissier', 'nexo'), 
+			true, 
+			__('Permet de gérer la vente des articles, la gestion des clients', 'nexo')
+		);
         
-        // Shop_Manager
-
-        $this->aauth->create_perm('create_orders',    __('Gestion des commandes', 'nexo'),            __('Peut créer des commandes', 'nexo'));
-        $this->aauth->create_perm('edit_orders',        __('Modification des commandes', 'nexo'),    __('Peut modifier des commandes', 'nexo'));
-        $this->aauth->create_perm('delete_orders',    __('Suppression des commandes', 'nexo'),        __('Peut supprimer les commandes', 'nexo'));
+		// Create Shop Manager
+		Group::create(
+			'shop_manager', 
+			__('Gérant de la boutique', 'nexo'), 
+			true, 
+			__('Permet de gérer la vente des articles, la gestion des clients, la modification des réglages et accède aux rapports.', 'nexo')
+		);
+		
+		// Create Shop Tester
+        Group::create(
+			'shop_tester', 
+			__('Privilège pour testeur', 'nexo'), 
+			true, 
+			__('Effectue toutes tâches d\'ajout et de modification. Ne peux pas supprimer du contenu.', 'nexo')
+		);
         
-        // Shipipng Managements
+        // Shop Orders
+        $this->aauth->create_perm('create_shop_orders',    __('Gestion des commandes', 'nexo'),            __('Peut créer des commandes', 'nexo'));
+		$this->aauth->create_perm('edit_shop_orders',    __('Modification des commandes', 'nexo'),            __('Peut modifier des commandes', 'nexo'));
+		$this->aauth->create_perm('delete_shop_orders',    __('Suppression des commandes', 'nexo'),            __('Peut supprimer des commandes', 'nexo'));
+		
+		// Shop Items
+        $this->aauth->create_perm('create_shop_items',        __('Créer des articles', 'nexo'),            __('Peut créer des produits', 'nexo'));
+        $this->aauth->create_perm('edit_shop_items',        __('Modifier des articles', 'nexo'),            __('Peut modifier des produits', 'nexo'));
+        $this->aauth->create_perm('delete_shop_items',    __('Supprimer des articles', 'nexo'),        __('Peut supprimer des produits', 'nexo'));
+		
+		// Shop Categories
+        $this->aauth->create_perm('create_shop_categories',  __('Créer des catégories', 'nexo'),        __('Crée les catégories', 'nexo'));
+		$this->aauth->create_perm('edit_shop_categories',  __('Modifier des catégories', 'nexo'),        __('Modifie les catégories', 'nexo'));
+		$this->aauth->create_perm('delete_shop_categories',  __('Supprimer des catégories', 'nexo'),        __('Supprime les catégories', 'nexo'));
+		
+		// Shop radius
+        $this->aauth->create_perm('create_shop_radius',    __('Créer des rayons', 'nexo'),                __('Crée les rayons', 'nexo'));
+		$this->aauth->create_perm('edit_shop_radius',    __('Modifier des rayons', 'nexo'),                __('Modifie les rayons', 'nexo'));
+		$this->aauth->create_perm('delete_shop_radius',    __('Supprimer des rayons', 'nexo'),                __('Supprime les rayons', 'nexo'));
+		
+		// Shop Shipping
+        $this->aauth->create_perm('create_shop_shippings',    __('Créer des collections', 'nexo'),        __('Crée les collections', 'nexo'));
+		$this->aauth->create_perm('edit_shop_shippings',    __('Modifier des collections', 'nexo'),        __('Modifie les collections', 'nexo'));
+		$this->aauth->create_perm('delete_shop_shippings',    __('Supprimer des collections', 'nexo'),        __('Supprime les collections', 'nexo'));
+		
+		// Shop Provider
+        $this->aauth->create_perm('create_shop_providers',    __('Créer des fournisseurs', 'nexo'),        __('Gère les fournisseurs (Livreurs)', 'nexo'));
+		$this->aauth->create_perm('edit_shop_providers',    __('Modifier des fournisseurs', 'nexo'),        __('Gère les fournisseurs (Livreurs)', 'nexo'));
+		$this->aauth->create_perm('delete_shop_providers',    __('Supprimer des fournisseurs', 'nexo'),        __('Gère les fournisseurs (Livreurs)', 'nexo'));
+		
+		// Shop Customers
+		$this->aauth->create_perm('create_shop_customers',    __('Créer des clients', 'nexo'),        __('Création des clients', 'nexo'));
+		$this->aauth->create_perm('edit_shop_customers',    __('Modifier des clients', 'nexo'),        __('Modification des clients', 'nexo'));
+		$this->aauth->create_perm('delete_shop_customers',    __('Supprimer des clients', 'nexo'),        __('Suppression des clients', 'nexo'));
+		
+		// Shop Customers Group
+		$this->aauth->create_perm('create_shop_customers_groups',    __('Créer des groupes de clients', 'nexo'),        __('Création des groupes de clients', 'nexo'));
+		$this->aauth->create_perm('edit_shop_customers_groups',    __('Modifier des groupes de clients', 'nexo'),        __('Modification des groupes de clients', 'nexo'));
+		$this->aauth->create_perm('delete_shop_customers_groups',    __('Supprimer des groupes de clients', 'nexo'),        __('Suppression des groupes de clients', 'nexo'));
+		
+		// Shop Payments Means
+		$this->aauth->create_perm('create_shop_payments_means',    __('Créer des moyens de paiement', 'nexo'),        __('Création des moyens de paiement', 'nexo'));
+		$this->aauth->create_perm('edit_shop_payments_means',    __('Modifier des moyens de paiement', 'nexo'),        __('Modification des moyens de paiement', 'nexo'));
+		$this->aauth->create_perm('delete_shop_payments_means',    __('Supprimer des moyens de paiement', 'nexo'),        __('Suppression des moyens de paiement', 'nexo'));		
+		// Shop Order Types
+		$this->aauth->create_perm('create_shop_order_types',    __('Créer des types de commandes', 'nexo'),        __('Création des types de commandes', 'nexo'));
+		$this->aauth->create_perm('edit_shop_order_types',    __('Modifier des types de commandes', 'nexo'),        __('Modification des types de commandes', 'nexo'));
+		$this->aauth->create_perm('delete_shop_order_types',    __('Supprimer des types de commandes', 'nexo'),        __('Suppression des types de commandes', 'nexo'));
+		
+		// Shop Purchase Invoices
+		$this->aauth->create_perm('create_shop_purchases_invoices',    __('Créer des factures d\'achats', 'nexo'),        __('Création des factures d\'achats', 'nexo'));
+		$this->aauth->create_perm('edit_shop_purchases_invoices',    __('Modifier des factures d\'achats', 'nexo'),        __('Modification des factures d\'achats', 'nexo'));
+		$this->aauth->create_perm('delete_shop_purchases_invoices',    __('Supprimer des factures d\'achats', 'nexo'),        __('Suppression des factures d\'achats', 'nexo'));
 
-        $this->aauth->create_perm('create_items',        __('Créer des articles', 'nexo'),            __('Peut créer des produits', 'nexo'));
-        $this->aauth->create_perm('edit_items',        __('Modifier des articles', 'nexo'),            __('Peut modifier des produits', 'nexo'));
-        $this->aauth->create_perm('delete_items',    __('Supprimer des articles', 'nexo'),        __('Peut supprimer des produits', 'nexo'));
-        $this->aauth->create_perm('manage_categories',  __('Gestion des catégories', 'nexo'),        __('Gère les catégories', 'nexo'));
-        $this->aauth->create_perm('manage_radius',    __('Gestion des rayons', 'nexo'),                __('Gère les rayons', 'nexo'));
-        $this->aauth->create_perm('manage_shipping',    __('Gestion des collections', 'nexo'),        __('Gère les collections', 'nexo'));
-        $this->aauth->create_perm('manage_vendor',    __('Gestion des fournisseurs', 'nexo'),        __('Gère les fournisseurs (Livreurs)', 'nexo'));
-        
-        // Shop_Manager
-
-        $this->aauth->create_perm('manage_shop', __('Gestion de la boutique', 'nexo'),            __('Autorise la gestion complète de la boutique', 'nexo'));
-        
-        // Group Allow
-
-            // Allow Checkout Manager
-
-            $this->aauth->allow_group('nexo_cashier', 'create_orders');
-        $this->aauth->allow_group('nexo_cashier', 'edit_orders');
-            
-            // Allow Shop Manager
-
-            $this->aauth->allow_group('shop_manager', 'create_orders');
-        $this->aauth->allow_group('shop_manager', 'edit_orders');
-        $this->aauth->allow_group('shop_manager', 'delete_orders');
-        $this->aauth->allow_group('shop_manager', 'manage_shop');
-        $this->aauth->allow_group('shop_manager', 'create_items');
-        $this->aauth->allow_group('shop_manager', 'edit_items');
-        $this->aauth->allow_group('shop_manager', 'delete_items');
-        $this->aauth->allow_group('shop_manager', 'manage_categories');
-        $this->aauth->allow_group('shop_manager', 'manage_radius');
-        $this->aauth->allow_group('shop_manager', 'manage_shipping');
-        $this->aauth->allow_group('shop_manager', 'manage_vendor');
-        
-            // Allow Tester
-
-            $this->aauth->allow_group('tester', 'create_orders');
-        $this->aauth->allow_group('tester', 'edit_orders');
-        $this->aauth->allow_group('tester', 'create_items');
-        $this->aauth->allow_group('tester', 'edit_items');
-        
-        // default privilege
-
-        $this->aauth->allow_group('master', 'create_orders');
-        $this->aauth->allow_group('master', 'edit_orders');
-        $this->aauth->allow_group('master', 'delete_orders');
-        $this->aauth->allow_group('master', 'manage_shop');
-        $this->aauth->allow_group('master', 'create_items');
-        $this->aauth->allow_group('master', 'edit_items');
-        $this->aauth->allow_group('master', 'delete_items');
-        $this->aauth->allow_group('master', 'manage_categories');
-        $this->aauth->allow_group('master', 'manage_radius');
-        $this->aauth->allow_group('master', 'manage_shipping');
-        $this->aauth->allow_group('master', 'manage_vendor');
+		// Shop Read Reports
+		$this->aauth->create_perm('read_shop_reports', __('Lecture des rapports & statistiques', 'nexo'),            __('Autorise la lecture des rapports', 'nexo'));        		
+		/**
+		 * Permission for Cashier
+		**/
+		
+		// Orders
+		$this->aauth->allow_group('shop_clashier', 'create_shop_orders');
+        $this->aauth->allow_group('shop_clashier', 'edit_shop_orders');
+		$this->aauth->allow_group('shop_clashier', 'delete_shop_orders');
+		
+		// Customers
+		$this->aauth->allow_group('shop_clashier', 'create_shop_customers');
+        $this->aauth->allow_group('shop_clashier', 'delete_shop_customers');
+		$this->aauth->allow_group('shop_clashier', 'edit_shop_customers');
+		
+		// Customers Groups
+		$this->aauth->allow_group('shop_clashier', 'create_shop_customers_groups');
+        $this->aauth->allow_group('shop_clashier', 'delete_shop_customers_groups');
+		$this->aauth->allow_group('shop_clashier', 'edit_shop_customers_groups');
+		
+		// Profile
+		$this->aauth->allow_group('shop_clashier', 'edit_profile');
+		
+		/**
+		 * Permission for Shop Manager
+		**/
+		
+		// Orders
+		$this->aauth->allow_group('shop_manager', 'create_shop_orders');
+        $this->aauth->allow_group('shop_manager', 'edit_shop_orders');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_orders');
+		
+		// Customers
+		$this->aauth->allow_group('shop_manager', 'create_shop_customers');
+        $this->aauth->allow_group('shop_manager', 'delete_shop_customers');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_customers');
+		
+		// Customers Groups
+		$this->aauth->allow_group('shop_manager', 'create_shop_customers_groups');
+        $this->aauth->allow_group('shop_manager', 'delete_shop_customers_groups');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_customers_groups');
+		
+		// Shop items
+		$this->aauth->allow_group('shop_manager', 'create_shop_items');
+        $this->aauth->allow_group('shop_manager', 'edit_shop_items');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_items');
+		
+		// Shop categories
+		$this->aauth->allow_group('shop_manager', 'create_shop_categories');
+        $this->aauth->allow_group('shop_manager', 'edit_shop_categories');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_categories');
+		
+		// Shop Radius
+		$this->aauth->allow_group('shop_manager', 'create_shop_radius');
+        $this->aauth->allow_group('shop_manager', 'edit_shop_radius');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_radius');
+		
+		// Shop Shipping
+		$this->aauth->allow_group('shop_manager', 'create_shop_shippings');
+        $this->aauth->allow_group('shop_manager', 'edit_shop_shippings');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_shippings');
+		
+		// Shop Provider
+		$this->aauth->allow_group('shop_manager', 'create_shop_providers');
+        $this->aauth->allow_group('shop_manager', 'edit_shop_providers');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_providers');
+		
+		// Shop Payment Means
+		$this->aauth->allow_group('shop_manager', 'create_shop_payments_means');
+        $this->aauth->allow_group('shop_manager', 'edit_shop_payments_means');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_payments_means');
+		
+		// Shop Orders type
+		$this->aauth->allow_group('shop_manager', 'create_shop_order_types');
+        $this->aauth->allow_group('shop_manager', 'edit_shop_order_types');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_order_types');
+		
+		// Shop Options
+		$this->aauth->allow_group('shop_manager', 'create_options');
+		$this->aauth->allow_group('shop_manager', 'edit_options');
+		$this->aauth->allow_group('shop_manager', 'delete_options');
+		
+		// Shop Purchase Invoices
+		$this->aauth->allow_group('shop_manager', 'create_shop_purchases_invoices');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_purchases_invoices');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_purchases_invoices');
+		
+		// Profile
+		$this->aauth->allow_group('shop_manager', 'edit_profile');
+		
+		/**
+		 * Permission for Master
+		**/
+		
+		// Orders
+		$this->aauth->allow_group('master', 'create_shop_orders');
+        $this->aauth->allow_group('master', 'edit_shop_orders');
+		$this->aauth->allow_group('master', 'delete_shop_orders');
+		
+		// Customers
+		$this->aauth->allow_group('master', 'create_shop_customers');
+        $this->aauth->allow_group('master', 'delete_shop_customers');
+		$this->aauth->allow_group('master', 'edit_shop_customers');
+		
+		// Customers Groups
+		$this->aauth->allow_group('master', 'create_shop_customers_groups');
+        $this->aauth->allow_group('master', 'delete_shop_customers_groups');
+		$this->aauth->allow_group('master', 'edit_shop_customers_groups');
+		
+		// Shop items
+		$this->aauth->allow_group('master', 'create_shop_items');
+        $this->aauth->allow_group('master', 'edit_shop_items');
+		$this->aauth->allow_group('master', 'delete_shop_items');
+		
+		// Shop categories
+		$this->aauth->allow_group('master', 'create_shop_categories');
+        $this->aauth->allow_group('master', 'edit_shop_categories');
+		$this->aauth->allow_group('master', 'delete_shop_categories');
+		
+		// Shop Radius
+		$this->aauth->allow_group('master', 'create_shop_radius');
+        $this->aauth->allow_group('master', 'edit_shop_radius');
+		$this->aauth->allow_group('master', 'delete_shop_radius');
+		
+		// Shop Shipping
+		$this->aauth->allow_group('master', 'create_shop_shippings');
+        $this->aauth->allow_group('master', 'edit_shop_shippings');
+		$this->aauth->allow_group('master', 'delete_shop_shippings');
+		
+		// Shop Provider
+		$this->aauth->allow_group('master', 'create_shop_providers');
+        $this->aauth->allow_group('master', 'edit_shop_providers');
+		$this->aauth->allow_group('master', 'delete_shop_providers');
+		
+		// Shop Payment Means
+		$this->aauth->allow_group('master', 'create_shop_payments_means');
+        $this->aauth->allow_group('master', 'edit_shop_payments_means');
+		$this->aauth->allow_group('master', 'delete_shop_payments_means');
+		
+		// Shop Orders type
+		$this->aauth->allow_group('master', 'create_shop_order_types');
+        $this->aauth->allow_group('master', 'edit_shop_order_types');
+		$this->aauth->allow_group('master', 'delete_shop_order_types');
+		
+		// Shop Purchase Invoices
+		$this->aauth->allow_group('master', 'create_shop_purchases_invoices');
+		$this->aauth->allow_group('master', 'edit_shop_purchases_invoices');
+		$this->aauth->allow_group('master', 'delete_shop_purchases_invoices');
+		
+        /**
+		 * Permission for Shop Test
+		**/
+		
+		// Orders
+		$this->aauth->allow_group('shop_tester', 'create_shop_orders');
+        $this->aauth->allow_group('shop_tester', 'edit_shop_orders');
+		
+		// Customers
+		$this->aauth->allow_group('shop_tester', 'create_shop_customers');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_customers');
+		
+		// Customers Groups
+		$this->aauth->allow_group('shop_tester', 'create_shop_customers_groups');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_customers_groups');
+		
+		// Shop items
+		$this->aauth->allow_group('shop_tester', 'create_shop_items');
+        $this->aauth->allow_group('shop_tester', 'edit_shop_items');
+		
+		// Shop categories
+		$this->aauth->allow_group('shop_tester', 'create_shop_categories');
+        $this->aauth->allow_group('shop_tester', 'edit_shop_categories');
+		
+		// Shop Radius
+		$this->aauth->allow_group('shop_tester', 'create_shop_radius');
+        $this->aauth->allow_group('shop_tester', 'edit_shop_radius');
+		
+		// Shop Shipping
+		$this->aauth->allow_group('shop_tester', 'create_shop_shippings');
+        $this->aauth->allow_group('shop_tester', 'edit_shop_shippings');
+		
+		// Shop Provider
+		$this->aauth->allow_group('shop_tester', 'create_shop_providers');
+        $this->aauth->allow_group('shop_tester', 'edit_shop_providers');
+		
+		// Shop Payment Means
+		$this->aauth->allow_group('shop_tester', 'create_shop_payments_means');
+        $this->aauth->allow_group('shop_tester', 'edit_shop_payments_means');
+		
+		// Shop Orders type
+		$this->aauth->allow_group('shop_tester', 'create_shop_order_types');
+        $this->aauth->allow_group('shop_tester', 'edit_shop_order_types');
+		
+		// Shop Purchase Invoices
+		$this->aauth->allow_group('shop_tester', 'create_shop_purchases_invoices');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_purchases_invoices');
+	
+		
+		// Profile
+		// $this->aauth->allow_group('shop_tester', 'edit_profile');
     }
     
     /** 
@@ -535,36 +750,198 @@ class Nexo_Checkout extends CI_Model
     public function delete_permissions()
     {
         $this->aauth        =    $this->users->auth;
-        $this->aauth->delete_group('nexo_cashier');
-        $this->aauth->delete_group('shop_manager');
-        
-        $this->aauth->deny_group('master', 'create_orders');
-        $this->aauth->deny_group('master', 'edit_orders');
-        $this->aauth->deny_group('master', 'delete_orders');
-        
-        $this->aauth->deny_group('master', 'manage_shop');
-        $this->aauth->deny_group('master', 'manage_categories');
-        $this->aauth->deny_group('master', 'manage_radius');
-        $this->aauth->deny_group('master', 'manage_shipping');
-        $this->aauth->deny_group('master', 'manage_vendor');
-        
-        $this->aauth->deny_group('master', 'create_items');
-        $this->aauth->deny_group('master', 'edit_items');
-        $this->aauth->deny_group('master', 'delete_items');
-        
-        $this->aauth->delete_perm('create_orders');
-        $this->aauth->delete_perm('edit_orders');
-        $this->aauth->delete_perm('delete_orders');
-        
-        $this->aauth->delete_perm('manage_shop');
-        $this->aauth->delete_perm('manage_categories');
-        $this->aauth->delete_perm('manage_shipping');
-        $this->aauth->delete_perm('manage_vendor');
-        $this->aauth->delete_perm('manage_radius');
-        
-        $this->aauth->delete_perm('create_items');
-        $this->aauth->delete_perm('edit_items');
-        $this->aauth->delete_perm('delete_items');
+		
+		/**
+		 * Denied Permissions
+		**/
+		
+		// Shop Manager
+		// Orders
+		$this->aauth->deny_group('shop_manager', 'create_shop_orders');
+        $this->aauth->deny_group('shop_manager', 'edit_shop_orders');
+		$this->aauth->deny_group('shop_manager', 'delete_shop_orders');
+		
+		// Customers
+		$this->aauth->deny_group('shop_manager', 'create_shop_customers');
+        $this->aauth->deny_group('shop_manager', 'delete_shop_customers');
+		$this->aauth->deny_group('shop_manager', 'edit_shop_customers');
+		
+		// Customers Groups
+		$this->aauth->deny_group('shop_manager', 'create_shop_customers_groups');
+        $this->aauth->deny_group('shop_manager', 'delete_shop_customers_groups');
+		$this->aauth->deny_group('shop_manager', 'edit_shop_customers_groups');
+		
+		// Shop items
+		$this->aauth->deny_group('shop_manager', 'create_shop_items');
+        $this->aauth->deny_group('shop_manager', 'edit_shop_items');
+		$this->aauth->deny_group('shop_manager', 'delete_shop_items');
+		
+		// Shop categories
+		$this->aauth->deny_group('shop_manager', 'create_shop_categories');
+        $this->aauth->deny_group('shop_manager', 'edit_shop_categories');
+		$this->aauth->deny_group('shop_manager', 'delete_shop_categories');
+		
+		// Shop Radius
+		$this->aauth->deny_group('shop_manager', 'create_shop_radius');
+        $this->aauth->deny_group('shop_manager', 'edit_shop_radius');
+		$this->aauth->deny_group('shop_manager', 'delete_shop_radius');
+		
+		// Shop Shipping
+		$this->aauth->deny_group('shop_manager', 'create_shop_shipping');
+        $this->aauth->deny_group('shop_manager', 'edit_shop_shipping');
+		$this->aauth->deny_group('shop_manager', 'delete_shop_shipping');
+		
+		// Shop Provider
+		$this->aauth->deny_group('shop_manager', 'create_shop_providers');
+        $this->aauth->deny_group('shop_manager', 'edit_shop_providers');
+		$this->aauth->deny_group('shop_manager', 'delete_shop_providers');
+		
+		// Shop Payment Means
+		$this->aauth->deny_group('shop_manager', 'create_shop_payments_means');
+        $this->aauth->deny_group('shop_manager', 'edit_shop_payments_means');
+		$this->aauth->deny_group('shop_manager', 'delete_shop_payments_means');
+		
+		// Shop Orders type
+		$this->aauth->deny_group('shop_manager', 'create_shop_order_types');
+        $this->aauth->deny_group('shop_manager', 'edit_shop_order_types');
+		$this->aauth->deny_group('shop_manager', 'delete_shop_order_types');
+		
+		// Shop purchase invoice
+		$this->aauth->deny_group('shop_manager', 'create_shop_purchases_invoices');
+		$this->aauth->deny_group('shop_manager', 'edit_shop_purchases_invoices');
+		$this->aauth->deny_group('shop_manager', 'delete_shop_purchases_invoices');
+		
+		// Update Profile
+		$this->aauth->deny_group('shop_manager', 'edit_profile');
+		
+		// Master
+		// Orders
+		$this->aauth->deny_group('master', 'create_shop_orders');
+        $this->aauth->deny_group('master', 'edit_shop_orders');
+		$this->aauth->deny_group('master', 'delete_shop_orders');
+		
+		// Customers
+		$this->aauth->deny_group('master', 'create_shop_customers');
+        $this->aauth->deny_group('master', 'delete_shop_customers');
+		$this->aauth->deny_group('master', 'edit_shop_customers');
+		
+		// Customers Groups
+		$this->aauth->deny_group('master', 'create_shop_customers_groups');
+        $this->aauth->deny_group('master', 'delete_shop_customers_groups');
+		$this->aauth->deny_group('master', 'edit_shop_customers_groups');
+		
+		// Shop items
+		$this->aauth->deny_group('master', 'create_shop_items');
+        $this->aauth->deny_group('master', 'edit_shop_items');
+		$this->aauth->deny_group('master', 'delete_shop_items');
+		
+		// Shop categories
+		$this->aauth->deny_group('master', 'create_shop_categories');
+        $this->aauth->deny_group('master', 'edit_shop_categories');
+		$this->aauth->deny_group('master', 'delete_shop_categories');
+		
+		// Shop Radius
+		$this->aauth->deny_group('master', 'create_shop_radius');
+        $this->aauth->deny_group('master', 'edit_shop_radius');
+		$this->aauth->deny_group('master', 'delete_shop_radius');
+		
+		// Shop Shipping
+		$this->aauth->deny_group('master', 'create_shop_shipping');
+        $this->aauth->deny_group('master', 'edit_shop_shipping');
+		$this->aauth->deny_group('master', 'delete_shop_shipping');
+		
+		// Shop Provider
+		$this->aauth->deny_group('master', 'create_shop_providers');
+        $this->aauth->deny_group('master', 'edit_shop_providers');
+		$this->aauth->deny_group('master', 'delete_shop_providers');
+		
+		// Shop Payment Means
+		$this->aauth->deny_group('master', 'create_shop_payments_means');
+        $this->aauth->deny_group('master', 'edit_shop_payments_means');
+		$this->aauth->deny_group('master', 'delete_shop_payments_means');
+		
+		// Shop Orders type
+		$this->aauth->deny_group('master', 'create_shop_order_types');
+        $this->aauth->deny_group('master', 'edit_shop_order_types');
+		$this->aauth->deny_group('master', 'delete_shop_order_types');
+		
+		// Shop purchase invoice
+		$this->aauth->deny_group('master', 'create_shop_purchases_invoices');
+		$this->aauth->deny_group('master', 'edit_shop_purchases_invoices');
+		$this->aauth->deny_group('master', 'delete_shop_purchases_invoices');
+		
+		// Denied Permissions for Shop Test		
+		// Orders
+		$this->aauth->deny_group('shop_tester', 'create_shop_orders');
+        $this->aauth->deny_group('shop_tester', 'edit_shop_orders');
+		
+		// Customers
+		$this->aauth->deny_group('shop_tester', 'create_shop_customers');
+		$this->aauth->deny_group('shop_tester', 'edit_shop_customers');
+		
+		// Customers Groups
+		$this->aauth->deny_group('shop_tester', 'create_shop_customers_groups');
+		$this->aauth->deny_group('shop_tester', 'edit_shop_customers_groups');
+		
+		// Shop items
+		$this->aauth->deny_group('shop_tester', 'create_shop_items');
+        $this->aauth->deny_group('shop_tester', 'edit_shop_items');
+		
+		// Shop categories
+		$this->aauth->deny_group('shop_tester', 'create_shop_categories');
+        $this->aauth->deny_group('shop_tester', 'edit_shop_categories');
+		
+		// Shop Radius
+		$this->aauth->deny_group('shop_tester', 'create_shop_radius');
+        $this->aauth->deny_group('shop_tester', 'edit_shop_radius');
+		
+		// Shop Shipping
+		$this->aauth->deny_group('shop_tester', 'create_shop_shipping');
+        $this->aauth->deny_group('shop_tester', 'edit_shop_shipping');
+		
+		// Shop Provider
+		$this->aauth->deny_group('shop_tester', 'create_shop_providers');
+        $this->aauth->deny_group('shop_tester', 'edit_shop_providers');
+		
+		// Shop Payment Means
+		$this->aauth->deny_group('shop_tester', 'create_shop_payments_means');
+        $this->aauth->deny_group('shop_tester', 'edit_shop_payments_means');
+		
+		// Shop Orders type
+		$this->aauth->deny_group('shop_tester', 'create_shop_order_types');
+        $this->aauth->deny_group('shop_tester', 'edit_shop_order_types');
+		
+		// Shop purchase invoice
+		$this->aauth->deny_group('shop_tester', 'create_shop_purchases_invoices');
+		$this->aauth->deny_group('shop_tester', 'edit_shop_purchases_invoices');
+		$this->aauth->deny_group('shop_tester', 'delete_shop_purchases_invoices');
+		
+		// Update Profile
+		// $this->aauth->deny_group('shop_tester', 'edit_profile');
+		
+		// For Cashier
+		// Orders
+		$this->aauth->deny_group('shop_clashier', 'create_shop_orders');
+        $this->aauth->deny_group('shop_clashier', 'edit_shop_orders');
+		$this->aauth->deny_group('shop_clashier', 'delete_shop_orders');
+		
+		// Customers
+		$this->aauth->deny_group('shop_clashier', 'create_shop_customers');
+        $this->aauth->deny_group('shop_clashier', 'delete_shop_customers');
+		$this->aauth->deny_group('shop_clashier', 'edit_shop_customers');
+		
+		// Customers Groups
+		$this->aauth->deny_group('shop_clashier', 'create_shop_customers_groups');
+        $this->aauth->deny_group('shop_clashier', 'delete_shop_customers_groups');
+		$this->aauth->deny_group('shop_clashier', 'edit_shop_customers_groups');
+		
+		// Update Profile
+		$this->aauth->deny_group('shop_cashier', 'edit_profile');
+		
+		// Delete Custom Groups
+        $this->aauth->deny_group('shop_clashier');
+        $this->aauth->deny_group('shop_manager');
+		$this->aauth->deny_group('shop_tester');        
     }
     
     /**

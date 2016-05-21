@@ -17,8 +17,8 @@ class Nexo_Rayons extends CI_Model
     public function crud_header()
     {
         if( 
-			! User::can('edit_shop_radius') ||
-			! User::can('create_shop_radius') ||
+			! User::can('edit_shop_radius') &&
+			! User::can('create_shop_radius') &&
 			! User::can('delete_shop_radius')
 		) {
 			redirect( array( 'dashboard', 'access-denied' ) );

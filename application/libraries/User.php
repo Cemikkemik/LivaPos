@@ -63,11 +63,19 @@ class User
      * @since 1.5
      * @return boolean
     **/
+	
+	private static $group_permission;
     
     public static function can($permission)
     {
-        $Instance    =    get_instance();
-        return $Instance->auth->is_group_allowed($permission);
+		if( isset( self::$group_permission[ $permission . '-' . $Group[0]->group_id ] ) ){
+			return self::$group_permission[ $permission . '-' . $Group[0]->group_id ];
+		} else {
+			$Instance    =    get_instance();
+			$Group		=	Group::get();
+			self::$group_permission[ $permission . '-' . $Group[0]->group_id ]	=	$Instance->auth->is_group_allowed($permission, $Group[0]->group_id );
+			return self::$group_permission[ $permission . '-' . $Group[0]->group_id ];
+		}
     }
     
     /**

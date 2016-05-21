@@ -17,8 +17,8 @@ class Nexo_Settings_Controller extends CI_Model
     public function settings($page = 'home')
     {
 		if( 
-			User::can( 'create_options' ) ||
-			User::can( 'edit_options' ) ||
+			User::can( 'create_options' ) &&
+			User::can( 'edit_options' ) &&
 			User::can( 'delete_options' )
 		) {
 			

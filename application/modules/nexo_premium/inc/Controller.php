@@ -202,6 +202,14 @@ class Nexo_Premium_Controller extends CI_Model
     
     private function Controller_Header()
     {
+		if( 
+		 ! User::can( 'create_shop_purchases_invoices ' ) &&
+		 ! User::can( 'edit_shop_purchases_invoices' ) &&
+		 ! User::can( 'delete_shop_purchases_invoices' )
+		) {
+			redirect( array( 'dashboard', 'access-denied' ) );
+		}
+		
         $crud = new grocery_CRUD();
         
         $crud->set_theme('bootstrap');
@@ -237,62 +245,6 @@ class Nexo_Premium_Controller extends CI_Model
         $crud->callback_before_insert(array( $this, '__Facture_Create' ));
         $crud->callback_before_update(array( $this, '__Facture_Update' ));
         
-        $crud->unset_jquery();
-        $output = $crud->render();
-                
-        foreach ($output->js_files as $files) {
-            $this->enqueue->js(substr($files, 0, -3), '');
-        }
-        foreach ($output->css_files as $files) {
-            $this->enqueue->css(substr($files, 0, -4), '');
-        }
-        return $output;
-    }
-    
-    /** 
-     * Backup Controller Header
-    **/
-    
-    private function Backup_Controller_Header()
-    {
-        $crud = new grocery_CRUD();
-        
-        $crud->set_theme('bootstrap');
-        $crud->set_subject(__('Sauvegardes', 'nexo_premium'));
-        $crud->set_table($this->db->dbprefix('nexo_premium_backups'));
-        
-        $crud->columns('NAME', 'FILE_LOCATION', 'AUTHOR', 'DATE_CREATION');
-        $crud->fields('NAME', 'FILE_LOCATION', 'AUTHOR', 'DATE_CREATION', 'DATE_MODIFICATION');
-        
-        $crud->set_relation('AUTHOR', 'aauth_users', 'name');
-        
-        $crud->display_as('NAME', __('Titre de la sauvegarde', 'nexo_premium'));
-        $crud->display_as('FILE_LOCATION', __('Emplacement du fichier', 'nexo_premium'));
-        $crud->display_as('AUTHOR', __('Auteur', 'nexo_premium'));
-        $crud->display_as('DATE_CREATION', __('Date de création', 'nexo_premium'));
-        $crud->display_as('DATE_MODIFICATION', __('Date de modification', 'nexo_premium'));
-        
-        // XSS Cleaner
-        $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
-        $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
-        
-        $crud->change_field_type('FILE_LOCATION', 'invisible');
-        $crud->change_field_type('AUTHOR', 'invisible');
-        $crud->change_field_type('DATE_CREATION', 'invisible');
-        $crud->change_field_type('DATE_MODIFICATION', 'invisible');
-        
-        $crud->callback_before_insert(array( $this, '__Callback_Backup_Create' ));
-        $crud->callback_before_update(array( $this, '__Callback_Backup_Update' ));
-        $crud->callback_before_delete(array( $this, '__Callback_Backup_Delete' ));
-        
-        $crud->add_action(__('Télécharger la sauvegarde', 'nexo_premium'), '', site_url(array( 'dashboard', 'nexo_premium', 'Controller_Download_Backup' )) . '/', 'btn btn-success fa fa-archive');
-        
-        /** 
-        * Filter for actions
-        **/
-        
-        $this->events->add_filter('grocery_actions', array( $this, '__Filter_action_url' ), 10, 2);
-                
         $crud->unset_jquery();
         $output = $crud->render();
                 
@@ -349,6 +301,11 @@ class Nexo_Premium_Controller extends CI_Model
         if ($page == 'list') {
             $this->Gui->set_title(__('Liste des factures &mdash; Nexo', 'nexo_premium'));
         } else {
+			
+			if( ! User::can( 'create_shop_purchases_invoices ' ) ) {
+				redirect( array( 'dashboard', 'access-denied' ) );
+			}
+			
             $this->Gui->set_title(__('Ajouter/modifier une facture &mdash; Nexo', 'nexo_premium'));
         }
         
@@ -439,7 +396,10 @@ class Nexo_Premium_Controller extends CI_Model
     
     public function Controller_Historique($page = 1)
     {
-        if (User::can('read_shop_reports')) {
+        if (
+			User::can('read_shop_user_tracker') ||
+			User::can('delete_shop_user_tracker')
+		) {
             $this->load->model('Nexo_Misc');
             $this->load->library('pagination');
 
@@ -479,16 +439,86 @@ class Nexo_Premium_Controller extends CI_Model
     
     public function Controller_Clear_History()
     {
-		$this->load->model('Nexo_Misc');
+		if ( User::can('delete_shop_user_tracker')	) {
+			
+			$this->load->model('Nexo_Misc');
+			
+			$this->Nexo_Misc->history_delete();
+			
+			$this->Nexo_Misc->history_add(
+				__('Réinitialisation de l\'historique', 'nexo_premium'),
+				sprintf(__('L\'utilisateur <strong>%s</strong> à supprimé le contenu de l\'historique des activités.', 'nexo_premium'), User::pseudo())
+			);
+			
+			redirect(array( 'dashboard', 'nexo_premium', 'Controller_Historique' ));
 		
-		$this->Nexo_Misc->history_delete();
+		} else {
+			redirect( array( 'dashboard', 'access-denied' ) );
+		}
+    }
+	
+	/** 
+     * Backup Controller Header
+    **/
+    
+    private function Backup_Controller_Header()
+    {
+		if (
+			! User::can('create_shop_backup') &&
+			! User::can('edit_shop_backup') && 
+			! User::can('delete_shop_backup')
+		) {
+			redirect( array( 'dashboard', 'access-denied' ) );
+		}
 		
-		$this->Nexo_Misc->history_add(
-			__('Réinitialisation de l\'historique', 'nexo_premium'),
-			sprintf(__('L\'utilisateur <strong>%s</strong> à supprimé le contenu de l\'historique des activités.', 'nexo_premium'), User::pseudo())
-		);
-		
-		redirect(array( 'dashboard', 'nexo_premium', 'Controller_Historique' ));
+        $crud = new grocery_CRUD();
+        
+        $crud->set_theme('bootstrap');
+        $crud->set_subject(__('Sauvegardes', 'nexo_premium'));
+        $crud->set_table($this->db->dbprefix('nexo_premium_backups'));
+        
+        $crud->columns('NAME', 'FILE_LOCATION', 'AUTHOR', 'DATE_CREATION');
+        $crud->fields('NAME', 'FILE_LOCATION', 'AUTHOR', 'DATE_CREATION', 'DATE_MODIFICATION');
+        
+        $crud->set_relation('AUTHOR', 'aauth_users', 'name');
+        
+        $crud->display_as('NAME', __('Titre de la sauvegarde', 'nexo_premium'));
+        $crud->display_as('FILE_LOCATION', __('Emplacement du fichier', 'nexo_premium'));
+        $crud->display_as('AUTHOR', __('Auteur', 'nexo_premium'));
+        $crud->display_as('DATE_CREATION', __('Date de création', 'nexo_premium'));
+        $crud->display_as('DATE_MODIFICATION', __('Date de modification', 'nexo_premium'));
+        
+        // XSS Cleaner
+        $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
+        $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
+        
+        $crud->change_field_type('FILE_LOCATION', 'invisible');
+        $crud->change_field_type('AUTHOR', 'invisible');
+        $crud->change_field_type('DATE_CREATION', 'invisible');
+        $crud->change_field_type('DATE_MODIFICATION', 'invisible');
+        
+        $crud->callback_before_insert(array( $this, '__Callback_Backup_Create' ));
+        $crud->callback_before_update(array( $this, '__Callback_Backup_Update' ));
+        $crud->callback_before_delete(array( $this, '__Callback_Backup_Delete' ));
+        
+        $crud->add_action(__('Télécharger la sauvegarde', 'nexo_premium'), '', site_url(array( 'dashboard', 'nexo_premium', 'Controller_Download_Backup' )) . '/', 'btn btn-success fa fa-archive');
+        
+        /** 
+        * Filter for actions
+        **/
+        
+        $this->events->add_filter('grocery_actions', array( $this, '__Filter_action_url' ), 10, 2);
+                
+        $crud->unset_jquery();
+        $output = $crud->render();
+                
+        foreach ($output->js_files as $files) {
+            $this->enqueue->js(substr($files, 0, -3), '');
+        }
+        foreach ($output->css_files as $files) {
+            $this->enqueue->css(substr($files, 0, -4), '');
+        }
+        return $output;
     }
     
     /** 
@@ -499,10 +529,18 @@ class Nexo_Premium_Controller extends CI_Model
     {
 		$data[ 'crud_content' ]    =    $this->Backup_Controller_Header();
 		
-		if ($page == 'list') {
+		if ( in_array( $page, array( 'list', 'success' ) ) ) {
 			$this->Gui->set_title(__('Liste des sauvegardes &mdash; Nexo', 'nexo_premium'));
-		} else {
-			$this->Gui->set_title(__('Ajouter/modifier une sauvegarde &mdash; Nexo', 'nexo_premium'));
+		} elseif( $page == 'add' ) {
+			if ( ! User::can('create_shop_backup') ) {
+				redirect( array( 'dashboard', 'access-denied' ) );
+			}
+			$this->Gui->set_title(__('Ajouter une sauvegarde &mdash; Nexo', 'nexo_premium'));
+		} else {			
+			if ( ! User::can('edit_shop_backup') ) {
+				redirect( array( 'dashboard', 'access-denied' ) );
+			}
+			$this->Gui->set_title(__('Edition une sauvegarde &mdash; Nexo', 'nexo_premium'));
 		}
 		
 		$this->load->view('../modules/nexo_premium/views/backups.php', $data);

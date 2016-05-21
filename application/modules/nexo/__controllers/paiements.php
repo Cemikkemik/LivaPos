@@ -17,8 +17,8 @@ class Nexo_Payments_Means_Controller extends CI_Model
     public function crud_header()
     {
         if( 
-			! User::can('edit_shop_payments_means') ||
-			! User::can('create_shop_payments_means') ||
+			! User::can('edit_shop_payments_means') &&
+			! User::can('create_shop_payments_means') &&
 			! User::can('delete_shop_payments_means')
 		) {
 			redirect( array( 'dashboard', 'access-denied' ) );

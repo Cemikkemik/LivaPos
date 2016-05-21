@@ -95,7 +95,7 @@ class Users_model extends CI_Model
 		
 		// Create user	
         if (! $group = $this->auth->get_group_id('users')) {
-			$this->auth->create_group('users', __('User Group'), true, __('Just a user'));
+			$this->auth->create_group('user', __('User Group'), true, __('Just a user'));
 		}
     }
     
@@ -334,20 +334,20 @@ class Users_model extends CI_Model
 		$this->users->auth->allow_group('master', 'edit_profile');
         
         // Administrators
-        $this->users->auth->allow_group('administrators', 'create_options');
-		$this->users->auth->allow_group('administrators', 'edit_options');
-		$this->users->auth->allow_group('administrators', 'delete_options');
-		$this->users->auth->allow_group('administrators', 'read_options');
+        $this->users->auth->allow_group('administrator', 'create_options');
+		$this->users->auth->allow_group('administrator', 'edit_options');
+		$this->users->auth->allow_group('administrator', 'delete_options');
+		$this->users->auth->allow_group('administrator', 'read_options');
 		
-		$this->users->auth->allow_group('administrators', 'install_modules');
-		$this->users->auth->allow_group('administrators', 'update_modules');
-		$this->users->auth->allow_group('administrators', 'delete_modules');
-		$this->users->auth->allow_group('administrators', 'toggle_modules');
-		$this->users->auth->allow_group('administrators', 'extract_modules');
+		$this->users->auth->allow_group('administrator', 'install_modules');
+		$this->users->auth->allow_group('administrator', 'update_modules');
+		$this->users->auth->allow_group('administrator', 'delete_modules');
+		$this->users->auth->allow_group('administrator', 'toggle_modules');
+		$this->users->auth->allow_group('administrator', 'extract_modules');
 		
-        $this->users->auth->allow_group('administrators', 'edit_profile');
+        $this->users->auth->allow_group('administrator', 'edit_profile');
 		
 		// Users
-		$this->users->auth->allow_group('users', 'edit_profile');
+		$this->users->auth->allow_group('user', 'edit_profile');
     }
 }

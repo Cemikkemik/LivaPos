@@ -54,8 +54,8 @@ class Nexo_Arrivages extends CI_Model
     public function lists($page = 'index')
     {
 		if( 
-			! User::can('create_shop_shippings')  ||
-			! User::can('edit_shop_shippings') ||
+			! User::can('create_shop_shippings')  &&
+			! User::can('edit_shop_shippings') &&
 			! User::can('delete_shop_shippings') 
 		) {
 			redirect( array( 'dashboard', 'access-denied' ) );

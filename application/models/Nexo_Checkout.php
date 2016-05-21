@@ -537,6 +537,15 @@ class Nexo_Checkout extends CI_Model
 		$this->aauth->create_perm('create_shop_purchases_invoices',    __('Créer des factures d\'achats', 'nexo'),        __('Création des factures d\'achats', 'nexo'));
 		$this->aauth->create_perm('edit_shop_purchases_invoices',    __('Modifier des factures d\'achats', 'nexo'),        __('Modification des factures d\'achats', 'nexo'));
 		$this->aauth->create_perm('delete_shop_purchases_invoices',    __('Supprimer des factures d\'achats', 'nexo'),        __('Suppression des factures d\'achats', 'nexo'));
+		// Shop Order Types
+		$this->aauth->create_perm('create_shop_backup',    __('Créer des sauvegardes', 'nexo'),        __('Création des sauvegardes', 'nexo'));
+		$this->aauth->create_perm('edit_shop_backup',    __('Modifier des sauvegardes', 'nexo'),        __('Modification des sauvegardes', 'nexo'));
+		$this->aauth->create_perm('delete_shop_backup',    __('Supprimer des sauvegardes', 'nexo'),        __('Suppression des sauvegardes', 'nexo'));
+		
+		// Shop Track User
+		$this->aauth->create_perm('read_shop_user_tracker',    __('Lit le flux d\'activité des utilisateurs', 'nexo'),        __('Lit le flux d\'activité des utilisateurs', 'nexo'));
+		$this->aauth->create_perm('delete_shop_user_tracker',    __('Efface le flux d\'actvite des utilisateurs', 'nexo'),        __('Efface le flux d\'actvite des utilisateurs', 'nexo'));
+		
 
 		// Shop Read Reports
 		$this->aauth->create_perm('read_shop_reports', __('Lecture des rapports & statistiques', 'nexo'),            __('Autorise la lecture des rapports', 'nexo'));        		
@@ -626,6 +635,17 @@ class Nexo_Checkout extends CI_Model
 		$this->aauth->allow_group('shop_manager', 'edit_shop_purchases_invoices');
 		$this->aauth->allow_group('shop_manager', 'delete_shop_purchases_invoices');
 		
+		// Shop Backup
+		$this->aauth->allow_group('shop_manager', 'create_shop_backup');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_backup');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_backup');
+		
+		// Shop Track User Activity
+		$this->aauth->allow_group('shop_manager', 'read_shop_user_tracker');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_user_tracker');
+		
+		// Read Reports
+		$this->aauth->allow_group('shop_manager', 'read_shop_reports');
 		// Profile
 		$this->aauth->allow_group('shop_manager', 'edit_profile');
 		
@@ -688,6 +708,18 @@ class Nexo_Checkout extends CI_Model
 		$this->aauth->allow_group('master', 'edit_shop_purchases_invoices');
 		$this->aauth->allow_group('master', 'delete_shop_purchases_invoices');
 		
+		// Shop Backup
+		$this->aauth->allow_group('master', 'create_shop_backup');
+		$this->aauth->allow_group('master', 'edit_shop_backup');
+		$this->aauth->allow_group('master', 'delete_shop_backup');
+		
+		// Shop Track User Activity
+		$this->aauth->allow_group('master', 'read_shop_user_tracker');
+		$this->aauth->allow_group('master', 'delete_shop_user_tracker');
+		
+		// Read Reports
+		$this->aauth->allow_group('master', 'read_shop_reports');
+		
         /**
 		 * Permission for Shop Test
 		**/
@@ -735,7 +767,16 @@ class Nexo_Checkout extends CI_Model
 		// Shop Purchase Invoices
 		$this->aauth->allow_group('shop_tester', 'create_shop_purchases_invoices');
 		$this->aauth->allow_group('shop_tester', 'edit_shop_purchases_invoices');
-	
+		
+		// Shop Backup
+		$this->aauth->allow_group('shop_tester', 'create_shop_backup');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_backup');
+		
+		// Shop Track User Activity
+		$this->aauth->allow_group('shop_tester', 'read_shop_user_tracker');	
+		
+		// Read Reports
+		$this->aauth->allow_group('shop_tester', 'read_shop_reports');
 		
 		// Profile
 		// $this->aauth->allow_group('shop_tester', 'edit_profile');
@@ -811,8 +852,20 @@ class Nexo_Checkout extends CI_Model
 		$this->aauth->deny_group('shop_manager', 'edit_shop_purchases_invoices');
 		$this->aauth->deny_group('shop_manager', 'delete_shop_purchases_invoices');
 		
+		// Shop Backup
+		$this->aauth->deny_group('shop_manager', 'create_shop_backup');
+		$this->aauth->deny_group('shop_manager', 'edit_shop_backup');
+		$this->aauth->deny_group('shop_manager', 'delete_shop_backup');
+		
+		// Shop Track User Activity
+		$this->aauth->deny_group('shop_manager', 'read_shop_user_tracker');
+		$this->aauth->deny_group('shop_manager', 'delete_shop_user_tracker');
+		
 		// Update Profile
 		$this->aauth->deny_group('shop_manager', 'edit_profile');
+
+		// Read Reports
+		$this->aauth->deny_group('shop_manager', 'read_shop_reports');
 		
 		// Master
 		// Orders
@@ -870,6 +923,18 @@ class Nexo_Checkout extends CI_Model
 		$this->aauth->deny_group('master', 'edit_shop_purchases_invoices');
 		$this->aauth->deny_group('master', 'delete_shop_purchases_invoices');
 		
+		// Shop Backup
+		$this->aauth->deny_group('master', 'create_shop_backup');
+		$this->aauth->deny_group('master', 'edit_shop_backup');
+		$this->aauth->deny_group('master', 'delete_shop_backup');
+		
+		// Shop Track User Activity
+		$this->aauth->deny_group('master', 'read_shop_user_tracker');
+		$this->aauth->deny_group('master', 'delete_shop_user_tracker');
+		
+		// Read Reports
+		$this->aauth->deny_group('master', 'read_shop_reports');
+		
 		// Denied Permissions for Shop Test		
 		// Orders
 		$this->aauth->deny_group('shop_tester', 'create_shop_orders');
@@ -915,6 +980,16 @@ class Nexo_Checkout extends CI_Model
 		$this->aauth->deny_group('shop_tester', 'create_shop_purchases_invoices');
 		$this->aauth->deny_group('shop_tester', 'edit_shop_purchases_invoices');
 		$this->aauth->deny_group('shop_tester', 'delete_shop_purchases_invoices');
+		
+		// Shop Backup
+		$this->aauth->deny_group('shop_tester', 'create_shop_backup');
+		$this->aauth->deny_group('shop_tester', 'edit_shop_backup');
+		
+		// Shop Track User Activity
+		$this->aauth->deny_group('shop_tester', 'read_shop_user_tracker');
+		
+		// Read Reports
+		$this->aauth->deny_group('shop_tester', 'read_shop_reports');
 		
 		// Update Profile
 		// $this->aauth->deny_group('shop_tester', 'edit_profile');

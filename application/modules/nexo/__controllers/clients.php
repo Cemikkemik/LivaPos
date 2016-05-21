@@ -17,8 +17,8 @@ class Nexo_Clients extends CI_Model
     public function crud_header()
     {
         if( 
-			! User::can('create_shop_customers')  ||
-			! User::can('edit_shop_customers') ||
+			! User::can('create_shop_customers')  &&
+			! User::can('edit_shop_customers') &&
 			! User::can('delete_shop_customers') 
 		) {
 			redirect( array( 'dashboard', 'access-denied' ) );
@@ -94,8 +94,8 @@ class Nexo_Clients extends CI_Model
     public function groups_header()
     {
         if( 
-			! User::can('create_shop_customers_groups')  ||
-			! User::can('edit_shop_customers_groups') ||
+			! User::can('create_shop_customers_groups')  &&
+			! User::can('edit_shop_customers_groups') &&
 			! User::can('delete_shop_customers_groups') 
 		) {
 			redirect( array( 'dashboard', 'access-denied' ) );

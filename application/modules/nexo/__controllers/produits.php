@@ -17,8 +17,8 @@ class Nexo_Produits extends CI_Model
     public function crud_header()
     {
 		if( 
-			! User::can('edit_shop_items') ||
-			! User::can('create_shop_items') ||
+			! User::can('edit_shop_items') &&
+			! User::can('create_shop_items') &&
 			! User::can('delete_shop_items')
 		) {
 			redirect( array( 'dashboard', 'access-denied' ) );

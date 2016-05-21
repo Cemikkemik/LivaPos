@@ -186,8 +186,8 @@ class Nexo_Commandes extends CI_Model
         } else {
             
 			if( 
-				! User::can('edit_shop_orders')	|| 
-				! User::can('create_shop_orders')	||
+				! User::can('edit_shop_orders')	&&
+				! User::can('create_shop_orders')	&&
 				! User::can('delete_shop_orders')	
 			) {
 				redirect( array( 'dashboard', 'access-denied' ) );

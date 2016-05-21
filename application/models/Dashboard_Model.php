@@ -452,8 +452,7 @@ $(document).ready(function(){
 		// Can user access modules ?
 		if(	! User::can( 'create_options' ) && 
 			! User::can( 'edit_options' ) && 
-			! User::can( 'delete_options' ) && 
-			! User::can( 'read_options' )
+			! User::can( 'delete_options' )
 		) {
 			redirect(array( 'dashboard', 'access-denied' )); 
 		}

@@ -160,11 +160,11 @@ class aauth_dashboard extends CI_model
         if ($page == 'list') {
 			
 			if( 
-				! User::can('edit_users') ||
-				! User::can('delete_users') || 
+				! User::can('edit_users') &&
+				! User::can('delete_users') &&
 				! User::can('create_users')
 			) {
-				redirect( array( 'dashboard', 'acess-denied' ) );
+				redirect( array( 'dashboard', 'access-denied' ) );
 			}
 			
             $this->load->library('pagination');
@@ -205,7 +205,7 @@ class aauth_dashboard extends CI_model
             }
 			
 			if( ! User::can('edit_users') ) {
-				redirect( array( 'dashboard', 'acess-denied' ) );
+				redirect( array( 'dashboard', 'access-denied' ) );
 			}
 			            
             // User Goup
@@ -268,7 +268,7 @@ class aauth_dashboard extends CI_model
         elseif ($page == 'create') {
             
 			if( ! User::can('create_users') ) {
-				redirect( array( 'dashboard', 'acess-denied' ) );
+				redirect( array( 'dashboard', 'access-denied' ) );
 			}            
 
             $this->load->library('form_validation');
@@ -318,7 +318,7 @@ class aauth_dashboard extends CI_model
         elseif ($page == 'delete') {
             
 			if( ! User::can('delete_users') ) {
-				redirect( array( 'dashboard', 'acess-denied' ) );
+				redirect( array( 'dashboard', 'access-denied' ) );
 			}
 
             $user    =    $this->users->auth->user_exsist_by_id($index);
@@ -333,7 +333,7 @@ class aauth_dashboard extends CI_model
         } elseif ($page == 'profile') {
 			
 			if( ! User::can('edit_profile') ) {
-				redirect( array( 'dashboard', 'acess-denied' ) );
+				redirect( array( 'dashboard', 'access-denied' ) );
 			}
 			
             $this->load->library('form_validation');
@@ -375,11 +375,11 @@ class aauth_dashboard extends CI_model
     public function groups($page = 'list', $index = 1)
     {
 		if( 
-			! User::can('create_users') ||
-			! User::can('edit_users') ||
+			! User::can('create_users') &&
+			! User::can('edit_users') &&
 			! User::can('delete_users')
 		) {
-			redirect( array( 'dashboard', 'acess-denied' ) );
+			redirect( array( 'dashboard', 'access-denied' ) );
 		}
 			
         // Display all roles

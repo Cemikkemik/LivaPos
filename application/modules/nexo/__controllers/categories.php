@@ -17,8 +17,8 @@ class Nexo_Categories extends CI_Model
     public function crud_header()
     {
         if( 
-			! User::can('create_shop_categories')  ||
-			! User::can('edit_shop_categories') ||
+			! User::can('create_shop_categories')  &&
+			! User::can('edit_shop_categories') &&
 			! User::can('delete_shop_categories') 
 		) {
 			redirect( array( 'dashboard', 'access-denied' ) );

@@ -17,8 +17,8 @@ class Nexo_Type_De_Commandes extends CI_Model
     public function crud_header()
     {
         if (
-			! User::can('create_shop_purchases_invoices') ||
-			! User::can('edit_shop_purchases_invoices') ||
+			! User::can('create_shop_purchases_invoices') &&
+			! User::can('edit_shop_purchases_invoices') &&
 			! User::can('delete_shop_purchases_invoices')
 		) {
 			redirect( array( 'dashboard', 'access-denied' ) );

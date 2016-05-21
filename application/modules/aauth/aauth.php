@@ -21,7 +21,7 @@ class auth_module_class extends CI_model
         $this->events->add_filter('user_menu_card_avatar_src', array( $this, 'user_avatar_src' ));
         
         // Allow only admin user to access the dashboard
-        $this->events->add_action('load_dashboard', array( $this, 'control_dashboard_access' ) );
+        $this->events->add_action('load_dashboard', array( $this, 'control_dashboard_access' ));
         // Tendoo Setup	
     }
     public function user_avatar_src()
@@ -95,18 +95,18 @@ class auth_module_class extends CI_model
             }
         }
     }
-	
-	/**
-	 * Check current use group access
-	**/
-	
-	public function control_dashboard_access()
-	{
-		$Group    =    Group::get();		
-		if ( ! $Group[0]->is_admin ) {
-			redirect(array( 'page_403' ));
-		}
-	}
+    
+    /**
+     * Check current use group access
+    **/
+    
+    public function control_dashboard_access()
+    {
+        $Group    =    Group::get();
+        if (! $Group[0]->is_admin) {
+            redirect(array( 'page_403' ));
+        }
+    }
 }
 new auth_module_class;
 

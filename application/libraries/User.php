@@ -63,19 +63,19 @@ class User
      * @since 1.5
      * @return boolean
     **/
-	
-	private static $group_permission;
+    
+    private static $group_permission;
     
     public static function can($permission)
     {
-		if( isset( self::$group_permission[ $permission . '-' . $Group[0]->group_id ] ) ){
-			return self::$group_permission[ $permission . '-' . $Group[0]->group_id ];
-		} else {
-			$Instance    =    get_instance();
-			$Group		=	Group::get();
-			self::$group_permission[ $permission . '-' . $Group[0]->group_id ]	=	$Instance->auth->is_group_allowed($permission, $Group[0]->group_id );
-			return self::$group_permission[ $permission . '-' . $Group[0]->group_id ];
-		}
+        if (isset(self::$group_permission[ $permission . '-' . $Group[0]->group_id ])) {
+            return self::$group_permission[ $permission . '-' . $Group[0]->group_id ];
+        } else {
+            $Instance    =    get_instance();
+            $Group        =    Group::get();
+            self::$group_permission[ $permission . '-' . $Group[0]->group_id ]    =    $Instance->auth->is_group_allowed($permission, $Group[0]->group_id);
+            return self::$group_permission[ $permission . '-' . $Group[0]->group_id ];
+        }
     }
     
     /**
@@ -116,8 +116,8 @@ class User
     {
         return get_instance()->auth->update_perm($perm_id, $name, $definition, $is_admin, $description);
     }
-	
-	/**
+    
+    /**
      * In Group
      *
      * Check whether a user belong to a specific group

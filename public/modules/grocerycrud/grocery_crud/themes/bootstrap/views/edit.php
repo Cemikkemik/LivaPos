@@ -16,21 +16,21 @@
             foreach ($fields as $field) {
                 $even_odd = $counter % 2 == 0 ? 'odd' : 'even';
                 $counter++;
-				if ($input_fields[ $field->field_name ]->crud_type != 'relation_invisible') {
-                ?>
+                if ($input_fields[ $field->field_name ]->crud_type != 'relation_invisible') {
+                    ?>
             <div class="form-group <?php echo $even_odd?>" id="<?php echo $field->field_name;
-                ?>_field_box">
+                    ?>_field_box">
                 <label for="exampleInputEmail1">
 					<?php echo $input_fields[$field->field_name]->display_as;
-                ?>
+                    ?>
 					<?php echo ($input_fields[$field->field_name]->required)? " <span class='required label label-danger'>*</span> " : "";
-                ?>
+                    ?>
 				</label>
 	            <?php echo $input_fields[$field->field_name]->input;
-                ?>
+                    ?>
             </div>
 			<?php 
-				}
+                }
             }?>
 		<?php if (!empty($hidden_fields)) {
     ?>

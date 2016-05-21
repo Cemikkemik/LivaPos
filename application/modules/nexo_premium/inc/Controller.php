@@ -51,9 +51,9 @@ class Nexo_Premium_Controller extends CI_Model
     
     public function Controller_Rapport_Journalier_Detaille($report_date)
     {
-		if( ! User::can( 'read_shop_reports' ) ) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
+        if (! User::can('read_shop_reports')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
         // if repport date is sup than current day
         $CarbonCurrent                =    Carbon::parse(date_now());
         $CarbonReportDate            =    Carbon::parse($report_date);
@@ -91,10 +91,10 @@ class Nexo_Premium_Controller extends CI_Model
     
     public function Controller_Mouvement_Annuel_Tresorerie($year = null)
     {
-		if( ! User::can( 'read_shop_reports' ) ) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
-		
+        if (! User::can('read_shop_reports')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+        
         $year                        =    $year == null ? Carbon::parse(date_now())->year : intval($year);
             
         $CarbonCurrent                =    Carbon::parse(date_now());
@@ -130,10 +130,10 @@ class Nexo_Premium_Controller extends CI_Model
     
     public function Controller_Stats_Des_Ventes($year = null)
     {
-		if( ! User::can( 'read_shop_reports' ) ) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
-		
+        if (! User::can('read_shop_reports')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+        
         $this->load->model('Nexo_Categories');
         $this->load->model('Nexo_Misc');
         
@@ -181,10 +181,10 @@ class Nexo_Premium_Controller extends CI_Model
     
     public function Controller_Fiche_De_Suivi($shipping_one = null, $shipping_two = null)
     {
-		if( ! User::can( 'read_shop_reports' ) ) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
-		
+        if (! User::can('read_shop_reports')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+        
         $this->load->model('Nexo_Shipping');
         $data                            =    array();
         $data[ 'data' ]                    =    array();
@@ -202,14 +202,14 @@ class Nexo_Premium_Controller extends CI_Model
     
     private function Controller_Header()
     {
-		if( 
-		 ! User::can( 'create_shop_purchases_invoices ' ) &&
-		 ! User::can( 'edit_shop_purchases_invoices' ) &&
-		 ! User::can( 'delete_shop_purchases_invoices' )
-		) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
-		
+        if (
+         ! User::can('create_shop_purchases_invoices ') &&
+         ! User::can('edit_shop_purchases_invoices') &&
+         ! User::can('delete_shop_purchases_invoices')
+        ) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+        
         $crud = new grocery_CRUD();
         
         $crud->set_theme('bootstrap');
@@ -301,11 +301,10 @@ class Nexo_Premium_Controller extends CI_Model
         if ($page == 'list') {
             $this->Gui->set_title(__('Liste des factures &mdash; Nexo', 'nexo_premium'));
         } else {
-			
-			if( ! User::can( 'create_shop_purchases_invoices ' ) ) {
-				redirect( array( 'dashboard', 'access-denied' ) );
-			}
-			
+            if (! User::can('create_shop_purchases_invoices ')) {
+                redirect(array( 'dashboard', 'access-denied' ));
+            }
+            
             $this->Gui->set_title(__('Ajouter/modifier une facture &mdash; Nexo', 'nexo_premium'));
         }
         
@@ -335,10 +334,10 @@ class Nexo_Premium_Controller extends CI_Model
     
     public function Controller_Stats_Caissier($start_date = null, $end_date = null)
     {
-		if( ! User::can('read_shop_reports') ) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
-		
+        if (! User::can('read_shop_reports')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+        
         $data[ 'start_date' ]    =    $start_date == null ? Carbon::parse(date_now()) : $start_date;
         $data[ 'end_date' ]        =    $end_date    == null ? Carbon::parse(date_now())->addMonths(1): $end_date;
         $data[ 'cashiers' ]        =    $this->auth->list_users('nexo_cashier');
@@ -366,10 +365,10 @@ class Nexo_Premium_Controller extends CI_Model
     
     public function Controller_Stats_Clients($start_date = null, $end_date = null)
     {
-		if( ! User::can('read_shop_reports') ) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
-		
+        if (! User::can('read_shop_reports')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+        
         $this->load->model('Nexo_Misc');
         
         $data[ 'start_date' ]    =    $start_date == null ? Carbon::parse(date_now()) : $start_date;
@@ -397,9 +396,9 @@ class Nexo_Premium_Controller extends CI_Model
     public function Controller_Historique($page = 1)
     {
         if (
-			User::can('read_shop_user_tracker') ||
-			User::can('delete_shop_user_tracker')
-		) {
+            User::can('read_shop_user_tracker') ||
+            User::can('delete_shop_user_tracker')
+        ) {
             $this->load->model('Nexo_Misc');
             $this->load->library('pagination');
 
@@ -439,38 +438,36 @@ class Nexo_Premium_Controller extends CI_Model
     
     public function Controller_Clear_History()
     {
-		if ( User::can('delete_shop_user_tracker')	) {
-			
-			$this->load->model('Nexo_Misc');
-			
-			$this->Nexo_Misc->history_delete();
-			
-			$this->Nexo_Misc->history_add(
-				__('Réinitialisation de l\'historique', 'nexo_premium'),
-				sprintf(__('L\'utilisateur <strong>%s</strong> à supprimé le contenu de l\'historique des activités.', 'nexo_premium'), User::pseudo())
-			);
-			
-			redirect(array( 'dashboard', 'nexo_premium', 'Controller_Historique' ));
-		
-		} else {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
+        if (User::can('delete_shop_user_tracker')) {
+            $this->load->model('Nexo_Misc');
+            
+            $this->Nexo_Misc->history_delete();
+            
+            $this->Nexo_Misc->history_add(
+                __('Réinitialisation de l\'historique', 'nexo_premium'),
+                sprintf(__('L\'utilisateur <strong>%s</strong> à supprimé le contenu de l\'historique des activités.', 'nexo_premium'), User::pseudo())
+            );
+            
+            redirect(array( 'dashboard', 'nexo_premium', 'Controller_Historique' ));
+        } else {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
     }
-	
-	/** 
+    
+    /** 
      * Backup Controller Header
     **/
     
     private function Backup_Controller_Header()
     {
-		if (
-			! User::can('create_shop_backup') &&
-			! User::can('edit_shop_backup') && 
-			! User::can('delete_shop_backup')
-		) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
-		
+        if (
+            ! User::can('create_shop_backup') &&
+            ! User::can('edit_shop_backup') &&
+            ! User::can('delete_shop_backup')
+        ) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+        
         $crud = new grocery_CRUD();
         
         $crud->set_theme('bootstrap');
@@ -527,23 +524,23 @@ class Nexo_Premium_Controller extends CI_Model
     
     public function Controller_Backup($page = 'list')
     {
-		$data[ 'crud_content' ]    =    $this->Backup_Controller_Header();
-		
-		if ( in_array( $page, array( 'list', 'success' ) ) ) {
-			$this->Gui->set_title(__('Liste des sauvegardes &mdash; Nexo', 'nexo_premium'));
-		} elseif( $page == 'add' ) {
-			if ( ! User::can('create_shop_backup') ) {
-				redirect( array( 'dashboard', 'access-denied' ) );
-			}
-			$this->Gui->set_title(__('Ajouter une sauvegarde &mdash; Nexo', 'nexo_premium'));
-		} else {			
-			if ( ! User::can('edit_shop_backup') ) {
-				redirect( array( 'dashboard', 'access-denied' ) );
-			}
-			$this->Gui->set_title(__('Edition une sauvegarde &mdash; Nexo', 'nexo_premium'));
-		}
-		
-		$this->load->view('../modules/nexo_premium/views/backups.php', $data);
+        $data[ 'crud_content' ]    =    $this->Backup_Controller_Header();
+        
+        if (in_array($page, array( 'list', 'success' ))) {
+            $this->Gui->set_title(__('Liste des sauvegardes &mdash; Nexo', 'nexo_premium'));
+        } elseif ($page == 'add') {
+            if (! User::can('create_shop_backup')) {
+                redirect(array( 'dashboard', 'access-denied' ));
+            }
+            $this->Gui->set_title(__('Ajouter une sauvegarde &mdash; Nexo', 'nexo_premium'));
+        } else {
+            if (! User::can('edit_shop_backup')) {
+                redirect(array( 'dashboard', 'access-denied' ));
+            }
+            $this->Gui->set_title(__('Edition une sauvegarde &mdash; Nexo', 'nexo_premium'));
+        }
+        
+        $this->load->view('../modules/nexo_premium/views/backups.php', $data);
     }
     
     /**
@@ -701,10 +698,10 @@ class Nexo_Premium_Controller extends CI_Model
     
     public function Controller_Best_Of($filter = 'items', $start_date = null, $end_date = null)
     {
-		if( ! User::can('read_shop_reports') ) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
-		
+        if (! User::can('read_shop_reports')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+        
         $data    =    array();
         
         /** 

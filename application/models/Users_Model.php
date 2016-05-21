@@ -64,12 +64,12 @@ class Users_model extends CI_Model
     
     public function master_exists()
     {
-		$masters    =    $this->auth->list_users( 'master' );
-		if ($masters) {
-			// if admin main privilège exists
+        $masters    =    $this->auth->list_users('master');
+        if ($masters) {
+            // if admin main privilège exists
 
-			return true;
-		}
+            return true;
+        }
         return false;
     }
     
@@ -84,19 +84,19 @@ class Users_model extends CI_Model
     {
         // Only create if group does'nt exists (it's optional)
         // Creating admin Group
-		if (! $group = $this->auth->get_group_id('master')) {
-			$this->auth->create_group('master', __('Master Group'), true, __('Can create users, install modules, manage options'));
-		}
+        if (! $group = $this->auth->get_group_id('master')) {
+            $this->auth->create_group('master', __('Master Group'), true, __('Can create users, install modules, manage options'));
+        }
 
         // Creating admin Group
         if (! $group = $this->auth->get_group_id('administrator')) {
-			$this->auth->create_group('administrator', __('Admin Group'), true, __('Can install modules, manage options'));
-		}
-		
-		// Create user	
+            $this->auth->create_group('administrator', __('Admin Group'), true, __('Can install modules, manage options'));
+        }
+        
+        // Create user	
         if (! $group = $this->auth->get_group_id('users')) {
-			$this->auth->create_group('user', __('User Group'), true, __('Just a user'));
-		}
+            $this->auth->create_group('user', __('User Group'), true, __('Just a user'));
+        }
     }
     
     /**
@@ -259,7 +259,7 @@ class Users_model extends CI_Model
         }
         return 'fetch-error-from-auth';
     }
-	    
+        
     /**
      * Create default permission
      * 
@@ -269,85 +269,85 @@ class Users_model extends CI_Model
     public function create_permissions()
     {
         // Creating default permissions
-		
-		/**
-		 * Core Permission
-		**/
-		
-		$this->auth->create_perm('manage_core', __('Manage Core'), __('Allow core management'));
-		
-		/**
-		 * Options Permissions
-		**/
-				
+
+        /**
+         * Core Permission
+        **/
+        
+        $this->auth->create_perm('manage_core', __('Manage Core'), __('Allow core management'));
+        
+        /**
+         * Options Permissions
+        **/
+                
         $this->auth->create_perm('create_options', __('Create Options'), __('Allow option creation'));
-		$this->auth->create_perm('edit_options', __('Edit Options'), __('Allow option edition')); 
-		$this->auth->create_perm('read_options', __('Read Options'), __('Allow option read')); 
-		$this->auth->create_perm('delete_options', __('Delete Options'), __('Allow option deletion.')); 
-		
-		/**
-		 * Modules Permissions
-		**/
-		
+        $this->auth->create_perm('edit_options', __('Edit Options'), __('Allow option edition'));
+        $this->auth->create_perm('read_options', __('Read Options'), __('Allow option read'));
+        $this->auth->create_perm('delete_options', __('Delete Options'), __('Allow option deletion.'));
+        
+        /**
+         * Modules Permissions
+        **/
+        
         $this->auth->create_perm('install_modules', __('Install Modules'), __('Let user install modules.'));
-		$this->auth->create_perm('update_modules', __('Update Modules'), __('Let user update modules'));
-		$this->auth->create_perm('delete_modules', __('Delete Modules'), __('Let user delete modules'));
-		$this->auth->create_perm('toggle_modules', __('Enable/Disable Modules'), __('Let user enable/disable modules'));
-		$this->auth->create_perm('extract_modules', __('Extract Modules'), __('Let user extract modules'));
-		
-		/**
-		 * Users Permissions
-		**/
-		
+        $this->auth->create_perm('update_modules', __('Update Modules'), __('Let user update modules'));
+        $this->auth->create_perm('delete_modules', __('Delete Modules'), __('Let user delete modules'));
+        $this->auth->create_perm('toggle_modules', __('Enable/Disable Modules'), __('Let user enable/disable modules'));
+        $this->auth->create_perm('extract_modules', __('Extract Modules'), __('Let user extract modules'));
+        
+        /**
+         * Users Permissions
+        **/
+        
         $this->auth->create_perm('create_users', __('Create Users'), __('Allow create users.'));
-		$this->auth->create_perm('edit_users', __('Edit Users'), __('Allow edit users.')); 
-		$this->auth->create_perm('delete_users', __('Delete Users'), __('Allow delete users.'));
-		
-		/**
-		 * Profile Permission
-		**/
-		
-		$this->auth->create_perm('edit_profile', __('Create Options'), __('Allow option creation')); 
-		
-		/**
-		 * Assign Permission to Groups
-		**/
-		
+        $this->auth->create_perm('edit_users', __('Edit Users'), __('Allow edit users.'));
+        $this->auth->create_perm('delete_users', __('Delete Users'), __('Allow delete users.'));
+        
+        /**
+         * Profile Permission
+        **/
+        
+        $this->auth->create_perm('edit_profile', __('Create Options'), __('Allow option creation'));
+        
+        /**
+         * Assign Permission to Groups
+        **/
+        
         // Master		
-		$this->users->auth->allow_group('master', 'manage_core');
-		
+        $this->users->auth->allow_group('master', 'manage_core');
+        
         $this->users->auth->allow_group('master', 'create_options');
         $this->users->auth->allow_group('master', 'edit_options');
         $this->users->auth->allow_group('master', 'delete_options');
-		$this->users->auth->allow_group('master', 'read_options');
-		
-		$this->users->auth->allow_group('master', 'install_modules');
-		$this->users->auth->allow_group('master', 'update_modules');
-		$this->users->auth->allow_group('master', 'delete_modules');
-		$this->users->auth->allow_group('master', 'toggle_modules');
-		$this->users->auth->allow_group('master', 'extract_modules');
-		
-		$this->users->auth->allow_group('master', 'create_users');
-		$this->users->auth->allow_group('master', 'edit_users');
-		$this->users->auth->allow_group('master', 'delete_users');
-		
-		$this->users->auth->allow_group('master', 'edit_profile');
+        $this->users->auth->allow_group('master', 'read_options');
+        
+        $this->users->auth->allow_group('master', 'install_modules');
+        $this->users->auth->allow_group('master', 'update_modules');
+        $this->users->auth->allow_group('master', 'delete_modules');
+        $this->users->auth->allow_group('master', 'toggle_modules');
+        $this->users->auth->allow_group('master', 'extract_modules');
+        
+        $this->users->auth->allow_group('master', 'create_users');
+        $this->users->auth->allow_group('master', 'edit_users');
+        $this->users->auth->allow_group('master', 'delete_users');
+        
+        $this->users->auth->allow_group('master', 'edit_profile');
         
         // Administrators
         $this->users->auth->allow_group('administrator', 'create_options');
-		$this->users->auth->allow_group('administrator', 'edit_options');
-		$this->users->auth->allow_group('administrator', 'delete_options');
-		$this->users->auth->allow_group('administrator', 'read_options');
-		
-		$this->users->auth->allow_group('administrator', 'install_modules');
-		$this->users->auth->allow_group('administrator', 'update_modules');
-		$this->users->auth->allow_group('administrator', 'delete_modules');
-		$this->users->auth->allow_group('administrator', 'toggle_modules');
-		$this->users->auth->allow_group('administrator', 'extract_modules');
-		
+        $this->users->auth->allow_group('administrator', 'edit_options');
+        $this->users->auth->allow_group('administrator', 'delete_options');
+        $this->users->auth->allow_group('administrator', 'read_options');
+        
+        $this->users->auth->allow_group('administrator', 'install_modules');
+        $this->users->auth->allow_group('administrator', 'update_modules');
+        $this->users->auth->allow_group('administrator', 'delete_modules');
+        $this->users->auth->allow_group('administrator', 'toggle_modules');
+        $this->users->auth->allow_group('administrator', 'extract_modules');
+        
         $this->users->auth->allow_group('administrator', 'edit_profile');
-		
-		// Users
-		$this->users->auth->allow_group('user', 'edit_profile');
+        
+        // Users
+        $this->users->auth->allow_group('user', 'edit_profile');
     }
 }

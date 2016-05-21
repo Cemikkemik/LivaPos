@@ -588,7 +588,7 @@ class Nexo_Misc extends CI_Model
                 }
             }
             
-			$Cache            =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_'));
+            $Cache            =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_'));
             $Cache->save('restore_queries', $CleanSQLQueries, 300);
             
             $this->SimpleFileManager->drop($temp_folder);

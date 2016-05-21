@@ -426,7 +426,7 @@ class Grocery_CRUD_Model  extends CI_Model
             }
             $db_field_types[$db_field_type->Field]['db_max_length'] = $length;
             $db_field_types[$db_field_type->Field]['db_type'] = $db_type;
-            $db_field_types[$db_field_type->Field]['db_null'] = $db_field_type->Null == 'YES' ? true : false;
+            $db_field_types[$db_field_type->Field]['db_null'] = $db_field_type->null == 'YES' ? true : false;
             $db_field_types[$db_field_type->Field]['db_extra'] = $db_field_type->Extra;
         }
 

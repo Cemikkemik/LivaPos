@@ -23,7 +23,7 @@ class aauth_action extends CI_model
         }
         redirect(array( 'sign-in?notice=unknow-user' ));
     }
-	
+    
     public function do_reset_user($user_id, $ver_code)
     {
         $user    =    $this->users->auth->get_user($user_id);
@@ -68,9 +68,9 @@ class aauth_action extends CI_model
     
     public function change_auth_settings()
     {
-        $auth                	=    &$this->users->auth->config_vars;
-        $auth[ 'email' ]    	=    'cms@tendoo.org';
-        $auth[ 'name' ]        	=    get('core_signature');
+        $auth                    =    &$this->users->auth->config_vars;
+        $auth[ 'email' ]        =    'cms@tendoo.org';
+        $auth[ 'name' ]            =    get('core_signature');
     }
     
     /**

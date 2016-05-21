@@ -131,27 +131,25 @@ class Nexo_Commandes extends CI_Model
         });
         
         if ($page == 'add') {
-			
-			// Add Moment Library
+            
+            // Add Moment Library
             $this->enqueue->js('../modules/nexo/bower_components/moment/min/moment.min');
             $this->enqueue->js('../modules/nexo/js/core/checkout-customer-creation');
             
-            if( ! User::can('create_shop_orders')	) {
-				redirect( array( 'dashboard', 'access-denied' ) );
-			}
+            if (! User::can('create_shop_orders')) {
+                redirect(array( 'dashboard', 'access-denied' ));
+            }
             
             $data[ 'crud_content' ]    =    $this->crud_header();
             $_var1    =    'commandes';
-			
+            
             $this->Gui->set_title(__('Créer une nouvelle commande &mdash; Nexo', 'nexo'));
             $this->load->view('../modules/nexo/views/' . $_var1 . '-new.php', $data);
-			
         } elseif ($page == 'edit') {
-			
-			if( ! User::can('edit_shop_orders')	) {
-				redirect( array( 'dashboard', 'access-denied' ) );
-			}
-			
+            if (! User::can('edit_shop_orders')) {
+                redirect(array( 'dashboard', 'access-denied' ));
+            }
+            
             // Add Moment Library
             $this->enqueue->js('../modules/nexo/bower_components/moment/min/moment.min');
             
@@ -160,10 +158,9 @@ class Nexo_Commandes extends CI_Model
             
             $data[ 'crud_content' ]    =    $this->crud_header();
             $_var1    =    'commandes';
-			
+            
             $this->Gui->set_title(__('Modifier une commande existante &mdash; Nexo', 'nexo'));
             $this->load->view('../modules/nexo/views/' . $_var1 . '-edit.php', $data);
-			
         } elseif ($page == 'ajax_list') {
             if ($id == 'delete_selection') {
                 $id_array = array();
@@ -172,11 +169,11 @@ class Nexo_Commandes extends CI_Model
                 
                 foreach ($id_array as $item) {
                     if ($item != '') {
-							//DELETE ROW
-						$this->db->where('ID', $item);
-						$this->db->delete('nexo_commandes');
-					}
-				}
+                        //DELETE ROW
+                        $this->db->where('ID', $item);
+                        $this->db->delete('nexo_commandes');
+                    }
+                }
             } else {
                 $data[ 'crud_content' ]    =    $this->crud_header();
                 $_var1    =    'commandes';
@@ -184,14 +181,13 @@ class Nexo_Commandes extends CI_Model
                 $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
             }
         } else {
-            
-			if( 
-				! User::can('edit_shop_orders')	&&
-				! User::can('create_shop_orders')	&&
-				! User::can('delete_shop_orders')	
-			) {
-				redirect( array( 'dashboard', 'access-denied' ) );
-			}
+            if (
+                ! User::can('edit_shop_orders')    &&
+                ! User::can('create_shop_orders')    &&
+                ! User::can('delete_shop_orders')
+            ) {
+                redirect(array( 'dashboard', 'access-denied' ));
+            }
             
             $data[ 'crud_content' ]    =    $this->crud_header();
             $_var1    =    'commandes';

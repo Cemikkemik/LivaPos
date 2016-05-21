@@ -16,13 +16,13 @@ class Nexo_Categories extends CI_Model
     
     public function crud_header()
     {
-        if( 
-			! User::can('edit_shop_providers')	&&
-			! User::can('create_shop_providers')	&&
-			! User::can('delete_shop_providers')	
-		) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
+        if (
+            ! User::can('edit_shop_providers')    &&
+            ! User::can('create_shop_providers')    &&
+            ! User::can('delete_shop_providers')
+        ) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
         
         $crud = new grocery_CRUD();
         $crud->set_subject(__('Fournisseurs', 'nexo'));
@@ -76,10 +76,10 @@ class Nexo_Categories extends CI_Model
     
     public function add()
     {
-		if( ! User::can('create_shop_providers')	) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
-		
+        if (! User::can('create_shop_providers')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+        
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1                    =    'fournisseurs';
         $this->Gui->set_title(__('Ajouter un nouveau fournisseur &mdash; Nexo', 'nexo'));

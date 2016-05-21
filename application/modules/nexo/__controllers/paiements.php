@@ -16,13 +16,13 @@ class Nexo_Payments_Means_Controller extends CI_Model
     
     public function crud_header()
     {
-        if( 
-			! User::can('edit_shop_payments_means') &&
-			! User::can('create_shop_payments_means') &&
-			! User::can('delete_shop_payments_means')
-		) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
+        if (
+            ! User::can('edit_shop_payments_means') &&
+            ! User::can('create_shop_payments_means') &&
+            ! User::can('delete_shop_payments_means')
+        ) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
         
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');
@@ -63,10 +63,10 @@ class Nexo_Payments_Means_Controller extends CI_Model
     
     public function add()
     {
-		if( ! User::can('create_shop_payments_means') ) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
-		
+        if (! User::can('create_shop_payments_means')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+        
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1                    =    'paiements';
         $this->Gui->set_title(__('Ajouter un nouveau type de paiement &mdash; Nexo', 'nexo'));

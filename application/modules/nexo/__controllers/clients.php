@@ -16,13 +16,13 @@ class Nexo_Clients extends CI_Model
 
     public function crud_header()
     {
-        if( 
-			! User::can('create_shop_customers')  &&
-			! User::can('edit_shop_customers') &&
-			! User::can('delete_shop_customers') 
-		) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
+        if (
+            ! User::can('create_shop_customers')  &&
+            ! User::can('edit_shop_customers') &&
+            ! User::can('delete_shop_customers')
+        ) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
 
         $crud = new grocery_CRUD();
         $crud->set_subject(__('Clients', 'nexo'));
@@ -76,10 +76,10 @@ class Nexo_Clients extends CI_Model
 
     public function add()
     {
-		if( ! User::can('create_shop_customers')	) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
-		
+        if (! User::can('create_shop_customers')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+        
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1                    =    'clients';
         $this->Gui->set_title(__('Ajouter un nouveau client &mdash; Nexo', 'nexo'));
@@ -93,13 +93,13 @@ class Nexo_Clients extends CI_Model
 
     public function groups_header()
     {
-        if( 
-			! User::can('create_shop_customers_groups')  &&
-			! User::can('edit_shop_customers_groups') &&
-			! User::can('delete_shop_customers_groups') 
-		) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
+        if (
+            ! User::can('create_shop_customers_groups')  &&
+            ! User::can('edit_shop_customers_groups') &&
+            ! User::can('delete_shop_customers_groups')
+        ) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
 
         $crud = new grocery_CRUD();
         $crud->set_subject(__('Groupes d\'utilisateurs', 'nexo'));
@@ -120,8 +120,8 @@ class Nexo_Clients extends CI_Model
         // Callback avant l'insertion
         $crud->callback_before_insert(array( $this, '__group_insert' ));
         $crud->callback_before_update(array( $this, '__group_update' ));
-		
-		// XSS Cleaner
+        
+        // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
 

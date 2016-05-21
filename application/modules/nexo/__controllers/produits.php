@@ -16,14 +16,14 @@ class Nexo_Produits extends CI_Model
     
     public function crud_header()
     {
-		if( 
-			! User::can('edit_shop_items') &&
-			! User::can('create_shop_items') &&
-			! User::can('delete_shop_items')
-		) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
-		
+        if (
+            ! User::can('edit_shop_items') &&
+            ! User::can('create_shop_items') &&
+            ! User::can('delete_shop_items')
+        ) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+        
         $this->load->model('Nexo_Products');
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');
@@ -96,7 +96,7 @@ class Nexo_Produits extends CI_Model
         // Callback avant l'insertion
         $crud->callback_before_insert(array( $this->Nexo_Products, 'product_save' ));
         $crud->callback_before_update(array( $this->Nexo_Products, 'product_update' ));
-		$crud->callback_before_delete(array( $this->Nexo_Products, 'product_delete' ));
+        $crud->callback_before_delete(array( $this->Nexo_Products, 'product_delete' ));
         
         // $crud->unset_jquery();
         $output = $crud->render();
@@ -116,7 +116,7 @@ class Nexo_Produits extends CI_Model
     
     public function lists($page = 'index')
     {
-		if ($page == 'index') {
+        if ($page == 'index') {
             $this->Gui->set_title(__('Liste des articles &mdash; Nexo', 'nexo'));
         } else {
             $this->Gui->set_title(__('Ajouter un nouvel article &mdash; Nexo', 'nexo'));
@@ -130,7 +130,7 @@ class Nexo_Produits extends CI_Model
     public function add()
     {
         // Protecting
-        if (! User::can('create_shop_items') ) {
+        if (! User::can('create_shop_items')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
         

@@ -17,10 +17,10 @@ class Reset_Shop extends CI_Model
     {
         // Vérification de la permission du requérant
         if (
-			User::can('create_options') &&
-			User::can('edit_options') &&
-			User::can('delete_options')
-		) {
+            User::can('create_options') &&
+            User::can('edit_options') &&
+            User::can('delete_options')
+        ) {
             
             // Vérification de l'identifiacation du requérant
 

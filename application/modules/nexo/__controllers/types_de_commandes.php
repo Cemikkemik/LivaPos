@@ -17,12 +17,12 @@ class Nexo_Type_De_Commandes extends CI_Model
     public function crud_header()
     {
         if (
-			! User::can('create_shop_purchases_invoices') &&
-			! User::can('edit_shop_purchases_invoices') &&
-			! User::can('delete_shop_purchases_invoices')
-		) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
+            ! User::can('create_shop_purchases_invoices') &&
+            ! User::can('edit_shop_purchases_invoices') &&
+            ! User::can('delete_shop_purchases_invoices')
+        ) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
         
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');
@@ -63,10 +63,10 @@ class Nexo_Type_De_Commandes extends CI_Model
     
     public function add()
     {
-		if ( ! User::can('create_shop_order_types') ) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
-		
+        if (! User::can('create_shop_order_types')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+        
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1                    =    'paiements';
         $this->Gui->set_title(__('Créer un nouveau type de commande &mdash; Nexo', 'nexo'));

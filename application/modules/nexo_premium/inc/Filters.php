@@ -34,9 +34,8 @@ class Nexo_Premium_Filters extends CI_Model
     
     public function admin_menus($menus)
     {
-		if( User::can( 'read_shop_reports' ) ) {
-			
-        $menus[ 'rapports' ]    =    $this->events->apply_filters('nexo_reports_menu_array', array(
+        if (User::can('read_shop_reports')) {
+            $menus[ 'rapports' ]    =    $this->events->apply_filters('nexo_reports_menu_array', array(
             array(
                 'title'        =>    __('Rapports & Statistiques', 'nexo_premium'),
                 'href'        =>    '#',
@@ -78,52 +77,47 @@ class Nexo_Premium_Filters extends CI_Model
             ),
             
         ));
-		
-		}
-		
-		if( 
-			User::can( 'create_shop_backup' ) ||
-			User::can( 'edit_shop_backup' ) ||
-			User::can( 'delete_shop_backup' ) ||
-			User::can( 'read_shop_user_tracker' ) ||
-			User::can( 'delete_shop_user_tracker' )
-		) {
-			
-			if( 
-				User::can( 'read_shop_user_tracker' ) ||
-				User::can( 'delete_shop_user_tracker' )
-			) {
-		
-				$menus[ 'activite' ]    =    array(
-					array(
-						'title'            =>    __('Maintenance & Historique', 'nexo_premium'),
-						'icon'            =>    'fa fa-shield',
-						'disable'        =>    true
-					),
-					array(
-						'title'            =>    __('Historique des activités', 'nexo_premium'),
-						'href'            =>    site_url(array( 'dashboard', 'nexo_premium', 'Controller_Historique' )),
-					)
-				);
-			
-			}
-			
-			if( 
-				User::can( 'create_shop_backup' ) ||
-				User::can( 'edit_shop_backup' ) ||
-				User::can( 'delete_shop_backup' )
-			) {
-				$menus[ 'activite' ][]	=	array(
-					'title'            =>    __('Sauvegardes', 'nexo_premium'),
-					'href'            =>    site_url(array( 'dashboard', 'nexo_premium', 'Controller_Backup' )),
-				);
-				$menus[ 'activite' ][]	=	array(
-					'title'            =>    __('Restauration', 'nexo_premium'),
-					'href'            =>    site_url(array( 'dashboard', 'nexo_premium', 'Controller_Restore' )),
-				);
-			}
-		
-		}
+        }
+        
+        if (
+            User::can('create_shop_backup') ||
+            User::can('edit_shop_backup') ||
+            User::can('delete_shop_backup') ||
+            User::can('read_shop_user_tracker') ||
+            User::can('delete_shop_user_tracker')
+        ) {
+            if (
+                User::can('read_shop_user_tracker') ||
+                User::can('delete_shop_user_tracker')
+            ) {
+                $menus[ 'activite' ]    =    array(
+                    array(
+                        'title'            =>    __('Maintenance & Historique', 'nexo_premium'),
+                        'icon'            =>    'fa fa-shield',
+                        'disable'        =>    true
+                    ),
+                    array(
+                        'title'            =>    __('Historique des activités', 'nexo_premium'),
+                        'href'            =>    site_url(array( 'dashboard', 'nexo_premium', 'Controller_Historique' )),
+                    )
+                );
+            }
+            
+            if (
+                User::can('create_shop_backup') ||
+                User::can('edit_shop_backup') ||
+                User::can('delete_shop_backup')
+            ) {
+                $menus[ 'activite' ][]    =    array(
+                    'title'            =>    __('Sauvegardes', 'nexo_premium'),
+                    'href'            =>    site_url(array( 'dashboard', 'nexo_premium', 'Controller_Backup' )),
+                );
+                $menus[ 'activite' ][]    =    array(
+                    'title'            =>    __('Restauration', 'nexo_premium'),
+                    'href'            =>    site_url(array( 'dashboard', 'nexo_premium', 'Controller_Restore' )),
+                );
+            }
+        }
         
         return $menus;
     }

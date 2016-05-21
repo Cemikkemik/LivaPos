@@ -23,10 +23,10 @@ class Nexo_Reports extends CI_Model
     
     public function journalier($start_date = null, $end_date = null)
     {
-		if( ! User::can( 'read_shop_reports' ) ) {
-			redirect( array( 'dashboard', 'access-denied' ) );
-		}
-				
+        if (! User::can('read_shop_reports')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+                
         global $Options;
         
         switch (@$Options[ 'site_language' ]) {

@@ -22,32 +22,31 @@ class Nexo_Premium_Actions extends CI_Model
     
     public function Menu_Accounting()
     {
-		if( 
-		 User::can( 'create_shop_purchases_invoices ' ) ||
-		 User::can( 'edit_shop_purchases_invoices' ) ||
-		 User::can( 'delete_shop_purchases_invoices' )
-		) {
-			
-			global $Nexo_Menus;
-			
-			$Nexo_Menus[ 'factures' ]    =    array(
-				array(
-					'title'            =>    __('Factures', 'nexo_premium'),
-					'href'            =>    '#',
-					'disable'        =>    true
-				),
-				array(
-					'title'            =>    __('Liste des factures', 'nexo_premium'),
-					'href'            =>    site_url(array( 'dashboard', 'nexo_premium', 'Controller_Factures', 'list' )),
-					'disable'        =>    true
-				),
-				array(
-					'title'            =>    __('Nouvelle facture', 'nexo_premium'),
-					'href'            =>    site_url(array( 'dashboard', 'nexo_premium', 'Controller_Factures', 'add' )),
-					'disable'        =>    true
-				)
-			);
-		}
+        if (
+         User::can('create_shop_purchases_invoices ') ||
+         User::can('edit_shop_purchases_invoices') ||
+         User::can('delete_shop_purchases_invoices')
+        ) {
+            global $Nexo_Menus;
+            
+            $Nexo_Menus[ 'factures' ]    =    array(
+                array(
+                    'title'            =>    __('Factures', 'nexo_premium'),
+                    'href'            =>    '#',
+                    'disable'        =>    true
+                ),
+                array(
+                    'title'            =>    __('Liste des factures', 'nexo_premium'),
+                    'href'            =>    site_url(array( 'dashboard', 'nexo_premium', 'Controller_Factures', 'list' )),
+                    'disable'        =>    true
+                ),
+                array(
+                    'title'            =>    __('Nouvelle facture', 'nexo_premium'),
+                    'href'            =>    site_url(array( 'dashboard', 'nexo_premium', 'Controller_Factures', 'add' )),
+                    'disable'        =>    true
+                )
+            );
+        }
     }
     
     /**

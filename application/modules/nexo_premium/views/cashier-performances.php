@@ -45,7 +45,6 @@ echo tendoo_info(__('Ne récupère que les caissiers et non tous les utilisateur
 </form>
 <br />
 <div class="box">
-	<canvas id="chartjs" width="500"></canvas>
 </div>
 <script type="text/javascript">
 
@@ -92,13 +91,17 @@ var NexoCashierPerformance	=	new function(){
 			return;
 		}
 		
-		$.post( 
-			'<?php echo site_url(array( 'nexo', 'cashier_performance' ));?>/by-days/' + start_date + '/' + end_date, 
-			_.object( [ 'cashier_id' ], [ cashier_id ] ), 
-			function( data ){
-				NexoCashierPerformance.ShowChart( data );
+		$.ajax( '<?php echo site_url(array( 'nexo', 'cashier_performance' ));?>/by-days/' + start_date + '/' + end_date, {
+			data	:	_.object( [ 'cashier_id' ], [ cashier_id ] ), 
+			type	:	'POST',
+			dataType:	"json",
+			success: function( data ){
+				NexoCashierPerformance.ShowChart( data );		
+			},
+			error 	:	function(){
+				bootbox.alert( '<?php echo addslashes( __( 'Une erreur s\'est produite durant l\'affichage du rapport', 'nexo' ) );?>' );
 			}
-		);
+		});
 	};
 	
 	/**
@@ -127,6 +130,9 @@ var NexoCashierPerformance	=	new function(){
 			return moment( val ).format("MMMM Do YYYY");
 		});
 		
+		// Unexpected shake bug fix
+		$( '.box' ).html('<canvas id="chartjs" width="500"></canvas>');
+		
 		var ChartSet			=	new Array;
 		_.each( data, function( value, key ) {
 			_.each( value.cashiers, function( __value, __cashier_id ) {
@@ -145,7 +151,7 @@ var NexoCashierPerformance	=	new function(){
 					_.each( __value, function( order, order_key ) {
 						// Cash Order only
 						if( _.contains( [ NexoCashierPerformance.Nexo_Order_Cash ], order.TYPE ) ) {
-							amount	+=	( parseInt( order.TOTAL ) + parseInt( order.TVA ) );
+							amount	+=	( parseInt( order.TOTAL ) + parseInt( order.TVA == '' ? 0 : order.TVA ) );
 						}
 					});
 				}
@@ -169,9 +175,6 @@ var NexoCashierPerformance	=	new function(){
 				}
 			}
 		});
-		
-		// Unexpected shake bug fix
-		$( '.chartjs-hidden-iframe' ).remove();
 	};
 };
 

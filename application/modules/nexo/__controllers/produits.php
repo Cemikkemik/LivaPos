@@ -93,16 +93,15 @@ class Nexo_Produits extends CI_Model
         $crud->change_field_type('DATE_MOD', 'invisible');
         $crud->change_field_type('AUTHOR', 'readonly');
         
-        // Callback avant l'insertion
+        // Callback Before Render
         $crud->callback_before_insert(array( $this->Nexo_Products, 'product_save' ));
         $crud->callback_before_update(array( $this->Nexo_Products, 'product_update' ));
-        // $crud->unset_jquery();
+
         $output = $crud->render();
         
         foreach ($output->js_files as $files) {
             if (! strstr($files, 'jquery-1.11.1.min.js')) {
                 $this->enqueue->js(substr($files, 0, -3), '');
-            //	var_dump( $files );
             }
         }
         foreach ($output->css_files as $files) {

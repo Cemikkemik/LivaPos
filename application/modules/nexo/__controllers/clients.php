@@ -66,12 +66,26 @@ class Nexo_Clients extends CI_Model
         return $output;
     }
 
-    public function lists()
+    public function lists( $page = 'index', $id = null )
     {
-        $data[ 'crud_content' ]    =    $this->crud_header();
-        $_var1                    =    'clients';
-        $this->Gui->set_title(__('Liste des clients &mdash; Nexo', 'nexo'));
-        $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
+		if( $page == 'index' ) {
+			$this->Gui->set_title(__('Liste des clients &mdash; Nexo', 'nexo'));
+		} elseif( $page == 'delete' ) {
+			
+			nexo_permission_check( 'delete_shop_customers' );
+			
+			// Checks whether an item is in use before delete
+			nexo_availability_check( $id, array(
+				array( 'col'	=>	'REF_CLIENT', 'table'	=>	'nexo_commandes' )
+			) );
+			
+		} else {
+			$this->Gui->set_title(__('Liste des clients &mdash; Nexo', 'nexo'));
+		}
+		
+		$data[ 'crud_content' ]    =    $this->crud_header();
+		$_var1                    =    'clients';
+		$this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
     }
 
     public function add()
@@ -149,10 +163,24 @@ class Nexo_Clients extends CI_Model
      * Groups
     **/
 
-    public function groups()
+    public function groups( $page = 'index', $id = null)
     {
-        $data[ 'crud_content' ]    =    $this->groups_header();
-        $this->Gui->set_title(__('Groupes &mdash; Nexo', 'nexo'));
+		if( $page == 'index' ) {
+			$this->Gui->set_title(__('Groupes &mdash; Nexo', 'nexo'));
+		} elseif( $page == 'delete' ) {
+			
+			nexo_permission_check( 'delete_shop_customers_groups' );
+			
+			// Checks whether an item is in use before delete
+			nexo_availability_check( $id, array(
+				array( 'col'	=>	'REF_GROUP', 'table'	=>	'nexo_clients' )
+			) );
+			
+		} else {
+			$this->Gui->set_title(__('Ajouter/Modifier un groupe de clients &mdash; Nexo', 'nexo'));
+		}
+		
+        $data[ 'crud_content' ]    =    $this->groups_header();        
         $this->load->view('../modules/nexo/views/user-groups.php', $data);
     }
 

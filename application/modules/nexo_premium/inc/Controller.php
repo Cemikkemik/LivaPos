@@ -295,12 +295,12 @@ class Nexo_Premium_Controller extends CI_Model
     **/
     
     public function Controller_Factures($page)
-    {
-        $data[ 'crud_content' ]    =    $this->Controller_Header();
-        
+    {        
         if ($page == 'list') {
             $this->Gui->set_title(__('Liste des factures &mdash; Nexo', 'nexo_premium'));
-        } else {
+        } elseif( $page == 'delete' ) {
+			nexo_permission_check( 'delete_shop_purchases_invoices' );
+		} else {
             if (! User::can('create_shop_purchases_invoices ')) {
                 redirect(array( 'dashboard', 'access-denied' ));
             }
@@ -308,6 +308,7 @@ class Nexo_Premium_Controller extends CI_Model
             $this->Gui->set_title(__('Ajouter/modifier une facture &mdash; Nexo', 'nexo_premium'));
         }
         
+		$data[ 'crud_content' ]    =    $this->Controller_Header();
         $this->load->view('../modules/nexo_premium/views/factures.php', $data);
     }
     
@@ -524,8 +525,6 @@ class Nexo_Premium_Controller extends CI_Model
     
     public function Controller_Backup($page = 'list')
     {
-        $data[ 'crud_content' ]    =    $this->Backup_Controller_Header();
-        
         if (in_array($page, array( 'list', 'success' ))) {
             $this->Gui->set_title(__('Liste des sauvegardes &mdash; Nexo', 'nexo_premium'));
         } elseif ($page == 'add') {
@@ -533,13 +532,17 @@ class Nexo_Premium_Controller extends CI_Model
                 redirect(array( 'dashboard', 'access-denied' ));
             }
             $this->Gui->set_title(__('Ajouter une sauvegarde &mdash; Nexo', 'nexo_premium'));
-        } else {
+        } elseif( $page == 'delete' ) {
+			
+			nexo_permission_check( 'delete_shop_backup' );
+			
+		} else {
             if (! User::can('edit_shop_backup')) {
                 redirect(array( 'dashboard', 'access-denied' ));
             }
             $this->Gui->set_title(__('Edition une sauvegarde &mdash; Nexo', 'nexo_premium'));
         }
-        
+        $data[ 'crud_content' ]    =    $this->Backup_Controller_Header();
         $this->load->view('../modules/nexo_premium/views/backups.php', $data);
     }
     

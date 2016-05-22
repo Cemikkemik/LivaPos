@@ -72,7 +72,7 @@ $( document ).ready(function(e) {
 		
 		this.Resample			=	function( ){
 			this.ResampleIterator++;
-			$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'trigger', 'model', 'Nexo_Products', 'resample_codebar' ));?>/' + NexoBarcodeSettings.products[0].ID, 
+			$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'trigger', 'model', 'Nexo_Products', 'resample_codebar' ));?>/' + NexoBarcodeSettings.products[0].ID + '/' + NexoBarcodeSettings.products[0].CODEBAR, 
 			{
 				success			:	function( data ){
 					if( NexoBarcodeSettings.ResampleIterator < NexoBarcodeSettings.ProductLength ) {

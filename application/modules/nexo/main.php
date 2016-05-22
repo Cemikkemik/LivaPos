@@ -105,6 +105,7 @@ class Nexo extends CI_Model
     
     public function dashboard()
     {
+		$this->load->helper( 'nexopos' );
         $escapeAds    =    $this->events->apply_filters('nexo_escape_nexoadds', Modules::is_active('nexoads'));
         if (! Modules::is_active('grocerycrud') || $escapeAds == false) {
             Modules::disable('nexo');

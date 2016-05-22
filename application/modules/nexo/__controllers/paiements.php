@@ -53,12 +53,31 @@ class Nexo_Payments_Means_Controller extends CI_Model
         return $output;
     }
     
-    public function lists()
+    public function lists( $page = 'index', $id = null )
     {
-        $data[ 'crud_content' ]    =    $this->crud_header();
-        $_var1    =    'paiements';
-        $this->Gui->set_title(__('Liste des types de paiements &mdash; Nexo', 'nexo'));
-        $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
+		if( $page == 'index' ) {
+			
+			$this->Gui->set_title(__('Liste des types de paiements &mdash; Nexo', 'nexo'));
+			
+		} elseif( $page == 'delete' ) {
+			
+			nexo_permission_check( 'delete_shop_payments_means' );
+			
+			// Checks whether an item is in use before delete
+			nexo_availability_check( $id, array(
+				array( 'col'	=>	'PAYMENT_TYPE', 'table'	=>	'nexo_commandes' )
+			) );			
+						
+		} else {
+			
+			$this->Gui->set_title(__('Liste des types de paiements &mdash; Nexo', 'nexo'));
+						
+		}
+		
+		$data[ 'crud_content' ]    =    $this->crud_header();
+		$_var1    =    'paiements';
+		$this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
+
     }
     
     public function add()

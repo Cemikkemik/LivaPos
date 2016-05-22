@@ -45,7 +45,6 @@ echo tendoo_info(__('Affiche les achats réalisées par un client par mois', 'ne
 </form>
 <br />
 <div class="box">
-	<canvas id="chartjs" width="500"></canvas>
 </div>
 <script type="text/javascript">
 
@@ -92,13 +91,17 @@ var NexoCashierPerformance	=	new function(){
 			return;
 		}
 		
-		$.post( 
-			'<?php echo site_url(array( 'nexo', 'customer_statistics' ));?>/' + start_date + '/' + end_date, 
-			_.object( [ 'customer_id' ], [ customer_id ] ), 
-			function( data ){
+		$.ajax( '<?php echo site_url(array( 'nexo', 'customer_statistics' ));?>/' + start_date + '/' + end_date, {
+			data	:	_.object( [ 'customer_id' ], [ customer_id ] ), 
+			dataType:	"json",
+			type	:	'POST',
+			success	:	function( data ){
 				NexoCashierPerformance.ShowChart( data );
+			},
+			error	:	function(){
+				bootbox.alert( '<?php echo addslashes( __( 'Une erreur s\'est produite durant l\'affichage du rapport', 'nexo' ) );?>' );
 			}
-		);
+		});
 	};
 	
 	/**
@@ -122,6 +125,9 @@ var NexoCashierPerformance	=	new function(){
 	**/
 	
 	this.ShowChart			=	function( data ) {
+		
+		// Unexpected shake bug fix
+		$( '.box' ).html('<canvas id="chartjs" width="500"></canvas>');
 
 		var chartLabels		=	_.mapObject( _.keys( data ), function( val, key ){
 			return moment( val ).format("MMMM YYYY");
@@ -145,7 +151,8 @@ var NexoCashierPerformance	=	new function(){
 					_.each( __value, function( order, order_key ) {
 						// Cash Order only
 						if( _.contains( [ NexoCashierPerformance.Nexo_Order_Cash ], order.TYPE ) ) {
-							amount	+=	( parseInt( order.TOTAL ) + parseInt( order.TVA ) );
+							// Fix bug when VAT is not set
+							amount	+=	( parseInt( order.TOTAL ) + parseInt( order.TVA == '' ? 0 : order.TVA ) );
 						}
 					});
 				}
@@ -155,6 +162,8 @@ var NexoCashierPerformance	=	new function(){
 				ChartSet[ __customer_id ].data.push( amount );
 			});
 		});
+		
+		console.log( ChartSet );
 		
 		var CTX				=	document.getElementById("chartjs");
 		var myChart 		= new Chart( CTX, {
@@ -169,9 +178,6 @@ var NexoCashierPerformance	=	new function(){
 				}
 			}
 		});
-		
-		// Unexpected shake bug fix
-		$( '.chartjs-hidden-iframe' ).remove();
 	};
 };
 

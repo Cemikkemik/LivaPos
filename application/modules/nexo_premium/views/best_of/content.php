@@ -30,8 +30,7 @@
       <li class=""><a href="#shippings_tab" data-toggle="tab" aria-expanded="false" data-url="<?php echo site_url(array( 'nexo_premium', 'best_shippings' ));?>"><?php _e('Livraisons', 'nexo_premium');?></a></li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active" id="item_tab">
-        
+      <div class="tab-pane active" id="item_tab">        
       </div>
     </div>
     <!-- /.tab-content -->
@@ -101,6 +100,7 @@ var Nexo_Best_Of		=	new function(){
 				
 				SoldChart[ _item.ITEM_ID ].label			=	_item.DESIGN;
 				SoldChart[ _item.ITEM_ID ].borderColor		=	Nexo_Best_Of.RandHex();
+				
 				if( typeof SoldChart[ _item.ITEM_ID ].data == 'undefined' ) {
 					SoldChart[ _item.ITEM_ID ].data			=	new Array;
 				}

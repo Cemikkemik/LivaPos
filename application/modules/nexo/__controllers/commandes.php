@@ -16,6 +16,14 @@ class Nexo_Commandes extends CI_Model
     
     public function crud_header()
     {
+		if (
+			! User::can('edit_shop_orders')    &&
+			! User::can('create_shop_orders')    &&
+			! User::can('delete_shop_orders')
+		) {
+			redirect(array( 'dashboard', 'access-denied' ));
+		}
+			
         global $Options;
         $this->load->model('Nexo_Checkout');
         $this->load->model('Nexo_Misc');
@@ -146,7 +154,8 @@ class Nexo_Commandes extends CI_Model
             $this->Gui->set_title(__('Créer une nouvelle commande &mdash; Nexo', 'nexo'));
             $this->load->view('../modules/nexo/views/' . $_var1 . '-new.php', $data);
         } elseif ($page == 'edit') {
-            if (! User::can('edit_shop_orders')) {
+            
+			if (! User::can('edit_shop_orders')) {
                 redirect(array( 'dashboard', 'access-denied' ));
             }
             
@@ -161,33 +170,15 @@ class Nexo_Commandes extends CI_Model
             
             $this->Gui->set_title(__('Modifier une commande existante &mdash; Nexo', 'nexo'));
             $this->load->view('../modules/nexo/views/' . $_var1 . '-edit.php', $data);
-        } elseif ($page == 'ajax_list') {
-            if ($id == 'delete_selection') {
-                $id_array = array();
-                $selection = $this->input->post("selection", true);
-                $id_array = explode("|", $selection);
-                
-                foreach ($id_array as $item) {
-                    if ($item != '') {
-                        //DELETE ROW
-                        $this->db->where('ID', $item);
-                        $this->db->delete('nexo_commandes');
-                    }
-                }
-            } else {
-                $data[ 'crud_content' ]    =    $this->crud_header();
-                $_var1    =    'commandes';
-                $this->Gui->set_title(__('Liste des commandes &mdash; Nexo', 'nexo'));
-                $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
-            }
-        } else {
-            if (
-                ! User::can('edit_shop_orders')    &&
-                ! User::can('create_shop_orders')    &&
-                ! User::can('delete_shop_orders')
-            ) {
-                redirect(array( 'dashboard', 'access-denied' ));
-            }
+        } else if( $page == 'delete' ) {
+			
+			nexo_permission_check( 'delete_shop_orders' );
+			$data[ 'crud_content' ]    =    $this->crud_header();
+			$_var1                    =    'commandes';
+			$this->Gui->set_title(__('Modifier une commande existante &mdash; Nexo', 'nexo'));
+			$this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
+			
+		} else {
             
             $data[ 'crud_content' ]    =    $this->crud_header();
             $_var1    =    'commandes';

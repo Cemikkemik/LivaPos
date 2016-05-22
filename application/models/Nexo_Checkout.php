@@ -1014,9 +1014,9 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->deny_group('shop_cashier', 'edit_profile');
         
         // Delete Custom Groups
-        $this->aauth->deny_group('shop_clashier');
-        $this->aauth->deny_group('shop_manager');
-        $this->aauth->deny_group('shop_tester');
+        $this->aauth->delete_group('shop_clashier');
+        $this->aauth->delete_group('shop_manager');
+        $this->aauth->delete_group('shop_tester');
     }
     
     /**

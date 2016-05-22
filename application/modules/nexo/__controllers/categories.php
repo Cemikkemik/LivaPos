@@ -61,29 +61,27 @@ class Nexo_Categories extends CI_Model
         return $output;
     }
     
-    public function lists( $page = 'index', $id = null)
+    public function lists($page = 'index', $id = null)
     {
-		if( $page == 'index' ) {
-			$this->Gui->set_title(__('Liste des catégories &mdash; Nexo', 'nexo'));
-		} elseif( $page == 'delete' ) {
-			
-			nexo_permission_check( 'delete_shop_categories' );
-			
-			// Checks whether an item is in use before delete
-			nexo_availability_check( $id, array(
-				array( 'col'	=>	'REF_CATEGORY', 'table'	=>	'nexo_articles' )
-			) );
-			
-			$this->Gui->set_title(__('Liste des catégories &mdash; Nexo', 'nexo'));
-			
-		} else {
-			$this->Gui->set_title(__('Liste des catégories &mdash; Nexo', 'nexo'));
-		}
+        if ($page == 'index') {
+            $this->Gui->set_title(__('Liste des catégories &mdash; Nexo', 'nexo'));
+        } elseif ($page == 'delete') {
+            nexo_permission_check('delete_shop_categories');
+            
+            // Checks whether an item is in use before delete
+            nexo_availability_check($id, array(
+                array( 'col'    =>    'REF_CATEGORY', 'table'    =>    'nexo_articles' )
+            ));
+            
+            $this->Gui->set_title(__('Liste des catégories &mdash; Nexo', 'nexo'));
+        } else {
+            $this->Gui->set_title(__('Liste des catégories &mdash; Nexo', 'nexo'));
+        }
 
-		$data[ 'crud_content' ]   	=    $this->crud_header();
-		$_var1                    	=    'categories';
-		
-		$this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
+        $data[ 'crud_content' ]    =    $this->crud_header();
+        $_var1                        =    'categories';
+        
+        $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
     }
     
     public function add()

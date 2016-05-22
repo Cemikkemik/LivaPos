@@ -49,7 +49,8 @@ class Nexo_Products extends CI_Model
         $this->load->model('Nexo_Misc');
         global $Options;
         
-        function random($start = true){
+        function random($start = true)
+        {
             $start_int    =    $start ? 1 : 0;
             return rand($start_int, 9);
         }
@@ -100,10 +101,10 @@ class Nexo_Products extends CI_Model
             }
         }
         
-		$saved_barcode[]    =    $code;
+        $saved_barcode[]    =    $code;
 
         $this->options->set('nexo_saved_barcode', $saved_barcode, true);
-		
+        
         if (in_array(@$Options[ 'nexo_product_codebar' ], array( 'ean8', 'ean13' ))) {
             $this->create_codebar(substr($code, 0, -1));
         } else {
@@ -145,12 +146,12 @@ class Nexo_Products extends CI_Model
     {
         // Get a new barcode based on current settings
         $barcode        =    $this->generate_barcode();
-		
-		// Update Order Barcodes
-		$this->db->where('REF_PRODUCT_CODEBAR', $old_barcode)->update('nexo_commandes_produits', array(
+        
+        // Update Order Barcodes
+        $this->db->where('REF_PRODUCT_CODEBAR', $old_barcode)->update('nexo_commandes_produits', array(
             'REF_PRODUCT_CODEBAR'    =>    $barcode
         ));
-		
+        
         // Update Barcode
         $this->db->where('ID', $product_id)->update('nexo_articles', array(
             'CODEBAR'    =>    $barcode
@@ -233,18 +234,16 @@ class Nexo_Products extends CI_Model
         $query    =    $this->db->where('REF_SHIPPING', $shipping_id)->get('nexo_articles');
         return $query->result_array();
     }
-	
-	/**
-	 * Get product
-	 * @params int product id
-	 * @returns Array
-	**/
-	
-	public function get_product( $product_id ) 
-	{
-		$query    =    $this->db->where('ID', $product_id)->get('nexo_articles');
+    
+    /**
+     * Get product
+     * @params int product id
+     * @returns Array
+    **/
+    
+    public function get_product($product_id)
+    {
+        $query    =    $this->db->where('ID', $product_id)->get('nexo_articles');
         return $query->result_array();
-	}
-	
-	
+    }
 }

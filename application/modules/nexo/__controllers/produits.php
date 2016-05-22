@@ -111,23 +111,21 @@ class Nexo_Produits extends CI_Model
         return $output;
     }
     
-    public function lists($page = 'index', $id = null )
+    public function lists($page = 'index', $id = null)
     {
         if ($page == 'index') {
             $this->Gui->set_title(__('Liste des articles &mdash; Nexo', 'nexo'));
-		} elseif( $page == 'delete' ) {
-			
-			nexo_permission_check( 'delete_shop_items' );
-			
-			$this->load->model( 'Nexo_Products' );
-			$product	=	$this->Nexo_Products->get_product( $id );
-			if( $product ) {
-				// Checks whether an item is in use before delete
-				nexo_availability_check( $product[0][ 'CODEBAR' ], array(
-					array( 'col'	=>	'REF_PRODUCT_CODEBAR', 'table'	=>	'nexo_commandes_produits' )
-				) );
-			}
-			
+        } elseif ($page == 'delete') {
+            nexo_permission_check('delete_shop_items');
+            
+            $this->load->model('Nexo_Products');
+            $product    =    $this->Nexo_Products->get_product($id);
+            if ($product) {
+                // Checks whether an item is in use before delete
+                nexo_availability_check($product[0][ 'CODEBAR' ], array(
+                    array( 'col'    =>    'REF_PRODUCT_CODEBAR', 'table'    =>    'nexo_commandes_produits' )
+                ));
+            }
         } else {
             $this->Gui->set_title(__('Ajouter un nouvel article &mdash; Nexo', 'nexo'));
         }

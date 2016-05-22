@@ -99,7 +99,7 @@ var NexoCashierPerformance	=	new function(){
 				NexoCashierPerformance.ShowChart( data );
 			},
 			error	:	function(){
-				bootbox.alert( '<?php echo addslashes( __( 'Une erreur s\'est produite durant l\'affichage du rapport', 'nexo' ) );?>' );
+				bootbox.alert( '<?php echo addslashes(__('Une erreur s\'est produite durant l\'affichage du rapport', 'nexo'));?>' );
 			}
 		});
 	};

@@ -61,28 +61,22 @@ class Nexo_Categories extends CI_Model
     }
     
     public function lists($page = 'index', $id = null)
-    {        
+    {
         if ($page == 'index') {
-			
             $this->Gui->set_title(__('Liste des fournisseurs &mdash; Nexo', 'nexo'));
-			
-        } elseif( $page == 'delete' ) {
-			
-			nexo_permission_check( 'delete_shop_providers' );
-			
-			// Checks whether an item is in use before delete
-			nexo_availability_check( $id, array(
-				array( 'col'	=>	'FOURNISSEUR_REF_ID', 'table'	=>	'nexo_arrivages' )
-			) );
-			
-		} else {
-			
+        } elseif ($page == 'delete') {
+            nexo_permission_check('delete_shop_providers');
+            
+            // Checks whether an item is in use before delete
+            nexo_availability_check($id, array(
+                array( 'col'    =>    'FOURNISSEUR_REF_ID', 'table'    =>    'nexo_arrivages' )
+            ));
+        } else {
             $this->Gui->set_title(__('Ajouter un nouveau fournisseur &mdash; Nexo', 'nexo'));
-			
         }
-		
-		$data[ 'crud_content' ]    =    $this->crud_header();
-		$_var1                    =    'fournisseurs';
+        
+        $data[ 'crud_content' ]    =    $this->crud_header();
+        $_var1                    =    'fournisseurs';
         $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
     }
     

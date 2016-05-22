@@ -54,23 +54,21 @@ class Nexo_Rayons extends CI_Model
     }
     
     public function lists($page = 'index', $id = null)
-    {            
+    {
         if ($page == 'add') {
             $this->Gui->set_title(__('Créer un nouveau rayon &mdash; Nexo', 'nexo'));
-		} elseif( $page == 'delete' ) {
-			
-			nexo_permission_check( 'delete_shop_radius' );
-			
-			// Checks whether an item is in use before delete
-			nexo_availability_check( $id, array(
-				array( 'col'	=>	'REF_RAYON', 'table'	=>	'nexo_articles' )
-			) );
-			
+        } elseif ($page == 'delete') {
+            nexo_permission_check('delete_shop_radius');
+            
+            // Checks whether an item is in use before delete
+            nexo_availability_check($id, array(
+                array( 'col'    =>    'REF_RAYON', 'table'    =>    'nexo_articles' )
+            ));
         } else {
             $this->Gui->set_title(__('Liste des rayons &mdash; Nexo', 'nexo'));
         }
         
-		$data[ 'crud_content' ]    =    $this->crud_header();
+        $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1    =    'rayons';
         $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
     }

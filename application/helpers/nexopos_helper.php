@@ -20,7 +20,7 @@ if (! function_exists('nexo_permission_check')) {
     {
         if (! User::can($permission)) {
             echo json_encode(array(
-                'error_message'    =>    __('Vous n\'avez pas l\'autorisation nécessaire pour effectuer cette action.', 'nexo'),
+                'error_message'    =>   get_instance()->lang->line( 'permission-denied' ),
                 'success'        =>    false
             ));
             die;
@@ -45,7 +45,7 @@ if (! function_exists('nexo_availability_check')) {
                 $query    =    get_instance()->db->where(@$table[ 'col' ], $item)->get(@$table[ 'table' ]);
                 if ($query->result_array()) {
                     echo json_encode(array(
-                        'error_message'    =>    __('Vous ne pouvez pas supprimer cet élément, car il est en cours d\'utilisation.', 'nexo'),
+                        'error_message'    =>   get_instance()->lang->line( 'cant-delete-used-item' ),
                         'success'        =>    false
                     ));
                     die;

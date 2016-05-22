@@ -76,6 +76,7 @@ class Group
     
     /**
      * Get All
+	 * @return Array
      *
     **/
     

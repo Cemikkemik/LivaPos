@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nexo\n"
-"POT-Creation-Date: 2016-05-22 23:33+0100\n"
-"PO-Revision-Date: 2016-05-22 23:35+0100\n"
+"POT-Creation-Date: 2016-05-23 00:21+0100\n"
+"PO-Revision-Date: 2016-05-23 00:23+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en\n"
@@ -25,7 +25,7 @@ msgid "Nom de la livraison"
 msgstr "Delivery name"
 
 #: __controllers/arrivages.php:39 __controllers/clients.php:44
-#: __controllers/clients.php:127 __controllers/paiements.php:35
+#: __controllers/clients.php:125 __controllers/paiements.php:35
 #: __controllers/produits.php:59 __controllers/types_de_commandes.php:35
 #, fuzzy
 msgid "Description"
@@ -40,15 +40,15 @@ msgstr "﻿Supplier"
 msgid "Etiquettes des articles"
 msgstr "Labels of the items"
 
-#: __controllers/arrivages.php:66
+#: __controllers/arrivages.php:65
 msgid "Liste des livraisons &mdash; Nexo"
 msgstr "List of deliveries &mdash; Nexo"
 
-#: __controllers/arrivages.php:79
+#: __controllers/arrivages.php:75
 msgid "Ajouter une nouvelle livraison &mdash; Nexo"
 msgstr "Add a new delivery &mdash; Nexo"
 
-#: __controllers/arrivages.php:95
+#: __controllers/arrivages.php:91
 #, php-format
 msgid "Ajouter une nouvelle livraison : &mdash; %s"
 msgstr "Add a new delivery: &mdash; %s"
@@ -69,13 +69,13 @@ msgstr "Category Description"
 msgid "Catégorie parente"
 msgstr "Parent Category"
 
-#: __controllers/categories.php:67 __controllers/categories.php:77
-#: __controllers/categories.php:80
+#: __controllers/categories.php:67 __controllers/categories.php:76
+#: __controllers/categories.php:78
 #, fuzzy
 msgid "Liste des catégories &mdash; Nexo"
 msgstr "List of categories &mdash; Nexo"
 
-#: __controllers/categories.php:97
+#: __controllers/categories.php:95
 #, fuzzy
 msgid "Créer une nouvelle catégorie &mdash; Nexo"
 msgstr "Create a new category &mdash; Nexo"
@@ -140,44 +140,44 @@ msgstr "Group"
 msgid "Email"
 msgstr "E-mail"
 
-#: __controllers/clients.php:72 __controllers/clients.php:83
+#: __controllers/clients.php:72 __controllers/clients.php:81
 #, fuzzy
 msgid "Liste des clients &mdash; Nexo"
 msgstr "List of customers &mdash; Nexo"
 
-#: __controllers/clients.php:99
+#: __controllers/clients.php:97
 #, fuzzy
 msgid "Ajouter un nouveau client &mdash; Nexo"
 msgstr "Add a new customer &mdash; Nexo"
 
-#: __controllers/clients.php:119
+#: __controllers/clients.php:117
 msgid "Groupes d'utilisateurs"
 msgstr "Users Groups"
 
-#: __controllers/clients.php:126
+#: __controllers/clients.php:124
 msgid "Nom"
 msgstr "Name"
 
-#: __controllers/clients.php:128 __controllers/produits.php:66
+#: __controllers/clients.php:126 __controllers/produits.php:66
 #, fuzzy
 msgid "Auteur"
 msgstr "Author"
 
-#: __controllers/clients.php:129 __controllers/commandes.php:78
+#: __controllers/clients.php:127 __controllers/commandes.php:78
 #, fuzzy
 msgid "Date de création"
 msgstr "Creation date"
 
-#: __controllers/clients.php:130 __controllers/commandes.php:79
+#: __controllers/clients.php:128 __controllers/commandes.php:79
 #, fuzzy
 msgid "Date de modification"
 msgstr "Date modified"
 
-#: __controllers/clients.php:169
+#: __controllers/clients.php:167
 msgid "Groupes &mdash; Nexo"
 msgstr "Groups &mdash; Nexo"
 
-#: __controllers/clients.php:180
+#: __controllers/clients.php:176
 msgid "Ajouter/Modifier un groupe de clients &mdash; Nexo"
 msgstr "Add/Edit client groups"
 
@@ -238,11 +238,11 @@ msgstr "Total"
 msgid "Créer une nouvelle commande &mdash; Nexo"
 msgstr "Create a new order"
 
-#: __controllers/commandes.php:171 __controllers/commandes.php:178
+#: __controllers/commandes.php:170 __controllers/commandes.php:176
 msgid "Modifier une commande existante &mdash; Nexo"
 msgstr "Edit order"
 
-#: __controllers/commandes.php:185
+#: __controllers/commandes.php:181
 #, fuzzy
 msgid "Liste des commandes &mdash; Nexo"
 msgstr "Order list &mdash; Nexo"
@@ -272,12 +272,12 @@ msgstr "Supplier Phone"
 msgid "Description du fournisseur"
 msgstr "Supplier Description"
 
-#: __controllers/fournisseurs.php:67
+#: __controllers/fournisseurs.php:66
 #, fuzzy
 msgid "Liste des fournisseurs &mdash; Nexo"
 msgstr "List of providers &mdash; Nexo"
 
-#: __controllers/fournisseurs.php:80 __controllers/fournisseurs.php:97
+#: __controllers/fournisseurs.php:75 __controllers/fournisseurs.php:91
 msgid "Ajouter un nouveau fournisseur &mdash; Nexo"
 msgstr "Add new supplier"
 
@@ -290,12 +290,12 @@ msgstr "Means of payment"
 msgid "Intitulé du moyen"
 msgstr "Means Title"
 
-#: __controllers/paiements.php:60 __controllers/paiements.php:73
+#: __controllers/paiements.php:59 __controllers/paiements.php:68
 #, fuzzy
 msgid "Liste des types de paiements &mdash; Nexo"
 msgstr "List of types of payments &mdash; Nexo"
 
-#: __controllers/paiements.php:91
+#: __controllers/paiements.php:84
 #, fuzzy
 msgid "Ajouter un nouveau type de paiement &mdash; Nexo"
 msgstr "Add a new type of payment &mdash; Nexo"
@@ -452,12 +452,12 @@ msgstr "Defective Quantity"
 msgid "Frais Accessoires"
 msgstr "Incidental costs or charges"
 
-#: __controllers/produits.php:118
+#: __controllers/produits.php:117
 #, fuzzy
 msgid "Liste des articles &mdash; Nexo"
 msgstr "List of articles &mdash; Nexo"
 
-#: __controllers/produits.php:133 __controllers/produits.php:150
+#: __controllers/produits.php:130 __controllers/produits.php:147
 #, fuzzy
 msgid "Ajouter un nouvel article &mdash; Nexo"
 msgstr "Add a new article &mdash; Nexo"
@@ -496,12 +496,12 @@ msgstr "Description of the radius"
 msgid "Créer un nouveau rayon &mdash; Nexo"
 msgstr "Create a new radius &mdash; Nexo"
 
-#: __controllers/rayons.php:70
+#: __controllers/rayons.php:68
 #, fuzzy
 msgid "Liste des rayons &mdash; Nexo"
 msgstr "List rays &mdash; Nexo"
 
-#: __controllers/rayons.php:86
+#: __controllers/rayons.php:84
 msgid "Créer une nouveau rayon &mdash; Nexo"
 msgstr "Create a new radius &mdash; Nexo"
 
@@ -575,11 +575,11 @@ msgstr "Title type"
 msgid "Liste des types de commandes &mdash; Nexo"
 msgstr "Orders types list &mdash; Nexo"
 
-#: __controllers/types_de_commandes.php:70
+#: __controllers/types_de_commandes.php:68
 msgid "Ajouter/modifier un type de commandes &mdash; Nexo"
 msgstr "Add/Edit order type &mdash; Nexo"
 
-#: __controllers/types_de_commandes.php:85
+#: __controllers/types_de_commandes.php:83
 #, fuzzy
 msgid "Créer un nouveau type de commande &mdash; Nexo"
 msgstr "Create a new command type &mdash; Nexo"
@@ -1073,6 +1073,15 @@ msgstr ""
 #: language/nexo_lang.php:11
 msgid "Suppression automatique des commandes devis"
 msgstr "Automatic removal of the quote orders"
+
+#: language/nexo_lang.php:12
+msgid ""
+"Vous ne pouvez pas supprimer cet élément, car il est en cours d'utilisation."
+msgstr "You cannot delete this item, because it is in use."
+
+#: language/nexo_lang.php:13
+msgid "Vous n'avez pas l'autorisation nécessaire pour effectuer cette action."
+msgstr "You do not have permission to perform this action."
 
 #: main.php:320
 #, fuzzy
@@ -2180,7 +2189,7 @@ msgstr ""
 
 #: views/settings/reset-script.php:32
 msgid "Attention !"
-msgstr "Attention !"
+msgstr "Warning!"
 
 #: views/settings/reset-script.php:33
 #, fuzzy

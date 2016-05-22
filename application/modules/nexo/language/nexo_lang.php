@@ -9,3 +9,5 @@ $lang[ 'license-has-expired' ]        =    tendoo_error(__('Cette licence n\'est
 // Quote Lang lines
 $lang[ 'deleted-quotes-msg' ]        =    __('Les commandes suivantes ont été supprimées automatiquement pour expiration : %s Les produits ont été restauré dans la boutique.', 'nexo');
 $lang[ 'deleted-quotes-title' ]        =    __('Suppression automatique des commandes devis', 'nexo');
+$lang[ 'cant-delete-used-item' ]		=	__('Vous ne pouvez pas supprimer cet élément, car il est en cours d\'utilisation.', 'nexo');
+$lang[ 'permission-denied' ]		=	__('Vous n\'avez pas l\'autorisation nécessaire pour effectuer cette action.', 'nexo');

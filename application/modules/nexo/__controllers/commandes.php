@@ -169,6 +169,17 @@ class Nexo_Commandes extends CI_Model
             
             $this->Gui->set_title(__('Modifier une commande existante &mdash; Nexo', 'nexo'));
             $this->load->view('../modules/nexo/views/' . $_var1 . '-edit.php', $data);
+		} elseif ($page == 'v2_add' ) {
+			
+			$this->load->model( 'Nexo_Checkout' );
+			
+			$this->enqueue->js('../modules/nexo/bower_components/moment/min/moment.min');
+			$this->enqueue->js('../modules/nexo/bower_components/chosen/chosen.jquery');			
+			$this->enqueue->css('../modules/nexo/bower_components/chosen/chosen');
+
+			$this->Gui->set_title( __( 'Effectuer un vente &mdash; NexoPOS', 'nexo' ) );
+			$this->load->view('../modules/nexo/views/checkout/v2/body.php', $data);
+			
         } elseif ($page == 'delete') {
             nexo_permission_check('delete_shop_orders');
             $data[ 'crud_content' ]    =    $this->crud_header();

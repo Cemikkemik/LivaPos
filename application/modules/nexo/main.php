@@ -52,8 +52,11 @@ class Nexo extends CI_Model
     
     public function load_frontend()
     {
-        // Prevent Frontend display
-        // redirect(array( 'dashboard' ));
+		global $Options;
+		if( @$Options[ 'nexo_disable_frontend' ] != 'disable' ) {
+			// Prevent Frontend display
+			redirect(array( 'dashboard' ));
+		}
     }
         
     /**
@@ -296,10 +299,25 @@ class Nexo extends CI_Model
 					NexoAPI.PrintElement( $(this).attr( 'print-item' ) );
 				});
 			}
-	
+			
+			/**
+			 * Currency Position
+			**/
+			
+			NexoAPI.CurrencyPosition	=	function( amount ) {
+				return '<?php echo addslashes($this->Nexo_Misc->display_currency('before'));?> ' + amount + ' <?php echo addslashes($this->Nexo_Misc->display_currency('after'));?>';
+			}
+			
+			/**
+			 * Currency Position + Money Format
+			**/
+			
+			NexoAPI.DisplayMoney		=	function( amount ) {
+				return NexoAPI.CurrencyPosition( NexoAPI.Format( parseInt( amount ) ) );
+			}
+			
 		var NexoSound		=	'<?php echo asset_url('/modules/nexo/sound/sound-');
         ?>';
-		
 		$( document ).ready(function(e) {
             NexoAPI.BindPrint();
         });

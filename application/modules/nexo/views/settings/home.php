@@ -66,6 +66,16 @@ $this->Gui->add_item(array(
     'description'    =>    __('Ce champ est susceptible d\'être utilisé au pied de page des rapports', 'nexo')
 ), 'Nexo_shop_details', 1);
 
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    'nexo_disable_frontend',
+    'label'        =>    __('Masquer le FrontEnd', 'nexo'),
+    'options'    =>    array(
+        'enable'        =>    __('Oui', 'nexo'),
+        'disable'        =>    __('Non', 'nexo')
+    ),
+	'description'	=>	__( 'Cette option vous permet d\'effectuer une redirection vers le tableau de bord durant l\'accès à l\'interface publique', 'nexo' )
+), 'Nexo_shop_details', 1);
 
 $this->Gui->add_meta(array(
     'namespace'        =>        'Nexo_soundfx',

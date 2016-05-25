@@ -42,7 +42,10 @@ class Nexo extends REST_Controller
             $result        =    $this->db->where($filter, $id)->get('nexo_articles')->result();
             $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
         } else {
-            $this->response($this->db->get('nexo_articles')->result());
+			$this->db->select( '*' )
+			->from( 'nexo_articles' )
+			->join( 'nexo_categories', 'nexo_articles.REF_CATEGORIE = nexo_categories.ID' );
+            $this->response($this->db->get()->result());
         }
     }
     

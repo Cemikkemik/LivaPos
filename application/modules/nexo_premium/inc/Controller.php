@@ -299,9 +299,11 @@ class Nexo_Premium_Controller extends CI_Model
         if ($page == 'list') {
             $this->Gui->set_title(__('Liste des factures &mdash; Nexo', 'nexo_premium'));
         } elseif ($page == 'delete') {
-            nexo_permission_check('delete_shop_purchases_invoices');
+            
+			nexo_permission_check('delete_shop_purchases_invoices');
+			
         } else {
-            if (! User::can('create_shop_purchases_invoices ')) {
+            if (! User::can('create_shop_purchases_invoices')) {
                 redirect(array( 'dashboard', 'access-denied' ));
             }
             

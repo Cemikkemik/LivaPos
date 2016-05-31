@@ -6,7 +6,7 @@
     $column_width = (int)(80/count($columns));
     
     if (!empty($list)) {
-        ?><div class="bDiv" >
+        ?><div class="bDiv table-responsive">
 		<table cellspacing="0" cellpadding="0" border="0" id="flex1" class="table table-bordered table-striped" style="background:#FFF;">
 		<thead>
 			<tr class='hDiv'>

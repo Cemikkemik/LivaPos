@@ -181,12 +181,9 @@ var NexoCashFlow	=	new function(){
 	
 	this.Index				=	0;
 	this.__TimeCalled		=	0;
-	this.Nexo_Order_Avance	=	'<?php echo @$Options[ 'nexo_order_advance' ];
-    ?>';
-	this.Nexo_Order_Cash	=	'<?php echo @$Options[ 'nexo_order_comptant' ];
-    ?>';
-	this.Nexo_Order_Devis	=	'<?php echo @$Options[ 'nexo_order_devis' ];
-    ?>';
+	this.Nexo_Order_Avance	=	'<?php echo 'nexo_order_advance';?>';
+	this.Nexo_Order_Cash	=	'<?php echo 'nexo_order_comptant';?>';
+	this.Nexo_Order_Devis	=	'<?php echo 'nexo_order_devis';?>';
 	this.CurrencyBefore		=	'<?php echo $this->Nexo_Misc->display_currency('before');
     ?>';
 	this.CurrencyAfter		=	'<?php echo $this->Nexo_Misc->display_currency('after');
@@ -401,9 +398,9 @@ var NexoCashFlow	=	new function(){
 	
 	this.TreatReport	=	function( content, index ) {
 		_.map( content.orders, function( value, index ) {
-			if( parseInt( value.TYPE ) == parseInt( NexoCashFlow.Nexo_Order_Cash ) ) {
+			if( value.TYPE == NexoCashFlow.Nexo_Order_Cash ) {
 				NexoCashFlow.CashTotal		+=	parseInt( value.TOTAL );
-			} else if( parseInt( value.TYPE ) == parseInt( NexoCashFlow.Nexo_Order_Avance ) ) {
+			} else if( value.TYPE == NexoCashFlow.Nexo_Order_Avance ) {
 				NexoCashFlow.AvanceTotal	+=	parseInt( value.SOMME_PERCU );
 			}
 			NexoCashFlow.RRR_Total			+=	( parseInt( value.RISTOURNE ) + parseInt( value.RABAIS ) + parseInt( value.REMISE ) );

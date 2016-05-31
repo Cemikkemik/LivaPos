@@ -232,10 +232,10 @@ class Nexo_premium extends REST_Controller
         } else {
             $this->config->load('nexo_premium');
             
-            $Dates        =    $this->Nexo_Misc->dates_between_borders($this->post('start'), $this->post('end'));
-            $Options    =    $this->Options->get();
-            $CashOrder    =    @$Options[ 'nexo_order_comptant' ];
-            $Response    =    array();
+            $Dates        		=    $this->Nexo_Misc->dates_between_borders($this->post('start'), $this->post('end'));
+            $Options    		=    $this->Options->get();
+            $CashOrder   	 	=    'nexo_order_comptant';
+            $Response    		=    array();
             
             if (! empty($Dates)) {
                 $items_sales    =    array();
@@ -301,10 +301,10 @@ class Nexo_premium extends REST_Controller
         } else {
             $this->config->load('nexo_premium');
             
-            $Dates        =    $this->Nexo_Misc->dates_between_borders($this->post('start'), $this->post('end'));
-            $Options    =    $this->Options->get();
-            $CashOrder    =    @$Options[ 'nexo_order_comptant' ];
-            $Response    =    array();
+            $Dates        	=    $this->Nexo_Misc->dates_between_borders($this->post('start'), $this->post('end'));
+            $Options    	=    $this->Options->get();
+            $CashOrder    	=    'nexo_order_comptant';
+            $Response    	=    array();
             
             if (! empty($Dates)) {
                 $items_sales    =    array();
@@ -373,10 +373,10 @@ class Nexo_premium extends REST_Controller
         } else {
             $this->config->load('nexo_premium');
             
-            $Dates        =    $this->Nexo_Misc->dates_between_borders($this->post('start'), $this->post('end'));
-            $Options    =    $this->Options->get();
-            $CashOrder    =    @$Options[ 'nexo_order_comptant' ];
-            $Response    =    array();
+            $Dates        	=    $this->Nexo_Misc->dates_between_borders($this->post('start'), $this->post('end'));
+            $Options    	=    $this->Options->get();
+            $CashOrder    	=    'nexo_order_comptant';
+            $Response    	=    array();
             
             if (! empty($Dates)) {
                 $items_sales    =    array();

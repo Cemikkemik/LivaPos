@@ -1039,6 +1039,8 @@ $(document).ready(function(e) {
 	$( '#field_REF_CLIENT_chosen' ).width( '100%' );
 	$( '#field_PAYMENT_TYPE_chosen' ).width( '100%' );
 	
+	$( '#TYPE_field_box' ).remove();
+	
 	// Show
 	<?php if (! $NexoEditScreen):?>
 	// Disable when on edit screen, since this one already have his own system.

@@ -6,9 +6,9 @@
 var NexoScreen			=	'edit';
 var NexoCurrentClient	=	0;
 var NexoCommandesEdit	=	new function(){
-		this.Nexo_Order_Avance	=	'<?php echo @$Options[ 'nexo_order_advance' ];?>';
-		this.Nexo_Order_Cash	=	'<?php echo @$Options[ 'nexo_order_comptant' ];?>';
-		this.Nexo_Order_Devis	=	'<?php echo @$Options[ 'nexo_order_devis' ];?>';
+		this.Nexo_Order_Avance	=	'<?php echo 'nexo_order_advance';?>';
+		this.Nexo_Order_Cash	=	'<?php echo 'nexo_order_comptant';?>';
+		this.Nexo_Order_Devis	=	'<?php echo 'nexo_order_devis';?>';
 		this.AllowAddItem		=	<?php echo in_array(@$Options[ 'nexo_enable_additem' ], array( null, 'no' ), true) ? 'false' : 'true';?>;
 		this.GetOrder			=	function( orderID ){
 			

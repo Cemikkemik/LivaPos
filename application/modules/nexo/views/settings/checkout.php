@@ -80,51 +80,14 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'dom',
-    'content'    =>    '<br><strong>' . __('Type des commandes', 'nexo') . '</strong>'
-), 'Nexo_checkout', 1);
-
-$query    =    $this->db->get('nexo_types_de_commandes');
-$result    =    $query->result_array();
-$options        =    array();
-
-foreach ($result as $_r) {
-    $options[ $_r[ 'ID' ] ]        =    xss_clean($_r[ 'DESIGN' ]);
-}
-
-$this->Gui->add_item(array(
-    'type'        =>    'select',
-    'name'        =>    'nexo_order_comptant',
-    'label'        =>    __('Commande Comptant', 'nexo'),
-    'description'    =>    __('Affecter ce type de commande aux commandes dont la somme perçu est supérieure ou également à la valeur réelle de la commande', 'nexo'),
-    'options'    =>    $options
-), 'Nexo_checkout', 1);
-
-$this->Gui->add_item(array(
-    'type'        =>    'select',
-    'name'        =>    'nexo_order_advance',
-    'label'        =>    __('Commande Avance', 'nexo'),
-    'description'    =>    __('Affecter ce type de commande aux commandes dont la somme perçu est inférieure à la valeur réelle de la commande, mais supérieure à 0', 'nexo'),
-    'options'    =>    $options
-), 'Nexo_checkout', 1);
-
-$this->Gui->add_item(array(
-    'type'        =>    'select',
-    'name'        =>    'nexo_order_devis',
-    'label'        =>    __('Commande Devis', 'nexo'),
-    'description'    =>    __('Affecter ce type de commande aux commandes dont la somme perçu total est égale à 0', 'nexo'),
-    'options'    =>    $options
-), 'Nexo_checkout', 1);
-
-$this->Gui->add_item(array(
-    'type'        =>    'dom',
     'content'    =>    '<h4>' . __('Configuration de la devise', 'nexo') . '</h4>'
-), 'Nexo_checkout2', 2);
+), 'Nexo_checkout', 1);
 
 $this->Gui->add_item(array(
     'type'        =>    'text',
     'name'        =>    'nexo_currency',
     'label'        =>    __('Symbole de la devise', 'nexo')
-), 'Nexo_checkout2', 2);
+), 'Nexo_checkout', 1);
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
@@ -134,7 +97,7 @@ $this->Gui->add_item(array(
         'before'    =>    __('Avant le montant', 'nexo'),
         'after'        =>    __('Après le montant', 'nexo')
     )
-), 'Nexo_checkout2', 2);
+), 'Nexo_checkout', 1);
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
@@ -158,6 +121,17 @@ $this->Gui->add_item(array(
         ''            =>    __('Veuillez choisir une option', 'nexo'),
         'yes'        =>    __('Oui', 'nexo'),
         'no'        =>    __('Non', 'nexo')
+    )
+), 'Nexo_checkout2', 2);
+
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    'nexo_enable_numpad',
+    'label'        =>    __('Activer le clavier numérique', 'nexo'),
+    'options'    =>    array(
+        'oui'        =>    __('Oui', 'nexo'),
+        'non'        =>    __('Non', 'nexo')
     )
 ), 'Nexo_checkout2', 2);
 

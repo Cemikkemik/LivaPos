@@ -33,7 +33,16 @@ foreach ($Dates as &$Date) {
 					pointStrokeColor: "#fff",
 					pointHighlightFill: "#fff",
 					pointHighlightStroke: "rgba(220,220,220,1)",
-					data: <?php echo json_encode($NbrOrder);?>
+					data: <?php echo json_encode($NbrOrder);?>,
+					backgroundColor: [
+						"#FF6384",
+						"#4BC0C0",
+						"#FFCE56",
+						"#E7E9ED",
+						"#36A2EB",
+						"#3E7EDD",
+						"#F9C181"
+					],
 				}				
 			]
 		};

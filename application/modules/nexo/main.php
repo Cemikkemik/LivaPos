@@ -69,6 +69,7 @@ class Nexo extends CI_Model
     {
         global $Options;
         
+		$this->load->config( 'nexo' );
         $this->lang->load_lines(dirname(__FILE__) . '/language/nexo_lang.php');
     }
     
@@ -109,7 +110,7 @@ class Nexo extends CI_Model
     public function dashboard()
     {
         $this->load->helper('nexopos');
-        $escapeAds    =    $this->events->apply_filters('nexo_escape_nexoadds', Modules::is_active('nexoads'));
+        $escapeAds    =    $this->events->apply_filters('nexo_escape_nexoadds', Modules::is_active('nexo_ads'));
         if (! Modules::is_active('grocerycrud') || $escapeAds == false) {
             Modules::disable('nexo');
             redirect(array( 'dashboard', 'modules?highlight=Nexo&notice=error-occured' ));
@@ -367,6 +368,15 @@ class Nexo extends CI_Model
             'position'                => 3,
             'content'                =>    $this->load->view('../modules/nexo/inc/widgets/tutorials.php', array(), true)
         ));
+		
+		$this->dashboard_widgets->add('nexo_news', array(
+            'title'                    => __('Actualités NexoPOS', 'nexo'),
+            'type'                    => 'box-primary',
+            'hide_body_wrapper'        =>    true,
+            // 'background-color'	=>	'',
+            'position'                => 2,
+            'content'                =>    $this->load->view('../modules/nexo/inc/widgets/news.php', array(), true)
+        ));
     }
     
     /**
@@ -375,7 +385,7 @@ class Nexo extends CI_Model
     
     public function remove_link($link)
     {
-        return 'http://nexo.tendoo.org/get-premium';
+        return 'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010';
     }
     
     /**
@@ -389,15 +399,18 @@ class Nexo extends CI_Model
     public function filter_grocery_list_item_class($class, $row)
     {
         if (in_array(uri_string(), array( 'dashboard/nexo/commandes/lists', 'dashboard/nexo/commandes/lists/ajax_list' ))) {
-            global $Options;
-            $Advance    =    @$Options[ 'nexo_order_advance' ];
-            $Cash        =    @$Options[ 'nexo_order_comptant' ];
-            $Estimate    =    @$Options[ 'nexo_order_devis' ];
-            if ($row->TYPE    === $Advance) {
+            
+			$Advance    	=	'nexo_order_advance';
+            $Cash        	=   'nexo_order_comptant';
+            $Estimate    	=   'nexo_order_devis';
+			
+			$nexo_order_types	=	array_flip( $this->config->item( 'nexo_order_types' ) );
+			
+            if ( @$nexo_order_types[ $row->TYPE ]    == $Advance) {
                 return 'info';
-            } elseif ($row->TYPE === $Cash) {
+            } elseif ( @$nexo_order_types[ $row->TYPE ] == $Cash) {
                 return 'success';
-            } elseif ($row->TYPE === $Estimate) {
+            } elseif ( @$nexo_order_types[ $row->TYPE ] == $Estimate) {
                 return 'warning';
             } else {
                 return $class;

@@ -87,6 +87,12 @@ class Nexo_Install extends CI_Model
 		  `DESCRIPTION` text NOT NULL,
 		  `DATE_CREATION` datetime NOT NULL,
 		  `DATE_MODIFICATION` datetime NOT NULL,
+		  `DISCOUNT_TYPE` varchar(220) NOT NULL,
+		  `DISCOUNT_PERCENT` int(11) NOT NULL,
+		  `DISCOUNT_AMOUNT` int(11) NOT NULL,
+		  `DISCOUNT_ENABLE_SCHEDULE` varchar(220) NOT NULL,
+		  `DISCOUNT_START` datetime NOT NULL,
+		  `DISCOUNT_END` datetime NOT NULL,
 		  `AUTHOR` int(11) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
@@ -98,39 +104,13 @@ class Nexo_Install extends CI_Model
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_types_de_commandes` (
-		  `ID` int(11) NOT NULL AUTO_INCREMENT,
-		  `DESIGN` varchar(200) NOT NULL,
-		  `DESCRIPTION` text NOT NULL,
-		  PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
-
-        // Bon d'voir @since 2.1
-        /** 
-        $this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_bon_davoir` (
-          `ID` int(11) NOT NULL AUTO_INCREMENT,
-          `RAISON` varchar(200) NOT NULL,
-          `DESCRIPTION` text NOT NULL,
-          `TYPE` varchar(200) NOT NULL,
-          `COMMANDE_REF_ID` int(11) NOT NULL,
-          `MONTANT` int(11) NOT NULL,
-          `ARTICLE_CODEBAR` int(11) NOT NULL,
-          `DATE_CREATION` datetime NOT NULL,
-           `DATE_MOD` datetime NOT NULL,
-          `AUTHOR` int(11) NOT NULL,
-          `REF_CLIENT` int(11) NOT NULL,
-          `REF_PRODUCT_CODEBAR` varchar(200) NOT NULL,
-          PRIMARY KEY (`ID`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;' );
-        **/
-
         $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_commandes` (
 		  `ID` int(50) NOT NULL AUTO_INCREMENT,
 		  `TITRE` varchar(200) NOT NULL,
 		  `DESCRIPTION` varchar(200) NOT NULL,
 		  `CODE` varchar(250) NOT NULL,
 		  `REF_CLIENT` int(50) NOT NULL,
-		  `TYPE` int(50) NOT NULL,
+		  `TYPE` varchar(200) NOT NULL,
 		  `DATE_CREATION` datetime NOT NULL,
 		  `DATE_MOD` datetime NOT NULL,
 		  `PAYMENT_TYPE` int(50) NOT NULL,
@@ -286,9 +266,6 @@ class Nexo_Install extends CI_Model
             $this->options->delete('nexo_installed');
             $this->options->delete('nexo_saved_barcode');
             $this->options->delete('order_code');
-            $this->options->delete('nexo_order_advance');
-            $this->options->delete('nexo_order_comptant');
-            $this->options->delete('nexo_order_devis');
 
             $this->load->model('Nexo_Checkout');
             $this->Nexo_Checkout->delete_permissions();

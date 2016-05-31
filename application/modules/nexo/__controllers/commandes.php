@@ -27,6 +27,7 @@ class Nexo_Commandes extends CI_Model
         global $Options;
         $this->load->model('Nexo_Checkout');
         $this->load->model('Nexo_Misc');
+		$this->load->config( 'nexo' );
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');
         $crud->set_subject(__('Commandes', 'nexo'));
@@ -80,11 +81,12 @@ class Nexo_Commandes extends CI_Model
         $crud->display_as('TOTAL', __('Total', 'nexo'));
         
         $crud->set_relation('REF_CLIENT', 'nexo_clients', 'NOM');
-        $crud->set_relation('TYPE', 'nexo_types_de_commandes', 'DESIGN');
+
+		$crud->field_type('TYPE','dropdown', $this->config->item( 'nexo_order_types' ) );		
+		
         $crud->set_relation('AUTHOR', 'aauth_users', 'name');
         $crud->set_relation('PAYMENT_TYPE', 'nexo_paiements', 'DESIGN');
         
-        $crud->change_field_type('TYPE', 'invisible');
         $crud->change_field_type('RABAIS', 'invisible');
         $crud->change_field_type('RISTOURNE', 'invisible');
         $crud->change_field_type('CODE', 'invisible');
@@ -118,7 +120,7 @@ class Nexo_Commandes extends CI_Model
     
     public function lists($page = 'home', $id = null)
     {
-        global $NexoEditScreen, $NexoAddScreen;
+        global $NexoEditScreen, $NexoAddScreen, $Options;
         $NexoEditScreen    =    ( bool ) preg_match('#dashboard\/nexo/commandes\/lists\/edit#', uri_string());
         $NexoAddScreen    =    ( bool ) preg_match('#dashboard\/nexo/commandes\/lists\/add#', uri_string());
         
@@ -171,11 +173,16 @@ class Nexo_Commandes extends CI_Model
             $this->load->view('../modules/nexo/views/' . $_var1 . '-edit.php', $data);
 		} elseif ($page == 'v2_add' ) {
 			
+			if( @$Options[ 'default_compte_client' ] == null ) {
+				redirect( array( 'dashboard', 'nexo', 'settings', 'customers?notice=default-customer-required' ) );
+			}
+			
 			$this->load->model( 'Nexo_Checkout' );
 			
 			$this->enqueue->js('../modules/nexo/bower_components/moment/min/moment.min');
-			$this->enqueue->js('../modules/nexo/bower_components/chosen/chosen.jquery');			
-			$this->enqueue->css('../modules/nexo/bower_components/chosen/chosen');
+			$this->enqueue->js('../plugins/bootstrap-select/dist/js/bootstrap-select.min');			
+			
+			$this->enqueue->css('../plugins/bootstrap-select/dist/css/bootstrap-select.min');
 
 			$this->Gui->set_title( __( 'Effectuer un vente &mdash; NexoPOS', 'nexo' ) );
 			$this->load->view('../modules/nexo/views/checkout/v2/body.php', $data);

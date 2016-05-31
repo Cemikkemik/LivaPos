@@ -15,7 +15,11 @@ var NexoTutorials	=	new function(){
 					$( '#tutorial-wrapper' ).find( 'p' ).remove();
 					$( '#tutorial-wrapper' ).append( '<ul class="nav nav-stacked"></ul>' );
 					_.each( data.item, function( value, key ) {
-						$( '#tutorial-wrapper ul' ).append( '<li><a href="' + value.link + '">' + value.title + '</a></li>' );
+						if( key <= 4 ) {
+							$( '#tutorial-wrapper ul' ).append( '<li><a href="' + value.link + '">' + value.title + '</a></li>' );
+						} else {
+							return;
+						}
 					});
 				}
 			}

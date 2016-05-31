@@ -225,16 +225,16 @@ var Nexo_Daily_Report	=	new function(){
 					
 					Nexo_Daily_Report.RRR_Total			+=	( parseInt( value.RABAIS ) + parseInt( value.REMISE ) + parseInt( value.RISTOURNE ) )
 					
-					if( value.TYPE == <?php echo @$Options[ 'nexo_order_comptant' ];
-    ?> ) {
+					if( value.TYPE == '<?php echo 'nexo_order_comptant';
+    ?>' ) {
 						
 						Nexo_Daily_Report.ComptantNbr++
 						Nexo_Daily_Report.CashAvanceNbr++;
 						Nexo_Daily_Report.ComptantTotal		+=	parseInt( value.TOTAL );	
 						Nexo_Daily_Report.CashAvanceTotal 	+= 	parseInt( value.TOTAL );	
 						
-					} else if( value.TYPE == <?php echo @$Options[ 'nexo_order_advance' ];
-    ?> ) {
+					} else if( value.TYPE == '<?php echo 'nexo_order_advance';
+    ?>' ) {
 						
 						Nexo_Daily_Report.AvanceNbr++
 						Nexo_Daily_Report.CashAvanceNbr++;
@@ -242,8 +242,8 @@ var Nexo_Daily_Report	=	new function(){
 						Nexo_Daily_Report.CashAvanceTotal 	+= 	parseInt( value.SOMME_PERCU );	
 						Nexo_Daily_Report.AvanceLeftTotal	+=	( parseInt( value.TOTAL ) - parseInt( value.SOMME_PERCU ) );
 						
-					} else if( value.TYPE == <?php echo @$Options[ 'nexo_order_devis' ];
-    ?> ) {
+					} else if( value.TYPE == '<?php echo 'nexo_order_devis';
+    ?>' ) {
 						
 						Nexo_Daily_Report.DevisNbr++
 						Nexo_Daily_Report.DevisTotal	+=	parseInt( value.TOTAL );	

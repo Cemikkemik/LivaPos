@@ -382,34 +382,9 @@ $this->db->query("INSERT INTO `{$this->db->dbprefix}nexo_clients` (`ID`, `NOM`, 
 (3, '". __('Jane Doe', 'nexo')        ."', 	'', 0, 0, '', 0, 'janedoe@tendoo.org', 				'',	'0000-00-00 00:00:00', '', 0, 0),
 (4, '". __('Blair Jersyer', 'nexo')    ."', 	'', 0, 0, '', 0, 'carlosjohnsonluv2004@gmail.com', 	'',	'0000-00-00 00:00:00', '', 0, 0);");
 
-// Type des commandes
-
-$this->db->insert('nexo_types_de_commandes', array(
-    'DESIGN'        =>        __('Comptant', 'nexo'),
-    'DESCRIPTION'    =>        __('Pour les commandes dont le montant perçu est supérieure ou également à la valeur réelle de la commande', 'nexo')
-));
-
-$this->db->insert('nexo_types_de_commandes', array(
-    'DESIGN'        =>        __('Avance', 'nexo'),
-    'DESCRIPTION'    =>        __('Pour les commandes dont le montant perçu est supérieure à 0 et inférieure à la valeur réelle de la commande', 'nexo')
-));
-
-$this->db->insert('nexo_types_de_commandes', array(
-    'DESIGN'        =>        __('Devis', 'nexo'),
-    'DESCRIPTION'    =>        __('Pour les commandes dont le montant perçu est égal à 0', 'nexo')
-));
-
 // Options
 $this->load->model('Options');
 $this->options        =    new Options;
-// Commande Comptant
-$this->options->set('nexo_order_comptant', 1, true);
-
-// Commande Avance
-$this->options->set('nexo_order_advance', 2, true);
-
-// Commande devis
-$this->options->set('nexo_order_devis', 3, true);
 
 $this->options->set('nexo_currency', '$', true);
 

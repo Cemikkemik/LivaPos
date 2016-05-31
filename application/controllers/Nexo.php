@@ -42,7 +42,10 @@ class Nexo extends REST_Controller
             $result        =    $this->db->where($filter, $id)->get('nexo_articles')->result();
             $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
         } else {
-			$this->db->select( '*' )
+			$this->db->select( '*,
+			nexo_articles.ID as ID,
+			nexo_categories.ID as CAT_ID
+			' )
 			->from( 'nexo_articles' )
 			->join( 'nexo_categories', 'nexo_articles.REF_CATEGORIE = nexo_categories.ID' );
             $this->response($this->db->get()->result());
@@ -237,6 +240,27 @@ class Nexo extends REST_Controller
         $this->response($content, 200);
     }
     
+	/**
+     * News Feed Get
+     * @since 2.5.5
+    **/
+    
+    public function news_feed_get()
+    {
+        $this->cache        =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_' ));
+        
+        if ($this->cache->get('news_feed')) {
+            $content        =    json_decode($this->cache->get('news_feed'));
+        } else {
+            $xml = file_get_contents('http://nexo.tendoo.org/category/news/feed');
+            $x = new SimpleXmlElement($xml);
+            $content        =    $x->channel;
+            $this->cache->save('news_feed', json_encode($x->channel), 43200);
+        }
+        
+        $this->response($content, 200);
+    }
+	
     /** 
      * Customer Groups
      * @params int/string group par

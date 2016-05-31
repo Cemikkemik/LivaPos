@@ -54,6 +54,11 @@ class Nexo_Controller extends CI_Model
                     'icon'        =>    'fa fa-star', // menu icon
                     'href'        =>    site_url('dashboard/nexo/commandes/lists/add'), // url to the page,
                 ),
+				array(
+                    'title'       =>    __('Effectuer une vente', 'nexo'), // menu title
+                    'icon'        =>    'fa fa-star', // menu icon
+                    'href'        =>    site_url('dashboard/nexo/commandes/lists/v2_add'), // url to the page,
+                ),
                 array(
                     'title'       =>    __('Liste des moyens de paiment', 'nexo'), // menu title
                     'icon'        =>    'fa fa-star', // menu icon
@@ -64,6 +69,7 @@ class Nexo_Controller extends CI_Model
                     'icon'        =>    'fa fa-star', // menu icon
                     'href'        =>    site_url('dashboard/nexo/paiements/lists/add'), // url to the page,
                 ),
+				/**
                 array(
                     'title'       =>    __('Liste des types de commandes', 'nexo'), // menu title
                     'icon'        =>    'fa fa-star', // menu icon
@@ -74,6 +80,7 @@ class Nexo_Controller extends CI_Model
                     'icon'        =>    'fa fa-star', // menu icon
                     'href'        =>    site_url('dashboard/nexo/types_de_commandes/lists/add'), // url to the page,
                 ),
+				**/
             );
         }
         
@@ -192,21 +199,33 @@ class Nexo_Controller extends CI_Model
                     'disable'    =>    true,
                     'icon'        =>    'fa fa-bar-chart'
                 ),
+				array(
+                    'title'       =>    __('Les meilleurs', 'nexo'), // menu title
+                    'href'        =>    'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010', // site_url('dashboard/nexo/rapports/fiche_de_suivi_de_stock'), // url to the page,
+                ),
                 array(
                     'title'       =>    __('Rapport Journalier', 'nexo'), // menu title
                     'href'        =>    site_url('dashboard/nexo/rapports/journalier'), // url to the page,
                 ),
                 array(
                     'title'       =>    __('Rendement Mensuel', 'nexo'), // menu title
-                    'href'        =>    'http://nexo.tendoo.org/get-premium', // site_url('dashboard/nexo/rapports/rendement_mensuel'), // url to the page,
+                    'href'        =>    'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010', // site_url('dashboard/nexo/rapports/rendement_mensuel'), // url to the page,
                 ),
                 array(
                     'title'       =>    __('Statistiques des ventes', 'nexo'), // menu title
-                    'href'        =>    'http://nexo.tendoo.org/get-premium', // site_url('dashboard/nexo/rapports/statistique_des_ventes'), // url to the page,
+                    'href'        =>    'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010', // site_url('dashboard/nexo/rapports/statistique_des_ventes'), // url to the page,
                 ),
                 array(
                     'title'       =>    __('Fiche de suivi de stocks général', 'nexo'), // menu title
-                    'href'        =>    'http://nexo.tendoo.org/get-premium', // site_url('dashboard/nexo/rapports/fiche_de_suivi_de_stock'), // url to the page,
+                    'href'        =>    'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010', // site_url('dashboard/nexo/rapports/fiche_de_suivi_de_stock'), // url to the page,
+                ),
+				array(
+                    'title'       =>    __('Performances des caissiers', 'nexo'), // menu title
+                    'href'        =>    'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010', // site_url('dashboard/nexo/rapports/fiche_de_suivi_de_stock'), // url to the page,
+                ),
+				array(
+                    'title'       =>    __('Statistiques des clients', 'nexo'), // menu title
+                    'href'        =>    'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010', // site_url('dashboard/nexo/rapports/fiche_de_suivi_de_stock'), // url to the page,
                 ),
             ));
         }
@@ -230,11 +249,11 @@ class Nexo_Controller extends CI_Model
                 ),
                 array(
                     'title'            =>    __('Historique des activités', 'nexo'),
-                    'href'            =>    'http://nexo.tendoo.org/get-premium', // site_url( array( 'dashboard', 'nexo', 'history' ) ),
+                    'href'            =>    'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010', // site_url( array( 'dashboard', 'nexo', 'history' ) ),
                 ),
                 array(
                     'title'            =>    __('Importation / Exportation', 'nexo'),
-                    'href'            =>    'http://nexo.tendoo.org/get-premium', // site_url( array( 'dashboard', 'nexo', 'export_bdd' ) ),
+                    'href'            =>    'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010', // site_url( array( 'dashboard', 'nexo', 'export_bdd' ) ),
                 ),
             ));
         }
@@ -292,12 +311,6 @@ class Nexo_Controller extends CI_Model
     {
         $this->load->model('Nexo_Misc');
         $this->Gui->register_page('nexo', array( $this, 'load_controller' ));
-        $this->Gui->register_page('Nexo_license', array( $this, 'Nexo_license' ));
-    }
-        
-    public function Nexo_license()
-    {
-        echo $this->Nexo_Misc->check_license_ajax();
     }
     public function load_controller()
     {

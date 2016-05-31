@@ -50,13 +50,14 @@ class Nexo_Checkout extends CI_Model
         **/
         
         // @since 2.6 , added VAT
+		// $this->load->config( 'nexo' );
 
         if ($somme_percu >= $ttWithCharge + $vat) {
-            $post[ 'TYPE' ]    =    @$Options[ 'nexo_order_comptant' ]; // Comptant
+            $post[ 'TYPE' ]    =   	'nexo_order_comptant'; // Comptant
         } elseif ($somme_percu == 0) {
-            $post[ 'TYPE' ] =    @$Options[ 'nexo_order_devis' ]; // Devis
+            $post[ 'TYPE' ] =    	'nexo_order_devis'; // Devis
         } elseif ($somme_percu < ($ttWithCharge + $vat) && $somme_percu > 0) {
-            $post[ 'TYPE' ]    =    @$Options[ 'nexo_order_advance' ]; // Avance
+            $post[ 'TYPE' ]    =    'nexo_order_advance'; // Avance
         }
         
         // Other: Ristourne
@@ -236,13 +237,14 @@ class Nexo_Checkout extends CI_Model
         **/
 
         // @since 2.6 , added VAT
+		// $this->load->config( 'nexo' );
 
         if ($somme_percu >= $ttWithCharge + $vat) {
-            $post[ 'TYPE' ]    =    @$Options[ 'nexo_order_comptant' ]; // Comptant
+            $post[ 'TYPE' ]    =    'nexo_order_comptant';// Comptant
         } elseif ($somme_percu == 0) {
-            $post[ 'TYPE' ] =    @$Options[ 'nexo_order_devis' ]; // Devis
+            $post[ 'TYPE' ] =    	'nexo_order_devis'; // Devis
         } elseif ($somme_percu < ($ttWithCharge + $vat) && $somme_percu > 0) {
-            $post[ 'TYPE' ]    =    @$Options[ 'nexo_order_advance' ]; // Avance
+            $post[ 'TYPE' ]    =    'nexo_order_advance'; // Avance
         }
         
         // Other: Ristourne

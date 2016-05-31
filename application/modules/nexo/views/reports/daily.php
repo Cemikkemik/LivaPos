@@ -345,11 +345,11 @@ var	Nexo_Daily_Report	=	new function(){
     ?>';
 
 	// Order Types
-	this.CommandeCash	=	'<?php echo $Options[ 'nexo_order_comptant' ];
+	this.CommandeCash	=	'<?php echo 'nexo_order_comptant';
     ?>';
-	this.CommandeDevis	=	'<?php echo $Options[ 'nexo_order_devis' ];
+	this.CommandeDevis	=	'<?php echo 'nexo_order_devis';
     ?>';
-	this.CommandeAvance	=	'<?php echo $Options[ 'nexo_order_advance' ];
+	this.CommandeAvance	=	'<?php echo 'nexo_order_advance';
     ?>';
 
 	// Storing Dates

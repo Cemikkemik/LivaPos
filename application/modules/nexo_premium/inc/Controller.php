@@ -741,7 +741,7 @@ class Nexo_Premium_Controller extends CI_Model
         $Options    =    $this->options->get();
         
         $Expiration    =    @$Options[ 'nexo_devis_expiration' ];
-        $QuoteID    =    @$Options[ 'nexo_order_devis' ];
+        $QuoteID    =    'nexo_order_devis';
         $LogEnabled    =    @$Options[ 'nexo_premium_enable_history' ];
         
         $this->lang->load_lines(APPPATH . '/modules/nexo/language/nexo_lang.php');

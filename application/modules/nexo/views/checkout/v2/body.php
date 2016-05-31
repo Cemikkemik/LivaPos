@@ -1,7 +1,7 @@
 <?php
-$this->Gui->col_width( 1, 1.5 );
+$this->Gui->col_width( 1, 2.25 );
 
-$this->Gui->col_width( 2, 2.25 );
+$this->Gui->col_width( 2, 1.5 );
 
 $this->Gui->add_meta( array(
 	'type'	=>	'unwrapped',
@@ -17,12 +17,12 @@ $this->Gui->add_meta( array(
 
 $this->Gui->add_item( array(
 	'type'	=>	'dom',
-	'content' => $this->load->module_view( 'nexo', 'checkout/v2/col_1', array(), true )
+	'content' => $this->load->module_view( 'nexo', 'checkout/v2/col_2', array(), true )
 ), 'checkout_v2_col1', 1 );
 
 $this->Gui->add_item( array(
 	'type'	=>	'dom',
-	'content' => $this->load->module_view( 'nexo', 'checkout/v2/col_2', array(), true )
+	'content' => $this->load->module_view( 'nexo', 'checkout/v2/col_1', array(), true )
 ), 'checkout_v2_col2', 2 );
 
 $this->Gui->add_item( array(

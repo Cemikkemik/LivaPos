@@ -168,11 +168,11 @@ $( document ).ready(function(e) {
 		this.LatestIds					=	new Array();
 		this.Index						=	0;
 		this.__TimeCalled				=	0;
-		this.Nexo_Order_Avance			=	'<?php echo $Options[ 'nexo_order_advance' ];
+		this.Nexo_Order_Avance			=	'<?php echo 'nexo_order_advance';
     ?>'
-		this.Nexo_Order_Cash			=	'<?php echo $Options[ 'nexo_order_comptant' ];
+		this.Nexo_Order_Cash			=	'<?php echo 'nexo_order_comptant';
     ?>'
-		this.Nexo_Order_Devis			=	'<?php echo $Options[ 'nexo_order_devis' ];
+		this.Nexo_Order_Devis			=	'<?php echo 'nexo_order_devis';
     ?>'
 		this.CurrencyBefore				=	'<?php echo $this->Nexo_Misc->display_currency('before');
     ?>';
@@ -256,9 +256,9 @@ $( document ).ready(function(e) {
 				var TotalCommandeCash	=	0;
 				_.each( value, function( _value, _key ) {
 					if( _.contains( [ 
-						parseInt( NexoPremium_Sales_Statistics.Nexo_Order_Cash ), 
-						parseInt( NexoPremium_Sales_Statistics.Nexo_Order_Avance ) 
-					], parseInt( _value.TYPE_COMMANDE ) ) ) {
+						NexoPremium_Sales_Statistics.Nexo_Order_Cash, 
+						NexoPremium_Sales_Statistics.Nexo_Order_Avance 
+					], _value.TYPE_COMMANDE ) ) {
 						TotalCommandeCash	+=	parseInt( _value.PRIX_DE_VENTE );
 					} 
 				});

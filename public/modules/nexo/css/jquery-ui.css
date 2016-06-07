@@ -6,6 +6,9 @@
 
 /* Layout helpers
 ----------------------------------*/
+#ui-datepicker-div{
+	z-index: 6000 !important;
+}
 .ui-helper-hidden {
 	display: none;
 }

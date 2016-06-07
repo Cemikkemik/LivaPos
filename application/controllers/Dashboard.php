@@ -97,7 +97,7 @@ class Dashboard extends Tendoo_Controller
             
             // Can user update/install modules ?
             if (
-				! User::can('install_modules') ||
+                ! User::can('install_modules') ||
                 ! User::can('update_modules')
             ) {
                 redirect(array( 'dashboard', 'access-denied' ));
@@ -115,8 +115,8 @@ class Dashboard extends Tendoo_Controller
                     if (@$notice[ 'msg' ]    ==    'module-updated-migrate-required') {
                         redirect(array( 'dashboard', 'modules', 'migrate', $notice[ 'namespace' ] ));
                     } else {
-						// Migration will start from this release
-						$this->options->set('migration_' . $notice[ 'namespace' ], $notice[ 'version' ], true);
+                        // Migration will start from this release
+                        $this->options->set('migration_' . $notice[ 'namespace' ], $notice[ 'version' ], true);
                         // redirecting						
                     redirect(array( 'dashboard', 'modules', 'list?highlight=' . $notice[ 'namespace' ] . '&notice=' . $notice[ 'msg' ] . (isset($notice[ 'extra' ]) ? '&extra=' . $notice[ 'extra' ] : '') . '#module-' . $notice[ 'namespace' ] ));
                     }

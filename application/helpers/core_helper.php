@@ -193,43 +193,44 @@ function get($key) // add to doc
 }
 
 if (!function_exists('translate')) {
-	
-	/**
-	 * Alias of "translate"
-	**/
-	
+    
+    /**
+     * Alias of "translate"
+    **/
+    
     function __($code, $templating = 'tendoo-core')
     {
         return translate($code, $templating);
     }
-	
-	/**
-	 * Alias of __, but echo instead
-	**/
-	
+    
+    /**
+     * Alias of __, but echo instead
+    **/
+    
     function _e($code, $templating = 'tendoo-core')
     {
         echo __($code, $templating);
     }
-	
-	/**
-	 * Echo Translation filtered with addslashes
-	 * @params string code
-	 * @params string text domain
-	 * @return string
-	**/
-	
-	function _s( $code, $templating ) {
-		return addslashes( __( $code, $templating ) ); 		
-	}
-	
-	/**
-	 * Get translated text
-	 * @params string text string
-	 * @params string text domain
-	 * @return string translated text
-	**/
-	
+    
+    /**
+     * Echo Translation filtered with addslashes
+     * @params string code
+     * @params string text domain
+     * @return string
+    **/
+    
+    function _s($code, $templating)
+    {
+        return addslashes(__($code, $templating));
+    }
+    
+    /**
+     * Get translated text
+     * @params string text string
+     * @params string text domain
+     * @return string translated text
+    **/
+    
     function translate($code, $textdomain = 'tendoo-core')
     {
         $final_lines    =    array();

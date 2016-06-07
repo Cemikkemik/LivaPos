@@ -51,11 +51,11 @@ class Nexo extends CI_Model
     
     public function load_frontend()
     {
-		global $Options;
-		if( @$Options[ 'nexo_disable_frontend' ] != 'disable' ) {
-			// Prevent Frontend display
-			redirect(array( 'dashboard' ));
-		}
+        global $Options;
+        if (@$Options[ 'nexo_disable_frontend' ] != 'disable') {
+            // Prevent Frontend display
+            redirect(array( 'dashboard' ));
+        }
     }
         
     /**
@@ -69,7 +69,7 @@ class Nexo extends CI_Model
         global $Options;
         
         $this->lang->load_lines(dirname(__FILE__) . '/language/nexo_lang.php');
-		$this->load->config( 'nexo' );
+        $this->load->config('nexo');
     }
     
     /**
@@ -305,7 +305,9 @@ class Nexo extends CI_Model
 			**/
 			
 			NexoAPI.CurrencyPosition	=	function( amount ) {
-				return '<?php echo addslashes($this->Nexo_Misc->display_currency('before'));?> ' + amount + ' <?php echo addslashes($this->Nexo_Misc->display_currency('after'));?>';
+				return '<?php echo addslashes($this->Nexo_Misc->display_currency('before'));
+        ?> ' + amount + ' <?php echo addslashes($this->Nexo_Misc->display_currency('after'));
+        ?>';
 			}
 			
 			/**
@@ -367,8 +369,8 @@ class Nexo extends CI_Model
             'position'                => 3,
             'content'                =>    $this->load->view('../modules/nexo/inc/widgets/tutorials.php', array(), true)
         ));
-		
-		$this->dashboard_widgets->add('nexo_news', array(
+        
+        $this->dashboard_widgets->add('nexo_news', array(
             'title'                    => __('Actualités NexoPOS', 'nexo'),
             'type'                    => 'box-primary',
             'hide_body_wrapper'        =>    true,

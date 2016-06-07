@@ -13,18 +13,18 @@ use Carbon\Carbon;
 
 class Nexo extends REST_Controller
 {
-	use Nexo_orders, Nexo_items, Nexo_stripe;
-	
-	public function __construct()
+    use Nexo_orders, Nexo_items, Nexo_stripe;
+    
+    public function __construct()
     {
         parent::__construct();
        
         $this->load->library('session');
-		$this->load->model( 'Options' );
+        $this->load->model('Options');
         $this->load->database();
     }
-	
-	private function __success()
+    
+    private function __success()
     {
         $this->response(array(
             'status'        =>    'success'
@@ -67,5 +67,4 @@ class Nexo extends REST_Controller
             'status'        =>    '404'
         ), 404);
     }
-	
 }

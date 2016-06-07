@@ -25,14 +25,14 @@ class Nexo extends REST_Controller
      *
     **/
     
-    public function compare_item_post( $filter, $exclude_id )
+    public function compare_item_post($filter, $exclude_id)
     {
         $result        =    $this->db
-							->where( $filter, $this->post('filter') )
-							->where( 'ID !=', $exclude_id )
-							->get('nexo_articles')->result();
+                            ->where($filter, $this->post('filter'))
+                            ->where('ID !=', $exclude_id)
+                            ->get('nexo_articles')->result();
         
-		$result        ?    $this->response($result, 200)  : $this->__empty();
+        $result        ?    $this->response($result, 200)  : $this->__empty();
     }
     
     /**
@@ -42,23 +42,23 @@ class Nexo extends REST_Controller
     
     public function item_get($id = null, $filter = 'ID')
     {
-        if ( $id != null && $filter != 'sku-barcode' ) {
+        if ($id != null && $filter != 'sku-barcode') {
             $result        =    $this->db->where($filter, $id)->get('nexo_articles')->result();
             $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
-		} elseif( $filter == 'sku-barcode' ) {
-			$result        =    $this->db
-								->where('CODEBAR', $id)
-								->or_where( 'SKU', $id )
-								->get('nexo_articles')
-								->result();
+        } elseif ($filter == 'sku-barcode') {
+            $result        =    $this->db
+                                ->where('CODEBAR', $id)
+                                ->or_where('SKU', $id)
+                                ->get('nexo_articles')
+                                ->result();
             $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
         } else {
-			$this->db->select( '*,
+            $this->db->select('*,
 			nexo_articles.ID as ID,
 			nexo_categories.ID as CAT_ID
-			' )
-			->from( 'nexo_articles' )
-			->join( 'nexo_categories', 'nexo_articles.REF_CATEGORIE = nexo_categories.ID' );
+			')
+            ->from('nexo_articles')
+            ->join('nexo_categories', 'nexo_articles.REF_CATEGORIE = nexo_categories.ID');
             $this->response($this->db->get()->result());
         }
     }
@@ -251,7 +251,7 @@ class Nexo extends REST_Controller
         $this->response($content, 200);
     }
     
-	/**
+    /**
      * News Feed Get
      * @since 2.5.5
     **/
@@ -271,7 +271,7 @@ class Nexo extends REST_Controller
         
         $this->response($content, 200);
     }
-	
+    
     /** 
      * Customer Groups
      * @params int/string group par

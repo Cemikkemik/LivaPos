@@ -50,12 +50,12 @@ class Nexo_Checkout extends CI_Model
         **/
         
         // @since 2.6 , added VAT
-		// $this->load->config( 'nexo' );
+        // $this->load->config( 'nexo' );
 
         if ($somme_percu >= $ttWithCharge + $vat) {
-            $post[ 'TYPE' ]    =   	'nexo_order_comptant'; // Comptant
+            $post[ 'TYPE' ]    =    'nexo_order_comptant'; // Comptant
         } elseif ($somme_percu == 0) {
-            $post[ 'TYPE' ] =    	'nexo_order_devis'; // Devis
+            $post[ 'TYPE' ] =        'nexo_order_devis'; // Devis
         } elseif ($somme_percu < ($ttWithCharge + $vat) && $somme_percu > 0) {
             $post[ 'TYPE' ]    =    'nexo_order_advance'; // Avance
         }
@@ -191,16 +191,16 @@ class Nexo_Checkout extends CI_Model
         
         return $randomString;
     }
-	
-	/**
-	 * Shuffle_code : alias of random_code
-	 *
-	**/
-	
-	public function shuffle_code($length = 6)
+    
+    /**
+     * Shuffle_code : alias of random_code
+     *
+    **/
+    
+    public function shuffle_code($length = 6)
     {
-		$Options		=	$this->Options->get();
-        $orders_code    =   force_array( @$Options[ 'order_code' ] );
+        $Options        =    $this->Options->get();
+        $orders_code    =   force_array(@$Options[ 'order_code' ]);
         /**
          * Count product to increase length
         **/
@@ -265,12 +265,12 @@ class Nexo_Checkout extends CI_Model
         **/
 
         // @since 2.6 , added VAT
-		// $this->load->config( 'nexo' );
+        // $this->load->config( 'nexo' );
 
         if ($somme_percu >= $ttWithCharge + $vat) {
             $post[ 'TYPE' ]    =    'nexo_order_comptant';// Comptant
         } elseif ($somme_percu == 0) {
-            $post[ 'TYPE' ] =    	'nexo_order_devis'; // Devis
+            $post[ 'TYPE' ] =        'nexo_order_devis'; // Devis
         } elseif ($somme_percu < ($ttWithCharge + $vat) && $somme_percu > 0) {
             $post[ 'TYPE' ]    =    'nexo_order_advance'; // Avance
         }
@@ -1010,27 +1010,26 @@ class Nexo_Checkout extends CI_Model
     **/
     
     public function get_order_products($order_id, $return_all = false)
-    {		
+    {
         $query    =    $this->db
-		->where('ID', $order_id)
-		->get('nexo_commandes');
-		
-		if ($query->result_array()) {
-		
-            $data    		=    $query->result_array();
-			// var_dump( $query->result_array() );die;
-            $sub_query    	=    $this->db
-			->select('*,
+        ->where('ID', $order_id)
+        ->get('nexo_commandes');
+        
+        if ($query->result_array()) {
+            $data            =    $query->result_array();
+            // var_dump( $query->result_array() );die;
+            $sub_query        =    $this->db
+            ->select('*,
 			nexo_commandes_produits.QUANTITE as QTE_ADDED,
 			nexo_articles.DESIGN as DESIGN')
-			->from('nexo_commandes')
-			->join('nexo_commandes_produits', 'nexo_commandes.CODE = nexo_commandes_produits.REF_COMMAND_CODE', 'inner')
-			->join('nexo_articles', 'nexo_articles.CODEBAR = nexo_commandes_produits.REF_PRODUCT_CODEBAR', 'inner')
-			->where('REF_COMMAND_CODE', $data[0][ 'CODE' ])
-			->get();
-				
+            ->from('nexo_commandes')
+            ->join('nexo_commandes_produits', 'nexo_commandes.CODE = nexo_commandes_produits.REF_COMMAND_CODE', 'inner')
+            ->join('nexo_articles', 'nexo_articles.CODEBAR = nexo_commandes_produits.REF_PRODUCT_CODEBAR', 'inner')
+            ->where('REF_COMMAND_CODE', $data[0][ 'CODE' ])
+            ->get();
+                
             $sub_data    = $sub_query->result_array();
-			
+            
             if ($sub_data) {
                 if ($return_all) {
                     return array(
@@ -1054,33 +1053,33 @@ class Nexo_Checkout extends CI_Model
     
     public function get_order_type($order_type)
     {
-		$order_types	=	$this->config->item( 'nexo_order_types' );
-		return $order_types[ $order_type ];
+        $order_types    =    $this->config->item('nexo_order_types');
+        return $order_types[ $order_type ];
     }
-	
-	/**
-	 * Proceed order
-	 * complete an order
-	 * @params int order id 
-	 * @return bool
-	**/
-	
-	public function proceed_order( $order_id ) 
-	{
-		$order	=	$this->Nexo_Checkout->get_order( $order_id );
-		
-		if( $order ) {
-			if( $order[0][ 'TYPE' ] == 'nexo_order_advance' ) {
-				$this->db->where( 'ID', $order_id )->update( 'nexo_commandes', array(
-					'SOMME_PERCU'	=>	$order[0][ 'TOTAL' ],
-					'TYPE'			=>	'nexo_order_comptant'
-				) );
-				return true;
-			} else {
-				return false;				
-			}
-		}
-		
-		return false;
-	}
+    
+    /**
+     * Proceed order
+     * complete an order
+     * @params int order id 
+     * @return bool
+    **/
+    
+    public function proceed_order($order_id)
+    {
+        $order    =    $this->Nexo_Checkout->get_order($order_id);
+        
+        if ($order) {
+            if ($order[0][ 'TYPE' ] == 'nexo_order_advance') {
+                $this->db->where('ID', $order_id)->update('nexo_commandes', array(
+                    'SOMME_PERCU'    =>    $order[0][ 'TOTAL' ],
+                    'TYPE'            =>    'nexo_order_comptant'
+                ));
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        return false;
+    }
 }

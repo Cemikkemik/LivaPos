@@ -45,7 +45,7 @@
     <?php
 if ($success_message !== null) {
     ?>
-    <p><?php echo tendoo_success( $success_message );
+    <p><?php echo tendoo_success($success_message);
     ?></p>
     <?php 
 }
@@ -66,7 +66,8 @@ if ($success_message !== null) {
                 <div class="form-inline">
                     <?php if (!$unset_add) {
     ?>
-                    <div class="btn-group"> <a href='<?php echo get_instance()->events->apply_filters( 'grocery_add_url', $add_url );?>' title='<?php echo get_instance()->events->apply_filters( 'grocery_add_text', $this->l('list_add' ) );
+                    <div class="btn-group"> <a href='<?php echo get_instance()->events->apply_filters('grocery_add_url', $add_url);
+    ?>' title='<?php echo get_instance()->events->apply_filters('grocery_add_text', $this->l('list_add'));
     ?> <?php echo $subject?>' class='btn btn-default add-anchor add_button'> <?php echo $this->l('list_add');
     ?> <?php echo $subject?> </a> </div>
                     <?php 

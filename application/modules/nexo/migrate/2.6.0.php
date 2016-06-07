@@ -9,8 +9,8 @@ $this->db->query('
 	ADD `DISCOUNT_END` datetime NOT NULL AFTER `DISCOUNT_START`;
 ');
 
-$this->db->query( '
+$this->db->query('
 	ALTER TABLE `' . $this->db->dbprefix('nexo_commandes') . '` CHANGE `TYPE` `TYPE` VARCHAR(200) NOT NULL;
 	ALTER TABLE `' . $this->db->dbprefix('nexo_commandes') . '` ADD `GROUP_DISCOUNT` INT NOT NULL AFTER `TVA`;
 	ALTER TABLE `' . $this->db->dbprefix('nexo_commandes') . '` CHANGE `PAYMENT_TYPE` `PAYMENT_TYPE` VARCHAR(200) NOT NULL;
-' );
+');

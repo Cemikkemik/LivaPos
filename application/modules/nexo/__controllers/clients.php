@@ -125,19 +125,19 @@ class Nexo_Clients extends CI_Model
         $crud->display_as('DESCRIPTION', __('Description', 'nexo'));
         $crud->display_as('AUTHOR', __('Auteur', 'nexo'));
         $crud->display_as('DATE_CREATION', __('Date de création', 'nexo'));
-		$crud->display_as('DISCOUNT_TYPE', __('Type de remise', 'nexo'));
-		$crud->display_as('DISCOUNT_PERCENT', __('Pourcentage de remise (Sans "%")', 'nexo'));
-		$crud->display_as('DISCOUNT_AMOUNT', __('Montant de la remise', 'nexo'));
-		$crud->display_as('DISCOUNT_ENABLE_SCHEDULE', __('Activer la planification', 'nexo'));
-		$crud->display_as('DISCOUNT_START', __('Début de la planification', 'nexo'));
-		$crud->display_as('DISCOUNT_END', __('Fin de la planification', 'nexo'));
+        $crud->display_as('DISCOUNT_TYPE', __('Type de remise', 'nexo'));
+        $crud->display_as('DISCOUNT_PERCENT', __('Pourcentage de remise (Sans "%")', 'nexo'));
+        $crud->display_as('DISCOUNT_AMOUNT', __('Montant de la remise', 'nexo'));
+        $crud->display_as('DISCOUNT_ENABLE_SCHEDULE', __('Activer la planification', 'nexo'));
+        $crud->display_as('DISCOUNT_START', __('Début de la planification', 'nexo'));
+        $crud->display_as('DISCOUNT_END', __('Fin de la planification', 'nexo'));
         $crud->display_as('DATE_MODIFICATION', __('Date de modification', 'nexo'));
         
         $crud->set_relation('AUTHOR', 'aauth_users', 'name');
-		
-		// Load Field Type
-		$crud->field_type('DISCOUNT_TYPE','dropdown', $this->config->item( 'nexo_discount_type' ) );		
-		$crud->field_type('DISCOUNT_ENABLE_SCHEDULE','dropdown', $this->config->item( 'nexo_true_false' ) );
+        
+        // Load Field Type
+        $crud->field_type('DISCOUNT_TYPE', 'dropdown', $this->config->item('nexo_discount_type'));
+        $crud->field_type('DISCOUNT_ENABLE_SCHEDULE', 'dropdown', $this->config->item('nexo_true_false'));
 
         // Callback avant l'insertion
         $crud->callback_before_insert(array( $this, '__group_insert' ));

@@ -4,7 +4,7 @@ $this->Gui->col_width(1, 4);
 $this->Gui->add_meta(array(
     'namespace'        =>     'group_meta',
     'type'            =>     'box',
-	'title'			=>	__( 'Liste des groupes de clients', 'nexo' ),
+    'title'            =>    __('Liste des groupes de clients', 'nexo'),
     'col_id'        =>     1
 ));
 

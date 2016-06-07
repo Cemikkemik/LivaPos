@@ -225,7 +225,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             </td>
                         </tr>
                         <?php
-                        $terme        =    'nexo_order_comptant' 	== $order[ 'order' ][0][ 'TYPE' ] ? __('Reste :', 'nexo') : __('&Agrave; percevoir :', 'nexo');
+                        $terme        =    'nexo_order_comptant'    == $order[ 'order' ][0][ 'TYPE' ] ? __('Reste :', 'nexo') : __('&Agrave; percevoir :', 'nexo');
                         ?>
                         <tr>
                             <td class="text-right" colspan="3"><h4><strong><?php echo $terme;?></strong></h4></td>

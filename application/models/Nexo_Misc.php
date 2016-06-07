@@ -186,7 +186,7 @@ class Nexo_Misc extends CI_Model
         
         $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_rayons`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_clients`;');
-		$this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_clients_groups`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_clients_groups`;');
     }
     
     /**

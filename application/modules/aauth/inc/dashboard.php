@@ -326,8 +326,7 @@ class aauth_dashboard extends CI_model
             
             redirect(array( 'dashboard', 'unknow-user' ));
         } elseif ($page == 'profile') {
-            
-			if (! User::can('edit_profile')) {
+            if (! User::can('edit_profile')) {
                 redirect(array( 'dashboard', 'access-denied' ));
             }
             
@@ -340,7 +339,7 @@ class aauth_dashboard extends CI_model
             
             // Launch events for user profiles edition rules
             $this->events->do_action('user_profile_rules');
-			
+            
             if ($this->form_validation->run()) {
                 $exec    =    $this->users->edit(
                     $this->users->auth->get_user_id(),

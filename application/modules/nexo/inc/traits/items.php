@@ -1,30 +1,30 @@
 <?php
-trait Nexo_items 
+trait Nexo_items
 {
-	/**
+    /**
      * Get item
      *
     **/
     
     public function item_get($id = null, $filter = 'ID')
     {
-        if ( $id != null && $filter != 'sku-barcode' ) {
+        if ($id != null && $filter != 'sku-barcode') {
             $result        =    $this->db->where($filter, $id)->get('nexo_articles')->result();
             $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
-		} elseif( $filter == 'sku-barcode' ) {
-			$result        =    $this->db
-								->where('CODEBAR', $id)
-								->or_where( 'SKU', $id )
-								->get('nexo_articles')
-								->result();
+        } elseif ($filter == 'sku-barcode') {
+            $result        =    $this->db
+                                ->where('CODEBAR', $id)
+                                ->or_where('SKU', $id)
+                                ->get('nexo_articles')
+                                ->result();
             $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
         } else {
-			$this->db->select( '*,
+            $this->db->select('*,
 			nexo_articles.ID as ID,
 			nexo_categories.ID as CAT_ID
-			' )
-			->from( 'nexo_articles' )
-			->join( 'nexo_categories', 'nexo_articles.REF_CATEGORIE = nexo_categories.ID' );
+			')
+            ->from('nexo_articles')
+            ->join('nexo_categories', 'nexo_articles.REF_CATEGORIE = nexo_categories.ID');
             $this->response($this->db->get()->result());
         }
     }

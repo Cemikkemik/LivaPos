@@ -181,9 +181,12 @@ var NexoCashFlow	=	new function(){
 	
 	this.Index				=	0;
 	this.__TimeCalled		=	0;
-	this.Nexo_Order_Avance	=	'<?php echo 'nexo_order_advance';?>';
-	this.Nexo_Order_Cash	=	'<?php echo 'nexo_order_comptant';?>';
-	this.Nexo_Order_Devis	=	'<?php echo 'nexo_order_devis';?>';
+	this.Nexo_Order_Avance	=	'<?php echo 'nexo_order_advance';
+    ?>';
+	this.Nexo_Order_Cash	=	'<?php echo 'nexo_order_comptant';
+    ?>';
+	this.Nexo_Order_Devis	=	'<?php echo 'nexo_order_devis';
+    ?>';
 	this.CurrencyBefore		=	'<?php echo $this->Nexo_Misc->display_currency('before');
     ?>';
 	this.CurrencyAfter		=	'<?php echo $this->Nexo_Misc->display_currency('after');

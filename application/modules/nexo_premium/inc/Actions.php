@@ -98,13 +98,13 @@ class Nexo_Premium_Actions extends CI_Model
             if ($Sales) {
                 foreach ($Sales as $sale) {
                     // Uniquement les commandes comptant et avance	
-                    if ( $sale[ 'TYPE' ] == 'nexo_order_comptant' ) {
-                        $CA        		=    intval($sale[ 'TOTAL' ]) - (intval($sale[ 'RISTOURNE' ]) + intval($sale[ 'RABAIS' ]) + intval($sale[ 'REMISE' ]));
+                    if ($sale[ 'TYPE' ] == 'nexo_order_comptant') {
+                        $CA                =    intval($sale[ 'TOTAL' ]) - (intval($sale[ 'RISTOURNE' ]) + intval($sale[ 'RABAIS' ]) + intval($sale[ 'REMISE' ]));
                         $net_sales    +=    $CA;
-                    } elseif( $sale[ 'TYPE' ] == 'nexo_order_advance' ) {
-                        $CA       	 	=    intval($sale[ 'SOMME_PERCU' ]) - (intval($sale[ 'RISTOURNE' ]) + intval($sale[ 'RABAIS' ]) + intval($sale[ 'REMISE' ]));
+                    } elseif ($sale[ 'TYPE' ] == 'nexo_order_advance') {
+                        $CA               =    intval($sale[ 'SOMME_PERCU' ]) - (intval($sale[ 'RISTOURNE' ]) + intval($sale[ 'RABAIS' ]) + intval($sale[ 'REMISE' ]));
                         $net_sales    +=    $CA;
-					}
+                    }
                 }
             }
             
@@ -123,11 +123,11 @@ class Nexo_Premium_Actions extends CI_Model
             if ($Sales) {
                 foreach ($Sales as $sale) {
                     // Uniquement les commandes comptant et avance	
-                    if (in_array($sale[ 'TYPE' ], array( 'nexo_order_devis' ) ) ) {
+                    if (in_array($sale[ 'TYPE' ], array( 'nexo_order_devis' ))) {
                         $CA            =    intval($sale[ 'TOTAL' ]) - (intval($sale[ 'RISTOURNE' ]) + intval($sale[ 'RABAIS' ]) + intval($sale[ 'REMISE' ]));
                         $creances    +=    $CA;
                     }
-                    if (in_array($sale[ 'TYPE' ], array( 'nexo_order_advance' ) ) ) {
+                    if (in_array($sale[ 'TYPE' ], array( 'nexo_order_advance' ))) {
                         $CA            =    (intval($sale[ 'TOTAL' ]) - (intval($sale[ 'RISTOURNE' ]) + intval($sale[ 'RABAIS' ]) + intval($sale[ 'REMISE' ]))) - intval(intval($sale[ 'SOMME_PERCU' ]));
                         $creances    +=    $CA;
                     }

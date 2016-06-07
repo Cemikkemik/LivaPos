@@ -70,45 +70,45 @@
 			<td align="left" width='20%'>
 				<div class='tools'>				
 					<?php if (!$unset_delete) {
-						 ob_start();
+    ob_start();
     ?>
     				<a href='<?php echo $row->delete_url?>' title='<?php echo $this->l('list_delete')?> <?php echo $subject?>' class="delete-row" >
                			<span class='fa fa-remove btn btn-danger'></span>
                    	</a>
                     
-    				<?php echo get_instance()->events->apply_filters( 'grocery_filter_delete_button', ob_get_clean(), $row, $this->l('list_delete'), $subject );?>
+    				<?php echo get_instance()->events->apply_filters('grocery_filter_delete_button', ob_get_clean(), $row, $this->l('list_delete'), $subject);
+    ?>
                     	
                     <?php 
-					}
-    				
-					if (!$unset_edit) {
-						ob_start();
-    				?>
+}
+                    
+    if (!$unset_edit) {
+        ob_start();
+        ?>
 						<a href='<?php echo $row->edit_url?>' title='<?php echo $this->l('list_edit')?> <?php echo $subject?>'>
                         	<span class='edit-icon fa fa-edit btn-default btn'></span>
 						</a>
                     <?php 
-						echo get_instance()->events->apply_filters( 'grocery_filter_edit_button', ob_get_clean(), $row, $this->l('list_edit'), $subject );
-					}
-					
-                    if (!empty($row->action_urls)) {
-						
-						$row->action_urls	=	get_instance()->events->apply_filters( 'grocery_filter_actions', $row->action_urls, $actions, $row );
-						
-                        foreach ($row->action_urls as $action_unique_id => $action_url) {
-                            $action        = $actions[$action_unique_id];
-                            ?>
+                        echo get_instance()->events->apply_filters('grocery_filter_edit_button', ob_get_clean(), $row, $this->l('list_edit'), $subject);
+    }
+                    
+    if (!empty($row->action_urls)) {
+        $row->action_urls    =    get_instance()->events->apply_filters('grocery_filter_actions', $row->action_urls, $actions, $row);
+                        
+        foreach ($row->action_urls as $action_unique_id => $action_url) {
+            $action        = $actions[$action_unique_id];
+            ?>
 							<a href="<?php echo $action_url;
-                            ?>" class="<?php echo $action->css_class;
-                            ?> crud-action" title="<?php echo $action->label?>"><?php 
+            ?>" class="<?php echo $action->css_class;
+            ?> crud-action" title="<?php echo $action->label?>"><?php 
                                 if (!empty($action->image_url)) {
                                     ?><img src="<?php echo $action->image_url;
                                     ?>" alt="<?php echo $action->label?>" /><?php 
                                 }
-                            ?></a>		
+            ?></a>		
 					<?php 
-                        }
-                    }
+        }
+    }
     ?>					
                     <div class='clear'></div>
 				</div>

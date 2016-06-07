@@ -202,8 +202,8 @@ class Nexo_Products extends CI_Model
         }
         
         global $Options;
-		$segments        		=    $this->uri->segment_array();
-        $item_id       			 =    end($segments) ;
+        $segments                =    $this->uri->segment_array();
+        $item_id                    =    end($segments) ;
         $article                        =    $this->get('nexo_articles', $item_id, 'ID');
         $quantite                        =    intval($article[0][ 'QUANTITY' ]);
         $old_defectueux                    =    intval($article[0][ 'DEFECTUEUX' ]);

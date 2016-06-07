@@ -29,9 +29,9 @@ Tendoo Version Required : 1.5
     ?>
     <div class="content">
     <?php 
-	
-	echo 	$this->events->apply_filters( 'gui_before_rows', '' );
-	
+    
+    echo    $this->events->apply_filters('gui_before_rows', '');
+    
     if (function_exists('validation_errors')) {
         // validation errors
         echo(validation_errors()) != '' ? tendoo_error(strip_tags(validation_errors())) : '';

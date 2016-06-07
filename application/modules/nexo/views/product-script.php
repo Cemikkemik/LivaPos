@@ -17,9 +17,9 @@ function isInt(n){
 	function check_if_product_exists( filter, value )
 	{
 		<?php
-		$segments        		=    $this->uri->segment_array();
-        $item_id       			 =    end($segments) ;
-		?>
+        $segments                =    $this->uri->segment_array();
+        $item_id                    =    end($segments) ;
+        ?>
 		$.ajax( '<?php echo site_url(array( 'nexo', 'compare_item' ));?>/' + filter + '/<?php echo $item_id;?>',{
 			success	:	function( a ){
 				__check_if_product_exist( a, filter );
@@ -58,7 +58,7 @@ function isInt(n){
 			}
 		} else if( filter == 'SKU' ) {
 			if( passed.length > 0 ) {
-				tendoo.notify.warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'L\'unité de gestion de stock spécifié est déjà en cours d\'utilisation. Veuilez en définir un autre.', 'nexo' );?>' );
+				tendoo.notify.warning( '<?php echo _s('Attention', 'nexo');?>', '<?php echo _s('L\'unité de gestion de stock spécifié est déjà en cours d\'utilisation. Veuilez en définir un autre.', 'nexo');?>' );
 				$( '[name="SKU"]' ).val( '' );
 			}
 		}

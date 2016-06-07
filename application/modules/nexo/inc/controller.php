@@ -48,7 +48,7 @@ class Nexo_Controller extends CI_Model
                     'icon'        =>    'fa fa-star', // menu icon
                     'href'        =>    site_url('dashboard/nexo/commandes/lists'), // url to the page,
                 ),
-				array(
+                array(
                     'title'       =>    __('Effectuer une vente', 'nexo'), // menu title
                     'icon'        =>    'fa fa-star', // menu icon
                     'href'        =>    site_url('dashboard/nexo/commandes/lists/v2_checkout'), // url to the page,
@@ -171,7 +171,7 @@ class Nexo_Controller extends CI_Model
                     'disable'    =>    true,
                     'icon'        =>    'fa fa-bar-chart'
                 ),
-				array(
+                array(
                     'title'       =>    __('Les meilleurs', 'nexo'), // menu title
                     'href'        =>    'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010', // site_url('dashboard/nexo/rapports/fiche_de_suivi_de_stock'), // url to the page,
                 ),
@@ -191,11 +191,11 @@ class Nexo_Controller extends CI_Model
                     'title'       =>    __('Fiche de suivi de stocks général', 'nexo'), // menu title
                     'href'        =>    'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010', // site_url('dashboard/nexo/rapports/fiche_de_suivi_de_stock'), // url to the page,
                 ),
-				array(
+                array(
                     'title'       =>    __('Performances des caissiers', 'nexo'), // menu title
                     'href'        =>    'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010', // site_url('dashboard/nexo/rapports/fiche_de_suivi_de_stock'), // url to the page,
                 ),
-				array(
+                array(
                     'title'       =>    __('Statistiques des clients', 'nexo'), // menu title
                     'href'        =>    'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010', // site_url('dashboard/nexo/rapports/fiche_de_suivi_de_stock'), // url to the page,
                 ),
@@ -249,7 +249,7 @@ class Nexo_Controller extends CI_Model
                     'icon'            =>    'fa fa-gear',
                     'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings' ))
                 ),
-				array(
+                array(
                     'title'            =>    __('Stripe', 'nexo'),
                     'icon'            =>    'fa fa-gear',
                     'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings', 'stripe' ))

@@ -84,7 +84,7 @@ $( document ).ready(function(e) {
     <h2 class="text-center"><?php echo @$Options[ 'site_name' ] ? $Options[ 'site_name' ] : __('Nom indisponible', 'nexo');
     ?></h2>
     <h4 class="text-center"><?php echo sprintf(
-            __('Statistiques des ventes <br> pour %s', 'nexo'),
+            __('Statistiques des ventes <br> pour %s', 'nexo_premium'),
             $CarbonReportDate->formatLocalized('%Y')
         );
     ?></h4>

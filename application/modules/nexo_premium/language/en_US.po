@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nexo Premium\n"
-"POT-Creation-Date: 2016-05-22 23:35+0100\n"
-"PO-Revision-Date: 2016-05-22 23:36+0100\n"
+"POT-Creation-Date: 2016-06-07 14:24+0100\n"
+"PO-Revision-Date: 2016-06-07 14:27+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.8\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: __;_e\n"
@@ -36,46 +36,46 @@ msgstr "New Invoice"
 msgid "Clear cache"
 msgstr "Clear cache"
 
-#: inc/Actions.php:154
+#: inc/Actions.php:157
 msgid "Création d'une nouvelle commande"
 msgstr "Creating a new order"
 
-#: inc/Actions.php:156
+#: inc/Actions.php:159
 #, php-format
 msgid "L'utilisateur %s a crée une nouvelle commande avec pour code : %s"
 msgstr "User%s created a new order with the following code:%s"
 
-#: inc/Actions.php:172
+#: inc/Actions.php:175
 msgid "Modification d'une commande"
 msgstr "Order Modification"
 
-#: inc/Actions.php:174
+#: inc/Actions.php:177
 #, php-format
 msgid "L'utilisateur %s a modifié une commande avec pour code : %s"
 msgstr "User%s modified an order with the following code:%s"
 
-#: inc/Actions.php:191
+#: inc/Actions.php:194
 msgid "Suppréssion d'une commande"
 msgstr "Deleting an order"
 
-#: inc/Actions.php:193
+#: inc/Actions.php:196
 #, php-format
 msgid "L'utilisateur %s a supprimé une commande avec pour identifiant : %s"
 msgstr "User%s removed an order with the following id:%s"
 
-#: inc/Actions.php:209
+#: inc/Actions.php:212
 msgid "Historique des utilisateurs"
 msgstr "User History Report"
 
-#: inc/Actions.php:214
+#: inc/Actions.php:217
 msgid "Sauvegarder les réglages"
 msgstr "Save settings"
 
-#: inc/Actions.php:228
+#: inc/Actions.php:231
 msgid "Souhaitez-vous activer l'historique des activités ?"
 msgstr "Would you like to activate the activity history?"
 
-#: inc/Actions.php:229
+#: inc/Actions.php:232
 msgid ""
 "Ceci peut très légèrement ralentir l'application, et prendre plus d'espace "
 "dans votre base de données."
@@ -83,15 +83,15 @@ msgstr ""
 "This may slightly slow down the application, and take more space in your "
 "database."
 
-#: inc/Actions.php:231
+#: inc/Actions.php:234
 msgid "Veuillez choisir une option"
 msgstr "Choose an option"
 
-#: inc/Actions.php:232
+#: inc/Actions.php:235
 msgid "Oui"
 msgstr "Yes"
 
-#: inc/Actions.php:233
+#: inc/Actions.php:236
 msgid "Non"
 msgstr "No"
 
@@ -246,19 +246,19 @@ msgstr "Backup list - Nexo"
 msgid "Ajouter une sauvegarde &mdash; Nexo"
 msgstr "Add a backup &mdash; Nexo"
 
-#: inc/Controller.php:543
+#: inc/Controller.php:541
 msgid "Edition une sauvegarde &mdash; Nexo"
 msgstr "Editing a backup &mdash; Nexo"
 
-#: inc/Controller.php:558 inc/Controller.php:581
+#: inc/Controller.php:556 inc/Controller.php:579
 msgid "Sauvegarde Base de donnée Nexo POS"
 msgstr "Backup Database Nexo POS"
 
-#: inc/Controller.php:693 inc/Filters.php:116
+#: inc/Controller.php:691 inc/Filters.php:116
 msgid "Restauration"
 msgstr "Restoring"
 
-#: inc/Controller.php:726
+#: inc/Controller.php:724
 msgid "Les Meilleurs"
 msgstr "The best"
 

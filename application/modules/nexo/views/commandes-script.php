@@ -475,7 +475,7 @@ var	NexoCommandes			=	new function(){
 				// On evite d'affaire une notificatin pour l'édition des commandes actives
 				this.RequireConfirm		=	false;
 				
-				document.location = '<?php echo current_url();?>';
+				document.location 		= '<?php echo current_url();?>';
 			}
 		}
 	}

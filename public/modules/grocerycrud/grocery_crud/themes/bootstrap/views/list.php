@@ -7,9 +7,9 @@
     
     if (!empty($list)) {
         ?><div class="bDiv table-responsive">
-		<table cellspacing="0" cellpadding="0" border="0" id="flex1" class="table table-bordered table-striped" style="background:#FFF;">
+		<table cellspacing="0" cellpadding="0" border="0" id="flex1" class="table table-bordered" style="background:#FFF;">
 		<thead>
-			<tr class='hDiv'>
+			<tr class='active'>
 				<?php foreach ($columns as $column) {
     ?>
                 <th width='<?php echo $column_width?>%'>
@@ -70,21 +70,31 @@
 			<td align="left" width='20%'>
 				<div class='tools'>				
 					<?php if (!$unset_delete) {
+						 ob_start();
     ?>
-                    	<a href='<?php echo $row->delete_url?>' title='<?php echo $this->l('list_delete')?> <?php echo $subject?>' class="delete-row" >
-                    			<span class='fa fa-remove btn btn-danger'></span>
-                    	</a>
+    				<a href='<?php echo $row->delete_url?>' title='<?php echo $this->l('list_delete')?> <?php echo $subject?>' class="delete-row" >
+               			<span class='fa fa-remove btn btn-danger'></span>
+                   	</a>
+                    
+    				<?php echo get_instance()->events->apply_filters( 'grocery_filter_delete_button', ob_get_clean(), $row, $this->l('list_delete'), $subject );?>
+                    	
                     <?php 
-}
-    ?>
-                    <?php if (!$unset_edit) {
-    ?>
-						<a href='<?php echo $row->edit_url?>' title='<?php echo $this->l('list_edit')?> <?php echo $subject?>'><span class='edit-icon fa fa-edit btn-default btn'></span></a>
-					<?php 
-}
-    ?>
-					<?php 
+					}
+    				
+					if (!$unset_edit) {
+						ob_start();
+    				?>
+						<a href='<?php echo $row->edit_url?>' title='<?php echo $this->l('list_edit')?> <?php echo $subject?>'>
+                        	<span class='edit-icon fa fa-edit btn-default btn'></span>
+						</a>
+                    <?php 
+						echo get_instance()->events->apply_filters( 'grocery_filter_edit_button', ob_get_clean(), $row, $this->l('list_edit'), $subject );
+					}
+					
                     if (!empty($row->action_urls)) {
+						
+						$row->action_urls	=	get_instance()->events->apply_filters( 'grocery_filter_actions', $row->action_urls, $actions, $row );
+						
                         foreach ($row->action_urls as $action_unique_id => $action_url) {
                             $action        = $actions[$action_unique_id];
                             ?>

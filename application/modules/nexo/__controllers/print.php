@@ -34,6 +34,12 @@ class Nexo_Print extends CI_Model
             $data                =    array();
             $data[ 'order' ]    =    $this->Nexo_Checkout->get_order_products($order_id, true);
             $data[ 'cache' ]    =    $this->cache;
+
+			// Allow only cash order to be printed
+			if( $data[ 'order' ]['order'][0][ 'TYPE' ] != 'nexo_order_comptant' ) {
+				redirect( array( 'dashboard', 'nexo', 'commandes', 'lists?notice=only_cash_order_can_be_printed' ) );
+			}
+			
             if (count($data[ 'order' ]) == 0) {
                 die(sprintf(__('Impossible d\'afficher le ticket de caisse. Cette commande ne possède aucun article &mdash; <a href="%s">Retour en arrière</a>', 'nexo'), $_SERVER['HTTP_REFERER']));
             }

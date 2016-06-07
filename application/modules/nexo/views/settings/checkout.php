@@ -29,39 +29,6 @@ $this->Gui->add_meta(array(
 ));
 
 $this->Gui->add_item(array(
-    'type'        =>    'dom',
-    'content'    =>    '<strong>' . __('Visibilité des champs', 'nexo') . '</strong>'
-), 'Nexo_checkout', 1);
-
-$this->Gui->add_item(array(
-    'type'        =>    'checkbox',
-    'label'        =>    __('Selection du client', 'nexo'),
-    'name'        =>    'nexo_display_select_client',
-    'value'        =>    'enable',
-), 'Nexo_checkout', 1);
-
-$this->Gui->add_item(array(
-    'type'        =>    'checkbox',
-    'label'        =>    __('Mode de paiement', 'nexo'),
-    'name'        =>    'nexo_display_payment_means',
-    'value'        =>    'enable',
-), 'Nexo_checkout', 1);
-
-$this->Gui->add_item(array(
-    'type'        =>    'checkbox',
-    'label'        =>    __('Somme perçu', 'nexo'),
-    'name'        =>    'nexo_display_amount_received',
-    'value'        =>    'enable',
-), 'Nexo_checkout', 1);
-
-$this->Gui->add_item(array(
-    'type'        =>    'checkbox',
-    'label'        =>    __('Remise express', 'nexo'),
-    'name'        =>    'nexo_display_discount',
-    'value'        =>    'enable',
-), 'Nexo_checkout', 1);
-
-$this->Gui->add_item(array(
     'type'        =>    'select',
     'name'        =>    'nexo_enable_vat',
     'label'        =>    __('Activer la TVA', 'nexo'),
@@ -87,6 +54,12 @@ $this->Gui->add_item(array(
     'type'        =>    'text',
     'name'        =>    'nexo_currency',
     'label'        =>    __('Symbole de la devise', 'nexo')
+), 'Nexo_checkout', 1);
+
+$this->Gui->add_item(array(
+    'type'        =>    'text',
+    'name'        =>    'nexo_currency_iso',
+    'label'        =>    __('Format ISO de la devise', 'nexo')
 ), 'Nexo_checkout', 1);
 
 $this->Gui->add_item(array(
@@ -124,7 +97,6 @@ $this->Gui->add_item(array(
     )
 ), 'Nexo_checkout2', 2);
 
-
 $this->Gui->add_item(array(
     'type'        =>    'select',
     'name'        =>    'nexo_enable_numpad',
@@ -136,39 +108,10 @@ $this->Gui->add_item(array(
 ), 'Nexo_checkout2', 2);
 
 $this->Gui->add_item(array(
-    'type'                =>    'select',
-    'name'                =>    'nexo_enable_additem',
-    'label'                =>    __('Activer l\'ajout de produit dans une commande devis', 'nexo'),
-    'description'        =>    __('Cette option vous permet d\'activer l\'ajout de produit durant la modification d\'une commande devis. Par défaut vaut "Non"', 'nexo'),
-    'options'            =>    array(
-        ''                =>    __('Veuillez choisir une option', 'nexo'),
-        'yes'            =>    __('Oui', 'nexo'),
-        'no'            =>    __('Non', 'nexo')
-    )
-), 'Nexo_checkout2', 2);
-
-// Définit une date de validité pour les com
-
-$this->Gui->add_item(array(
     'type'        =>    'text',
     'label'        =>    __('Validité des commandes devis (en jours)', 'nexo'),
     'name'        =>    'nexo_devis_expiration',
     'placeholder'    =>    __('Par défaut: Illimité', 'nexo')
-), 'Nexo_checkout2', 2);
-
-$query    =    $this->db->get('tendoo_nexo_paiements');
-$result    =    $query->result_array();
-$options        =    array();
-
-foreach ($result as $_r) {
-    $options[ $_r[ 'ID' ] ]        =    $_r[ 'DESIGN' ];
-}
-
-$this->Gui->add_item(array(
-    'type'        =>    'select',
-    'name'        =>    'default_payment_means',
-    'label'        =>    __('Moyen de paiement par défaut', 'nexo'),
-    'options'    =>    $options
 ), 'Nexo_checkout2', 2);
 
 $this->events->do_action('load_nexo_checkout_settings', $this->Gui);

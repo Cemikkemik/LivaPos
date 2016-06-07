@@ -74,7 +74,7 @@ class Nexo_Produits extends CI_Model
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
         
-        $crud->required_fields('DESIGN', 'REF_RAYON', 'REF_CATEGORIE', 'REF_SHIPPING', 'TAUX_DE_MARGE', 'FRAIS_ACCESSOIRE', 'PRIX_DE_VENTE', 'DEFECTUEUX', 'QUANTITY', 'PRIX_DACHAT');
+        $crud->required_fields('DESIGN', 'SKU', 'REF_RAYON', 'REF_CATEGORIE', 'REF_SHIPPING', 'TAUX_DE_MARGE', 'FRAIS_ACCESSOIRE', 'PRIX_DE_VENTE', 'DEFECTUEUX', 'QUANTITY', 'PRIX_DACHAT');
         
         $crud->set_field_upload('APERCU', 'public/upload/');
         
@@ -91,7 +91,7 @@ class Nexo_Produits extends CI_Model
         $crud->change_field_type('QUANTITE_VENDU', 'invisible');
         $crud->change_field_type('DATE_CREATION', 'invisible');
         $crud->change_field_type('DATE_MOD', 'invisible');
-        $crud->change_field_type('AUTHOR', 'readonly');
+        $crud->change_field_type('AUTHOR', 'invisible');
         
         // Callback Before Render
         $crud->callback_before_insert(array( $this->Nexo_Products, 'product_save' ));

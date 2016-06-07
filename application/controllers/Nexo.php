@@ -25,10 +25,14 @@ class Nexo extends REST_Controller
      *
     **/
     
-    public function special_get_item_post($filter = 'ID')
+    public function compare_item_post( $filter, $exclude_id )
     {
-        $result        =    $this->db->where($filter, $this->post('filter'))->get('nexo_articles')->result();
-        $result        ?    $this->response($result, 200)  : $this->__empty();
+        $result        =    $this->db
+							->where( $filter, $this->post('filter') )
+							->where( 'ID !=', $exclude_id )
+							->get('nexo_articles')->result();
+        
+		$result        ?    $this->response($result, 200)  : $this->__empty();
     }
     
     /**
@@ -38,8 +42,15 @@ class Nexo extends REST_Controller
     
     public function item_get($id = null, $filter = 'ID')
     {
-        if ($id != null) {
+        if ( $id != null && $filter != 'sku-barcode' ) {
             $result        =    $this->db->where($filter, $id)->get('nexo_articles')->result();
+            $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
+		} elseif( $filter == 'sku-barcode' ) {
+			$result        =    $this->db
+								->where('CODEBAR', $id)
+								->or_where( 'SKU', $id )
+								->get('nexo_articles')
+								->result();
             $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
         } else {
 			$this->db->select( '*,

@@ -191,6 +191,34 @@ class Nexo_Checkout extends CI_Model
         
         return $randomString;
     }
+	
+	/**
+	 * Shuffle_code : alias of random_code
+	 *
+	**/
+	
+	public function shuffle_code($length = 6)
+    {
+		$Options		=	$this->Options->get();
+        $orders_code    =   force_array( @$Options[ 'order_code' ] );
+        /**
+         * Count product to increase length
+        **/
+        do {
+            // abcdefghijklmnopqrstuvwxyz
+            $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+        } while (in_array($randomString, force_array($orders_code)));
+        
+        $orders_code[]    =    $randomString;
+        $this->Options->set('order_code', $orders_code);
+        
+        return $randomString;
+    }
     
     /**
      * Command Update
@@ -314,10 +342,8 @@ class Nexo_Checkout extends CI_Model
                 if (@$Options[ 'discount_type' ] != 'disable') {
                     // On définie si en fonction des réglages, l'on peut accorder une réduction au client
                     if ($total_commands >= intval(@$Options[ 'how_many_before_discount' ]) - 1 && $result[0][ 'DISCOUNT_ACTIVE' ] == 0) {
-                        echo 'here';
                         $this->db->set('DISCOUNT_ACTIVE', 1);
                     } elseif ($total_commands >= @$Options[ 'how_many_before_discount' ] && $result[0][ 'DISCOUNT_ACTIVE' ] == 1) {
-                        echo 'there';
                         $this->db->set('DISCOUNT_ACTIVE', 0); // bénéficiant d'une reduction sur cette commande, la réduction est désactivée
                         $this->db->set('NBR_COMMANDES', 0); // le nombre de commande est également désactivé
                     }
@@ -397,7 +423,6 @@ class Nexo_Checkout extends CI_Model
     public function commandes_delete($post)
     {
         if (class_exists('User')) {
-            // Protecting
             // Protecting
             if (! User::can('delete_shop_orders')) {
                 redirect(array( 'dashboard', 'access-denied' ));
@@ -525,16 +550,7 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->create_perm('create_shop_customers_groups',    __('Créer des groupes de clients', 'nexo'),        __('Création des groupes de clients', 'nexo'));
         $this->aauth->create_perm('edit_shop_customers_groups',    __('Modifier des groupes de clients', 'nexo'),        __('Modification des groupes de clients', 'nexo'));
         $this->aauth->create_perm('delete_shop_customers_groups',    __('Supprimer des groupes de clients', 'nexo'),        __('Suppression des groupes de clients', 'nexo'));
-        
-        // Shop Payments Means
-        $this->aauth->create_perm('create_shop_payments_means',    __('Créer des moyens de paiement', 'nexo'),        __('Création des moyens de paiement', 'nexo'));
-        $this->aauth->create_perm('edit_shop_payments_means',    __('Modifier des moyens de paiement', 'nexo'),        __('Modification des moyens de paiement', 'nexo'));
-        $this->aauth->create_perm('delete_shop_payments_means',    __('Supprimer des moyens de paiement', 'nexo'),        __('Suppression des moyens de paiement', 'nexo'));
-        // Shop Order Types
-        $this->aauth->create_perm('create_shop_order_types',    __('Créer des types de commandes', 'nexo'),        __('Création des types de commandes', 'nexo'));
-        $this->aauth->create_perm('edit_shop_order_types',    __('Modifier des types de commandes', 'nexo'),        __('Modification des types de commandes', 'nexo'));
-        $this->aauth->create_perm('delete_shop_order_types',    __('Supprimer des types de commandes', 'nexo'),        __('Suppression des types de commandes', 'nexo'));
-        
+                
         // Shop Purchase Invoices
         $this->aauth->create_perm('create_shop_purchases_invoices',    __('Créer des factures d\'achats', 'nexo'),        __('Création des factures d\'achats', 'nexo'));
         $this->aauth->create_perm('edit_shop_purchases_invoices',    __('Modifier des factures d\'achats', 'nexo'),        __('Modification des factures d\'achats', 'nexo'));
@@ -616,17 +632,7 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->allow_group('shop_manager', 'create_shop_providers');
         $this->aauth->allow_group('shop_manager', 'edit_shop_providers');
         $this->aauth->allow_group('shop_manager', 'delete_shop_providers');
-        
-        // Shop Payment Means
-        $this->aauth->allow_group('shop_manager', 'create_shop_payments_means');
-        $this->aauth->allow_group('shop_manager', 'edit_shop_payments_means');
-        $this->aauth->allow_group('shop_manager', 'delete_shop_payments_means');
-        
-        // Shop Orders type
-        $this->aauth->allow_group('shop_manager', 'create_shop_order_types');
-        $this->aauth->allow_group('shop_manager', 'edit_shop_order_types');
-        $this->aauth->allow_group('shop_manager', 'delete_shop_order_types');
-        
+                
         // Shop Options
         $this->aauth->allow_group('shop_manager', 'create_options');
         $this->aauth->allow_group('shop_manager', 'edit_options');
@@ -694,17 +700,7 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->allow_group('master', 'create_shop_providers');
         $this->aauth->allow_group('master', 'edit_shop_providers');
         $this->aauth->allow_group('master', 'delete_shop_providers');
-        
-        // Shop Payment Means
-        $this->aauth->allow_group('master', 'create_shop_payments_means');
-        $this->aauth->allow_group('master', 'edit_shop_payments_means');
-        $this->aauth->allow_group('master', 'delete_shop_payments_means');
-        
-        // Shop Orders type
-        $this->aauth->allow_group('master', 'create_shop_order_types');
-        $this->aauth->allow_group('master', 'edit_shop_order_types');
-        $this->aauth->allow_group('master', 'delete_shop_order_types');
-        
+                
         // Shop Purchase Invoices
         $this->aauth->allow_group('master', 'create_shop_purchases_invoices');
         $this->aauth->allow_group('master', 'edit_shop_purchases_invoices');
@@ -757,15 +753,7 @@ class Nexo_Checkout extends CI_Model
         // Shop Provider
         $this->aauth->allow_group('shop_tester', 'create_shop_providers');
         $this->aauth->allow_group('shop_tester', 'edit_shop_providers');
-        
-        // Shop Payment Means
-        $this->aauth->allow_group('shop_tester', 'create_shop_payments_means');
-        $this->aauth->allow_group('shop_tester', 'edit_shop_payments_means');
-        
-        // Shop Orders type
-        $this->aauth->allow_group('shop_tester', 'create_shop_order_types');
-        $this->aauth->allow_group('shop_tester', 'edit_shop_order_types');
-        
+                
         // Shop Purchase Invoices
         $this->aauth->allow_group('shop_tester', 'create_shop_purchases_invoices');
         $this->aauth->allow_group('shop_tester', 'edit_shop_purchases_invoices');
@@ -838,17 +826,7 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->deny_group('shop_manager', 'create_shop_providers');
         $this->aauth->deny_group('shop_manager', 'edit_shop_providers');
         $this->aauth->deny_group('shop_manager', 'delete_shop_providers');
-        
-        // Shop Payment Means
-        $this->aauth->deny_group('shop_manager', 'create_shop_payments_means');
-        $this->aauth->deny_group('shop_manager', 'edit_shop_payments_means');
-        $this->aauth->deny_group('shop_manager', 'delete_shop_payments_means');
-        
-        // Shop Orders type
-        $this->aauth->deny_group('shop_manager', 'create_shop_order_types');
-        $this->aauth->deny_group('shop_manager', 'edit_shop_order_types');
-        $this->aauth->deny_group('shop_manager', 'delete_shop_order_types');
-        
+                
         // Shop purchase invoice
         $this->aauth->deny_group('shop_manager', 'create_shop_purchases_invoices');
         $this->aauth->deny_group('shop_manager', 'edit_shop_purchases_invoices');
@@ -909,17 +887,7 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->deny_group('master', 'create_shop_providers');
         $this->aauth->deny_group('master', 'edit_shop_providers');
         $this->aauth->deny_group('master', 'delete_shop_providers');
-        
-        // Shop Payment Means
-        $this->aauth->deny_group('master', 'create_shop_payments_means');
-        $this->aauth->deny_group('master', 'edit_shop_payments_means');
-        $this->aauth->deny_group('master', 'delete_shop_payments_means');
-        
-        // Shop Orders type
-        $this->aauth->deny_group('master', 'create_shop_order_types');
-        $this->aauth->deny_group('master', 'edit_shop_order_types');
-        $this->aauth->deny_group('master', 'delete_shop_order_types');
-        
+                
         // Shop purchase invoice
         $this->aauth->deny_group('master', 'create_shop_purchases_invoices');
         $this->aauth->deny_group('master', 'edit_shop_purchases_invoices');
@@ -969,19 +937,10 @@ class Nexo_Checkout extends CI_Model
         // Shop Provider
         $this->aauth->deny_group('shop_tester', 'create_shop_providers');
         $this->aauth->deny_group('shop_tester', 'edit_shop_providers');
-        
-        // Shop Payment Means
-        $this->aauth->deny_group('shop_tester', 'create_shop_payments_means');
-        $this->aauth->deny_group('shop_tester', 'edit_shop_payments_means');
-        
-        // Shop Orders type
-        $this->aauth->deny_group('shop_tester', 'create_shop_order_types');
-        $this->aauth->deny_group('shop_tester', 'edit_shop_order_types');
-        
+                
         // Shop purchase invoice
         $this->aauth->deny_group('shop_tester', 'create_shop_purchases_invoices');
         $this->aauth->deny_group('shop_tester', 'edit_shop_purchases_invoices');
-        $this->aauth->deny_group('shop_tester', 'delete_shop_purchases_invoices');
         
         // Shop Backup
         $this->aauth->deny_group('shop_tester', 'create_shop_backup');
@@ -1051,21 +1010,27 @@ class Nexo_Checkout extends CI_Model
     **/
     
     public function get_order_products($order_id, $return_all = false)
-    {
+    {		
         $query    =    $this->db
-            ->where('ID', $order_id)
-            ->get('nexo_commandes');
-        if ($query->result_array()) {
-            $data    =    $query->result_array();
-            $sub_query    =    $this->db
-                ->select('*,
-				nexo_articles.DESIGN as DESIGN')
-                ->from('nexo_commandes')
-                ->join('nexo_commandes_produits', 'nexo_commandes.CODE = nexo_commandes_produits.REF_COMMAND_CODE', 'inner')
-                ->join('nexo_articles', 'nexo_articles.CODEBAR = nexo_commandes_produits.REF_PRODUCT_CODEBAR', 'inner')
-                ->where('REF_COMMAND_CODE', $data[0][ 'CODE' ])
-                ->get();
+		->where('ID', $order_id)
+		->get('nexo_commandes');
+		
+		if ($query->result_array()) {
+		
+            $data    		=    $query->result_array();
+			// var_dump( $query->result_array() );die;
+            $sub_query    	=    $this->db
+			->select('*,
+			nexo_commandes_produits.QUANTITE as QTE_ADDED,
+			nexo_articles.DESIGN as DESIGN')
+			->from('nexo_commandes')
+			->join('nexo_commandes_produits', 'nexo_commandes.CODE = nexo_commandes_produits.REF_COMMAND_CODE', 'inner')
+			->join('nexo_articles', 'nexo_articles.CODEBAR = nexo_commandes_produits.REF_PRODUCT_CODEBAR', 'inner')
+			->where('REF_COMMAND_CODE', $data[0][ 'CODE' ])
+			->get();
+				
             $sub_data    = $sub_query->result_array();
+			
             if ($sub_data) {
                 if ($return_all) {
                     return array(
@@ -1089,8 +1054,33 @@ class Nexo_Checkout extends CI_Model
     
     public function get_order_type($order_type)
     {
-        $query    =    $this->db->where('ID', $order_type)->get('nexo_types_de_commandes');
-        $data    =    $query->result_array();
-        return $data[0][ 'DESIGN' ];
+		$order_types	=	$this->config->item( 'nexo_order_types' );
+		return $order_types[ $order_type ];
     }
+	
+	/**
+	 * Proceed order
+	 * complete an order
+	 * @params int order id 
+	 * @return bool
+	**/
+	
+	public function proceed_order( $order_id ) 
+	{
+		$order	=	$this->Nexo_Checkout->get_order( $order_id );
+		
+		if( $order ) {
+			if( $order[0][ 'TYPE' ] == 'nexo_order_advance' ) {
+				$this->db->where( 'ID', $order_id )->update( 'nexo_commandes', array(
+					'SOMME_PERCU'	=>	$order[0][ 'TOTAL' ],
+					'TYPE'			=>	'nexo_order_comptant'
+				) );
+				return true;
+			} else {
+				return false;				
+			}
+		}
+		
+		return false;
+	}
 }

@@ -34,7 +34,6 @@ class Nexo extends CI_Model
         $this->events->add_action('after_app_init', array( $this, 'after_app_init' ));
         $this->events->add_filter('nexo_daily_details_link', array( $this, 'remove_link' ), 10, 2);
         $this->events->add_action('load_frontend', array( $this, 'load_frontend' ));
-        $this->events->add_filter('grocery_crud_list_item_class', array( $this, 'filter_grocery_list_item_class' ), 10, 2);
         
         // For codebar
         if (! is_dir('public/upload/codebar')) {
@@ -69,8 +68,8 @@ class Nexo extends CI_Model
     {
         global $Options;
         
-		$this->load->config( 'nexo' );
         $this->lang->load_lines(dirname(__FILE__) . '/language/nexo_lang.php');
+		$this->load->config( 'nexo' );
     }
     
     /**
@@ -386,37 +385,6 @@ class Nexo extends CI_Model
     public function remove_link($link)
     {
         return 'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010';
-    }
-    
-    /**
-     * filter_grocery_list_item_class
-     * 
-     * @params string
-     * @params object Row Item
-     * @return string
-    **/
-    
-    public function filter_grocery_list_item_class($class, $row)
-    {
-        if (in_array(uri_string(), array( 'dashboard/nexo/commandes/lists', 'dashboard/nexo/commandes/lists/ajax_list' ))) {
-            
-			$Advance    	=	'nexo_order_advance';
-            $Cash        	=   'nexo_order_comptant';
-            $Estimate    	=   'nexo_order_devis';
-			
-			$nexo_order_types	=	array_flip( $this->config->item( 'nexo_order_types' ) );
-			
-            if ( @$nexo_order_types[ $row->TYPE ]    == $Advance) {
-                return 'info';
-            } elseif ( @$nexo_order_types[ $row->TYPE ] == $Cash) {
-                return 'success';
-            } elseif ( @$nexo_order_types[ $row->TYPE ] == $Estimate) {
-                return 'warning';
-            } else {
-                return $class;
-            }
-        }
-        return $class;
     }
 }
 new Nexo;

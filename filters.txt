@@ -32,3 +32,4 @@ dashboard_footer_text		:	default footer text
 user_menu_card_avatar_src	:	contain user avatar src
 user_menu_card_avatar_alt	:	contain user avatar alt
 update_center_notice_nbr	:	hold notice number for update center sub menu
+gui_before_rows				:	before GUI row tag

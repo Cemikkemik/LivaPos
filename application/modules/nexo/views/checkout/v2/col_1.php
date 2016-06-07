@@ -22,10 +22,10 @@
     	<table class="table" id="cart-item-table-header">
         	<thead>
                 <tr class="active">
-                    <td width="240" class="text-left"><?php _e( 'Article', 'nexo' );?></td>
-                    <td width="140" class="text-center"><?php _e( 'Prix Unitaire', 'nexo' );?></td>
-                    <td width="120" class="text-center"><?php _e( 'Quantité', 'nexo' );?></td>
-                    <td width="100" class="text-right"><?php _e( 'Prix Total', 'nexo' );?></td>
+                    <td width="210" class="text-left"><?php _e( 'Article', 'nexo' );?></td>
+                    <td width="130" class="text-center"><?php _e( 'Prix Unitaire', 'nexo' );?></td>
+                    <td width="145" class="text-center"><?php _e( 'Quantité', 'nexo' );?></td>
+                    <td width="115" class="text-right"><?php _e( 'Prix Total', 'nexo' );?></td>
                 </tr>
             </thead>
         </table>
@@ -41,9 +41,9 @@
         <table class="table" id="cart-details">
             <tfoot>
                 <tr class="active">
-                    <td width="240" class="text-right"></td>
-                    <td width="140" class="text-right"></td>
-                    <td width="120" class="text-right">
+                    <td width="230" class="text-right"></td>
+                    <td width="130" class="text-right"></td>
+                    <td width="130" class="text-right">
 						<?php 
 						if( @$Options[ 'nexo_enable_vat' ] == 'oui' ) {
 							_e( 'Net hors taxe', 'nexo' );
@@ -52,30 +52,30 @@
 						}
 						?>
                     </td>
-                    <td width="100" class="text-right"><span id="cart-value"></span></td>
+                    <td width="110" class="text-right"><span id="cart-value"></span></td>
+                </tr>
+                <tr class="active">
+                    <td colspan="2" width="380" class="text-right cart-discount-notice-area"></td>
+                    <td width="130" class="text-right"><?php _e( 'Remise', 'nexo' );?></td>
+                    <td width="110" class="text-right"><span id="cart-discount"></span></td>
                 </tr>
                 <?php 
-				if( @$Options[ 'nexo_enable_vat' ] == 'oui' ) {
+				if( @$Options[ 'nexo_enable_vat' ] == 'oui' && ! empty( $Options[ 'nexo_vat_percent' ] ) ) {
 				?>
-                <tr class="danger">
-                    <td width="240" class="text-right"></td>
-                    <td width="140" class="text-right"></td>
-                    <td width="120" class="text-right"><?php _e( 'TVA', 'nexo' );?></td>
-                    <td width="100" class="text-right"><span id="cart-vat"></span></td>
+                <tr class="active">
+                    <td width="230" class="text-right"></td>
+                    <td width="130" class="text-right"></td>
+                    <td width="130" class="text-right"><?php echo sprintf( __( 'TVA (%s%%)', 'nexo' ), $Options[ 'nexo_vat_percent' ] );?></td>
+                    <td width="110" class="text-right"><span id="cart-vat"></span></td>
                 </tr>
                 <?php
 				}
 				?>
-                <tr class="active">
-                    <td colspan="2" width="400" class="text-right cart-discount-notice-area"></td>
-                    <td width="100" class="text-right"><?php _e( 'Remise', 'nexo' );?></td>
-                    <td width="100" class="text-right"><span id="cart-discount"></span></td>
-                </tr>
                 <tr class="success">
-                    <td width="240" class="text-right"></td>
-                    <td width="140" class="text-right"></td>
-                    <td width="120" class="text-right"><strong><?php _e( 'Net à payer', 'nexo' );?></strong></td>
-                    <td width="100" class="text-right"><span id="cart-topay"></span></td>
+                    <td width="230" class="text-right"></td>
+                    <td width="130" class="text-right"></td>
+                    <td width="130" class="text-right"><strong><?php _e( 'Net à payer', 'nexo' );?></strong></td>
+                    <td width="110" class="text-right"><span id="cart-topay"></span></td>
                 </tr>
             </tfoot>
         </table>
@@ -84,7 +84,7 @@
     <div class="box-footer" id="cart-panel">
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-app btn-default btn-lg" style="margin-bottom:0px;">
+            <button type="button" class="btn btn-app btn-default btn-lg" id="cart-pay-button" style="margin-bottom:0px;">
 			<i class="fa fa-money"></i>
 			<?php _e( 'Payer', 'nexo' );?>
             </button>
@@ -96,7 +96,7 @@
 			</button>
           </div>
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-app btn-default btn-lg"  style="margin-bottom:0px;">
+            <button type="button" class="btn btn-app btn-default btn-lg" id="cart-return-to-order"  style="margin-bottom:0px;">
             	<i class="fa fa-remove"></i>
 				<?php _e( 'Annuler', 'nexo' );?>
 			</button>
@@ -105,3 +105,61 @@
     </div>
     <!-- /.box-footer--> 
 </div>
+<?php if( @$Options[ 'nexo_enable_stripe' ] != 'no' ):?>
+<script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
+<script type="text/javascript">
+	'use strict';
+	// Close Checkout on page navigation:
+	$(window).on('popstate', function() {
+		v2Checkout.stripe.handler.close();
+	});
+</script>
+<?php endif;?>
+<style type="text/css">
+.expandable {
+	width: 19%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition-property: width;
+	transition-duration: 2s;
+}
+.item-grid-title {
+	width: 19%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition-property: width;
+	transition-duration: 2s;
+}
+.item-grid-price {
+	width: 19%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition-property: width;
+	transition-duration: 2s;
+}
+.expandable:hover{
+	overflow: visible; 
+    white-space: normal; 
+    width: auto;
+}
+.shop-items:hover {
+	background:#FFF;
+	cursor:pointer;
+	box-shadow:inset 5px 5px 100px #EEE;
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+.img-responsive {
+    margin: 0 auto;
+}
+</style>

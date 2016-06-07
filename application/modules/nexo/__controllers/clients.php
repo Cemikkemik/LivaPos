@@ -33,7 +33,7 @@ class Nexo_Clients extends CI_Model
 
         $crud->display_as('NOM', __('Nom du client', 'nexo'));
         $crud->display_as('EMAIL', __('Email du client', 'nexo'));
-        $crud->display_as('OVERALL_COMMANDES', __('Nombre de commandes', 'nexo'));
+        $crud->display_as('OVERALL_COMMANDES', __('Achats effectués', 'nexo'));
         $crud->display_as('NBR_COMMANDES', __('Nbr Commandes (sess courante)', 'nexo'));
         $crud->display_as('TEL', __('Téléphone du client', 'nexo'));
         $crud->display_as('PRENOM', __('Prénom du client', 'nexo'));

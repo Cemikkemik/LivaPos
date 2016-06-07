@@ -97,13 +97,6 @@ class Nexo_Install extends CI_Model
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_paiements` (
-		  `ID` int(11) NOT NULL AUTO_INCREMENT,
-		  `DESIGN` varchar(200) NOT NULL,
-		  `DESCRIPTION` text NOT NULL,
-		  PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
-
         $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_commandes` (
 		  `ID` int(50) NOT NULL AUTO_INCREMENT,
 		  `TITRE` varchar(200) NOT NULL,
@@ -113,7 +106,7 @@ class Nexo_Install extends CI_Model
 		  `TYPE` varchar(200) NOT NULL,
 		  `DATE_CREATION` datetime NOT NULL,
 		  `DATE_MOD` datetime NOT NULL,
-		  `PAYMENT_TYPE` int(50) NOT NULL,
+		  `PAYMENT_TYPE` varchar(220) NOT NULL,
 		  `AUTHOR` varchar(200) NOT NULL,
 		  `SOMME_PERCU` int(50) NOT NULL,
 		  `REMISE` int(50) NOT NULL,
@@ -122,6 +115,7 @@ class Nexo_Install extends CI_Model
 		  `TOTAL` int(50) NOT NULL,
 		  `DISCOUNT_TYPE` varchar(200) NOT NULL,
 		  `TVA` varchar(200) NOT NULL,
+		  `GROUP_DISCOUNT` int(50),
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 

@@ -41,46 +41,18 @@ class Nexo_Controller extends CI_Model
                 array(
                     'title'            =>        __('Caisse', 'nexo'), // menu title
                     'icon'            =>        'fa fa-shopping-cart', // menu icon
-                    'href'            =>        site_url('dashboard/foo'), // url to the page,
                     'disable'        =>    true
                 ),
                 array(
-                    'title'       =>    __('Liste des commandes', 'nexo'), // menu title
+                    'title'       =>    __('Liste des ventes', 'nexo'), // menu title
                     'icon'        =>    'fa fa-star', // menu icon
                     'href'        =>    site_url('dashboard/nexo/commandes/lists'), // url to the page,
-                ),
-                array(
-                    'title'       =>    __('Nouvelle commande', 'nexo'), // menu title
-                    'icon'        =>    'fa fa-star', // menu icon
-                    'href'        =>    site_url('dashboard/nexo/commandes/lists/add'), // url to the page,
                 ),
 				array(
                     'title'       =>    __('Effectuer une vente', 'nexo'), // menu title
                     'icon'        =>    'fa fa-star', // menu icon
-                    'href'        =>    site_url('dashboard/nexo/commandes/lists/v2_add'), // url to the page,
-                ),
-                array(
-                    'title'       =>    __('Liste des moyens de paiment', 'nexo'), // menu title
-                    'icon'        =>    'fa fa-star', // menu icon
-                    'href'        =>    site_url('dashboard/nexo/paiements/lists'), // url to the page,
-                ),
-                array(
-                    'title'       =>    __('Ajouter un moyen de paiment', 'nexo'), // menu title
-                    'icon'        =>    'fa fa-star', // menu icon
-                    'href'        =>    site_url('dashboard/nexo/paiements/lists/add'), // url to the page,
-                ),
-				/**
-                array(
-                    'title'       =>    __('Liste des types de commandes', 'nexo'), // menu title
-                    'icon'        =>    'fa fa-star', // menu icon
-                    'href'        =>    site_url('dashboard/nexo/types_de_commandes/lists'), // url to the page,
-                ),
-                array(
-                    'title'       =>    __('Ajouter un type de commande', 'nexo'), // menu title
-                    'icon'        =>    'fa fa-star', // menu icon
-                    'href'        =>    site_url('dashboard/nexo/types_de_commandes/lists/add'), // url to the page,
-                ),
-				**/
+                    'href'        =>    site_url('dashboard/nexo/commandes/lists/v2_checkout'), // url to the page,
+                )
             );
         }
         
@@ -277,6 +249,11 @@ class Nexo_Controller extends CI_Model
                     'icon'            =>    'fa fa-gear',
                     'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings' ))
                 ),
+				array(
+                    'title'            =>    __('Stripe', 'nexo'),
+                    'icon'            =>    'fa fa-gear',
+                    'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings', 'stripe' ))
+                ),
                 array(
                     'title'            =>    __('Caisse', 'nexo'),
                     'icon'            =>    'fa fa-gear',
@@ -320,7 +297,7 @@ class Nexo_Controller extends CI_Model
             if (is_file($file)) {
                 include_once($file);
             } else {
-                show_error('Unable to find this file : ' . $file);
+                show_404();
             }
         }
     }

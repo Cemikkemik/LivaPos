@@ -365,15 +365,6 @@ $this->db->insert('nexo_articles', array(
     'CODEBAR'            =>    896547
 ));
 
-// Paiements
-
-$this->db->query("INSERT INTO `{$this->db->dbprefix}nexo_paiements` (`ID`, `DESIGN`, `DESCRIPTION`) VALUES
-(1, '" . __('Espèces', 'nexo') . "', ''),
-(2, '" . __('Chèque', 'nexo') . "', ''),
-(3, '" . __('MTN Mobile Money', 'nexo') . "', ''),
-(4, '" . __('Orange Money', 'nexo') . "', ''),
-(5, '" . __('Carte Bancaire', 'nexo') . "', '');");
-
 // Clients
 
 $this->db->query("INSERT INTO `{$this->db->dbprefix}nexo_clients` (`ID`, `NOM`, `PRENOM`, `POIDS`, `TAILLE`, `PREFERENCE`, `TEL`, `EMAIL`, `DESCRIPTION`, `DATE_NAISSANCE`, `ADRESSE`, `NBR_COMMANDES`, `DISCOUNT_ACTIVE`) VALUES
@@ -384,13 +375,12 @@ $this->db->query("INSERT INTO `{$this->db->dbprefix}nexo_clients` (`ID`, `NOM`, 
 
 // Options
 $this->load->model('Options');
+
 $this->options        =    new Options;
 
 $this->options->set('nexo_currency', '$', true);
 
 $this->options->set('nexo_currency_position', 'before', true);
-
-$this->options->set('default_payment_means', 1, true);
 
 $this->options->set('nexo_enable_sound', 'enable');
 

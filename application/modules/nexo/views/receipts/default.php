@@ -32,15 +32,15 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                     <address>
                     <?php echo @$Options[ 'nexo_shop_street' ];?> <br>
                     <?php echo @$Options[ 'nexo_shop_pobox' ];?> <br>
-                    <abbr title="<?php _e('Téléphone', 'nexo');?>"><?php _e('Téléphone:', 'nexo');?></abbr> <?php echo @$Options[ 'nexo_shop_phone' ];?>
+                    <abbr><?php _e('Téléphone:', 'nexo');?></abbr> <?php echo @$Options[ 'nexo_shop_phone' ];?>
                     </address>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 text-right">
                 	<address>
                     <em><?php echo mdate(__('Date: %d/%m/%Y %h:%i:%s', 'nexo'), strtotime($order[ 'order' ][0][ 'DATE_CREATION' ]));?></em><br>
-					<em><?php echo sprintf(__('Ticket : #%s'),
+					<em><?php echo sprintf(__('ID : #%s'),
                     $order[ 'order' ][0][ 'CODE' ]);?></em><br>
-					<em><?php echo sprintf(__('Type de la commande: %s', 'nexo'), $this->Nexo_Checkout->get_order_type($order[ 'order' ][0][ 'TYPE' ]));?></em><br>
+					<em><?php echo sprintf(__('Statut de la commande: %s', 'nexo'), $this->Nexo_Checkout->get_order_type($order[ 'order' ][0][ 'TYPE' ]));?></em><br>
                     <em><?php echo sprintf(__('Caissier : %s', 'nexo'), User::pseudo($order[ 'order' ][0][ 'AUTHOR' ]));?></em>
                     </address>
                 </div>
@@ -225,7 +225,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             </td>
                         </tr>
                         <?php
-                        $terme        =    'nexo_order_comptant' 	== $order[ 'order' ][0][ 'TYPE' ] ? __('&Agrave; rembourser :', 'nexo') : __('&Agrave; percevoir :', 'nexo');
+                        $terme        =    'nexo_order_comptant' 	== $order[ 'order' ][0][ 'TYPE' ] ? __('Reste :', 'nexo') : __('&Agrave; percevoir :', 'nexo');
                         ?>
                         <tr>
                             <td class="text-right" colspan="3"><h4><strong><?php echo $terme;?></strong></h4></td>
@@ -253,10 +253,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                 </table>
                 <div class="container-fluid hideOnPrint">
                     <div class="row hideOnPrint">
-                        <div class="col-lg-6">
-                            <a href="<?php echo site_url(array( 'dashboard', 'nexo', 'commandes', 'lists', 'edit', $order[ 'order' ][0][ 'ID' ] ));?>" class="btn btn-success btn-lg btn-block"><?php _e('Modifier la commande', 'nexo');?></a>
-                        </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <a href="<?php echo site_url(array( 'dashboard', 'nexo', 'commandes', 'lists' ));?>" class="btn btn-success btn-lg btn-block"><?php _e('Revenir à la liste des commandes', 'nexo');?></a>
                         </div>
                     </div>
@@ -269,10 +266,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 <div class="container-fluid"><?php echo tendoo_error(__('Une erreur s\'est produite durant l\'affichage de ce reçu. La commande concernée semble ne pas être valide ou ne dispose d\'aucun produit.', 'nexo'));?></div>
 <div class="container-fluid hideOnPrint">
     <div class="row hideOnPrint">
-        <div class="col-lg-6">
-            <a href="<?php echo site_url(array( 'dashboard', 'nexo', 'commandes', 'lists', 'edit', $order[ 'order' ][0][ 'ID' ] ));?>" class="btn btn-success btn-lg btn-block"><?php _e('Modifier la commande', 'nexo');?></a>
-        </div>
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <a href="<?php echo site_url(array( 'dashboard', 'nexo', 'commandes', 'lists' ));?>" class="btn btn-success btn-lg btn-block"><?php _e('Revenir à la liste des commandes', 'nexo');?></a>
         </div>
     </div>

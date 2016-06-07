@@ -1,6 +1,7 @@
 {
     "require": {
         "picqer/php-barcode-generator": "^0.1.0",
-        "nesbot/carbon": "^1.21"
+        "nesbot/carbon": "^1.21",
+		"stripe/stripe-php": "3.*"
     }
 }

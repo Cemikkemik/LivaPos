@@ -11,3 +11,34 @@ grocery_callback_insert	{
 	desc : callback before update
 }
 
+grocery_add_url {
+	type : filter
+	desc : change default add url
+}
+
+grocery_add_text {
+	type : filter
+	desc : change default add text
+}
+
+grocery_filter_actions {
+	type : filter
+	desc : filter custom grocery crud actions
+}
+
+grocery_filter_delete_button {
+	type : filter
+	desc : filter delete button
+}
+
+grocery_filter_edit_button {
+	type : filter
+	desc : filter edit button
+	params : {
+		string : button string,
+		object	: row object
+		string : button text
+		string : button subject
+	}
+}
+

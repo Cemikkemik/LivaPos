@@ -178,8 +178,6 @@ class Nexo_Misc extends CI_Model
         // $this->db->query( 'TRUNCATE `'.$this->db->dbprefix.'nexo_bon_davoir`;' );
         $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_commandes`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_commandes_produits`;');
-        $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_paiements`;');
-        $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_types_de_commandes`;');
         
         $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_articles`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_categories`;');

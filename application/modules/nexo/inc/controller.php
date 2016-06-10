@@ -269,6 +269,11 @@ class Nexo_Controller extends CI_Model
                     'icon'            =>    'fa fa-gear',
                     'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings', 'customers' ))
                 ),
+				array(
+                    'title'            =>    __('WooCommerce', 'nexo'),
+                    'icon'            =>    'fa fa-gear',
+                    'href'            =>    site_url(array( 'dashboard', 'nexo', 'settings', 'woocommerce' ))
+                ),
                 array(
                     'title'            =>    __('Réinitialisation', 'nexo'),
                     'icon'            =>    'fa fa-gear',

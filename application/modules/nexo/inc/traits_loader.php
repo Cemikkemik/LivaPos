@@ -1,10 +1,9 @@
 <?php
+/**
+ * Load All Trait Available
+**/
 
-// Get traits for orders
-include_once(dirname(__FILE__) . '/traits/orders.php');
-
-// Get trait for items
-include_once(dirname(__FILE__) . '/traits/items.php');
-
-// Get trait for stripe
-include_once(dirname(__FILE__) . '/traits/stripe.php');
+foreach (glob( dirname(__FILE__) . "/traits/*.php") as $filename)
+{
+    include_once( $filename );
+}

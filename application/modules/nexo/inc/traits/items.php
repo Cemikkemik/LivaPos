@@ -37,15 +37,15 @@ trait Nexo_items
     public function item_delete($id = null)
     {
         if ($id == null) {
-            $this->response(array(
-                'status' => 'failed'
-            ));
-        } else {
+            $this->__failed();
+        } else if( $id == 'all' ) {
+			$this->db->where('ID >', 0)->delete('nexo_articles')->result();
+            
+            $this->__success();
+		} else {
             $this->db->where('ID', $id)->delete('nexo_articles')->result();
             
-            $this->response(array(
-                'status' => 'failed'
-            ));
+            $this->__failed();
         }
     }
     
@@ -64,13 +64,17 @@ trait Nexo_items
         ->set('QUANTITY', $this->put('quantity'))
         ->set('SKU', $this->put('sku'))
         ->set('QUANTITE_RESTANTE', $this->put('quantite_restante'))
-        ->set('QUANTITE_VENDUE', $this->put('quantite_vendue'))
+        ->set('QUANTITE_VENDU', $this->put('quantite_vendue'))
         ->set('DEFECTUEUX', $this->put('defectueux'))
         ->set('PRIX_DACHAT', $this->put('prix_dachat'))
         ->set('FRAIS_ACCESSOIRE', $this->put('frais_accessoire'))
         ->set('COUT_DACHAT', $this->put('cout_dachat'))
         ->set('TAUX_DE_MARGE', $this->put('taux_de_marge'))
         ->set('PRIX_DE_VENTE', $this->put('prix_de_vente'))
+		->set('PRIX_PROMOTIONEL', $this->put('prix_promotionel'))
+		->set( 'DESCRIPTION', $this->put( 'description' ))
+		->set( 'DATE_MOD', $this->put( 'date_mod' ))
+		->set( 'POIDS', $this->put( 'poids' ))
         ->update('nexo_articles');
         
         if ($request) {
@@ -91,20 +95,24 @@ trait Nexo_items
     public function item_post()
     {
         $request    =    $this->db
-        ->set('DESIGN', $this->put('design'))
-        ->set('REF_RAYON', $this->put('ref_rayon'))
-        ->set('REF_SHIPPING', $this->put('ref_shipping'))
-        ->set('REF_CATEGORIE', $this->put('ref_categorie'))
-        ->set('QUANTITY', $this->put('quantity'))
-        ->set('SKU', $this->put('sku'))
-        ->set('QUANTITE_RESTANTE', $this->put('quantite_restante'))
-        ->set('QUANTITE_VENDUE', $this->put('quantite_vendue'))
-        ->set('DEFECTUEUX', $this->put('defectueux'))
-        ->set('PRIX_DACHAT', $this->put('prix_dachat'))
-        ->set('FRAIS_ACCESSOIRE', $this->put('frais_accessoire'))
-        ->set('COUT_DACHAT', $this->put('cout_dachat'))
-        ->set('TAUX_DE_MARGE', $this->put('taux_de_marge'))
-        ->set('PRIX_DE_VENTE', $this->put('prix_de_vente'))
+        ->set('DESIGN', $this->post('design'))
+        ->set('REF_RAYON', $this->post('ref_rayon'))
+        ->set('REF_SHIPPING', $this->post('ref_shipping'))
+        ->set('REF_CATEGORIE', $this->post('ref_categorie'))
+        ->set('QUANTITY', $this->post('quantity'))
+        ->set('SKU', $this->post('sku'))
+        ->set('QUANTITE_RESTANTE', $this->post('quantite_restante'))
+        ->set('QUANTITE_VENDU', $this->post('quantite_vendue'))
+        ->set('DEFECTUEUX', $this->post('defectueux'))
+        ->set('PRIX_DACHAT', $this->post('prix_dachat'))
+        ->set('FRAIS_ACCESSOIRE', $this->post('frais_accessoire'))
+        ->set('COUT_DACHAT', $this->post('cout_dachat'))
+        ->set('TAUX_DE_MARGE', $this->post('taux_de_marge'))
+        ->set('PRIX_DE_VENTE', $this->post('prix_de_vente'))
+		->set('PRIX_PROMOTIONEL', $this->post('prix_promotionel'))
+		->set( 'DESCRIPTION', $this->post( 'description' ))
+		->set( 'DATE_CREATION', $this->post( 'date_creation' ))
+		->set( 'POIDS', $this->post( 'poids' ))
         ->insert('nexo_articles');
         
         if ($request) {

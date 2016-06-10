@@ -42,11 +42,8 @@ class Nexo_Settings_Controller extends CI_Model
             } elseif ($page == 'reset') {
                 $this->Gui->set_title(__('Réglages la reinitialisation &mdash; Nexo', 'nexo'));
                 $this->load->view("../modules/nexo/views/settings/{$page}.php");
-            } elseif ($page == 'stripe') { // @since 2.6.0
+            } elseif ($page == 'stripe') {
                 $this->Gui->set_title(__('Réglages Stripe &mdash; Nexo', 'nexo'));
-                $this->load->view("../modules/nexo/views/settings/{$page}.php");
-            } elseif ($page == 'woocommerce') { // @since 2.6.1
-                $this->Gui->set_title(__('Réglages WooCommerce &mdash; Nexo', 'nexo'));
                 $this->load->view("../modules/nexo/views/settings/{$page}.php");
             } else {
                 show_404();

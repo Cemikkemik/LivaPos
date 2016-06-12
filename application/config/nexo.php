@@ -63,3 +63,16 @@ $config[ 'nexo_currency_with_double_zero' ]        =    array( 'usd', 'eur' );
 **/
 
 $config[ 'nexo_test_mode' ]            =    true;
+
+/**
+ * Sound Fx
+ * Enable fx for 'success', 'info', 'warning', 'bootbox'
+**/
+
+$config[ 'nexo_sound_fx' ]		=	array( 'success', 'info', 'warning', 'bootbox' );
+
+/**
+ * Items Cache duration
+**/
+
+$config[ 'nexo_items_cache_lifetime' ]		=	10800; // 3 hours

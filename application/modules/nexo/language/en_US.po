@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nexo\n"
 "POT-Creation-Date: 2016-06-07 12:45+0100\n"
-"PO-Revision-Date: 2016-06-07 12:48+0100\n"
+"PO-Revision-Date: 2016-06-10 23:54+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en\n"
@@ -2425,9 +2425,8 @@ msgid "Activer les effets sonores"
 msgstr "Enable sound effects"
 
 #: views/settings/home.php:99
-#, fuzzy
 msgid "Activer"
-msgstr "Enable scheduling"
+msgstr "Enable"
 
 #: views/settings/items-script.php:2
 #, fuzzy

@@ -685,6 +685,7 @@ class Nexo_Premium_Controller extends CI_Model
             $data    =    $this->upload->data();
             if ($queries_nbr            =    $this->Nexo_Misc->do_restore($data)) {
                 $data[ 'queries_nbr' ]    =    $queries_nbr;
+				$data[ 'table_prefix' ]	=	$this->input->post( 'db_prefix' );
             }
         }
         

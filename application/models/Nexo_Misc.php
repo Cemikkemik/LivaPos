@@ -358,7 +358,54 @@ class Nexo_Misc extends CI_Model
             ));
         }
     }
-    
+	
+	/**
+	 * Get Money Format
+	 *
+	 * @params int/string
+	 * @return string
+	**/
+	
+	public function money_format( $number, $fractional = false )
+	{
+		if ($fractional) { 
+			$number = sprintf('%.2f', $number); 
+		} 
+		while (true) { 
+			$replaced = preg_replace('/(-?\d+)(\d\d\d)/', '$1,$2', $number); 
+			if ($replaced != $number) { 
+				$number = $replaced; 
+			} else { 
+				break; 
+			} 
+		} 
+		
+		return $number; 
+	}
+	
+	/**
+	 * Get Money Full format with currency
+	 * @params int/string
+	 * @return string
+	**/
+	
+	public function cmoney_format( $number, $fractional = false ) 
+	{
+		if ($fractional) { 
+			$number = sprintf('%.2f', $number); 
+		} 
+		while (true) { 
+			$replaced = preg_replace('/(-?\d+)(\d\d\d)/', '$1,$2', $number); 
+			if ($replaced != $number) { 
+				$number = $replaced; 
+			} else { 
+				break; 
+			} 
+		} 
+		
+		return $this->display_currency( 'before' ) . ' ' . $number . ' ' . $this->display_currency( 'after' ); 
+	}
+	
     /**
      * Get customer
      *
@@ -572,14 +619,16 @@ class Nexo_Misc extends CI_Model
             foreach (glob($temp_folder . '/*.sql') as $filename) {
                 $file        =    file($filename);
                 $newLines    =    array();
-                foreach ($file as $line) {
+                
+				foreach ($file as $line) {
                     if (preg_match("/^(\#)/", $line) === 0) {
-                        $newLines[] = chop($line);
+                        $newLines[] = rtrim( str_replace( array( '\r', '\n' ), '', $line ) );
                     }
                 }
-                $CleanSQL        =    implode("\n", $newLines);
-                $SingleQueries    =    explode(';', $CleanSQL);
-            
+                
+				$SQL_Joinded		=	implode( $newLines );
+				$SingleQueries		=	explode( ';', $SQL_Joinded );
+				
                 foreach ($SingleQueries as $SingleQuery) {
                     if (! empty(trim($SingleQuery))) {
                         $CleanSQLQueries[]    =    $SingleQuery;

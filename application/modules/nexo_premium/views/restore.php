@@ -23,6 +23,11 @@ if (isset($_FILES[ 'restore_file' ]) && ! empty($erro)) {
 ?>
 <form method="post" enctype="multipart/form-data">
 <div class="input-group">
+  <span class="input-group-addon" id="basic-addon1"><?php _e( 'Prefixe à utiliser', 'nexo_premium' );?></span>
+  <input type="text" name="db_prefix" class="form-control" placeholder="<?php _e( 'Prefixe à remplacer', 'nexo_premium' );?>" aria-describedby="basic-addon1">
+</div>
+<br />
+<div class="input-group">	
   <input type="file" name="restore_file" class="form-control" placeholder="<?php _e('Veuillez envoyer le fichier de restauration', 'nexo_premium');?>" aria-describedby="basic-addon2">
   <span class="input-group-btn">
     <button class="btn btn-default" type="submit"><?php _e('Restaurer', 'nexo_premium');?></button>
@@ -45,8 +50,7 @@ var totalQueries	=	<?php echo $queries_nbr;
     ?>;
 var currentIndex	=	1;
 var RunQueries		=	function(){
-	$.ajax( '<?php echo site_url(array( 'nexo_premium', 'run_restore_query' ));
-    ?>' + '/' + currentIndex, {
+	$.ajax( '<?php echo site_url(array( 'nexo_premium', 'run_restore_query' ));?>' + '/' + currentIndex + '/<?php echo $table_prefix;?>', {
 		success		:	function( value ) {
 			if( currentIndex < ( totalQueries - 1 ) ) {
 				var Percent		=	Math.ceil( currentIndex * 100 / totalQueries );

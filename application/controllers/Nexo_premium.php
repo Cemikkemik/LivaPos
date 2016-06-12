@@ -203,13 +203,17 @@ class Nexo_premium extends REST_Controller
      * Run Restore Query
     **/
     
-    public function run_restore_query_get($index)
+    public function run_restore_query_get($index, $table_prefix = '')
     {
+		$table_prefix	 = $table_prefix == '' ? $this->db->dbprefix : $table_prefix;
+		
         $Cache            =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_'));
         $Query            =    $Cache->get('restore_queries');
         if (@$Query[ $index - 1 ] != null) {
-            $this->db->query($Query[ $index - 1 ]);
-            $this->response($Query[ $index - 1 ], 200);
+			$SQL			=	str_replace( $table_prefix, $this->db->dbprefix, $Query[ $index - 1 ] );
+			$SQL			=	str_replace(array('.', "\n", "\t", "\r", ',/' ), '', $SQL);
+            $this->db->query( $SQL );
+            $this->response( $SQL, 200);
         }
     }
     

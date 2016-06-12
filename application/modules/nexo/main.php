@@ -80,21 +80,56 @@ class Nexo extends CI_Model
     
     public function footer()
     {
-        return false;
         ?>
         <style type="text/css">
-		.flexigrid div.form-div input[type=text], .flexigrid div.form-div select, .flexigrid div.form-div textarea,
-		.datatables div.form-div input[type=text], .datatables div.form-div select, .datatables div.form-div textarea {
-			font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-			font-weight: normal;
-			line-height: 35px;
-			height: 40px;
-			font-size: 28px;
-			vertical-align: middle;
-			width:100%;
+		.ar-up {
+			width: 0; 
+			height: 0; 
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			
+			border-bottom: 15px solid #ADFF77;
+			top: -17px;
+			margin-right: 5px;
+			position:relative;
 		}
-		#AUTHOR_field_box { display:none; }
-		#TYPE_field_box { display:none; }
+		
+		.ar-down {
+			width: 0; 
+			height: 0; 
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			
+			border-top: 15px solid #FF8080;
+			top: 17px;
+			margin-right: 5px;
+			position:relative;
+		}
+		
+		.ar-invert-up {
+			width: 0; 
+			height: 0; 
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			
+			border-top: 15px solid #ADFF77;
+			top: 17px;
+			margin-right: 5px;
+			position:relative;
+		}
+		
+		.ar-invert-down {
+			width: 0; 
+			height: 0; 
+			border-left: 5px solid transparent;
+			border-right: 5px solid transparent;
+			
+			border-bottom: 15px solid #FF8080;
+			top: -17px;
+			margin-right: 5px;
+			position:relative;
+		}
+		
 		</style>
         <?php
 
@@ -124,6 +159,7 @@ class Nexo extends CI_Model
     
     public function header()
     {
+		global $Options;
         /** 
          * <script type="text/javascript" src="<?php echo js_url( 'nexo' ) . 'jsapi.js';?>"></script>
         **/
@@ -132,10 +168,14 @@ class Nexo extends CI_Model
         ?>">
 		<script src="<?php echo js_url('nexo') . 'jquery-ui.min.js';
         ?>"></script>
-        <script src="<?php echo module_url('nexo') . '/bower_components/Chart.js/Chart.min.js';
+        <script src="<?php echo module_url('nexo') . 'bower_components/Chart.js/Chart.min.js';
         ?>"></script>
-        <script src="<?php echo module_url('nexo') . '/js/html5-audio-library.js';
+        <script src="<?php echo module_url('nexo') . 'js/html5-audio-library.js';
         ?>"></script>
+        <!-- D3 @since 2.6.1 -->
+        <script src="<?php echo module_url('nexo') . 'bower_components/d3/d3.min.js';
+        ?>"></script>
+        <script src="<?php echo module_url( 'nexo' ) . 'js/liquidFillGauge/liquidFillGauge.js';?>"></script>
         <script type="text/javascript">
 		
 		"use strict";		
@@ -318,9 +358,33 @@ class Nexo extends CI_Model
 				return NexoAPI.CurrencyPosition( NexoAPI.Format( parseInt( amount ) ) );
 			}
 			
-		var NexoSound		=	'<?php echo asset_url('/modules/nexo/sound/sound-');
-        ?>';
+		var NexoSound		=	'<?php echo asset_url('/modules/nexo/sound/sound-');?>';
+		
 		$( document ).ready(function(e) {
+			// @since 2.6.1
+		
+			NexoAPI.Bootbox	=	function(){
+				<?php if( in_array( 'bootbox', $this->config->item( 'nexo_sound_fx' ) ) ):?>
+				NexoAPI.Sound(2);
+				return bootbox;
+				<?php endif;?>
+			}
+			
+			NexoAPI.Notify	=	function(){
+				NexoAPI.Sound(1);
+				return tendoo.notify;
+			}
+			
+			NexoAPI.Sound	=	function( sound_index ){
+				var SoundEnabled				=	'<?php echo @$Options[ 'nexo_soundfx' ];?>';
+				if( ( SoundEnabled.length != 0 || SoundEnabled == 'enable' ) && SoundEnabled != 'disable' ) {
+					var music = new buzz.sound( NexoSound + sound_index , {
+						formats: [ "mp3" ]
+					});
+					music.play();
+				}
+			}
+			
             NexoAPI.BindPrint();
         });
 		</script>
@@ -336,21 +400,21 @@ class Nexo extends CI_Model
     
     public function init()
     {
-        $this->dashboard_widgets->add('ventes_annuelles', array(
+        /*$this->dashboard_widgets->add('ventes_annuelles', array(
             'title'    => __('Nombres de commandes journalières', 'nexo'),
             'type'    => 'box-primary',
             // 'background-color'	=>	'',
             'position'    => 1,
             'content'    =>    $this->load->view('../modules/nexo/inc/widgets/sales.php', array(), true)
-        ));
+        ));*/
         
-        $this->dashboard_widgets->add('chiffre_daffaire_net', array(
+        /*$this->dashboard_widgets->add('chiffre_daffaire_net', array(
             'title'    => __('Chiffre d\'affaire journalier', 'nexo'),
             'type'    => 'box-primary',
             // 'background-color'	=>	'',
             'position'    => 1,
             'content'    =>    $this->load->view('../modules/nexo/inc/widgets/chiffre-daffaire-net.php', array(), true)
-        ));
+        ));*/
         
         $this->dashboard_widgets->add('nexo_guides', array(
             'title'                    => __('Guides du débutant', 'nexo'),
@@ -378,6 +442,38 @@ class Nexo extends CI_Model
             'position'                => 2,
             'content'                =>    $this->load->view('../modules/nexo/inc/widgets/news.php', array(), true)
         ));
+		
+		$this->dashboard_widgets->add( 'nexo_sales_new', array(
+			'title'					=>	__( 'Chart New', 'nexo' ),
+			'type'					=>	'unwrapped',
+			'hide_body_wrapper'		=>	true,
+			'position'				=> 	2,
+			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/sales-new', array(), true )
+		) );
+		
+		$this->dashboard_widgets->add( 'nexo_sales_income', array(
+			'title'					=>	__( 'Chiffre d\'affaire', 'nexo' ),
+			'type'					=>	'unwrapped',
+			'hide_body_wrapper'		=>	true,
+			'position'				=> 	2,
+			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/income', array(), true )
+		) );
+		
+		$this->dashboard_widgets->add( 'nexo_profile', array(
+			'title'					=>	__( 'About you', 'nexo' ),
+			'type'					=>	'unwrapped',
+			'hide_body_wrapper'		=>	true,
+			'position'				=> 	2,
+			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/profile', array(), true )
+		) );
+		
+		$this->dashboard_widgets->add( 'nexo_jauge', array(
+			'title'					=>	__( 'Stock Jauge', 'nexo' ),
+			'type'					=>	'unwrapped',
+			'hide_body_wrapper'		=>	true,
+			'position'				=> 	2,
+			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/jauge', array(), true )
+		) );
     }
     
     /**

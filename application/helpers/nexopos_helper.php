@@ -54,3 +54,23 @@ if (! function_exists('nexo_availability_check')) {
         }
     }
 }
+
+/**
+ * Compare Two value and print arrow
+ *
+ * @params int
+ * @params int
+ * @params bool invert ?
+ * @return string
+**/
+
+if( ! function_exists('nexo_compare_card_values')) {
+	function nexo_compare_card_values( $start, $end, $invert = false ) {
+		if( intval( $start ) < intval( $end ) ):
+        	return '<span class="ar-' . ( $invert == true ? 'invert-up' : 'down' ) . '"></span>';
+        elseif( intval( $start ) > intval( $end ) ):
+        	return '<span class="ar-' . ( $invert == true ? 'invert-down' : 'up' ) . '"></span>';
+		endif;
+		return '';
+	}
+}

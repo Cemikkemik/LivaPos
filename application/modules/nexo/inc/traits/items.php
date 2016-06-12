@@ -117,4 +117,25 @@ trait Nexo_items
             ), 404);
         }
     }
+	
+	/** 
+	 * Get items Cached
+	 *
+	**/
+	
+	public function items_cached_get()
+	{
+		$Cache		=	new CI_Cache( array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_') );
+		
+		$this->load->config( 'nexo' );
+		
+		if( ! $Cache->get( 'items_cached' ) || @$_GET[ 'refresh' ] == 'true' ) {
+
+			$query	=	$this->db->get( 'nexo_articles' );
+			
+			$Cache->save( 'items_cached', $query->result(), $this->config->item( 'nexo_items_cache_lifetime' ) );
+		}
+		
+		$this->response( $Cache->get( 'items_cached' ) );
+	}
 }

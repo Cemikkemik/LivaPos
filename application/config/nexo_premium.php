@@ -15,7 +15,7 @@ $config[ 'quotes_check_interval' ]        =    86400;
  * tables to backup
 **/
 
-$config[ 'tables_to_backup' ]            =    array( 'nexo_arrivages', 'nexo_articles', 'nexo_categories', 'nexo_clients', 'nexo_clients_groups', 'nexo_commandes', 'nexo_commandes_produits', 'nexo_fournisseurs', 'nexo_historique', 'nexo_paiements', 'nexo_premium_factures', 'nexo_rayons' );
+$config[ 'tables_to_backup' ]            =    array( 'nexo_arrivages', 'nexo_articles', 'nexo_categories', 'nexo_clients', 'nexo_clients_groups', 'nexo_commandes', 'nexo_commandes_produits', 'nexo_fournisseurs', 'nexo_historique', 'nexo_premium_factures', 'nexo_rayons' );
 
 /**
  * How many product to display. Best of Items

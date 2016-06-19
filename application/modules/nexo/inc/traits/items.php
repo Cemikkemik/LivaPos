@@ -144,6 +144,7 @@ trait Nexo_items
 								->limit( $limit_result )
 								// ->group_by( 'nexo_articles.ID' )
 								->get();
+								
 			$Cache->save( 'sales_new_widget_item_sales', $query->result() );
 		}
 		

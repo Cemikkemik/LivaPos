@@ -105,15 +105,14 @@ trait Nexo_orders
         
         $this->db->insert('nexo_commandes', $order_details);
         
-        $current_order                        =    $this->db->where('CODE', $order_details[ 'CODE' ])
-                                                ->get('nexo_commandes')
-                                                ->result_array();
-        
-        
+        $current_order	=    $this->db->where('CODE', $order_details[ 'CODE' ])
+							->get('nexo_commandes')
+							->result_array();
         
         $this->response(array(
             'order_id'        =>    $current_order[0][ 'ID' ],
-            'order_type'    =>    $order_details[ 'TYPE' ]
+            'order_type'    =>    $order_details[ 'TYPE' ],
+			'order_code'	=>	$current_order[0][ 'CODE' ]
         ), 200);
     }
     
@@ -130,6 +129,15 @@ trait Nexo_orders
         $this->load->model('Options');
         // Get old order details with his items	
         $old_order                =    $this->Nexo_Checkout->get_order_products($order_id, true);
+		
+		$current_order	=    $this->db->where('ID', $order_id)
+							->get('nexo_commandes')
+							->result_array();
+
+		// Only incomplete order can be edited
+		if( $current_order[0][ 'TYPE' ] != 'nexo_order_devis' ) {
+			$this->__failed();
+		}
         
         $order_details            =    array();
         
@@ -211,7 +219,7 @@ trait Nexo_orders
         
         // Delete item from order
         $this->db->where('REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ])->delete('nexo_commandes_produits');
-        
+		
         // Save Order items		
         /**
          * Item structure
@@ -219,9 +227,13 @@ trait Nexo_orders
         **/
         
         foreach ($this->put('ITEMS') as $item) {
+			
+			// Get Items 
+			$fresh_items	=	$this->db->where( 'CODEBAR', $item[2] )->get( 'nexo_articles' )->result_array();
+			
             $this->db->where('CODEBAR', $item[2])->update('nexo_articles', array(
-                'QUANTITE_RESTANTE'        =>    intval($item[5]) - intval($item[1]),
-                'QUANTITE_VENDU'        =>    intval($item[4]) + intval($item[1])
+                'QUANTITE_RESTANTE'        =>    intval($fresh_items[0][ 'QUANTITE_RESTANTE' ]) - intval($item[1]),
+                'QUANTITE_VENDU'        =>    intval($fresh_items[0][ 'QUANTITE_VENDU' ]) + intval($item[1])
             ));
             
             // Adding to order product
@@ -235,5 +247,11 @@ trait Nexo_orders
         }
         
         $this->db->where('ID', $order_id)->update('nexo_commandes', $order_details);
+		
+		$this->response(array(
+            'order_id'        =>    $order_id,
+            'order_type'    =>    $order_details[ 'TYPE' ],
+			'order_code'	=>	$current_order[0][ 'CODE' ]
+        ), 200);
     }
 }

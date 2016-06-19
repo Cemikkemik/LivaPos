@@ -8,3 +8,6 @@ include_once(dirname(__FILE__) . '/traits/items.php');
 
 // Get trait for stripe
 include_once(dirname(__FILE__) . '/traits/stripe.php');
+
+// Get trait for cashiers
+include_once(dirname(__FILE__) . '/traits/cashiers.php');

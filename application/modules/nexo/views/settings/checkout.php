@@ -97,6 +97,20 @@ $this->Gui->add_item(array(
     )
 ), 'Nexo_checkout2', 2);
 
+// @since 2.6.1
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    'nexo_enable_smsinvoice',
+    'label'        =>    __('Envoyer un facture par SMS', 'nexo'),
+    'description'        =>    __('Permet d\'envoyer une facture par SMS pour les commandes complètes aux clients enregistrés.', 'nexo'),
+    'options'    =>    array(
+        ''            =>    __('Veuillez choisir une option', 'nexo'),
+        'yes'        =>    __('Oui', 'nexo'),
+        'no'        =>    __('Non', 'nexo')
+    )
+), 'Nexo_checkout2', 2);
+
 $this->Gui->add_item(array(
     'type'        =>    'select',
     'name'        =>    'nexo_enable_numpad',

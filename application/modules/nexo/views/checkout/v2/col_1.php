@@ -11,9 +11,13 @@
     <!-- /.box-body -->
     <div class="box-footer" id="cart-search-wrapper">
         <form action="#" method="post">
-            <select data-live-search="true" name="customer_id" placeholder="<?php _e('Codebarre ou UGS...');?>" class="form-control customers-list dropdown-bootstrap">
+        	<div class="input-group">
+              <span class="input-group-addon" id="basic-addon1"><?php _e('Choisir un client', 'nexo');?></span>
+              <select data-live-search="true" name="customer_id" placeholder="<?php _e('Veuillez choisir un client');?>" class="form-control customers-list dropdown-bootstrap">
                 <option value=""><?php _e('Sélectionner un client', 'nexo');?></option>
             </select>
+            </div>
+            
         </form>
     </div>
     <!-- /.box-footer--> 
@@ -163,5 +167,8 @@
 }
 .img-responsive {
     margin: 0 auto;
+}
+.modal-dialog {
+	margin: 10px auto !important;
 }
 </style>

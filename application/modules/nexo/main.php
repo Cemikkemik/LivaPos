@@ -39,6 +39,11 @@ class Nexo extends CI_Model
         if (! is_dir('public/upload/codebar')) {
             mkdir('public/upload/codebar');
         }
+		
+		// For Customer avatar @since 2.6.1
+		if (! is_dir('public/upload/customers')) {
+            mkdir('public/upload/customers');
+        }
         
         define('NEXO_CODEBAR_PATH', 'public/upload/codebar/');
     }
@@ -66,9 +71,8 @@ class Nexo extends CI_Model
     
     public function after_app_init()
     {
-        global $Options;
-        
         $this->lang->load_lines(dirname(__FILE__) . '/language/nexo_lang.php');
+		
         $this->load->config('nexo');
     }
     
@@ -172,10 +176,19 @@ class Nexo extends CI_Model
         ?>"></script>
         <script src="<?php echo module_url('nexo') . 'js/html5-audio-library.js';
         ?>"></script>
-        <!-- D3 @since 2.6.1 -->
-        <script src="<?php echo module_url('nexo') . 'bower_components/d3/d3.min.js';
+        <!-- KNOB -->
+        <script src="<?php echo asset_url() . '/plugins/knob/jquery.knob.js';
         ?>"></script>
-        <script src="<?php echo module_url( 'nexo' ) . 'js/liquidFillGauge/liquidFillGauge.js';?>"></script>
+        <!-- Bootstrap Switch -->
+        <script src="<?php echo module_url('nexo') . '/bower_components/bootstrap-toggle/js/bootstrap2-toggle.min.js';
+        ?>"></script>
+        <link rel="stylesheet" href="<?php echo module_url('nexo') . '/bower_components/bootstrap-toggle/css/bootstrap2-toggle.min.css';?>">
+        
+        
+        <!-- Include PIE CHARTS -->
+        <link rel="stylesheet" href="<?php echo css_url('nexo') . '/piecharts/piecharts.css';?>">
+        <script type="text/javascript" src="<?php echo js_url('nexo') . 'piecharts/piecharts.js';?>"></script>
+        
         <script type="text/javascript">
 		
 		"use strict";		
@@ -358,6 +371,8 @@ class Nexo extends CI_Model
 				return NexoAPI.CurrencyPosition( NexoAPI.Format( parseInt( amount ) ) );
 			}
 			
+
+			
 		var NexoSound		=	'<?php echo asset_url('/modules/nexo/sound/sound-');?>';
 		
 		$( document ).ready(function(e) {
@@ -386,6 +401,61 @@ class Nexo extends CI_Model
 			}
 			
             NexoAPI.BindPrint();
+			
+		$(".knob").knob({
+			  /*change : function (value) {
+			   //console.log("change : " + value);
+			   },
+			   release : function (value) {
+			   console.log("release : " + value);
+			   },
+			   cancel : function () {
+			   console.log("cancel : " + this.value);
+			   },*/
+			  draw: function () {
+		
+				// "tron" case
+				if (this.$.data('skin') == 'tron') {
+		
+				  var a = this.angle(this.cv)  // Angle
+					  , sa = this.startAngle          // Previous start angle
+					  , sat = this.startAngle         // Start angle
+					  , ea                            // Previous end angle
+					  , eat = sat + a                 // End angle
+					  , r = true;
+		
+				  this.g.lineWidth = this.lineWidth;
+		
+				  this.o.cursor
+				  && (sat = eat - 0.3)
+				  && (eat = eat + 0.3);
+		
+				  if (this.o.displayPrevious) {
+					ea = this.startAngle + this.angle(this.value);
+					this.o.cursor
+					&& (sa = ea - 0.3)
+					&& (ea = ea + 0.3);
+					this.g.beginPath();
+					this.g.strokeStyle = this.previousColor;
+					this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
+					this.g.stroke();
+				  }
+		
+				  this.g.beginPath();
+				  this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
+				  this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
+				  this.g.stroke();
+		
+				  this.g.lineWidth = 2;
+				  this.g.beginPath();
+				  this.g.strokeStyle = this.o.fgColor;
+				  this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+				  this.g.stroke();
+		
+				  return false;
+				}
+			  }
+			});
         });
 		</script>
         <?php
@@ -451,13 +521,13 @@ class Nexo extends CI_Model
 			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/sales-new', array(), true )
 		) );
 		
-		$this->dashboard_widgets->add( 'nexo_sales_income', array(
+		/*$this->dashboard_widgets->add( 'nexo_sales_income', array(
 			'title'					=>	__( 'Chiffre d\'affaire', 'nexo' ),
 			'type'					=>	'unwrapped',
 			'hide_body_wrapper'		=>	true,
 			'position'				=> 	2,
 			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/income', array(), true )
-		) );
+		) );*/
 		
 		$this->dashboard_widgets->add( 'nexo_profile', array(
 			'title'					=>	__( 'About you', 'nexo' ),

@@ -367,11 +367,11 @@ $this->db->insert('nexo_articles', array(
 
 // Clients
 
-$this->db->query("INSERT INTO `{$this->db->dbprefix}nexo_clients` (`ID`, `NOM`, `PRENOM`, `POIDS`, `TAILLE`, `PREFERENCE`, `TEL`, `EMAIL`, `DESCRIPTION`, `DATE_NAISSANCE`, `ADRESSE`, `NBR_COMMANDES`, `DISCOUNT_ACTIVE`) VALUES
-(1, '". __('Compte Client', 'nexo')    ."', 	'', 0, 0, '', 0, 'user@tendoo.org', 				'', '0000-00-00 00:00:00', '', 0, 0),
-(2, '". __('John Doe', 'nexo')        ."', 	'', 0, 0, '', 0, 'johndoe@tendoo.org', 				'',	'0000-00-00 00:00:00', '', 0, 0),
-(3, '". __('Jane Doe', 'nexo')        ."', 	'', 0, 0, '', 0, 'janedoe@tendoo.org', 				'',	'0000-00-00 00:00:00', '', 0, 0),
-(4, '". __('Blair Jersyer', 'nexo')    ."', 	'', 0, 0, '', 0, 'carlosjohnsonluv2004@gmail.com', 	'',	'0000-00-00 00:00:00', '', 0, 0);");
+$this->db->query("INSERT INTO `{$this->db->dbprefix}nexo_clients` (`ID`, `NOM`, `PRENOM`, `POIDS`, `TEL`, `EMAIL`, `DESCRIPTION`, `DATE_NAISSANCE`, `ADRESSE`, `NBR_COMMANDES`, `DISCOUNT_ACTIVE`) VALUES
+(1, '". __('Compte Client', 'nexo')    ."', 	'', 0, 0, 'user@tendoo.org', 				'', '0000-00-00 00:00:00', '', 0, 0),
+(2, '". __('John Doe', 'nexo')        ."', 	'', 0, 0, 'johndoe@tendoo.org', 				'',	'0000-00-00 00:00:00', '', 0, 0),
+(3, '". __('Jane Doe', 'nexo')        ."', 	'', 0, 0, 'janedoe@tendoo.org', 				'',	'0000-00-00 00:00:00', '', 0, 0),
+(4, '". __('Blair Jersyer', 'nexo')    ."', 	'', 0, 0, 'carlosjohnsonluv2004@gmail.com', 	'',	'0000-00-00 00:00:00', '', 0, 0);");
 
 // Options
 $this->load->model('Options');

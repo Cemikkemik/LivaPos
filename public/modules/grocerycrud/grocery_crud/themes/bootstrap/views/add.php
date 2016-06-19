@@ -17,6 +17,7 @@
                     $even_odd = $counter % 2 == 0 ? 'odd' : 'even';
                     $counter++;
                     if ($input_fields[ $field->field_name ]->crud_type != 'relation_invisible') {
+						
                         if (
                             in_array($input_fields[ $field->field_name ]->type, array( 'double', 'varchar', 'int' )) &&
                             in_array($input_fields[ $field->field_name ]->crud_type, array( false, 'integer' ), true)) {

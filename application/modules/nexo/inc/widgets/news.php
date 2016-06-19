@@ -1,4 +1,4 @@
-<div id="news-wrapper">
+<div id="news-wrapper" class="box-body"  style="padding:0;">
 	<p class="text-center" style="line-height:45px;"><?php _e('Chargement...', 'nexo');?></p>
 </div>
 <script>

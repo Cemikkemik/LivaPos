@@ -1,0 +1,41 @@
+is_cash_order		:	{
+	type			:	action
+	desc			:	run when an order is complete
+	params			:	object v2Checkout
+	screen			:	dashboard/nexo/commandes/lists/v2_checkout
+}
+
+select_customer : {
+	type		:	action,
+	desc		:	run action when selecting a customer
+	params		:	object current selected customer
+	screen		:	dashboard/nexo/commandes/lists/v2_checkout
+}
+
+pay_box_footer	:	{
+	type		:	filter
+	desc		:	run filter on pay box footer
+	params		:	''
+	screen		:	dashboard/nexo/commandes/lists/v2_checkout
+}
+
+pay_box_loaded 	:	{
+	type		:	action
+	desc		:	trigger when pay box is loaded
+	params		:	void
+	screen		:	dashboard/nexo/commandes/lists/v2_checkout
+}
+
+submit_order : {
+	type 	:	action
+	desc	:	run when submiting an order to v2Checkout.cartSubmitOrder()
+	params:	void
+	screen 	:	dashboard/nexo/commandes/lists/v2_checkout
+}
+
+reset_cart 		:	{
+	type		:	action,
+	desc		:	run  when cart is reset
+	params		:	v2Checkout
+	screen		:	dashboard/nexo/commandes/lists/v2_checkout
+}

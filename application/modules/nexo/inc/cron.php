@@ -1,6 +1,8 @@
 <?php
 ! defined('APPPATH') ? die() : null;
 
+// Deprecated
+
 use Carbon\Carbon;
 
 class Nexo_Cron extends CI_Model

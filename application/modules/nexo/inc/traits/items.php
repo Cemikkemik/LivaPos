@@ -118,9 +118,41 @@ trait Nexo_items
         }
     }
 	
+	/**
+	 * Item Sales
+	 * Get sale for dashboard home widget
+ 	**/
+	
+	public function item_sales_post()
+	{
+		$Cache		=	new CI_Cache( array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_') );
+		$this->load->config( 'nexo' );
+		
+		if( ! $Cache->get( 'sales_new_widget_item_sales' ) || @$_GET[ 'refresh' ] == 'true' ) {
+			
+			$start_date		=	$this->post( 'start_date' );
+			$end_date		=	$this->post( 'end_date' );
+			$limit_result	=	$this->post( 'limit' );
+			
+			$query			=	$this->db
+								->select( '*' )
+								->from( 'nexo_commandes_produits' )
+								->join( 'nexo_articles', 'nexo_articles.CODEBAR = nexo_commandes_produits.REF_PRODUCT_CODEBAR' )
+								->join( 'nexo_commandes', 'nexo_commandes_produits.REF_COMMAND_CODE = nexo_commandes.CODE' )
+								->where( 'nexo_commandes.DATE_CREATION >=', $start_date )
+								->where( 'nexo_commandes.DATE_CREATION <=', $end_date )
+								->limit( $limit_result )
+								// ->group_by( 'nexo_articles.ID' )
+								->get();
+			$Cache->save( 'sales_new_widget_item_sales', $query->result() );
+		}
+		
+		$this->response( $Cache->get( 'sales_new_widget_item_sales' ), 200 );
+	}
+	
 	/** 
 	 * Get items Cached
-	 *
+	 * Maybe deprecated
 	**/
 	
 	public function items_cached_get()

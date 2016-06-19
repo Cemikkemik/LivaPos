@@ -1,4 +1,4 @@
-<div id="tutorial-wrapper">
+<div id="tutorial-wrapper" class="box-body"  style="padding:0;">
 	<p class="text-center" style="line-height:45px;"><?php _e('Chargement...', 'nexo');?></p>
 </div>
 <script>

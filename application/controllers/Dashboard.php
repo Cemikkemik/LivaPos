@@ -366,7 +366,8 @@ class Dashboard extends Tendoo_Controller
             // @since 3.0.5
             echo json_encode($this->options->get(xss_clean($_POST[ 'option_key' ])));
         } elseif (in_array($mode, array( 'save_user_meta', 'merge_user_meta' ))) {
-            if (! User::can('edit_profile')) {
+            
+			if (! User::can('edit_profile')) {
                 redirect(array( 'dashboard', 'access-denied' ));
             }
             
@@ -384,7 +385,7 @@ class Dashboard extends Tendoo_Controller
                             if ($this->input->post('gui_saver_use_namespace') === 'true') {
                                 $content[ $key ]    =    ($mode == 'merge') ? $options : $this->input->post($key);
                             } else {
-                                if ($mode == 'merge' && is_array($value)) {
+                                if ($mode == 'merge_user_meta' && is_array($value)) {
                                     $this->options->set($key, $options, true, $this->input->post('user_id'));
                                 } else {
                                     $this->options->set($key, $this->input->post($key), true, $this->input->post('user_id'));
@@ -394,7 +395,7 @@ class Dashboard extends Tendoo_Controller
                             if ($this->input->post('gui_saver_use_namespace') === 'true') {
                                 $content[ $key ]    =    ($mode == 'merge') ? $options : xss_clean($_POST[ $key ]);
                             } else {
-                                if ($mode == 'merge' && is_array($value)) {
+                                if ($mode == 'merge_user_meta' && is_array($value)) {
                                     $this->options->set($key, $options, true, $this->input->post('user_id'));
                                 } else {
                                     $this->options->set($key, xss_clean($_POST[ $key ]), true, $this->input->post('user_id'));

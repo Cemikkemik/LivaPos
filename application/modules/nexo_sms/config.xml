@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application>
+	<details>
+		<name>Nexo SMS Invoice</name>
+		<namespace>nexo_sms</namespace>
+		<language>/language</language>
+		<author>Blair Jersyer</author>
+		<description>Add SMS support for NexoPOS</description>
+		<version>1.1</version>
+		<main>main.php</main>
+	</details>
+</application>

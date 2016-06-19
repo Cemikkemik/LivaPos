@@ -95,14 +95,16 @@ class Nexo_Premium_Actions extends CI_Model
 			$SalesToday			=	0;
 			$SalesYesterDay		=	0;
 			
-			foreach ($Orders as $sale) {
-				if( $startOfDay->lte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) && $endOfDay->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
-					$SalesToday++;
-				}
-				// Sales Yesterday
-				if( $startOfYesterday->lte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) && $endOfYesterday->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
-					$SalesYesterDay++;
-				}
+			if( is_array( $Orders ) ) {
+				foreach ($Orders as $sale) {
+					if( $startOfDay->lte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) && $endOfDay->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
+						$SalesToday++;
+					}
+					// Sales Yesterday
+					if( $startOfYesterday->lte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) && $endOfYesterday->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
+						$SalesYesterDay++;
+					}
+				}			
 			}
 			
             $this->Cache->save('sales_number', $Sales_Number, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
@@ -117,9 +119,12 @@ class Nexo_Premium_Actions extends CI_Model
             $net_sales            	=   0;
 			$net_sales_today	 	= 	0;
 			$net_sales_yesterday	=	0;
+			$CA						=	0;
 
             if ($Sales) {
                 foreach ($Sales as $sale) {
+					// Default value
+					$CA						=	0;
                     // Uniquement les commandes comptant et avance	
                     if ($sale[ 'TYPE' ] == 'nexo_order_comptant') {
                         $CA                =    intval($sale[ 'TOTAL' ]) - (intval($sale[ 'RISTOURNE' ]) + intval($sale[ 'RABAIS' ]) + intval($sale[ 'REMISE' ]));
@@ -149,13 +154,18 @@ class Nexo_Premium_Actions extends CI_Model
 			$CustomersToday			=	0;
 			$CustomersYesterday		=	0;
 			
-			// Sale Today
-			if( $startOfDay->lte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) && $endOfDay->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
-				$CustomersToday++;
-			}
-			// Sales Yesterday
-			if( $startOfYesterday->lte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) && $endOfYesterday->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
-				$CustomersYesterday++;
+			if( is_array( $Customers ) ) {
+				foreach( $Customers as $Customer ) {
+					// Sale Today
+					if( $startOfDay->lte( Carbon::parse( $Customer[ 'DATE_CREATION' ] ) ) && $endOfDay->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
+						$CustomersToday++;
+					}
+					// Sales Yesterday
+					if( $startOfYesterday->lte( Carbon::parse( $Customer[ 'DATE_CREATION' ] ) ) && $endOfYesterday->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
+						$CustomersYesterday++;
+					}
+				}
+			
 			}
 			
 			$this->Cache->save('customers_number', is_array($Customers) ? count($Customers) : 0, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
@@ -168,6 +178,7 @@ class Nexo_Premium_Actions extends CI_Model
             $Sales                	=    $this->Nexo_Checkout->get_order();
 			$creancesToday			=	0;
 			$creancesYesteday		=	0;
+			$CA						=	0;
             
             if ($Sales) {
                 foreach ($Sales as $sale) {

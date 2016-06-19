@@ -67,8 +67,6 @@ class Nexo_Install extends CI_Model
 		  `NOM` varchar(200) NOT NULL,
 		  `PRENOM` varchar(200) NOT NULL,
 		  `POIDS` int(11) NOT NULL,
-		  `TAILLE` int(11) NOT NULL,
-		  `PREFERENCE` varchar(200) NOT NULL,
 		  `TEL` varchar(200) NOT NULL,
 		  `EMAIL` varchar(200) NOT NULL,
 		  `DESCRIPTION` text NOT NULL,
@@ -77,7 +75,18 @@ class Nexo_Install extends CI_Model
 		  `NBR_COMMANDES` int NOT NULL,
 		  `OVERALL_COMMANDES` int NOT NULL,
 		  `DISCOUNT_ACTIVE` int NOT NULL,
-			`REF_GROUP` int NOT NULL,
+		  `TOTAL_SPEND` int NOT NULL,
+		  `LAST_ORDER` varchar(200) NOT NULL,
+		  `AVATAR` varchar(200) NOT NULL,
+		  `STATE` varchar(200) NOT NULL,
+		  `CITY` varchar(200) NOT NULL,
+		  `POST_CODE` varchar(200) NOT NULL,
+		  `COUNTRY` varchar(200) NOT NULL,
+		  `COMPANY_NAME` varchar(200) NOT NULL,
+		  `DATE_CREATION` datetime NOT NULL,
+		  `DATE_MOD` datetime NOT NULL,
+		  `REF_GROUP` int NOT NULL,
+		  `AUTHOR` int NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 

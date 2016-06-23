@@ -28,25 +28,25 @@ class Nexo_Clients extends CI_Model
         $crud->set_subject(__('Clients', 'nexo'));
         $crud->set_table($this->db->dbprefix('nexo_clients'));
         $crud->set_theme('bootstrap');
-        $crud->columns('NOM', 'EMAIL', 'TEL', 'OVERALL_COMMANDES', 'REF_GROUP', 'AUTHOR', 'DATE_CREATION', 'DATE_MOD' );
+        $crud->columns('NOM', 'EMAIL', 'TEL', 'OVERALL_COMMANDES', 'REF_GROUP', 'AUTHOR', 'DATE_CREATION', 'DATE_MOD');
         $crud->fields(
-			'REF_GROUP', 
-			'NOM', 
-			'PRENOM', 
-			'EMAIL', 
-			'TEL', 
-			'CITY', 
-			'STATE', 
-			'COUNTRY', 
-			'POST_CODE', 
-			'DATE_NAISSANCE', 
-			'AVATAR', 
-			'ADRESSE', 
-			'DESCRIPTION',
-			'AUTHOR',
-			'DATE_CREATION',
-			'DATE_MOD'
-		);
+            'REF_GROUP',
+            'NOM',
+            'PRENOM',
+            'EMAIL',
+            'TEL',
+            'CITY',
+            'STATE',
+            'COUNTRY',
+            'POST_CODE',
+            'DATE_NAISSANCE',
+            'AVATAR',
+            'ADRESSE',
+            'DESCRIPTION',
+            'AUTHOR',
+            'DATE_CREATION',
+            'DATE_MOD'
+        );
 
         $crud->display_as('NOM', __('Nom du client', 'nexo'));
         $crud->display_as('EMAIL', __('Email du client', 'nexo'));
@@ -57,28 +57,28 @@ class Nexo_Clients extends CI_Model
         $crud->display_as('DATE_NAISSANCE', __('Date de naissance', 'nexo'));
         $crud->display_as('ADRESSE', __('Adresse', 'nexo'));
 
-		$crud->display_as( 'TOTAL_SEND', __( 'Dépense effectué', 'nexo' ) );
-		$crud->display_as( 'LAST_ORDER', __( 'Dernière commande', 'nexo' ) );
-		$crud->display_as( 'AVATAR', __( 'Avatar', 'nexo' ) );
-		$crud->display_as( 'STATE', __( 'Pays', 'nexo' ) );
-		$crud->display_as( 'CITY', __( 'Ville', 'nexo' ) );
-		$crud->display_as( 'POST_CODE', __( 'Code postale', 'nexo' ) );
-		$crud->display_as( 'COUNTRY', __( 'Continent', 'nexo' ) );
-		$crud->display_as( 'DATE_CREATION', __( 'Crée', 'nexo' ) );
-		$crud->display_as( 'DATE_MOD', __( 'Modifié le', 'nexo' ) );
-		$crud->display_as( 'AUTHOR', __( 'Par', 'nexo' ) );	
-		
-		$crud->change_field_type('AUTHOR', 'invisible');
-		$crud->change_field_type('DATE_MOD', 'invisible');
-		$crud->change_field_type('DATE_CREATION', 'invisible');	
-		
-		$crud->callback_before_update( array( $this, '__update' ) );
-		$crud->callback_before_insert( array( $this, '__insert' ) );
-		
+        $crud->display_as('TOTAL_SEND', __('Dépense effectué', 'nexo'));
+        $crud->display_as('LAST_ORDER', __('Dernière commande', 'nexo'));
+        $crud->display_as('AVATAR', __('Avatar', 'nexo'));
+        $crud->display_as('STATE', __('Pays', 'nexo'));
+        $crud->display_as('CITY', __('Ville', 'nexo'));
+        $crud->display_as('POST_CODE', __('Code postale', 'nexo'));
+        $crud->display_as('COUNTRY', __('Continent', 'nexo'));
+        $crud->display_as('DATE_CREATION', __('Crée', 'nexo'));
+        $crud->display_as('DATE_MOD', __('Modifié le', 'nexo'));
+        $crud->display_as('AUTHOR', __('Par', 'nexo'));
+        
+        $crud->change_field_type('AUTHOR', 'invisible');
+        $crud->change_field_type('DATE_MOD', 'invisible');
+        $crud->change_field_type('DATE_CREATION', 'invisible');
+        
+        $crud->callback_before_update(array( $this, '__update' ));
+        $crud->callback_before_insert(array( $this, '__insert' ));
+        
         $crud->display_as('DESCRIPTION', __('Description', 'nexo'));
         $crud->display_as('REF_GROUP', __('Groupe', 'nexo'));
-		
-		$crud->set_field_upload('AVATAR', 'public/upload/customers/');	
+        
+        $crud->set_field_upload('AVATAR', 'public/upload/customers/');
         
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
@@ -86,7 +86,7 @@ class Nexo_Clients extends CI_Model
 
         $crud->required_fields('NOM', 'REF_GROUP');
         $crud->set_relation('REF_GROUP', 'nexo_clients_groups', 'NAME');
-		$crud->set_relation('AUTHOR', 'aauth_users', 'name');
+        $crud->set_relation('AUTHOR', 'aauth_users', 'name');
         
         $crud->set_rules('EMAIL', __('Email', 'nexo'), 'valid_email');
 
@@ -102,28 +102,28 @@ class Nexo_Clients extends CI_Model
 
         return $output;
     }
-	
-	/**
-	 * Create Customer
-	**/
-	
-	public function __update( $post ) 
-	{
-		$post[ 'DATE_MOD' ]			=	date_now();
-		$post[ 'AUTHOR' ]			=	User::id();	
-		return $post;
-	}
-	
-	/**
-	 * Callback before insert
-	**/
-	
-	public function __insert( $post ) 
-	{
-		$post[ 'DATE_CREATION' ]	=	date_now();
-		$post[ 'AUTHOR' ]			=	User::id();	
-		return $post;
-	}
+    
+    /**
+     * Create Customer
+    **/
+    
+    public function __update($post)
+    {
+        $post[ 'DATE_MOD' ]            =    date_now();
+        $post[ 'AUTHOR' ]            =    User::id();
+        return $post;
+    }
+    
+    /**
+     * Callback before insert
+    **/
+    
+    public function __insert($post)
+    {
+        $post[ 'DATE_CREATION' ]    =    date_now();
+        $post[ 'AUTHOR' ]            =    User::id();
+        return $post;
+    }
 
     public function lists($page = 'index', $id = null)
     {

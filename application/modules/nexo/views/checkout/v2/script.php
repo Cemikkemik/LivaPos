@@ -450,7 +450,7 @@ var v2Checkout					=	new function(){
 			} else if( v2Checkout.CartRemiseType == 'flat' && parseInt( $( '[name="discount_value"]' ).val() ) > v2Checkout.CartValue ) {
 				// flat discount cannot exceed cart value
 				$( this ).val( v2Checkout.CartValue );
-				NexoAPI.Notify().info( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'La remise fixe ne peut pas excéder la valeur actuelle du panier. Le montant de la remise à été réduite à la valeur du panier.', 'nexo' );?>' );
+				NexoAPI.Notify().info( '<?php echo _s('Attention', 'nexo');?>', '<?php echo _s('La remise fixe ne peut pas excéder la valeur actuelle du panier. Le montant de la remise à été réduite à la valeur du panier.', 'nexo');?>' );
 			}
 		});
 
@@ -796,7 +796,7 @@ var v2Checkout					=	new function(){
 						NexoAPI.Notify().success( '<?php echo _s('Effectué', 'nexo');?>', '<?php echo _s('La commande a été enregistrée.', 'nexo');?>' );
 						<?php endif;?>
 
-						<?php if( @$Options[ 'nexo_enable_smsinvoice' ] == 'yes' ):?>
+						<?php if (@$Options[ 'nexo_enable_smsinvoice' ] == 'yes'):?>
  						/**
 						 * Send SMS
 						**/
@@ -818,7 +818,7 @@ var v2Checkout					=	new function(){
 				// If order is not more editable
 				if( returned.order_type != 'nexo_order_devis' ) {
 					v2Checkout.resetCart();
-					document.location	=	'<?php echo site_url( array( 'dashboard', 'nexo', 'commandes', 'lists' ) );?>';
+					document.location	=	'<?php echo site_url(array( 'dashboard', 'nexo', 'commandes', 'lists' ));?>';
 				}
 				<?php endif;?>
 			}
@@ -1555,7 +1555,7 @@ var v2Checkout					=	new function(){
    			'</div>' +
   		'</div>' +
 		'<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">' +
-			'<h3 class="text-center"><?php echo _s( 'Détails du panier', 'nexo' );?></h3>' +
+			'<h3 class="text-center"><?php echo _s('Détails du panier', 'nexo');?></h3>' +
 			'<div class="checkout-cart-details-wrapper">' +
 			'</div>' +
 		'</div>' +
@@ -1620,7 +1620,7 @@ var v2Checkout					=	new function(){
 		 * Cash Payment
 		**/
 
-		var cash_dom		=	'<h3 class="text-center" style="margin-top:5px;"><?php echo _s( 'Paiement Comptant : ', 'nexo' );?>' + NexoAPI.DisplayMoney( v2Checkout.CartToPay ) + '</h3>' +
+		var cash_dom		=	'<h3 class="text-center" style="margin-top:5px;"><?php echo _s('Paiement Comptant : ', 'nexo');?>' + NexoAPI.DisplayMoney( v2Checkout.CartToPay ) + '</h3>' +
 		'<div class="input-group input-group-lg"> <span class="input-group-addon" id="sizing-addon1"><?php echo _s('Somme perçu', 'nexo');?></span> <input type="number" class="form-control" placeholder="<?php echo _s('Veuillez spécifier la somme perçue...', 'nexo');?>" aria-describedby="sizing-addon1" name="perceived_sum"> </div>' +
 
 		'<br><table class="table table-bordered table-striped">' +
@@ -1653,7 +1653,7 @@ var v2Checkout					=	new function(){
 		 * Bank Transfer
 		**/
 
-		var bank_dom		=	'<h3 class="text-center" style="margin-top:5px;"><?php echo _s( 'Transfert Bancaire : ', 'nexo' );?>' + NexoAPI.DisplayMoney( v2Checkout.CartToPay ) + '</h3>' +
+		var bank_dom		=	'<h3 class="text-center" style="margin-top:5px;"><?php echo _s('Transfert Bancaire : ', 'nexo');?>' + NexoAPI.DisplayMoney( v2Checkout.CartToPay ) + '</h3>' +
 		'<?php echo addslashes(tendoo_info(__('Un paiement par transfert bancaire paie entièrement la commande. Assurez-vous que transfert banciare est émis pour le compte de votre point de vente à l\'occassion de la présente vente.', 'nexo')));?>';
 
 		$( '.content-for-bank' ).append( bank_dom );
@@ -1662,7 +1662,7 @@ var v2Checkout					=	new function(){
 		 * Stripe
 		**/
 
-		var stripe_dom		=	'<h3 class="text-center" style="margin-top:5px;"><?php echo _s( 'Paiement par Stripe : ', 'nexo' );?>' + NexoAPI.DisplayMoney( v2Checkout.CartToPay ) + '</h3>' +
+		var stripe_dom		=	'<h3 class="text-center" style="margin-top:5px;"><?php echo _s('Paiement par Stripe : ', 'nexo');?>' + NexoAPI.DisplayMoney( v2Checkout.CartToPay ) + '</h3>' +
 		'<?php echo addslashes(tendoo_info(__('Activer le paiement avec Stripe. Le paiement sera intégrale. La carte de crédit sera facturée. Si l\'opération de paiement réussie, la commande sera validée et enregistrée.', 'nexo')));?>' +
 
 		<?php if ($this->config->item('nexo_test_mode')):?>

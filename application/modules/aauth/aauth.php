@@ -25,11 +25,11 @@ class auth_module_class extends CI_model
         // Tendoo Setup	
     }
     
-	public function user_avatar_src()
-	{
-		return User::get_gravatar_url();
-	}
-	
+    public function user_avatar_src()
+    {
+        return User::get_gravatar_url();
+    }
+    
     public function user_id()
     {
         global $CurrentScreen;

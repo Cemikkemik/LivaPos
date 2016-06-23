@@ -183,8 +183,8 @@ class Nexo extends REST_Controller
         ->set('TEL',    $this->post('tel'))
         ->set('PRENOM',    $this->post('prenom'))
         ->set('REF_GROUP', $this->post('ref_group'))
-		->set( 'AUTHOR', $this->post( 'author' ))
-		->set( 'DATE_CREATION', $this->post( 'date_creation' ))
+        ->set('AUTHOR', $this->post('author'))
+        ->set('DATE_CREATION', $this->post('date_creation'))
         ->insert('nexo_clients');
 
         if ($request) {
@@ -239,9 +239,9 @@ class Nexo extends REST_Controller
 
     public function feed_get()
     {
-        $this->load->config( 'nexo' );
+        $this->load->config('nexo');
         // Set max execution Time
-        set_time_limit( $this->config->item( 'feed_execution_time ' ) );
+        set_time_limit($this->config->item('feed_execution_time '));
 
         // Fetch from cache
         $this->cache        =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_' ));
@@ -265,9 +265,9 @@ class Nexo extends REST_Controller
 
     public function news_feed_get()
     {
-        $this->load->config( 'nexo' );
+        $this->load->config('nexo');
         // Set max execution Time
-        set_time_limit( $this->config->item( 'feed_execution_time ' ) );
+        set_time_limit($this->config->item('feed_execution_time '));
 
         $this->cache        =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_' ));
 

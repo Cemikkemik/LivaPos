@@ -366,8 +366,7 @@ class Dashboard extends Tendoo_Controller
             // @since 3.0.5
             echo json_encode($this->options->get(xss_clean($_POST[ 'option_key' ])));
         } elseif (in_array($mode, array( 'save_user_meta', 'merge_user_meta' ))) {
-            
-			if (! User::can('edit_profile')) {
+            if (! User::can('edit_profile')) {
                 redirect(array( 'dashboard', 'access-denied' ));
             }
             

@@ -77,7 +77,7 @@ class Nexo_Commandes extends CI_Model
         $crud->change_field_type('AUTHOR', 'invisible');
         $crud->change_field_type('DISCOUNT_TYPE', 'invisible');
         $crud->change_field_type('TVA', 'invisible');
-		
+        
         
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));

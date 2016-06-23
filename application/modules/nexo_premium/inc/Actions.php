@@ -80,10 +80,10 @@ class Nexo_Premium_Actions extends CI_Model
         
         $Nexo_Config        =    $this->config->item('nexo_premium');
         $this->Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_dashboard_card_'));
-		$startOfDay			=	Carbon::parse( date_now() )->startOfDay();
-		$endOfDay			=	Carbon::parse( date_now() )->endOfDay();
-		$startOfYesterday	=	Carbon::parse( date_now() )->subDay(1)->startOfDay();
-		$endOfYesterday		=	Carbon::parse( date_now() )->subDay(1)->endOfDay();
+        $startOfDay            =    Carbon::parse(date_now())->startOfDay();
+        $endOfDay            =    Carbon::parse(date_now())->endOfDay();
+        $startOfYesterday    =    Carbon::parse(date_now())->subDay(1)->startOfDay();
+        $endOfYesterday        =    Carbon::parse(date_now())->subDay(1)->endOfDay();
         
         global $Options;
 
@@ -91,94 +91,93 @@ class Nexo_Premium_Actions extends CI_Model
         if (! $this->Cache->get('sales_number')) {
             
             // Count Sale Number
-            $Sales_Number   	=    ($Orders    =    $this->Nexo_Checkout->get_order()) == false ? 0 : count($Orders);
-			$SalesToday			=	0;
-			$SalesYesterDay		=	0;
-			
-			if( is_array( $Orders ) ) {
-				foreach ($Orders as $sale) {
-					if( $startOfDay->lte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) && $endOfDay->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
-						$SalesToday++;
-					}
-					// Sales Yesterday
-					if( $startOfYesterday->lte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) && $endOfYesterday->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
-						$SalesYesterDay++;
-					}
-				}			
-			}
-			
+            $Sales_Number    =    ($Orders    =    $this->Nexo_Checkout->get_order()) == false ? 0 : count($Orders);
+            $SalesToday            =    0;
+            $SalesYesterDay        =    0;
+            
+            if (is_array($Orders)) {
+                foreach ($Orders as $sale) {
+                    if ($startOfDay->lte(Carbon::parse($sale[ 'DATE_CREATION' ])) && $endOfDay->gte(Carbon::parse($sale[ 'DATE_CREATION' ]))) {
+                        $SalesToday++;
+                    }
+                    // Sales Yesterday
+                    if ($startOfYesterday->lte(Carbon::parse($sale[ 'DATE_CREATION' ])) && $endOfYesterday->gte(Carbon::parse($sale[ 'DATE_CREATION' ]))) {
+                        $SalesYesterDay++;
+                    }
+                }
+            }
+            
             $this->Cache->save('sales_number', $Sales_Number, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
-			$this->Cache->save('sales_number_today', $SalesToday, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
-			$this->Cache->save('sales_number_yesterday', $SalesYesterDay, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
+            $this->Cache->save('sales_number_today', $SalesToday, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
+            $this->Cache->save('sales_number_yesterday', $SalesYesterDay, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
         }
         
         if (! $this->Cache->get('net_sales')) {
                     
             // Count Sale Number
-            $Sales                	=   $this->Nexo_Checkout->get_order();
-            $net_sales            	=   0;
-			$net_sales_today	 	= 	0;
-			$net_sales_yesterday	=	0;
-			$CA						=	0;
+            $Sales                    =   $this->Nexo_Checkout->get_order();
+            $net_sales                =   0;
+            $net_sales_today        =    0;
+            $net_sales_yesterday    =    0;
+            $CA                        =    0;
 
             if ($Sales) {
                 foreach ($Sales as $sale) {
-					// Default value
-					$CA						=	0;
+                    // Default value
+                    $CA                        =    0;
                     // Uniquement les commandes comptant et avance	
                     if ($sale[ 'TYPE' ] == 'nexo_order_comptant') {
                         $CA                =    intval($sale[ 'TOTAL' ]) - (intval($sale[ 'RISTOURNE' ]) + intval($sale[ 'RABAIS' ]) + intval($sale[ 'REMISE' ]));
                     } elseif ($sale[ 'TYPE' ] == 'nexo_order_advance') {
                         $CA               =    intval($sale[ 'SOMME_PERCU' ]) - (intval($sale[ 'RISTOURNE' ]) + intval($sale[ 'RABAIS' ]) + intval($sale[ 'REMISE' ]));
                     }
-					
-                    $net_sales    			+=	$CA;
-					// Sale Today
-					if( $startOfDay->lte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) && $endOfDay->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
-						$net_sales_today	+=	$CA;
-					}
-					// Sales Yesterday
-					if( $startOfYesterday->lte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) && $endOfYesterday->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
-						$net_sales_yesterday+=	$CA;
-					}
+                    
+                    $net_sales                +=    $CA;
+                    // Sale Today
+                    if ($startOfDay->lte(Carbon::parse($sale[ 'DATE_CREATION' ])) && $endOfDay->gte(Carbon::parse($sale[ 'DATE_CREATION' ]))) {
+                        $net_sales_today    +=    $CA;
+                    }
+                    // Sales Yesterday
+                    if ($startOfYesterday->lte(Carbon::parse($sale[ 'DATE_CREATION' ])) && $endOfYesterday->gte(Carbon::parse($sale[ 'DATE_CREATION' ]))) {
+                        $net_sales_yesterday+=    $CA;
+                    }
                 }
             }
             
             $this->Cache->save('net_sales', $net_sales, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
-			$this->Cache->save( 'net_sales_today', $net_sales_today, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
-			$this->Cache->save( 'net_sales_yesterday', $net_sales_yesterday, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
+            $this->Cache->save('net_sales_today', $net_sales_today, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
+            $this->Cache->save('net_sales_yesterday', $net_sales_yesterday, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
         }
         
         if (! $this->Cache->get('customers_number')) {
             $Customers            =    $this->Nexo_Misc->get_customers();
-			$CustomersToday			=	0;
-			$CustomersYesterday		=	0;
-			
-			if( is_array( $Customers ) ) {
-				foreach( $Customers as $Customer ) {
-					// Sale Today
-					if( $startOfDay->lte( Carbon::parse( $Customer[ 'DATE_CREATION' ] ) ) && $endOfDay->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
-						$CustomersToday++;
-					}
-					// Sales Yesterday
-					if( $startOfYesterday->lte( Carbon::parse( $Customer[ 'DATE_CREATION' ] ) ) && $endOfYesterday->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
-						$CustomersYesterday++;
-					}
-				}
-			
-			}
-			
-			$this->Cache->save('customers_number', is_array($Customers) ? count($Customers) : 0, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
-			$this->Cache->save('customers_number_today', $CustomersToday, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
-			$this->Cache->save('customers_number_yesterday', $CustomersYesterday, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
+            $CustomersToday            =    0;
+            $CustomersYesterday        =    0;
+            
+            if (is_array($Customers)) {
+                foreach ($Customers as $Customer) {
+                    // Sale Today
+                    if ($startOfDay->lte(Carbon::parse($Customer[ 'DATE_CREATION' ])) && $endOfDay->gte(Carbon::parse($sale[ 'DATE_CREATION' ]))) {
+                        $CustomersToday++;
+                    }
+                    // Sales Yesterday
+                    if ($startOfYesterday->lte(Carbon::parse($Customer[ 'DATE_CREATION' ])) && $endOfYesterday->gte(Carbon::parse($sale[ 'DATE_CREATION' ]))) {
+                        $CustomersYesterday++;
+                    }
+                }
+            }
+            
+            $this->Cache->save('customers_number', is_array($Customers) ? count($Customers) : 0, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
+            $this->Cache->save('customers_number_today', $CustomersToday, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
+            $this->Cache->save('customers_number_yesterday', $CustomersYesterday, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
         }
         
         if (! $this->Cache->get('creances')) {
-            $creances            	=    0;
-            $Sales                	=    $this->Nexo_Checkout->get_order();
-			$creancesToday			=	0;
-			$creancesYesteday		=	0;
-			$CA						=	0;
+            $creances                =    0;
+            $Sales                    =    $this->Nexo_Checkout->get_order();
+            $creancesToday            =    0;
+            $creancesYesteday        =    0;
+            $CA                        =    0;
             
             if ($Sales) {
                 foreach ($Sales as $sale) {
@@ -188,24 +187,23 @@ class Nexo_Premium_Actions extends CI_Model
                     }
                     if (in_array($sale[ 'TYPE' ], array( 'nexo_order_advance' ))) {
                         $CA            =    (intval($sale[ 'TOTAL' ]) - (intval($sale[ 'RISTOURNE' ]) + intval($sale[ 'RABAIS' ]) + intval($sale[ 'REMISE' ]))) - intval(intval($sale[ 'SOMME_PERCU' ]));
-                       
                     }
-					
-					$creances    			+=	$CA;
-					// Sale Today
-					if( $startOfDay->lte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) && $endOfDay->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
-						$creancesToday		+=	$CA;
-					}
-					// Sales Yesterday
-					if( $startOfYesterday->lte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) && $endOfYesterday->gte( Carbon::parse( $sale[ 'DATE_CREATION' ] ) ) ) {
-						$creancesYesteday	+=	$CA;
-					}
+                    
+                    $creances                +=    $CA;
+                    // Sale Today
+                    if ($startOfDay->lte(Carbon::parse($sale[ 'DATE_CREATION' ])) && $endOfDay->gte(Carbon::parse($sale[ 'DATE_CREATION' ]))) {
+                        $creancesToday        +=    $CA;
+                    }
+                    // Sales Yesterday
+                    if ($startOfYesterday->lte(Carbon::parse($sale[ 'DATE_CREATION' ])) && $endOfYesterday->gte(Carbon::parse($sale[ 'DATE_CREATION' ]))) {
+                        $creancesYesteday    +=    $CA;
+                    }
                 }
             }
             
             $this->Cache->save('creances', $creances, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
-			$this->Cache->save('creances_today', $creancesToday, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
-			$this->Cache->save('creances_yesterday', $creancesYesteday, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
+            $this->Cache->save('creances_today', $creancesToday, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
+            $this->Cache->save('creances_yesterday', $creancesYesteday, @$Nexo_Config[ 'dashboard_card_lifetime' ]);
         }
             
         $before        =    $this->load->view('../modules/nexo_premium/views/dashboard-content', array(

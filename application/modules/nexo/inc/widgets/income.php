@@ -1,11 +1,12 @@
 <?php
 use Carbon\Carbon;
+
 ?>
 <div class="box box-solid" data-meta-namespace="nexo_sales_income">
 <div class="box-header ui-sortable-handle" style="cursor: move;">
   <i class="fa fa-money"></i>
 
-  <h3 class="box-title"><?php _e( 'Chiffre d\'affaire', 'nexo' );?></h3>
+  <h3 class="box-title"><?php _e('Chiffre d\'affaire', 'nexo');?></h3>
 
   <div class="box-tools pull-right">
     <button type="button" class="btn bg-blue btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -21,8 +22,8 @@ use Carbon\Carbon;
 <script>
 var ctx = document.getElementById("income_canvas");
 <?php
-$startOfWeek	=	Carbon::parse( date_now() )->startOfWeek()->subDay();
-$endOfWeek		=	Carbon::parse( date_now() )->endOfWeek()->subDay();
+$startOfWeek    =    Carbon::parse(date_now())->startOfWeek()->subDay();
+$endOfWeek        =    Carbon::parse(date_now())->endOfWeek()->subDay();
 ?>
 var startOfWeek	=	'<?php echo $startOfWeek->toDateString();?>';
 var endOfWeek	=	'<?php echo $endOfWeek->toDateString();?>';
@@ -33,9 +34,9 @@ Chart.defaults.global.defaultFontSize	=	15;
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: [ "<?php echo _s( 'Dimanche', 'nexo' );?>", "<?php echo _s( 'Lundi', 'nexo' );?>", "<?php echo _s( 'Mardi', 'nexo' );?>", "<?php echo _s( 'Mercredi', 'nexo' );?>", "<?php echo _s( 'Jeudi', 'nexo' );?>", "<?php echo _s( 'Vendredi', 'nexo' );?>", "<?php echo _s( 'Samedi', 'nexo' );?>"],
+        labels: [ "<?php echo _s('Dimanche', 'nexo');?>", "<?php echo _s('Lundi', 'nexo');?>", "<?php echo _s('Mardi', 'nexo');?>", "<?php echo _s('Mercredi', 'nexo');?>", "<?php echo _s('Jeudi', 'nexo');?>", "<?php echo _s('Vendredi', 'nexo');?>", "<?php echo _s('Samedi', 'nexo');?>"],
         datasets: [{
-            label: '<?php echo _s( 'Chiffre d\'affaire', 'nexo' );?>',
+            label: '<?php echo _s('Chiffre d\'affaire', 'nexo');?>',
             data: [0, 0, 0, 0, 0, 0, 0],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.8)',
@@ -61,7 +62,7 @@ var myChart = new Chart(ctx, {
     options: {
 		title: {
             display: true,
-            text: '<?php echo sprintf( _s( 'Ventes réalisées du %s au %s', 'nexo' ), $startOfWeek->toDateString(), $endOfWeek->toDateString() );?>'
+            text: '<?php echo sprintf(_s('Ventes réalisées du %s au %s', 'nexo'), $startOfWeek->toDateString(), $endOfWeek->toDateString());?>'
         },
         scales: {
             yAxes: [{
@@ -87,7 +88,7 @@ var NexoIncomeWidget	=	new function(){
 	this.load			=	function( action ) {
 		var get_params	=	action == 'refresh' ? '?refresh=true' : '';
 		var post_data	=	_.object( [ 'start', 'end' ], [ startOfWeek, endOfWeek ] );
-		$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'widget_income' ) );?>' + get_params, {
+		$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'widget_income' ));?>' + get_params, {
 			type		:	'POST',
 			data		:	post_data,
 			success		: 	function( data ){				

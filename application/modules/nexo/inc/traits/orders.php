@@ -105,14 +105,14 @@ trait Nexo_orders
         
         $this->db->insert('nexo_commandes', $order_details);
         
-        $current_order	=    $this->db->where('CODE', $order_details[ 'CODE' ])
-							->get('nexo_commandes')
-							->result_array();
+        $current_order    =    $this->db->where('CODE', $order_details[ 'CODE' ])
+                            ->get('nexo_commandes')
+                            ->result_array();
         
         $this->response(array(
             'order_id'        =>    $current_order[0][ 'ID' ],
             'order_type'    =>    $order_details[ 'TYPE' ],
-			'order_code'	=>	$current_order[0][ 'CODE' ]
+            'order_code'    =>    $current_order[0][ 'CODE' ]
         ), 200);
     }
     
@@ -129,15 +129,15 @@ trait Nexo_orders
         $this->load->model('Options');
         // Get old order details with his items	
         $old_order                =    $this->Nexo_Checkout->get_order_products($order_id, true);
-		
-		$current_order	=    $this->db->where('ID', $order_id)
-							->get('nexo_commandes')
-							->result_array();
+        
+        $current_order    =    $this->db->where('ID', $order_id)
+                            ->get('nexo_commandes')
+                            ->result_array();
 
-		// Only incomplete order can be edited
-		if( $current_order[0][ 'TYPE' ] != 'nexo_order_devis' ) {
-			$this->__failed();
-		}
+        // Only incomplete order can be edited
+        if ($current_order[0][ 'TYPE' ] != 'nexo_order_devis') {
+            $this->__failed();
+        }
         
         $order_details            =    array();
         
@@ -219,7 +219,7 @@ trait Nexo_orders
         
         // Delete item from order
         $this->db->where('REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ])->delete('nexo_commandes_produits');
-		
+        
         // Save Order items		
         /**
          * Item structure
@@ -227,10 +227,10 @@ trait Nexo_orders
         **/
         
         foreach ($this->put('ITEMS') as $item) {
-			
-			// Get Items 
-			$fresh_items	=	$this->db->where( 'CODEBAR', $item[2] )->get( 'nexo_articles' )->result_array();
-			
+            
+            // Get Items 
+            $fresh_items    =    $this->db->where('CODEBAR', $item[2])->get('nexo_articles')->result_array();
+            
             $this->db->where('CODEBAR', $item[2])->update('nexo_articles', array(
                 'QUANTITE_RESTANTE'        =>    intval($fresh_items[0][ 'QUANTITE_RESTANTE' ]) - intval($item[1]),
                 'QUANTITE_VENDU'        =>    intval($fresh_items[0][ 'QUANTITE_VENDU' ]) + intval($item[1])
@@ -247,32 +247,32 @@ trait Nexo_orders
         }
         
         $this->db->where('ID', $order_id)->update('nexo_commandes', $order_details);
-		
-		$this->response(array(
+        
+        $this->response(array(
             'order_id'        =>    $order_id,
             'order_type'    =>    $order_details[ 'TYPE' ],
-			'order_code'	=>	$current_order[0][ 'CODE' ]
+            'order_code'    =>    $current_order[0][ 'CODE' ]
         ), 200);
     }
-	
-	/**
-	 * Get order using dates
-	 *
-	 * @params string datetime
-	 * @params string datetime
-	 * @return json
-	**/
-	
-	public function order_by_dates_post( $order_type = 'all' )
-	{
-		$this->db->where( 'DATE_CREATION >=', $this->post( 'start' ) );
-		$this->db->where( 'DATE_CREATION <=', $this->post( 'end' ) );
-		
-		if( $order_type != 'all' ) {
-			$this->db->where( 'TYPE', $order_type );
-		}
-		
+    
+    /**
+     * Get order using dates
+     *
+     * @params string datetime
+     * @params string datetime
+     * @return json
+    **/
+    
+    public function order_by_dates_post($order_type = 'all')
+    {
+        $this->db->where('DATE_CREATION >=', $this->post('start'));
+        $this->db->where('DATE_CREATION <=', $this->post('end'));
+        
+        if ($order_type != 'all') {
+            $this->db->where('TYPE', $order_type);
+        }
+        
         $query    =    $this->db->get('nexo_commandes');
         $this->response($query->result(), 200);
-	}
+    }
 }

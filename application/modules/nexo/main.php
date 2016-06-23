@@ -39,9 +39,9 @@ class Nexo extends CI_Model
         if (! is_dir('public/upload/codebar')) {
             mkdir('public/upload/codebar');
         }
-		
-		// For Customer avatar @since 2.6.1
-		if (! is_dir('public/upload/customers')) {
+        
+        // For Customer avatar @since 2.6.1
+        if (! is_dir('public/upload/customers')) {
             mkdir('public/upload/customers');
         }
         
@@ -72,7 +72,7 @@ class Nexo extends CI_Model
     public function after_app_init()
     {
         $this->lang->load_lines(dirname(__FILE__) . '/language/nexo_lang.php');
-		
+        
         $this->load->config('nexo');
     }
     
@@ -84,7 +84,7 @@ class Nexo extends CI_Model
     
     public function footer()
     {
-		?>
+        ?>
 
         <style type="text/css">
 		.ar-up {
@@ -164,7 +164,7 @@ class Nexo extends CI_Model
     
     public function header()
     {
-		global $Options;
+        global $Options;
         /** 
          * <script type="text/javascript" src="<?php echo js_url( 'nexo' ) . 'jsapi.js';?>"></script>
         **/
@@ -186,12 +186,15 @@ class Nexo extends CI_Model
         <!-- Bootstrap Switch -->
         <script src="<?php echo module_url('nexo') . '/bower_components/bootstrap-toggle/js/bootstrap2-toggle.min.js';
         ?>"></script>
-        <link rel="stylesheet" href="<?php echo module_url('nexo') . '/bower_components/bootstrap-toggle/css/bootstrap2-toggle.min.css';?>">
+        <link rel="stylesheet" href="<?php echo module_url('nexo') . '/bower_components/bootstrap-toggle/css/bootstrap2-toggle.min.css';
+        ?>">
         
         
         <!-- Include PIE CHARTS -->
-        <link rel="stylesheet" href="<?php echo css_url('nexo') . '/piecharts/piecharts.css';?>">
-        <script type="text/javascript" src="<?php echo js_url('nexo') . 'piecharts/piecharts.js';?>"></script>
+        <link rel="stylesheet" href="<?php echo css_url('nexo') . '/piecharts/piecharts.css';
+        ?>">
+        <script type="text/javascript" src="<?php echo js_url('nexo') . 'piecharts/piecharts.js';
+        ?>"></script>
         
         <script type="text/javascript">
 		
@@ -377,16 +380,18 @@ class Nexo extends CI_Model
 			
 
 			
-		var NexoSound		=	'<?php echo asset_url('/modules/nexo/sound/sound-');?>';
+		var NexoSound		=	'<?php echo asset_url('/modules/nexo/sound/sound-');
+        ?>';
 		
 		$( document ).ready(function(e) {
 			// @since 2.6.1
 		
 			NexoAPI.Bootbox	=	function(){
-				<?php if( in_array( 'bootbox', $this->config->item( 'nexo_sound_fx' ) ) ):?>
+				<?php if (in_array('bootbox', $this->config->item('nexo_sound_fx'))):?>
 				NexoAPI.Sound(2);
 				return bootbox;
-				<?php endif;?>
+				<?php endif;
+        ?>
 			}
 			
 			NexoAPI.Notify	=	function(){
@@ -395,7 +400,8 @@ class Nexo extends CI_Model
 			}
 			
 			NexoAPI.Sound	=	function( sound_index ){
-				var SoundEnabled				=	'<?php echo @$Options[ 'nexo_soundfx' ];?>';
+				var SoundEnabled				=	'<?php echo @$Options[ 'nexo_soundfx' ];
+        ?>';
 				if( ( SoundEnabled.length != 0 || SoundEnabled == 'enable' ) && SoundEnabled != 'disable' ) {
 					var music = new buzz.sound( NexoSound + sound_index , {
 						formats: [ "mp3" ]
@@ -498,41 +504,41 @@ class Nexo extends CI_Model
             'position'                => 3,
             'content'                =>    $this->load->view('../modules/nexo/inc/widgets/guides.php', array(), true)
         ));
-		**/
-		
-		$this->dashboard_widgets->add( 'nexo_sales_new', array(
-			'title'					=>	__( 'Meilleurs articles', 'nexo' ),
-			'type'					=>	'unwrapped',
-			'hide_body_wrapper'		=>	true,
-			'position'				=> 	1,
-			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/sales-new', array(), true )
-		) );
-		
-		$this->dashboard_widgets->add( 'nexo_profile', array(
-			'title'					=>	__( 'Profil', 'nexo' ),
-			'type'					=>	'unwrapped',
-			'hide_body_wrapper'		=>	true,
-			'position'				=> 	1,
-			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/profile', array(), true )
-		) );
-		
-		$this->dashboard_widgets->add( 'nexo_sales_income', array(
-			'title'					=>	__( 'Chiffre d\'affaire', 'nexo' ),
-			'type'					=>	'unwrapped',
-			'hide_body_wrapper'		=>	true,
-			'position'				=> 	2,
-			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/income', array(), true )
-		) );
-		
-		$this->dashboard_widgets->add( 'nexo_sales_types', array(
-			'title'					=>	__( 'Types de commades', 'nexo' ),
-			'type'					=>	'unwrapped',
-			'hide_body_wrapper'		=>	true,
-			'position'				=> 	3,
-			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/sales_types', array(), true )
-		) );
-		
-		$this->dashboard_widgets->add('nexo_tutorials', array(
+        **/
+        
+        $this->dashboard_widgets->add('nexo_sales_new', array(
+            'title'                    =>    __('Meilleurs articles', 'nexo'),
+            'type'                    =>    'unwrapped',
+            'hide_body_wrapper'        =>    true,
+            'position'                =>    1,
+            'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sales-new', array(), true)
+        ));
+        
+        $this->dashboard_widgets->add('nexo_profile', array(
+            'title'                    =>    __('Profil', 'nexo'),
+            'type'                    =>    'unwrapped',
+            'hide_body_wrapper'        =>    true,
+            'position'                =>    1,
+            'content'                =>    $this->load->view('../modules/nexo/inc/widgets/profile', array(), true)
+        ));
+        
+        $this->dashboard_widgets->add('nexo_sales_income', array(
+            'title'                    =>    __('Chiffre d\'affaire', 'nexo'),
+            'type'                    =>    'unwrapped',
+            'hide_body_wrapper'        =>    true,
+            'position'                =>    2,
+            'content'                =>    $this->load->view('../modules/nexo/inc/widgets/income', array(), true)
+        ));
+        
+        $this->dashboard_widgets->add('nexo_sales_types', array(
+            'title'                    =>    __('Types de commades', 'nexo'),
+            'type'                    =>    'unwrapped',
+            'hide_body_wrapper'        =>    true,
+            'position'                =>    3,
+            'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sales_types', array(), true)
+        ));
+        
+        $this->dashboard_widgets->add('nexo_tutorials', array(
             'title'                    => __('Tutoriels NexoPOS', 'nexo'),
             'type'                    => 'box-primary',
             'hide_body_wrapper'        =>    true,

@@ -43,7 +43,7 @@ $config[ 'nexo_payment_types' ]    =    array(
     'cash'            =>    get_instance()->lang->line('cash'),
     // 'cheque'		=>	get_instance()->lang->line( 'cheque' ),
     'bank'            =>    get_instance()->lang->line('bank_transfert'),
-    'stripe'        =>    get_instance()->lang->line( 'stripe')
+    'stripe'        =>    get_instance()->lang->line('stripe')
 );
 
 /**
@@ -69,19 +69,19 @@ $config[ 'nexo_test_mode' ]            =    true;
  * Enable fx for 'success', 'info', 'warning', 'bootbox'
 **/
 
-$config[ 'nexo_sound_fx' ]		=	array( 'success', 'info', 'warning', 'bootbox' );
+$config[ 'nexo_sound_fx' ]        =    array( 'success', 'info', 'warning', 'bootbox' );
 
 /**
  * Items Cache duration
 **/
 
-$config[ 'nexo_items_cache_lifetime' ]		=	10800; // 3 hours
+$config[ 'nexo_items_cache_lifetime' ]        =    10800; // 3 hours
 
 /**
  * Widget Cache
 **/
 
-$config[ 'nexo_widget_cache_lifetime' ]		=	10800;
+$config[ 'nexo_widget_cache_lifetime' ]        =    10800;
 
 /**
  * Feed Max execution time
@@ -93,4 +93,4 @@ $config[ 'feed_execution_time' ]  = 20; // seconds
  * Dashboard Profile widget cashe lifetime
 **/
 
-$config[ 'profile_widget_cashier_sales_lifetime' ]	=	86400; // one day
+$config[ 'profile_widget_cashier_sales_lifetime' ]    =    86400; // one day

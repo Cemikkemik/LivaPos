@@ -43,11 +43,11 @@ class Users_model extends CI_Model
     
     public function get_meta($key = null)
     {
-		if( $key != null ) {
-        	return riake($key, $this->meta);
-		} else {
-			return $this->meta;
-		}
+        if ($key != null) {
+            return riake($key, $this->meta);
+        } else {
+            return $this->meta;
+        }
     }
     
     /**

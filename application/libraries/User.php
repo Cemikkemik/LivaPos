@@ -144,29 +144,29 @@ class User
     {
         return get_instance()->auth->is_member($group_name);
     }
-	
-	/** 
-	 * Get user avatar SRC
-	 * @return string
-	**/
-	
-	public static function get_gravatar_url()
+    
+    /** 
+     * Get user avatar SRC
+     * @return string
+    **/
+    
+    public static function get_gravatar_url()
     {
         $current_user    =    self::get();
         return self::get_gravatar($current_user->email, 90);
     }
-	
-	/**
-	 * Get use avatar
-	 * @params string email
-	 * @params int width
-	 * @params string
-	 * @params string
-	 * @params bool
-	 * @params array atts
-	 * @return string avatar src/image tag
-	**/
-	
+    
+    /**
+     * Get use avatar
+     * @params string email
+     * @params int width
+     * @params string
+     * @params string
+     * @params bool
+     * @params array atts
+     * @return string avatar src/image tag
+    **/
+    
     public static function get_gravatar($email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array())
     {
         $url = 'http://www.gravatar.com/avatar/';

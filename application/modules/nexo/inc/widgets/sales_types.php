@@ -1,10 +1,11 @@
 <?php
 use Carbon\Carbon;
+
 ?>
 <div class="box box-solid" data-meta-namespace="nexo_sales_types">
     <div class="box-header ui-sortable-handle" style="cursor: move;"> <i class="fa fa-money"></i>
         <h3 class="box-title">
-            <?php _e( 'Variétés des achats', 'nexo' );?>
+            <?php _e('Variétés des achats', 'nexo');?>
         </h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn bg-purple-active btn-sm" data-widget="collapse"><i class="fa fa-minus"></i> </button>
@@ -19,8 +20,8 @@ use Carbon\Carbon;
 <script>
 var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 <?php
-$startOfWeek	=	Carbon::parse( date_now() )->startOfWeek()->subDay();
-$endOfWeek		=	Carbon::parse( date_now() )->endOfWeek()->subDay();
+$startOfWeek    =    Carbon::parse(date_now())->startOfWeek()->subDay();
+$endOfWeek        =    Carbon::parse(date_now())->endOfWeek()->subDay();
 ?>
 var startOfWeek	=	'<?php echo $startOfWeek->toDateString();?>';
 var endOfWeek	=	'<?php echo $endOfWeek->toDateString();?>';
@@ -65,13 +66,13 @@ var NexoSalesLines;
 var config = {
 	type: 'line',
 	data: {
-        labels: [ "<?php echo _s( 'Dimanche', 'nexo' );?>", "<?php echo _s( 'Lundi', 'nexo' );?>", "<?php echo _s( 'Mardi', 'nexo' );?>", "<?php echo _s( 'Mercredi', 'nexo' );?>", "<?php echo _s( 'Jeudi', 'nexo' );?>", "<?php echo _s( 'Vendredi', 'nexo' );?>", "<?php echo _s( 'Samedi', 'nexo' );?>"],
+        labels: [ "<?php echo _s('Dimanche', 'nexo');?>", "<?php echo _s('Lundi', 'nexo');?>", "<?php echo _s('Mardi', 'nexo');?>", "<?php echo _s('Mercredi', 'nexo');?>", "<?php echo _s('Jeudi', 'nexo');?>", "<?php echo _s('Vendredi', 'nexo');?>", "<?php echo _s('Samedi', 'nexo');?>"],
 		datasets: []
 	},
 	options: {
 		title: {
             display: true,
-            text: '<?php echo sprintf( _s( 'Ventes réalisées du %s au %s', 'nexo' ), $startOfWeek->toDateString(), $endOfWeek->toDateString() );?>'
+            text: '<?php echo sprintf(_s('Ventes réalisées du %s au %s', 'nexo'), $startOfWeek->toDateString(), $endOfWeek->toDateString());?>'
         },
 		responsive: true,
 		tooltips: {
@@ -126,7 +127,7 @@ var NexoSalesStats	=	new function(){
 	this.load		=	function( action ){
 		var get_params	=	action == 'refresh' ? '?refresh=true' : '';
 		var post_data	=	_.object( [ 'start', 'end' ], [ startOfWeek, endOfWeek ] );
-		var order_types	=	$.parseJSON( '<?php echo json_encode( $this->config->item( 'nexo_order_types' ) );?>' );
+		var order_types	=	$.parseJSON( '<?php echo json_encode($this->config->item('nexo_order_types'));?>' );
 		var colors		=	{
 			nexo_order_comptant	:	{
 				borderColor			:	'rgb(70, 195, 208)',
@@ -142,7 +143,7 @@ var NexoSalesStats	=	new function(){
 			}
 		}
 
-		$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'widget_sales_stats' ) );?>' + get_params, {
+		$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'widget_sales_stats' ));?>' + get_params, {
 			type	:	'POST',
 			data	:	post_data,
 			success	:	function( data ) {

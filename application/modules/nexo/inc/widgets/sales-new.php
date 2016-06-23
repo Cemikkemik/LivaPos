@@ -1,14 +1,14 @@
 <?php
 use Carbon\Carbon;
 
-$Cache		=	new CI_Cache( array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_') );
-$this->load->config( 'nexo' );
+$Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_'));
+$this->load->config('nexo');
 ?>
-<!-- bg-<?php echo $this->users->get_meta( 'theme-skin' ) ? str_replace( 'skin-', '', $this->users->get_meta( 'theme-skin' ) ) : 'primary';?> -->
+<!-- bg-<?php echo $this->users->get_meta('theme-skin') ? str_replace('skin-', '', $this->users->get_meta('theme-skin')) : 'primary';?> -->
 <div class="box box-solid bg-blue" data-meta-namespace="nexo_sales_new">
     <div class="box-header ui-sortable-handle" style="cursor: move;"> <i class="fa fa-money"></i>
         <h3 class="box-title">
-            <?php _e( 'Meilleurs articles', 'nexo' );?>
+            <?php _e('Meilleurs articles', 'nexo');?>
         </h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn bg-blue-active btn-sm" data-widget="collapse"><i class="fa fa-minus"></i> </button>
@@ -17,42 +17,41 @@ $this->load->config( 'nexo' );
     </div>
     <div class="box-body border-radius-none" style="height:300px;">
         <div id="new_sales" class="chart"></div>
-        <div class="text-center"><?php _e( 'Meilleurs produits ces 7 derniers jours', 'nexo' );?></div>
+        <div class="text-center"><?php _e('Meilleurs produits ces 7 derniers jours', 'nexo');?></div>
     </div>
     <!-- /.box-body -->
     <div class="box-footer no-border">
         <div class="row">
         	<br />
             <?php
-			// Get remaning stock
-			if( $Cache->get( 'widget_sale_new_items' ) ) {
-				if( is_array( $Cache->get( 'widget_sale_new_items' ) ) ) {
-					$items			=	$Cache->get( 'widget_sale_new_items' );
-					$stock_initial	=	0;
-					$stock_remaning	=	0;
-					foreach( $items as $item ) {
-						$stock_initial		=	intval( $item->QUANTITY );
-						$stock_remaning		=	intval( $item->QUANTITE_RESTANTE );
-						$stock_defectueux	=	intval( $item->DEFECTUEUX );
-					}
-									
-					$percent			=	round( ( $stock_remaning * 100 ) / $stock_initial );
-					$percent_defectueux	=	round( ( $stock_defectueux * 100 ) / $stock_initial );
-					
-				}
-			} else {
-				$percent 				=	0;
-				$percent_defectueux		=	0;
-			}
-			?>
+            // Get remaning stock
+            if ($Cache->get('widget_sale_new_items')) {
+                if (is_array($Cache->get('widget_sale_new_items'))) {
+                    $items            =    $Cache->get('widget_sale_new_items');
+                    $stock_initial    =    0;
+                    $stock_remaning    =    0;
+                    foreach ($items as $item) {
+                        $stock_initial        =    intval($item->QUANTITY);
+                        $stock_remaning        =    intval($item->QUANTITE_RESTANTE);
+                        $stock_defectueux    =    intval($item->DEFECTUEUX);
+                    }
+                                    
+                    $percent            =    round(($stock_remaning * 100) / $stock_initial);
+                    $percent_defectueux    =    round(($stock_defectueux * 100) / $stock_initial);
+                }
+            } else {
+                $percent                =    0;
+                $percent_defectueux        =    0;
+            }
+            ?>
             <div class="col-xs-6 text-center" style="border-right: 1px solid #f4f4f4">
                 <input type="text" class="knob pourcentage_stock" value="<?php echo $percent;?>" data-width="90" data-height="90" data-fgColor="#3c8dbc" data-readonly="true">
-                <div class="knob-label"><h4><?php _e( 'Stock restant (%)', 'nexo' );?></h4></div>
+                <div class="knob-label"><h4><?php _e('Stock restant (%)', 'nexo');?></h4></div>
             </div>
             <!-- ./col -->
             <div class="col-xs-6 text-center" style="border-right: 1px solid #f4f4f4">
                 <input type="text" class="knob pourcentage_defectueux" value="<?php echo $percent_defectueux;?>" data-width="90" data-height="90" data-fgColor="#3c8dbc" data-readonly="true">
-                <div class="knob-label"><h4><?php _e( 'Stock défectueux (%)', 'nexo' );?></h4></div>
+                <div class="knob-label"><h4><?php _e('Stock défectueux (%)', 'nexo');?></h4></div>
             </div>
             <!-- ./col --> 
         </div>
@@ -62,9 +61,8 @@ $this->load->config( 'nexo' );
 </div>
 <?php 
 
-if( ! $Cache->get( 'widget_sale_new_best_items' ) || ! $Cache->get( 'widget_sale_new_items' ) ) {
-	
-} 
+if (! $Cache->get('widget_sale_new_best_items') || ! $Cache->get('widget_sale_new_items')) {
+}
 ?>
 <script type="text/javascript">
 "use strict";
@@ -72,11 +70,11 @@ var Nexo_Sales_Widget		=	new function(){
 	this.load				=	function( arg ){
 		var colors				=	[ '#02B3E7', '#CFD3D6', '#736D79', '#776068', '#EB0D42', '#FFEC62', '#04374E' ];
 		var refresh_it			=	arg == 'refresh' ? '?refresh=true' : '';
-		var start_date			=	'<?php echo Carbon::parse( date_now() )->subDays( 7 )->startOfDay()->toDateTimeString();?>';
-		var end_date			=	'<?php echo Carbon::parse( date_now() )->endOfDay()->toDateTimeString();?>';
+		var start_date			=	'<?php echo Carbon::parse(date_now())->subDays(7)->startOfDay()->toDateTimeString();?>';
+		var end_date			=	'<?php echo Carbon::parse(date_now())->endOfDay()->toDateTimeString();?>';
 		var limit				=	7;
 		var post_data			=	_.object( [ 'start_date', 'end_date', 'limit' ], [ start_date, end_date, limit ] );
-		$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'widget_sale_new' ) );?>' + refresh_it, {
+		$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'widget_sale_new' ));?>' + refresh_it, {
 			data		:	post_data,
 			type		:	'POST',
 			dataType	:	"json",

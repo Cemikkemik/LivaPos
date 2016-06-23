@@ -27,4 +27,4 @@ $lang[ 'cash' ]                        =    __('Paiement en espèces', 'nexo');
 $lang[ 'cheque' ]                    =    __('Chèque', 'nexo');
 $lang[ 'bank_transfert' ]            =    __('Transfert Bancaire', 'nexo');
 $lang[ 'only_cash_order_can_be_printed' ]    =    tendoo_error(__('Seules les commandes complètes peuvent être imprimées', 'nexo'));
-$lang[ 'stripe']      = __( 'Stripe', 'nexo');
+$lang[ 'stripe']      = __('Stripe', 'nexo');

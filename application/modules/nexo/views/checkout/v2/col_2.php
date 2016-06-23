@@ -22,7 +22,7 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <div class="direct-chat-messages" style="padding:0px;">
+        <div class="direct-chat-messages item-list-container" style="padding:0px;">
             <div class="row" id="filter-list" style="padding-left:0px;padding-right:0px;margin-left:0px;margin-right:0px;">
             </div>
         </div>

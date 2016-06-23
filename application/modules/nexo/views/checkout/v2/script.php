@@ -1172,7 +1172,8 @@ var v2Checkout					=	new function(){
 				failure_limit : 10,
 				load : function( e ){
 					$( this ).removeAttr( 'width' );
-				}
+				},
+				container : $( '.item-list-container' )
 			});
 
 			// Build Category for the filter

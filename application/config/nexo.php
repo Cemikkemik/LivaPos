@@ -50,6 +50,7 @@ $config[ 'nexo_payment_types' ]    =    array(
  * Cart Animation
 **/
 
+$config[ 'nexo_cart_animation' ]    =    false; // was 'animated zoomIn';
 
 /**
  * Currency with double 00

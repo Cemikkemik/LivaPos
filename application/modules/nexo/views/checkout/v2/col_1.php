@@ -111,6 +111,7 @@
     </div>
     <!-- /.box-footer--> 
 </div>
+
 <?php if (@$Options[ 'nexo_enable_stripe' ] != 'no'):?>
 <script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
 <script type="text/javascript">

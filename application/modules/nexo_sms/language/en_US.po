@@ -1,0 +1,130 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: NexoPOS SMS\n"
+"POT-Creation-Date: 2016-06-22 23:54+0100\n"
+"PO-Revision-Date: 2016-06-22 23:54+0100\n"
+"Last-Translator: \n"
+"Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;_s\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: vendor\n"
+
+#: language/lines.php:6
+#, fuzzy
+msgid "Service SMS Twilio"
+msgstr "Twilio SMS service"
+
+#: language/lines.php:8
+#, fuzzy
+msgid "Désactiver"
+msgstr "Disable"
+
+#: main.php:53
+#, fuzzy
+msgid "SMS"
+msgstr "SMS"
+
+#: main.php:67
+msgid "Réglages SMS &mdash; NexoPOS"
+msgstr "SMS Settings &mdash; NexoPOS"
+
+#: views/home.php:8
+msgid "Réglages SMS"
+msgstr "SMS Settings"
+
+#: views/home.php:15 views/home.php:39
+#, fuzzy
+msgid "Sauvegarder les réglages"
+msgstr "Save settings"
+
+#: views/home.php:24
+#, fuzzy
+msgid "Veuillez choisir votre fournisseurs SMS"
+msgstr "Please choose your SMS providers"
+
+#: views/home.php:32
+msgid "Réglages Twilio"
+msgstr "Twilio Settings"
+
+#: views/home.php:47
+#, fuzzy
+msgid "SID du compte"
+msgstr "The account SID"
+
+#: views/home.php:48 views/home.php:55 views/home.php:62
+#, php-format
+msgid ""
+"Récupérer les informations relatives aux clés sur votre <a href=\"%s"
+"\">compte Twilio</a>."
+msgstr ""
+"Retrieve information about keys on your <a href=\"%s\">Twilio account </a>."
+
+#: views/home.php:54
+msgid "Jeton d'accès"
+msgstr "Access Token"
+
+#: views/home.php:61
+msgid "Numéro d'envoi"
+msgstr "Sending Number"
+
+#: views/script.php:16
+msgid ": produit(s) acheté(s)"
+msgstr ": item(s) purchased"
+
+#: views/script.php:18
+#, fuzzy
+msgid "Total : "
+msgstr "Total:"
+
+#: views/script.php:18
+msgid "Ref : "
+msgstr "Reference:"
+
+#: views/script.php:29
+msgid "La facture par SMS a été envoyée"
+msgstr "The SMS bill has been sent"
+
+#: views/script.php:29
+msgid "Un exemplaire de la facture a été envoyée au numéro spécifié."
+msgstr "A copy of the invoice has been sent to the specified number."
+
+#: views/script.php:35 views/script.php:41
+#, fuzzy
+msgid "Une erreur s'est produite."
+msgstr "An error has occurred."
+
+#: views/script.php:35
+msgid "Le serveur à renvoyé une erreur durant l'envoi du SMS :"
+msgstr "The server at returned an error while sending the SMS:"
+
+#: views/script.php:41
+#, fuzzy
+msgid ""
+"Vous devez specifier un numéro de téléphone. La facture par SMS n'a pas pu "
+"être envoyée."
+msgstr "You must specify a phone number. The Bill by SMS could not be sent."
+
+#: views/script.php:72
+#, fuzzy
+msgid "Activer les SMS"
+msgstr "Activate SMS"
+
+#: views/script.php:73
+msgid "Désactiver les SMS"
+msgstr "Disable SMS"
+
+#: views/script.php:81
+#, fuzzy
+msgid "Veuillez définir le numéro à utiliser pour la facture par SMS"
+msgstr "Please set the number to use for bills by SMS"
+
+#~ msgid "Jeton de connexion"
+#~ msgstr "Login Token"

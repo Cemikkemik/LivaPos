@@ -13,7 +13,11 @@ use Carbon\Carbon;
 
 class Nexo extends REST_Controller
 {
-    use Nexo_orders, Nexo_items, Nexo_stripe, Nexo_cashiers;
+    use Nexo_orders, 
+		Nexo_items, 
+		Nexo_stripe, 
+		Nexo_cashiers,
+		Nexo_rest_misc;
     
     public function __construct()
     {

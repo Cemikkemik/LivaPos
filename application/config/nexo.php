@@ -50,7 +50,6 @@ $config[ 'nexo_payment_types' ]    =    array(
  * Cart Animation
 **/
 
-$config[ 'nexo_cart_animation' ]    =    'animated zoomIn';
 
 /**
  * Currency with double 00
@@ -76,6 +75,12 @@ $config[ 'nexo_sound_fx' ]		=	array( 'success', 'info', 'warning', 'bootbox' );
 **/
 
 $config[ 'nexo_items_cache_lifetime' ]		=	10800; // 3 hours
+
+/**
+ * Widget Cache
+**/
+
+$config[ 'nexo_widget_cache_lifetime' ]		=	10800;
 
 /**
  * Feed Max execution time

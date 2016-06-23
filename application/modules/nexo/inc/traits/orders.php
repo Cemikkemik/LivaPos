@@ -14,7 +14,7 @@ trait Nexo_orders
             $this->db->where($filter, $var);
         }
         $query    =    $this->db->get('nexo_commandes');
-        $this->response($quer->result(), 200);
+        $this->response($query->result(), 200);
     }
     
     /**
@@ -254,4 +254,25 @@ trait Nexo_orders
 			'order_code'	=>	$current_order[0][ 'CODE' ]
         ), 200);
     }
+	
+	/**
+	 * Get order using dates
+	 *
+	 * @params string datetime
+	 * @params string datetime
+	 * @return json
+	**/
+	
+	public function order_by_dates_post( $order_type = 'all' )
+	{
+		$this->db->where( 'DATE_CREATION >=', $this->post( 'start' ) );
+		$this->db->where( 'DATE_CREATION <=', $this->post( 'end' ) );
+		
+		if( $order_type != 'all' ) {
+			$this->db->where( 'TYPE', $order_type );
+		}
+		
+        $query    =    $this->db->get('nexo_commandes');
+        $this->response($query->result(), 200);
+	}
 }

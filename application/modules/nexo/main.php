@@ -84,7 +84,8 @@ class Nexo extends CI_Model
     
     public function footer()
     {
-        ?>
+		?>
+
         <style type="text/css">
 		.ar-up {
 			width: 0; 
@@ -173,6 +174,9 @@ class Nexo extends CI_Model
 		<script src="<?php echo js_url('nexo') . 'jquery-ui.min.js';
         ?>"></script>
         <script src="<?php echo module_url('nexo') . 'bower_components/Chart.js/Chart.min.js';
+        ?>"></script>
+        <!-- Add jQuery LazyLoad -->
+        <script src="<?php echo module_url('nexo') . 'bower_components/jquery_lazyload/jquery.lazyload.js';
         ?>"></script>
         <script src="<?php echo module_url('nexo') . 'js/html5-audio-library.js';
         ?>"></script>
@@ -486,7 +490,7 @@ class Nexo extends CI_Model
             'content'    =>    $this->load->view('../modules/nexo/inc/widgets/chiffre-daffaire-net.php', array(), true)
         ));*/
         
-        $this->dashboard_widgets->add('nexo_guides', array(
+        /** $this->dashboard_widgets->add('nexo_guides', array(
             'title'                    => __('Guides du débutant', 'nexo'),
             'type'                    => 'box-primary',
             'hide_body_wrapper'        =>    true,
@@ -494,8 +498,41 @@ class Nexo extends CI_Model
             'position'                => 3,
             'content'                =>    $this->load->view('../modules/nexo/inc/widgets/guides.php', array(), true)
         ));
-        
-        $this->dashboard_widgets->add('nexo_tutorials', array(
+		**/
+		
+		$this->dashboard_widgets->add( 'nexo_sales_new', array(
+			'title'					=>	__( 'Meilleurs articles', 'nexo' ),
+			'type'					=>	'unwrapped',
+			'hide_body_wrapper'		=>	true,
+			'position'				=> 	1,
+			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/sales-new', array(), true )
+		) );
+		
+		$this->dashboard_widgets->add( 'nexo_profile', array(
+			'title'					=>	__( 'Profil', 'nexo' ),
+			'type'					=>	'unwrapped',
+			'hide_body_wrapper'		=>	true,
+			'position'				=> 	1,
+			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/profile', array(), true )
+		) );
+		
+		$this->dashboard_widgets->add( 'nexo_sales_income', array(
+			'title'					=>	__( 'Chiffre d\'affaire', 'nexo' ),
+			'type'					=>	'unwrapped',
+			'hide_body_wrapper'		=>	true,
+			'position'				=> 	2,
+			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/income', array(), true )
+		) );
+		
+		$this->dashboard_widgets->add( 'nexo_sales_types', array(
+			'title'					=>	__( 'Types de commades', 'nexo' ),
+			'type'					=>	'unwrapped',
+			'hide_body_wrapper'		=>	true,
+			'position'				=> 	3,
+			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/sales_types', array(), true )
+		) );
+		
+		$this->dashboard_widgets->add('nexo_tutorials', array(
             'title'                    => __('Tutoriels NexoPOS', 'nexo'),
             'type'                    => 'box-primary',
             'hide_body_wrapper'        =>    true,
@@ -512,38 +549,6 @@ class Nexo extends CI_Model
             'position'                => 2,
             'content'                =>    $this->load->view('../modules/nexo/inc/widgets/news.php', array(), true)
         ));
-		
-		$this->dashboard_widgets->add( 'nexo_sales_new', array(
-			'title'					=>	__( 'Chart New', 'nexo' ),
-			'type'					=>	'unwrapped',
-			'hide_body_wrapper'		=>	true,
-			'position'				=> 	2,
-			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/sales-new', array(), true )
-		) );
-		
-		/*$this->dashboard_widgets->add( 'nexo_sales_income', array(
-			'title'					=>	__( 'Chiffre d\'affaire', 'nexo' ),
-			'type'					=>	'unwrapped',
-			'hide_body_wrapper'		=>	true,
-			'position'				=> 	2,
-			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/income', array(), true )
-		) );*/
-		
-		$this->dashboard_widgets->add( 'nexo_profile', array(
-			'title'					=>	__( 'About you', 'nexo' ),
-			'type'					=>	'unwrapped',
-			'hide_body_wrapper'		=>	true,
-			'position'				=> 	2,
-			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/profile', array(), true )
-		) );
-		
-		$this->dashboard_widgets->add( 'nexo_jauge', array(
-			'title'					=>	__( 'Stock Jauge', 'nexo' ),
-			'type'					=>	'unwrapped',
-			'hide_body_wrapper'		=>	true,
-			'position'				=> 	2,
-			'content'				=>	$this->load->view( '../modules/nexo/inc/widgets/jauge', array(), true )
-		) );
     }
     
     /**

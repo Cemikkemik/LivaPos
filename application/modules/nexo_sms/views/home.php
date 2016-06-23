@@ -51,7 +51,7 @@ if( in_array( 'twilio', array_keys( $this->config->item( 'nexo_sms_providers' ) 
 	$this->Gui->add_item( array(
 		'type'			=>	'text',
 		'name'			=>	'nexo_twilio_account_token',
-		'label'			=>	__( 'Jeton de connexion', 'nexo_sms' ),
+		'label'			=>	__( 'Jeton d\'accès', 'nexo_sms' ),
 		'description'	=>	sprintf( __( 'Récupérer les informations relatives aux clés sur votre <a href="%s">compte Twilio</a>.', 'nexo_sms' ), 'http://twilio.com/console' )
 	), 'nexo_twilio', 2 );
 	

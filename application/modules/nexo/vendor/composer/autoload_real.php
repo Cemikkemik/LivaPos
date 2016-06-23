@@ -9,7 +9,7 @@ class ComposerAutoloaderInit0e59bb45d8d8847eab973d070671ec01
     public static function loadClassLoader($class)
     {
         if ('Composer\Autoload\ClassLoader' === $class) {
-            require __DIR__ . '/ClassLoader.php';
+            require dirname( __FILE__ ) . '/ClassLoader.php';
         }
     }
 
@@ -25,21 +25,21 @@ class ComposerAutoloaderInit0e59bb45d8d8847eab973d070671ec01
 
         $useStaticLoader = PHP_VERSION_ID >= 50600 && !defined('HHVM_VERSION');
         if ($useStaticLoader) {
-            require_once __DIR__ . '/autoload_static.php';
+            require_once dirname( __FILE__ ) . '/autoload_static.php';
 
             call_user_func(\Composer\Autoload\ComposerStaticInit0e59bb45d8d8847eab973d070671ec01::getInitializer($loader));
         } else {
-            $map = require __DIR__ . '/autoload_namespaces.php';
+            $map = require dirname( __FILE__ ) . '/autoload_namespaces.php';
             foreach ($map as $namespace => $path) {
                 $loader->set($namespace, $path);
             }
 
-            $map = require __DIR__ . '/autoload_psr4.php';
+            $map = require dirname( __FILE__ ) . '/autoload_psr4.php';
             foreach ($map as $namespace => $path) {
                 $loader->setPsr4($namespace, $path);
             }
 
-            $classMap = require __DIR__ . '/autoload_classmap.php';
+            $classMap = require dirname( __FILE__ ) . '/autoload_classmap.php';
             if ($classMap) {
                 $loader->addClassMap($classMap);
             }
@@ -50,7 +50,7 @@ class ComposerAutoloaderInit0e59bb45d8d8847eab973d070671ec01
         if ($useStaticLoader) {
             $includeFiles = Composer\Autoload\ComposerStaticInit0e59bb45d8d8847eab973d070671ec01::$files;
         } else {
-            $includeFiles = require __DIR__ . '/autoload_files.php';
+            $includeFiles = require dirname( __FILE__ ) . '/autoload_files.php';
         }
         foreach ($includeFiles as $fileIdentifier => $file) {
             composerRequire0e59bb45d8d8847eab973d070671ec01($fileIdentifier, $file);

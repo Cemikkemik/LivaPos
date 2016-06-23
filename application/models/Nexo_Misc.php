@@ -8,8 +8,6 @@ class Nexo_Misc extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        // $this->load->library( 'license_key' );		
-        // $this->check_license();
     }
     
     /**
@@ -630,7 +628,8 @@ class Nexo_Misc extends CI_Model
                 $SingleQueries        =    explode(';', $SQL_Joinded);
                 
                 foreach ($SingleQueries as $SingleQuery) {
-                    if (! empty(trim($SingleQuery))) {
+					$SingleQuery	=	trim($SingleQuery);
+                    if (! empty( $SingleQuery )) {
                         $CleanSQLQueries[]    =    $SingleQuery;
                     }
                 }

@@ -75,19 +75,19 @@ $config[ 'nexo_sound_fx' ]        =    array( 'success', 'info', 'warning', 'boo
  * Items Cache duration
 **/
 
-$config[ 'nexo_items_cache_lifetime' ]        =    10800; // 3 hours
+$config[ 'nexo_items_cache_lifetime' ]        =    86400; // 3 hours
 
 /**
  * Widget Cache
 **/
 
-$config[ 'nexo_widget_cache_lifetime' ]        =    10800;
+$config[ 'nexo_widget_cache_lifetime' ]        =    86400;
 
 /**
  * Feed Max execution time
 **/
 
-$config[ 'feed_execution_time' ]  = 20; // seconds
+$config[ 'feed_execution_time' ]  = 10; // seconds
 
 /**
  * Dashboard Profile widget cashe lifetime

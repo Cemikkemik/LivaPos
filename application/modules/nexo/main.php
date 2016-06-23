@@ -3,11 +3,16 @@
 require_once(dirname(__FILE__) . '/vendor/autoload.php');
 
 if (get_instance()->setup->is_installed()) {
-    include_once(dirname(__FILE__) . '/inc/helpers.php');
+    // include_once(dirname(__FILE__) . '/inc/helpers.php'); deprecated
     include_once(dirname(__FILE__) . '/inc/controller.php');
     include_once(dirname(__FILE__) . '/inc/tours.php');
-    include_once(dirname(__FILE__) . '/inc/cron.php');
+    // include_once(dirname(__FILE__) . '/inc/cron.php'); deprecated
 }
+
+
+return;
+
+
 
 require dirname(__FILE__) . '/inc/install.php';
 
@@ -537,7 +542,8 @@ class Nexo extends CI_Model
             'position'                =>    3,
             'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sales_types', array(), true)
         ));
-        
+       
+		/**	    
         $this->dashboard_widgets->add('nexo_tutorials', array(
             'title'                    => __('Tutoriels NexoPOS', 'nexo'),
             'type'                    => 'box-primary',
@@ -555,6 +561,7 @@ class Nexo extends CI_Model
             'position'                => 2,
             'content'                =>    $this->load->view('../modules/nexo/inc/widgets/news.php', array(), true)
         ));
+		**/
     }
     
     /**

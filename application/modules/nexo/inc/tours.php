@@ -5,7 +5,7 @@ class Nexo_Tours extends CI_Model
     {
         parent::__construct();
         $this->events->add_action('dashboard_footer', array( $this, 'demo_prompt' ));
-        $this->events->add_action('dashboard_footer', array( $this, 'general_guides' ));
+        // $this->events->add_action('dashboard_footer', array( $this, 'general_guides' )); deprecated
     }
     
     /**
@@ -16,7 +16,7 @@ class Nexo_Tours extends CI_Model
     
     public function demo_prompt()
     {
-        global $Options;
+		global $Options;
         ?>
         <script type="text/javascript">
 		var	NexoFirstRun	=	new function(){
@@ -70,9 +70,6 @@ class Nexo_Tours extends CI_Model
         });
 		</script>
         <?php endif;
-        ?>
-        <?php
-
     }
     
     /** 

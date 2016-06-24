@@ -9,11 +9,6 @@ if (get_instance()->setup->is_installed()) {
     // include_once(dirname(__FILE__) . '/inc/cron.php'); deprecated
 }
 
-
-return;
-
-
-
 require dirname(__FILE__) . '/inc/install.php';
 
 class Nexo extends CI_Model

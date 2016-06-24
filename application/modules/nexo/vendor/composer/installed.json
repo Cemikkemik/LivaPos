@@ -1,117 +1,5 @@
 [
     {
-        "name": "picqer/php-barcode-generator",
-        "version": "v0.1",
-        "version_normalized": "0.1.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/picqer/php-barcode-generator.git",
-            "reference": "bd486cfb311989a506c62827fdee463b8a698002"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/picqer/php-barcode-generator/zipball/bd486cfb311989a506c62827fdee463b8a698002",
-            "reference": "bd486cfb311989a506c62827fdee463b8a698002",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.4.0"
-        },
-        "time": "2015-08-13 07:59:44",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Picqer\\Barcode\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Casper Bakker",
-                "email": "info@picqer.com"
-            }
-        ],
-        "description": "An easy to use, non-bloated, barcode generator in PHP. Creates SVG, PNG, JPG and HTML images from the most used 1D barcode standards.",
-        "homepage": "http://github.com/picqer/exact-php-client",
-        "keywords": [
-            "CODABAR",
-            "Code11",
-            "Code93",
-            "EAN13",
-            "KIX",
-            "KIXCODE",
-            "MSI",
-            "POSTNET",
-            "Pharma",
-            "Standard 2 of 5",
-            "barcode",
-            "barcode generator",
-            "code128",
-            "code39",
-            "ean",
-            "html",
-            "jpeg",
-            "jpg",
-            "php",
-            "png",
-            "svg",
-            "upc"
-        ]
-    },
-    {
-        "name": "nesbot/carbon",
-        "version": "1.21.0",
-        "version_normalized": "1.21.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/briannesbitt/Carbon.git",
-            "reference": "7b08ec6f75791e130012f206e3f7b0e76e18e3d7"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/7b08ec6f75791e130012f206e3f7b0e76e18e3d7",
-            "reference": "7b08ec6f75791e130012f206e3f7b0e76e18e3d7",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0",
-            "symfony/translation": "~2.6|~3.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.0|~5.0"
-        },
-        "time": "2015-11-04 20:07:17",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Carbon\\": "src/Carbon/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Brian Nesbitt",
-                "email": "brian@nesbot.com",
-                "homepage": "http://nesbot.com"
-            }
-        ],
-        "description": "A simple API extension for DateTime.",
-        "homepage": "http://carbon.nesbot.com",
-        "keywords": [
-            "date",
-            "datetime",
-            "time"
-        ]
-    },
-    {
         "name": "symfony/polyfill-mbstring",
         "version": "v1.2.0",
         "version_normalized": "1.2.0.0",
@@ -239,42 +127,33 @@
         "homepage": "https://symfony.com"
     },
     {
-        "name": "stripe/stripe-php",
-        "version": "v3.14.2",
-        "version_normalized": "3.14.2.0",
+        "name": "nesbot/carbon",
+        "version": "1.21.0",
+        "version_normalized": "1.21.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/stripe/stripe-php.git",
-            "reference": "e379140cf77debaa6a45e32b93543269851a144f"
+            "url": "https://github.com/briannesbitt/Carbon.git",
+            "reference": "7b08ec6f75791e130012f206e3f7b0e76e18e3d7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/e379140cf77debaa6a45e32b93543269851a144f",
-            "reference": "e379140cf77debaa6a45e32b93543269851a144f",
+            "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/7b08ec6f75791e130012f206e3f7b0e76e18e3d7",
+            "reference": "7b08ec6f75791e130012f206e3f7b0e76e18e3d7",
             "shasum": ""
         },
         "require": {
-            "ext-curl": "*",
-            "ext-json": "*",
-            "ext-mbstring": "*",
-            "php": ">=5.3.3"
+            "php": ">=5.3.0",
+            "symfony/translation": "~2.6|~3.0"
         },
         "require-dev": {
-            "phpunit/phpunit": "~4.0",
-            "satooshi/php-coveralls": "~0.6.1",
-            "squizlabs/php_codesniffer": "~2.0"
+            "phpunit/phpunit": "~4.0|~5.0"
         },
-        "time": "2016-06-03 22:06:06",
+        "time": "2015-11-04 20:07:17",
         "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.0-dev"
-            }
-        },
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "Stripe\\": "lib/"
+                "Carbon\\": "src/Carbon/"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -283,16 +162,17 @@
         ],
         "authors": [
             {
-                "name": "Stripe and contributors",
-                "homepage": "https://github.com/stripe/stripe-php/contributors"
+                "name": "Brian Nesbitt",
+                "email": "brian@nesbot.com",
+                "homepage": "http://nesbot.com"
             }
         ],
-        "description": "Stripe PHP Library",
-        "homepage": "https://stripe.com/",
+        "description": "A simple API extension for DateTime.",
+        "homepage": "http://carbon.nesbot.com",
         "keywords": [
-            "api",
-            "payment processing",
-            "stripe"
+            "date",
+            "datetime",
+            "time"
         ]
     },
     {
@@ -351,6 +231,126 @@
             "restful",
             "web service",
             "xml"
+        ]
+    },
+    {
+        "name": "picqer/php-barcode-generator",
+        "version": "v0.1",
+        "version_normalized": "0.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/picqer/php-barcode-generator.git",
+            "reference": "bd486cfb311989a506c62827fdee463b8a698002"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/picqer/php-barcode-generator/zipball/bd486cfb311989a506c62827fdee463b8a698002",
+            "reference": "bd486cfb311989a506c62827fdee463b8a698002",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0"
+        },
+        "time": "2015-08-13 07:59:44",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Picqer\\Barcode\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Casper Bakker",
+                "email": "info@picqer.com"
+            }
+        ],
+        "description": "An easy to use, non-bloated, barcode generator in PHP. Creates SVG, PNG, JPG and HTML images from the most used 1D barcode standards.",
+        "homepage": "http://github.com/picqer/exact-php-client",
+        "keywords": [
+            "CODABAR",
+            "Code11",
+            "Code93",
+            "EAN13",
+            "KIX",
+            "KIXCODE",
+            "MSI",
+            "POSTNET",
+            "Pharma",
+            "Standard 2 of 5",
+            "barcode",
+            "barcode generator",
+            "code128",
+            "code39",
+            "ean",
+            "html",
+            "jpeg",
+            "jpg",
+            "php",
+            "png",
+            "svg",
+            "upc"
+        ]
+    },
+    {
+        "name": "stripe/stripe-php",
+        "version": "v3.14.2",
+        "version_normalized": "3.14.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/stripe/stripe-php.git",
+            "reference": "e379140cf77debaa6a45e32b93543269851a144f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/e379140cf77debaa6a45e32b93543269851a144f",
+            "reference": "e379140cf77debaa6a45e32b93543269851a144f",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "ext-json": "*",
+            "ext-mbstring": "*",
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0",
+            "satooshi/php-coveralls": "~0.6.1",
+            "squizlabs/php_codesniffer": "~2.0"
+        },
+        "time": "2016-06-03 22:06:06",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Stripe\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Stripe and contributors",
+                "homepage": "https://github.com/stripe/stripe-php/contributors"
+            }
+        ],
+        "description": "Stripe PHP Library",
+        "homepage": "https://stripe.com/",
+        "keywords": [
+            "api",
+            "payment processing",
+            "stripe"
         ]
     }
 ]

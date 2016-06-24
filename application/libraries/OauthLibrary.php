@@ -50,7 +50,7 @@ class OauthLibrary
 	 * @return array
 	**/
 	
-	public function GetScopes( $requested_scopes ) 
+	public function getScopes( $requested_scopes ) 
 	{
 		$scopes				=	explode(',', $requested_scopes );
 		$returned_scopes	=	array();

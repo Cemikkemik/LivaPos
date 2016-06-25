@@ -258,13 +258,8 @@ if (!function_exists('translate')) {
 						}
 					}					
                 }		
-						
-				return $PoParsed[ $textdomain ]->AllEntries[ $code ][ 'msgstr' ] != NULL ? 
-						implode( '', $PoParsed[ $textdomain ]->AllEntries[ $code ][ 'msgstr' ] ) : 
-						array( 'msgstr' => array( $code ) );
-						
-				//return implode('', riake('msgstr', riake($code, $PoParsed[ $textdomain ]->AllEntries, array( 'msgstr' => array( $code ) ))));
-                // return implode('', riake('msgstr', riake($code, $PoParsed[ $textdomain ]->AllEntries, array( 'msgstr' => array( $code ) ))));
+
+				return implode('', riake('msgstr', riake($code, $PoParsed[ $textdomain ]->AllEntries, array( 'msgstr' => array( $code ) ))));	
             }
         }
         return $code;

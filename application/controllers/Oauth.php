@@ -25,8 +25,6 @@ class Oauth extends Tendoo_Controller
     }
     public function index()
     {
-		$this->load->library( 'OauthLibrary' );
-		
 		$data[ 'scopes' ]	=	$this->oauthlibrary->getScopes( @$_GET[ 'scope' ] );
 		
 		$this->load->view( 'shared/header' );

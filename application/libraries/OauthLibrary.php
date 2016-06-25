@@ -5,32 +5,8 @@ class OauthLibrary
 	
 	public function __construct()
 	{
-		$this->scopes	=	array(
-			'basic'				=>		array(
-				'label'			=>		__( 'Access user details' ),
-				'description'	=>		__( 'The current request would like to access user informations such as name, email, except password' ),
-				'app'			=>		'system',
-				'icon'			=>		'fa fa-user',
-				'color'			=>		'bg-aqua',
-				'group'			=>		NULL
-			),
-			'site_details'		=>		array(
-				'label'			=>		__( 'Access Tendoo ressources' ),
-				'description'	=>		__( 'Allow access to Tendoo informations such as site name, timezone, module list, user list' ),
-				'app'			=>		'system',
-				'icon'			=>		'fa fa-database',
-				'color'			=>		'bg-red',
-				'group'			=>		array( 'master', 'administrator' )
-			),
-			'site_advanced'		=>		array(
-				'label'			=>		__( 'Access Tendoo Advanced ressources' ),
-				'description'	=>		__( 'The current request would like to control Tendoo CMS.' ),
-				'app'			=>		'system',
-				'icon'			=>		'fa fa-user-secret',
-				'color'			=>		'bg-red',
-				'group'			=>		array( 'master' )
-			)
-		);
+		get_instance()->load->config( 'oauth' );
+		$this->scopes	=	get_instance()->config->item( 'oauth_scopes' );
 	}
 	
 	/** 
@@ -72,5 +48,65 @@ class OauthLibrary
 		return $returned_scopes;
 	}
 	
+	/**
+	 * Generate Key
+	**/
+	
+	public function generateKey()
+	{
+		$keys		=	get_instance()->db->get( 'restapi_keys' )->result();
+		
+		if( is_array( $keys ) ) {
+			$all_keys	=	array();
+			foreach( $keys as $key ) {
+				$all_keys[]	=	$key->key;
+			}
+		}
+		
+		// Generate key
+		do {
+			// Create default Keys
+			$length		=	40;
+			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			$charactersLength = strlen($characters);
+			$randomString = '';
+			for ($i = 0; $i < $length; $i++) {
+				$randomString .= $characters[rand(0, $charactersLength - 1)];
+			}
+		} while( in_array( $randomString, $all_keys ) );
+		
+		return $randomString;		
+	}
+	
+	/**
+	 * Check scope
+	 * Checks whether a request can access a scope
+	 *
+	 * @params string end point scope (unique scope)
+	 * @return bool
+	**/
+	
+	public function checkScope( $endpoint_scope ) 
+	{
+		/**
+		 * Check request scope
+		**/
+		
+		$query	=	get_instance()->db
+		->where( 'key', @$_SERVER[ 'HTTP_X_API_KEY' ] )
+		->get( 'restapi_keys' )
+		->result();	
+
+		get_instance()->load->config( 'oauth' );
+
+		// Request Scope		
+		$app_scopes			=	( array ) explode( ',', $query[0]->scopes );
+
+		// Is request scope is valid
+		if( ! in_array( $endpoint_scope, $app_scopes ) ) {
+			return false;
+		}
+		return true;
+	}	
 	
 }

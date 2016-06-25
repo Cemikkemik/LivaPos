@@ -418,9 +418,9 @@ $(document).ready(function(){
 			var oldBeforeSend	=	options.beforeSend;
 		}
 		
-		options.beforeSend = function (xhr) { 
+		options.beforeSend = function (xhr, settings) { 
 			if( typeof oldBeforeSend != 'undefined' ) {
-				oldBeforeSend();
+				oldBeforeSend( xhr, settings );
 			}
 			xhr.setRequestHeader('<?php echo $header_key;?>', '<?php echo $key;?>');
 		}

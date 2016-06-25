@@ -25,7 +25,16 @@ class Nexo extends CI_Model
                     unset($libraries[ $key ]);
                 }
             }
-            $libraries    =    array_values($libraries);
+            $libraries    	=    array_values($libraries);
+			
+			$bower_path		=	'../modules/nexo/bower_components/';
+
+			// Add Numeral @since 2.6.3
+			$libraries[]	=	$bower_path . 'numeral/min/numeral.min';
+			$libraries[]	=	$bower_path . 'Chart.js/Chart.min';
+			$libraries[]	=	$bower_path	. 'jquery_lazyload/jquery.lazyload';
+			$libraries[]	=	$bower_path . 'bootstrap-toggle/js/bootstrap2-toggle.min';
+			$libraries[]	=	'../plugins/knob/jquery.knob';
             return $libraries;
         });
         
@@ -173,22 +182,10 @@ class Nexo extends CI_Model
         ?>">
 		<script src="<?php echo js_url('nexo') . 'jquery-ui.min.js';
         ?>"></script>
-        <script src="<?php echo module_url('nexo') . 'bower_components/Chart.js/Chart.min.js';
-        ?>"></script>
-        <!-- Add jQuery LazyLoad -->
-        <script src="<?php echo module_url('nexo') . 'bower_components/jquery_lazyload/jquery.lazyload.js';
-        ?>"></script>
         <script src="<?php echo module_url('nexo') . 'js/html5-audio-library.js';
         ?>"></script>
-        <!-- KNOB -->
-        <script src="<?php echo asset_url() . '/plugins/knob/jquery.knob.js';
-        ?>"></script>
-        <!-- Bootstrap Switch -->
-        <script src="<?php echo module_url('nexo') . '/bower_components/bootstrap-toggle/js/bootstrap2-toggle.min.js';
-        ?>"></script>
         <link rel="stylesheet" href="<?php echo module_url('nexo') . '/bower_components/bootstrap-toggle/css/bootstrap2-toggle.min.css';
-        ?>">
-        
+        ?>">      
         
         <!-- Include PIE CHARTS -->
         <link rel="stylesheet" href="<?php echo css_url('nexo') . '/piecharts/piecharts.css';
@@ -309,7 +306,7 @@ class Nexo extends CI_Model
 			**/
 			
 			NexoAPI.Format	=	function( int ){
-				return int.format( 2, 3, '.', ',' )
+				return numeral( int ).format('0,0[.]00');
 			};
 			
 			/**
@@ -375,7 +372,7 @@ class Nexo extends CI_Model
 			**/
 			
 			NexoAPI.DisplayMoney		=	function( amount ) {
-				return NexoAPI.CurrencyPosition( NexoAPI.Format( parseInt( amount ) ) );
+				return NexoAPI.CurrencyPosition( NexoAPI.Format( parseFloat( amount ) ) );
 			}
 			
 

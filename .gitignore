@@ -1,22 +1,9 @@
-tendoo-installer
-sitemap.xml
-tendoo-assets/img/avatars
-tendoo-assets/
-tendoo-modules/
-tendoo-core/
-vendor/
 application/cache/
 application/config/base_url.php
 !application/cache/index.html
 !application/cache/.htaccess
 !application/cache/app/index.html
 application/config/database.php
-
-vendor/
-composer.lock
-app.yaml
-main.php
-favicon.icon
 
 #ignoring unmerged files
 application/temp/*

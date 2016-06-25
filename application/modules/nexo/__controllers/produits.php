@@ -75,14 +75,16 @@ class Nexo_Produits extends CI_Model
         $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
         
         $crud->required_fields('DESIGN', 'SKU', 'REF_RAYON', 'REF_CATEGORIE', 'REF_SHIPPING', 'TAUX_DE_MARGE', 'FRAIS_ACCESSOIRE', 'PRIX_DE_VENTE', 'DEFECTUEUX', 'QUANTITY', 'PRIX_DACHAT');
-        
+
         $crud->set_field_upload('APERCU', 'public/upload/');
         
         $crud->set_rules('QUANTITY', __('Quantité Totale', 'nexo'), 'is_natural_no_zero');
-        $crud->set_rules('DEFECTUEUX', __('Quantité Defectueuse', 'nexo'), 'is_natural');
-        $crud->set_rules('PRIX_DE_VENTE', __('Prix de vente', 'nexo'), 'is_natural');
+        $crud->set_rules('DEFECTUEUX', __('Quantité Defectueuse', 'nexo'), 'numeric');
+        $crud->set_rules('PRIX_DE_VENTE', __('Prix de vente', 'nexo'), 'numeric');
+		$crud->set_rules('PRIX_DACHAT', __('Prix d\'achat', 'nexo'), 'numeric');
+		$crud->set_rules('PRIX_PROMOTIONEL', __('Prix promotionnel', 'nexo'), 'numeric');
         $crud->set_rules('TAUX_DE_MARGE', __('Taux de marge', 'nexo'), 'numeric');
-        $crud->set_rules('FRAIS_ACCESSOIRE', __('Frais Accessoires', 'nexo'), 'is_natural');
+        $crud->set_rules('FRAIS_ACCESSOIRE', __('Frais Accessoires', 'nexo'), 'numeric');
         
         // Masquer le champ codebar
         $crud->change_field_type('CODEBAR', 'invisible');

@@ -97,8 +97,6 @@ class OauthLibrary
 		->get( 'restapi_keys' )
 		->result();	
 
-		get_instance()->load->config( 'oauth' );
-
 		// Request Scope		
 		$app_scopes			=	( array ) explode( ',', $query[0]->scopes );
 

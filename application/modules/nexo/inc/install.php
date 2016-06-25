@@ -48,6 +48,9 @@ class Nexo_Install extends CI_Model
         $this->options->set('nexo_bar_width', 3, true);
         $this->options->set('nexo_soundfx', 'enable', true);
         $this->options->set('nexo_currency', '$', true);
+		$this->options->set( 'nexo_vat_percent', 10, true );
+		$this->options->set( 'nexo_enable_autoprint', 'yes', true );
+		$this->options->set( 'nexo_enable_smsinvoice', 'no', true );
     }
 
     /**
@@ -157,17 +160,17 @@ class Nexo_Install extends CI_Model
 		  `QUANTITE_RESTANTE` INT NOT NULL,
 		  `QUANTITE_VENDU` INT NOT NULL,
 		  `DEFECTUEUX` INT NOT NULL,
-		  `PRIX_DACHAT` INT NOT NULL,
-		  `FRAIS_ACCESSOIRE` INT NOT NULL,
-		  `COUT_DACHAT` INT NOT NULL,
-		  `TAUX_DE_MARGE` DOUBLE NOT NULL,
-		  `PRIX_DE_VENTE` INT NOT NULL,
+		  `PRIX_DACHAT` FLOAT NOT NULL,
+		  `FRAIS_ACCESSOIRE` FLOAT NOT NULL,
+		  `COUT_DACHAT` FLOAT NOT NULL,
+		  `TAUX_DE_MARGE` FLOAT NOT NULL,
+		  `PRIX_DE_VENTE` FLOAT NOT NULL,
 		  `TAILLE` varchar(200) NOT NULL,
 		  `POIDS` VARCHAR(200) NOT NULL,
 		  `COULEUR` varchar(200) NOT NULL,
 		  `HAUTEUR` VARCHAR(200) NOT NULL,
 		  `LARGEUR` VARCHAR(200) NOT NULL,
-		  `PRIX_PROMOTIONEL` INT NOT NULL,
+		  `PRIX_PROMOTIONEL` FLOAT NOT NULL,
 		  `SPECIAL_PRICE_START_DATE` datetime NOT NULL,
 		  `SPECIAL_PRICE_END_DATE` datetime NOT NULL,
 		  `DESCRIPTION` TEXT NOT NULL,

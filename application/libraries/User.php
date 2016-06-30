@@ -13,7 +13,7 @@ class User
     public function __construct()
     {
         $groups    =    Group::get_all();
-		        
+                
         if ($groups) {
             foreach ($groups as $group) {
                 $permissions    =    get_instance()->auth->list_perms($group->id);

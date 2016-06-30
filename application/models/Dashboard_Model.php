@@ -197,7 +197,7 @@ $('[data-meta-namespace]').find( '[data-widget]' ).bind( 'click', function(){
     
     public function __dashboard_header()
     {
-		global $Options;
+        global $Options;
         ?>
 <script type="text/javascript">
 
@@ -410,10 +410,10 @@ $(document).ready(function(){
 		}
 		// Add header @since 3.1.1
 		<?php 
-		$this->load->config( 'rest' );
-		$header_key		=	$this->config->item( 'rest_key_name' );
-		$key			=	@$Options[ 'rest_key' ];
-		?>
+        $this->load->config('rest');
+        $header_key        =    $this->config->item('rest_key_name');
+        $key            =    @$Options[ 'rest_key' ];
+        ?>
 		if ( options.beforeSend ) {
 			var oldBeforeSend	=	options.beforeSend;
 		}
@@ -422,7 +422,9 @@ $(document).ready(function(){
 			if( typeof oldBeforeSend != 'undefined' ) {
 				oldBeforeSend( xhr, settings );
 			}
-			xhr.setRequestHeader('<?php echo $header_key;?>', '<?php echo $key;?>');
+			xhr.setRequestHeader('<?php echo $header_key;
+        ?>', '<?php echo $key;
+        ?>');
 		}
 	});
 });

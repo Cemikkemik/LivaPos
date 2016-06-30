@@ -252,7 +252,8 @@ foreach ($DatesArray as $DateYears):
 										<small><?php _e('Nc :', 'nexo');
         ?></small> <span class="order_nbr pull-right">0</span><br><br>
 										<a class="hideOnPrint btn btn-xs btn-primary" href="<?php echo get_instance()->events->apply_filters('nexo_daily_details_link', '', $CurrentDay->toDateString());
-        ?>"><i class="glyphicon glyphicon-search"></i> <?php echo __( 'Détails', 'nexo' );?></a> 
+        ?>"><i class="glyphicon glyphicon-search"></i> <?php echo __('Détails', 'nexo');
+        ?></a> 
 										<!--<a class="hideOnPrint btn btn-xs btn-default btn_refresh" href="<?php echo get_instance()->events->apply_filters('nexo_daily_refresh_link', '', $CurrentDay->toDateString());
         ?>"><i class="glyphicon glyphicon-refresh"></i></a>-->
 									</div>
@@ -331,7 +332,8 @@ $( document ).ready(function(e) {
 			document.location	=	'<?php echo site_url(array( 'dashboard', 'nexo', 'rapports', 'journalier' )) . '/';
     ?>' + $( '[name="start"]' ).val() + '/' + $( '[name="end"]' ).val() + '?refresh=true';
 		} else {
-			alert( '<?php echo addslashes(__('Les dates ne sont pas spécifiée', 'nexo'));?>' );
+			alert( '<?php echo addslashes(__('Les dates ne sont pas spécifiée', 'nexo'));
+    ?>' );
 		}
 	});
 });
@@ -348,7 +350,8 @@ var	Nexo_Daily_Report	=	new function(){
     ?>';
 	this.CommandeDevis	=	'<?php echo 'nexo_order_devis';
     ?>';
-	this.CommandeAvance	=	'<?php echo 'nexo_order_advance';?>';
+	this.CommandeAvance	=	'<?php echo 'nexo_order_advance';
+    ?>';
 
 	// Storing Dates
 	this.Dates			=	[];
@@ -384,7 +387,8 @@ var	Nexo_Daily_Report	=	new function(){
 		this.DisplayModal();
 		var tableItemId		=	this.Dates[0];
 		
-		$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'get', 'nexo_commandes', 'DATE_CREATION', 'filter_date_interval' ));?>', {
+		$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'get', 'nexo_commandes', 'DATE_CREATION', 'filter_date_interval' ));
+    ?>', {
 			data			:	_.object( [ 'key' ], [ this.Dates[0] ] ),
 			type			:	'POST',
 			dataType		:	'json',

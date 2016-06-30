@@ -52,11 +52,11 @@ class Nexo_Premium_Install extends CI_Model
     {
         global $Options, $CurrentScreen;
 
-        if( $CurrentScreen == 'dashboard' && $module != 'nexo_premium' ) {
+        if ($CurrentScreen == 'dashboard' && $module != 'nexo_premium') {
             return;
         }
 
-        if( $CurrentScreen == 'dashboard' && $module == 'nexo_premium' &&  @$Options[ 'nexo_premium_installed' ] != null ) {
+        if ($CurrentScreen == 'dashboard' && $module == 'nexo_premium' &&  @$Options[ 'nexo_premium_installed' ] != null) {
             return;
         }
         

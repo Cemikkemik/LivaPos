@@ -23,14 +23,14 @@ class Nexo extends REST_Controller
     {
         parent::__construct();
        
-   		$this->load->helper( 'nexopos' );
+        $this->load->helper('nexopos');
         $this->load->library('session');
         $this->load->model('Options');
-        $this->load->database();		
-		
-		if( ! $this->oauthlibrary->checkScope( 'core' ) ) {
-			$this->__forbidden();
-		}		
+        $this->load->database();
+        
+        if (! $this->oauthlibrary->checkScope('core')) {
+            $this->__forbidden();
+        }
     }
     
     private function __success()
@@ -76,15 +76,15 @@ class Nexo extends REST_Controller
             'status'        =>    '404'
         ), 404);
     }
-	
-	/**
-	 * Forbidden
-	**/
-	
-	private function __forbidden()
-	{
-		$this->response(array(
+    
+    /**
+     * Forbidden
+    **/
+    
+    private function __forbidden()
+    {
+        $this->response(array(
             'status'        =>    'forbidden'
         ), 403);
-	}
+    }
 }

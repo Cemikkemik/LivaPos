@@ -48,10 +48,10 @@ class Nexo_Install extends CI_Model
         $this->options->set('nexo_bar_width', 3, true);
         $this->options->set('nexo_soundfx', 'enable', true);
         $this->options->set('nexo_currency', '$', true);
-		$this->options->set( 'nexo_vat_percent', 10, true );
-		$this->options->set( 'nexo_enable_autoprint', 'yes', true );
-		$this->options->set( 'nexo_enable_smsinvoice', 'no', true );
-		$this->options->set( 'nexo_currency_iso', 'USD', true );
+        $this->options->set('nexo_vat_percent', 10, true);
+        $this->options->set('nexo_enable_autoprint', 'yes', true);
+        $this->options->set('nexo_enable_smsinvoice', 'no', true);
+        $this->options->set('nexo_currency_iso', 'USD', true);
     }
 
     /**

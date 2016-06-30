@@ -66,9 +66,9 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         $total_quantite    =    0;
                         
                         foreach ($order[ 'products' ] as $_produit) {
-                            $total_global    	+=    __floatval($_produit[ 'PRIX_TOTAL' ]);
-                            $total_unitaire    	+=    __floatval($_produit[ 'PRIX' ]);
-                            $total_quantite 	+=    __floatval($_produit[ 'QUANTITE' ]);
+                            $total_global        +=    __floatval($_produit[ 'PRIX_TOTAL' ]);
+                            $total_unitaire        +=    __floatval($_produit[ 'PRIX' ]);
+                            $total_quantite    +=    __floatval($_produit[ 'QUANTITE' ]);
                             ?>
                         <tr>
                             <td class=""><em><?php echo $_produit[ 'DESIGN' ];
@@ -86,7 +86,8 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <td class="text-right">
                             <?php echo $this->Nexo_Misc->display_currency('before');
                             ?>
-							<?php echo __floatval($_produit[ 'PRIX_TOTAL' ]);?>
+							<?php echo __floatval($_produit[ 'PRIX_TOTAL' ]);
+                            ?>
                             <?php echo $this->Nexo_Misc->display_currency('after');
                             ?>
                             </td>
@@ -178,14 +179,14 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <?php echo sprintf(
                                 __('%s %s %s', 'nexo'),
                                 $this->Nexo_Misc->display_currency('before'),
-                                bcsub( 
-									__floatval($total_global), 
-									(
-										__floatval(@$_produit[ 'RISTOURNE' ]) + 
-										__floatval(@$_produit[ 'RABAIS' ]) + 
-										__floatval(@$_produit[ 'REMISE' ])
-									), 2
-								),
+                                bcsub(
+                                    __floatval($total_global),
+                                    (
+                                        __floatval(@$_produit[ 'RISTOURNE' ]) +
+                                        __floatval(@$_produit[ 'RABAIS' ]) +
+                                        __floatval(@$_produit[ 'REMISE' ])
+                                    ), 2
+                                ),
                                 $this->Nexo_Misc->display_currency('after')
                             );?>
                             </td>
@@ -211,14 +212,14 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <?php echo sprintf(
                                 __('%s %s %s', 'nexo'),
                                 $this->Nexo_Misc->display_currency('before'),
-                                bcsub( 
-									__floatval( $total_global ) + __floatval( $_produit[ 'TVA' ] ), 
-									(
-										__floatval(@$_produit[ 'RISTOURNE' ]) + 
-										__floatval(@$_produit[ 'RABAIS' ]) + 
-										__floatval(@$_produit[ 'REMISE' ])
-									), 2
-								),
+                                bcsub(
+                                    __floatval($total_global) + __floatval($_produit[ 'TVA' ]),
+                                    (
+                                        __floatval(@$_produit[ 'RISTOURNE' ]) +
+                                        __floatval(@$_produit[ 'RABAIS' ]) +
+                                        __floatval(@$_produit[ 'REMISE' ])
+                                    ), 2
+                                ),
                                 $this->Nexo_Misc->display_currency('after')
                             );?>
                             </td>
@@ -247,11 +248,11 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             
 								<?php
 
-                                echo abs( bcsub(
-                                    __floatval( $order[ 'order' ][0][ 'TOTAL' ] ),
-                                    __floatval( $order[ 'order' ][0][ 'SOMME_PERCU' ] ),
+                                echo abs(bcsub(
+                                    __floatval($order[ 'order' ][0][ 'TOTAL' ]),
+                                    __floatval($order[ 'order' ][0][ 'SOMME_PERCU' ]),
                                     2
-                                ) );
+                                ));
 
                                 // __floatval( $_produit[ 'TVA' ] )
                                 ;?>

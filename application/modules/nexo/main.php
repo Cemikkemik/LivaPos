@@ -25,16 +25,16 @@ class Nexo extends CI_Model
                     unset($libraries[ $key ]);
                 }
             }
-            $libraries    	=    array_values($libraries);
-			
-			$bower_path		=	'../modules/nexo/bower_components/';
+            $libraries        =    array_values($libraries);
+            
+            $bower_path        =    '../modules/nexo/bower_components/';
 
-			// Add Numeral @since 2.6.3
-			$libraries[]	=	$bower_path . 'numeral/min/numeral.min';
-			$libraries[]	=	$bower_path . 'Chart.js/Chart.min';
-			$libraries[]	=	$bower_path	. 'jquery_lazyload/jquery.lazyload';
-			$libraries[]	=	$bower_path . 'bootstrap-toggle/js/bootstrap2-toggle.min';
-			$libraries[]	=	'../plugins/knob/jquery.knob';
+            // Add Numeral @since 2.6.3
+            $libraries[]    =    $bower_path . 'numeral/min/numeral.min';
+            $libraries[]    =    $bower_path . 'Chart.js/Chart.min';
+            $libraries[]    =    $bower_path    . 'jquery_lazyload/jquery.lazyload';
+            $libraries[]    =    $bower_path . 'bootstrap-toggle/js/bootstrap2-toggle.min';
+            $libraries[]    =    '../plugins/knob/jquery.knob';
             return $libraries;
         });
         
@@ -550,7 +550,7 @@ class Nexo extends CI_Model
             'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sales_types', array(), true)
         ));
        
-		/**	    
+        /**	    
         $this->dashboard_widgets->add('nexo_tutorials', array(
             'title'                    => __('Tutoriels NexoPOS', 'nexo'),
             'type'                    => 'box-primary',
@@ -568,7 +568,7 @@ class Nexo extends CI_Model
             'position'                => 2,
             'content'                =>    $this->load->view('../modules/nexo/inc/widgets/news.php', array(), true)
         ));
-		**/
+        **/
     }
     
     /**

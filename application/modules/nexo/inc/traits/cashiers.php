@@ -15,7 +15,7 @@ trait Nexo_cashiers
         $start_date        =    $this->post('start_of_day');
         $end_date        =    $this->post('end_of_day');
         $cashier_id        =    $this->post('cashier_id');
-		$this->load->helper( 'nexopos' );
+        $this->load->helper('nexopos');
         
         // Load Cache
         $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_'));

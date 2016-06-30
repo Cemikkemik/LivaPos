@@ -1,6 +1,7 @@
   <?php 
   use Carbon\Carbon;
-$this->load->helper( 'nexopos' );
+
+  $this->load->helper('nexopos');
   ?>   
   <div class="box box-widget widget-user-2" data-meta-namespace="nexo_profile">
     <!-- Add the bg color to the header using any of the bg-* classes -->

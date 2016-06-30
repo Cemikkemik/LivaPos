@@ -62,7 +62,7 @@ $this->load->config('nexo');
 <?php 
 
 if (! $Cache->get('widget_sale_new_best_items') || ! $Cache->get('widget_sale_new_items')) {
-	?>
+    ?>
 <script type="text/javascript">
 "use strict";
 $(function(){
@@ -70,6 +70,7 @@ $(function(){
 });
 </script>
     <?php
+
 }
 ?>
 <script type="text/javascript">

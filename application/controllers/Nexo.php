@@ -28,12 +28,12 @@ class Nexo extends REST_Controller
     public function compare_item_post($filter, $exclude_id = 'add')
     {
         $this->db->where($filter, $this->post('filter'));
-		
-		if( $exclude_id != 'add' ) {
-			$this->db->where('ID !=', $exclude_id);
-		}
+        
+        if ($exclude_id != 'add') {
+            $this->db->where('ID !=', $exclude_id);
+        }
                             
-		$result			=	$this->db->get('nexo_articles')->result();
+        $result            =    $this->db->get('nexo_articles')->result();
 
         $result        ?    $this->response($result, 200)  : $this->__empty();
     }

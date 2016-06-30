@@ -1,5 +1,5 @@
 <?php global $Options;?>
-<?php if( @$Options[ 'nexo_sms_service' ] == 'plivo' ):?>
+<?php if (@$Options[ 'nexo_sms_service' ] == 'plivo'):?>
 <script type="text/javascript" src="https://s3.amazonaws.com/plivosdk/web/plivo.min.js"/></script>
 <script type="text/javascript">
 "use strict";
@@ -72,7 +72,7 @@ NexoAPI.events.addAction( 'is_cash_order', function( data ) {
 	} 
 });
 
-<?php elseif(in_array('bulksms', array_keys($this->config->item('nexo_sms_providers'))) && @$Options[ 'nexo_sms_service' ] == 'bulksms' ):?>
+<?php elseif (in_array('bulksms', array_keys($this->config->item('nexo_sms_providers'))) && @$Options[ 'nexo_sms_service' ] == 'bulksms'):?>
 
 NexoAPI.events.addAction( 'is_cash_order', function( data ) {
 	if( NexoSMS.__SendSMSInvoice == true ) {

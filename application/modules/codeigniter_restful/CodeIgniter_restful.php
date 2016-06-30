@@ -54,20 +54,20 @@ class Nexo_Restful extends CI_Model
 			`expire` INT(1) NOT NULL,
 			PRIMARY KEY (`id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
-		
-		$randomString		=	$this->oauthlibrary->generateKey();
-		
-		$this->db->insert( 'restapi_keys', array(
-			'key'			=>	$randomString,
-			'scopes'		=>	'core',
-			'app_name'		=>	__( 'Tendoo CMS' ),
-			'user'			=>	0,
-			'date_created'	=>	date_now(),
-			'expire'		=>	0
-		) );
-		
-		// Save Core Key
-		$this->options->set( 'rest_key', $randomString, true );
+        
+        $randomString        =    $this->oauthlibrary->generateKey();
+        
+        $this->db->insert('restapi_keys', array(
+            'key'            =>    $randomString,
+            'scopes'        =>    'core',
+            'app_name'        =>    __('Tendoo CMS'),
+            'user'            =>    0,
+            'date_created'    =>    date_now(),
+            'expire'        =>    0
+        ));
+        
+        // Save Core Key
+        $this->options->set('rest_key', $randomString, true);
     }
 }
 

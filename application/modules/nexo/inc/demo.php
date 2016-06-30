@@ -380,7 +380,7 @@ $this->options        =    new Options;
 
 $this->options->set('nexo_currency', '$', true);
 
-$this->options->set( 'nexo_currency_iso', 'USD', true );
+$this->options->set('nexo_currency_iso', 'USD', true);
 
 $this->options->set('nexo_currency_position', 'before', true);
 

@@ -81,8 +81,8 @@ class Nexo_Produits extends CI_Model
         $crud->set_rules('QUANTITY', __('Quantité Totale', 'nexo'), 'is_natural_no_zero');
         $crud->set_rules('DEFECTUEUX', __('Quantité Defectueuse', 'nexo'), 'numeric');
         $crud->set_rules('PRIX_DE_VENTE', __('Prix de vente', 'nexo'), 'numeric');
-		$crud->set_rules('PRIX_DACHAT', __('Prix d\'achat', 'nexo'), 'numeric');
-		$crud->set_rules('PRIX_PROMOTIONEL', __('Prix promotionnel', 'nexo'), 'numeric');
+        $crud->set_rules('PRIX_DACHAT', __('Prix d\'achat', 'nexo'), 'numeric');
+        $crud->set_rules('PRIX_PROMOTIONEL', __('Prix promotionnel', 'nexo'), 'numeric');
         $crud->set_rules('TAUX_DE_MARGE', __('Taux de marge', 'nexo'), 'numeric');
         $crud->set_rules('FRAIS_ACCESSOIRE', __('Frais Accessoires', 'nexo'), 'numeric');
         

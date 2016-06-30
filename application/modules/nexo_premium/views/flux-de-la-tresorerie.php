@@ -106,7 +106,7 @@ $( document ).ready(function(e) {
     ?></p>
         </div>
     	<div class="hidden-print">
-	    	<?php echo tendoo_info( __( 'Flux de trésorerie des activités opérationnelles.', 'nexo_premium') );
+	    	<?php echo tendoo_info(__('Flux de trésorerie des activités opérationnelles.', 'nexo_premium'));
     ?>
         </div>
     	<table class="table table-bordered table-striped box">

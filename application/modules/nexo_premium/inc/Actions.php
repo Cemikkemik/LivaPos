@@ -77,7 +77,7 @@ class Nexo_Premium_Actions extends CI_Model
         $this->load->model('Nexo_Misc');
         
         $this->config->load('nexo_premium', true);
-		$this->load->helper( 'nexopos' );
+        $this->load->helper('nexopos');
         
         $Nexo_Config        =    $this->config->item('nexo_premium');
         $this->Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_dashboard_card_'));
@@ -128,21 +128,18 @@ class Nexo_Premium_Actions extends CI_Model
                     $CA                        =    0;
                     // Uniquement les commandes comptant et avance	
                     if ($sale[ 'TYPE' ] == 'nexo_order_comptant') {
-                        
-						$CA                =    
-						__floatval($sale[ 'TOTAL' ]) - (
-							__floatval($sale[ 'RISTOURNE' ]) + 
-							__floatval($sale[ 'RABAIS' ]) + 
-							__floatval($sale[ 'REMISE' ])
-						);
-						
+                        $CA                =
+                        __floatval($sale[ 'TOTAL' ]) - (
+                            __floatval($sale[ 'RISTOURNE' ]) +
+                            __floatval($sale[ 'RABAIS' ]) +
+                            __floatval($sale[ 'REMISE' ])
+                        );
                     } elseif ($sale[ 'TYPE' ] == 'nexo_order_advance') {
-                        
-						$CA               =    __floatval($sale[ 'SOMME_PERCU' ]) - (
-							__floatval($sale[ 'RISTOURNE' ]) + 
-							__floatval($sale[ 'RABAIS' ]) + 
-							__floatval($sale[ 'REMISE' ])
-						);
+                        $CA               =    __floatval($sale[ 'SOMME_PERCU' ]) - (
+                            __floatval($sale[ 'RISTOURNE' ]) +
+                            __floatval($sale[ 'RABAIS' ]) +
+                            __floatval($sale[ 'REMISE' ])
+                        );
                     }
                     
                     $net_sales                +=    $CA;

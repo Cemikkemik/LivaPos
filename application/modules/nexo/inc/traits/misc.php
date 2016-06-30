@@ -15,7 +15,7 @@ trait Nexo_rest_misc
     {
         $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_'));
         $this->load->config('nexo');
-        	
+            
         if ((! $Cache->get('widget_sale_new_best_items') && ! $Cache->get('widget_sale_new_items')) || @$_GET[ 'refresh' ] == 'true') {
             // Get Latest item
             $start_date        =    $this->post('start_date');
@@ -56,25 +56,24 @@ trait Nexo_rest_misc
         $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_'));
         $this->load->config('nexo');
         $this->load->model('Nexo_Misc');
-		$this->load->helper('nexopos' );
+        $this->load->helper('nexopos');
         
         if (! $Cache->get('widget_income') || @$_GET[ 'refresh' ] == 'true') {
-            $start_date        	=    $this->post('start');
-            $end_date        	=    $this->post('end');
-            $dates            	=    $this->Nexo_Misc->dates_between_borders($start_date, $end_date);
-            $data            	=    array();            
-            $curl            	=    new Curl;
+            $start_date            =    $this->post('start');
+            $end_date            =    $this->post('end');
+            $dates                =    $this->Nexo_Misc->dates_between_borders($start_date, $end_date);
+            $data                =    array();
+            $curl                =    new Curl;
             
             if (! empty($dates)) {
-				
-				$this->load->config( 'rest' );			
-				$curl->setHeader( $this->config->item( 'rest_key_name' ), $_SERVER[ 'HTTP_' . $this->config->item( 'rest_header_key' ) ]);
-				
+                $this->load->config('rest');
+                $curl->setHeader($this->config->item('rest_key_name'), $_SERVER[ 'HTTP_' . $this->config->item('rest_header_key') ]);
+                
                 foreach ($dates as $date) {
                     // get orders
-                    $orders            	=    $curl->post(site_url(array( 'rest', 'nexo', 'order_by_dates', 'nexo_order_comptant' )), array(
-                        'start'        	=>    Carbon::parse($date)->startOfDay()->toDateTimeString(),
-                        'end'        	=>    Carbon::parse($date)->endOfDay()->toDateTimeString()
+                    $orders                =    $curl->post(site_url(array( 'rest', 'nexo', 'order_by_dates', 'nexo_order_comptant' )), array(
+                        'start'            =>    Carbon::parse($date)->startOfDay()->toDateTimeString(),
+                        'end'            =>    Carbon::parse($date)->endOfDay()->toDateTimeString()
                     ));
                     
                     if (! empty($orders)) {
@@ -114,10 +113,9 @@ trait Nexo_rest_misc
             $curl            =    new Curl;
             
             if (! empty($dates)) {
-				
-				$this->load->config( 'rest' );			
-				$curl->setHeader( $this->config->item( 'rest_key_name' ), $_SERVER[ 'HTTP_' . $this->config->item( 'rest_header_key' ) ]);
-				
+                $this->load->config('rest');
+                $curl->setHeader($this->config->item('rest_key_name'), $_SERVER[ 'HTTP_' . $this->config->item('rest_header_key') ]);
+                
                 foreach (array_keys($this->config->item('nexo_order_types')) as $order_types) {
                     $data[ $order_types ]    =    array();
                     foreach ($dates as $date) {

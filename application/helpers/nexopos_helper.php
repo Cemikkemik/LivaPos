@@ -81,9 +81,9 @@ if (! function_exists('nexo_compare_card_values')) {
  * @return float/int
 **/
 
-if( ! function_exists( '__floatval' ) ) {
-	function __floatval( $val ) {
-		return round( floatval( $val ), 2 );
-	}
+if (! function_exists('__floatval')) {
+    function __floatval($val)
+    {
+        return round(floatval($val), 2);
+    }
 }
- 

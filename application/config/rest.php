@@ -369,7 +369,7 @@ $config['rest_key_length'] = 40;
 $config['rest_key_name'] = 'X-API-KEY';
 
 // Header Key
-$config[ 'rest_header_key' ]	=	str_replace( '-', '_' , $config['rest_key_name'] );
+$config[ 'rest_header_key' ]    =    str_replace('-', '_', $config['rest_key_name']);
 
 /*
 |--------------------------------------------------------------------------

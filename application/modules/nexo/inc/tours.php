@@ -16,7 +16,7 @@ class Nexo_Tours extends CI_Model
     
     public function demo_prompt()
     {
-		global $Options;
+        global $Options;
         ?>
         <script type="text/javascript">
 		var	NexoFirstRun	=	new function(){

@@ -387,7 +387,7 @@ class Nexo_Misc extends CI_Model
      * @return string
     **/
     
-    public function cmoney_format($number, $fractional = true )
+    public function cmoney_format($number, $fractional = true)
     {
         if ($fractional) {
             $number = sprintf('%.2f', $number);
@@ -628,8 +628,8 @@ class Nexo_Misc extends CI_Model
                 $SingleQueries        =    explode(';', $SQL_Joinded);
                 
                 foreach ($SingleQueries as $SingleQuery) {
-					$SingleQuery	=	trim($SingleQuery);
-                    if (! empty( $SingleQuery )) {
+                    $SingleQuery    =    trim($SingleQuery);
+                    if (! empty($SingleQuery)) {
                         $CleanSQLQueries[]    =    $SingleQuery;
                     }
                 }

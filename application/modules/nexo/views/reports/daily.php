@@ -252,7 +252,7 @@ foreach ($DatesArray as $DateYears):
 										<small><?php _e('Nc :', 'nexo');
         ?></small> <span class="order_nbr pull-right">0</span><br><br>
 										<a class="hideOnPrint btn btn-xs btn-primary" href="<?php echo get_instance()->events->apply_filters('nexo_daily_details_link', '', $CurrentDay->toDateString());
-        ?>"><i class="glyphicon glyphicon-search"></i></a> 
+        ?>"><i class="glyphicon glyphicon-search"></i> <?php echo __( 'Détails', 'nexo' );?></a> 
 										<!--<a class="hideOnPrint btn btn-xs btn-default btn_refresh" href="<?php echo get_instance()->events->apply_filters('nexo_daily_refresh_link', '', $CurrentDay->toDateString());
         ?>"><i class="glyphicon glyphicon-refresh"></i></a>-->
 									</div>
@@ -331,8 +331,7 @@ $( document ).ready(function(e) {
 			document.location	=	'<?php echo site_url(array( 'dashboard', 'nexo', 'rapports', 'journalier' )) . '/';
     ?>' + $( '[name="start"]' ).val() + '/' + $( '[name="end"]' ).val() + '?refresh=true';
 		} else {
-			alert( '<?php echo addslashes(__('Les dates ne sont pas spécifiée', 'nexo'));
-    ?>' );
+			alert( '<?php echo addslashes(__('Les dates ne sont pas spécifiée', 'nexo'));?>' );
 		}
 	});
 });
@@ -349,8 +348,7 @@ var	Nexo_Daily_Report	=	new function(){
     ?>';
 	this.CommandeDevis	=	'<?php echo 'nexo_order_devis';
     ?>';
-	this.CommandeAvance	=	'<?php echo 'nexo_order_advance';
-    ?>';
+	this.CommandeAvance	=	'<?php echo 'nexo_order_advance';?>';
 
 	// Storing Dates
 	this.Dates			=	[];
@@ -386,8 +384,7 @@ var	Nexo_Daily_Report	=	new function(){
 		this.DisplayModal();
 		var tableItemId		=	this.Dates[0];
 		
-		$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'get', 'nexo_commandes', 'DATE_CREATION', 'filter_date_interval' ));
-    ?>', {
+		$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'get', 'nexo_commandes', 'DATE_CREATION', 'filter_date_interval' ));?>', {
 			data			:	_.object( [ 'key' ], [ this.Dates[0] ] ),
 			type			:	'POST',
 			dataType		:	'json',
@@ -397,38 +394,47 @@ var	Nexo_Daily_Report	=	new function(){
 					// Chiffre d'affaire net sans charges commerciales
 					var ChiffreDaffaireNet	=	0;
 					_.each( json, function( value, key ) {
-						var RRR	=	parseInt( value.RISTOURNE ) + parseInt( value.RABAIS ) + parseInt( value.REMISE );
-						if( _.contains( [ Nexo_Daily_Report.CommandeCash, Nexo_Daily_Report.CommandeDevis, Nexo_Daily_Report.CommandeAvance ], value.TYPE ) ) {
-							ChiffreDaffaireNet	+=	Math.abs( parseInt( value.TOTAL ) - RRR );
+						// Nexo_Daily_Report.CommandeDevis,
+						// , Nexo_Daily_Report.CommandeAvance
+						if( _.contains( [ Nexo_Daily_Report.CommandeCash ], value.TYPE ) ) {
+							ChiffreDaffaireNet	+=	Math.abs( parseFloat( value.TOTAL ) );
+						} else if( _.contains( [ Nexo_Daily_Report.CommandeAvance ], value.TYPE ) ) {
+							ChiffreDaffaireNet	+=	Math.abs( parseFloat( value.SOMME_PERCU ) );
 						}
+
 					});
+					
 					$( '[data-day="' + tableItemId + '"]' )
 						.find( '.total_chiffre_daffaire_net' )
-						.html( Nexo_Daily_Report.CurrencyBefore + ' ' + NexoAPI.Format( ChiffreDaffaireNet ) + ' ' + Nexo_Daily_Report.CurrencyAfter );
+						.html( NexoAPI.DisplayMoney( ChiffreDaffaireNet ) );
 						
 						
 					// Total				
 					var CurrentTotal		=	0;
+					
 					_.each( json, function( value, key ) {
-						CurrentTotal	+=	( parseInt( value.TOTAL ) );
+						var RRR	=	NexoAPI.ParseFloat( parseFloat( value.RISTOURNE ) + parseFloat( value.RABAIS ) + parseFloat( value.REMISE ) );
+
+						CurrentTotal	+=	( Math.abs( parseFloat( value.TOTAL ) + RRR ) );
 					});
+					
 					$( '[data-day="' + tableItemId + '"]' )
 						.find( '.total_des_commandes' )
-						.html( Nexo_Daily_Report.CurrencyBefore + ' ' + NexoAPI.Format( CurrentTotal ) + ' ' + Nexo_Daily_Report.CurrencyAfter );
+						.html( NexoAPI.DisplayMoney( CurrentTotal ) );
 					
 					// Sommes dues
 					var CurrentDues		=	0;
 					_.each( json, function( value, key ) {
-						var RRR	=	parseInt( value.RISTOURNE ) + parseInt( value.RABAIS ) + parseInt( value.REMISE );
+						// var RRR	=	NexoAPI.ParseFloat( parseFloat( value.RISTOURNE ) + parseFloat( value.RABAIS ) + parseFloat( value.REMISE ) );
 						// Les sommes dues ne sont calculé que pour les avance et devis
 						if( _.contains( [ Nexo_Daily_Report.CommandeAvance, Nexo_Daily_Report.CommandeDevis ], value.TYPE ) ) {
-							var SommesDues	=	( parseInt( value.TOTAL ) - parseInt( value.SOMME_PERCU ) ) - RRR;								
+							var SommesDues	=	( NexoAPI.ParseFloat( value.TOTAL ) - NexoAPI.ParseFloat( value.SOMME_PERCU ) ); // - RRR;								
 							CurrentDues	+=	SommesDues;
 						}
 					});
 					$( '[data-day="' + tableItemId + '"]' )
 						.find( '.total_sommes_due' )
-						.html( Nexo_Daily_Report.CurrencyBefore + ' ' + NexoAPI.Format( CurrentDues ) + ' ' + Nexo_Daily_Report.CurrencyAfter );
+						.html( NexoAPI.DisplayMoney( CurrentDues ) );
 						
 					// Total Commandes
 					$( '[data-day="' + tableItemId + '"]' )
@@ -440,13 +446,13 @@ var	Nexo_Daily_Report	=	new function(){
 					_.each( json, function( value, key ) {
 						// Les sommes dues ne sont calculé que pour les avance et devis
 						if( _.contains( [ Nexo_Daily_Report.CommandeAvance, Nexo_Daily_Report.CommandeDevis ], value.TYPE ) ) {
-							var RRR	=	parseInt( value.RISTOURNE ) + parseInt( value.RABAIS ) + parseInt( value.REMISE );								
+							var RRR	=	NexoAPI.ParseFloat( parseFloat( value.RISTOURNE ) + parseFloat( value.RABAIS ) + parseFloat( value.REMISE ) );								
 							CurrentRRR	+=	RRR;
 						}
 					});
 					$( '[data-day="' + tableItemId + '"]' )
 						.find( '.total_sommes_rrr' )
-						.html( Nexo_Daily_Report.CurrencyBefore + ' ' + NexoAPI.Format( CurrentRRR ) + ' ' + Nexo_Daily_Report.CurrencyAfter );
+						.html( NexoAPI.DisplayMoney( CurrentRRR ) );
 					
 				}
 				Nexo_Daily_Report.FetchReport();

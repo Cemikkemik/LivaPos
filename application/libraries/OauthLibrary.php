@@ -92,8 +92,10 @@ class OauthLibrary
 		 * Check request scope
 		**/
 		
+		get_instance()->load->config( 'rest' );
+		
 		$query	=	get_instance()->db
-		->where( 'key', @$_SERVER[ 'HTTP_X_API_KEY' ] )
+		->where( 'key', @$_SERVER[ 'HTTP_' . get_instance()->config->item( 'rest_header_key' ) ] )
 		->get( 'restapi_keys' )
 		->result();	
 

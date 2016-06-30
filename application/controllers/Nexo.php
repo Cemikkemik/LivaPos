@@ -242,7 +242,7 @@ class Nexo extends REST_Controller
 
     public function feed_get()
     {
-        $this->load->config('nexo');
+        $this->config->load('nexo');
         // Set max execution Time
         set_time_limit($this->config->item('feed_execution_time '));
 

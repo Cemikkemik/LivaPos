@@ -140,7 +140,8 @@ class Nexo_Commandes extends CI_Model
              * Deprecated
             **/
         } elseif ($page == 'v2_checkout') {
-            if (! User::can('create_shop_orders')) {
+            
+			if (! User::can('create_shop_orders')) {
                 redirect(array( 'dashboard', 'access-denied' ));
             }
             
@@ -167,9 +168,11 @@ class Nexo_Commandes extends CI_Model
                 }
             }
             
-            if (@$Options[ 'default_compte_client' ] == null) {
+            if (@$Options[ 'default_compte_client' ] == null && User::can( 'edit_options' ) ) {
                 redirect(array( 'dashboard', 'nexo', 'settings', 'customers?notice=default-customer-required' ));
-            }
+            } elseif( @$Options[ 'default_compte_client' ] == null ) {
+				redirect(array( 'dashboard?notice=default-customer-required' ));
+			}
             
             // Before Cols
             $this->events->add_filter('gui_before_rows', function ($content) {

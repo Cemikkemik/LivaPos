@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nexo Premium\n"
-"POT-Creation-Date: 2016-06-22 15:42+0100\n"
-"PO-Revision-Date: 2016-06-22 15:43+0100\n"
+"POT-Creation-Date: 2016-06-30 00:58+0100\n"
+"PO-Revision-Date: 2016-06-30 00:58+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en_US\n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: inc/Actions.php:36 inc/Controller.php:216
+#: inc/Actions.php:36 inc/Controller.php:216 views/factures.php:10
 #, fuzzy
 msgid "Factures"
 msgstr "Invoices"
@@ -36,46 +36,46 @@ msgstr "New Invoice"
 msgid "Clear cache"
 msgstr "Clear cache"
 
-#: inc/Actions.php:228
+#: inc/Actions.php:239
 msgid "Création d'une nouvelle commande"
 msgstr "Creating a new order"
 
-#: inc/Actions.php:230
+#: inc/Actions.php:241
 #, php-format
 msgid "L'utilisateur %s a crée une nouvelle commande avec pour code : %s"
 msgstr "User%s created a new order with the following code:%s"
 
-#: inc/Actions.php:246
+#: inc/Actions.php:257
 msgid "Modification d'une commande"
 msgstr "Order Modification"
 
-#: inc/Actions.php:248
+#: inc/Actions.php:259
 #, php-format
 msgid "L'utilisateur %s a modifié une commande avec pour code : %s"
 msgstr "User%s modified an order with the following code:%s"
 
-#: inc/Actions.php:265
+#: inc/Actions.php:276
 msgid "Suppréssion d'une commande"
 msgstr "Deleting an order"
 
-#: inc/Actions.php:267
+#: inc/Actions.php:278
 #, php-format
 msgid "L'utilisateur %s a supprimé une commande avec pour identifiant : %s"
 msgstr "User%s removed an order with the following id:%s"
 
-#: inc/Actions.php:283
+#: inc/Actions.php:294
 msgid "Historique des utilisateurs"
 msgstr "User History Report"
 
-#: inc/Actions.php:288
+#: inc/Actions.php:299
 msgid "Sauvegarder les réglages"
 msgstr "Save settings"
 
-#: inc/Actions.php:302
+#: inc/Actions.php:313
 msgid "Souhaitez-vous activer l'historique des activités ?"
 msgstr "Would you like to activate the activity history?"
 
-#: inc/Actions.php:303
+#: inc/Actions.php:314
 msgid ""
 "Ceci peut très légèrement ralentir l'application, et prendre plus d'espace "
 "dans votre base de données."
@@ -83,15 +83,15 @@ msgstr ""
 "This may slightly slow down the application, and take more space in your "
 "database."
 
-#: inc/Actions.php:305
+#: inc/Actions.php:316
 msgid "Veuillez choisir une option"
 msgstr "Choose an option"
 
-#: inc/Actions.php:306
+#: inc/Actions.php:317
 msgid "Oui"
 msgstr "Yes"
 
-#: inc/Actions.php:307
+#: inc/Actions.php:318
 msgid "Non"
 msgstr "No"
 
@@ -610,6 +610,10 @@ msgstr "Cash flows for %s"
 msgid "Document imprimé par : %s"
 msgstr "Printed by: %s"
 
+#: views/flux-de-la-tresorerie.php:109
+msgid "Flux de trésorerie des activités opérationnelles."
+msgstr "Cash flow from operational activities."
+
 #: views/flux-de-la-tresorerie.php:116
 #, fuzzy
 msgid "Mouvement annuel de la trésorerie"
@@ -620,7 +624,7 @@ msgstr "Annual movement of cash"
 msgid "Libellé / Mois"
 msgstr "Wording / month"
 
-#: views/flux-de-la-tresorerie.php:486 views/stats-des-ventes.php:392
+#: views/flux-de-la-tresorerie.php:497 views/stats-des-ventes.php:393
 #, fuzzy
 msgid "Chargement en cours..."
 msgstr "Loading in progress…"

@@ -45,11 +45,11 @@ trait Nexo_orders
         );
         
         // Order Type
-        if (intval($this->post('SOMME_PERCU')) >= intval($this->post('TOTAL'))) {
+        if (__floatval($this->post('SOMME_PERCU')) >= __floatval($this->post('TOTAL'))) {
             $order_details[ 'TYPE' ]    =    'nexo_order_comptant'; // Comptant
-        } elseif (intval($this->post('SOMME_PERCU')) == 0) {
+        } elseif (__floatval($this->post('SOMME_PERCU')) == 0) {
             $order_details[ 'TYPE' ]    =   'nexo_order_devis'; // Devis
-        } elseif (intval($this->post('SOMME_PERCU')) < intval($this->post('TOTAL')) && intval($this->post('SOMME_PERCU')) > 0) {
+        } elseif (__floatval($this->post('SOMME_PERCU')) < __floatval($this->post('TOTAL')) && __floatval($this->post('SOMME_PERCU')) > 0) {
             $order_details[ 'TYPE' ]    =    'nexo_order_advance'; // Avance
         }
         
@@ -68,7 +68,7 @@ trait Nexo_orders
             // Verifie si le client doit profiter de la réduction
             if ($this->post('DISCOUNT_TYPE') != 'disable') {
                 // On définie si en fonction des réglages, l'on peut accorder une réduction au client
-                if ($total_commands >= intval($this->post('HMB_DISCOUNT')) - 1 && $result[0][ 'DISCOUNT_ACTIVE' ] == 0) {
+                if ($total_commands >= __floatval($this->post('HMB_DISCOUNT')) - 1 && $result[0][ 'DISCOUNT_ACTIVE' ] == 0) {
                     $this->db->set('DISCOUNT_ACTIVE', 1);
                 } elseif ($total_commands >= $this->post('HMB_DISCOUNT') && $result[0][ 'DISCOUNT_ACTIVE' ] == 1) {
                     $this->db->set('DISCOUNT_ACTIVE', 0); // bénéficiant d'une reduction sur cette commande, la réduction est désactivée
@@ -99,7 +99,7 @@ trait Nexo_orders
                 'REF_COMMAND_CODE'            =>    $order_details[ 'CODE' ],
                 'QUANTITE'                    =>    $item[1],
                 'PRIX'                        =>    $item[3],
-                'PRIX_TOTAL'                =>    intval($item[1]) * intval($item[3])
+                'PRIX_TOTAL'                =>    __floatval($item[1]) * __floatval($item[3])
             ));
         }
         
@@ -157,11 +157,11 @@ trait Nexo_orders
         );
         
         // Order Type
-        if (intval($this->put('SOMME_PERCU')) >= intval($this->put('TOTAL'))) {
+        if (__floatval($this->put('SOMME_PERCU')) >= __floatval($this->put('TOTAL'))) {
             $order_details[ 'TYPE' ]    =    'nexo_order_comptant'; // Comptant
-        } elseif (intval($this->put('SOMME_PERCU')) == 0) {
+        } elseif (__floatval($this->put('SOMME_PERCU')) == 0) {
             $order_details[ 'TYPE' ]    =   'nexo_order_devis'; // Devis
-        } elseif (intval($this->put('SOMME_PERCU')) < intval($this->put('TOTAL')) && intval($this->put('SOMME_PERCU')) > 0) {
+        } elseif (__floatval($this->put('SOMME_PERCU')) < __floatval($this->put('TOTAL')) && __floatval($this->put('SOMME_PERCU')) > 0) {
             $order_details[ 'TYPE' ]    =    'nexo_order_advance'; // Avance
         }
                 
@@ -184,7 +184,7 @@ trait Nexo_orders
                 // Verifie si le client doit profiter de la réduction
                 if ($this->put('DISCOUNT_TYPE') != 'disable') {
                     // On définie si en fonction des réglages, l'on peut accorder une réduction au client
-                    if ($total_commands >= intval($this->put('HMB_DISCOUNT')) - 1 && $client[0][ 'DISCOUNT_ACTIVE' ] == 0) {
+                    if ($total_commands >= __floatval($this->put('HMB_DISCOUNT')) - 1 && $client[0][ 'DISCOUNT_ACTIVE' ] == 0) {
                         $this->db->set('DISCOUNT_ACTIVE', 1);
                     } elseif ($total_commands >= $this->put('HMB_DISCOUNT') && $client[0][ 'DISCOUNT_ACTIVE' ] == 1) {
                         $this->db->set('DISCOUNT_ACTIVE', 0); // bénéficiant d'une reduction sur cette commande, la réduction est désactivée

@@ -25,7 +25,13 @@ class Oauth extends Tendoo_Controller
     }
     public function index()
     {
+		$this->load->model('Gui', null, 'gui');
+        $this->load->model('Update_Model'); // load update model @since 3.0
+
+		global $Options;
 		$data[ 'scopes' ]	=	$this->oauthlibrary->getScopes( @$_GET[ 'scope' ] );
+		
+		$this->Gui->set_title( sprintf( __( '%s &mdash; Request permissions' ), @$Options[ 'site_name' ] ) );
 		
 		$this->load->view( 'shared/header' );
         $this->load->view( 'oauth/body', $data );

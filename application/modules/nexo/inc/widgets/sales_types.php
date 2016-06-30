@@ -118,7 +118,8 @@ var config = {
 					show: true,
 					labelString: 'Value'
 				}
-			}]
+			}],
+			scaleStartValue : 0 
 		}
 	}
 };
@@ -129,17 +130,17 @@ var NexoSalesStats	=	new function(){
 		var post_data	=	_.object( [ 'start', 'end' ], [ startOfWeek, endOfWeek ] );
 		var order_types	=	$.parseJSON( '<?php echo json_encode($this->config->item('nexo_order_types'));?>' );
 		var colors		=	{
-			nexo_order_comptant	:	{
-				borderColor			:	'rgb(70, 195, 208)',
-				backgroundColor 	: 	'rgba(70, 195, 208, 0.5)'
-			},
 			nexo_order_advance	:	{
+				borderColor			:	'rgb(70, 195, 208)',
+				backgroundColor 	: 	'rgba(70, 195, 208, 0.2)'
+			},
+			nexo_order_comptant	:	{
 				borderColor			:	'rgb(142, 208, 70)',
-				backgroundColor 	: 	'rgba(142, 208, 70, 0.5)'
+				backgroundColor 	: 	'rgba(142, 208, 70, 0.2)'
 			},
 			nexo_order_devis	:	{
 				borderColor			:	'rgb(216, 89, 89)',
-				backgroundColor 	: 	'rgba(216, 89, 89,0.5)'
+				backgroundColor 	: 	'rgba(216, 89, 89,0.2)'
 			}
 		}
 
@@ -153,7 +154,6 @@ var NexoSalesStats	=	new function(){
 				NexoSalesLines.data.datasets	=	[]; // Reset
 				
 				_.each( data, function( value, key ) {	
-					console.log( _.property( key )( order_types ) );		
 					NexoSalesLines.data.datasets.push({
 						data	:	_.toArray( value ),
 						label	: 	_.propertyOf( order_types )( key ),

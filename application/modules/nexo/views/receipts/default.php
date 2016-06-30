@@ -66,9 +66,9 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         $total_quantite    =    0;
                         
                         foreach ($order[ 'products' ] as $_produit) {
-                            $total_global    +=    intval($_produit[ 'PRIX_TOTAL' ]);
-                            $total_unitaire    +=    intval($_produit[ 'PRIX' ]);
-                            $total_quantite +=    intval($_produit[ 'QUANTITE' ]);
+                            $total_global    	+=    __floatval($_produit[ 'PRIX_TOTAL' ]);
+                            $total_unitaire    	+=    __floatval($_produit[ 'PRIX' ]);
+                            $total_quantite 	+=    __floatval($_produit[ 'QUANTITE' ]);
                             ?>
                         <tr>
                             <td class=""><em><?php echo $_produit[ 'DESIGN' ];
@@ -76,7 +76,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <td class="text-right">
                             <?php echo $this->Nexo_Misc->display_currency('before');
                             ?>
-							<?php echo intval($_produit[ 'PRIX' ]);
+							<?php echo __floatval($_produit[ 'PRIX' ]);
                             ?>
                             <?php echo $this->Nexo_Misc->display_currency('after');
                             ?>
@@ -86,8 +86,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <td class="text-right">
                             <?php echo $this->Nexo_Misc->display_currency('before');
                             ?>
-							<?php echo intval($_produit[ 'PRIX_TOTAL' ]);
-                            ?>
+							<?php echo __floatval($_produit[ 'PRIX_TOTAL' ]);?>
                             <?php echo $this->Nexo_Misc->display_currency('after');
                             ?>
                             </td>
@@ -103,7 +102,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <?php /*echo sprintf( 
                                 __( '%s %s %s', 'nexo' ), 
                                 $this->Nexo_Misc->display_currency( 'before' ), 
-                                intval( $total_unitaire ),
+                                __floatval( $total_unitaire ),
                                 $this->Nexo_Misc->display_currency( 'after' ) 
                             )*/;?>
                             </td>
@@ -112,7 +111,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <?php echo sprintf(
                                 __('%s %s %s', 'nexo'),
                                 $this->Nexo_Misc->display_currency('before'),
-                                intval($total_global),
+                                __floatval($total_global),
                                 $this->Nexo_Misc->display_currency('after')
                             );?>
                             </td>
@@ -125,7 +124,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <?php /*echo sprintf( 
                                 __( '%s %s %s', 'nexo' ), 
                                 $this->Nexo_Misc->display_currency( 'before' ), 
-                                intval( $total_unitaire ),
+                                __floatval( $total_unitaire ),
                                 $this->Nexo_Misc->display_currency( 'after' ) 
                             )*/;?>
                             </td>
@@ -134,13 +133,13 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <?php echo sprintf(
                                 __('%s %s %s', 'nexo'),
                                 $this->Nexo_Misc->display_currency('before'),
-                                intval($total_global),
+                                __floatval($total_global),
                                 $this->Nexo_Misc->display_currency('after')
                             );?>
                             </td>
                         </tr>
                         <?php endif;?>
-                        <?php if (intval($_produit[ 'RISTOURNE' ])):?>
+                        <?php if (__floatval($_produit[ 'RISTOURNE' ])):?>
                         <tr>
                             <td class=""><em><?php _e('Remise automatique', 'nexo');?></em></td>
                             <td class="" style="text-align: right"> </td>
@@ -149,13 +148,13 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <?php echo sprintf(
                                 __('%s %s %s', 'nexo'),
                                 $this->Nexo_Misc->display_currency('before'),
-                                intval($_produit[ 'RISTOURNE' ]),
+                                __floatval($_produit[ 'RISTOURNE' ]),
                                 $this->Nexo_Misc->display_currency('after')
                             );?>
                             </td>
                         </tr>
                         <?php endif;?>
-                        <?php if (intval($_produit[ 'REMISE' ])):?>
+                        <?php if (__floatval($_produit[ 'REMISE' ])):?>
                         <tr>
                             <td class=""><em><?php _e('Remise expresse', 'nexo');?></em></td>
                             <td class="" style="text-align: right"> </td>
@@ -164,7 +163,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <?php echo sprintf(
                                 __('%s %s %s', 'nexo'),
                                 $this->Nexo_Misc->display_currency('before'),
-                                intval($_produit[ 'REMISE' ]),
+                                __floatval($_produit[ 'REMISE' ]),
                                 $this->Nexo_Misc->display_currency('after')
                             );?>
                             </td>
@@ -179,7 +178,14 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <?php echo sprintf(
                                 __('%s %s %s', 'nexo'),
                                 $this->Nexo_Misc->display_currency('before'),
-                                intval($total_global - (intval(@$_produit[ 'RISTOURNE' ]) + intval(@$_produit[ 'RABAIS' ]) + intval(@$_produit[ 'REMISE' ]))),
+                                bcsub( 
+									__floatval($total_global), 
+									(
+										__floatval(@$_produit[ 'RISTOURNE' ]) + 
+										__floatval(@$_produit[ 'RABAIS' ]) + 
+										__floatval(@$_produit[ 'REMISE' ])
+									), 2
+								),
                                 $this->Nexo_Misc->display_currency('after')
                             );?>
                             </td>
@@ -205,7 +211,14 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <?php echo sprintf(
                                 __('%s %s %s', 'nexo'),
                                 $this->Nexo_Misc->display_currency('before'),
-                                intval($total_global - (intval(@$_produit[ 'RISTOURNE' ]) + intval(@$_produit[ 'RABAIS' ]) + intval(@$_produit[ 'REMISE' ]))) + $_produit[ 'TVA' ],
+                                bcsub( 
+									__floatval( $total_global ) + __floatval( $_produit[ 'TVA' ] ), 
+									(
+										__floatval(@$_produit[ 'RISTOURNE' ]) + 
+										__floatval(@$_produit[ 'RABAIS' ]) + 
+										__floatval(@$_produit[ 'REMISE' ])
+									), 2
+								),
                                 $this->Nexo_Misc->display_currency('after')
                             );?>
                             </td>
@@ -219,7 +232,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <?php echo sprintf(
                                 __('%s %s %s', 'nexo'),
                                 $this->Nexo_Misc->display_currency('before'),
-                                intval($_produit[ 'SOMME_PERCU' ]),
+                                __floatval($_produit[ 'SOMME_PERCU' ]),
                                 $this->Nexo_Misc->display_currency('after')
                             );?>
                             </td>
@@ -231,21 +244,17 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <td class="text-right" colspan="3"><h4><strong><?php echo $terme;?></strong></h4></td>
                             <td class="text-right text-danger"><h4><strong>
                             <?php echo $this->Nexo_Misc->display_currency('before');?>
-                            <?php if (@$Options[ 'nexo_enable_vat' ] != 'oui'):?>
-								<?php echo
-                                abs(intval($order[ 'order' ][0][ 'TOTAL' ]) -
-                                (
-                                    intval($order[ 'order' ][0][ 'REMISE' ]) +
-                                    intval($order[ 'order' ][0][ 'RABAIS' ]) +
-                                    intval($order[ 'order' ][0][ 'RISTOURNE' ]) +
-                                    intval($order[ 'order' ][0][ 'SOMME_PERCU' ]) +
-                                    $_produit[ 'TVA' ]
-                                ))
+                            
+								<?php
+
+                                echo abs( bcsub(
+                                    __floatval( $order[ 'order' ][0][ 'TOTAL' ] ),
+                                    __floatval( $order[ 'order' ][0][ 'SOMME_PERCU' ] ),
+                                    2
+                                ) );
+
+                                // __floatval( $_produit[ 'TVA' ] )
                                 ;?>
-                            <?php else:?>
-                            	<?php echo abs((intval($total_global - (intval(@$_produit[ 'RISTOURNE' ]) + intval(@$_produit[ 'RABAIS' ]) + intval(@$_produit[ 'REMISE' ]))) + $_produit[ 'TVA' ]) - intval($order[ 'order' ][0][ 'SOMME_PERCU' ]));?>
-                            <?php endif;?>
-							<?php echo $this->Nexo_Misc->display_currency('after');?>
                             </strong>
                             </h4></td>
                         </tr>

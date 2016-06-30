@@ -23,9 +23,10 @@ class Nexo extends REST_Controller
     {
         parent::__construct();
        
+   		$this->load->helper( 'nexopos' );
         $this->load->library('session');
         $this->load->model('Options');
-        $this->load->database();
+        $this->load->database();		
 		
 		if( ! $this->oauthlibrary->checkScope( 'core' ) ) {
 			$this->__forbidden();

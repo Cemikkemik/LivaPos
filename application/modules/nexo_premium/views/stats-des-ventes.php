@@ -259,12 +259,13 @@ $( document ).ready(function(e) {
 						NexoPremium_Sales_Statistics.Nexo_Order_Cash, 
 						NexoPremium_Sales_Statistics.Nexo_Order_Avance 
 					], _value.TYPE_COMMANDE ) ) {
-						TotalCommandeCash	+=	parseInt( _value.PRIX_DE_VENTE );
+						console.log( _value.PRIX_DE_VENTE );
+						TotalCommandeCash	+=	NexoAPI.ParseFloat( _value.PRIX_DE_VENTE );
 					} 
 				});
 				$( 'table tbody tr' ).eq( key - 1 ).find( '[month-id="' + NexoPremium_Sales_Statistics.Index + '"]' ).html( 
 					NexoPremium_Sales_Statistics.CurrencyBefore + ' ' +
-					'<span class="amount">' + TotalCommandeCash + '</span>' + 
+					'<span class="amount">' + NexoAPI.Format( TotalCommandeCash ) + '</span>' + 
 					NexoPremium_Sales_Statistics.CurrencyAfter + ' '
 				);
 			});
@@ -279,11 +280,11 @@ $( document ).ready(function(e) {
 			$( '[total-id]' ).each( function(){
 				var StatVenteRowTotal	=	0;
 				$( '[month-id="' + $( this ).attr( 'total-id' ) + '"]' ).each( function(){
-					StatVenteRowTotal +=	parseInt( $( this ).find( '.amount' ).html() );
+					StatVenteRowTotal +=	NexoAPI.ParseFloat( $( this ).find( '.amount' ).html() );
 				});
 				$( this ).html( 
 					NexoPremium_Sales_Statistics.CurrencyBefore + ' ' +
-					'<span class="amount">' + StatVenteRowTotal + '</span>' +
+					'<span class="amount">' + NexoAPI.Format( StatVenteRowTotal ) + '</span>' +
 					NexoPremium_Sales_Statistics.CurrencyAfter + ' '
 				);
 			});
@@ -298,7 +299,7 @@ $( document ).ready(function(e) {
 			$( '[col-total]' ).each( function(){
 				var StatVenteColTotal	=	0;
 				$( this ).siblings( '[month-id]' ).each( function(){
-					StatVenteColTotal +=	parseInt( $( this ).find( '.amount' ).html() );
+					StatVenteColTotal +=	NexoAPI.ParseFloat( $( this ).find( '.amount' ).html() );
 				});
 				$( this ).html( 
 					NexoPremium_Sales_Statistics.CurrencyBefore + ' ' +
@@ -315,7 +316,7 @@ $( document ).ready(function(e) {
 		this.GlobalTotal		=	function(){
 			var SalesStatsGlobal	=	0;
 			$( '[global-total]' ).closest( 'tr' ).find('[total-id]' ).each( function(){
-				SalesStatsGlobal +=	parseInt( $( this ).find( '.amount' ).html() );
+				SalesStatsGlobal +=	NexoAPI.ParseFloat( $( this ).find( '.amount' ).html() );
 			});
 			$( '[global-total]' ).html( 
 				NexoPremium_Sales_Statistics.CurrencyBefore + ' ' +

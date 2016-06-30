@@ -341,7 +341,7 @@ class Nexo_Premium_Controller extends CI_Model
         
         $data[ 'start_date' ]    =    $start_date == null ? Carbon::parse(date_now()) : $start_date;
         $data[ 'end_date' ]        =    $end_date    == null ? Carbon::parse(date_now())->addMonths(1): $end_date;
-        $data[ 'cashiers' ]        =    $this->auth->list_users('nexo_cashier');
+        $data[ 'cashiers' ]        =    $this->auth->list_users('shop_cashier');
         
         // $this->enqueue->js( '../modules/nexo/bower_components/Chart.js/Chart.min' );
         $this->enqueue->js('../modules/nexo/bower_components/moment/min/moment.min');

@@ -25,7 +25,7 @@ var v2Checkout					=	new function(){
 	if( this.CartVATPercent == '0' ) {
 		this.CartVATEnabled		=	false;
 	}
-	
+
 	/**
 	 * Show Product List Splash
 	**/
@@ -178,7 +178,7 @@ var v2Checkout					=	new function(){
 						if( value.CODEBAR == $( parent ).data( 'item-barcode' ) ) {
 							value.QTE_ADDED--;
 							// If item reach "0";
-							if( parseFloat( value.QTE_ADDED ) == 0 ) {
+							if( parseInt( value.QTE_ADDED ) == 0 ) {
 								v2Checkout.CartItems.splice( key, 1 );
 							}
 						}
@@ -374,9 +374,9 @@ var v2Checkout					=	new function(){
 				}
 
 				// Percentage can't exceed 100%
-				if( v2Checkout.CartRemiseType == 'percentage' && parseFloat( value ) > 100 ) {
+				if( v2Checkout.CartRemiseType == 'percentage' && NexoAPI.ParseFloat( value ) > 100 ) {
 					value = 100;
-				} else if( v2Checkout.CartRemiseType == 'flat' && parseFloat( value ) > v2Checkout.CartValue ) {
+				} else if( v2Checkout.CartRemiseType == 'flat' && NexoAPI.ParseFloat( value ) > v2Checkout.CartValue ) {
 					// flat discount cannot exceed cart value
 					value	=	v2Checkout.CartValue;
 				}
@@ -440,14 +440,14 @@ var v2Checkout					=	new function(){
 
 		$( '[name="discount_value"]' ).bind( 'blur', function(){
 
-			if( parseFloat( $( this ).val() ) < 0 ) {
+			if( NexoAPI.ParseFloat( $( this ).val() ) < 0 ) {
 				$( this ).val( 0 );
 			}
 
 			// Percentage allowed to 100% only
-			if( v2Checkout.CartRemiseType == 'percentage' && parseFloat( $( '[name="discount_value"]' ).val() ) > 100 ) {
+			if( v2Checkout.CartRemiseType == 'percentage' && NexoAPI.ParseFloat( $( '[name="discount_value"]' ).val() ) > 100 ) {
 				$( this ).val( 100 );
-			} else if( v2Checkout.CartRemiseType == 'flat' && parseFloat( $( '[name="discount_value"]' ).val() ) > v2Checkout.CartValue ) {
+			} else if( v2Checkout.CartRemiseType == 'flat' && NexoAPI.ParseFloat( $( '[name="discount_value"]' ).val() ) > v2Checkout.CartValue ) {
 				// flat discount cannot exceed cart value
 				$( this ).val( v2Checkout.CartValue );
 				NexoAPI.Notify().info( '<?php echo _s('Attention', 'nexo');?>', '<?php echo _s('La remise fixe ne peut pas excéder la valeur actuelle du panier. Le montant de la remise à été réduite à la valeur du panier.', 'nexo');?>' );
@@ -504,7 +504,7 @@ var v2Checkout					=	new function(){
 				var promo_start			= 	moment( value.SPECIAL_PRICE_START_DATE );
 				var promo_end			= 	moment( value.SPECIAL_PRICE_END_DATE );
 
-				var MainPrice			= 	parseFloat( value.PRIX_DE_VENTE )
+				var MainPrice			= 	NexoAPI.ParseFloat( value.PRIX_DE_VENTE )
 				var Discounted			= 	'';
 				var CustomBackground	=	'';
 					value.PROMO_ENABLED	=	false;
@@ -512,8 +512,8 @@ var v2Checkout					=	new function(){
 				if( promo_start.isBefore( v2Checkout.CartDateTime ) ) {
 					if( promo_end.isSameOrAfter( v2Checkout.CartDateTime ) ) {
 						value.PROMO_ENABLED	=	true;
-						MainPrice			=	parseFloat( value.PRIX_PROMOTIONEL );
-						Discounted			=	'<small><del>' + NexoAPI.DisplayMoney( parseFloat( value.PRIX_DE_VENTE ) ) + '</del></small>';
+						MainPrice			=	NexoAPI.ParseFloat( value.PRIX_PROMOTIONEL );
+						Discounted			=	'<small><del>' + NexoAPI.DisplayMoney( NexoAPI.ParseFloat( value.PRIX_DE_VENTE ) ) + '</del></small>';
 						CustomBackground	=	'background:<?php echo $this->config->item('discounted_item_background');?>';
 					}
 				}
@@ -521,7 +521,7 @@ var v2Checkout					=	new function(){
 				// <span class="btn btn-primary btn-xs item-reduce hidden-sm hidden-xs">-</span> <input type="number" style="width:40px;border-radius:5px;border:solid 1px #CCC;" maxlength="3"/> <span class="btn btn-primary btn-xs   hidden-sm hidden-xs">+</span>
 
 				$( '#cart-table-body' ).find( 'table' ).append(
-					'<tr cart-item data-line-weight="' + ( MainPrice * parseFloat( value.QTE_ADDED ) ) + '" data-item-barcode="' + value.CODEBAR + '">' +
+					'<tr cart-item data-line-weight="' + ( MainPrice * parseInt( value.QTE_ADDED ) ) + '" data-item-barcode="' + value.CODEBAR + '">' +
 						'<td width="210" class="text-left" style="line-height:35px;"><a href="<?php echo site_url('dashboard/nexo/produits/lists/edit');?>/' + value.ID + '">' + value.DESIGN + '</a></td>' +
 						'<td width="130" class="text-center"  style="line-height:35px;">' + NexoAPI.DisplayMoney( MainPrice ) + ' ' + Discounted + '</td>' +
 						'<td width="145" class="text-center">' +
@@ -535,13 +535,13 @@ var v2Checkout					=	new function(){
 								'</span>'+
 							'</div>' +
 						'</td>' +
-						'<td width="115" class="text-right" style="line-height:35px;">' + NexoAPI.DisplayMoney( MainPrice * parseFloat( value.QTE_ADDED ) ) + '</td>' +
+						'<td width="115" class="text-right" style="line-height:35px;">' + NexoAPI.DisplayMoney( MainPrice * parseInt( value.QTE_ADDED ) ) + '</td>' +
 					'</tr>'
 				);
-				_tempCartValue	+=	( MainPrice * parseFloat( value.QTE_ADDED ) );
+				_tempCartValue	+=	( MainPrice * parseInt( value.QTE_ADDED ) );
 
 				// Just to count all products
-				v2Checkout.CartTotalItems	+=	parseFloat( value.QTE_ADDED );
+				v2Checkout.CartTotalItems	+=	parseInt( value.QTE_ADDED );
 			});
 
 			this.CartValue	=	_tempCartValue;
@@ -574,7 +574,7 @@ var v2Checkout					=	new function(){
 
 			if( this.CartRemiseType == 'percentage' ) {
 				if( typeof value != 'undefined' ) {
-					this.CartRemisePercent	=	parseFloat( value );
+					this.CartRemisePercent	=	NexoAPI.ParseFloat( value );
 				}
 
 				// Only if the cart is not empty
@@ -590,7 +590,7 @@ var v2Checkout					=	new function(){
 
 			} else if( this.CartRemiseType == 'flat' ) {
 				if( typeof value != 'undefined' ) {
-					this.CartRemise 			=	parseFloat( value );
+					this.CartRemise 			=	NexoAPI.ParseFloat( value );
 				}
 
 				if( this.CartRemiseEnabled ) {
@@ -619,14 +619,14 @@ var v2Checkout					=	new function(){
 			if( this.CartRistourneType == 'percent' ) {
 
 				if( this.CartRistournePercent != '' ) {
-					this.CartRistourne	=	( parseFloat( this.CartRistournePercent ) * this.CartValue ) / 100;
+					this.CartRistourne	=	( NexoAPI.ParseFloat( this.CartRistournePercent ) * this.CartValue ) / 100;
 				}
 
 				$( '.cart-discount-notice-area' ).append( '<span style="cursor: pointer; margin:0px 2px;" class="animated bounceIn btn expandable btn-info btn-xs cart-ristourne"><i class="fa fa-remove"></i> <?php echo addslashes(__('Ristourne : ', 'nexo'));?>' + this.CartRistournePercent + '%</span>' );
 
 			} else if( this.CartRistourneType == 'amount' ) {
 				if( this.CartRistourneAmount != '' ) {
-					this.CartRistourne	=	parseFloat( this.CartRistourneAmount );
+					this.CartRistourne	=	NexoAPI.ParseFloat( this.CartRistourneAmount );
 				}
 
 				$( '.cart-discount-notice-area' ).append( '<span style="cursor: pointer;margin:0px 2px;" class="animated bounceIn btn expandable btn-info btn-xs cart-ristourne"><i class="fa fa-remove"></i> <?php echo addslashes(__('Ristourne : ', 'nexo'));?>' + NexoAPI.DisplayMoney( this.CartRistourneAmount ) + '</span>' );
@@ -648,13 +648,13 @@ var v2Checkout					=	new function(){
 		if( this.CartGroupDiscountEnabled == true ) {
 			if( this.CartGroupDiscountType == 'percent' ) {
 				if( this.CartGroupDiscountPercent != '' ) {
-					this.CartGroupDiscount		=	( parseFloat( this.CartGroupDiscountPercent ) * this.CartValue ) / 100;
+					this.CartGroupDiscount		=	( NexoAPI.ParseFloat( this.CartGroupDiscountPercent ) * this.CartValue ) / 100;
 
 					$( '.cart-discount-notice-area' ).append( '<p style="cursor: pointer; margin:0px 2px;" class="animated bounceIn btn btn-warning expandable btn-xs cart-group-discount"><i class="fa fa-remove"></i> <?php echo addslashes(__('Remise de groupe : ', 'nexo'));?>' + this.CartGroupDiscountPercent + '%</p>' );
 				}
 			} else if( this.CartGroupDiscountType == 'amount' ) {
 				if( this.CartGroupDiscountAmount != '' ) {
-					this.CartGroupDiscount		=	parseFloat( this.CartGroupDiscountAmount )	;
+					this.CartGroupDiscount		=	NexoAPI.ParseFloat( this.CartGroupDiscountAmount )	;
 
 					$( '.cart-discount-notice-area' ).append( '<p style="cursor: pointer; margin:0px 2px;" class="animated bounceIn btn btn-warning expandable btn-xs cart-group-discount"><i class="fa fa-remove"></i> <?php echo addslashes(__('Remise de groupe : ', 'nexo'));?>' + NexoAPI.DisplayMoney( this.CartGroupDiscountAmount ) + '</p>' );
 				}
@@ -670,7 +670,7 @@ var v2Checkout					=	new function(){
 
 	this.calculateCartVAT		=	function(){
 		if( this.CartVATEnabled == true ) {
-			this.CartVAT		=	parseInt( ( this.CartVATPercent * this.CartValueRRR ) / 100 );
+			this.CartVAT		=	NexoAPI.ParseFloat( ( this.CartVATPercent * this.CartValueRRR ) / 100 );
 		}
 	};
 
@@ -686,7 +686,7 @@ var v2Checkout					=	new function(){
 			}
 		});
 	}
-	
+
 	/**
 	 * Cart Group Reset
 	**/
@@ -722,14 +722,14 @@ var v2Checkout					=	new function(){
 		});
 
 		var order_details					=	new Object;
-			order_details.TOTAL				=	this.CartToPay;
-			order_details.REMISE			=	this.CartRemise;
-			order_details.RABAIS			=	this.CartRabais;
-			order_details.RISTOURNE			=	this.CartRistourne;
-			order_details.TVA				=	this.CartVAT;
+			order_details.TOTAL				=	NexoAPI.ParseFloat( this.CartToPay );
+			order_details.REMISE			=	NexoAPI.ParseFloat( this.CartRemise );
+			order_details.RABAIS			=	NexoAPI.ParseFloat( this.CartRabais );
+			order_details.RISTOURNE			=	NexoAPI.ParseFloat( this.CartRistourne );
+			order_details.TVA				=	NexoAPI.ParseFloat( this.CartVAT );
 			order_details.REF_CLIENT		=	this.CartCustomerID == null ? this.customers.DefaultCustomerID : this.CartCustomerID;
 			order_details.PAYMENT_TYPE		=	this.CartPaymentType;
-			order_details.GROUP_DISCOUNT	=	this.CartGroupDiscount;
+			order_details.GROUP_DISCOUNT	=	NexoAPI.ParseFloat( this.CartGroupDiscount );
 			order_details.DATE_CREATION		=	this.CartDateTime.format( 'YYYY-MM-DD HH:mm:ss' )
 			order_details.ITEMS				=	order_items;
 			order_details.DEFAULT_CUSTOMER	=	this.DefaultCustomerID;
@@ -738,16 +738,17 @@ var v2Checkout					=	new function(){
 
 		if( payment_means == 'cash' ) {
 
-			order_details.SOMME_PERCU		=	this.CartPerceivedSum;
+			order_details.SOMME_PERCU		=	NexoAPI.ParseFloat( this.CartPerceivedSum );
+			order_details.SOMME_PERCU 		=	isNaN( order_details.SOMME_PERCU ) ? 0 : order_details.SOMME_PERCU;
 
 		} else if( payment_means == 'cheque' || payment_means == 'bank' ) {
 
-			order_details.SOMME_PERCU		=	this.CartToPay;
+			order_details.SOMME_PERCU		=	NexoAPI.ParseFloat( this.CartToPay );
 
 		} else if( payment_means == 'stripe' ) {
 			if( this.CartAllowStripeSubmitOrder == true ) {
 
-				order_details.SOMME_PERCU		=	this.CartToPay;
+				order_details.SOMME_PERCU		=	NexoAPI.ParseFloat( this.CartToPay );
 
 			} else {
 				NexoAPI.Notify().info( '<?php echo _s('Attention', 'nexo');?>', '<?php echo _s('La carte de crédit doit d\'abord être facturée avant de valider la commande.', 'nexo');?>' );
@@ -824,7 +825,7 @@ var v2Checkout					=	new function(){
 			}
 		});
 	};
-	
+
 	/**
 	 * Customer DropDown Menu
 	**/
@@ -843,13 +844,19 @@ var v2Checkout					=	new function(){
 			  size: 4
 			});
 
-			$( '.cart-add-customer' ).bind( 'click', function(){
-				v2Checkout.customers.createBox();
-			})
+			if( typeof $( '.cart-add-customer' ).attr( 'bound' ) == 'undefined' ) {
+				$( '.cart-add-customer' ).bind( 'click', function(){
+					v2Checkout.customers.createBox();
+				})
+				$( '.cart-add-customer' ).attr( 'bound', 'true' );
+			}
 
-			$( '.customers-list' ).bind( 'change', function(){
-				v2Checkout.customers.bindSelectCustomer( $( this ).val() );
-			});
+			if( typeof $( '.customers-list' ).attr( 'change-bound' ) == 'undefined' ) {
+				$( '.customers-list' ).bind( 'change', function(){
+					v2Checkout.customers.bindSelectCustomer( $( this ).val() );
+				});
+				$( '.customers-list' ).attr( 'change-bound', 'true' );
+			}
 		}
 
 		/**
@@ -922,30 +929,30 @@ var v2Checkout					=	new function(){
 		 * @return bool
 		**/
 
-		this.create				=	function( name, surname, email, phone, ref_group ) {
-			// Name is required
-			if( name == '' ) {
-				NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous devez définir le nom du client', 'nexo'));?>' );
-				return false;
-			}
-			// Group is required
-			if( ref_group == '' ) {
-				NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous devez choisir un groupe pour le client', 'nexo'));?>' );
-				return false;
-			}
-			// Ajax
-			$.ajax( '<?php echo site_url(array( 'nexo', 'customer' ));?>', {
-				dataType		:	'json',
-				type			:	'POST',
-				data			:	_.object( 
-					[ 'nom', 'prenom', 'email', 'tel', 'ref_group', 'author', 'date_creation' ], 
-					[ name, surname, email, phone, ref_group, <?php echo User::id();?>, v2Checkout.CartDateTime.format( 'YYYY-MM-DD HH:mm:ss' ) ] 
-				),
-				success			:	function(){
-					v2Checkout.customers.get();
+			this.create				=	function( name, surname, email, phone, ref_group ) {
+				// Name is required
+				if( name == '' ) {
+					NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous devez définir le nom du client', 'nexo'));?>' );
+					return false;
 				}
-			});
-		}
+				// Group is required
+				if( ref_group == '' ) {
+					NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous devez choisir un groupe pour le client', 'nexo'));?>' );
+					return false;
+				}
+				// Ajax
+				$.ajax( '<?php echo site_url(array( 'nexo', 'customer' ));?>', {
+					dataType		:	'json',
+					type			:	'POST',
+					data			:	_.object(
+						[ 'nom', 'prenom', 'email', 'tel', 'ref_group', 'author', 'date_creation' ],
+						[ name, surname, email, phone, ref_group, <?php echo User::id();?>, v2Checkout.CartDateTime.format( 'YYYY-MM-DD HH:mm:ss' ) ]
+					),
+					success			:	function(){
+						v2Checkout.customers.get();
+					}
+				});
+			}
 
 
 		/**
@@ -991,7 +998,7 @@ var v2Checkout					=	new function(){
 			if( typeof object == 'object' ) {
 				_.each( object, function( value, key ) {
 					// Restore orginal customer discount
-					if( parseFloat( v2Checkout.CartRistourneCustomerID ) == parseFloat( value.ID ) ) {
+					if( NexoAPI.ParseFloat( v2Checkout.CartRistourneCustomerID ) == NexoAPI.ParseFloat( value.ID ) ) {
 						v2Checkout.restoreCustomRistourne();
 						v2Checkout.buildCartItemTable();
 						v2Checkout.refreshCart();
@@ -1018,7 +1025,7 @@ var v2Checkout					=	new function(){
 
 			// Reset Groups Discounts
 			v2Checkout.cartGroupDiscountReset();
-			
+
 			if( typeof object == 'object' ) {
 
 				_.each( object, function( Customer, key ) {
@@ -1036,13 +1043,13 @@ var v2Checkout					=	new function(){
 										/**
 										 * Time Range is incorrect to enable Group discount
 										**/
-										
+
 										console.log( 'time is incorrect for group discount' );
 
 										return;
 									}
 								}
-								
+
 								// If current customer belong to this group, let see if this group has active discount
 								if( Group.DISCOUNT_TYPE == 'percent' ) {
 									v2Checkout.CartGroupDiscountType	=	Group.DISCOUNT_TYPE;
@@ -1073,20 +1080,24 @@ var v2Checkout					=	new function(){
 				success			:	function( customers ){
 
 					$( '.customers-list' ).selectpicker('destroy');
-
 					// Empty list first
-					$( '.customers-list' ).html('');
+					$( '.customers-list' ).children().each(function(index, element) {
+                        $( this ).remove();
+                    });;
 
 					_.each( customers, function( value, key ){
-						if( parseFloat( v2Checkout.CartCustomerID ) == parseFloat( value.ID ) ) {
+						if( parseInt( v2Checkout.CartCustomerID ) == parseInt( value.ID ) ) {
+
 							$( '.customers-list' ).append( '<option value="' + value.ID + '" selected="selected">' + value.NOM + '</option>' );
+							// Fix customer Selection
+							NexoAPI.events.doAction( 'select_customer', [ value ] );
+
 						} else {
 							$( '.customers-list' ).append( '<option value="' + value.ID + '">' + value.NOM + '</option>' );
 						}
 					});
 
 					$( '.customers-list' ).selectpicker( 'refresh' );
-
 				},
 				error			:	function(){
 					NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Une erreur s\'est produite durant la récupération des clients', 'nexo'));?>' );
@@ -1133,28 +1144,28 @@ var v2Checkout					=	new function(){
 		if( json.length > 0 ) {
 			// Empty List
 			$( '#filter-list' ).html( '' );
-			
+
 			_.each( json, function( value, key ) {
-				if( parseFloat( value.QUANTITE_RESTANTE ) > 0 ) {
+				if( parseInt( value.QUANTITE_RESTANTE ) > 0 ) {
 
 					var promo_start	= moment( value.SPECIAL_PRICE_START_DATE );
 					var promo_end	= moment( value.SPECIAL_PRICE_END_DATE );
 
-					var MainPrice	= parseFloat( value.PRIX_DE_VENTE )
+					var MainPrice	= NexoAPI.ParseFloat( value.PRIX_DE_VENTE )
 					var Discounted	= '';
 					var CustomBackground	=	'';
 					var ImagePath			=	value.APERCU == '' ? '<?php echo '../modules/nexo/images/default.png';?>'  : value.APERCU;
 
 					if( promo_start.isBefore( v2Checkout.CartDateTime ) ) {
 						if( promo_end.isSameOrAfter( v2Checkout.CartDateTime ) ) {
-							MainPrice			=	parseFloat( value.PRIX_PROMOTIONEL );
-							Discounted			=	'<small style="color:#999;"><del>' + NexoAPI.DisplayMoney( parseFloat( value.PRIX_DE_VENTE ) ) + '</del></small>';
+							MainPrice			=	NexoAPI.ParseFloat( value.PRIX_PROMOTIONEL );
+							Discounted			=	'<small style="color:#999;"><del>' + NexoAPI.DisplayMoney( NexoAPI.ParseFloat( value.PRIX_DE_VENTE ) ) + '</del></small>';
 							// CustomBackground	=	'background:<?php echo $this->config->item('discounted_item_background');?>';
 						}
 					}
-					
+
 					// style="max-height:100px;"
-					
+
 					$( '#filter-list' ).append(
 					'<div class="col-lg-3 col-md-3 col-xs-6 shop-items filter-add-product noselect text-center" data-codebar="' + value.CODEBAR + '" style="' + CustomBackground + ';padding:5px; border-right: solid 1px #DEDEDE;border-bottom: solid 1px #DEDEDE;" data-category="' + value.REF_CATEGORIE + '">' +
 						'<img data-original="<?php echo upload_url();?>' + ImagePath + '" width="126" style="max-height:100px;" class="img-responsive img-rounded lazy">' +
@@ -1166,7 +1177,7 @@ var v2Checkout					=	new function(){
 					v2Checkout.ItemsCategories	=	_.extend( v2Checkout.ItemsCategories, _.object( [ value.REF_CATEGORIE ], [ value.NOM ] ) );
 				}
 			});
-			
+
 			// Add Lazy @since 2.6.1
 			$("img.lazy").lazyload({
 				failure_limit : 10,
@@ -1185,7 +1196,7 @@ var v2Checkout					=	new function(){
 			NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous ne pouvez pas procéder à une vente, car aucun article n\'est disponible pour la vente.'));?>' );
 		}
 	};
-	
+
 	/**
 	 * Empty cart item table
 	 *
@@ -1222,8 +1233,8 @@ var v2Checkout					=	new function(){
 
 					if( InCart ) {
 						// if increase is disabled, we set value
-						var comparison_qte	=	allow_increase == true ? parseFloat( v2Checkout.CartItems[ InCartIndex ].QTE_ADDED ) + parseFloat( qte_to_add ) : qte_to_add;
-						if( parseFloat( _item[0].QUANTITE_RESTANTE ) - ( comparison_qte ) < 0 ) {
+						var comparison_qte	=	allow_increase == true ? parseInt( v2Checkout.CartItems[ InCartIndex ].QTE_ADDED ) + parseInt( qte_to_add ) : qte_to_add;
+						if( parseInt( _item[0].QUANTITE_RESTANTE ) - ( comparison_qte ) < 0 ) {
 							NexoAPI.Notify().error(
 								'<?php echo addslashes(__('Stock épuisé', 'nexo'));?>',
 								'<?php echo addslashes(__('Impossible d\'ajouter ce produit. La quantité restante du produit n\'est pas suffisante.', 'nexo'));?>'
@@ -1231,11 +1242,11 @@ var v2Checkout					=	new function(){
 						} else {
 							if( allow_increase ) {
 								// Fix concatenation when order was edited
-								v2Checkout.CartItems[ InCartIndex ].QTE_ADDED	=	parseFloat( v2Checkout.CartItems[ InCartIndex ].QTE_ADDED );
-								v2Checkout.CartItems[ InCartIndex ].QTE_ADDED	+=	parseFloat( qte_to_add );
+								v2Checkout.CartItems[ InCartIndex ].QTE_ADDED	=	parseInt( v2Checkout.CartItems[ InCartIndex ].QTE_ADDED );
+								v2Checkout.CartItems[ InCartIndex ].QTE_ADDED	+=	parseInt( qte_to_add );
 							} else {
 								if( qte_to_add > 0 ){
-									v2Checkout.CartItems[ InCartIndex ].QTE_ADDED	=	parseFloat( qte_to_add );
+									v2Checkout.CartItems[ InCartIndex ].QTE_ADDED	=	parseInt( qte_to_add );
 								} else {
 									NexoAPI.Bootbox().confirm( '<?php echo addslashes(__('Défininr "0" comme quantité, retirera le produit du panier. Voulez-vous continuer ?'));?>', function( response ) {
 										// Delete item from cart when confirmed
@@ -1249,7 +1260,7 @@ var v2Checkout					=	new function(){
 							}
 						}
 					} else {
-						if( parseFloat( _item[0].QUANTITE_RESTANTE ) - qte_to_add < 0 ) {
+						if( parseInt( _item[0].QUANTITE_RESTANTE ) - qte_to_add < 0 ) {
 							NexoAPI.Notify().error(
 								'<?php echo addslashes(__('Stock épuisé'));?>',
 								'<?php echo addslashes(__('Impossible d\'ajouter ce produit, car son stock est épuisé.', 'nexo'));?>'
@@ -1274,7 +1285,7 @@ var v2Checkout					=	new function(){
 
 		});
 	};
-	
+
 	/**
 	 * Get Items
 	**/
@@ -1302,7 +1313,7 @@ var v2Checkout					=	new function(){
 			dataType:"json"
 		});
 	};
-	
+
 	/**
 	 * Init Cart Date
 	 *
@@ -1334,7 +1345,7 @@ var v2Checkout					=	new function(){
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Display item Settings
 	 * this option let you select categories to displays
@@ -1348,14 +1359,14 @@ var v2Checkout					=	new function(){
 	 * Show Numpad
 	**/
 
-	this.showNumPad				=	function( object, text, object_wrapper, real_time ){
+	this.showNumPad				=	function( object, text, object_wrapper, real_time ){	
 		// Field
 		var field				=	real_time == true ? object : '[name="numpad_field"]';
 
 		// If real time editing is enabled
 		var input_field			=	! real_time ?
 		'<div class="form-group">' +
-			'<input type="number" class="form-control input-lg" name="numpad_field"/>' +
+			'<input type="text" class="form-control input-lg" name="numpad_field"/>' +
 		'</div>' : '';
 
 		var NumPad				=
@@ -1363,56 +1374,62 @@ var v2Checkout					=	new function(){
 			'<h4 class="text-center">' + ( text ? text : '' ) + '</h4><br>' +
 			input_field	+
 			'<div class="row">' +
-				'<div class="col-lg-2 col-md-2 col-xs-2">' +
+				'<div class="col-lg-3 col-md-3 col-xs-3">' +
 					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad7" value="<?php echo addslashes(__('7', 'nexo'));?>"/>' +
 				'</div>' +
-				'<div class="col-lg-2 col-md-2 col-xs-2">' +
+				'<div class="col-lg-3 col-md-3 col-xs-3">' +
 					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad8" value="<?php echo addslashes(__('8', 'nexo'));?>"/>' +
 				'</div>' +
-				'<div class="col-lg-2 col-md-2 col-xs-2">' +
+				'<div class="col-lg-3 col-md-3 col-xs-3">' +
 					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad9" value="<?php echo addslashes(__('9', 'nexo'));?>"/>' +
 				'</div>' +
-				'<div class="col-lg-2 col-md-2 col-xs-2">' +
-					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad0" value="<?php echo addslashes(__('0', 'nexo'));?>"/>' +
-				'</div>' +
-				'<div class="col-lg-4 col-md-4 col-xs-4">' +
-					'<input type="button" class="btn btn-warning btn-block btn-lg numpad numpaddel" value="<?php echo addslashes(__('Retour arrière', 'nexo'));?>"/>' +
-				'</div>' +
-			'</div>' +
-			'<br>'+
-			'<div class="row">' +
-				'<div class="col-lg-2 col-md-2 col-xs-2">' +
-					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad4" value="<?php echo addslashes(__('4', 'nexo'));?>"/>' +
-				'</div>' +
-				'<div class="col-lg-2 col-md-2 col-xs-2">' +
-					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad5" value="<?php echo addslashes(__('5', 'nexo'));?>"/>' +
-				'</div>' +
-				'<div class="col-lg-2 col-md-2 col-xs-2">' +
-					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad6" value="<?php echo addslashes(__('6', 'nexo'));?>"/>' +
-				'</div>' +
-				'<div class="col-lg-2 col-md-2 col-xs-2">' +
+				'<div class="col-lg-3 col-md-3 col-xs-3">' +
 					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpadplus" value="<?php echo addslashes(__('+', 'nexo'));?>"/>' +
 				'</div>' +
-				'<div class="col-lg-4 col-md-4 col-xs-4">' +
-					'<input type="button" class="btn btn-danger btn-block btn-lg numpad numpadclear" value="<?php echo addslashes(__('Vider', 'nexo'));?>"/>' +
-				'</div>' +
 			'</div>' +
 			'<br>'+
 			'<div class="row">' +
-				'<div class="col-lg-2 col-md-2 col-xs-2">' +
-					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad1" value="<?php echo addslashes(__('1', 'nexo'));?>"/>' +
+				'<div class="col-lg-3 col-md-3 col-xs-3">' +
+					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad4" value="<?php echo addslashes(__('4', 'nexo'));?>"/>' +
 				'</div>' +
-				'<div class="col-lg-2 col-md-2 col-xs-2">' +
-					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad2" value="<?php echo addslashes(__('2', 'nexo'));?>"/>' +
+				'<div class="col-lg-3 col-md-3 col-xs-3">' +
+					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad5" value="<?php echo addslashes(__('5', 'nexo'));?>"/>' +
 				'</div>' +
-				'<div class="col-lg-2 col-md-2 col-xs-2">' +
-					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad3" value="<?php echo addslashes(__('3', 'nexo'));?>"/>' +
+				'<div class="col-lg-3 col-md-3 col-xs-3">' +
+					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad6" value="<?php echo addslashes(__('6', 'nexo'));?>"/>' +
 				'</div>' +
-				'<div class="col-lg-2 col-md-2 col-xs-2">' +
+				'<div class="col-lg-3 col-md-3 col-xs-3">' +
 					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpadminus" value="<?php echo addslashes(__('-', 'nexo'));?>"/>' +
 				'</div>' +
 			'</div>' +
-		'</form>'
+			'<br>'+
+			'<div class="row">' +
+				'<div class="col-lg-3 col-md-3 col-xs-3">' +
+					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad1" value="<?php echo addslashes(__('1', 'nexo'));?>"/>' +
+				'</div>' +
+				'<div class="col-lg-3 col-md-3 col-xs-3">' +
+					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad2" value="<?php echo addslashes(__('2', 'nexo'));?>"/>' +
+				'</div>' +
+				'<div class="col-lg-3 col-md-3 col-xs-3">' +
+					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad3" value="<?php echo addslashes(__('3', 'nexo'));?>"/>' +
+				'</div>' +
+				'<div class="col-lg-3 col-md-3 col-xs-3">' +
+					'<input type="button" class="btn btn-warning btn-block btn-lg numpad numpaddel" value="&larr;"/>' +
+				'</div>' +				
+			'</div>' +
+			'<br/>' +
+			'<div class="row">' +
+				'<div class="col-lg-6 col-md-6 col-xs-6">' +
+					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpad0" value="<?php echo addslashes(__('0', 'nexo'));?>"/>' +
+				'</div>' +
+				'<div class="col-lg-3 col-md-3 col-xs-3">' +
+					'<input type="button" class="btn btn-default btn-block btn-lg numpad numpaddot" value="<?php echo addslashes(__('.', 'nexo'));?>"/>' +
+				'</div>' +
+				'<div class="col-lg-3 col-md-3 col-xs-3">' +
+					'<button type="button" class="btn btn-danger btn-block btn-lg numpad numpadclear"><i class="fa fa-eraser"></i></button></div>' +
+				'</div>' +
+			'</div>'
+		'</form>';
 
 		if( $( object_wrapper ).length > 0 ) {
 			$( object_wrapper ).html( NumPad );
@@ -1446,13 +1463,20 @@ var v2Checkout					=	new function(){
 		});
 
 		$( '.numpadplus' ).bind( 'click', function(){
-			var numpad_value	=	parseFloat( $( field ).val() );
+			var numpad_value	=	NexoAPI.ParseFloat( $( field ).val() );
 			$( field ).val( ++numpad_value );
 		});
 
 		$( '.numpadminus' ).bind( 'click', function(){
-			var numpad_value	=	parseFloat( $( field ).val() );
+			var numpad_value	=	NexoAPI.ParseFloat( $( field ).val() );
 			$( field ).val( --numpad_value );
+		});
+
+		$( '.numpaddot' ).bind( 'click', function(){
+			var current_value	=	$( field ).val();
+				current_value	=	current_value == '' ? 0 : parseFloat( current_value );
+			//var numpad_value	=	NexoAPI.ParseFloat( $( field ).val() );
+			$( field ).val( current_value + '.' );
 		});
 
 		$( '.numpaddel' ).bind( 'click', function(){
@@ -1622,7 +1646,7 @@ var v2Checkout					=	new function(){
 		**/
 
 		var cash_dom		=	'<h3 class="text-center" style="margin-top:5px;"><?php echo _s('Paiement Comptant : ', 'nexo');?>' + NexoAPI.DisplayMoney( v2Checkout.CartToPay ) + '</h3>' +
-		'<div class="input-group input-group-lg"> <span class="input-group-addon" id="sizing-addon1"><?php echo _s('Somme perçu', 'nexo');?></span> <input type="number" class="form-control" placeholder="<?php echo _s('Veuillez spécifier la somme perçue...', 'nexo');?>" aria-describedby="sizing-addon1" name="perceived_sum"> </div>' +
+		'<div class="input-group input-group-lg"> <span class="input-group-addon" id="sizing-addon1"><?php echo _s('Somme perçu', 'nexo');?></span> <input type="text" class="form-control" placeholder="<?php echo _s('Veuillez spécifier la somme perçue...', 'nexo');?>" aria-describedby="sizing-addon1" name="perceived_sum"> </div>' +
 
 		'<br><table class="table table-bordered table-striped">' +
 			'<tr>'+
@@ -1707,7 +1731,13 @@ var v2Checkout					=	new function(){
 
 	this.payCashCalculator				=	function(){
 
-		this.CartPerceivedSum		=	Math.abs( parseFloat( $( '[name="perceived_sum"]' ).val() ) );
+		this.CartPerceivedSum		=	Math.abs( NexoAPI.ParseFloat( $( '[name="perceived_sum"]' ).val() ) );
+
+		// Only numeric are expected on field "perceived_sum", otherwise field take "0";	
+		if( isNaN( this.CartPerceivedSum ) ) {
+			this.CartPerceivedSum	=	0;
+			$( '[name="perceived_sum"]' ).val( this.CartPerceivedSum )
+		}
 		this.CartToPayBack 			=	this.CartPerceivedSum - this.CartToPay < 0 ? 0 : this.CartPerceivedSum - this.CartToPay;
 
 
@@ -1853,7 +1883,7 @@ var v2Checkout					=	new function(){
 			$( '[data-bb-handler="cancel"]' ).trigger( 'click' );
 		};
 	};
-	
+
 	/**
 	 * Refresh Cart
 	 *
@@ -1866,7 +1896,7 @@ var v2Checkout					=	new function(){
 			$( '#cart-table-notice' ).hide();
 		}
 	};
-	
+
 	/**
 	 * Refresh Cart Values
 	 *
@@ -1877,14 +1907,14 @@ var v2Checkout					=	new function(){
 		this.calculateCartDiscount();
 		this.calculateCartRistourne();
 		this.calculateCartGroupDiscount();
-		
-		this.CartDiscount		=	( this.CartRemise + this.CartRabais + this.CartRistourne + this.CartGroupDiscount );
-		this.CartValueRRR		=	this.CartValue - this.CartDiscount;
+
+		this.CartDiscount		=	NexoAPI.ParseFloat( this.CartRemise + this.CartRabais + this.CartRistourne + this.CartGroupDiscount );
+		this.CartValueRRR		=	NexoAPI.ParseFloat( this.CartValue - this.CartDiscount );
 
 		this.calculateCartVAT();
 
 		this.CartToPay			=	( this.CartValueRRR + this.CartVAT );
-		this.CartToPayLong		=	parseFloat( this.CartToPay )	<?php echo in_array(strtolower(@$Options[ 'nexo_currency_iso' ]), $this->config->item('nexo_currency_with_double_zero')) ? "+ '00'" : '';?>;
+		this.CartToPayLong		=	NexoAPI.ParseFloat( this.CartToPay )	<?php echo in_array(strtolower(@$Options[ 'nexo_currency_iso' ]), $this->config->item('nexo_currency_with_double_zero')) ? "+ '00'" : '';?>;
 
 		$( '#cart-value' ).html( NexoAPI.DisplayMoney( this.CartValue ) );
 		$( '#cart-vat' ).html( NexoAPI.DisplayMoney( this.CartVAT ) );
@@ -1901,7 +1931,7 @@ var v2Checkout					=	new function(){
 			<?php if (floatval($order[ 'order' ][0][ 'RISTOURNE' ]) > 0):?>
 		this.CartRistourneEnabled		=	true;
 		this.CartRistourneType			=	'amount';
-		this.CartRistourneAmount		=	parseFloat( <?php echo floatval($order[ 'order' ][0][ 'RISTOURNE' ]);?> );
+		this.CartRistourneAmount		=	NexoAPI.ParseFloat( <?php echo floatval($order[ 'order' ][0][ 'RISTOURNE' ]);?> );
 		this.CartRistourneCustomerID	=	'<?php echo $order[ 'order' ][0][ 'REF_CLIENT' ];?>';
 			<?php endif;?>
 		<?php endif;?>
@@ -1918,7 +1948,7 @@ var v2Checkout					=	new function(){
 		this.CartRistourneEnabled		=	false;
 		this.CartRistourne				=	0;
 	};
-	
+
 	/**
 	 * Reset Object
 	**/
@@ -1943,7 +1973,7 @@ var v2Checkout					=	new function(){
 	**/
 
 	this.resetCart					=	function(){
-		
+
 		this.CartValue				=	0;
 		this.CartValueRRR			=	0;
 		this.CartVAT				=	0;
@@ -1961,14 +1991,14 @@ var v2Checkout					=	new function(){
 		this.CartRemiseEnabled		=	false;
 		this.CartRemisePercent		=	null;
 		this.CartPaymentType		=	null;
-		this.CartCustomerID			=	null;
+		this.CartCustomerID			=	<?php echo @$Options[ 'default_compte_client' ] != null ? $Options[ 'default_compte_client' ] : 'null';?>;
 		this.CartAllowStripeSubmitOrder	=	false;
-		
+
 		this.cartGroupDiscountReset();
 		this.resetCartObject();
-		this.restoreDefaultRistourne();		
+		this.restoreDefaultRistourne();
 		this.refreshCartValues();
-		
+
 		// Reset Cart
 		NexoAPI.events.doAction( 'reset_cart', this );
 	}
@@ -1978,15 +2008,15 @@ var v2Checkout					=	new function(){
 	**/
 
 	this.run							=	function(){
-		
+
 		// Remove Slash First
 		this.paymentWindow.hideSplash();
 
-		this.fixHeight();		
+		this.fixHeight();
 		this.resetCart();
 		this.initCartDateTime();
 		this.bindHideItemOptions();
-		
+
 		<?php if (isset($order)):?>
 			this.emptyCartItemTable();
 			<?php foreach ($order[ 'products' ] as $product):?>
@@ -1996,24 +2026,24 @@ var v2Checkout					=	new function(){
 
 			<?php if (floatval($order[ 'order' ][0][ 'REMISE' ]) > 0):?>
 			this.CartRemiseType			=	'flat';
-			this.CartRemise				=	parseFloat( <?php echo $order[ 'order' ][0][ 'REMISE' ];?> );
+			this.CartRemise				=	NexoAPI.ParseFloat( <?php echo $order[ 'order' ][0][ 'REMISE' ];?> );
 			this.CartRemiseEnabled		=	true;
 			<?php endif;?>
-	
+
 			<?php if (floatval($order[ 'order' ][0][ 'GROUP_DISCOUNT' ]) > 0):?>
 			this.CartGroupDiscount				=	<?php echo floatval($order[ 'order' ][0][ 'GROUP_DISCOUNT' ]);?>; // final amount
 			this.CartGroupDiscountAmount		=	<?php echo floatval($order[ 'order' ][0][ 'GROUP_DISCOUNT' ]);?>; // Amount set on each group
 			this.CartGroupDiscountType			=	'amount'; // Discount type
 			this.CartGroupDiscountEnabled		=	true;
 			<?php endif;?>
-	
+
 			this.CartCustomerID					=	<?php echo $order[ 'order' ][0][ 'REF_CLIENT' ];?>;
-	
+
 			// Restore Custom Ristourne
 			this.restoreCustomRistourne();
-			
+
 			// Refresh Cart
-			// Reset Cart state	
+			// Reset Cart state
 			this.buildCartItemTable();
 			this.refreshCart();
 			this.refreshCartValues();
@@ -2072,6 +2102,14 @@ var v2Checkout					=	new function(){
 		<?php if (in_array('stripe', array_keys($this->config->item('nexo_payment_types')))):?>
 		this.stripe.run();
 		<?php endif;?>
+	}
+
+	/**
+	 * Tools
+	**/
+
+	this.Tools				=	new function(){
+		// this.isFloat
 	}
 };
 

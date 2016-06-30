@@ -35,8 +35,8 @@ class Twilio extends REST_Controller
             // Step 4: make an array of people we know, to send them a message. 
             // Feel free to change/add your own phone number and name here.
             /*$people = array(
-                "+237656988008" => "Blair Jersyer", 
-                "+237655881388" => "Jame Etoundi"
+                "+****" => "*****", 
+                "+****" => "*****"
             );*/
         
             // Step 5: Loop over all our friends. $number is a phone number above, and 

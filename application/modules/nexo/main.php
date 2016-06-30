@@ -306,7 +306,7 @@ class Nexo extends CI_Model
 			**/
 			
 			NexoAPI.Format	=	function( int ){
-				return numeral( int ).format('0,0[.]00');
+				return numeral( int ).format('0,0.00');
 			};
 			
 			/**
@@ -318,6 +318,22 @@ class Nexo extends CI_Model
 			NexoAPI.PrintElement	=	function(elem) {
 				NexoAPI.Popup( $(elem).html() );
 			};
+			
+			/**
+			 * Nexo Customer parseFloat
+			 * @params val
+			 * @return val
+			**/
+			
+			NexoAPI.ParseFloat		=	function( val ) {
+				if( typeof val == 'string' ) {
+					return parseFloat( parseFloat( val ).toFixed( 2 ) )
+				} else if( typeof val == 'number' ) {
+					return parseFloat( val.toFixed( 2 ) );
+				} else {
+					return val;
+				}
+			}
 			
 			/** 
 			 * Popup Print dialog
@@ -502,6 +518,13 @@ class Nexo extends CI_Model
             'content'                =>    $this->load->view('../modules/nexo/inc/widgets/guides.php', array(), true)
         ));
         **/
+        $this->dashboard_widgets->add('nexo_profile', array(
+            'title'                    =>    __('Profil', 'nexo'),
+            'type'                    =>    'unwrapped',
+            'hide_body_wrapper'        =>    true,
+            'position'                =>    1,
+            'content'                =>    $this->load->view('../modules/nexo/inc/widgets/profile', array(), true)
+        ));
         
         $this->dashboard_widgets->add('nexo_sales_new', array(
             'title'                    =>    __('Meilleurs articles', 'nexo'),
@@ -509,14 +532,6 @@ class Nexo extends CI_Model
             'hide_body_wrapper'        =>    true,
             'position'                =>    1,
             'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sales-new', array(), true)
-        ));
-        
-        $this->dashboard_widgets->add('nexo_profile', array(
-            'title'                    =>    __('Profil', 'nexo'),
-            'type'                    =>    'unwrapped',
-            'hide_body_wrapper'        =>    true,
-            'position'                =>    1,
-            'content'                =>    $this->load->view('../modules/nexo/inc/widgets/profile', array(), true)
         ));
         
         $this->dashboard_widgets->add('nexo_sales_income', array(

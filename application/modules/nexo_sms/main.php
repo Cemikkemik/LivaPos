@@ -12,6 +12,9 @@ class Nexo_Sms extends CI_Model
         
         // Create Dashboard
         $this->events->add_action('load_dashboard', array( $this, 'load_dashboard' ));
+		
+		//
+		$this->events->add_action('tendoo_settings_tables', array( $this, 'install' ));
     }
     
     /**
@@ -67,5 +70,20 @@ class Nexo_Sms extends CI_Model
         $this->Gui->set_title(__('Réglages SMS &mdash; NexoPOS', 'nexo_sms'));
         $this->load->module_view('nexo_sms', 'home');
     }
+	
+	/**
+	 * Install
+	**/
+	
+	public function install()
+	{
+		Modules::enable( 'nexo_sms' );
+        // Load Languages Lines
+        $this->lang->load_lines(dirname(__FILE__) . '/language/lines.php');
+		
+		$this->load->config( 'nexo_sms' );
+		// Set default SMS invoice
+		$this->options->set( 'nexo_sms_invoice_template', $this->config->item( 'default_sms_invoice_template' ) );
+	}
 }
 new Nexo_Sms;

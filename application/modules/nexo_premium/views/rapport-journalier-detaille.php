@@ -223,30 +223,28 @@ var Nexo_Daily_Report	=	new function(){
 				
 				_.map( orders, function( value, key ) {
 					
-					Nexo_Daily_Report.RRR_Total			+=	( parseInt( value.RABAIS ) + parseInt( value.REMISE ) + parseInt( value.RISTOURNE ) )
+					Nexo_Daily_Report.RRR_Total			+=	( NexoAPI.ParseFloat( value.RABAIS ) + NexoAPI.ParseFloat( value.REMISE ) + NexoAPI.ParseFloat( value.RISTOURNE ) )
 					
-					if( value.TYPE == '<?php echo 'nexo_order_comptant';
-    ?>' ) {
+					if( value.TYPE == '<?php echo 'nexo_order_comptant';?>' ) {
 						
 						Nexo_Daily_Report.ComptantNbr++
 						Nexo_Daily_Report.CashAvanceNbr++;
-						Nexo_Daily_Report.ComptantTotal		+=	parseInt( value.TOTAL );	
-						Nexo_Daily_Report.CashAvanceTotal 	+= 	parseInt( value.TOTAL );	
+						Nexo_Daily_Report.ComptantTotal		+=	NexoAPI.ParseFloat( value.TOTAL );	
+						Nexo_Daily_Report.CashAvanceTotal 	+= 	NexoAPI.ParseFloat( value.TOTAL );	
+						console.log( NexoAPI.ParseFloat( value.TOTAL ) );
 						
-					} else if( value.TYPE == '<?php echo 'nexo_order_advance';
-    ?>' ) {
+					} else if( value.TYPE == '<?php echo 'nexo_order_advance';?>' ) {
 						
 						Nexo_Daily_Report.AvanceNbr++
 						Nexo_Daily_Report.CashAvanceNbr++;
-						Nexo_Daily_Report.AvanceTotal		+=	parseInt( value.SOMME_PERCU );	
-						Nexo_Daily_Report.CashAvanceTotal 	+= 	parseInt( value.SOMME_PERCU );	
-						Nexo_Daily_Report.AvanceLeftTotal	+=	( parseInt( value.TOTAL ) - parseInt( value.SOMME_PERCU ) );
+						Nexo_Daily_Report.AvanceTotal		+=	NexoAPI.ParseFloat( value.SOMME_PERCU );	
+						Nexo_Daily_Report.CashAvanceTotal 	+= 	NexoAPI.ParseFloat( value.SOMME_PERCU );	
+						Nexo_Daily_Report.AvanceLeftTotal	+=	( NexoAPI.ParseFloat( value.TOTAL ) - NexoAPI.ParseFloat( value.SOMME_PERCU ) );
 						
-					} else if( value.TYPE == '<?php echo 'nexo_order_devis';
-    ?>' ) {
+					} else if( value.TYPE == '<?php echo 'nexo_order_devis';?>' ) {
 						
 						Nexo_Daily_Report.DevisNbr++
-						Nexo_Daily_Report.DevisTotal	+=	parseInt( value.TOTAL );	
+						Nexo_Daily_Report.DevisTotal	+=	NexoAPI.ParseFloat( value.TOTAL );	
 						
 					}
 				});
@@ -263,12 +261,12 @@ var Nexo_Daily_Report	=	new function(){
 		$( '#avance_nbr' ).html( this.AvanceNbr );
 		$( '#devis_nbr' ).html( this.DevisNbr );
 		
-		$( '#cash_amount' ).html( NexoAPI.Format( this.ComptantTotal ) );
-		$( '#avance_amount' ).html( NexoAPI.Format( this.AvanceTotal ) );
-		$( '#devis_amount' ).html( NexoAPI.Format( this.DevisTotal ) );
+		$( '#cash_amount' ).html( NexoAPI.DisplayMoney( this.ComptantTotal ) );
+		$( '#avance_amount' ).html( NexoAPI.DisplayMoney( this.AvanceTotal ) );
+		$( '#devis_amount' ).html( NexoAPI.DisplayMoney( this.DevisTotal ) );
 		
-		$( '#cash_avance_amount_total' ).html( NexoAPI.Format( this.CashAvanceTotal ) );
-		$( '#avance_amount_left_total' ).html( NexoAPI.Format( this.AvanceLeftTotal ) );
+		$( '#cash_avance_amount_total' ).html( NexoAPI.DisplayMoney( this.CashAvanceTotal ) );
+		$( '#avance_amount_left_total' ).html( NexoAPI.DisplayMoney( this.AvanceLeftTotal ) );
 		
 		this.GetCharges();
 	}
@@ -280,9 +278,9 @@ var Nexo_Daily_Report	=	new function(){
 	
 	this.GetCharges		=	function(){
 		
-		$( '#rrr_total_amount' ).html( NexoAPI.Format( this.RRR_Total ) );
+		$( '#rrr_total_amount' ).html( NexoAPI.DisplayMoney( this.RRR_Total ) );
 		// Temporarily
-		$( '#charge_total_amount' ).html( NexoAPI.Format( this.RRR_Total ) );
+		$( '#charge_total_amount' ).html( NexoAPI.DisplayMoney( this.RRR_Total ) );
 		
 		$.post( 
 			'<?php echo site_url(array( 'nexo_bills', 'bills_by_date' ));
@@ -293,15 +291,15 @@ var Nexo_Daily_Report	=	new function(){
 			function( bills ) {
 				_.map( bills, function( value, key ) {
 					
-					Nexo_Daily_Report.Bills_Total	+=	parseInt( value.MONTANT );
+					Nexo_Daily_Report.Bills_Total	+=	NexoAPI.ParseFloat( value.MONTANT );
 					
-					$( '#before_total' ).before( '<tr><td>' + value.INTITULE  + '</td><td class="text-right">' +  NexoAPI.Format( parseInt( value.MONTANT ) ) + '</td></tr>' );
+					$( '#before_total' ).before( '<tr><td>' + value.INTITULE  + '</td><td class="text-right">' +  NexoAPI.DisplayMoney( NexoAPI.ParseFloat( value.MONTANT ) ) + '</td></tr>' );
 					
 				});
 				
 				Nexo_Daily_Report.Global_Charges	=	Nexo_Daily_Report.Bills_Total + Nexo_Daily_Report.RRR_Total;
 				// Set global Charge
-				$( '#charge_total_amount' ).html( NexoAPI.Format( Nexo_Daily_Report.Global_Charges ) );
+				$( '#charge_total_amount' ).html( NexoAPI.DisplayMoney( Nexo_Daily_Report.Global_Charges ) );
 				
 				// Set global
 				Nexo_Daily_Report.Final_Results();
@@ -317,13 +315,13 @@ var Nexo_Daily_Report	=	new function(){
 	
 	this.Final_Results	=	function(){
 		
-		this.Recettes_Totales	=	( this.ComptantTotal + this.AvanceTotal );
-		this.Depense_Totales	=	this.RRR_Total + this.Bills_Total;
+		this.Recettes_Totales	=	( this.ComptantTotal + this.AvanceTotal ) + this.RRR_Total; // we add this.RRR_Total since it's has been excluded on order.TOTAL
+		this.Depense_Totales	=	this.Bills_Total + this.RRR_Total;
 		
-		$( '#solde_initiale' ).html( NexoAPI.Format( this.SoldInitiale ) );
-		$( '#recettes_total' ).html( NexoAPI.Format( this.Recettes_Totales ) );
-		$( '#depenses_total' ).html( NexoAPI.Format( this.Depense_Totales ) );
-		$( '#solde_final' ).html( NexoAPI.Format( this.Recettes_Totales - this.Depense_Totales ) );
+		$( '#solde_initiale' ).html( NexoAPI.DisplayMoney( this.SoldInitiale ) );
+		$( '#recettes_total' ).html( NexoAPI.DisplayMoney( this.Recettes_Totales ) );
+		$( '#depenses_total' ).html( NexoAPI.DisplayMoney( this.Depense_Totales ) );
+		$( '#solde_final' ).html( NexoAPI.DisplayMoney( this.Recettes_Totales - this.Depense_Totales ) );
 	};
 };
 

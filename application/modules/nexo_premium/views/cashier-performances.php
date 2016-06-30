@@ -151,7 +151,7 @@ var NexoCashierPerformance	=	new function(){
 					_.each( __value, function( order, order_key ) {
 						// Cash Order only
 						if( _.contains( [ NexoCashierPerformance.Nexo_Order_Cash ], order.TYPE ) ) {
-							amount	+=	( parseInt( order.TOTAL ) + parseInt( order.TVA == '' ? 0 : order.TVA ) );
+							amount	+=	( NexoAPI.ParseFloat( order.TOTAL ) + NexoAPI.ParseFloat( order.TVA == '' ? 0 : order.TVA ) );
 						}
 					});
 				}

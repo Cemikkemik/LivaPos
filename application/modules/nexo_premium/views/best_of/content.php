@@ -114,7 +114,7 @@ var Nexo_Best_Of		=	new function(){
 						if( filtre == 'by_sales' ) {
 							SoldChart[ _item.ITEM_ID ].data[ date_key ]	+=	parseInt( _item.QUANTITE_UNIQUE_VENDUE );
 						} else if( filtre == 'by_cash' ) {
-							SoldChart[ _item.ITEM_ID ].data[ date_key ]	+=	( parseInt( _item.PRIX_DE_VENTE ) * parseInt( _item.QUANTITE_UNIQUE_VENDUE ) );
+							SoldChart[ _item.ITEM_ID ].data[ date_key ]	+=	( NexoAPI.ParseFloat( _item.PRIX_DE_VENTE ) * parseInt( _item.QUANTITE_UNIQUE_VENDUE ) );
 						}
 					} 
 				});

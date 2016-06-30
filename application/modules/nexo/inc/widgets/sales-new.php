@@ -36,8 +36,8 @@ $this->load->config('nexo');
                         $stock_defectueux    =    intval($item->DEFECTUEUX);
                     }
                                     
-                    $percent            =    round(($stock_remaning * 100) / $stock_initial);
-                    $percent_defectueux    =    round(($stock_defectueux * 100) / $stock_initial);
+                    $percent            =    floor(($stock_remaning * 100) / $stock_initial);
+                    $percent_defectueux    =    floor(($stock_defectueux * 100) / $stock_initial);
                 }
             } else {
                 $percent                =    0;
@@ -62,6 +62,14 @@ $this->load->config('nexo');
 <?php 
 
 if (! $Cache->get('widget_sale_new_best_items') || ! $Cache->get('widget_sale_new_items')) {
+	?>
+<script type="text/javascript">
+"use strict";
+$(function(){
+	Nexo_Sales_Widget.load();
+});
+</script>
+    <?php
 }
 ?>
 <script type="text/javascript">
@@ -118,11 +126,11 @@ var Nexo_Sales_Widget		=	new function(){
 						});
 						
 						var percent				=	( stock_restant * 100 ) / stock_total;
-						$( '.pourcentage_stock' ).val( Math.round( percent ) );
+						$( '.pourcentage_stock' ).val( Math.floor( percent ) );
 						$( '.pourcentage_stock' ).trigger( 'change' );
 						
 						var percent_defectueux	=	( stock_defectueux * 100 ) / stock_total;
-						$( '.pourcentage_defectueux' ).val( Math.round( percent_defectueux ) );
+						$( '.pourcentage_defectueux' ).val( Math.floor( percent_defectueux ) );
 						$( '.pourcentage_defectueux' ).trigger( 'change' );
 					}
 				});

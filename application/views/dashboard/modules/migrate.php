@@ -32,7 +32,7 @@ if (is_file($migrate_file)) {
 
     $start_migration        =    false;
 
-    foreach ( array_keys( $migrate_array ) as $version ) {
+    foreach ( array_keys( array_reverse( $migrate_array, true ) ) as $version ) {
         if ( version_compare( $version, $old_version, '>' ) ) {
             $start_migration    =    true;
         	//Start migrate at the right moment.

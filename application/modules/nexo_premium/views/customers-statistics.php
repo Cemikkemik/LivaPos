@@ -152,7 +152,7 @@ var NexoCashierPerformance	=	new function(){
 						// Cash Order only
 						if( _.contains( [ NexoCashierPerformance.Nexo_Order_Cash ], order.TYPE ) ) {
 							// Fix bug when VAT is not set
-							amount	+=	( parseInt( order.TOTAL ) + parseInt( order.TVA == '' ? 0 : order.TVA ) );
+							amount	+=	( NexoAPI.ParseFloat( order.TOTAL ) + NexoAPI.ParseFloat( order.TVA == '' ? 0 : order.TVA ) );
 						}
 					});
 				}

@@ -74,3 +74,16 @@ if (! function_exists('nexo_compare_card_values')) {
         return '';
     }
 }
+
+/**
+ * Float val for NexoPOS numeric values
+ * @params float/int
+ * @return float/int
+**/
+
+if( ! function_exists( '__floatval' ) ) {
+	function __floatval( $val ) {
+		return round( floatval( $val ), 2 );
+	}
+}
+ 

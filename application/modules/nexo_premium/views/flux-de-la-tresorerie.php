@@ -95,7 +95,7 @@ $( document ).ready(function(e) {
     ?></h2>
             
             <h4 class="text-center"><?php echo sprintf(
-                __('Flux de trésorerie pour %s', 'nexo'),
+                __('Flux de trésorerie pour %s', 'nexo_premium'),
                 $CarbonReportDate->formatLocalized('%Y')
             );
     ?></h4>
@@ -106,7 +106,7 @@ $( document ).ready(function(e) {
     ?></p>
         </div>
     	<div class="hidden-print">
-	    	<?php echo tendoo_info('Flux de trésorerie des activités opérationnelles.', 'nexo_premium');
+	    	<?php echo tendoo_info( __( 'Flux de trésorerie des activités opérationnelles.', 'nexo_premium') );
     ?>
         </div>
     	<table class="table table-bordered table-striped box">
@@ -249,54 +249,62 @@ var NexoCashFlow	=	new function(){
 	**/
 	
 	this.CalculLignes		=	function(){
-		// Calcul des recettes	
-		var TotalRecettes	=	0;
-		$( '.table-recettes-item' ).each( function(){
-			TotalRecettes	+=	parseInt( $( this ).attr( 'table-amount' ) );
-		});
-		$( '.total-table-recettes-item' ).attr( 'table-amount', TotalRecettes ).html( 
-			NexoCashFlow.CurrencyBefore + ' ' + 
-			'<span class="amount" amount="' + ( TotalRecettes ) + '">' + NexoAPI.Format( TotalRecettes ) + '</span>' +
-			NexoCashFlow.CurrencyAfter + ' '
-		);
-		
-		// Calcul des recettes ac
-		var TotalRecettesAc	=	0;
-		$( '.table-recettes-ac-item' ).each( function(){
-			TotalRecettesAc	+=	parseInt( $( this ).attr( 'table-amount' ) );
-		});
-		$( '.total-table-recettes-ac-item' ).attr( 'table-amount', TotalRecettesAc ).html( 
-			NexoCashFlow.CurrencyBefore + ' ' + 
-			'<span class="amount" amount="' + ( TotalRecettesAc ) + '">' + NexoAPI.Format( TotalRecettesAc ) + '</span>' +
-			NexoCashFlow.CurrencyAfter + ' '
-		);
-		
 		// Calcul des depenses
 		var TotalDepenses	=	0;
 		$( '.table-depenses-item' ).each( function(){
-			TotalDepenses	+=	parseInt( $( this ).attr( 'table-amount' ) );
+			TotalDepenses	+=	NexoAPI.ParseFloat( $( this ).attr( 'table-amount' ) );
 		});
+		
 		$( '.total-table-depenses-item' ).attr( 'table-amount', TotalDepenses ).html( 
 			NexoCashFlow.CurrencyBefore + ' ' + 
 			'<span class="amount" amount="' + ( TotalDepenses ) + '">' + NexoAPI.Format( TotalDepenses ) + '</span>' +
 			NexoCashFlow.CurrencyAfter + ' '
 		);
 		
+		// Calcul des recettes	
+		var TotalRecettes		=	0;
+		var TotalRecetteIndex	=	0;
+		$( '.table-recettes-item' ).each( function(){
+			
+			TotalRecettes	+=	( 
+				NexoAPI.ParseFloat( $( this ).attr( 'table-amount' ) )
+			);
+			
+			TotalRecetteIndex++;
+		});
+		
+		$( '.total-table-recettes-item' ).attr( 'table-amount', TotalRecettes ).html( 
+			NexoCashFlow.CurrencyBefore + ' ' + 
+			'<span class="amount" amount="' + ( TotalRecettes ) + '">' + NexoAPI.Format( TotalRecettes ) + '</span>' +
+			NexoCashFlow.CurrencyAfter + ' '
+		);
+		
+		/*// Calcul des recettes ac
+		var TotalRecettesAc	=	0;
+		$( '.table-recettes-ac-item' ).each( function(){
+			TotalRecettesAc	+=	NexoAPI.ParseFloat( $( this ).attr( 'table-amount' ) );
+		});
+		$( '.total-table-recettes-ac-item' ).attr( 'table-amount', TotalRecettesAc ).html( 
+			NexoCashFlow.CurrencyBefore + ' ' + 
+			'<span class="amount" amount="' + ( TotalRecettesAc ) + '">' + NexoAPI.Format( TotalRecettesAc ) + '</span>' +
+			NexoCashFlow.CurrencyAfter + ' '
+		);*/
+		
 		// Calcul des depenses ac
-		var TotalDepensesAc	=	0;
+		/*var TotalDepensesAc	=	0;
 		$( '.table-depenses-ac-item' ).each( function(){
-			TotalDepensesAc	+=	parseInt( $( this ).attr( 'table-amount' ) );
+			TotalDepensesAc	+=	NexoAPI.ParseFloat( $( this ).attr( 'table-amount' ) );
 		});
 		$( '.total-table-depenses-ac-item' ).attr( 'table-amount', TotalDepensesAc ).html( 
 			NexoCashFlow.CurrencyBefore + ' ' + 
 			'<span class="amount" amount="' + ( TotalDepensesAc ) + '">' + NexoAPI.Format( TotalDepensesAc ) + '</span>' +
 			NexoCashFlow.CurrencyAfter + ' '
-		);
+		);*/
 		
 		// Calcul des soldes finales
 		var TotalSoldeFinale	=	0;
 		$( '.solde-finale-item' ).each( function(){
-			TotalSoldeFinale	+=	parseInt( $( this ).attr( 'table-amount' ) );
+			TotalSoldeFinale	+=	NexoAPI.ParseFloat( $( this ).attr( 'table-amount' ) );
 		});
 		$( '.total-solde-finale-item' ).attr( 'table-amount', TotalSoldeFinale ).html( 
 			NexoCashFlow.CurrencyBefore + ' ' + 
@@ -319,18 +327,18 @@ var NexoCashFlow	=	new function(){
 			var Actifs	=			0;
 			$( '.table-input-' + i ).each( function(){
 				if( $( this ).hasClass( 'table-recettes-item' ) ) {
-					Actifs		+=	parseInt( $( this ).attr( 'table-amount' ) )
+					Actifs		+=	NexoAPI.ParseFloat( $( this ).attr( 'table-amount' ) )
 				}
 			});
 			
 			var Passifs	=			0;
 			$( '.table-input-' + i ).each( function(){
 				if( $( this ).hasClass( 'table-depenses-item' ) ) {
-					Passifs		+=	parseInt( $( this ).attr( 'table-amount' ) )
+					Passifs		+=	NexoAPI.ParseFloat( $( this ).attr( 'table-amount' ) )
 				}
 			});
 			
-			$( '.solde-finale-' + i ).attr( 'table-amount', parseInt( Actifs - Passifs ) ).html( 
+			$( '.solde-finale-' + i ).attr( 'table-amount', NexoAPI.ParseFloat( Actifs - Passifs ) ).html( 
 				NexoCashFlow.CurrencyBefore + ' ' + 
 				'<span class="amount" amount="' + ( Actifs - Passifs ) + '">' + NexoAPI.Format( Actifs - Passifs ) + '</span>' +
 				NexoCashFlow.CurrencyAfter + ' '  
@@ -349,7 +357,7 @@ var NexoCashFlow	=	new function(){
 		var currentAmount	=	0;
 		
 		$( '.table-recettes-ac-item' ).each( function(){
-			currentAmount	+=	parseInt( $( '.table-recettes-' + index ).attr( 'table-amount' ) );
+			currentAmount	+=	NexoAPI.ParseFloat( $( '.table-recettes-' + index ).attr( 'table-amount' ) );
 			$( this ).attr( 'table-amount', currentAmount ).html(
 				NexoCashFlow.CurrencyBefore + ' ' + 
 				'<span class="amount" amount="' + currentAmount + '">' + NexoAPI.Format( currentAmount ) + '</span>' +
@@ -369,7 +377,7 @@ var NexoCashFlow	=	new function(){
 		var currentAmount	=	0;
 		
 		$( '.table-depenses-ac-item' ).each( function(){
-			currentAmount	+=	parseInt( $( '.table-depenses-' + index ).attr( 'table-amount' ) );
+			currentAmount	+=	NexoAPI.ParseFloat( $( '.table-depenses-' + index ).attr( 'table-amount' ) );
 			$( this ).attr( 'table-amount', currentAmount ).html( 
 				NexoCashFlow.CurrencyBefore + ' ' +
 				'<span class="amount" amount="' + currentAmount + '">' + NexoAPI.Format( currentAmount ) + '</span>' +
@@ -401,20 +409,23 @@ var NexoCashFlow	=	new function(){
 	
 	this.TreatReport	=	function( content, index ) {
 		_.map( content.orders, function( value, index ) {
+			
+			var CurrentOrderRRR				=	( NexoAPI.ParseFloat( value.RISTOURNE ) + NexoAPI.ParseFloat( value.RABAIS ) + NexoAPI.ParseFloat( value.REMISE ) );
+				NexoCashFlow.RRR_Total		+=	CurrentOrderRRR;
+			
 			if( value.TYPE == NexoCashFlow.Nexo_Order_Cash ) {
-				NexoCashFlow.CashTotal		+=	parseInt( value.TOTAL );
+				NexoCashFlow.CashTotal		+=	( NexoAPI.ParseFloat( value.TOTAL ) + NexoAPI.ParseFloat( CurrentOrderRRR ) );
 			} else if( value.TYPE == NexoCashFlow.Nexo_Order_Avance ) {
-				NexoCashFlow.AvanceTotal	+=	parseInt( value.SOMME_PERCU );
+				NexoCashFlow.AvanceTotal	+=	NexoAPI.ParseFloat( value.SOMME_PERCU );
 			}
-			NexoCashFlow.RRR_Total			+=	( parseInt( value.RISTOURNE ) + parseInt( value.RABAIS ) + parseInt( value.REMISE ) );
 		});
 		
 		_.map( content.bills, function( value, index ) {
-			NexoCashFlow.BillsTotal		+=	parseInt( value.MONTANT );
+			NexoCashFlow.BillsTotal		+=	NexoAPI.ParseFloat( value.MONTANT );
 		});
 		
 		$( '.table-recettes-' + index )
-			.attr( 'table-amount', parseInt( this.CashTotal + this.AvanceTotal ) )
+			.attr( 'table-amount', NexoAPI.ParseFloat( this.CashTotal + this.AvanceTotal ) )
 			.html( 
 				this.CurrencyBefore + ' ' +
 				'<span class="amount" amount="' + this.CashTotal + this.AvanceTotal + '">' + NexoAPI.Format( this.CashTotal + this.AvanceTotal ) + '</span>' +
@@ -422,7 +433,7 @@ var NexoCashFlow	=	new function(){
 			);
 			
 		$( '.table-depenses-' + index )
-			.attr( 'table-amount', parseInt( this.BillsTotal + this.RRR_Total ) )
+			.attr( 'table-amount', NexoAPI.ParseFloat( this.BillsTotal + this.RRR_Total ) )
 			.html( 
 				this.CurrencyBefore + ' ' +
 				'<span class="amount" amount="' + ( this.BillsTotal + this.RRR_Total ) +  '">' + NexoAPI.Format( this.BillsTotal + this.RRR_Total ) + '</span>' +

@@ -15,6 +15,7 @@ trait Nexo_cashiers
         $start_date        =    $this->post('start_of_day');
         $end_date        =    $this->post('end_of_day');
         $cashier_id        =    $this->post('cashier_id');
+		$this->load->helper( 'nexopos' );
         
         // Load Cache
         $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_'));
@@ -36,7 +37,7 @@ trait Nexo_cashiers
                 foreach ($result as $_result) {
                     // Get only cash order
                     if (in_array($_result[ 'TYPE' ], array( 'nexo_order_comptant' ))) {
-                        $total            +=    intval($_result[ 'TOTAL' ]);
+                        $total            +=    __floatval($_result[ 'TOTAL' ]);
                         
                         // This month
                         // It use the end date month as current month
@@ -44,7 +45,7 @@ trait Nexo_cashiers
                         $current_month_end            =    Carbon::parse($end_date)->endOfMonth();
                         if (Carbon::parse($_result[ 'DATE_CREATION' ])->between($current_month_start, $current_month_end)) {
                             $month_sales++;
-                            $month_income            +=    intval($_result[ 'TOTAL' ]);
+                            $month_income            +=    __floatval($_result[ 'TOTAL' ]);
                         }
                     }
                 }

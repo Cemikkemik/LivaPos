@@ -14,7 +14,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <form method="post">
         <h3 class="page-header text-center"><?php echo __( 'Permission request' );?></h3>
         <?php 
-			if( $scopes ) {
+		$showButtons	=	false;
+		
+			if( $scopes && @$_GET[ 'cb' ] != null ) {
 			
 				if( is_array( $scopes ) ) {
 					foreach( $scopes as $scope ) {
@@ -28,14 +30,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         			<?php
 					}
+					
+					$showButtons	=	true;
 				} 
 		} else {
-			echo tendoo_error( __( 'One or two permission are not available' ) );
+			if( @$_GET[ 'cb' ] == null ) {
+				echo tendoo_error( __( 'Callback url is not defined.' ) );
+			} else {
+				echo tendoo_error( __( 'One or two permissions are not available.' ) );
+			}
 		}?>
         <hr>
+        	<?php if( $showButtons ):?>
         	<button type="submit" class="btn btn-success"><?php _e( 'Allow' );?></button>
             <button type="submit" class="btn btn-default"><?php _e( 'Refuse' );?></button>
-            <?php $this->events->do_action( 'display_login_fields' );?>
+			<?php endif;?>
         </form>
                 <p class="login-box-msg">
             <?php 

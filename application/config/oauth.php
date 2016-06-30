@@ -17,7 +17,7 @@ $config[ 'oauth_scopes' ]	=	array(
 	),
 	'core'				=>		array(
 		'label'			=>		__( 'Control Tendoo CMS' ),
-		'description'	=>		__( 'Allow Tendoo CMS full control' ),
+		'description'	=>		__( 'Give full access to modules, users and options on Tendoo CMS.' ),
 		'app'			=>		'system',
 		'icon'			=>		'fa fa-user-secret',
 		'color'			=>		'bg-red',

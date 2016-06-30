@@ -365,7 +365,11 @@ $config['rest_key_length'] = 40;
 | 2012/06/12. See RFC 6648 specification for more details
 |
 */
+
 $config['rest_key_name'] = 'X-API-KEY';
+
+// Header Key
+$config[ 'rest_header_key' ]	=	str_replace( '-', '_' , $config['rest_key_name'] );
 
 /*
 |--------------------------------------------------------------------------

@@ -36,13 +36,13 @@ class Nexo_Checkout extends CI_Model
         
         $client                    =    riake('REF_CLIENT', $post);
         $payment                =    riake('PAYMENT_TYPE', $post);
-        $post[ 'SOMME_PERCU' ]    =    intval(riake('SOMME_PERCU', $post));
-        $somme_percu            =    intval($post[ 'SOMME_PERCU' ]);
-        $remise                    =    intval(riake('REMISE', $post));
+        $post[ 'SOMME_PERCU' ]    =    floatval(riake('SOMME_PERCU', $post));
+        $somme_percu            =    floatval($post[ 'SOMME_PERCU' ]);
+        $remise                    =    floatval(riake('REMISE', $post));
         $produits                =    riake('order_products', $post);
-        $othercharge            =    intval(riake('other_charge', $post));
-        $ttWithCharge            =    intval(riake('total_value_with_charge', $post)) ;
-        $total                    =    intval(riake('order_total', $post)) ;
+        $othercharge            =    floatval(riake('other_charge', $post));
+        $ttWithCharge            =    floatval(riake('total_value_with_charge', $post)) ;
+        $total                    =    floatval(riake('order_total', $post)) ;
         $vat                    =    floatval(riake('order_vat', $post));
         
         /**
@@ -66,7 +66,7 @@ class Nexo_Checkout extends CI_Model
                 
         // Calcul Total	
 
-        $post[ 'TOTAL' ]    =    $total; // - ( $othercharge + intval( @$post[ 'REMISE' ] ) );
+        $post[ 'TOTAL' ]    =    $total; // - ( $othercharge + floatval( @$post[ 'REMISE' ] ) );
 
         // Author
 
@@ -124,7 +124,7 @@ class Nexo_Checkout extends CI_Model
             // Verifie si le client doit profiter de la réduction
             if (@$Options[ 'discount_type' ] != 'disable') {
                 // On définie si en fonction des réglages, l'on peut accorder une réduction au client
-                if ($total_commands >= intval(@$Options[ 'how_many_before_discount' ]) - 1 && $result[0][ 'DISCOUNT_ACTIVE' ] == 0) {
+                if ($total_commands >= floatval(@$Options[ 'how_many_before_discount' ]) - 1 && $result[0][ 'DISCOUNT_ACTIVE' ] == 0) {
                     $this->db->set('DISCOUNT_ACTIVE', 1);
                 } elseif ($total_commands >= @$Options[ 'how_many_before_discount' ] && $result[0][ 'DISCOUNT_ACTIVE' ] == 1) {
                     $this->db->set('DISCOUNT_ACTIVE', 0); // bénéficiant d'une reduction sur cette commande, la réduction est désactivée
@@ -143,8 +143,8 @@ class Nexo_Checkout extends CI_Model
         foreach (force_array(riake('order_products', $post)) as $prod) {
             $json    =    json_decode($prod);
             $this->db->where('CODEBAR', $json->codebar)->update('nexo_articles', array(
-                'QUANTITE_RESTANTE'    =>    intval($json->quantite_restante) - intval($json->qte),
-                'QUANTITE_VENDU'    =>    intval($json->quantite_vendu) + intval($json->qte)
+                'QUANTITE_RESTANTE'    =>    intval($json->quantite_restante) - floatval($json->qte),
+                'QUANTITE_VENDU'    =>    intval($json->quantite_vendu) + floatval($json->qte)
             ));
             
             // Adding to order product
@@ -153,7 +153,7 @@ class Nexo_Checkout extends CI_Model
                 'REF_COMMAND_CODE'        =>    $post[ 'CODE' ],
                 'QUANTITE'                =>    $json->qte,
                 'PRIX'                    =>    $json->price,
-                'PRIX_TOTAL'            =>    intval($json->qte) * intval($json->price)
+                'PRIX_TOTAL'            =>    floatval($json->qte) * floatval($json->price)
             ));
         }
         
@@ -247,13 +247,13 @@ class Nexo_Checkout extends CI_Model
         
         $client            =    riake('REF_CLIENT', $post);
         $payment        =    riake('PAYMENT_TYPE', $post);
-        $post[ 'SOMME_PERCU' ]    =    intval(riake('SOMME_PERCU', $post));
-        $somme_percu    =    intval($post[ 'SOMME_PERCU' ]);
-        $remise            =    intval(riake('REMISE', $post));
+        $post[ 'SOMME_PERCU' ]    =    floatval(riake('SOMME_PERCU', $post));
+        $somme_percu    =    floatval($post[ 'SOMME_PERCU' ]);
+        $remise            =    floatval(riake('REMISE', $post));
         $produits        =    riake('order_products', $post);
-        $othercharge    =    intval(riake('other_charge', $post));
-        $ttWithCharge    =    intval(riake('total_value_with_charge', $post)) ;
-        $total            =    intval(riake('order_total', $post)) ;
+        $othercharge    =    floatval(riake('other_charge', $post));
+        $ttWithCharge    =    floatval(riake('total_value_with_charge', $post)) ;
+        $total            =    floatval(riake('order_total', $post)) ;
         $vat            =    riake('order_vat', $post);
         
         // Old Command
@@ -281,7 +281,7 @@ class Nexo_Checkout extends CI_Model
                 
         // Calcul Total		
 
-        $post[ 'TOTAL' ]    =    $total; // - ( intval( @$post[ 'REMISE' ] ) );
+        $post[ 'TOTAL' ]    =    $total; // - ( floatval( @$post[ 'REMISE' ] ) );
 
         // Author
 
@@ -322,18 +322,18 @@ class Nexo_Checkout extends CI_Model
         : $post[ 'REF_CLIENT' ];
         
         // Si le client a changé
-        if (intval($result_commandes[0][ 'REF_CLIENT' ]) != $post[ 'REF_CLIENT' ]) {
+        if (floatval($result_commandes[0][ 'REF_CLIENT' ]) != $post[ 'REF_CLIENT' ]) {
         
             // Augmenter la quantité de produit du client
             $query                    =    $this->db->where('ID', $post[ 'REF_CLIENT' ])->get('nexo_clients');
             $result                    =    $query->result_array();
             
             $this->db
-            ->set('NBR_COMMANDES', intval($result[0][ 'NBR_COMMANDES' ]) + 1)
-            ->set('OVERALL_COMMANDES', intval($result[0][ 'OVERALL_COMMANDES' ]) + 1);
+            ->set('NBR_COMMANDES', floatval($result[0][ 'NBR_COMMANDES' ]) + 1)
+            ->set('OVERALL_COMMANDES', floatval($result[0][ 'OVERALL_COMMANDES' ]) + 1);
             
-            $total_commands            =    intval($result[0][ 'NBR_COMMANDES' ]) + 1;
-            $overal_commands        =    intval($result[0][ 'OVERALL_COMMANDES' ]) + 1;
+            $total_commands            =    floatval($result[0][ 'NBR_COMMANDES' ]) + 1;
+            $overal_commands        =    floatval($result[0][ 'OVERALL_COMMANDES' ]) + 1;
             
             // Désactivation des reductions pour le client par défaut
             if ($post[ 'REF_CLIENT' ] != @$Options[ 'default_compte_client' ]) {
@@ -341,7 +341,7 @@ class Nexo_Checkout extends CI_Model
                 // Verifie si le nouveau client doit profiter de la réduction
                 if (@$Options[ 'discount_type' ] != 'disable') {
                     // On définie si en fonction des réglages, l'on peut accorder une réduction au client
-                    if ($total_commands >= intval(@$Options[ 'how_many_before_discount' ]) - 1 && $result[0][ 'DISCOUNT_ACTIVE' ] == 0) {
+                    if ($total_commands >= floatval(@$Options[ 'how_many_before_discount' ]) - 1 && $result[0][ 'DISCOUNT_ACTIVE' ] == 0) {
                         $this->db->set('DISCOUNT_ACTIVE', 1);
                     } elseif ($total_commands >= @$Options[ 'how_many_before_discount' ] && $result[0][ 'DISCOUNT_ACTIVE' ] == 1) {
                         $this->db->set('DISCOUNT_ACTIVE', 0); // bénéficiant d'une reduction sur cette commande, la réduction est désactivée
@@ -362,8 +362,8 @@ class Nexo_Checkout extends CI_Model
             // Le nombre de commande ne peut pas être inférieur à 0;
 
             $this->db
-            ->set('NBR_COMMANDES',  intval($result_commandes[0][ 'REF_CLIENT' ]) == 0 ? 0 : intval($result[0][ 'NBR_COMMANDES' ]) - 1)
-            ->set('OVERALL_COMMANDES',  intval($result_commandes[0][ 'REF_CLIENT' ]) == 0 ? 0 : intval($result[0][ 'OVERALL_COMMANDES' ]) - 1)
+            ->set('NBR_COMMANDES',  floatval($result_commandes[0][ 'REF_CLIENT' ]) == 0 ? 0 : floatval($result[0][ 'NBR_COMMANDES' ]) - 1)
+            ->set('OVERALL_COMMANDES',  floatval($result_commandes[0][ 'REF_CLIENT' ]) == 0 ? 0 : floatval($result[0][ 'OVERALL_COMMANDES' ]) - 1)
             ->where('ID', $result_commandes[0][ 'REF_CLIENT' ])
             ->update('nexo_clients');
         }
@@ -380,8 +380,8 @@ class Nexo_Checkout extends CI_Model
         // incremente les produits restaurés
         foreach ($old_products as $product) {
             $this->db
-                ->set('QUANTITE_RESTANTE', '`QUANTITE_RESTANTE` + ' . intval($product[ 'QUANTITE' ]), false)
-                ->set('QUANTITE_VENDU', '`QUANTITE_VENDU` - ' . intval($product[ 'QUANTITE' ]), false)
+                ->set('QUANTITE_RESTANTE', '`QUANTITE_RESTANTE` + ' . floatval($product[ 'QUANTITE' ]), false)
+                ->set('QUANTITE_VENDU', '`QUANTITE_VENDU` - ' . floatval($product[ 'QUANTITE' ]), false)
                 ->where('CODEBAR', $product[ 'REF_PRODUCT_CODEBAR' ])
                 ->update('nexo_articles');
         }
@@ -393,8 +393,8 @@ class Nexo_Checkout extends CI_Model
         foreach (force_array(riake('order_products', $post)) as $prod) {
             $json    =    json_decode($prod);
             $this->db->where('CODEBAR', $json->codebar)->update('nexo_articles', array(
-                'QUANTITE_RESTANTE'    =>    (intval($json->quantite_restante) - intval($json->qte)),
-                'QUANTITE_VENDU'    =>    intval($json->quantite_vendu) + intval($json->qte)
+                'QUANTITE_RESTANTE'    =>    (floatval($json->quantite_restante) - floatval($json->qte)),
+                'QUANTITE_VENDU'    =>    floatval($json->quantite_vendu) + floatval($json->qte)
             ));
             
             // Adding to order product
@@ -403,7 +403,7 @@ class Nexo_Checkout extends CI_Model
                 'REF_COMMAND_CODE'        =>    $post[ 'command_code' ],
                 'QUANTITE'                =>    $json->qte,
                 'PRIX'                    =>    $json->price,
-                'PRIX_TOTAL'            =>    intval($json->qte) * intval($json->price)
+                'PRIX_TOTAL'            =>    floatval($json->qte) * floatval($json->price)
             ));
         };
         
@@ -447,7 +447,7 @@ class Nexo_Checkout extends CI_Model
         $products_data    =    array();
         // parcours les produits disponibles pour les regrouper
         foreach ($produits as $product) {
-            $products_data[ $product[ 'REF_PRODUCT_CODEBAR' ] ] =    intval($product[ 'QUANTITE' ]);
+            $products_data[ $product[ 'REF_PRODUCT_CODEBAR' ] ] =    floatval($product[ 'QUANTITE' ]);
         }
         
         // retirer le décompte des commandes passées par le client
@@ -455,8 +455,8 @@ class Nexo_Checkout extends CI_Model
         $client        =    $query->result_array();
         
         $this->db->where('ID', $command[0][ 'REF_CLIENT' ])->update('nexo_clients', array(
-            'NBR_COMMANDES'        =>    (intval($client[0][ 'NBR_COMMANDES' ]) - 1) < 0 ? 0 : intval($client[0][ 'NBR_COMMANDES' ]) - 1,
-            'OVERALL_COMMANDES'    =>    (intval($client[0][ 'OVERALL_COMMANDES' ]) - 1) < 0 ? 0 : intval($client[0][ 'OVERALL_COMMANDES' ]) - 1,
+            'NBR_COMMANDES'        =>    (floatval($client[0][ 'NBR_COMMANDES' ]) - 1) < 0 ? 0 : floatval($client[0][ 'NBR_COMMANDES' ]) - 1,
+            'OVERALL_COMMANDES'    =>    (floatval($client[0][ 'OVERALL_COMMANDES' ]) - 1) < 0 ? 0 : floatval($client[0][ 'OVERALL_COMMANDES' ]) - 1,
         ));
         
         // Parcours des produits pour restaurer les quantités vendues
@@ -467,8 +467,8 @@ class Nexo_Checkout extends CI_Model
             
             // Cumul et restauration des quantités
             $this->db->where('CODEBAR', $codebar)->update('nexo_articles', array(
-                'QUANTITE_VENDU'        =>        intval($article[0][ 'QUANTITE_VENDU' ]) - $quantity,
-                'QUANTITE_RESTANTE'        =>        intval($article[0][ 'QUANTITE_RESTANTE' ]) + $quantity,
+                'QUANTITE_VENDU'        =>        floatval($article[0][ 'QUANTITE_VENDU' ]) - $quantity,
+                'QUANTITE_RESTANTE'        =>        floatval($article[0][ 'QUANTITE_RESTANTE' ]) + $quantity,
             ));
         }
         // retire les produits vendu du panier de cette commande et les renvoies au stock
@@ -489,7 +489,7 @@ class Nexo_Checkout extends CI_Model
         $this->aauth        =    $this->users->auth;
         // Create Cashier
         Group::create(
-            'shop_clashier',
+            'shop_cashier',
             __('Caissier', 'nexo'),
             true,
             __('Permet de gérer la vente des articles, la gestion des clients', 'nexo')
@@ -572,22 +572,22 @@ class Nexo_Checkout extends CI_Model
         **/
         
         // Orders
-        $this->aauth->allow_group('shop_clashier', 'create_shop_orders');
-        $this->aauth->allow_group('shop_clashier', 'edit_shop_orders');
-        $this->aauth->allow_group('shop_clashier', 'delete_shop_orders');
+        $this->aauth->allow_group('shop_cashier', 'create_shop_orders');
+        $this->aauth->allow_group('shop_cashier', 'edit_shop_orders');
+        $this->aauth->allow_group('shop_cashier', 'delete_shop_orders');
         
         // Customers
-        $this->aauth->allow_group('shop_clashier', 'create_shop_customers');
-        $this->aauth->allow_group('shop_clashier', 'delete_shop_customers');
-        $this->aauth->allow_group('shop_clashier', 'edit_shop_customers');
+        $this->aauth->allow_group('shop_cashier', 'create_shop_customers');
+        $this->aauth->allow_group('shop_cashier', 'delete_shop_customers');
+        $this->aauth->allow_group('shop_cashier', 'edit_shop_customers');
         
         // Customers Groups
-        $this->aauth->allow_group('shop_clashier', 'create_shop_customers_groups');
-        $this->aauth->allow_group('shop_clashier', 'delete_shop_customers_groups');
-        $this->aauth->allow_group('shop_clashier', 'edit_shop_customers_groups');
+        $this->aauth->allow_group('shop_cashier', 'create_shop_customers_groups');
+        $this->aauth->allow_group('shop_cashier', 'delete_shop_customers_groups');
+        $this->aauth->allow_group('shop_cashier', 'edit_shop_customers_groups');
         
         // Profile
-        $this->aauth->allow_group('shop_clashier', 'edit_profile');
+        $this->aauth->allow_group('shop_cashier', 'edit_profile');
         
         /**
          * Permission for Shop Manager
@@ -957,25 +957,25 @@ class Nexo_Checkout extends CI_Model
 
         // For Cashier
         // Orders
-        $this->aauth->deny_group('shop_clashier', 'create_shop_orders');
-        $this->aauth->deny_group('shop_clashier', 'edit_shop_orders');
-        $this->aauth->deny_group('shop_clashier', 'delete_shop_orders');
+        $this->aauth->deny_group('shop_cashier', 'create_shop_orders');
+        $this->aauth->deny_group('shop_cashier', 'edit_shop_orders');
+        $this->aauth->deny_group('shop_cashier', 'delete_shop_orders');
         
         // Customers
-        $this->aauth->deny_group('shop_clashier', 'create_shop_customers');
-        $this->aauth->deny_group('shop_clashier', 'delete_shop_customers');
-        $this->aauth->deny_group('shop_clashier', 'edit_shop_customers');
+        $this->aauth->deny_group('shop_cashier', 'create_shop_customers');
+        $this->aauth->deny_group('shop_cashier', 'delete_shop_customers');
+        $this->aauth->deny_group('shop_cashier', 'edit_shop_customers');
         
         // Customers Groups
-        $this->aauth->deny_group('shop_clashier', 'create_shop_customers_groups');
-        $this->aauth->deny_group('shop_clashier', 'delete_shop_customers_groups');
-        $this->aauth->deny_group('shop_clashier', 'edit_shop_customers_groups');
+        $this->aauth->deny_group('shop_cashier', 'create_shop_customers_groups');
+        $this->aauth->deny_group('shop_cashier', 'delete_shop_customers_groups');
+        $this->aauth->deny_group('shop_cashier', 'edit_shop_customers_groups');
         
         // Update Profile
         $this->aauth->deny_group('shop_cashier', 'edit_profile');
         
         // Delete Custom Groups
-        $this->aauth->delete_group('shop_clashier');
+        $this->aauth->delete_group('shop_cashier');
         $this->aauth->delete_group('shop_manager');
         $this->aauth->delete_group('shop_tester');
     }

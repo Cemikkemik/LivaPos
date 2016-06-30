@@ -1,6 +1,6 @@
   <?php 
   use Carbon\Carbon;
-
+$this->load->helper( 'nexopos' );
   ?>   
   <div class="box box-widget widget-user-2" data-meta-namespace="nexo_profile">
     <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -34,13 +34,13 @@
         <li>
         	<a href="javascript:void(0)"><?php _e('Chiffre d\'affaire réalisé ce mois', 'nexo');?> 
             	<span class="pull-right sales_income_this_month">
-					<?php echo $this->Nexo_Misc->cmoney_format(intval(@$Report[ 'sales_income_this_month' ]));?>
+					<?php echo $this->Nexo_Misc->cmoney_format(__floatval(@$Report[ 'sales_income_this_month' ]));?>
 				</span>
 			</a>
 		</li><!-- badge bg-aqua  -->
         <li>
         	<a href="javascript:void(0)"><?php _e('Chiffre d\'affaire général', 'nexo');?> 
-            	<span class="pull-right sales_income"><?php echo $this->Nexo_Misc->cmoney_format(intval(@$Report[ 'sales_income' ]));?></span>
+            	<span class="pull-right sales_income"><?php echo $this->Nexo_Misc->cmoney_format(__floatval(@$Report[ 'sales_income' ]));?></span>
 			</a>
 		</li><!-- badge bg-aqua  -->
       </ul>

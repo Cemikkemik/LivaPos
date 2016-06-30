@@ -51,8 +51,14 @@ class Nexo_Premium_Install extends CI_Model
     public function Install($module)
     {
         global $Options, $CurrentScreen;
-        if ($module != 'nexo_premium' && @$Options[ 'nexo_premium_installed' ] == null && $CurrentScreen == 'dashboard') : return ;
-        endif;
+
+        if( $CurrentScreen == 'dashboard' && $module != 'nexo_premium' ) {
+            return;
+        }
+
+        if( $CurrentScreen == 'dashboard' && $module == 'nexo_premium' &&  @$Options[ 'nexo_premium_installed' ] != null ) {
+            return;
+        }
         
         Modules::enable('nexo_premium');
         
@@ -60,7 +66,7 @@ class Nexo_Premium_Install extends CI_Model
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `INTITULE` varchar(200) NOT NULL,
 		  `REF` varchar(200) NOT NULL,
-		  `MONTANT` int(200) NOT NULL,
+		  `MONTANT` float(11) NOT NULL,
 		  `IMAGE` varchar(200) NOT NULL,
 		  `DESCRIPTION` text NOT NULL,
 		  `DATE_CREATION` datetime NOT NULL,

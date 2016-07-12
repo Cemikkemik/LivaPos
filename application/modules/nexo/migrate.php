@@ -1,5 +1,6 @@
 <?php
 return array(
+	'2.7.1'            =>    MODULESPATH . '/nexo/migrate/2.7.1.php',
     '2.6.3'            =>    MODULESPATH . '/nexo/migrate/2.6.3.php',
     '2.6.1'            =>    MODULESPATH . '/nexo/migrate/2.6.1.php',
     '2.6.0'        =>    MODULESPATH . '/nexo/migrate/2.6.0.php',

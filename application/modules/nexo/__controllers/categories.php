@@ -30,8 +30,8 @@ class Nexo_Categories extends CI_Model
         $crud->set_subject(__('Catégorie', 'nexo'));
 
         $crud->set_table($this->db->dbprefix('nexo_categories'));
-        $crud->columns('NOM',  'PARENT_REF_ID', 'DESCRIPTION');
-        $crud->fields('NOM', 'PARENT_REF_ID', 'DESCRIPTION');
+        $crud->columns('NOM',  'PARENT_REF_ID', 'DESCRIPTION', 'THUMB');
+        $crud->fields('NOM', 'PARENT_REF_ID', 'THUMB', 'DESCRIPTION');
         
         $state = $crud->getState();
         if ($state == 'add' || $state == 'edit' || $state == 'read') {
@@ -39,8 +39,11 @@ class Nexo_Categories extends CI_Model
         }
         
         $crud->display_as('NOM', __('Nom de la catégorie', 'nexo'));
+		$crud->display_as( 'THUMB', __( 'Aperçu de la catégorie', 'nexo' ) );
         $crud->display_as('DESCRIPTION', __('Description de la catégorie', 'nexo'));
         $crud->display_as('PARENT_REF_ID', __('Catégorie parente', 'nexo'));
+
+		$crud->set_field_upload('THUMB', 'public/upload/categories');
         
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));

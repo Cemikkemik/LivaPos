@@ -78,33 +78,85 @@ $this->db->insert('nexo_rayons', array(
 ));
 
 // Creation des catégories
+$this->db->insert('nexo_categories', array(
+    'NOM'            	=>    __('Vêtements', 'nexo'),
+    'DESCRIPTION'    	=>    __('Catégorie vêtements', 'nexo'),
+    'AUTHOR'        	=>    User::id(),
+    'DATE_CREATION'    	=>    date_now()
+));
+
+$this->db->insert('nexo_categories', array(
+    'NOM'            	=>    __('Musique', 'nexo'),
+    'DESCRIPTION'    	=>    __('Catégorie musique', 'nexo'),
+    'AUTHOR'        	=>    User::id(),
+    'DATE_CREATION'    	=>    date_now()
+));
+
+// Sub categories
 
 $this->db->insert('nexo_categories', array(
     'NOM'            =>        __('Hommes', 'nexo'),
     'DESCRIPTION'    =>        __('Catégorie pour articles d\'hommes.', 'nexo'),
     'AUTHOR'        =>        User::id(),
-    'DATE_CREATION'    =>        date_now()
+    'DATE_CREATION'    =>        date_now(),
+	'PARENT_REF_ID'	=>	1, // Catégorie parent Vêtements
 ));
 
 $this->db->insert('nexo_categories', array(
     'NOM'            =>        __('Femmes', 'nexo'),
     'DESCRIPTION'    =>        __('Catégorie pour articles de femmes.', 'nexo'),
     'AUTHOR'        =>        User::id(),
-    'DATE_CREATION'    =>        date_now()
+    'DATE_CREATION'    =>        date_now(),
+	'PARENT_REF_ID'	=>	1, // Catégorie parent Vêtements
 ));
 
 $this->db->insert('nexo_categories', array(
     'NOM'            =>        __('Enfants', 'nexo'),
     'DESCRIPTION'    =>        __('Catégorie pour articles pour enfants.', 'nexo'),
     'AUTHOR'        =>        User::id(),
-    'DATE_CREATION'    =>        date_now()
+    'DATE_CREATION'    =>        date_now(),
+	'PARENT_REF_ID'	=>	1, // Catégorie parent Vêtements
 ));
 
 $this->db->insert('nexo_categories', array(
     'NOM'            =>        __('Cadeaux', 'nexo'),
     'DESCRIPTION'    =>        __('Catégorie pour articles en cadeaux.', 'nexo'),
     'AUTHOR'        =>        User::id(),
-    'DATE_CREATION'    =>        date_now()
+    'DATE_CREATION'    =>        date_now(),
+	'PARENT_REF_ID'	=>	1, // Catégorie parent Vêtements
+));
+
+// Music
+$this->db->insert('nexo_categories', array(
+    'NOM'            =>        __('Rock', 'nexo'),
+    'DESCRIPTION'    =>        __('Catégorie pour CD de Rock.', 'nexo'),
+    'AUTHOR'        =>        User::id(),
+    'DATE_CREATION'    =>        date_now(),
+	'PARENT_REF_ID'	=>	2, // Catégorie parent Musique
+));
+
+$this->db->insert('nexo_categories', array(
+    'NOM'            =>        __('RnB', 'nexo'),
+    'DESCRIPTION'    =>        __('Catégorie pour CD de RnB.', 'nexo'),
+    'AUTHOR'        =>        User::id(),
+    'DATE_CREATION'    =>        date_now(),
+	'PARENT_REF_ID'	=>	2, // Catégorie parent Musique
+));
+
+$this->db->insert('nexo_categories', array(
+    'NOM'            =>        __('Jazz', 'nexo'),
+    'DESCRIPTION'    =>        __('Catégorie pour CD de Jazz.', 'nexo'),
+    'AUTHOR'        =>        User::id(),
+    'DATE_CREATION'    =>        date_now(),
+	'PARENT_REF_ID'	=>	2, // Catégorie parent Musique
+));
+
+$this->db->insert('nexo_categories', array(
+    'NOM'            =>        __('Pop', 'nexo'),
+    'DESCRIPTION'    =>        __('Catégorie pour CD de Pop.', 'nexo'),
+    'AUTHOR'        =>        User::id(),
+    'DATE_CREATION'    =>        date_now(),
+	'PARENT_REF_ID'	=>	2, // Catégorie parent Musique
 ));
 
 // Products 1

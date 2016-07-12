@@ -13,7 +13,8 @@ $config[ 'discounted_item_background' ]        =    '#DFF0D8';
 $config[ 'nexo_order_types' ]    =    array(
     'nexo_order_comptant'            =>    get_instance()->lang->line('nexo_order_complete'),
     'nexo_order_advance'            =>    get_instance()->lang->line('nexo_order_advance'),
-    'nexo_order_devis'                =>    get_instance()->lang->line('nexo_order_quote')
+    'nexo_order_devis'                =>    get_instance()->lang->line('nexo_order_quote'),
+	'nexo_order_web'				=>	get_instance()->lang->line( 'nexo_order_web' )
 );
 
 /**

@@ -53,6 +53,11 @@ class Nexo extends CI_Model
         if (! is_dir('public/upload/customers')) {
             mkdir('public/upload/customers');
         }
+		
+		// For categories thumbs @since 2.7.1
+        if (! is_dir('public/upload/categories')) {
+            mkdir('public/upload/categories');
+        }
         
         define('NEXO_CODEBAR_PATH', 'public/upload/codebar/');
     }

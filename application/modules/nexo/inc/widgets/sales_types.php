@@ -1,5 +1,5 @@
-<?php
-use Carbon\Carbon;
+﻿<?php
+use Carbon\Carbon; 
 
 ?>
 <div class="box box-solid" data-meta-namespace="nexo_sales_types">
@@ -141,6 +141,10 @@ var NexoSalesStats	=	new function(){
 			nexo_order_devis	:	{
 				borderColor			:	'rgb(216, 89, 89)',
 				backgroundColor 	: 	'rgba(216, 89, 89,0.2)'
+			},
+			nexo_order_web		:	{
+				borderColor			:	'rgb(216, 207, 86)',
+				backgroundColor 	: 	'rgba(216, 207, 86,0.2)'
 			}
 		}
 
@@ -154,6 +158,7 @@ var NexoSalesStats	=	new function(){
 				NexoSalesLines.data.datasets	=	[]; // Reset
 				
 				_.each( data, function( value, key ) {	
+					console.log( colors );
 					NexoSalesLines.data.datasets.push({
 						data	:	_.toArray( value ),
 						label	: 	_.propertyOf( order_types )( key ),

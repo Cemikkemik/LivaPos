@@ -152,16 +152,17 @@ class Nexo_Commandes extends CI_Model
                 $order        =    $this->Nexo_Checkout->get_order_products($id, true);
                 
                 if ($order) {
-                    if (! User::can('edit_shop_orders')) {
-                        redirect(array( 'dashboard', 'access-denied' ));
-                    }
                     
+					if (! User::can('edit_shop_orders')) {
+                        redirect(array( 'dashboard', 'access-denied' ));
+                    }                    
                     
                     if (in_array($order[ 'order' ][0][ 'TYPE' ], array( 'nexo_order_comptant', 'nexo_order_advance' ))) {
                         redirect(array( 'dashboard', 'nexo', 'commandes', 'lists?notice=order_edit_not_allowed' ));
                     }
                 
                     $data[ 'order' ]    =    $order;
+					
                 } else {
                     redirect(array( 'dashboard', 'nexo', 'commandes', 'lists?notice=order_not_found' ));
                 }
@@ -172,6 +173,8 @@ class Nexo_Commandes extends CI_Model
             } elseif (@$Options[ 'default_compte_client' ] == null) {
                 redirect(array( 'dashboard?notice=default-customer-required' ));
             }
+			
+			// $this->Nexo_Misc->checkout_balance();die;
             
             // Before Cols
             $this->events->add_filter('gui_before_rows', function ($content) {

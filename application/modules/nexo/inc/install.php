@@ -166,6 +166,7 @@ class Nexo_Install extends CI_Model
 		  `COUT_DACHAT` FLOAT NOT NULL,
 		  `TAUX_DE_MARGE` FLOAT NOT NULL,
 		  `PRIX_DE_VENTE` FLOAT NOT NULL,
+		  `SHADOW_PRICE` FLOAT NOT NULL,
 		  `TAILLE` varchar(200) NOT NULL,
 		  `POIDS` VARCHAR(200) NOT NULL,
 		  `COULEUR` varchar(200) NOT NULL,
@@ -277,7 +278,17 @@ class Nexo_Install extends CI_Model
 		  `USED_BY` text NOT NULL,
 		  `EMAIL_RESTRICTIONS` text NOT NULL,
 		  PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');		
+		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');	
+		
+		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_checkout_money` (
+		  `ID` int(11) NOT NULL AUTO_INCREMENT,
+		  `AMOUNT` float NOT NULL,
+		  `TYPE` varchar(200) NOT NULL,
+		  `DATE_CREATION` datetime NOT NULL,
+		  `DATE_MOD` datetime NOT NULL,
+		  `AUTHOR` int(11) NOT NULL,
+		  PRIMARY KEY (`ID`)
+		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');	
     }
 
     /**
@@ -303,6 +314,9 @@ class Nexo_Install extends CI_Model
             $this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_rayons`;');
             $this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_clients`;');
             $this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_paiements`;');
+			
+			$this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_coupons`;');
+			$this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_checkout_money`;');
 
             $this->options->delete('nexo_installed');
             $this->options->delete('nexo_saved_barcode');

@@ -34,3 +34,20 @@ $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_coupon
   `EMAIL_RESTRICTIONS` text NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+
+/**
+ * Checkout Money Management
+**/
+
+$this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_checkout_money` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `AMOUNT` float NOT NULL,
+  `TYPE` varchar(200) NOT NULL,
+  `DATE_CREATION` datetime NOT NULL,
+  `DATE_MOD` datetime NOT NULL,
+  `AUTHOR` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');	
+
+// Shadow Price
+$this->db->query( 'ALTER TABLE `' . $this->db->dbprefix('nexo_articles') . '` ADD `SHADOW_PRICE` FLOAT NOT NULL AFTER `PRIX_DE_VENTE`;' );

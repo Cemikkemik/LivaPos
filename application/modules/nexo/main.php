@@ -99,7 +99,6 @@ class Nexo extends CI_Model
     public function footer()
     {
         ?>
-
         <style type="text/css">
 		.ar-up {
 			width: 0; 
@@ -163,7 +162,7 @@ class Nexo extends CI_Model
     public function dashboard()
     {
         $this->load->helper('nexopos');
-        $escapeAds    =    $this->events->apply_filters('nexo_escape_nexoadds', Modules::is_active('nexo_ads'));
+        $escapeAds    =    $this->events->apply_filters('nexo_escape_nexoadds', Modules::is_active('nexo_ads') );
         if (! Modules::is_active('grocerycrud') || $escapeAds == false) {
             Modules::disable('nexo');
             redirect(array( 'dashboard', 'modules?highlight=Nexo&notice=error-occured' ));

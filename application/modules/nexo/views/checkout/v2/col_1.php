@@ -1,26 +1,25 @@
 <?php global $Options;?>
 <div class="box box-primary direct-chat direct-chat-primary" id="cart-details-wrapper" style="visibility:hidden">
     <div class="box-header with-border" id="cart-header">
-        <h3 class="box-title">
+        <!--<h3 class="box-title">
             <?php _e('Caisse', 'nexo');?>
         </h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-sm btn-primary cart-add-customer"><i class="fa fa-user"></i> <?php _e('Ajouter un client', 'nexo');?></button>
-        </div>
-    </div>
-    <!-- /.box-body -->
-    <div class="box-footer" id="cart-search-wrapper">
+        </div>-->
         <form action="#" method="post">
         	<div class="input-group">
               <span class="input-group-addon" id="basic-addon1"><?php _e('Choisir un client', 'nexo');?></span>
               <select data-live-search="true" name="customer_id" placeholder="<?php _e('Veuillez choisir un client');?>" class="form-control customers-list dropdown-bootstrap">
                 <option value=""><?php _e('Sélectionner un client', 'nexo');?></option>
             </select>
+            	<span class="input-group-btn">
+                	<button type="button" class="btn btn-primary cart-add-customer"><i class="fa fa-user"></i> <?php _e('Ajouter un client', 'nexo');?></button>
+                </span>
             </div>
             
         </form>
     </div>
-    <!-- /.box-footer--> 
     <!-- /.box-header -->
     <div class="box-body">
     	<table class="table" id="cart-item-table-header">
@@ -90,19 +89,19 @@
     <div class="box-footer" id="cart-panel">
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-app btn-default btn-lg" id="cart-pay-button" style="margin-bottom:0px;">
+            <button type="button" class="btn btn-default btn-lg" id="cart-pay-button" style="margin-bottom:0px;">
 			<i class="fa fa-money"></i>
 			<?php _e('Payer', 'nexo');?>
             </button>
           </div>
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-app btn-default btn-lg" id="cart-discount-button"  style="margin-bottom:0px;">
+            <button type="button" class="btn btn-default btn-lg" id="cart-discount-button"  style="margin-bottom:0px;">
             	<i class="fa fa-gift"></i>
 				<?php _e('Remise', 'nexo');?>
 			</button>
           </div>
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-app btn-default btn-lg" id="cart-return-to-order"  style="margin-bottom:0px;">
+            <button type="button" class="btn btn-default btn-lg" id="cart-return-to-order"  style="margin-bottom:0px;"> <!-- btn-app  -->
             	<i class="fa fa-remove"></i>
 				<?php _e('Annuler', 'nexo');?>
 			</button>
@@ -171,5 +170,17 @@
 }
 .modal-dialog {
 	margin: 10px auto !important;
+}
+
+/**
+ NexoPOS 2.7.1
+**/
+
+#cart-table-body .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+    border-bottom: 1px solid #f4f4f4;
+	margin-bottom:-1px;
+}
+.box {
+	border-top: 0px solid #d2d6de;
 }
 </style>

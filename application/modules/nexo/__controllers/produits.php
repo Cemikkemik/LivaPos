@@ -30,10 +30,10 @@ class Nexo_Produits extends CI_Model
         $crud->set_subject(__('Articles', 'nexo'));
 
         $crud->set_table($this->db->dbprefix('nexo_articles'));
-        $crud->columns('DESIGN', 'REF_CATEGORIE', 'REF_SHIPPING', 'QUANTITY', 'DEFECTUEUX', 'QUANTITE_RESTANTE', 'QUANTITE_VENDU', 'PRIX_DE_VENTE', 'PRIX_PROMOTIONEL', 'CODEBAR');
+        $crud->columns('DESIGN', 'REF_CATEGORIE', 'REF_SHIPPING', 'QUANTITY', 'DEFECTUEUX', 'QUANTITE_RESTANTE', 'QUANTITE_VENDU', 'PRIX_DE_VENTE', 'SHADOW_PRICE', 'PRIX_PROMOTIONEL', 'CODEBAR');
         
         $crud->fields('DESIGN', 'SKU', 'REF_RAYON', 'REF_CATEGORIE', 'REF_SHIPPING', 'QUANTITY', 'DEFECTUEUX', 'QUANTITE_RESTANTE', 'QUANTITE_VENDU',
-                        'PRIX_DACHAT', 'FRAIS_ACCESSOIRE', 'PRIX_DE_VENTE', 'TAUX_DE_MARGE', 'COUT_DACHAT', 'PRIX_PROMOTIONEL', 'SPECIAL_PRICE_START_DATE', 'SPECIAL_PRICE_END_DATE', 'HAUTEUR', 'LARGEUR', 'POIDS', 'COULEUR', 'APERCU',
+                        'PRIX_DACHAT', 'FRAIS_ACCESSOIRE', 'PRIX_DE_VENTE', 'SHADOW_PRICE', 'TAUX_DE_MARGE', 'COUT_DACHAT', 'PRIX_PROMOTIONEL', 'SPECIAL_PRICE_START_DATE', 'SPECIAL_PRICE_END_DATE', 'HAUTEUR', 'LARGEUR', 'POIDS', 'COULEUR', 'APERCU',
                         'CODEBAR', 'DESCRIPTION', 'DATE_CREATION', 'DATE_MOD', 'AUTHOR'
         );
         
@@ -69,6 +69,7 @@ class Nexo_Produits extends CI_Model
         $crud->display_as('PRIX_PROMOTIONEL', __('Prix promotionnel', 'nexo'));
         $crud->display_as('SPECIAL_PRICE_START_DATE', __('Début de la promotion', 'nexo'));
         $crud->display_as('SPECIAL_PRICE_END_DATE', __('Fin de la promotion', 'nexo'));
+		$crud->display_as( 'SHADOW_PRICE', __( 'Prix de vente fictif', 'nexo' ) );
         
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));

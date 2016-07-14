@@ -2,6 +2,7 @@
 require_once(APPPATH . 'modules/nexo/vendor/autoload.php');
 
 use Carbon\Carbon;
+use Curl\Curl;
 
 class Nexo_Misc extends CI_Model
 {

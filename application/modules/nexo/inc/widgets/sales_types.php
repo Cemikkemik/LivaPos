@@ -39,30 +39,6 @@ var randomColor = function(opacity) {
 
 var NexoSalesLines;
 
-/**
- {
-			label: "My First dataset",
-			data: [0,0,0,0,0,0,0],
-			fill: true,
-			borderDash: [10, 10],
-			borderColor	:	'rgba(255,99,132,1)',
-			backgroundColor : 'rgba(255,99,132,0.5)',
-		},{
-			label: "My First dataset",
-			data: [0,0,0,0,0,0,0],
-			fill: true,
-			borderDash: [10, 10],
-			borderColor	:	'rgba(255,99,132,1)',
-			backgroundColor : 'rgba(255,99,132,0.5)',
-		},{
-			label: "My First dataset",
-			data: [0,0,0,0,0,0,0],
-			fill: true,
-			borderDash: [10, 10],
-			borderColor	:	'rgba(255,99,132,1)',
-			backgroundColor : 'rgba(255,99,132,0.5)',
-		}
-	**/
 var config = {
 	type: 'line',
 	data: {
@@ -76,30 +52,7 @@ var config = {
         },
 		responsive: true,
 		tooltips: {
-			mode: 'label',
-			callbacks: {
-				// beforeTitle: function() {
-				//     return '...beforeTitle';
-				// },
-				// afterTitle: function() {
-				//     return '...afterTitle';
-				// },
-				// beforeBody: function() {
-				//     return '...beforeBody';
-				// },
-				// afterBody: function() {
-				//     return '...afterBody';
-				// },
-				// beforeFooter: function() {
-				//     return '...beforeFooter';
-				// },
-				// footer: function() {
-				//     return 'Footer';
-				// },
-				// afterFooter: function() {
-				//     return '...afterFooter';
-				// },
-			}
+			mode: 'label'
 		},
 		hover: {
 			mode: 'dataset'

@@ -74,6 +74,18 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
+    'name'        =>    'nexo_compact_enabled',
+    'label'        =>    __('Activer le mode comptact', 'nexo'),
+    'options'    =>    array(
+		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
+        'no'    =>    __('Non', 'nexo'),
+        'yes'        =>    __('Oui', 'nexo')
+    ),
+	'description'	=>	__( 'Permettra de masquer certains éléments inutiles sur l\'interface du point de vente.', 'nexo' )
+), 'Nexo_checkout', 1);
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
     'name'        =>    'nexo_receipt_theme',
     'label'        =>    __('Thème des tickets de caisse', 'nexo'),
     'options'    =>    array(
@@ -104,6 +116,18 @@ $this->Gui->add_item(array(
     'name'        =>    'nexo_enable_smsinvoice',
     'label'        =>    __('Envoyer une facture par SMS', 'nexo'),
     'description'        =>    __('Permet d\'envoyer une facture par SMS pour les commandes complètes aux clients enregistrés.', 'nexo'),
+    'options'    =>    array(
+        ''            =>    __('Veuillez choisir une option', 'nexo'),
+        'yes'        =>    __('Oui', 'nexo'),
+        'no'        =>    __('Non', 'nexo')
+    )
+), 'Nexo_checkout2', 2);
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    'nexo_enable_shadow_price',
+    'label'        =>    __('Utiliser les prix fictif', 'nexo'),
+    'description'        =>    __('Permet d\'afficher un prix fictif "discutable", qui ne doit pas être inférieure au prix de vente réel d\'un article.', 'nexo'),
     'options'    =>    array(
         ''            =>    __('Veuillez choisir une option', 'nexo'),
         'yes'        =>    __('Oui', 'nexo'),

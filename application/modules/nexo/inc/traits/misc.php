@@ -24,11 +24,11 @@ trait Nexo_rest_misc
             
             $query            =    $this->db
                                 ->select('*')
-                                ->from('nexo_commandes_produits')
-                                ->join('nexo_articles', 'nexo_articles.CODEBAR = nexo_commandes_produits.REF_PRODUCT_CODEBAR')
-                                ->join('nexo_commandes', 'nexo_commandes_produits.REF_COMMAND_CODE = nexo_commandes.CODE')
-                                ->where('nexo_commandes.DATE_CREATION >=', $start_date)
-                                ->where('nexo_commandes.DATE_CREATION <=', $end_date)
+                                ->from( store_prefix() . 'nexo_commandes_produits')
+                                ->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR')
+                                ->join( store_prefix() . 'nexo_commandes', store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE = ' . store_prefix() . 'nexo_commandes.CODE')
+                                ->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', $start_date)
+                                ->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', $end_date)
                                 ->limit($limit_result)
                                 // ->group_by( 'nexo_articles.ID' )
                                 ->get();
@@ -73,7 +73,7 @@ trait Nexo_rest_misc
                     // get orders
                     $orders                =    $curl->post(site_url(array( 'rest', 'nexo', 'order_by_dates', 'nexo_order_comptant' )), array(
                         'start'            =>    Carbon::parse($date)->startOfDay()->toDateTimeString(),
-                        'end'            =>    Carbon::parse($date)->endOfDay()->toDateTimeString()
+                        'end'            	=>    Carbon::parse($date)->endOfDay()->toDateTimeString()
                     ));
                     
                     if (! empty($orders)) {

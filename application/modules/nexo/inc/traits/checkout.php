@@ -4,11 +4,11 @@ include_once(APPPATH . '/modules/nexo/vendor/autoload.php');
 use Carbon\Carbon;
 use \Curl\Curl;
 
-trait Nexo_Checkout_Money
+trait Nexo_checkout_money
 {
-    public function pos_balance_post( $type )
+    public function pos_balance_post()
     {
-       $this->db->insert( 'nexo_checkout_money', array(
+       $this->db->insert( store_prefix() . 'nexo_checkout_money', array(
 	   		'AMOUNT'			=>	$this->post( 'amount' ),
 			'TYPE'				=>	$this->post( 'type' ),
 			'DATE_CREATION'		=>	$this->post( 'date' ),
@@ -24,7 +24,7 @@ trait Nexo_Checkout_Money
 	
 	public function pos_balance_delete( $id )
 	{
-		$this->db->where( 'ID', $id )->delete( 'nexo_checkout_money' );
+		$this->db->where( 'ID', $id )->delete( store_prefix() . 'nexo_checkout_money' );
 		$this->__success();
 	}
 	
@@ -34,7 +34,7 @@ trait Nexo_Checkout_Money
 	
 	public function pos_balance_put( $id ) 
 	{
-		$this->db->where( 'ID', $id )->update( 'nexo_checkout_money', array(
+		$this->db->where( 'ID', $id )->update( store_prefix() . 'nexo_checkout_money', array(
 	   		'AMOUNT'			=>	$this->put( 'amount' ),
 			'TYPE'				=>	$this->put( 'type' ),
 			'DATE_MOD'			=>	$this->put( 'date' ),
@@ -52,7 +52,7 @@ trait Nexo_Checkout_Money
 	public function pos_balance_get( $start = null, $limit = null ) 
 	{
 		$this->db->select( '*' );
-		$this->db->from( 'nexo_checkout_money' );
+		$this->db->from( store_prefix() . 'nexo_checkout_money' );
 		if( $start != null && $limit != null ) {
 			$this->db->limit( $limit, $start );
 		} else if( $start != null ) {
@@ -71,7 +71,7 @@ trait Nexo_Checkout_Money
 		$this->response( $this->db
 		->where( 'DATE_CREATION >=', $this->post( 'min' ) )
 		->where( 'DATE_CREATION <=', $this->post( 'max' ) )
-		->get( 'nexo_checkout_money' )
+		->get( store_prefix() . 'nexo_checkout_money' )
 		->result(), 200 );
 	}
 	

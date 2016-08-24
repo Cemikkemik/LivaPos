@@ -10,160 +10,6 @@ class Nexo_Checkout extends CI_Model
     }
     
     /**
-     * Command Save
-     * @access public
-     * @return string
-     * @param post
-    **/
-    
-    public function commandes_save($post)
-    {
-        // Protecting
-        if (! User::can('create_shop_orders')) {
-            redirect(array( 'dashboard', 'access-denied' ));
-        }
-        
-        global $Options;
-        /**
-         * Bug, en cas de réduction, le total de la commande affiche un montant inexacte
-        **/
-        
-        // Selon les options, le champ des remise peut en pas être définit
-        $post[ 'REMISE' ]        =    isset($post[ 'REMISE' ]) ? $post[ 'REMISE' ] : 0;
-        $post[ 'REF_CLIENT' ]    =    isset($post[ 'REF_CLIENT' ]) ? $post[ 'REF_CLIENT' ] : 0;
-        $post[ 'SOMME_PERCU' ]    =    isset($post[ 'SOMME_PERCU' ]) ? $post[ 'SOMME_PERCU' ] : 0;
-        $post[ 'PAYMENT_TYPE' ] =    isset($post[ 'PAYMENT_TYPE' ]) ? $post[ 'PAYMENT_TYPE' ] : 0;
-        
-        $client                    =    riake('REF_CLIENT', $post);
-        $payment                =    riake('PAYMENT_TYPE', $post);
-        $post[ 'SOMME_PERCU' ]    =    floatval(riake('SOMME_PERCU', $post));
-        $somme_percu            =    floatval($post[ 'SOMME_PERCU' ]);
-        $remise                    =    floatval(riake('REMISE', $post));
-        $produits                =    riake('order_products', $post);
-        $othercharge            =    floatval(riake('other_charge', $post));
-        $ttWithCharge            =    floatval(riake('total_value_with_charge', $post)) ;
-        $total                    =    floatval(riake('order_total', $post)) ;
-        $vat                    =    floatval(riake('order_vat', $post));
-        
-        /**
-         * Définir le type 
-        **/
-        
-        // @since 2.6 , added VAT
-        // $this->load->config( 'nexo' );
-
-        if ($somme_percu >= $ttWithCharge + $vat) {
-            $post[ 'TYPE' ]    =    'nexo_order_comptant'; // Comptant
-        } elseif ($somme_percu == 0) {
-            $post[ 'TYPE' ] =        'nexo_order_devis'; // Devis
-        } elseif ($somme_percu < ($ttWithCharge + $vat) && $somme_percu > 0) {
-            $post[ 'TYPE' ]    =    'nexo_order_advance'; // Avance
-        }
-        
-        // Other: Ristourne
-
-        $post[ 'RISTOURNE' ] = $othercharge;
-                
-        // Calcul Total	
-
-        $post[ 'TOTAL' ]    =    $total; // - ( $othercharge + floatval( @$post[ 'REMISE' ] ) );
-
-        // Author
-
-        $post[ 'AUTHOR' ]    =    User::id();
-        
-        // Saving discount type
-
-        $post[ 'DISCOUNT_TYPE' ]    = @$Options[ 'discount_type' ];
-        
-        // VAT
-
-        $post[ 'TVA' ]                =    $vat;
-        
-        /**
-         * First Index is set as payment type
-        **/
-        
-        $post[ 'PAYMENT_TYPE' ]    =    $post[ 'PAYMENT_TYPE' ] == '' ?
-            // Default paiement type
-            is_numeric(@$Options[ 'default_payment_means' ]) ? $Options[ 'default_payment_means' ] : 1
-            // end default paiement type
-        : $post[ 'PAYMENT_TYPE' ];
-        
-        // Date
-
-        $post[ 'DATE_CREATION' ]=    date_now();
-        
-        // Code
-
-        $post[ 'CODE' ]            =    $this->random_code();
-        
-        // Client
-        /**
-         * Increate Client Product
-        **/
-        
-        $post[ 'REF_CLIENT' ]    =    $post[ 'REF_CLIENT' ] == '' ?
-            // Start Loop for Default Compte client
-            is_numeric(@$Options[ 'default_compte_client' ]) ? $Options[ 'default_compte_client' ] : 1
-            // End loop for default compte client
-            : $post[ 'REF_CLIENT' ];
-        // Augmenter la quantité de produit du client
-
-        $query                    =    $this->db->where('ID', $post[ 'REF_CLIENT' ])->get('nexo_clients');
-        $result                    =    $query->result_array();
-        $total_commands            =    intval($result[0][ 'NBR_COMMANDES' ]) + 1;
-        $overal_commands        =    intval($result[0][ 'OVERALL_COMMANDES' ]) + 1;
-        
-        $this->db->set('NBR_COMMANDES', $total_commands);
-        $this->db->set('OVERALL_COMMANDES', $overal_commands);
-        
-        // Désactivation des réduction auto pour le client par défaut
-        if ($post[ 'REF_CLIENT' ] != @$Options[ 'default_compte_client' ]) {
-        
-            // Verifie si le client doit profiter de la réduction
-            if (@$Options[ 'discount_type' ] != 'disable') {
-                // On définie si en fonction des réglages, l'on peut accorder une réduction au client
-                if ($total_commands >= floatval(@$Options[ 'how_many_before_discount' ]) - 1 && $result[0][ 'DISCOUNT_ACTIVE' ] == 0) {
-                    $this->db->set('DISCOUNT_ACTIVE', 1);
-                } elseif ($total_commands >= @$Options[ 'how_many_before_discount' ] && $result[0][ 'DISCOUNT_ACTIVE' ] == 1) {
-                    $this->db->set('DISCOUNT_ACTIVE', 0); // bénéficiant d'une reduction sur cette commande, la réduction est désactivée
-                    $this->db->set('NBR_COMMANDES', 1); // le nombre de commande est également désactivé
-                }
-            }
-        } // fin désactivation réduction auto pour le client par défaut
-
-        $this->db->where('ID', $post[ 'REF_CLIENT' ])
-        ->update('nexo_clients');
-        
-        /**
-         * Reducing Qte
-        **/
-        
-        foreach (force_array(riake('order_products', $post)) as $prod) {
-            $json    =    json_decode($prod);
-            $this->db->where('CODEBAR', $json->codebar)->update('nexo_articles', array(
-                'QUANTITE_RESTANTE'    =>    intval($json->quantite_restante) - floatval($json->qte),
-                'QUANTITE_VENDU'    =>    intval($json->quantite_vendu) + floatval($json->qte)
-            ));
-            
-            // Adding to order product
-            $this->db->insert('nexo_commandes_produits', array(
-                'REF_PRODUCT_CODEBAR'    =>    $json->codebar,
-                'REF_COMMAND_CODE'        =>    $post[ 'CODE' ],
-                'QUANTITE'                =>    $json->qte,
-                'PRIX'                    =>    $json->price,
-                'PRIX_TOTAL'            =>    floatval($json->qte) * floatval($json->price)
-            ));
-        }
-        
-        // New Action
-        $this->events->do_action('nexo_create_order', $post);
-        
-        return $post;
-    }
-    
-    /**
      * Create random Code
      * 
      * @param Int length
@@ -172,7 +18,7 @@ class Nexo_Checkout extends CI_Model
     
     public function random_code($length = 6)
     {
-        $allCode    =    $this->options->get('order_code');
+        $allCode    =    $this->options->get( store_prefix() . 'order_code');
         /**
          * Count product to increase length
         **/
@@ -187,7 +33,7 @@ class Nexo_Checkout extends CI_Model
         } while (in_array($randomString, force_array($allCode)));
         
         $allCode[]    =    $randomString;
-        $this->options->set('order_code', $allCode);
+        $this->options->set( store_prefix() . 'order_code', $allCode);
         
         return $randomString;
     }
@@ -221,199 +67,6 @@ class Nexo_Checkout extends CI_Model
     }
     
     /**
-     * Command Update
-     * Update a command
-     * [new permission ready]
-     *
-     * @param Array
-     * @return Array
-    **/
-    
-    public function commandes_update($post)
-    {
-        // Protecting
-        if (! User::can('edit_shop_orders')) {
-            redirect(array( 'dashboard', 'access-denied' ));
-        }
-        
-        global $Options;
-        $segments        =    $this->uri->segment_array();
-        $command_id        =    end($segments) ;
-
-        // Delete all product from this command
-        /**
-         * Bug, en cas de réduction, le total de la commande affiche un montant inexacte
-        **/
-        
-        $client            =    riake('REF_CLIENT', $post);
-        $payment        =    riake('PAYMENT_TYPE', $post);
-        $post[ 'SOMME_PERCU' ]    =    floatval(riake('SOMME_PERCU', $post));
-        $somme_percu    =    floatval($post[ 'SOMME_PERCU' ]);
-        $remise            =    floatval(riake('REMISE', $post));
-        $produits        =    riake('order_products', $post);
-        $othercharge    =    floatval(riake('other_charge', $post));
-        $ttWithCharge    =    floatval(riake('total_value_with_charge', $post)) ;
-        $total            =    floatval(riake('order_total', $post)) ;
-        $vat            =    riake('order_vat', $post);
-        
-        // Old Command
-        $query                =    $this->db->where('ID', $command_id)->get('nexo_commandes');
-        $result_commandes    =    $query->result_array();
-        
-        /**
-         * Définir le type 
-        **/
-
-        // @since 2.6 , added VAT
-        // $this->load->config( 'nexo' );
-
-        if ($somme_percu >= $ttWithCharge + $vat) {
-            $post[ 'TYPE' ]    =    'nexo_order_comptant';// Comptant
-        } elseif ($somme_percu == 0) {
-            $post[ 'TYPE' ] =        'nexo_order_devis'; // Devis
-        } elseif ($somme_percu < ($ttWithCharge + $vat) && $somme_percu > 0) {
-            $post[ 'TYPE' ]    =    'nexo_order_advance'; // Avance
-        }
-        
-        // Other: Ristourne
-
-        $post[ 'RISTOURNE' ] =    $othercharge;
-                
-        // Calcul Total		
-
-        $post[ 'TOTAL' ]    =    $total; // - ( floatval( @$post[ 'REMISE' ] ) );
-
-        // Author
-
-        $post[ 'AUTHOR' ]    =    User::id();
-        
-        // Saving discount type
-
-        $post[ 'DISCOUNT_TYPE' ]    = @$Options[ 'discount_type' ];
-        
-        // VAT
-
-        $post[ 'TVA' ]                =    $vat;
-        
-        // Payment Type
-        /**
-         * First Index is set as payment type
-        **/
-        
-        $post[ 'PAYMENT_TYPE' ]    =    $post[ 'PAYMENT_TYPE' ] == '' ?
-            // Default paiement type
-            is_numeric(@$Options[ 'default_payment_means' ]) ? $Options[ 'default_payment_means' ] : 1
-            // end default paiement type
-        : $post[ 'PAYMENT_TYPE' ];
-        
-        // Date
-
-        $post[ 'DATE_MOD' ]    =    date_now();
-        
-        // Client
-        /**
-         * Increate Client Product
-        **/
-        
-        $post[ 'REF_CLIENT' ]    =    $post[ 'REF_CLIENT' ] == '' ?
-            // Start Loop for Default Compte client
-            is_numeric(@$Options[ 'default_compte_client' ]) ? $Options[ 'default_compte_client' ] : 1
-            // End loop for default compte client
-        : $post[ 'REF_CLIENT' ];
-        
-        // Si le client a changé
-        if (floatval($result_commandes[0][ 'REF_CLIENT' ]) != $post[ 'REF_CLIENT' ]) {
-        
-            // Augmenter la quantité de produit du client
-            $query                    =    $this->db->where('ID', $post[ 'REF_CLIENT' ])->get('nexo_clients');
-            $result                    =    $query->result_array();
-            
-            $this->db
-            ->set('NBR_COMMANDES', floatval($result[0][ 'NBR_COMMANDES' ]) + 1)
-            ->set('OVERALL_COMMANDES', floatval($result[0][ 'OVERALL_COMMANDES' ]) + 1);
-            
-            $total_commands            =    floatval($result[0][ 'NBR_COMMANDES' ]) + 1;
-            $overal_commands        =    floatval($result[0][ 'OVERALL_COMMANDES' ]) + 1;
-            
-            // Désactivation des reductions pour le client par défaut
-            if ($post[ 'REF_CLIENT' ] != @$Options[ 'default_compte_client' ]) {
-            
-                // Verifie si le nouveau client doit profiter de la réduction
-                if (@$Options[ 'discount_type' ] != 'disable') {
-                    // On définie si en fonction des réglages, l'on peut accorder une réduction au client
-                    if ($total_commands >= floatval(@$Options[ 'how_many_before_discount' ]) - 1 && $result[0][ 'DISCOUNT_ACTIVE' ] == 0) {
-                        $this->db->set('DISCOUNT_ACTIVE', 1);
-                    } elseif ($total_commands >= @$Options[ 'how_many_before_discount' ] && $result[0][ 'DISCOUNT_ACTIVE' ] == 1) {
-                        $this->db->set('DISCOUNT_ACTIVE', 0); // bénéficiant d'une reduction sur cette commande, la réduction est désactivée
-                        $this->db->set('NBR_COMMANDES', 0); // le nombre de commande est également désactivé
-                    }
-                }
-            } // Fin désactivation réduction automatique pour le client par défaut
-
-            // Fin des modifications du client en cours.
-            $this->db->where('ID', $post[ 'REF_CLIENT' ])
-            ->update('nexo_clients');
-            
-            // Reduire pour le précédent client
-
-            $query                    =    $this->db->where('ID',  $result_commandes[0][ 'REF_CLIENT' ])->get('nexo_clients');
-            $result                    =    $query->result_array();
-            
-            // Le nombre de commande ne peut pas être inférieur à 0;
-
-            $this->db
-            ->set('NBR_COMMANDES',  floatval($result_commandes[0][ 'REF_CLIENT' ]) == 0 ? 0 : floatval($result[0][ 'NBR_COMMANDES' ]) - 1)
-            ->set('OVERALL_COMMANDES',  floatval($result_commandes[0][ 'REF_CLIENT' ]) == 0 ? 0 : floatval($result[0][ 'OVERALL_COMMANDES' ]) - 1)
-            ->where('ID', $result_commandes[0][ 'REF_CLIENT' ])
-            ->update('nexo_clients');
-        }
-        
-        /**
-         * Reducing Qte
-        **/
-        
-        // Restauration des produits à la boutique
-        $query        =    $this->db->where('REF_COMMAND_CODE', $post[ 'command_code' ])->get('nexo_commandes_produits');
-        $old_products    =    $query->result_array();
-        
-        
-        // incremente les produits restaurés
-        foreach ($old_products as $product) {
-            $this->db
-                ->set('QUANTITE_RESTANTE', '`QUANTITE_RESTANTE` + ' . floatval($product[ 'QUANTITE' ]), false)
-                ->set('QUANTITE_VENDU', '`QUANTITE_VENDU` - ' . floatval($product[ 'QUANTITE' ]), false)
-                ->where('CODEBAR', $product[ 'REF_PRODUCT_CODEBAR' ])
-                ->update('nexo_articles');
-        }
-        
-        // Suppression des produits de la commande
-        $this->db->where('REF_COMMAND_CODE', $post[ 'command_code' ])->delete('nexo_commandes_produits');
-        
-        // Adding articles
-        foreach (force_array(riake('order_products', $post)) as $prod) {
-            $json    =    json_decode($prod);
-            $this->db->where('CODEBAR', $json->codebar)->update('nexo_articles', array(
-                'QUANTITE_RESTANTE'    =>    (floatval($json->quantite_restante) - floatval($json->qte)),
-                'QUANTITE_VENDU'    =>    floatval($json->quantite_vendu) + floatval($json->qte)
-            ));
-            
-            // Adding to order product
-            $this->db->insert('nexo_commandes_produits', array(
-                'REF_PRODUCT_CODEBAR'    =>    $json->codebar,
-                'REF_COMMAND_CODE'        =>    $post[ 'command_code' ],
-                'QUANTITE'                =>    $json->qte,
-                'PRIX'                    =>    $json->price,
-                'PRIX_TOTAL'            =>    floatval($json->qte) * floatval($json->price)
-            ));
-        };
-        
-        // New Action
-        $this->events->do_action('nexo_edit_order', $post);
-            
-        return $post;
-    }
-    
-    /**
      * Command delete
      *
      * @param Array
@@ -433,14 +86,14 @@ class Nexo_Checkout extends CI_Model
         // Remove product from this cart
         $query    =    $this->db
                     ->where('ID', $post)
-                    ->get('nexo_commandes');
+                    ->get( store_prefix() . 'nexo_commandes');
                     
         $command=    $query->result_array();
         
         // Récupère les produits vendu
         $query    =    $this->db
                     ->where('REF_COMMAND_CODE', $command[0][ 'CODE' ])
-                    ->get('nexo_commandes_produits');
+                    ->get( store_prefix() . 'nexo_commandes_produits');
                     
         $produits        =    $query->result_array();
         
@@ -451,7 +104,7 @@ class Nexo_Checkout extends CI_Model
         }
         
         // retirer le décompte des commandes passées par le client
-        $query        =    $this->db->where('ID', $command[0][ 'REF_CLIENT' ])->get('nexo_clients');
+        $query        =    $this->db->where('ID', $command[0][ 'REF_CLIENT' ])->get( store_prefix() . 'nexo_clients');
         $client        =    $query->result_array();
         
         $this->db->where('ID', $command[0][ 'REF_CLIENT' ])->update('nexo_clients', array(
@@ -462,17 +115,20 @@ class Nexo_Checkout extends CI_Model
         // Parcours des produits pour restaurer les quantités vendues
         foreach ($products_data as $codebar => $quantity) {
             // Quantité actuelle
-            $query    =    $this->db->where('CODEBAR', $codebar)->get('nexo_articles');
+            $query    =    $this->db->where('CODEBAR', $codebar)->get( store_prefix() . 'nexo_articles');
             $article    =    $query->result_array();
             
             // Cumul et restauration des quantités
-            $this->db->where('CODEBAR', $codebar)->update('nexo_articles', array(
+            $this->db->where('CODEBAR', $codebar)->update( store_prefix() . 'nexo_articles', array(
                 'QUANTITE_VENDU'        =>        floatval($article[0][ 'QUANTITE_VENDU' ]) - $quantity,
                 'QUANTITE_RESTANTE'        =>        floatval($article[0][ 'QUANTITE_RESTANTE' ]) + $quantity,
             ));
         }
         // retire les produits vendu du panier de cette commande et les renvoies au stock
-        $this->db->where('REF_COMMAND_CODE', $command[0][ 'CODE' ])->delete('nexo_commandes_produits');
+        $this->db->where('REF_COMMAND_CODE', $command[0][ 'CODE' ])->delete( store_prefix() . 'nexo_commandes_produits');
+		
+		// Delete order meta
+		$this->db->where( 'REF_ORDER_ID', $command[0][ 'ID' ] )->delete( store_prefix() . 'nexo_commandes_meta' );
         
         // New Action
         $this->events->do_action('nexo_delete_order', $post);
@@ -490,25 +146,25 @@ class Nexo_Checkout extends CI_Model
         // Create Cashier
         Group::create(
             'shop_cashier',
-            __('Caissier', 'nexo'),
+            get_instance()->lang->line( 'nexo_cashier' ),
             true,
-            __('Permet de gérer la vente des articles, la gestion des clients', 'nexo')
+            get_instance()->lang->line( 'nexo_cashier_details' )
         );
         
         // Create Shop Manager
         Group::create(
             'shop_manager',
-            __('Gérant de la boutique', 'nexo'),
+            get_instance()->lang->line( 'nexo_shop_manager' ),
             true,
-            __('Permet de gérer la vente des articles, la gestion des clients, la modification des réglages et accède aux rapports.', 'nexo')
+            get_instance()->lang->line( 'nexo_shop_manager_details' )
         );
         
         // Create Shop Tester
         Group::create(
             'shop_tester',
-            __('Privilège pour testeur', 'nexo'),
+            get_instance()->lang->line( 'nexo_tester' ),
             true,
-            __('Effectue toutes tâches d\'ajout et de modification. Ne peux pas supprimer du contenu.', 'nexo')
+            get_instance()->lang->line( 'nexo_tester_details' )
         );
         
         // Shop Orders
@@ -562,11 +218,23 @@ class Nexo_Checkout extends CI_Model
         
         // Shop Track User
         $this->aauth->create_perm('read_shop_user_tracker',    __('Lit le flux d\'activité des utilisateurs', 'nexo'),        __('Lit le flux d\'activité des utilisateurs', 'nexo'));
-        $this->aauth->create_perm('delete_shop_user_tracker',    __('Efface le flux d\'actvite des utilisateurs', 'nexo'),        __('Efface le flux d\'actvite des utilisateurs', 'nexo'));
-        
+        $this->aauth->create_perm('delete_shop_user_tracker',    __('Efface le flux d\'actvite des utilisateurs', 'nexo'),        __('Efface le flux d\'actvite des utilisateurs', 'nexo'));        
 
         // Shop Read Reports
         $this->aauth->create_perm('read_shop_reports', __('Lecture des rapports & statistiques', 'nexo'),            __('Autorise la lecture des rapports', 'nexo'));
+		
+		// Shop Registers
+        $this->aauth->create_perm('create_shop_registers',    $this->lang->line( 'create_registers' ),        $this->lang->line( 'create_registers_details' ));
+        $this->aauth->create_perm('edit_shop_registers',    $this->lang->line( 'edit_registers' ),        $this->lang->line( 'edit_registers_details' ));
+        $this->aauth->create_perm('delete_shop_registers',    $this->lang->line( 'delete_registers' ),       $this->lang->line( 'delete_registers_details' ));
+		$this->aauth->create_perm('view_shop_registers',    $this->lang->line( 'view_registers' ),       $this->lang->line( 'view_registers_details' ));
+		
+		// @since 2.8 Stores
+		$this->aauth->create_perm('create_shop',    $this->lang->line( 'create_shop' ),        $this->lang->line( 'create_shop_details' ));
+        $this->aauth->create_perm('edit_shop',    $this->lang->line( 'edit_shop' ),        $this->lang->line( 'edit_shop_details' ));
+        $this->aauth->create_perm('delete_shop',    $this->lang->line( 'delete_shop' ),       $this->lang->line( 'delete_shop_details' ));
+		$this->aauth->create_perm('enter_shop',    $this->lang->line( 'view_shop' ),       $this->lang->line( 'view_shop_details' ));
+
         /**
          * Permission for Cashier
         **/
@@ -588,6 +256,12 @@ class Nexo_Checkout extends CI_Model
         
         // Profile
         $this->aauth->allow_group('shop_cashier', 'edit_profile');
+		
+		// Registers
+		$this->aauth->allow_group('shop_cashier', 'view_shop_registers');
+		
+		// Shop
+		$this->aauth->allow_group('shop_cashier', 'enter_shop');
         
         /**
          * Permission for Shop Manager
@@ -656,6 +330,20 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->allow_group('shop_manager', 'read_shop_reports');
         // Profile
         $this->aauth->allow_group('shop_manager', 'edit_profile');
+		
+		// @since 2.7.5
+		// Creating registers
+        $this->aauth->allow_group('shop_manager', 'create_shop_registers');
+        $this->aauth->allow_group('shop_manager', 'edit_shop_registers');
+        $this->aauth->allow_group('shop_manager', 'delete_shop_registers');
+		$this->aauth->allow_group('shop_manager', 'view_shop_registers');
+		
+		// @since 2.8
+		$this->aauth->allow_group('shop_manager', 'enter_shop');
+        $this->aauth->allow_group('shop_manager', 'create_shop');
+        $this->aauth->allow_group('shop_manager', 'delete_shop');
+		$this->aauth->allow_group('shop_manager', 'edit_shop');
+		
         
         /**
          * Permission for Master
@@ -717,6 +405,19 @@ class Nexo_Checkout extends CI_Model
         
         // Read Reports
         $this->aauth->allow_group('master', 'read_shop_reports');
+		
+		// @since 2.7.5
+		// Creating registers
+        $this->aauth->allow_group('master', 'create_shop_registers');
+        $this->aauth->allow_group('master', 'edit_shop_registers');
+        $this->aauth->allow_group('master', 'delete_shop_registers');
+		$this->aauth->allow_group('master', 'view_shop_registers');
+		
+		// @since 2.8
+		$this->aauth->allow_group('master', 'enter_shop');
+        $this->aauth->allow_group('master', 'create_shop');
+        $this->aauth->allow_group('master', 'delete_shop');
+		$this->aauth->allow_group('master', 'edit_shop');
         
         /**
          * Permission for Shop Test
@@ -767,6 +468,17 @@ class Nexo_Checkout extends CI_Model
         
         // Read Reports
         $this->aauth->allow_group('shop_tester', 'read_shop_reports');
+		
+		// @since 2.7.5
+		// Creating registers
+        $this->aauth->allow_group('shop_tester', 'create_shop_registers');
+        $this->aauth->allow_group('shop_tester', 'edit_shop_registers');
+		$this->aauth->allow_group('shop_tester', 'view_shop_registers');
+		
+		// @since 2.8
+		$this->aauth->allow_group('master', 'enter_shop');
+        $this->aauth->allow_group('master', 'create_shop');
+		$this->aauth->allow_group('master', 'edit_shop');
         
         // Profile
         // $this->aauth->allow_group('shop_tester', 'edit_profile');
@@ -846,6 +558,18 @@ class Nexo_Checkout extends CI_Model
 
         // Read Reports
         $this->aauth->deny_group('shop_manager', 'read_shop_reports');
+		
+		// Shop Backup
+		// @since 2.7.5
+        $this->aauth->deny_group('shop_manager', 'create_shop_registers');
+        $this->aauth->deny_group('shop_manager', 'edit_shop_registers');
+        $this->aauth->deny_group('shop_manager', 'delete_shop_registers');
+		
+		// @since 2.8.0
+        $this->aauth->deny_group('shop_manager', 'create_shop');
+        $this->aauth->deny_group('shop_manager', 'edit_shop');
+        $this->aauth->deny_group('shop_manager', 'delete_shop');
+		$this->aauth->deny_group('shop_manager', 'enter_shop');
         
         // Master
         // Orders
@@ -904,6 +628,19 @@ class Nexo_Checkout extends CI_Model
         
         // Read Reports
         $this->aauth->deny_group('master', 'read_shop_reports');
+		
+		// Shop Permissions
+		// @since 2.8.0
+        $this->aauth->deny_group('shop_manager', 'create_shop');
+        $this->aauth->deny_group('shop_manager', 'edit_shop');
+        $this->aauth->deny_group('shop_manager', 'delete_shop');
+		$this->aauth->deny_group('shop_manager', 'enter_shop');
+		
+		// Shop Backup
+		// @since 2.7.5
+        $this->aauth->deny_group('master', 'create_shop_registers');
+        $this->aauth->deny_group('master', 'edit_shop_registers');
+        $this->aauth->deny_group('master', 'delete_shop_registers');
         
         // Denied Permissions for Shop Test		
         // Orders
@@ -951,9 +688,18 @@ class Nexo_Checkout extends CI_Model
         
         // Read Reports
         $this->aauth->deny_group('shop_tester', 'read_shop_reports');
+		
+		// Shop Backup
+		// @since 2.7.5
+        $this->aauth->deny_group('shop_tester', 'create_shop_registers');
+        $this->aauth->deny_group('shop_tester', 'edit_shop_registers');
         
         // Update Profile
         // $this->aauth->deny_group('shop_tester', 'edit_profile');
+		// @since 2.8.0
+        $this->aauth->deny_group('shop_tester', 'create_shop');
+        $this->aauth->deny_group('shop_tester', 'edit_shop');
+		$this->aauth->deny_group('shop_tester', 'enter_shop');
 
         // For Cashier
         // Orders
@@ -978,6 +724,9 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->delete_group('shop_cashier');
         $this->aauth->delete_group('shop_manager');
         $this->aauth->delete_group('shop_tester');
+		
+		// Store
+		$this->aauth->deny_group('shop_tester', 'enter_shop');
     }
     
     /**
@@ -995,7 +744,7 @@ class Nexo_Checkout extends CI_Model
                 $this->db->where($mark, $value);
             }
         }
-        $query    =    $this->db->get('nexo_commandes');
+        $query    =    $this->db->get( store_prefix() . 'nexo_commandes');
         if ($query->result_array()) {
             return $query->result_array();
         }
@@ -1013,18 +762,18 @@ class Nexo_Checkout extends CI_Model
     {
         $query    =    $this->db
         ->where('ID', $order_id)
-        ->get('nexo_commandes');
+        ->get( store_prefix() . 'nexo_commandes' );
         
         if ($query->result_array()) {
             $data            =    $query->result_array();
             // var_dump( $query->result_array() );die;
             $sub_query        =    $this->db
             ->select('*,
-			nexo_commandes_produits.QUANTITE as QTE_ADDED,
-			nexo_articles.DESIGN as DESIGN')
-            ->from('nexo_commandes')
-            ->join('nexo_commandes_produits', 'nexo_commandes.CODE = nexo_commandes_produits.REF_COMMAND_CODE', 'inner')
-            ->join('nexo_articles', 'nexo_articles.CODEBAR = nexo_commandes_produits.REF_PRODUCT_CODEBAR', 'inner')
+			' . store_prefix() . 'nexo_commandes_produits.QUANTITE as QTE_ADDED,
+			' . store_prefix() . 'nexo_articles.DESIGN as DESIGN')
+            ->from( store_prefix() . 'nexo_commandes')
+            ->join( store_prefix() . 'nexo_commandes_produits', store_prefix() . 'nexo_commandes.CODE = ' . store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE', 'inner')
+            ->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR', 'inner')
             ->where('REF_COMMAND_CODE', $data[0][ 'CODE' ])
             ->get();
                 
@@ -1070,7 +819,7 @@ class Nexo_Checkout extends CI_Model
         
         if ($order) {
             if ($order[0][ 'TYPE' ] == 'nexo_order_advance') {
-                $this->db->where('ID', $order_id)->update('nexo_commandes', array(
+                $this->db->where('ID', $order_id)->update( store_prefix() . 'nexo_commandes', array(
                     'SOMME_PERCU'    =>    $order[0][ 'TOTAL' ],
                     'TYPE'            =>    'nexo_order_comptant'
                 ));
@@ -1082,4 +831,73 @@ class Nexo_Checkout extends CI_Model
         
         return false;
     }
+	
+	/**
+	 * Check Registers
+	 * @since 2.7.5
+	 * @params int register int
+	 * @return string (open, closed, disabled, not_found)
+	**/
+	
+	public function register_status( $id )
+	{
+		$result	=	$this->db->where( 'ID', $id )->get( store_prefix() . 'nexo_registers' )->result_array();
+		
+		if( @$result[0] != null ) {
+			return $result[0][ 'STATUS' ];
+		}
+		return 'not_found';
+	}
+	
+	/**
+	 * Get Register
+	 * @params int register id
+	 * @return array
+	**/
+	
+	public function get_register( $id )
+	{
+		return $this->db->where( 'ID', $id )->get( store_prefix() . 'nexo_registers' )->result_array();
+	}
+	
+	/**
+	 * Connect User to a Register
+	 * @return void
+	**/
+	
+	public function connect_user( $register_id, $user_id ) 
+	{
+		$this->db->where( 'ID', $register_id )->update( store_prefix() . 'nexo_registers', array(
+			'USED_BY'	=>	$user_id
+		) );
+	}
+	
+	/**
+	 * Has user logged in
+	 * @return bool
+	**/
+	
+	public function has_user( $register_id )
+	{
+		$result		=	$this->db->where( 'ID', $register_id )->get( store_prefix() . 'nexo_registers' )->result_array();
+		
+		if( $result ) {
+			return $result[0][ 'USED_BY' ] == '0' ? false : true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Disconnect User
+	 *
+	 * @params int register id
+	 * @return void
+	**/
+	
+	public function disconnect_user( $register_id ) 
+	{
+		$result		=	$this->db->where( 'ID', $register_id )->update( store_prefix() . 'nexo_registers', array(
+			'USED_BY'		=>		0
+		) );
+	}
 }

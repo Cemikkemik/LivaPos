@@ -35,6 +35,7 @@ class Nexo_Premium_Actions extends CI_Model
                 array(
                     'title'            =>    __('Factures', 'nexo_premium'),
                     'href'            =>    '#',
+					'icon'			=>	'fa fa-sticky-note-o',
                     'disable'        =>    true
                 ),
                 array(
@@ -58,10 +59,12 @@ class Nexo_Premium_Actions extends CI_Model
     **/
     
     public function dashboard_home()
-    {
+    {		
         $this->events->add_filter('gui_before_cols', array( $this, 'create_cards' ));
         $this->events->add_filter('gui_page_title', function ($title) {
-            return '<section class="content-header"><h1>' . strip_tags($title) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url(array( 'dashboard', 'nexo_premium', 'Controller_Clear_Cache', 'dashboard_card' )) . '">' . __('Clear cache') . '</a></h1></section>';
+		
+            return '<section class="content-header"><h1>' . strip_tags($title) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url(array( 'dashboard', store_slug(), 'nexo_premium', 'Controller_Clear_Cache', 'dashboard_card' )) . '">' . __('Supprimer le cache', 'nexo_premium') . '</a></h1></section>';
+			
         });
     }
     
@@ -80,7 +83,7 @@ class Nexo_Premium_Actions extends CI_Model
         $this->load->helper('nexopos');
         
         $Nexo_Config        =    $this->config->item('nexo_premium');
-        $this->Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_dashboard_card_'));
+        $this->Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_dashboard_card_' . store_prefix() ));
         $startOfDay            =    Carbon::parse(date_now())->startOfDay();
         $endOfDay            =    Carbon::parse(date_now())->endOfDay();
         $startOfYesterday    =    Carbon::parse(date_now())->subDay(1)->startOfDay();

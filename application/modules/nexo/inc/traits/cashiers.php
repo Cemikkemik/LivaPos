@@ -26,7 +26,7 @@ trait Nexo_cashiers
                             //->where( 'DATE_CREATION >=', $start_date )
                             //->where( 'DATE_CREATION <=', $end_date )
                             ->where('AUTHOR', $cashier_id)
-                            ->get('nexo_commandes');
+                            ->get( store_prefix() . 'nexo_commandes');
             
             $result        =    $query->result_array();
             $total        =    0;

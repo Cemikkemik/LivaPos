@@ -681,7 +681,8 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
         /** Checking for unique fields. If the field value is not unique then
          * return a validation error straight away, if not continue... */
         if (!empty($unique_fields)) {
-            $form_validation = $this->form_validation();
+            
+			$form_validation = $this->form_validation();
 
             foreach ($add_fields as $add_field) {
                 $field_name = $add_field->field_name;
@@ -693,7 +694,8 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
             }
 
             if (!$form_validation->run()) {
-                $validation_result->error_message = $form_validation->error_string();
+                
+				$validation_result->error_message = $form_validation->error_string();
                 $validation_result->error_fields = $form_validation->_error_array;
 
                 return $validation_result;
@@ -1662,6 +1664,9 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
         $data->unset_back_to_list    = $this->unset_back_to_list;
         $data->unique_hash            = $this->get_method_hash();
         $data->is_ajax            = $this->_is_ajax();
+		
+		// groups
+		$data->groups			=	$this->get_group();
 
         $this->_theme_view('add.php', $data);
         $this->_inline_js("var js_date_format = '".$this->js_date_format."';");
@@ -1693,6 +1698,9 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 
         $data->validation_url    = $this->getValidationUpdateUrl($state_info->primary_key);
         $data->is_ajax            = $this->_is_ajax();
+		
+		// groups
+		$data->groups			=	$this->get_group();
 
         $this->_theme_view('edit.php', $data);
         $this->_inline_js("var js_date_format = '".$this->js_date_format."';");
@@ -1735,11 +1743,11 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
     {
         @ob_end_clean();
         if ($delete_result === false) {
-            $error_message = '<p>'.$this->l('delete_error_message').'</p>';
+            $error_message = '<p class="alert alert-danger">'.$this->l('delete_error_message').'</p>';
 
             echo json_encode(array('success' => $delete_result, 'error_message' => $error_message));
         } else {
-            $success_message = '<p>'.$this->l('delete_success_message').'</p>';
+            $success_message = '<p class="alert alert-success">'.$this->l('delete_success_message').'</p>';
 
             echo json_encode(array('success' => true, 'success_message' => $success_message));
         }
@@ -2715,6 +2723,40 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
             return null;
         }
     }
+	
+	/**
+	 * Group Fields
+	 * @param string group namespace
+	 * @param string group title
+	 * @param array group fields
+	 * @parma string group icon
+	 * @return void
+	**/
+	
+	private $groups	=	array();
+	
+	public function add_group( $group_namespace, $group_title, $group_fields, $group_icon = '' )
+	{
+		$this->groups[ $group_namespace ]	=	array(
+			'title'		=>		$group_title,
+			'fields'	=>		$group_fields,
+			'icon'		=>		$group_icon
+		);
+	}
+	
+	/**
+	 * Get Group
+	 * @param string group namespace
+	 *
+	**/
+	
+	public function get_group( $group_namespace = null ) 
+	{
+		if( $group_namepace != null ) {
+			return @$this->groups[ $group_namespace ];
+		}
+		return $this->groups;
+	}
 }
 
 
@@ -4870,8 +4912,8 @@ if (defined('CI_VERSION')) {
         public $_config_rules        = array();
         public $_error_array        = array();
         public $_error_messages        = array();
-        public $_error_prefix        = '<p>';
-        public $_error_suffix        = '</p>';
+        public $_error_prefix        = '<div class="alert alert-danger"><i class="fa fa-warning"></i> ';
+        public $_error_suffix        = '</div>';
         public $error_string        = '';
         public $_safe_form_data        = false;
     }

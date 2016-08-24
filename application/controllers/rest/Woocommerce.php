@@ -19,7 +19,8 @@ use \Curl\Curl;
 
 class Woocommerce extends Rest_Controller
 {
-	use Woo_Categories;
+	use Woo_Categories,
+		Woo_Items;
     
     public function __construct()
     {
@@ -53,6 +54,17 @@ class Woocommerce extends Rest_Controller
 		);
 		
 		$this->Curl	=	new Curl;
+		
+		$this->WooCommerce	=	new WC_API_Client( 
+			$_SERVER[ 'HTTP_' . $url_prefix ] , // Your store URL
+			$_SERVER[ 'HTTP_' . $consumer_key ], // Your consumer key
+			$_SERVER[ 'HTTP_' . $consumer_secret ], // Your consumer secret
+			array(
+				'ssl_verify'		=> 	false, 		// Enable the WP REST API integration
+				'return_as_array'	=>	true,
+				'debug' 			=> true, 	// WooCommerce WP REST API version
+			) 
+		);
 		
 		if( ! $this->Woo ) {
 			$this->__forbidden( 'woo auth failed' );

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nexo Premium\n"
-"POT-Creation-Date: 2016-06-30 00:58+0100\n"
-"PO-Revision-Date: 2016-06-30 00:58+0100\n"
+"POT-Creation-Date: 2016-07-29 09:40+0100\n"
+"PO-Revision-Date: 2016-07-29 09:47+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en_US\n"
@@ -36,46 +36,46 @@ msgstr "New Invoice"
 msgid "Clear cache"
 msgstr "Clear cache"
 
-#: inc/Actions.php:239
+#: inc/Actions.php:236
 msgid "Création d'une nouvelle commande"
 msgstr "Creating a new order"
 
-#: inc/Actions.php:241
+#: inc/Actions.php:238
 #, php-format
 msgid "L'utilisateur %s a crée une nouvelle commande avec pour code : %s"
 msgstr "User%s created a new order with the following code:%s"
 
-#: inc/Actions.php:257
+#: inc/Actions.php:254
 msgid "Modification d'une commande"
 msgstr "Order Modification"
 
-#: inc/Actions.php:259
+#: inc/Actions.php:256
 #, php-format
 msgid "L'utilisateur %s a modifié une commande avec pour code : %s"
 msgstr "User%s modified an order with the following code:%s"
 
-#: inc/Actions.php:276
+#: inc/Actions.php:273
 msgid "Suppréssion d'une commande"
 msgstr "Deleting an order"
 
-#: inc/Actions.php:278
+#: inc/Actions.php:275
 #, php-format
 msgid "L'utilisateur %s a supprimé une commande avec pour identifiant : %s"
 msgstr "User%s removed an order with the following id:%s"
 
-#: inc/Actions.php:294
+#: inc/Actions.php:291
 msgid "Historique des utilisateurs"
 msgstr "User History Report"
 
-#: inc/Actions.php:299
+#: inc/Actions.php:296
 msgid "Sauvegarder les réglages"
 msgstr "Save settings"
 
-#: inc/Actions.php:313
+#: inc/Actions.php:310
 msgid "Souhaitez-vous activer l'historique des activités ?"
 msgstr "Would you like to activate the activity history?"
 
-#: inc/Actions.php:314
+#: inc/Actions.php:311
 msgid ""
 "Ceci peut très légèrement ralentir l'application, et prendre plus d'espace "
 "dans votre base de données."
@@ -83,15 +83,15 @@ msgstr ""
 "This may slightly slow down the application, and take more space in your "
 "database."
 
-#: inc/Actions.php:316
+#: inc/Actions.php:313
 msgid "Veuillez choisir une option"
 msgstr "Choose an option"
 
-#: inc/Actions.php:317
+#: inc/Actions.php:314
 msgid "Oui"
 msgstr "Yes"
 
-#: inc/Actions.php:318
+#: inc/Actions.php:315
 msgid "Non"
 msgstr "No"
 
@@ -260,21 +260,19 @@ msgstr "Restoring"
 
 #: inc/Controller.php:725
 msgid "Les Meilleurs"
-msgstr "The best"
+msgstr "Best Sales"
 
 #: inc/Filters.php:40
-#, fuzzy
 msgid "Rapports & Statistiques"
-msgstr "Statistical reports"
+msgstr "Reports"
 
 #: inc/Filters.php:46
 msgid "Les meilleurs"
-msgstr "The best"
+msgstr "Best Sales"
 
 #: inc/Filters.php:50
-#, fuzzy
 msgid "Journalier"
-msgstr "Daily"
+msgstr "Daily Sales"
 
 #: inc/Filters.php:60
 #, fuzzy
@@ -397,36 +395,36 @@ msgstr "Please choose a customer."
 msgid "Aucun client disponible"
 msgstr "No customer available"
 
-#: views/dashboard-content.php:7
+#: views/dashboard-content.php:8
 #, fuzzy
 msgid "Ventes réalisées"
 msgstr "Sales"
 
-#: views/dashboard-content.php:12 views/dashboard-content.php:43
-#: views/dashboard-content.php:75 views/dashboard-content.php:105
+#: views/dashboard-content.php:13 views/dashboard-content.php:44
+#: views/dashboard-content.php:76 views/dashboard-content.php:106
 msgid "Aujourd'hui"
 msgstr "Today"
 
-#: views/dashboard-content.php:19 views/dashboard-content.php:51
-#: views/dashboard-content.php:81 views/dashboard-content.php:111
+#: views/dashboard-content.php:20 views/dashboard-content.php:52
+#: views/dashboard-content.php:82 views/dashboard-content.php:112
 msgid "Hier"
 msgstr "Yesterday"
 
-#: views/dashboard-content.php:29 views/dashboard-content.php:61
-#: views/dashboard-content.php:91 views/dashboard-content.php:121
+#: views/dashboard-content.php:30 views/dashboard-content.php:62
+#: views/dashboard-content.php:92 views/dashboard-content.php:122
 msgid "Plus de détails"
 msgstr "View Detail"
 
-#: views/dashboard-content.php:38
+#: views/dashboard-content.php:39
 #, fuzzy
 msgid "Chiffre d'affaire globale"
 msgstr "Global turnover"
 
-#: views/dashboard-content.php:70
+#: views/dashboard-content.php:71
 msgid "Clients"
 msgstr "Customers"
 
-#: views/dashboard-content.php:100
+#: views/dashboard-content.php:101
 msgid "Créances"
 msgstr "Receivables"
 
@@ -474,23 +472,25 @@ msgid "Categories"
 msgstr "Categories"
 
 #: views/fiche-de-suivi/by-categories.php:29
-msgid "Stock initial"
-msgstr "Initial Stock"
-
-#: views/fiche-de-suivi/by-categories.php:30
 msgid "Entrées"
 msgstr "Entries"
+
+#: views/fiche-de-suivi/by-categories.php:30
+#: views/fiche-de-suivi/by-categories.php:32
+#: views/fiche-de-suivi/by-categories.php:34
+msgid "Valeur"
+msgstr "Value"
 
 #: views/fiche-de-suivi/by-categories.php:31
 #, fuzzy
 msgid "Sorties"
 msgstr "Outings"
 
-#: views/fiche-de-suivi/by-categories.php:32
+#: views/fiche-de-suivi/by-categories.php:33
 msgid "Stock Final"
 msgstr "Final Stock"
 
-#: views/fiche-de-suivi/by-categories.php:39
+#: views/fiche-de-suivi/by-categories.php:41
 #: views/flux-de-la-tresorerie.php:136 views/stats-des-ventes.php:123
 #: views/stats-des-ventes.php:136
 #, fuzzy
@@ -570,7 +570,7 @@ msgstr "Income(+)"
 msgid "Dépenses(-)"
 msgstr "Spending"
 
-#: views/flux-de-la-tresorerie.php:50 views/rapport-journalier-detaille.php:163
+#: views/flux-de-la-tresorerie.php:50 views/rapport-journalier-detaille.php:208
 #, fuzzy
 msgid "Solde Final"
 msgstr "Final balance"
@@ -604,7 +604,7 @@ msgstr "Name Not Available"
 msgid "Flux de trésorerie pour %s"
 msgstr "Cash flows for %s"
 
-#: views/flux-de-la-tresorerie.php:103 views/rapport-journalier-detaille.php:34
+#: views/flux-de-la-tresorerie.php:103 views/rapport-journalier-detaille.php:33
 #: views/stats-des-ventes.php:92
 #, fuzzy, php-format
 msgid "Document imprimé par : %s"
@@ -624,7 +624,7 @@ msgstr "Annual movement of cash"
 msgid "Libellé / Mois"
 msgstr "Wording / month"
 
-#: views/flux-de-la-tresorerie.php:497 views/stats-des-ventes.php:393
+#: views/flux-de-la-tresorerie.php:497 views/stats-des-ventes.php:392
 #, fuzzy
 msgid "Chargement en cours..."
 msgstr "Loading in progress…"
@@ -646,114 +646,141 @@ msgstr "Title"
 msgid "Effectué le"
 msgstr "Performed on"
 
-#: views/rapport-journalier-detaille.php:29
+#: views/rapport-journalier-detaille.php:28
 #, fuzzy, php-format
 msgid "Rapport journalier détaillé <br> pour le %s"
 msgstr "Detailed daily report<br>for the %s"
 
-#: views/rapport-journalier-detaille.php:40
+#: views/rapport-journalier-detaille.php:38
 msgid ""
 "Ensemble des activités effectuées par la caisse durant une période "
 "déterminée."
 msgstr "All activities performed by the checkout during a specified period."
 
-#: views/rapport-journalier-detaille.php:46
+#: views/rapport-journalier-detaille.php:48
+msgid ""
+"Selectionnez la caisse dont vous souhaitez afficher le rapport journalier"
+msgstr "Select the register from which you want to view the daily report"
+
+#: views/rapport-journalier-detaille.php:51
+msgid "Faites un choix"
+msgstr "Make a choice"
+
+#: views/rapport-journalier-detaille.php:63
 #, fuzzy
 msgid "Récapitulatif des recettes"
 msgstr "Summary of revenue"
 
-#: views/rapport-journalier-detaille.php:50
+#: views/rapport-journalier-detaille.php:67
 #, fuzzy
 msgid "Type de documents"
 msgstr "Document type"
 
-#: views/rapport-journalier-detaille.php:52
+#: views/rapport-journalier-detaille.php:69
 #, fuzzy
 msgid "Quantité"
 msgstr "Quantity"
 
-#: views/rapport-journalier-detaille.php:54
+#: views/rapport-journalier-detaille.php:71
 #, fuzzy, php-format
 msgid "Chiffre d'affaire collectif (%s)"
 msgstr "Collective turnover (%s)"
 
-#: views/rapport-journalier-detaille.php:60
-#, fuzzy
+#: views/rapport-journalier-detaille.php:77
 msgid "Commandes Cash"
-msgstr "Cash controls"
+msgstr "Cash Orders"
 
-#: views/rapport-journalier-detaille.php:66
+#: views/rapport-journalier-detaille.php:83
 msgid "Commandes Avance"
 msgstr "Advance Orders"
 
-#: views/rapport-journalier-detaille.php:72
+#: views/rapport-journalier-detaille.php:89
 msgid "Commandes Devis"
 msgstr "Quote Order"
 
-#: views/rapport-journalier-detaille.php:79
+#: views/rapport-journalier-detaille.php:97
+msgid "Taxes collectées"
+msgstr "Taxes"
+
+#: views/rapport-journalier-detaille.php:105
+msgid "Bonus des prix fictifs"
+msgstr "All Shadow Prices"
+
+#: views/rapport-journalier-detaille.php:113
 #, fuzzy
 msgid "Chiffre d'affaire journalier (Commandes Cash + Commandes Avance)"
 msgstr "Daily turnover (commands Cash + commands advance)"
 
-#: views/rapport-journalier-detaille.php:85
+#: views/rapport-journalier-detaille.php:119
 #, fuzzy
 msgid "Chiffre d'affaire à recouvrer (Créances)"
 msgstr "Turnover to recover (claims)"
 
-#: views/rapport-journalier-detaille.php:94
-#: views/rapport-journalier-detaille.php:101
+#: views/rapport-journalier-detaille.php:127
+#: views/rapport-journalier-detaille.php:132
 #, fuzzy
 msgid "Récapitulatif des dépenses"
 msgstr "Summary of expenditures"
 
-#: views/rapport-journalier-detaille.php:105
+#: views/rapport-journalier-detaille.php:136
 msgid "Désignation des documents"
 msgstr "Documents Names"
 
-#: views/rapport-journalier-detaille.php:107
-#: views/rapport-journalier-detaille.php:139
+#: views/rapport-journalier-detaille.php:138
+#: views/rapport-journalier-detaille.php:168
 #, fuzzy, php-format
 msgid "Montant (%s)"
 msgstr "Amount (%s)"
 
-#: views/rapport-journalier-detaille.php:113
+#: views/rapport-journalier-detaille.php:144
 msgid "Remise + Rabais + Ristourne"
 msgstr "All discounts type"
 
-#: views/rapport-journalier-detaille.php:120
+#: views/rapport-journalier-detaille.php:151
 #, fuzzy
 msgid "Total dépense"
 msgstr "Total expenditure"
 
-#: views/rapport-journalier-detaille.php:129
+#: views/rapport-journalier-detaille.php:159
 msgid ""
 "Bilan de la trésorerie<br><br>Chiffre d'Affaire Net = ( Commandes Cash -  "
 "( Remise + Rabais + Ristourne ) )"
 msgstr ""
-"Balance of cash <br><br> Net business turnover = (Cash Controls -  Discount )"
+"Balance of cash <br><br> Net business turnover = (Cash Orders -  Discount )"
 
-#: views/rapport-journalier-detaille.php:137
+#: views/rapport-journalier-detaille.php:166
 msgid "Bilan tresorerie"
 msgstr "Cash Balance"
 
-#: views/rapport-journalier-detaille.php:146
+#: views/rapport-journalier-detaille.php:183
 #, fuzzy
 msgid "Solde Initial"
 msgstr "Initial balance"
 
-#: views/rapport-journalier-detaille.php:152
+#: views/rapport-journalier-detaille.php:191
 msgid "Recettes (+)"
 msgstr "Income(+)"
 
-#: views/rapport-journalier-detaille.php:157
+#: views/rapport-journalier-detaille.php:195
 #, fuzzy
 msgid "Dépenses (-)"
 msgstr "Spending"
 
-#: views/rapport-journalier-detaille.php:169
-#: views/rapport-journalier-detaille.php:175
+#: views/rapport-journalier-detaille.php:215
 msgid "Chiffre d'affaire net (*)"
 msgstr "Turnover(*)"
+
+#: views/rapport-journalier-detaille.php:291
+msgid "Une erreur s'est produite durant la récupération des caisses"
+msgstr "An error occurred while loading registers"
+
+#: views/rapport-journalier-detaille.php:472
+msgid "Cette caisse n'a pas été fermée en ce jour."
+msgstr "This register has not been closed on that day."
+
+#: views/rapport-journalier-detaille.php:476
+msgid "Cette caisse n'a pas été ouverte en ce jour"
+msgstr "This register has not been opened on that day."
 
 #: views/restore.php:17
 msgid ""
@@ -805,6 +832,9 @@ msgstr "Sales Statistics"
 #, fuzzy, php-format
 msgid "Level %s"
 msgstr "Level %s"
+
+#~ msgid "Stock initial"
+#~ msgstr "Initial Stock"
 
 #~ msgid "Ajouter/modifier une sauvegarde &mdash; Nexo"
 #~ msgstr "Add / edit backup - Nexo"

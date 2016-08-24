@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application>
+	<details>
+		<namespace>nexo_demo</namespace>
+		<name>Nexo Demo</name>
+		<version>1.3</version>
+		<main>nexo_demo.php</main>
+		<author>Blair Jersyer</author>
+		<description>Nexo Demo</description>
+	</details>
+</application>

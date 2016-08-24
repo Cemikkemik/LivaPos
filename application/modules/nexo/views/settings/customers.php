@@ -1,4 +1,17 @@
 <?php
+/**
+ * Add support for Multi Store
+ * @since 2.8
+**/
+
+global $store_id, $CurrentStore;
+
+$option_prefix		=	'';
+
+if( $store_id != null ) {
+	$option_prefix	=	'store_' . $store_id . '_' ;
+}
+
 $this->Gui->col_width(1, 2);
 
 $this->Gui->add_meta(array(
@@ -16,7 +29,7 @@ $this->Gui->add_meta(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    'discount_type',
+    'name'        =>    $option_prefix . 'discount_type',
     'label'        =>    __('Type de la remise', 'nexo'),
     'options'    =>    array(
         'disable'    =>    __('Désactiver', 'nexo'),
@@ -27,20 +40,20 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'text',
-    'name'        =>    'how_many_before_discount',
+    'name'        =>    $option_prefix . 'how_many_before_discount',
     'label'        =>    __('Reduction Automatique', 'nexo'),
     'description'    =>    __("Après combien de commandes un client peut-il profiter d'une remise automatique. Veuillez définir une valeur numérique. \"0\" désactive la fonctionnalité.", 'nexo')
 ), 'Nexo_discount_customers', 1);
 
 $this->Gui->add_item(array(
     'type'        =>    'text',
-    'name'        =>    'discount_percent',
+    'name'        =>    $option_prefix . 'discount_percent',
     'label'        =>    __('Pourcentage de la remise', 'nexo')
 ), 'Nexo_discount_customers', 1);
 
 $this->Gui->add_item(array(
     'type'        =>    'text',
-    'name'        =>    'discount_amount',
+    'name'        =>    $option_prefix . 'discount_amount',
     'label'        =>    __('Montant fixe', 'nexo')
 ), 'Nexo_discount_customers', 1);
 
@@ -48,8 +61,8 @@ $this->Gui->add_item(array(
  * Fetch Clients
 **/
 
-$query    =    $this->db->get('nexo_clients');
-$result    =    $query->result_array();
+$this->load->model( 'Nexo_Misc' );
+$result			=	$this->Nexo_Misc->get_customers();
 $options        =    array();
 
 foreach ($result as $_r) {
@@ -58,7 +71,7 @@ foreach ($result as $_r) {
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    'default_compte_client',
+    'name'        =>    $option_prefix . 'default_compte_client',
     'label'        =>    __('Compte Client par défaut', 'nexo'),
     'description'    =>    __('Ce client ne profitera pas des réductions automatique.', 'nexo'),
     'options'    =>    $options

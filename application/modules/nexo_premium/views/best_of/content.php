@@ -123,6 +123,8 @@ var Nexo_Best_Of		=	new function(){
 		
 		var Charts		=	_.values( SoldChart );
 		
+		console.log( SoldChart );	
+		
 		for( var x = 0; x < Charts.length; x++ ) {			
 			for( var i = 0; i < data.dates_between_borders.length ;i++ ) {
 				if( typeof Charts[x].data[ i ] == 'undefined' ) {

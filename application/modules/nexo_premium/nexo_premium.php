@@ -87,7 +87,7 @@ class Nexo_Premium_Main extends CI_Model
             // Load Nexo Misc
             $this->load->model('Nexo_Misc');
             
-            $this->events->add_filter('admin_menus', array( $this->Filters, 'admin_menus' ));
+            $this->events->add_filter('admin_menus', array( $this->Filters, 'admin_menus' ), 15 );
             $this->events->add_filter('nexo_daily_details_link', array( $this->Filters, 'nexo_daily_details_link' ), 11, 2);
             
             // Creating Index Cards
@@ -108,7 +108,23 @@ class Nexo_Premium_Main extends CI_Model
             
             // Register Pages
             $this->Gui->register_page('nexo_premium', array( $this->Controller, 'index' ));
+			
+			// Registers for Multistore
+			$this->events->add_filter( 'stores_controller_callback', array( $this, 'multistore' ) );
         }
     }
+	
+	/**
+	 * Register for Multistore
+	**/
+	
+	public function multistore( $array )
+	{
+		// to match this uri
+		// dashboard/stores/nexo_premium/*
+		$array[ 'nexo_premium' ]	=	array( $this->Controller, 'index' );
+		
+		return $array;
+	}
 }
 new Nexo_Premium_Main;

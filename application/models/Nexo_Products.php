@@ -183,6 +183,13 @@ class Nexo_Products extends CI_Model
         $param[ 'QUANTITE_VENDU' ]        =    0;
         $param[ 'COUT_DACHAT' ]            =    intval($param[ 'PRIX_DACHAT' ]) + intval($param[ 'FRAIS_ACCESSOIRE' ]);
         $param[ 'DATE_CREATION' ]        =    date_now();
+		
+		// If Multi store is enabled
+		// @since 2.8
+		global $store_id;
+		if( $store_id != null ) {
+			$param[ 'REF_STORE' ]		=	$store_id;
+		}
 
         return $param;
     }
@@ -212,6 +219,13 @@ class Nexo_Products extends CI_Model
         $param[ 'DATE_MOD' ]            =    date_now();
         $param[ 'AUTHOR' ]                =    intval(User::id());
         $param[ 'COUT_DACHAT' ]            =    intval($param[ 'PRIX_DACHAT' ]) + intval($param[ 'FRAIS_ACCESSOIRE' ]);
+		
+		// If Multi store is enabled
+		// @since 2.8
+		global $store_id;
+		if( $store_id != null ) {
+			$param[ 'REF_STORE' ]		=	$store_id;
+		}
         
         return $param;
     }

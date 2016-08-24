@@ -186,6 +186,11 @@ class Nexo_Misc extends CI_Model
         $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_rayons`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_clients`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_clients_groups`;');
+		
+		// @since 2.7.5
+		$this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_registers`;');
+		$this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_registers_activities`;');
+		
     }
     
     /**
@@ -342,7 +347,7 @@ class Nexo_Misc extends CI_Model
     
     public function create_customer($name, $email)
     {
-        if ($this->db->insert('nexo_clients', array(
+        if ($this->db->insert( store_prefix() . 'nexo_clients', array(
             'EMAIL'        =>    xss_clean($email),
             'NOM'        =>    $name
         ))) {
@@ -417,7 +422,7 @@ class Nexo_Misc extends CI_Model
         if ($id != null) {
             $this->db->where('ID', $id) ;
         }
-        $query        =    $this->db->get('nexo_clients');
+        $query        =    $this->db->get( store_prefix() .  'nexo_clients');
         return $query->result_array();
     }
         
@@ -485,7 +490,7 @@ class Nexo_Misc extends CI_Model
      * @return string
     **/
     
-    public function build_table(array $array, $max_depth = 5, $current_depth = 1, $content    =    '', $colspan = 0)
+    public function build_table(array $array, $max_depth = 5, $current_depth = 1, $content    =    '', $colspan = 0 )
     {
         global $depth_html;
         
@@ -673,4 +678,42 @@ class Nexo_Misc extends CI_Model
         }
         return false;
     }
+	
+	/**
+	 * Get initial balance for a specific date
+	 * @params string date
+	 * @return bool
+	**/
+	
+	public function get_balance_for_date( $date )
+	{
+		$startOfDay			=	Carbon::parse( $date )->startOfDay();
+		$endOfDay			=	Carbon::parse( $date )->endOfDay();
+		$currentDay			=	Carbon::parse( date_now() );		
+		$cacheDurationTime	=	false;
+		
+		if( $currentDay->isSameDay( $endOfDay ) ) {
+			$cacheDurationTime	=	24 - intval( $currentDay->hour );
+		}
+		
+		$Cache				=	new CI_Cache( array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' ) );
+		
+		if( ! $Cache->get( 'initial_balance' ) || $cacheDurationTime == false ) {
+			
+			
+			$query	=	$this->db->where( 'DATE_CREATION >=', $startOfDay->toDateTimeString() )
+			->where( 'DATE_CREATION <=', $endOfDay->toDateTimeString() )
+			->get( 'nexo_checkout_money' );
+			
+			$result			=	$query->result_array();
+			
+			if( $cacheDurationTime != false ) {
+				$Cache->save( 'initial_balance', ( bool ) $result, $cacheDurationTime * 3600 );
+			} else {
+				return ( bool ) $result;
+			}
+		}
+		
+		return $Cache->get( 'initial_balance' );
+	}
 }

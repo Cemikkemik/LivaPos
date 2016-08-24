@@ -47,9 +47,14 @@ if (typeof Object.create !== 'function') {
 
 			// Generating noty bar
 			var $bar = $('<div class="noty_bar"/>').attr('id', this.options.id);
+			
 			$bar.append(this.options.template).find('.noty_text').html(this.options.text);
+			
+			// To fix alert class by removing it
+			$bar.find('.noty_text').html( '<p>' + $bar.find('.noty_text p').html() + '</p>' );
 
 			this.$bar = (this.options.layout.parent.object !== null) ? $(this.options.layout.parent.object).css(this.options.layout.parent.css).append($bar) : $bar;
+			
 
 			// Set buttons if available
 			if (this.options.buttons) {

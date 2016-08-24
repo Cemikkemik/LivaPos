@@ -15,7 +15,8 @@ class Nexo_Woo extends CI_Model
 	
 	public function load_dashboard()
 	{
-		$this->Gui->register_page( 'woocommerce', array( $this, 'Controller_Home' ) );	
+		$this->Gui->register_page( 'woocommerce', array( $this, 'Controller_Home' ) );			
+		$this->Gui->register_page( 'export_to_woocommerce', array( $this, 'Controller_ExportToWooCommerce' ) );	
 	}
 	
 	/**
@@ -28,6 +29,15 @@ class Nexo_Woo extends CI_Model
 		$this->load->module_view( 'nexo_woo', 'home' );
 	}
 	
+	/**
+	 * Export to WooCommerce
+	**/
+	
+	public function Controller_ExportToWooCommerce()
+	{
+		
+	}
+	
 	/** 
 	 * Admin Menu
 	**/
@@ -37,7 +47,17 @@ class Nexo_Woo extends CI_Model
 		$menu	=	array_insert_before( 'settings', $menu, 'nexo_woo', array(
 			array(
 				'title'		=>	__( 'WooCommerce', 'nexo_woo' ),
+				'href'		=>	'#',
+				'disable'	=>	true
+			),
+			array(
+				'title'		=>	__( 'Syncing', 'nexo_woo' ),
 				'href'		=>	site_url( array( 'dashboard', 'woocommerce' ) ),
+				'disable'	=>	true
+			),
+			array(
+				'title'		=>	__( 'Export To WooCommerce', 'nexo_woo' ),
+				'href'		=>	site_url( array( 'dashboard', 'export_to_woocommerce' ) ),
 				'disable'	=>	true
 			)
 		) );

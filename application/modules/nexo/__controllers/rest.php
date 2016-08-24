@@ -24,7 +24,7 @@ class Nexo_Rest extends CI_Model
                 }
             }
             
-            $query    =    $this->db->get($element);
+            $query    =    $this->db->get( store_prefix() . $element);
             echo json_encode($query->result_array());
         } else {
             if ($action == 'default') {
@@ -47,7 +47,7 @@ class Nexo_Rest extends CI_Model
                         ->where($as . ' >=', $this->input->post('key'));
             }
             
-            $query    =    $this->db->get($element);
+            $query    =    $this->db->get( store_prefix() . $element);
             echo json_encode($query->result_array());
         }
     }

@@ -16,8 +16,7 @@
             	<span class="input-group-btn">
                 	<button type="button" class="btn btn-primary cart-add-customer"><i class="fa fa-user"></i> <?php _e('Ajouter un client', 'nexo');?></button>
                 </span>
-            </div>
-            
+            </div>            
         </form>
     </div>
     <!-- /.box-header -->
@@ -88,18 +87,21 @@
     <!-- /.box-body -->
     <div class="box-footer" id="cart-panel">
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        	<?php echo $this->events->apply_filters( 'before_cart_pay_button', '' );?>
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-default btn-lg" id="cart-pay-button" style="margin-bottom:0px;">
 			<i class="fa fa-money"></i>
 			<?php _e('Payer', 'nexo');?>
             </button>
           </div>
+          <?php echo $this->events->apply_filters( 'before_cart_discount_button', '' );?>
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-default btn-lg" id="cart-discount-button"  style="margin-bottom:0px;">
             	<i class="fa fa-gift"></i>
 				<?php _e('Remise', 'nexo');?>
 			</button>
           </div>
+          <?php echo $this->events->apply_filters( 'before_cart_cancel_button', '' );?>
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-default btn-lg" id="cart-return-to-order"  style="margin-bottom:0px;"> <!-- btn-app  -->
             	<i class="fa fa-remove"></i>

@@ -10,6 +10,7 @@ return array(
     'Symfony\\Component\\Translation\\' => array($vendorDir . '/symfony/translation'),
     'Stripe\\' => array($vendorDir . '/stripe/stripe-php/lib'),
     'Picqer\\Barcode\\' => array($vendorDir . '/picqer/php-barcode-generator/src'),
+    'Dompdf\\' => array($vendorDir . '/dompdf/dompdf/src'),
     'Curl\\' => array($vendorDir . '/php-curl-class/php-curl-class/src/Curl'),
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
 );

@@ -25,14 +25,14 @@ class Nexo extends CI_Model
                     unset($libraries[ $key ]);
                 }
             }
-            $libraries        =    array_values($libraries);
             
-            $bower_path        =    '../modules/nexo/bower_components/';
+			$libraries		=    array_values($libraries);            
+            $bower_path		=    '../modules/nexo/bower_components/';
 
             // Add Numeral @since 2.6.3
             $libraries[]    =    $bower_path . 'numeral/min/numeral.min';
             $libraries[]    =    $bower_path . 'Chart.js/Chart.min';
-            $libraries[]    =    $bower_path    . 'jquery_lazyload/jquery.lazyload';
+            $libraries[]    =    $bower_path . 'jquery_lazyload/jquery.lazyload';
             $libraries[]    =    $bower_path . 'bootstrap-toggle/js/bootstrap2-toggle.min';
             $libraries[]    =    '../plugins/knob/jquery.knob';
             return $libraries;
@@ -43,6 +43,8 @@ class Nexo extends CI_Model
         $this->events->add_action('after_app_init', array( $this, 'after_app_init' ));
         $this->events->add_filter('nexo_daily_details_link', array( $this, 'remove_link' ), 10, 2);
         $this->events->add_action('load_frontend', array( $this, 'load_frontend' ));
+		// POS note button
+		$this->events->add_filter( 'pos_search_input_after', array( $this, 'pos_note_button' ) );
         
         // For codebar
         if (! is_dir('public/upload/codebar')) {
@@ -182,6 +184,7 @@ class Nexo extends CI_Model
          * <script type="text/javascript" src="<?php echo js_url( 'nexo' ) . 'jsapi.js';?>"></script>
         **/
         ?>
+        <meta name="mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="<?php echo css_url('nexo') . 'jquery-ui.css';
         ?>">
 		<script src="<?php echo js_url('nexo') . 'jquery-ui.min.js';
@@ -522,6 +525,9 @@ class Nexo extends CI_Model
             'content'                =>    $this->load->view('../modules/nexo/inc/widgets/guides.php', array(), true)
         ));
         **/
+		
+		
+		
         $this->dashboard_widgets->add('nexo_profile', array(
             'title'                    =>    __('Profil', 'nexo'),
             'type'                    =>    'unwrapped',
@@ -529,30 +535,34 @@ class Nexo extends CI_Model
             'position'                =>    1,
             'content'                =>    $this->load->view('../modules/nexo/inc/widgets/profile', array(), true)
         ));
+		
+		if( User::in_group( 'master' ) || User::in_group( 'shop_manager' ) ) {
         
-        $this->dashboard_widgets->add('nexo_sales_new', array(
-            'title'                    =>    __('Meilleurs articles', 'nexo'),
-            'type'                    =>    'unwrapped',
-            'hide_body_wrapper'        =>    true,
-            'position'                =>    1,
-            'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sales-new', array(), true)
-        ));
-        
-        $this->dashboard_widgets->add('nexo_sales_income', array(
-            'title'                    =>    __('Chiffre d\'affaire', 'nexo'),
-            'type'                    =>    'unwrapped',
-            'hide_body_wrapper'        =>    true,
-            'position'                =>    2,
-            'content'                =>    $this->load->view('../modules/nexo/inc/widgets/income', array(), true)
-        ));
-        
-        $this->dashboard_widgets->add('nexo_sales_types', array(
-            'title'                    =>    __('Types de commades', 'nexo'),
-            'type'                    =>    'unwrapped',
-            'hide_body_wrapper'        =>    true,
-            'position'                =>    3,
-            'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sales_types', array(), true)
-        ));
+			$this->dashboard_widgets->add('nexo_sales_new', array(
+				'title'                    =>    __('Meilleurs articles', 'nexo'),
+				'type'                    =>    'unwrapped',
+				'hide_body_wrapper'        =>    true,
+				'position'                =>    1,
+				'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sales-new', array(), true)
+			));
+			
+			$this->dashboard_widgets->add('nexo_sales_income', array(
+				'title'                    =>    __('Chiffre d\'affaire', 'nexo'),
+				'type'                    =>    'unwrapped',
+				'hide_body_wrapper'        =>    true,
+				'position'                =>    2,
+				'content'                =>    $this->load->view('../modules/nexo/inc/widgets/income', array(), true)
+			));
+			
+			$this->dashboard_widgets->add('sale_type_new', array(
+				'title'                    =>    __('Types de commades', 'nexo'),
+				'type'                    =>    'unwrapped',
+				'hide_body_wrapper'        =>    true,
+				'position'                =>    3,
+				'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sale_type_new', array(), true)
+			));
+		
+		}
        
         /**	    
         $this->dashboard_widgets->add('nexo_tutorials', array(
@@ -583,5 +593,19 @@ class Nexo extends CI_Model
     {
         return 'http://codecanyon.net/item/nexopos-web-application-for-retail/16195010';
     }
+	
+	/**
+	 * POS Note Button
+	**/
+	
+	public function pos_note_button( $data ) 
+	{
+		ob_start();
+		?>
+		<button class="btn btn-default" type="button" alt="<?php _e( 'Note', 'nexo' );?>" data-set-note><?php echo sprintf( __( '%s Note', 'nexo' ), '<i class="fa fa-pencil"></i>' );?></button>
+        <?php		
+		$data	.=	ob_get_clean();
+		return $data;
+	}
 }
 new Nexo;

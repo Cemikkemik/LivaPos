@@ -1,4 +1,18 @@
 <?php
+
+/**
+ * Add support for Multi Store
+ * @since 2.8
+**/
+
+global $store_id, $CurrentStore;
+
+$option_prefix		=	'';
+
+if( $store_id != null ) {
+	$option_prefix	=	'store_' . $store_id . '_' ;
+}
+
 $this->Gui->col_width(1, 2);
 $this->Gui->col_width(2, 2);
 
@@ -30,8 +44,18 @@ $this->Gui->add_meta(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    'nexo_enable_vat',
+    'name'        =>    $option_prefix . 'nexo_enable_vat',
     'label'        =>    __('Activer la TVA', 'nexo'),
+    'options'    =>    array(
+        'oui'        =>    __('Oui', 'nexo'),
+        'non'        =>    __('Non', 'nexo')
+    )
+), 'Nexo_checkout', 1);
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    $option_prefix . 'nexo_enable_registers',
+    'label'        =>    __('Utiliser les caisses enregistreuses', 'nexo'),
     'options'    =>    array(
         'oui'        =>    __('Oui', 'nexo'),
         'non'        =>    __('Non', 'nexo')
@@ -41,7 +65,7 @@ $this->Gui->add_item(array(
 $this->Gui->add_item(array(
     'type'        =>    'text',
     'label'        =>    __('Définir le taux de la TVA (%)', 'nexo'),
-    'name'        =>    'nexo_vat_percent',
+    'name'        =>    $option_prefix . 'nexo_vat_percent',
     'placeholder'    =>    __('Exemple : 20', 'nexo')
 ), 'Nexo_checkout', 1);
 
@@ -52,19 +76,19 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'text',
-    'name'        =>    'nexo_currency',
+    'name'        =>    $option_prefix . 'nexo_currency',
     'label'        =>    __('Symbole de la devise', 'nexo')
 ), 'Nexo_checkout', 1);
 
 $this->Gui->add_item(array(
     'type'        =>    'text',
-    'name'        =>    'nexo_currency_iso',
+    'name'        =>    $option_prefix . 'nexo_currency_iso',
     'label'        =>    __('Format ISO de la devise', 'nexo')
 ), 'Nexo_checkout', 1);
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    'nexo_currency_position',
+    'name'        =>    $option_prefix . 'nexo_currency_position',
     'label'        =>    __('Position de la devise', 'nexo'),
     'options'    =>    array(
         'before'    =>    __('Avant le montant', 'nexo'),
@@ -74,7 +98,7 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    'nexo_compact_enabled',
+    'name'        =>    $option_prefix . 'nexo_compact_enabled',
     'label'        =>    __('Activer le mode comptact', 'nexo'),
     'options'    =>    array(
 		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
@@ -86,7 +110,7 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    'nexo_receipt_theme',
+    'name'        =>    $option_prefix . 'nexo_receipt_theme',
     'label'        =>    __('Thème des tickets de caisse', 'nexo'),
     'options'    =>    array(
         'default'    =>    __('Par défaut', 'nexo'),
@@ -99,7 +123,7 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    'nexo_enable_autoprint',
+    'name'        =>    $option_prefix . 'nexo_enable_autoprint',
     'label'        =>    __('Activer l\'impression automatique des tickets de caisse ?', 'nexo'),
     'description'        =>    __('Par défaut vaut : "Non"', 'nexo'),
     'options'    =>    array(
@@ -113,7 +137,7 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    'nexo_enable_smsinvoice',
+    'name'        =>    $option_prefix . 'nexo_enable_smsinvoice',
     'label'        =>    __('Envoyer une facture par SMS', 'nexo'),
     'description'        =>    __('Permet d\'envoyer une facture par SMS pour les commandes complètes aux clients enregistrés.', 'nexo'),
     'options'    =>    array(
@@ -125,7 +149,7 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    'nexo_enable_shadow_price',
+    'name'        =>    $option_prefix . 'nexo_enable_shadow_price',
     'label'        =>    __('Utiliser les prix fictif', 'nexo'),
     'description'        =>    __('Permet d\'afficher un prix fictif "discutable", qui ne doit pas être inférieure au prix de vente réel d\'un article.', 'nexo'),
     'options'    =>    array(
@@ -137,7 +161,7 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    'nexo_enable_numpad',
+    'name'        =>    $option_prefix . 'nexo_enable_numpad',
     'label'        =>    __('Activer le clavier numérique', 'nexo'),
     'options'    =>    array(
         'oui'        =>    __('Oui', 'nexo'),
@@ -148,7 +172,7 @@ $this->Gui->add_item(array(
 $this->Gui->add_item(array(
     'type'        =>    'text',
     'label'        =>    __('Validité des commandes devis (en jours)', 'nexo'),
-    'name'        =>    'nexo_devis_expiration',
+    'name'        =>    $option_prefix . 'nexo_devis_expiration',
     'placeholder'    =>    __('Par défaut: Illimité', 'nexo')
 ), 'Nexo_checkout2', 2);
 

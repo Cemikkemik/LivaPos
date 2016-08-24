@@ -45,3 +45,49 @@ Filtres:
  * nexo_settings_menu_array
  * Contient le menu des settings
 **/
+
+/**
+ * allowed_order_for_print
+ * Permet de modifier les commandes qui peuvent être imprimée. est un tableau avec la valeur "nexo_order_comptant"
+**/
+
+/**
+ * order_type_locked
+ * Espace noms des commandes qui ne peuvent pas être modifiées
+**/
+
+
+/**
+ * order_editable
+ * Commandes qui peuvent faire l'objet de modification
+**/
+
+/**
+ * order_only_payable
+ * Commande qui ne peuvent faire l'object que d'un paiement
+**/
+
+/**
+ * order_list_class
+ * Permet de modifier la classe des lignes des commandes. Prend deux paramètres la classe actuelle et l'object de la ligne "Row".
+**/
+
+/**
+ * pos_search_input_after
+ * Permet d'ajouter un code aprèsle champ de recherche des produits sur la caisse
+**/
+
+/**
+ * before_cart_pay_button
+ * affiche un texte avec le bouton "Payer" sur la caisse
+**/
+
+/**
+ * before_cart_discount_button
+ * affiche un contenu avec le bouton "Remise" sur la caisse
+**/
+
+/**
+ * before_cart_cancel_button
+ * affiche un contenu avec le bouton "Annuler" sur la caisse
+**/

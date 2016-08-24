@@ -18,18 +18,20 @@
 <br>
 <?php echo tendoo_info(__('Ce tableau vous permet de suivre les approvisionnements et les sorties d\'une collection, tout en vous permettant de voir les quantités restantes dans le stock général.', 'nexo_premium'));?>
 <?php echo tendoo_warning(__('Les stocks affichés ici, ne sont que les stocks des produits dont les catégories sont situées au fond de la hierarchie des catégories. Les produits sauvegardés dans des catégories intermédiaires seront ignorés.', 'nexo_premium'));?>
-
+<div class="table-responsive">
 <table class="table-bordered table table-striped FicheDeSuiviParCategory">
     <thead>
       <tr>
-        <td colspan="5"><?php _e('Fiche de suivi de stock', 'nexo_premium');?></td>
+        <td colspan="7"><?php _e('Fiche de suivi de stock', 'nexo_premium');?></td>
       </tr>
       <tr>
         <td width="300"><?php _e('Categories', 'nexo_premium');?></td>
-        <td width="200"><?php _e('Stock initial', 'nexo_premium');?></td>
-        <td width="150"><?php _e('Entrées', 'nexo_premium');?></td>
-        <td width="150"><?php _e('Sorties', 'nexo_premium');?></td>
-        <td width="200"><?php _e('Stock Final', 'nexo_premium');?></td>
+        <td width="100"><?php _e('Entrées', 'nexo_premium');?></td>
+        <td width="150"><?php _e( 'Valeur', 'nexo_premium' );?></td>
+        <td width="100"><?php _e('Sorties', 'nexo_premium');?></td>
+        <td width="150"><?php _e( 'Valeur', 'nexo_premium' );?></td>
+        <td width="100"><?php _e('Stock Final', 'nexo_premium');?></td>
+        <td width="150"><?php _e( 'Valeur', 'nexo_premium' );?></td>
       </tr>
     </thead>
     <tbody class="fiche-suivi-table">
@@ -37,13 +39,16 @@
     <tfoot>
       <tr class="info">
         <td width="300"><?php _e('Total', 'nexo_premium');?></td>
-        <td width="200"></td>
+        <td width="100"></td>
         <td width="150"></td>
+        <td width="100"></td>
         <td width="150"></td>
-        <td width="200"></td>
+        <td width="100"></td>
+        <td width="150"></td>
       </tr>
 		</tfoot>      
   </table>
+</div>
 <script>
 'use strict';
 
@@ -93,10 +98,13 @@ var NexoFicheSuivi		=	new function(){
 		_.each( this.ParentsHierarchy, function( value, key ){
 			var RowContent		=	'<tr>';
 				RowContent		+=		'<td>' + _.last( value ).NOM + '</td>' + 
-										'<td data-previous-stock cat-id="' + _.last( value ).ID + '"></td>' + 
+										//'<td data-previous-stock cat-id="' + _.last( value ).ID + '"></td>' + 
 										'<td data-new-stock cat-id="' + _.last( value ).ID + '"></td>' + 
+										'<td data-new-value cat-id="' + _.last( value ).ID + '"></td>' +
 										'<td data-sold-stock cat-id="' + _.last( value ).ID + '"></td>' + 
-										'<td data-left-stock cat-id="' + _.last( value ).ID + '"></td>';
+										'<td data-sold-value cat-id="' + _.last( value ).ID + '"></td>' +
+										'<td data-left-stock cat-id="' + _.last( value ).ID + '"></td>' +
+										'<td data-left-value cat-id="' + _.last( value ).ID + '"></td>';
 				RowContent		+=	'</tr>';
 			$( '.fiche-suivi-table' ).append( RowContent );
 		});				
@@ -197,10 +205,11 @@ var NexoFicheSuivi		=	new function(){
 	
 	this.TotalRow			=	function(){
 		$( '[data-left-stock]' ).each(function(){
-			var PreviousTotal	=	parseInt( $( this ).siblings( '[data-previous-stock]' ).html() );
+			// var PreviousTotal	=	parseInt( $( this ).siblings( '[data-previous-stock]' ).html() );
 			var CurrentEntry	=	parseInt( $( this ).siblings( '[data-new-stock]' ).html() );
 			var CurrentSold		=	parseInt( $( this ).siblings( '[data-sold-stock]' ).html() );
-			$( this ).html( ( PreviousTotal + CurrentEntry ) - CurrentSold );
+			// ( PreviousTotal );
+			$( this ).html( CurrentEntry - CurrentSold );
 		});
 	};
 	

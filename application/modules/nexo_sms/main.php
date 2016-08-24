@@ -41,7 +41,7 @@ class Nexo_Sms extends CI_Model
     public function footer()
     {
         // Only on order screen
-        if (preg_match('#dashboard/nexo/commandes/lists/v2_checkout#', uri_string())) {
+        if ( in_array( $this->uri->segment( 4 ), array( '__use', 'nexo' ) ) ) {
             $this->load->module_view('nexo_sms', 'script');
         }
     }
@@ -52,10 +52,27 @@ class Nexo_Sms extends CI_Model
     
     public function sms_settings($array)
     {
-        $array    =    array_insert_after(2, $array, count($array), array(
-            'title'        =>    __('SMS', 'nexo'),
-            'icon'      =>    'fa fa-gear',
-            'href'        =>    site_url(array( 'dashboard', 'nexo_sms', 'settings' ))
+		// die( 'FIX IT' );
+		global $Options;
+		// @since 2.8
+		// Adjust menu when multistore is enabled
+		$uri			=	$this->uri->segment(2,false);
+		$store_uri		=	'';
+		
+		if( $uri == 'stores' || in_array( @$Options[ 'nexo_store' ], array( null, 'disabled' ), true ) ) {
+			
+			// Only When Multi Store is enabled
+			// @since 2.8
+			
+			if( @$Options[ 'nexo_store' ] == 'enabled' ) {
+				$store_uri	=	'stores/' . $this->uri->segment( 3, 0 ) . '/';
+			}
+		}
+		
+        $array    		=	array_insert_after(2, $array, count($array), array(
+            'title'     =>	__('SMS', 'nexo'),
+            'icon'      =>	'fa fa-gear',
+            'href'      =>	site_url(array( 'dashboard', 'nexo_sms', $store_uri . 'settings' ))
         ));
         
         return $array;

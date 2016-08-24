@@ -1,4 +1,17 @@
 <?php
+/**
+ * Add support for Multi Store
+ * @since 2.8
+**/
+
+global $store_id, $CurrentStore;
+
+$option_prefix		=	'';
+
+if( $store_id != null ) {
+	$option_prefix	=	'store_' . $store_id . '_' ;
+}
+
 $this->Gui->col_width(1, 2);
 
 /**
@@ -32,26 +45,26 @@ $codebar            =    array_combine($codebar, array_map('___toUpper', $codeba
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    'nexo_product_codebar',
+    'name'        =>    $option_prefix . 'nexo_product_codebar',
     'label'        =>    __('Choisir le type de Code Barre', 'nexo'),
     'options'    =>    $codebar
 ), 'Nexo_product_settings', 1);
 
 $this->Gui->add_item(array(
     'type'        =>    'text',
-    'name'        =>    'nexo_codebar_height',
+    'name'        =>    $option_prefix . 'nexo_codebar_height',
     'label'        =>    __('Hauteur du codebar', 'nexo'),
 ), 'Nexo_product_settings', 1);
 
 $this->Gui->add_item(array(
     'type'        =>    'text',
-    'name'        =>    'nexo_bar_width',
+    'name'        =>    $option_prefix . 'nexo_bar_width',
     'label'        =>    __('Largeur des barres', 'nexo'),
 ), 'Nexo_product_settings', 1);
 
 $this->Gui->add_item(array(
     'type'        =>    'text',
-    'name'        =>    'nexo_codebar_limit_nbr',
+    'name'        =>    $option_prefix . 'nexo_codebar_limit_nbr',
     'label'        =>    __('Limite en chiffre sur le code barre', 'nexo'),
     'description'    =>    __('S\'applique à tout type de code sauf aux suivants : EAN8, EAN13', 'nexo')
 ), 'Nexo_product_settings', 1);
@@ -63,15 +76,15 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    'nexo_products_labels',
+    'name'        =>    $option_prefix . 'nexo_products_labels',
     'label'        =>    __('Thème des étiquettes des produits', 'nexo'),
     'description'    =>    __('Choisir un template pour les étiquettes des produits.', 'nexo'),
     'options'    =>    array(
+        '10'    =>    __('Produits 1/10 sur A4', 'nexo'),
+		'7'    =>    __('Produits 1/7 sur A4', 'nexo'),
         '5'    =>    __('Produits 1/5 sur A4', 'nexo'),
-        '4'    =>    __('Produits 1/4 sur A4', 'nexo'),
-        '3'    =>    __('Produits 1/3 sur A4', 'nexo'),
+		'4'    =>    __('Produits 1/4 sur A4', 'nexo'),
         '2'    =>    __('Produits 1/2 sur A4', 'nexo'),
-        '1'    =>    __('Produits 1/1 sur A4', 'nexo'),
     )
 ), 'Nexo_product_settings', 1);
 

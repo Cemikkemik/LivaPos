@@ -21,30 +21,25 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 <body>
 <?php global $Options;?>
 <?php if (@$order[ 'order' ][0][ 'CODE' ] != null):?>
-<div class="container-fuild">
+<div class="container-fluid">
     <div class="row">
-        <div class="well col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
-            <div class="row">
+        <div class="well col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="row order-details">
                 <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
                     <h2 class="text-center"><?php echo $Options[ 'site_name' ];?></h2>
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <address>
-                    <?php echo @$Options[ 'nexo_shop_street' ];?> <br>
-                    <?php echo @$Options[ 'nexo_shop_pobox' ];?> <br>
-                    <abbr><?php _e('Téléphone:', 'nexo');?></abbr> <?php echo @$Options[ 'nexo_shop_phone' ];?>
-                    </address>
+                <?php ob_start();?>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <?php echo xss_clean( @$Options[ 'receipt_col_1' ] );?>
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 text-right">
-                	<address>
-                    <em><?php echo mdate(__('Date: %d/%m/%Y %h:%i:%s', 'nexo'), strtotime($order[ 'order' ][0][ 'DATE_CREATION' ]));?></em><br>
-					<em><?php echo sprintf(__('ID : #%s'),
-                    $order[ 'order' ][0][ 'CODE' ]);?></em><br>
-					<em><?php echo sprintf(__('Statut de la commande: %s', 'nexo'), $this->Nexo_Checkout->get_order_type($order[ 'order' ][0][ 'TYPE' ]));?></em><br>
-                    <em><?php echo sprintf(__('Caissier : %s', 'nexo'), User::pseudo($order[ 'order' ][0][ 'AUTHOR' ]));?></em>
-                    </address>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
+                    <?php echo xss_clean( @$Options[ 'receipt_col_2' ] );?>
                 </div>
             </div>
+            <?php 
+            $string_to_parse	=	ob_get_clean();
+            echo $this->parser->parse_string( $string_to_parse, $template , true );
+            ?>
             <div class="row">
                 <div class="text-center">
                     <h3><?php _e('Ticket de caisse', 'nexo');?></h3>
@@ -67,12 +62,12 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         
                         foreach ($order[ 'products' ] as $_produit) {
                             $total_global        +=    __floatval($_produit[ 'PRIX_TOTAL' ]);
-                            $total_unitaire        +=    __floatval($_produit[ 'PRIX' ]);
-                            $total_quantite    +=    __floatval($_produit[ 'QUANTITE' ]);
+                            $total_unitaire      +=    __floatval($_produit[ 'PRIX' ]);
+                            $total_quantite   	 +=    __floatval($_produit[ 'QUANTITE' ]);
                             ?>
                         <tr>
-                            <td class=""><em><?php echo $_produit[ 'DESIGN' ];
-                            ?></em></td>
+                            <td class=""><?php echo $_produit[ 'DESIGN' ];
+                            ?></td>
                             <td class="text-right">
                             <?php echo $this->Nexo_Misc->display_currency('before');
                             ?>
@@ -97,7 +92,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         ?>
                         <?php if (in_array(@$Options[ 'nexo_enable_vat' ], array( null, 'non' ))):?>
                         <tr>
-                            <td class=""><em><?php _e('Total', 'nexo');?></em></td>
+                            <td class=""><?php _e('Total', 'nexo');?></td>
                             
                             <td class="text-right">
                             <?php /*echo sprintf( 
@@ -119,7 +114,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         </tr>
                         <?php else :?>
                         <tr>
-                            <td class=""><em><?php _e('Hors Taxe (HT)', 'nexo');?></em></td>
+                            <td class=""><?php _e('Hors Taxe (HT)', 'nexo');?></td>
                             
                             <td class="text-right">
                             <?php /*echo sprintf( 
@@ -142,7 +137,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         <?php endif;?>
                         <?php if (__floatval($_produit[ 'RISTOURNE' ])):?>
                         <tr>
-                            <td class=""><em><?php _e('Remise automatique', 'nexo');?></em></td>
+                            <td class=""><?php _e('Remise automatique', 'nexo');?></td>
                             <td class="" style="text-align: right"> </td>
                             <td class="text-right">(-)</td>
                             <td class="text-right">
@@ -157,7 +152,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         <?php endif;?>
                         <?php if (__floatval($_produit[ 'REMISE' ])):?>
                         <tr>
-                            <td class=""><em><?php _e('Remise expresse', 'nexo');?></em></td>
+                            <td class=""><?php _e('Remise expresse', 'nexo');?></td>
                             <td class="" style="text-align: right"> </td>
                             <td class="text-right">(-)</td>
                             <td class="text-right">
@@ -172,7 +167,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         <?php endif;?>
                         <?php if (@$Options[ 'nexo_enable_vat' ] == 'oui'):?>
                         <tr>
-                            <td class=""><em><?php _e('Net Hors Taxe', 'nexo');?></em></td>
+                            <td class=""><?php _e('Net Hors Taxe', 'nexo');?></td>
                             <td class="text-right"></td>
                             <td class="" style="text-align: right">(=)</td>
                             <td class="text-right">
@@ -192,7 +187,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             </td>
                         </tr>
                         <tr>
-                            <td class=""><em><?php _e('TVA', 'nexo');?> (<?php echo @$Options[ 'nexo_vat_percent' ];?>%)</em></td>
+                            <td class=""><?php _e('TVA', 'nexo');?> (<?php echo @$Options[ 'nexo_vat_percent' ];?>%)</td>
                             <td class="text-right"></td>
                             <td class="" style="text-align: right">(+)</td>
                             <td class="text-right">
@@ -205,7 +200,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             </td>
                         </tr>
                         <tr>
-                            <td class=""><em><strong><?php _e('TTC', 'nexo');?></strong></em></td>
+                            <td class=""><strong><?php _e('TTC', 'nexo');?></strong></td>
                             <td class="text-right"></td>
                             <td class="" style="text-align: right">(=)</td>
                             <td class="text-right">
@@ -226,7 +221,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         </tr>
                         <?php endif;?>
                         <tr>
-                            <td class=""><em><?php _e('Somme perçu', 'nexo');?></em></td>
+                            <td class=""><?php _e('Somme perçu', 'nexo');?></td>
                             <td class="" style="text-align: right"> </td>
                             <td class="text-right"></td>
                             <td class="text-right">
@@ -261,6 +256,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         </tr>
                     </tbody>
                 </table>
+				<p class="text-center"><?php echo xss_clean( @$Options[ 'nexo_bills_notices' ] );?></p>
                 <div class="container-fluid hideOnPrint">
                     <div class="row hideOnPrint">
                         <div class="col-lg-12">
@@ -284,8 +280,24 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 <?php endif;?>
 <style>
 @media print {
+	* {
+		font-family:Verdana, Geneva, sans-serif;
+	}
 	.hideOnPrint {
 		display:none !important;
+	}	
+	td, th {font-size: 3vw;}
+	.order-details, p {
+		font-size: 2.7vw;
+	}
+	.order-details h2 {
+		font-size: 6vw;
+	}
+	h3 {
+		font-size: 3vw;
+	}
+	h4 {
+		font-size: 3vw;
 	}
 }
 </style>

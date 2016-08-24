@@ -28,14 +28,20 @@ class Nexo_Categories extends CI_Model
 
         $crud->set_theme('bootstrap');
         $crud->set_subject(__('Catégorie', 'nexo'));
-
-        $crud->set_table($this->db->dbprefix('nexo_categories'));
-        $crud->columns('NOM',  'PARENT_REF_ID', 'DESCRIPTION', 'THUMB');
-        $crud->fields('NOM', 'PARENT_REF_ID', 'THUMB', 'DESCRIPTION');
+		$crud->set_table( $this->db->dbprefix( store_prefix() . 'nexo_categories' ) );
+		
+		// If Multi store is enabled
+		// @since 2.8		
+		$fields					=	array( 'NOM', 'PARENT_REF_ID', 'THUMB', 'DESCRIPTION' );
+		$crud->columns('NOM',  'PARENT_REF_ID', 'DESCRIPTION', 'THUMB');
+        $crud->fields( $fields );
         
         $state = $crud->getState();
-        if ($state == 'add' || $state == 'edit' || $state == 'read') {
-            $crud->set_relation('PARENT_REF_ID', 'nexo_categories', 'NOM');
+        
+		if ($state == 'add' || $state == 'edit' || $state == 'read') {
+			
+			$crud->set_relation('PARENT_REF_ID', store_prefix() . 'nexo_categories', 'NOM' );
+
         }
         
         $crud->display_as('NOM', __('Nom de la catégorie', 'nexo'));
@@ -67,22 +73,22 @@ class Nexo_Categories extends CI_Model
     public function lists($page = 'index', $id = null)
     {
         if ($page == 'index') {
-            $this->Gui->set_title(__('Liste des catégories &mdash; Nexo', 'nexo'));
+            $this->Gui->set_title( store_title( __('Liste des catégories', 'nexo')) );
         } elseif ($page == 'delete') {
             nexo_permission_check('delete_shop_categories');
             
             // Checks whether an item is in use before delete
             nexo_availability_check($id, array(
-                array( 'col'    =>    'REF_CATEGORY', 'table'    =>    'nexo_articles' )
+                array( 'col'    =>    'REF_CATEGORIE', 'table'    =>    store_prefix() . 'nexo_articles' )
             ));
             
-            $this->Gui->set_title(__('Liste des catégories &mdash; Nexo', 'nexo'));
+            $this->Gui->set_title( store_title( __('Liste des catégories', 'nexo')) );
         } else {
-            $this->Gui->set_title(__('Liste des catégories &mdash; Nexo', 'nexo'));
+            $this->Gui->set_title( store_title( __('Liste des catégories', 'nexo')) );
         }
 
         $data[ 'crud_content' ]    =    $this->crud_header();
-        $_var1                        =    'categories';
+        $_var1                     =    'categories';
         
         $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
     }
@@ -95,7 +101,7 @@ class Nexo_Categories extends CI_Model
         
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1                    =    'categories';
-        $this->Gui->set_title(__('Créer une nouvelle catégorie &mdash; Nexo', 'nexo'));
+        $this->Gui->set_title( store_title( __('Créer une nouvelle catégorie', 'nexo')) );
         $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
     }
     

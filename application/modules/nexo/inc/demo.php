@@ -17,6 +17,29 @@ $this->db->insert('nexo_arrivages', array(
     'FOURNISSEUR_REF_ID'    =>    2
 ));
 
+// Registers
+
+$this->db->insert('nexo_registers', array(
+    'NAME'            =>    __( 'Caisse A', 'nexo' ),
+    'STATUS'            =>    'closed',
+    'DATE_CREATION'    =>    date_now(),
+    'AUTHOR'        	=>    User::id(),
+));
+
+$this->db->insert('nexo_registers', array(
+    'NAME'            =>    __( 'Caisse B', 'nexo' ),
+    'STATUS'            =>    'closed',
+    'DATE_CREATION'    =>    date_now(),
+    'AUTHOR'        	=>    User::id(),
+));
+
+$this->db->insert('nexo_registers', array(
+    'NAME'            =>    __( 'Caisse C', 'nexo' ),
+    'STATUS'            =>    'locked',
+    'DATE_CREATION'    =>    date_now(),
+    'AUTHOR'        	=>    User::id(),
+));
+
 // Fournisseurs
 
 $this->db->insert('nexo_fournisseurs', array(
@@ -88,6 +111,13 @@ $this->db->insert('nexo_categories', array(
 $this->db->insert('nexo_categories', array(
     'NOM'            	=>    __('Musique', 'nexo'),
     'DESCRIPTION'    	=>    __('Catégorie musique', 'nexo'),
+    'AUTHOR'        	=>    User::id(),
+    'DATE_CREATION'    	=>    date_now()
+));
+
+$this->db->insert('nexo_categories', array(
+    'NOM'            	=>    __('Restaurant', 'nexo'),
+    'DESCRIPTION'    	=>    __('Catégorie restaurant', 'nexo'),
     'AUTHOR'        	=>    User::id(),
     'DATE_CREATION'    	=>    date_now()
 ));
@@ -166,13 +196,14 @@ $this->db->insert('nexo_articles', array(
     'REF_RAYON'            =>        1, // Hommes
     'REF_SHIPPING'        =>        1, // Sample Shipping
     'REF_CATEGORIE'        =>        1, // Hommes
-    'QUANTITY'            =>        20,
+    'QUANTITY'            =>        80550,
     'SKU'                =>        'UGS1',
-    'QUANTITE_RESTANTE'    =>    20,
+    'QUANTITE_RESTANTE'    =>    80550,
     'QUANTITE_VENDU'    =>    0,
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    65, // $
     'PRIX_DE_VENTE'        =>    100,
+	'SHADOW_PRICE'			=>	130,
     'TAUX_DE_MARGE'        =>    ((100 - (65 + 5)) / 65) * 100,
     'FRAIS_ACCESSOIRE'    =>    5, // $
     'COUT_DACHAT'        =>    65 + 5, // PA + FA
@@ -184,7 +215,10 @@ $this->db->insert('nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    '../modules/nexo/images/produit-1.jpg',
-    'CODEBAR'            =>    147852
+    'CODEBAR'            =>    147852,
+	'STOCK_ENABLED'		=>	1,
+	'TYPE'				=>	1,
+	'STATUS'			=>	1
 ));
 
 // Produits 2
@@ -194,13 +228,14 @@ $this->db->insert('nexo_articles', array(
     'REF_RAYON'            =>        4, // cadeaux
     'REF_SHIPPING'        =>        1, // Sample Shipping
     'REF_CATEGORIE'        =>        4, // cadeaux
-    'QUANTITY'            =>        5,
+    'QUANTITY'            =>        6058,
     'SKU'                =>        'UGS2',
-    'QUANTITE_RESTANTE'    =>    5,
+    'QUANTITE_RESTANTE'    =>    6058,
     'QUANTITE_VENDU'    =>    0,
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    10, // $
     'PRIX_DE_VENTE'        =>    15,
+	'SHADOW_PRICE'			=>	30,
     'TAUX_DE_MARGE'        =>    ((15 - (10 + 3)) / 10) * 100,
     'FRAIS_ACCESSOIRE'    =>    3, // $
     'COUT_DACHAT'        =>    10 + 3, // PA + FA
@@ -211,7 +246,10 @@ $this->db->insert('nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    '../modules/nexo/images/produit-2.jpg',
-    'CODEBAR'            =>    258741
+    'CODEBAR'            =>    258741,
+	'STOCK_ENABLED'		=>	1,
+	'TYPE'				=>	1,
+	'STATUS'			=>	1
 ));
 
 // Produits 3
@@ -221,12 +259,13 @@ $this->db->insert('nexo_articles', array(
     'REF_RAYON'            =>        3, // Enfants
     'REF_SHIPPING'        =>        1, // Sample Shipping
     'REF_CATEGORIE'        =>        3, // Enfants
-    'QUANTITY'            =>        10,
+    'QUANTITY'            =>        8000,
     'SKU'                =>        'UGS3',
-    'QUANTITE_RESTANTE'    =>    9,
-    'DEFECTUEUX'        =>    1,
+    'QUANTITE_RESTANTE'    =>    7000,
+    'DEFECTUEUX'        =>    1000,
     'PRIX_DACHAT'        =>    100, // $
     'PRIX_DE_VENTE'        =>    150,
+	'SHADOW_PRICE'			=>	180,
     'TAUX_DE_MARGE'        =>    ((150 - (100 + 20)) / 100) * 100,
     'FRAIS_ACCESSOIRE'    =>    20, // $
     'COUT_DACHAT'        =>    100 + 20, // PA + FA
@@ -237,7 +276,10 @@ $this->db->insert('nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    '../modules/nexo/images/produit-3.jpg',
-    'CODEBAR'            =>    258963
+    'CODEBAR'            =>    258963,
+	'STOCK_ENABLED'		=>	1,
+	'TYPE'				=>	1,
+	'STATUS'			=>	1
 ));
 
 // Produits 4
@@ -247,12 +289,13 @@ $this->db->insert('nexo_articles', array(
     'REF_RAYON'            =>        2, // Femmes
     'REF_SHIPPING'        =>        1, // Sample Shipping
     'REF_CATEGORIE'        =>        2, // Hommes
-    'QUANTITY'            =>        3,
+    'QUANTITY'            =>        30000,
     'SKU'                =>        'UGS4',
-    'QUANTITE_RESTANTE'    =>    3,
+    'QUANTITE_RESTANTE'    =>    30000,
     'QUANTITE_VENDU'    =>    0,
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    120, // $
+	'SHADOW_PRICE'			=>	150,
     'PRIX_DE_VENTE'        =>    190,
     'TAUX_DE_MARGE'        =>    ((190 - (120 + 20)) / 120) * 100,
     'FRAIS_ACCESSOIRE'    =>    20, // $
@@ -264,7 +307,10 @@ $this->db->insert('nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    '../modules/nexo/images/produit-4.jpg',
-    'CODEBAR'            =>    369852
+    'CODEBAR'            =>    369852,
+	'STOCK_ENABLED'		=>	1,
+	'TYPE'				=>	1,
+	'STATUS'			=>	1
 ));
 
 $this->db->insert('nexo_articles', array(
@@ -272,13 +318,14 @@ $this->db->insert('nexo_articles', array(
     'REF_RAYON'            =>        2, // Femmes
     'REF_SHIPPING'        =>        1, // Sample Shipping
     'REF_CATEGORIE'        =>        2, // Hommes
-    'QUANTITY'            =>        3,
+    'QUANTITY'            =>        30000,
     'SKU'                =>        'UGS5',
-    'QUANTITE_RESTANTE'    =>    3,
+    'QUANTITE_RESTANTE'    =>    30000,
     'QUANTITE_VENDU'    =>    0,
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    120, // $
     'PRIX_DE_VENTE'        =>    190,
+	'SHADOW_PRICE'			=>	200,
     'TAUX_DE_MARGE'        =>    ((190 - (120 + 20)) / 120) * 100,
     'FRAIS_ACCESSOIRE'    =>    20, // $
     'COUT_DACHAT'        =>    120 + 20, // PA + FA
@@ -289,7 +336,10 @@ $this->db->insert('nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    '../modules/nexo/images/produit-5.jpg',
-    'CODEBAR'            =>    987456
+    'CODEBAR'            =>    987456,
+	'STOCK_ENABLED'		=>	1,
+	'TYPE'				=>	1,
+	'STATUS'			=>	1
 ));
 
 $this->db->insert('nexo_articles', array(
@@ -297,13 +347,14 @@ $this->db->insert('nexo_articles', array(
     'REF_RAYON'            =>        2, // Femmes
     'REF_SHIPPING'        =>        1, // Sample Shipping
     'REF_CATEGORIE'        =>        2, // Hommes
-    'QUANTITY'            =>        15,
+    'QUANTITY'            =>        155000,
     'SKU'                =>        'UGS6',
-    'QUANTITE_RESTANTE'    =>    15,
+    'QUANTITE_RESTANTE'    =>    155000,
     'QUANTITE_VENDU'    =>    0,
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    80, // $
     'PRIX_DE_VENTE'        =>    120,
+	'SHADOW_PRICE'			=>	155,
     'TAUX_DE_MARGE'        =>    ((120 - (80 + 20)) / 80) * 100,
     'FRAIS_ACCESSOIRE'    =>    20, // $
     'COUT_DACHAT'        =>    80 + 20, // PA + FA
@@ -314,7 +365,10 @@ $this->db->insert('nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    '../modules/nexo/images/produit-6.jpg',
-    'CODEBAR'            =>    781124
+    'CODEBAR'            =>    781124,
+	'STOCK_ENABLED'		=>	1,
+	'TYPE'				=>	1,
+	'STATUS'			=>	1
 ));
 
 $this->db->insert('nexo_articles', array(
@@ -322,13 +376,14 @@ $this->db->insert('nexo_articles', array(
     'REF_RAYON'            =>        2, // Femmes
     'REF_SHIPPING'        =>        1, // Sample Shipping
     'REF_CATEGORIE'        =>        2, // Hommes
-    'QUANTITY'            =>        15,
+    'QUANTITY'            =>        10005,
     'SKU'                =>        'UGS7',
-    'QUANTITE_RESTANTE'    =>    15,
+    'QUANTITE_RESTANTE'    =>    10005,
     'QUANTITE_VENDU'    =>    0,
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    80, // $
     'PRIX_DE_VENTE'        =>    120,
+	'SHADOW_PRICE'			=>	150,
     'TAUX_DE_MARGE'        =>    ((120 - (80 + 20)) / 80) * 100,
     'FRAIS_ACCESSOIRE'    =>    20, // $
     'COUT_DACHAT'        =>    80 + 20, // PA + FA
@@ -339,7 +394,10 @@ $this->db->insert('nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    '../modules/nexo/images/produit-7.jpg',
-    'CODEBAR'            =>    789654
+    'CODEBAR'            =>    789654,
+	'STOCK_ENABLED'		=>	1,
+	'TYPE'				=>	1,
+	'STATUS'			=>	1
 ));
 
 $this->db->insert('nexo_articles', array(
@@ -347,13 +405,14 @@ $this->db->insert('nexo_articles', array(
     'REF_RAYON'            =>        2, // Femmes
     'REF_SHIPPING'        =>        1, // Sample Shipping
     'REF_CATEGORIE'        =>        2, // Hommes
-    'QUANTITY'            =>        15,
-    'SKU'                =>        'UGS7',
-    'QUANTITE_RESTANTE'    =>    15,
+    'QUANTITY'            =>        15000,
+    'SKU'                =>        'UGS8',
+    'QUANTITE_RESTANTE'    =>    15000,
     'QUANTITE_VENDU'    =>    0,
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    120, // $
     'PRIX_DE_VENTE'        =>    300,
+	'SHADOW_PRICE'			=>	350,
     'TAUX_DE_MARGE'        =>    ((300 - (120 + 20)) / 120) * 100,
     'FRAIS_ACCESSOIRE'    =>    15, // $
     'COUT_DACHAT'        =>    120 + 15, // PA + FA
@@ -364,7 +423,10 @@ $this->db->insert('nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    '../modules/nexo/images/produit-8.jpg',
-    'CODEBAR'            =>    456987
+    'CODEBAR'            =>    456987,
+	'STOCK_ENABLED'		=>	1,
+	'TYPE'				=>	1,
+	'STATUS'			=>	1
 ));
 
 $this->db->insert('nexo_articles', array(
@@ -372,13 +434,14 @@ $this->db->insert('nexo_articles', array(
     'REF_RAYON'            =>        2, // Femmes
     'REF_SHIPPING'        =>        1, // Sample Shipping
     'REF_CATEGORIE'        =>        2, // Hommes
-    'QUANTITY'            =>        15,
+    'QUANTITY'            =>        8000,
     'SKU'                =>        'UGS9',
-    'QUANTITE_RESTANTE'    =>    15,
+    'QUANTITE_RESTANTE'    =>    8000,
     'QUANTITE_VENDU'    =>    0,
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    120, // $
     'PRIX_DE_VENTE'        =>    300,
+	'SHADOW_PRICE'			=>	345,
     'TAUX_DE_MARGE'        =>    ((300 - (120 + 20)) / 120) * 100,
     'FRAIS_ACCESSOIRE'    =>    15, // $
     'COUT_DACHAT'        =>    120 + 15, // PA + FA
@@ -389,7 +452,10 @@ $this->db->insert('nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    '../modules/nexo/images/produit-9.jpg',
-    'CODEBAR'            =>    874569
+    'CODEBAR'            =>    874569,
+	'STOCK_ENABLED'		=>	1,
+	'TYPE'				=>	1,
+	'STATUS'			=>	1
 ));
 
 $this->db->insert('nexo_articles', array(
@@ -397,13 +463,14 @@ $this->db->insert('nexo_articles', array(
     'REF_RAYON'            =>        2, // Femmes
     'REF_SHIPPING'        =>        1, // Sample Shipping
     'REF_CATEGORIE'        =>        2, // Hommes
-    'QUANTITY'            =>        15,
+    'QUANTITY'            =>        9000,
     'SKU'                =>        'UGS10',
-    'QUANTITE_RESTANTE'    =>    15,
+    'QUANTITE_RESTANTE'    =>    9000,
     'QUANTITE_VENDU'    =>    0,
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    120, // $
     'PRIX_DE_VENTE'        =>    300,
+	'SHADOW_PRICE'			=>	330,
     'TAUX_DE_MARGE'        =>    ((300 - (120 + 20)) / 120) * 100,
     'FRAIS_ACCESSOIRE'    =>    15, // $
     'COUT_DACHAT'        =>    120 + 15, // PA + FA
@@ -415,6 +482,35 @@ $this->db->insert('nexo_articles', array(
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    '../modules/nexo/images/produit-10.jpg',
     'CODEBAR'            =>    896547
+));
+
+$this->db->insert('nexo_articles', array(
+    'DESIGN'            =>        __('Earl Klugh(CD)', 'nexo'),
+    'REF_RAYON'            =>        2, // Femmes
+    'REF_SHIPPING'        =>        1, // Sample Shipping
+    'REF_CATEGORIE'        =>        10, // Jazz
+    'QUANTITY'            =>        80000,
+    'SKU'                =>        'EKBF',
+    'QUANTITE_RESTANTE'    =>    80000,
+    'QUANTITE_VENDU'    =>    0,
+    'DEFECTUEUX'        =>    0,
+    'PRIX_DACHAT'        =>    20, // $
+    'PRIX_DE_VENTE'        =>    35,
+	'SHADOW_PRICE'			=>	40,
+    'TAUX_DE_MARGE'        =>    ((35 - (20 + 20)) / 20) * 100,
+    'FRAIS_ACCESSOIRE'    =>    15, // $
+    'COUT_DACHAT'        =>    120 + 15, // PA + FA
+    'POIDS'                =>    8, //g
+    'COULEUR'            =>    __('Black Pocket', 'nexo'),
+    'HAUTEUR'            =>    3, // cm
+    'LARGEUR'            =>    1, // cm
+    'AUTHOR'            =>    User::id(),
+    'DATE_CREATION'        =>    date_now(),
+    'APERCU'            =>    '../modules/nexo/images/produit-9.jpg',
+    'CODEBAR'            =>    877774,
+	'STOCK_ENABLED'		=>	2,
+	'TYPE'				=>	2,
+	'STATUS'			=>	1
 ));
 
 // Clients

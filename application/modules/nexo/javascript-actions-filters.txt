@@ -39,3 +39,65 @@ reset_cart 		:	{
 	params		:	v2Checkout
 	screen		:	dashboard/nexo/commandes/lists/v2_checkout
 }
+
+before_submit_order	:	{
+	type		:	filter
+	desc		:	let you filter order details
+	params		:	order_details
+	screen		:	dashboard/nexo/commandes/lists/v2_checkout
+}
+
+callback_message	:	{
+	type		:	filter
+	desc		:	allow edit callback message after an order is complete
+	params		:	Array [ MessageObject, returned ]
+	screen		:	dashboard/nexo/commandes/lists/v2_checkout
+}
+
+test_order_type	:	{
+	type		:	filter
+	desc		:	Allow editing order type condition test
+	params		:	Array [ boolean (current condition test result), returned ]
+	screen		:	dashboard/nexo/commandes/lists/v2_checkout
+}
+
+cart_before_item_name  : {
+	type		:	filter
+	desc		:	let you customize what is displayed before item name
+	params		:	default value. A button provided to edit item price
+	screen		:	dashboard/nexo/commandes/lists/v2_checkout
+}
+
+cart_refreshed  : {
+	type		:	action
+	desc		:	trigger action when cart table is refreshed
+	params		:	v2Checkout object
+	screen		:	dashboard/nexo/commandes/lists/v2_checkout
+}
+
+items_metas		: {
+	type		:	filter
+	desc		:	let you add custom meta to each item as object like this { foo : 'bar' }. each item will be added to v2Checkout.CartItems
+	params		:	Array with all item already added. You mush "push" your custom meta return data.push({foo : 'bar'})
+	screen		:	dashboard/nexo/commandes/lists/v2_checkout
+}
+
+cart_enable_print : {
+	type		:	'filter',
+	desc		:	'enable print or not. Must return bool
+	screen		:	dashboard/nexo/commandes/lists/v2_checkout
+}
+
+check_payment_mean : {
+	type		:	filter
+	desc		:	check current order payment mean
+	params		:	array first has a bool, second has a string (current order payment mean)
+	screen		:	dashboard/nexo/commandes/lists/v2_checkout
+}
+
+payment_mean_checked : {
+	type		:	filter
+	desc		:	run when order payment mean is checked
+	params		:	array first has an object "order_details", second has a string (current order payment mean)
+	screen		:	dashboard/nexo/commandes/lists/v2_checkout
+}

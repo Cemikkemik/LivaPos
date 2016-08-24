@@ -87,3 +87,13 @@ Regroupe toutes les actions de la boutique
  * load_nexo_general_settings
  * S'exécute sur la page des réglages généraux
 **/
+
+/**
+ * delete_nexo_store
+ * S'exécute lorsqu'une boutique est en cours de suppression avec l'identifiant de la boutique
+**/
+
+/**
+ * stores_controller_callback
+ * Execute des objects enregitré pour gérer le multi store
+**/

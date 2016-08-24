@@ -259,8 +259,7 @@ $( document ).ready(function(e) {
 						NexoPremium_Sales_Statistics.Nexo_Order_Cash, 
 						NexoPremium_Sales_Statistics.Nexo_Order_Avance 
 					], _value.TYPE_COMMANDE ) ) {
-						console.log( _value.PRIX_DE_VENTE );
-						TotalCommandeCash	+=	NexoAPI.ParseFloat( _value.PRIX_DE_VENTE );
+						TotalCommandeCash	+=	NexoAPI.ParseFloat( _value.PRIX_TOTAL );
 					} 
 				});
 				$( 'table tbody tr' ).eq( key - 1 ).find( '[month-id="' + NexoPremium_Sales_Statistics.Index + '"]' ).html( 

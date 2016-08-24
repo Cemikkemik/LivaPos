@@ -22,12 +22,12 @@ if (isset($order)) {
 
 $this->Gui->add_item(array(
     'type'    =>    'dom',
-    'content' => $this->load->module_view('nexo', 'checkout/v2/col_2', $data, true)
+    'content' => $this->load->module_view('nexo', 'checkout/v2/col_1', $data, true)
 ), 'checkout_v2_col1', 1);
 
 $this->Gui->add_item(array(
     'type'    =>    'dom',
-    'content' => $this->load->module_view('nexo', 'checkout/v2/col_1', $data, true)
+    'content' => $this->load->module_view('nexo', 'checkout/v2/col_2', $data, true)
 ), 'checkout_v2_col2', 2);
 
 $this->Gui->add_item(array(

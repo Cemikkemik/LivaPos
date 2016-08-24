@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nexo\n"
-"POT-Creation-Date: 2016-06-30 00:56+0100\n"
-"PO-Revision-Date: 2016-06-30 00:58+0100\n"
+"POT-Creation-Date: 2016-08-08 00:04+0100\n"
+"PO-Revision-Date: 2016-08-19 14:14+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en\n"
@@ -26,7 +26,8 @@ msgid "Nom de la livraison"
 msgstr "Delivery name"
 
 #: __controllers/arrivages.php:39 __controllers/clients.php:78
-#: __controllers/clients.php:184 __controllers/produits.php:59
+#: __controllers/clients.php:184 __controllers/produits.php:71
+#: __controllers/registers.php:47 __controllers/stores.php:39
 #, fuzzy
 msgid "Description"
 msgstr "Description"
@@ -61,40 +62,44 @@ msgid "Nom de la catégorie"
 msgstr "Category Name"
 
 #: __controllers/categories.php:42
+msgid "Aperçu de la catégorie"
+msgstr "Category Overview"
+
+#: __controllers/categories.php:43
 msgid "Description de la catégorie"
 msgstr "Category Description"
 
-#: __controllers/categories.php:43
+#: __controllers/categories.php:44
 msgid "Catégorie parente"
 msgstr "Parent Category"
 
-#: __controllers/categories.php:67 __controllers/categories.php:76
-#: __controllers/categories.php:78
+#: __controllers/categories.php:70 __controllers/categories.php:79
+#: __controllers/categories.php:81
 #, fuzzy
 msgid "Liste des catégories &mdash; Nexo"
 msgstr "List of categories &mdash; Nexo"
 
-#: __controllers/categories.php:95
+#: __controllers/categories.php:98
 #, fuzzy
 msgid "Créer une nouvelle catégorie &mdash; Nexo"
-msgstr "Create a new category &mdash; Nexo"
+msgstr "Create a new category - Nexo"
 
-#: __controllers/clients.php:28 inc/controller.php:71 inc/controller.php:268
+#: __controllers/clients.php:28 inc/controller.php:243 inc/controller.php:376
 #, fuzzy
 msgid "Clients"
 msgstr "Customers"
 
-#: __controllers/clients.php:51 views/checkout/v2/script.php:872
+#: __controllers/clients.php:51 views/checkout/v2/script.php:1163
 #: views/commandes-script - Deprecated.php:24
 #, fuzzy
 msgid "Nom du client"
-msgstr "Client Name"
+msgstr "Client name"
 
-#: __controllers/clients.php:52 views/checkout/v2/script.php:884
+#: __controllers/clients.php:52 views/checkout/v2/script.php:1175
 #: views/commandes-script - Deprecated.php:36
 #, fuzzy
 msgid "Email du client"
-msgstr "Customer email"
+msgstr "Customer Email:"
 
 #: __controllers/clients.php:53
 msgid "Achats effectués"
@@ -104,12 +109,12 @@ msgstr "Purchases"
 msgid "Nbr Commandes (sess courante)"
 msgstr "Nbr Orders (current sess)"
 
-#: __controllers/clients.php:55 views/checkout/v2/script.php:890
+#: __controllers/clients.php:55 views/checkout/v2/script.php:1181
 #: views/commandes-script - Deprecated.php:42
 msgid "Téléphone du client"
 msgstr "Customer Phone"
 
-#: __controllers/clients.php:56 views/checkout/v2/script.php:878
+#: __controllers/clients.php:56 views/checkout/v2/script.php:1169
 #: views/commandes-script - Deprecated.php:30
 #, fuzzy
 msgid "Prénom du client"
@@ -152,16 +157,16 @@ msgstr "Postcode"
 msgid "Continent"
 msgstr "Continent"
 
-#: __controllers/clients.php:67
+#: __controllers/clients.php:67 __controllers/registers.php:51
 msgid "Crée"
 msgstr "Created"
 
-#: __controllers/clients.php:68 __controllers/produits.php:65
+#: __controllers/clients.php:68 __controllers/produits.php:77
 #, fuzzy
 msgid "Modifié le"
 msgstr "Modified on"
 
-#: __controllers/clients.php:69 __controllers/commandes.php:55
+#: __controllers/clients.php:69 __controllers/commandes.php:87
 msgid "Par"
 msgstr "By"
 
@@ -169,7 +174,7 @@ msgstr "By"
 msgid "Groupe"
 msgstr "Group"
 
-#: __controllers/clients.php:91 views/checkout/v2/script.php:885
+#: __controllers/clients.php:91 views/checkout/v2/script.php:1176
 #: views/commandes-script - Deprecated.php:37
 #, fuzzy
 msgid "Email"
@@ -193,7 +198,9 @@ msgstr "Users Groups"
 msgid "Nom"
 msgstr "Name"
 
-#: __controllers/clients.php:185 __controllers/produits.php:66
+#: __controllers/clients.php:185 __controllers/produits.php:78
+#: __controllers/registers.php:50 __controllers/registers.php:281
+#: __controllers/stores.php:40
 #, fuzzy
 msgid "Auteur"
 msgstr "Author"
@@ -227,7 +234,8 @@ msgstr "From"
 msgid "Fin de la planification"
 msgstr "To"
 
-#: __controllers/clients.php:193 __controllers/commandes.php:60
+#: __controllers/clients.php:193 __controllers/commandes.php:92
+#: __controllers/stores.php:42
 #, fuzzy
 msgid "Date de modification"
 msgstr "Last modified date"
@@ -244,74 +252,164 @@ msgstr "Add/Edit client groups"
 msgid "Vente"
 msgstr "Sale"
 
-#: __controllers/commandes.php:47
+#: __controllers/commandes.php:62
 msgid "Imprimer le ticket de caisse"
 msgstr "Print receipt"
 
-#: __controllers/commandes.php:51
+#: __controllers/commandes.php:70
+msgid "Prévisualiser la commande"
+msgstr "Preview Order"
+
+#: __controllers/commandes.php:77
+#, fuzzy
+msgid "Modifier la commande"
+msgstr "Edit Order"
+
+#: __controllers/commandes.php:83
 #, fuzzy
 msgid "Code"
 msgstr "Code"
 
-#: __controllers/commandes.php:52
+#: __controllers/commandes.php:84
 msgid "Client"
 msgstr "Customer"
 
-#: __controllers/commandes.php:53
+#: __controllers/commandes.php:85
 msgid "Remise Expresse"
 msgstr "Express Release"
 
-#: __controllers/commandes.php:54 views/checkout/v2/script.php:1649
-#: views/receipts/default.php:228 views/shop-checkout-settings -
-#: Deprecated.php:37
+#: __controllers/commandes.php:86 views/checkout/v2/script.php:1989
+#: views/receipts/default-backup.php:229 views/receipts/default.php:224
+#: views/shop-checkout-settings - Deprecated.php:37
 msgid "Somme perçu"
 msgstr "Perceived sum"
 
-#: __controllers/commandes.php:56
+#: __controllers/commandes.php:88
 msgid "Paiement"
 msgstr "Payment"
 
-#: __controllers/commandes.php:57
+#: __controllers/commandes.php:89
 msgid "Statut"
 msgstr "Status"
 
-#: __controllers/commandes.php:58 views/receipts/default.php:194
+#: __controllers/commandes.php:90 views/receipts/default-backup.php:195
+#: views/receipts/default.php:190
 #, fuzzy
 msgid "TVA"
 msgstr "VAT"
 
-#: __controllers/commandes.php:59
+#: __controllers/commandes.php:91 __controllers/registers.php:284
 msgid "Date"
 msgstr "Date"
 
-#: __controllers/commandes.php:61 views/checkout/v2/col_1.php:55
-#: views/receipts/default.php:59 views/receipts/default.php:99
+#: __controllers/commandes.php:93 __controllers/commandes.php:366
+#: views/checkout/v2/col_1.php:53 views/receipts/default-backup.php:59
+#: views/receipts/default-backup.php:100 views/receipts/default.php:54
+#: views/receipts/default.php:95
 #, fuzzy
 msgid "Total"
-msgstr "Total"
+msgstr "Total:"
 
-#: __controllers/commandes.php:191
-msgid "Effectuer un vente &mdash; NexoPOS"
-msgstr "Proceed a sale &mdash; NexoPOS"
+#: __controllers/commandes.php:94 __controllers/commandes.php:428
+#: __controllers/registers.php:46 inc/controller.php:361
+#: views/checkout/v2/col_1.php:5 views/commandes-dom - Deprecated.php:44
+msgid "Caisse"
+msgstr "Checkout"
 
 #: __controllers/commandes.php:193
-msgid "Modifier une commande &mdash; NexoPOS"
-msgstr "Edit order &mdash; NexoPOS"
-
-#: __controllers/commandes.php:202
 msgid "Modifier une commande existante &mdash; Nexo"
 msgstr "Edit order"
 
-#: __controllers/commandes.php:213
+#: __controllers/commandes.php:204
 #, fuzzy
 msgid "Liste des commandes &mdash; Nexo"
 msgstr "Order list &mdash; Nexo"
 
-#: __controllers/commandes.php:296
+#: __controllers/commandes.php:288
 msgid "Payer un commande"
 msgstr "Pay Order"
 
-#: __controllers/fournisseurs.php:28
+#: __controllers/commandes.php:351 views/commandes-dom - Deprecated.php:116
+#: views/receipts/default-backup.php:242 views/receipts/default.php:237
+msgid "Reste :"
+msgstr "Remain:"
+
+#: __controllers/commandes.php:353 __controllers/commandes.php:355
+msgid "Reste à verser :"
+msgstr "Remain:"
+
+#: __controllers/commandes.php:358
+msgid "Aperçu commande : "
+msgstr "Order Preview"
+
+#: __controllers/commandes.php:363 __controllers/produits.php:56
+#: views/commandes-dom - Deprecated.php:22
+#, fuzzy
+msgid "Désignation"
+msgstr "Description"
+
+#: __controllers/commandes.php:364 views/checkout/v2/col_1.php:28
+#: views/commandes-dom - Deprecated.php:23
+#, fuzzy
+msgid "Prix Unitaire"
+msgstr "Unit Price"
+
+#: __controllers/commandes.php:365 views/checkout/v2/col_1.php:29
+#: views/commandes-dom - Deprecated.php:24
+#, fuzzy
+msgid "Quantité"
+msgstr "quantity"
+
+#: __controllers/commandes.php:374
+msgid "Remise (RRR) : "
+msgstr "Surrender (RRR)"
+
+#: __controllers/commandes.php:380
+msgid "TVA : "
+msgstr "VAT:"
+
+#: __controllers/commandes.php:383
+msgid "Total : "
+msgstr "Total:"
+
+#: __controllers/commandes.php:385
+msgid "Somme perçu : "
+msgstr "Perceived sum"
+
+#: __controllers/commandes.php:394
+msgid "Une erreur s'est produite durant la récupération de la commande"
+msgstr "An error occurred while recovery the order"
+
+#: __controllers/commandes.php:418
+msgid "Utiliser cette caisse"
+msgstr "Use this register"
+
+#: __controllers/commandes.php:423
+msgid "Selectionner une caisse"
+msgstr "Select a register"
+
+#: __controllers/commandes.php:429 __controllers/registers.php:282
+msgid "Action"
+msgstr "Action"
+
+#: __controllers/commandes.php:437
+msgid ""
+"Les caisses affichées sont celles actuellement ouvertes. Assurez-vous de "
+"choisir une caisse ayant une de vos sessions"
+msgstr ""
+"Displayed registers are those currently open. Make sure you choose a "
+"register with one of your sessions"
+
+#: __controllers/commandes.php:445
+msgid "Une erreur s'est produite durant le chargement des caisses."
+msgstr "An error occurred during the loading registers."
+
+#: __controllers/dashboard.php:23
+#, php-format
+msgid "Tableau de bord &shy; %s &mdash; NexoPOS"
+msgstr "Dashboard &shy; %s &mdash; NexoPOS"
+
+#: __controllers/fournisseurs.php:28 inc/controller.php:215
 msgid "Fournisseurs"
 msgstr "Suppliers"
 
@@ -345,7 +443,7 @@ msgstr "List of providers &mdash; Nexo"
 msgid "Ajouter un nouveau fournisseur &mdash; Nexo"
 msgstr "Add new supplier"
 
-#: __controllers/print.php:44
+#: __controllers/print.php:48
 #, php-format
 msgid ""
 "Impossible d'afficher le ticket de caisse. Cette commande ne possède aucun "
@@ -354,150 +452,155 @@ msgstr ""
 "Unable to show the receipt. This command has no items - <a href=\"%s\">Go "
 "back</a>"
 
-#: __controllers/print.php:50
+#: __controllers/print.php:67
 #, fuzzy
 msgid "Cette commande est introuvable."
 msgstr "This order cannot be found"
 
-#: __controllers/print.php:61
+#: __controllers/print.php:78
 msgid "Arrivage non définie"
 msgstr "Shipping not defined"
 
-#: __controllers/produits.php:30 inc/controller.php:263
+#: __controllers/produits.php:30 inc/controller.php:366
 msgid "Articles"
 msgstr "Items"
 
-#: __controllers/produits.php:45 views/commandes-dom - Deprecated.php:22
-#, fuzzy
-msgid "Désignation"
-msgstr "Designation"
-
-#: __controllers/produits.php:46
+#: __controllers/produits.php:57
 #, fuzzy
 msgid "UGS (Unité de gestion de stock)"
 msgstr "Stock Keeping Unit"
 
-#: __controllers/produits.php:47
+#: __controllers/produits.php:58
 #, fuzzy
 msgid "Assigner à un rayon"
 msgstr "Assign a radius"
 
-#: __controllers/produits.php:48
+#: __controllers/produits.php:59
 #, fuzzy
 msgid "Assign à une catégorie"
 msgstr "Assign a category"
 
-#: __controllers/produits.php:49
+#: __controllers/produits.php:60
 #, fuzzy
 msgid "Assign à un arrivage"
 msgstr "Assign to a shipment"
 
-#: __controllers/produits.php:50 __controllers/produits.php:81
+#: __controllers/produits.php:61 __controllers/produits.php:94
 msgid "Quantité Totale"
 msgstr "Total Quantity"
 
-#: __controllers/produits.php:51
+#: __controllers/produits.php:62
 #, fuzzy
 msgid "Quantité défectueuse"
-msgstr "Defective Quantity"
+msgstr "Defective quantity"
 
-#: __controllers/produits.php:52
+#: __controllers/produits.php:63
 msgid "Frais Accéssoires"
 msgstr "Incidental costs or charges"
 
-#: __controllers/produits.php:53 __controllers/produits.php:86
+#: __controllers/produits.php:64 __controllers/produits.php:99
 #, fuzzy
 msgid "Taux de marge"
-msgstr "Margin (finance)"
+msgstr "Net margin"
 
-#: __controllers/produits.php:54 __controllers/produits.php:83
+#: __controllers/produits.php:65 __controllers/produits.php:96
+#: views/checkout/v2/script.php:576
 #, fuzzy
 msgid "Prix de vente"
-msgstr "Sale price"
+msgstr "Set a selling price"
 
-#: __controllers/produits.php:55
+#: __controllers/produits.php:66
 #, fuzzy
 msgid "Cout d'achat"
 msgstr "Cost of purchase"
 
-#: __controllers/produits.php:56
+#: __controllers/produits.php:67
 #, fuzzy
 msgid "Hauteur"
 msgstr "Height"
 
-#: __controllers/produits.php:57
+#: __controllers/produits.php:68
 #, fuzzy
 msgid "Largeur"
 msgstr "Width"
 
-#: __controllers/produits.php:58
+#: __controllers/produits.php:69
+#, fuzzy
+msgid "Taille"
+msgstr "Size"
+
+#: __controllers/produits.php:70
 #, fuzzy
 msgid "Poids"
 msgstr "Weight"
 
-#: __controllers/produits.php:60
+#: __controllers/produits.php:72
 #, fuzzy
 msgid "Couleur"
 msgstr "Color"
 
-#: __controllers/produits.php:61
+#: __controllers/produits.php:73
 #, fuzzy
 msgid "Aperçu de l'article"
 msgstr "Preview for Article"
 
-#: __controllers/produits.php:62
+#: __controllers/produits.php:74
 #, fuzzy
 msgid "Codebarre"
 msgstr "Barcode"
 
-#: __controllers/produits.php:63 __controllers/produits.php:84
+#: __controllers/produits.php:75 __controllers/produits.php:97
 #, fuzzy
 msgid "Prix d'achat"
 msgstr "Purchase price"
 
-#: __controllers/produits.php:64
+#: __controllers/produits.php:76
 #, fuzzy
 msgid "Crée le"
 msgstr "Date created"
 
-#: __controllers/produits.php:67
+#: __controllers/produits.php:79
 msgid "Qte Rest."
 msgstr "Remaining Qty"
 
-#: __controllers/produits.php:68
+#: __controllers/produits.php:80
 #, fuzzy
 msgid "Qte Vendue."
 msgstr "Sold Qty."
 
-#: __controllers/produits.php:69 __controllers/produits.php:85
+#: __controllers/produits.php:81 __controllers/produits.php:98
 #, fuzzy
 msgid "Prix promotionnel"
 msgstr "Promo Pricing"
 
-#: __controllers/produits.php:70
+#: __controllers/produits.php:82
 #, fuzzy
 msgid "Début de la promotion"
-msgstr "Start of promotion"
+msgstr "Beginning of the promotion"
 
-#: __controllers/produits.php:71
+#: __controllers/produits.php:83
 #, fuzzy
 msgid "Fin de la promotion"
-msgstr "End Promotion"
+msgstr "End of the promotion"
 
-#: __controllers/produits.php:82
+#: __controllers/produits.php:84
+msgid "Prix de vente fictif"
+msgstr "Fictitious Sale Pice"
+
+#: __controllers/produits.php:95
 msgid "Quantité Defectueuse"
 msgstr "Defective Quantity"
 
-#: __controllers/produits.php:87
+#: __controllers/produits.php:100
 msgid "Frais Accessoires"
 msgstr "Incidental costs or charges"
 
-#: __controllers/produits.php:119
+#: __controllers/produits.php:132
 #, fuzzy
 msgid "Liste des articles &mdash; Nexo"
 msgstr "List of articles &mdash; Nexo"
 
-#: __controllers/produits.php:132 __controllers/produits.php:149
+#: __controllers/produits.php:145 __controllers/produits.php:162
 #, fuzzy
 msgid "Ajouter un nouvel article &mdash; Nexo"
 msgstr "Add a new article &mdash; Nexo"
@@ -544,6 +647,180 @@ msgstr "List rays &mdash; Nexo"
 #: __controllers/rayons.php:84
 msgid "Créer une nouveau rayon &mdash; Nexo"
 msgstr "Create a new radius &mdash; Nexo"
+
+#: __controllers/registers.php:35 inc/controller.php:94
+msgid "Caisses"
+msgstr "Registers"
+
+#: __controllers/registers.php:48
+msgid "Aperçu"
+msgstr "Preview"
+
+#: __controllers/registers.php:49
+msgid "Etat"
+msgstr "State"
+
+#: __controllers/registers.php:52
+msgid "Modifié"
+msgstr "Edit"
+
+#: __controllers/registers.php:53
+msgid "Utilisé par"
+msgstr "Used by"
+
+#: __controllers/registers.php:56
+msgid "Ouvrir la caisse"
+msgstr "Open register"
+
+#: __controllers/registers.php:57 __controllers/registers.php:375
+msgid "Fermer la caisse"
+msgstr "Close register"
+
+#: __controllers/registers.php:58
+msgid "Utiliser la caisse"
+msgstr "Use register"
+
+#: __controllers/registers.php:59 __controllers/registers.php:260
+msgid "Historique de la caisse"
+msgstr "Register History"
+
+#: __controllers/registers.php:150 views/registers/for_cashiers_dom.php:29
+msgid ""
+"Impossible d'accéder à une caisse en cours d'utilisation. Si le problème "
+"persiste, contactez l'administrateur."
+msgstr ""
+"Unable to access register in use. If the problem persists, contact your "
+"administrator."
+
+#: __controllers/registers.php:152 views/registers/for_cashiers_dom.php:31
+msgid "Vous allez être redirigé vers la caisse..."
+msgstr "You will be redirected to the register..."
+
+#: __controllers/registers.php:156 views/registers/for_cashiers_dom.php:35
+msgid ""
+"Impossible d'accéder à une caisse verrouillée. Si le problème persiste, "
+"contactez l'administrateur."
+msgstr ""
+"Unable to access a locked register. If the problem persists, contact your "
+"administrator."
+
+#: __controllers/registers.php:159 views/registers/for_cashiers_dom.php:38
+msgid "Ouverture de la caisse"
+msgstr "Open register"
+
+#: __controllers/registers.php:161 views/registers/for_cashiers_dom.php:40
+#, php-format
+msgid ""
+"%s, vous vous préparez à ouvrir une caisse. Veuillez spécifier le montant "
+"initiale de la caisse"
+msgstr ""
+"%s, you intent to open a register. Please specify the initial amount of the "
+"register"
+
+#: __controllers/registers.php:163 views/registers/for_cashiers_dom.php:42
+msgid "Solde d'ouverture de la caisse"
+msgstr "Opening balance for the register"
+
+#: __controllers/registers.php:164 __controllers/registers.php:214
+#: __controllers/registers.php:283 __controllers/registers.php:399
+#: views/registers/for_cashiers_dom.php:43
+#: views/registers/for_cashiers_dom.php:93
+msgid "Montant"
+msgstr "Amount"
+
+#: __controllers/registers.php:174 views/registers/for_cashiers_dom.php:53
+msgid "La caisse a été ouverte. Veuillez patientez..."
+msgstr "The register is being open. Please wait..."
+
+#: __controllers/registers.php:190 __controllers/registers.php:249
+#: __controllers/registers.php:438 views/registers/for_cashiers_dom.php:69
+#: views/registers/for_cashiers_dom.php:128
+msgid "Une erreur s'est produite durant l'ouverture de la caisse."
+msgstr "An error occurred during register opening."
+
+#: __controllers/registers.php:205 __controllers/registers.php:390
+#: views/registers/for_cashiers_dom.php:84
+msgid ""
+"Vous ne pouvez pas fermer cette caisse. Si le problème persiste, contactez "
+"l'administrateur."
+msgstr ""
+"You cannot close this register. If the problem persists, contact your "
+"administrator."
+
+#: __controllers/registers.php:209 __controllers/registers.php:394
+#: views/registers/for_cashiers_dom.php:88
+msgid "Fermeture de la caisse"
+msgstr "Register closure"
+
+#: __controllers/registers.php:211 __controllers/registers.php:396
+#: views/registers/for_cashiers_dom.php:90
+#, php-format
+msgid ""
+"%s, vous vous préparez à fermer une caisse. Veuillez spécifier le montant "
+"finale de la caisse"
+msgstr ""
+"%s, you are preparing to close a register. Please specify the final amount "
+"of the Fund"
+
+#: __controllers/registers.php:213 __controllers/registers.php:398
+#: views/registers/for_cashiers_dom.php:92
+msgid "Solde de fermeture de la caisse"
+msgstr "Closing Amount balance"
+
+#: __controllers/registers.php:224 __controllers/registers.php:409
+#: views/registers/for_cashiers_dom.php:103
+msgid "La caisse a été fermée. Veuillez patientez..."
+msgstr "The register was closed. Please wait..."
+
+#: __controllers/registers.php:238 __controllers/registers.php:427
+#: views/registers/for_cashiers_dom.php:117
+msgid ""
+"Impossible de fermer une caisse verrouillée. Si le problème persiste, "
+"contactez l'administrateur."
+msgstr ""
+"Unable to close a locked register. If the problem persists, contact your "
+"administrator."
+
+#: __controllers/registers.php:242 __controllers/registers.php:431
+#: views/registers/for_cashiers_dom.php:121
+msgid "Cette caisse est déjà fermée."
+msgstr "This register is already closed."
+
+#: __controllers/registers.php:268 views/registers/for_cashiers_dom.php:152
+msgid "Ouvrir"
+msgstr "Open"
+
+#: __controllers/registers.php:268 views/registers/for_cashiers_dom.php:148
+msgid "Fermer"
+msgstr "Close"
+
+#: __controllers/registers.php:274
+msgid "Aucune historique pour cette caisse"
+msgstr "No history for this Register"
+
+#: __controllers/registers.php:317
+msgid "Ajouter une caisse &mdash; Nexo"
+msgstr "Add a register &mdash; Nexo"
+
+#: __controllers/registers.php:323
+msgid "Modifier une caisse &mdash; Nexo"
+msgstr "Edit a register &mdash; Nexo"
+
+#: __controllers/registers.php:332
+msgid "Liste des caisses &mdash; Nexo"
+msgstr "Register List &mdash; Nexo"
+
+#: __controllers/registers.php:521
+msgid "Effectuer un vente &mdash; NexoPOS"
+msgstr "Proceed a sale &mdash; NexoPOS"
+
+#: __controllers/registers.php:523
+msgid "Modifier une commande &mdash; NexoPOS"
+msgstr "Edit order &mdash; NexoPOS"
+
+#: __controllers/registers.php:586
+msgid "Caisses enregistreuses"
+msgstr "Registers"
 
 #: __controllers/reset_shop.php:35
 #, fuzzy
@@ -602,150 +879,221 @@ msgid "Réglages la reinitialisation &mdash; Nexo"
 msgstr "Reset Settings &mdash; Nexo"
 
 #: __controllers/settings.php:46
+msgid "Réglages des factures/reçu de caisse &mdash; Nexo"
+msgstr "Invoices/Receipt Settings"
+
+#: __controllers/settings.php:49
 msgid "Réglages Stripe &mdash; Nexo"
 msgstr "Stripe Settings &mdash; Nexo"
 
-#: inc/controller.php:42 inc/controller.php:258 views/checkout/v2/col_1.php:5
-#: views/commandes-dom - Deprecated.php:44
-msgid "Caisse"
-msgstr "Checkout"
+#: __controllers/stores-settings.php:25
+msgid "Réglages des boutiques &mdash; NexoPOS"
+msgstr "Shop Settings &mdash; NexoPOS"
+
+#: __controllers/stores.php:29
+msgid "une boutique"
+msgstr "a store"
+
+#: __controllers/stores.php:38 views/settings/home.php:22
+#, fuzzy
+msgid "Nom de la boutique"
+msgstr "Store Name"
+
+#: __controllers/stores.php:41
+msgid "Date création"
+msgstr "Date"
+
+#: __controllers/stores.php:43
+msgid "Etat de la boutique"
+msgstr "Store Status"
+
+#: __controllers/stores.php:46
+msgid "Accéder à la boutique"
+msgstr "Access Store"
+
+#: __controllers/stores.php:68
+msgid "Liste des boutiques &mdash; Nexo"
+msgstr "Store List"
+
+#: __controllers/stores.php:78
+msgid "Créer une nouvelle boutique &mdash; Nexo"
+msgstr "Create a new store &mdash; Nexo"
+
+#: __controllers/stores.php:94
+msgid "Créer une nouvelle boutique &mdash; NexoPOS"
+msgstr "Create a new store &mdash; Nexo"
 
 #: inc/controller.php:47
-msgid "Liste des ventes"
-msgstr "Sales list"
+msgid "Boutiques"
+msgstr "Stores"
 
-#: inc/controller.php:52
-msgid "Effectuer une vente"
-msgstr "Proceed a sale"
+#: inc/controller.php:56
+msgid "Toutes les boutiques"
+msgstr "All Stores"
 
-#: inc/controller.php:77
-msgid "Liste des clients"
-msgstr "Customers List"
+#: inc/controller.php:61
+msgid "Ajouter une boutique"
+msgstr "Add a store"
 
-#: inc/controller.php:81 views/checkout/v2/col_1.php:8
-msgid "Ajouter un client"
-msgstr "Add a customer"
+#: inc/controller.php:103 inc/controller.php:111
+msgid "Liste des caisses"
+msgstr "Register list"
 
-#: inc/controller.php:85
-msgid "Groupes"
-msgstr "Groups"
+#: inc/controller.php:120
+msgid "Ajouter une caisse"
+msgstr "Add a register"
 
-#: inc/controller.php:89
-msgid "Ajouter un groupe"
-msgstr "Add a group"
+#: inc/controller.php:136
+msgid "Ouvrir le PDV"
+msgstr "Open POS"
 
-#: inc/controller.php:116
-msgid "Arrivages"
-msgstr "Shippings"
+#: inc/controller.php:146
+msgid "Ventes"
+msgstr "Sales"
 
-#: inc/controller.php:122
+#: inc/controller.php:174
+msgid "Inventaire"
+msgstr "Inventory"
+
+#: inc/controller.php:180
 msgid "Liste des livraisons"
 msgstr "Deliveries List"
 
-#: inc/controller.php:126
+#: inc/controller.php:184
 msgid "Nouvelle livraison"
 msgstr "New delivery"
 
-#: inc/controller.php:130 views/commandes-dom - Deprecated.php:17
+#: inc/controller.php:188 views/commandes-dom - Deprecated.php:17
 msgid "Liste des articles"
 msgstr "Items List"
 
-#: inc/controller.php:134 inc/widgets/guides.php:6
+#: inc/controller.php:192 inc/widgets/guides.php:6
 msgid "Ajouter un article"
 msgstr "Add Item"
 
-#: inc/controller.php:138
-msgid "Liste des fournisseurs"
-msgstr "Suppliers List"
-
-#: inc/controller.php:142 inc/widgets/guides.php:2
-#, fuzzy
-msgid "Ajouter un fournisseur"
-msgstr "Add a supplier"
-
-#: inc/controller.php:146
+#: inc/controller.php:196
 msgid "Liste des rayons"
 msgstr "List of radius"
 
-#: inc/controller.php:150 inc/widgets/guides.php:3
+#: inc/controller.php:200 inc/widgets/guides.php:3
 #, fuzzy
 msgid "Ajouter un rayon"
 msgstr "Add Radius"
 
-#: inc/controller.php:154
+#: inc/controller.php:204
 msgid "Liste des catégories"
 msgstr "Categories List"
 
-#: inc/controller.php:158 inc/widgets/guides.php:4
+#: inc/controller.php:208 inc/widgets/guides.php:4
 #, fuzzy
 msgid "Ajouter une catégorie"
 msgstr "Add a category"
 
-#: inc/controller.php:169
+#: inc/controller.php:221
+msgid "Liste des fournisseurs"
+msgstr "Suppliers List"
+
+#: inc/controller.php:225 inc/widgets/guides.php:2
 #, fuzzy
-msgid "Rapports & Statistiques"
-msgstr "Statistical reports"
+msgid "Ajouter un fournisseur"
+msgstr "Add a supplier"
 
-#: inc/controller.php:175
-msgid "Les meilleurs"
-msgstr "The best"
+#: inc/controller.php:249
+msgid "Liste des clients"
+msgstr "Customers List"
 
-#: inc/controller.php:179
-#, fuzzy
-msgid "Rapport Journalier"
-msgstr "Daily report"
+#: inc/controller.php:253 views/checkout/v2/col_1.php:8
+#: views/checkout/v2/col_1.php:17
+msgid "Ajouter un client"
+msgstr "Add a customer"
 
-#: inc/controller.php:183
+#: inc/controller.php:257
+msgid "Groupes"
+msgstr "Groups"
+
+#: inc/controller.php:261
+msgid "Ajouter un groupe"
+msgstr "Add a group"
+
+#: inc/controller.php:272
+msgid "Rapports"
+msgstr "Reports"
+
+#: inc/controller.php:278
+msgid "Meilleurs ventes"
+msgstr "Top Sellers"
+
+#: inc/controller.php:282
+msgid "Ventes journalières"
+msgstr "Daily sales"
+
+#: inc/controller.php:286
 #, fuzzy
 msgid "Rendement Mensuel"
-msgstr "Monthly Performance"
+msgstr "Monthly performance"
 
-#: inc/controller.php:187
+#: inc/controller.php:290
 msgid "Statistiques des ventes"
 msgstr "Sales Analysis"
 
-#: inc/controller.php:191
+#: inc/controller.php:294
 #, fuzzy
 msgid "Fiche de suivi de stocks général"
 msgstr "General inventory tracking sheet"
 
-#: inc/controller.php:195
+#: inc/controller.php:298
 msgid "Performances des caissiers"
 msgstr "Cashiers performance"
 
-#: inc/controller.php:199
+#: inc/controller.php:302
 msgid "Statistiques des clients"
 msgstr "Customers Statistics"
 
-#: inc/controller.php:218
+#: inc/controller.php:321
 #, fuzzy
 msgid "Maintenance & Historique"
 msgstr "Maintenance & History"
 
-#: inc/controller.php:223
+#: inc/controller.php:326
 #, fuzzy
 msgid "Historique des activités"
 msgstr "User History Report"
 
-#: inc/controller.php:227
+#: inc/controller.php:330
 msgid "Importation / Exportation"
 msgstr "Import / export"
 
-#: inc/controller.php:242
+#: inc/controller.php:345
 msgid "Réglages Nexo"
 msgstr "Nexo Settings"
 
-#: inc/controller.php:248
+#: inc/controller.php:351
 msgid "Général"
 msgstr "General"
 
-#: inc/controller.php:253 language/nexo_lang.php:30
+#: inc/controller.php:356 language/nexo_lang.php:30
 msgid "Stripe"
 msgstr "Stripe"
 
-#: inc/controller.php:273 views/settings/reset-script.php:2
+#: inc/controller.php:371
+msgid "Factures & Reçus"
+msgstr "Invoices & Receipts"
+
+#: inc/controller.php:381 views/settings/reset-script.php:2
 msgid "Réinitialisation"
 msgstr "Reset"
+
+#: inc/controller.php:399 views/stores/main.php:10
+msgid "Réglages des boutiques"
+msgstr "Stores settings"
+
+#: inc/controller.php:429
+msgid "Tableau de bord"
+msgstr "Dashboard"
+
+#: inc/controller.php:436
+msgid "Réglages de la boutique"
+msgstr "Store Settings"
 
 #: inc/demo.php:5
 msgid "Collection 1"
@@ -764,173 +1112,249 @@ msgid "Collection spéciale pour vêtements d'été"
 msgstr "Special collection for summer clothes"
 
 #: inc/demo.php:23
+msgid "Caisse A"
+msgstr "Register A"
+
+#: inc/demo.php:30
+msgid "Caisse B"
+msgstr "Register B"
+
+#: inc/demo.php:37
+msgid "Caisse C"
+msgstr "Register C"
+
+#: inc/demo.php:46
 msgid "Fournisseurs 1"
 msgstr "Suppliers 1"
 
-#: inc/demo.php:30
+#: inc/demo.php:53
 msgid "Fournisseurs 2"
 msgstr "Suppliers 2"
 
-#: inc/demo.php:37
+#: inc/demo.php:60
 msgid "Fournisseurs 3"
 msgstr "Suppliers 3"
 
-#: inc/demo.php:44
+#: inc/demo.php:67
 msgid "Fournisseurs 4"
 msgstr "Suppliers 4"
 
-#: inc/demo.php:53 inc/demo.php:83
+#: inc/demo.php:76 inc/demo.php:128
 #, fuzzy
 msgid "Hommes"
 msgstr "For Men"
 
-#: inc/demo.php:54
+#: inc/demo.php:77
 msgid "Rayon des hommes"
 msgstr "Men Radius"
 
-#: inc/demo.php:60 inc/demo.php:90
+#: inc/demo.php:83 inc/demo.php:136
 #, fuzzy
 msgid "Femmes"
 msgstr "Women"
 
-#: inc/demo.php:61
+#: inc/demo.php:84
 #, fuzzy
 msgid "Rayon des Femmes"
 msgstr "Women radius"
 
-#: inc/demo.php:67 inc/demo.php:97
+#: inc/demo.php:90 inc/demo.php:144
 #, fuzzy
 msgid "Enfants"
 msgstr "Children"
 
-#: inc/demo.php:68
+#: inc/demo.php:91
 #, fuzzy
 msgid "Rayon des enfants"
 msgstr "Child radius"
 
-#: inc/demo.php:74 inc/demo.php:104
+#: inc/demo.php:97 inc/demo.php:152
 #, fuzzy
 msgid "Cadeaux"
 msgstr "Gifts"
 
-#: inc/demo.php:75
+#: inc/demo.php:98
 msgid "Rayon des cadeaux"
 msgstr "Gifts rays"
 
-#: inc/demo.php:84
+#: inc/demo.php:105
+msgid "Vêtements"
+msgstr "Clothing"
+
+#: inc/demo.php:106
+msgid "Catégorie vêtements"
+msgstr "Clothing category"
+
+#: inc/demo.php:112
+msgid "Musique"
+msgstr "Music"
+
+#: inc/demo.php:113
+msgid "Catégorie musique"
+msgstr "Music Category"
+
+#: inc/demo.php:119
+msgid "Restaurant"
+msgstr "Restaurant"
+
+#: inc/demo.php:120
+msgid "Catégorie restaurant"
+msgstr "Restaurant Category"
+
+#: inc/demo.php:129
 msgid "Catégorie pour articles d'hommes."
 msgstr "Category for mens items"
 
-#: inc/demo.php:91
+#: inc/demo.php:137
 msgid "Catégorie pour articles de femmes."
 msgstr "Category for women items."
 
-#: inc/demo.php:98
+#: inc/demo.php:145
 #, fuzzy
 msgid "Catégorie pour articles pour enfants."
 msgstr "Category for articles for children."
 
-#: inc/demo.php:105
+#: inc/demo.php:153
 #, fuzzy
 msgid "Catégorie pour articles en cadeaux."
-msgstr "Category for gift items."
+msgstr "Category items as gifts."
 
-#: inc/demo.php:113
+#: inc/demo.php:161
+msgid "Rock"
+msgstr "Rock"
+
+#: inc/demo.php:162
+msgid "Catégorie pour CD de Rock."
+msgstr "Category Rock CD."
+
+#: inc/demo.php:169
+msgid "RnB"
+msgstr "RNB"
+
+#: inc/demo.php:170
+msgid "Catégorie pour CD de RnB."
+msgstr "RnB CD"
+
+#: inc/demo.php:177
+msgid "Jazz"
+msgstr "Jazz"
+
+#: inc/demo.php:178
+msgid "Catégorie pour CD de Jazz."
+msgstr "Jazz CD"
+
+#: inc/demo.php:185
+msgid "Pop"
+msgstr "Pop"
+
+#: inc/demo.php:186
+msgid "Catégorie pour CD de Pop."
+msgstr "Pop CD Category ."
+
+#: inc/demo.php:195
 #, fuzzy
 msgid "Article 1"
 msgstr "Article 1"
 
-#: inc/demo.php:129
+#: inc/demo.php:212
 #, fuzzy
 msgid "Rouge"
 msgstr "Red"
 
-#: inc/demo.php:141
+#: inc/demo.php:224
 #, fuzzy
 msgid "Article 2"
 msgstr "Article 2"
 
-#: inc/demo.php:156 inc/demo.php:309 inc/demo.php:334 inc/demo.php:359
+#: inc/demo.php:240 inc/demo.php:399 inc/demo.php:425 inc/demo.php:451
 #, fuzzy
 msgid "Jaune"
 msgstr "Yellow"
 
-#: inc/demo.php:168
+#: inc/demo.php:252
 #, fuzzy
 msgid "Article 3"
 msgstr "Article 3"
 
-#: inc/demo.php:182
+#: inc/demo.php:267
 #, fuzzy
 msgid "Bleu"
 msgstr "Blue"
 
-#: inc/demo.php:194
+#: inc/demo.php:279
 #, fuzzy
 msgid "Article 4"
 msgstr "Article 4"
 
-#: inc/demo.php:209
+#: inc/demo.php:295
 #, fuzzy
 msgid "Rose"
 msgstr "Pink"
 
-#: inc/demo.php:219
+#: inc/demo.php:305
 #, fuzzy
 msgid "Article 5"
 msgstr "Article 5"
 
-#: inc/demo.php:234 inc/demo.php:259
+#: inc/demo.php:321 inc/demo.php:347
 #, fuzzy
 msgid "Noir"
 msgstr "Black"
 
-#: inc/demo.php:244
+#: inc/demo.php:331
 #, fuzzy
 msgid "Article 6"
 msgstr "Article 6"
 
-#: inc/demo.php:269
+#: inc/demo.php:357
 #, fuzzy
 msgid "Article 7"
 msgstr "Article 7"
 
-#: inc/demo.php:284
+#: inc/demo.php:373
 #, fuzzy
 msgid "Cyan"
 msgstr "Cyan"
 
-#: inc/demo.php:294
+#: inc/demo.php:383
 #, fuzzy
 msgid "Article 8"
 msgstr "Article 8"
 
-#: inc/demo.php:319
+#: inc/demo.php:409
 #, fuzzy
 msgid "Article 9"
 msgstr "Article 9"
 
-#: inc/demo.php:344
+#: inc/demo.php:435
 #, fuzzy
 msgid "Article 10"
 msgstr "Article 10"
 
-#: inc/demo.php:371
+#: inc/demo.php:461
+msgid "Earl Klugh(CD)"
+msgstr "Earl Klugh(CD)"
+
+#: inc/demo.php:477
+msgid "Black Pocket"
+msgstr "Black Pocket"
+
+#: inc/demo.php:489
 #, fuzzy
 msgid "Compte Client"
 msgstr "Client account"
 
-#: inc/demo.php:372
+#: inc/demo.php:490
 #, fuzzy
 msgid "John Doe"
 msgstr "John Doe"
 
-#: inc/demo.php:373
+#: inc/demo.php:491
 #, fuzzy
 msgid "Jane Doe"
 msgstr "Jane Doe"
 
-#: inc/demo.php:374
+#: inc/demo.php:492
 #, fuzzy
 msgid "Blair Jersyer"
 msgstr "Blair Jersyer"
@@ -969,53 +1393,53 @@ msgstr "Add a collection"
 msgid "Effectuer une commande"
 msgstr "Place an Order"
 
-#: inc/widgets/income.php:9 inc/widgets/income.php:39 main.php:538
+#: inc/widgets/income.php:9 inc/widgets/income.php:39 main.php:550
 msgid "Chiffre d'affaire"
 msgstr "Turnover"
 
-#: inc/widgets/income.php:37 inc/widgets/sales_types.php:69
+#: inc/widgets/income.php:37 inc/widgets/sale_type_new.php:45
 #: views/reports/daily.php:199
 #, fuzzy
 msgid "Dimanche"
 msgstr "Sunday"
 
-#: inc/widgets/income.php:37 inc/widgets/sales_types.php:69
+#: inc/widgets/income.php:37 inc/widgets/sale_type_new.php:45
 #: views/reports/daily.php:187
 #, fuzzy
 msgid "Lundi"
 msgstr "Monday"
 
-#: inc/widgets/income.php:37 inc/widgets/sales_types.php:69
+#: inc/widgets/income.php:37 inc/widgets/sale_type_new.php:45
 #: views/reports/daily.php:189
 #, fuzzy
 msgid "Mardi"
 msgstr "Tuesday"
 
-#: inc/widgets/income.php:37 inc/widgets/sales_types.php:69
+#: inc/widgets/income.php:37 inc/widgets/sale_type_new.php:45
 #: views/reports/daily.php:191
 #, fuzzy
 msgid "Mercredi"
 msgstr "Wednesday"
 
-#: inc/widgets/income.php:37 inc/widgets/sales_types.php:69
+#: inc/widgets/income.php:37 inc/widgets/sale_type_new.php:45
 #: views/reports/daily.php:193
 #, fuzzy
 msgid "Jeudi"
 msgstr "Thursday"
 
-#: inc/widgets/income.php:37 inc/widgets/sales_types.php:69
+#: inc/widgets/income.php:37 inc/widgets/sale_type_new.php:45
 #: views/reports/daily.php:195
 #, fuzzy
 msgid "Vendredi"
 msgstr "Friday"
 
-#: inc/widgets/income.php:37 inc/widgets/sales_types.php:69
+#: inc/widgets/income.php:37 inc/widgets/sale_type_new.php:45
 #: views/reports/daily.php:197
 #, fuzzy
 msgid "Samedi"
 msgstr "Saturday"
 
-#: inc/widgets/income.php:65 inc/widgets/sales_types.php:75
+#: inc/widgets/income.php:65 inc/widgets/sale_type_new.php:51
 #, php-format
 msgid "Ventes réalisées du %s au %s"
 msgstr "Sales from %s to %s"
@@ -1026,7 +1450,7 @@ msgid "Chargement..."
 msgstr "Loading..."
 
 #: inc/widgets/news.php:11 inc/widgets/tutorials.php:11
-#: views/checkout/v2/script.php:1502
+#: views/checkout/v2/script.php:1842
 msgid "Une erreur s'est produite durant la récupération des données"
 msgstr "An error occurred during the data recovery"
 
@@ -1034,19 +1458,23 @@ msgstr "An error occurred during the data recovery"
 msgid "Ventes réalisées ce mois"
 msgstr "Sales this month"
 
-#: inc/widgets/profile.php:33
+#: inc/widgets/profile.php:36
 msgid "Ventes générales"
 msgstr "General sales"
 
-#: inc/widgets/profile.php:35
+#: inc/widgets/profile.php:40
 msgid "Chiffre d'affaire réalisé ce mois"
 msgstr "Turnover this month"
 
-#: inc/widgets/profile.php:42
+#: inc/widgets/profile.php:44
 msgid "Chiffre d'affaire général"
 msgstr "General turnover"
 
-#: inc/widgets/sales-new.php:11 main.php:530
+#: inc/widgets/sale_type_new.php:8
+msgid "Variétés des achats"
+msgstr "Orders Types"
+
+#: inc/widgets/sales-new.php:11 main.php:542
 msgid "Meilleurs articles"
 msgstr "Best Items"
 
@@ -1066,10 +1494,6 @@ msgstr "Defective stock (%)"
 msgid "Ventes ces 7 dernières jours"
 msgstr "Sales theses last 7 days"
 
-#: inc/widgets/sales_types.php:8
-msgid "Variétés des achats"
-msgstr "Orders Types"
-
 #: language/nexo_lang.php:3
 #, fuzzy
 msgid ""
@@ -1085,8 +1509,8 @@ msgid ""
 "La licence que vous avez spécifiée est invalide. La précédente licence a été "
 "restaurée. Veuillez contacter l'administrateur pour corriger le problème."
 msgstr ""
-"The license you specified is invalid. The previous license was restored. "
-"Please contact the administrator to correct the problem."
+"The license that you have specified is invalid. The previous license was "
+"restored. Please contact the administrator to correct the problem."
 
 #: language/nexo_lang.php:5
 msgid ""
@@ -1101,7 +1525,7 @@ msgstr ""
 #, fuzzy
 msgid "Votre licence à été activée. Merci d'avoir renouvellé votre abonnement."
 msgstr ""
-"Your license has been activated. Thank you for having renewed your "
+"Your activated license in summer. Thank you to have renewed your "
 "subscription."
 
 #: language/nexo_lang.php:7
@@ -1179,19 +1603,21 @@ msgid "Remise au pourcentage"
 msgstr "Percentage Discount"
 
 #: language/nexo_lang.php:24 views/settings/checkout.php:36
-#: views/settings/checkout.php:95 views/settings/checkout.php:109
-#: views/settings/checkout.php:119 views/settings/home.php:74
-#: views/settings/stripe.php:24 views/shop-checkout-settings -
-#: Deprecated.php:127
+#: views/settings/checkout.php:46 views/settings/checkout.php:92
+#: views/settings/checkout.php:117 views/settings/checkout.php:131
+#: views/settings/checkout.php:143 views/settings/checkout.php:153
+#: views/settings/home.php:74 views/settings/stripe.php:24
+#: views/shop-checkout-settings - Deprecated.php:127
 #, fuzzy
 msgid "Oui"
 msgstr "Yes"
 
 #: language/nexo_lang.php:25 views/settings/checkout.php:37
-#: views/settings/checkout.php:96 views/settings/checkout.php:110
-#: views/settings/checkout.php:120 views/settings/home.php:75
-#: views/settings/stripe.php:23 views/shop-checkout-settings -
-#: Deprecated.php:128
+#: views/settings/checkout.php:47 views/settings/checkout.php:91
+#: views/settings/checkout.php:118 views/settings/checkout.php:132
+#: views/settings/checkout.php:144 views/settings/checkout.php:154
+#: views/settings/home.php:75 views/settings/stripe.php:23
+#: views/shop-checkout-settings - Deprecated.php:128
 #, fuzzy
 msgid "Non"
 msgstr "No"
@@ -1210,16 +1636,188 @@ msgid "Transfert Bancaire"
 msgstr "Bank Transfer"
 
 #: language/nexo_lang.php:29
-msgid "Seules les commandes complètes peuvent être imprimées"
-msgstr "Only complete orders can be printed"
+msgid "Ce type de commande ne peut pas être imprimé."
+msgstr "This order type cannot be printed."
 
-#: main.php:522
+#: language/nexo_lang.php:31
+msgid "Web"
+msgstr "Website "
+
+#: language/nexo_lang.php:32
+msgid "Solde d'ouverture"
+msgstr "Opening Balance"
+
+#: language/nexo_lang.php:33
+msgid "Solde de fermeture"
+msgstr "Closing Balance"
+
+#: language/nexo_lang.php:36
+msgid "Créer des caisses"
+msgstr "Create registers"
+
+#: language/nexo_lang.php:37
+msgid "Modifier des caisses"
+msgstr "Edit registers"
+
+#: language/nexo_lang.php:38
+msgid "Supprimer des caisses"
+msgstr "Delete registers"
+
+#: language/nexo_lang.php:39
+msgid "Peut consulter les caisses"
+msgstr "Can open registers"
+
+#: language/nexo_lang.php:41
+msgid "Donne accès à la création des caisses enregistreuses."
+msgstr "Provides access to the creation of registers."
+
+#: language/nexo_lang.php:42
+msgid "Donne accès à la modification des caisses enregistreuses."
+msgstr "Provides access to the registers edition."
+
+#: language/nexo_lang.php:43
+msgid "Donne accès à la suppressions des caisses enregistreuses."
+msgstr "Provides access to deleting registers"
+
+#: language/nexo_lang.php:44
+msgid "Donne accès à la liste des caisses enregistreuses."
+msgstr "Provides access to the registers list"
+
+#: language/nexo_lang.php:47 language/nexo_lang.php:81
+msgid "Ouvert"
+msgstr "Open"
+
+#: language/nexo_lang.php:48 language/nexo_lang.php:82
+msgid "Fermé"
+msgstr "Close"
+
+#: language/nexo_lang.php:49
+msgid "Verrouillé"
+msgstr "Locked"
+
+#: language/nexo_lang.php:51
+msgid "Caissier"
+msgstr "Cashier"
+
+#: language/nexo_lang.php:52
+msgid "Permet de gérer la vente des articles, la gestion des clients."
+msgstr "Can manage item sales, managing customers."
+
+#: language/nexo_lang.php:53
+msgid "Gérant de la boutique"
+msgstr "Shop Manager"
+
+#: language/nexo_lang.php:54
+msgid ""
+"Permet de gérer la vente des articles, la gestion des clients, la "
+"modification des réglages et accède aux rapports."
+msgstr "allow managing item, customers, settings and reports access."
+
+#: language/nexo_lang.php:55
+msgid "Privilège pour testeur"
+msgstr "Tester Privilege"
+
+#: language/nexo_lang.php:56
+msgid ""
+"Effectue toutes tâches d'ajout et de modification. Ne peux pas supprimer du "
+"contenu."
+msgstr "Proceed all task of adding or editing. Cannot delete content."
+
+#: language/nexo_lang.php:58
+msgid "La caisse demandée est introuvable."
+msgstr "Requested register is not found."
+
+#: language/nexo_lang.php:59
+msgid "La caisse doit être ouverte, avant de procéder à la vente."
+msgstr "Register need to be open, before proceeding sale."
+
+#: language/nexo_lang.php:60
+msgid "Statut de la caisse inconnu."
+msgstr "Register status unknow."
+
+#: language/nexo_lang.php:61
+msgid ""
+"Cette caisse a été expressément vérrouillée. Elle ne peut pas être ouverte. "
+"Contactez l'administrateur pour en savoir plus."
+msgstr ""
+"This register has been locked. It can't be opened. Contact the administrator "
+"for further details."
+
+#: language/nexo_lang.php:62
+msgid ""
+"La caisse est en cours d'utilisation. Si le problème persiste, contactez "
+"l'administrateur"
+msgstr ""
+"The register is in use. If the problem persists, contact the administrator"
+
+#: language/nexo_lang.php:63
+msgid "La caisse a été correctement fermée"
+msgstr "The register has been closed"
+
+#: language/nexo_lang.php:66
+msgid "Reçu par défaut"
+msgstr "Default receipt"
+
+#: language/nexo_lang.php:67 views/settings/invoices.php:39
+msgid "Reçu personnalisé"
+msgstr "Custom Receipt"
+
+#: language/nexo_lang.php:70
+msgid "Boutique introuvable"
+msgstr "Store Not Found"
+
+#: language/nexo_lang.php:71
+msgid "Création des boutiques"
+msgstr "Create Stores"
+
+#: language/nexo_lang.php:72
+msgid "Suppression des boutiques"
+msgstr "Delete Stores"
+
+#: language/nexo_lang.php:73
+msgid "Modification des boutiques"
+msgstr "Edit Stores"
+
+#: language/nexo_lang.php:74
+msgid "Servir dans une boutique"
+msgstr "Serve in a store"
+
+#: language/nexo_lang.php:75
+msgid "Cet utilisateur pourra créer des boutiques"
+msgstr "This user can create store"
+
+#: language/nexo_lang.php:76
+msgid "Cet utilisateur pourra supprimer des boutiques"
+msgstr "This user may delete store"
+
+#: language/nexo_lang.php:77
+msgid "Cet utilisateur pourra modifier des boutiques"
+msgstr "This user may modify store"
+
+#: language/nexo_lang.php:78
+msgid "Cet utilisateur pourra servir dans une boutique"
+msgstr "This user can be used in a store"
+
+#: language/nexo_lang.php:83
+msgid "Indisponible"
+msgstr "Not Available"
+
+#: main.php:532
 msgid "Profil"
 msgstr "Profile"
 
-#: main.php:546
+#: main.php:558
 msgid "Types de commades"
 msgstr "Order type"
+
+#: main.php:605
+msgid "Note"
+msgstr "Note"
+
+#: main.php:605
+#, php-format
+msgid "%s Note"
+msgstr "%s Note"
 
 #: views/arrivages-list.php:8
 msgid "Gestion & Création des livraisons"
@@ -1232,209 +1830,210 @@ msgstr "Creation & Management items"
 #: views/bon_davoir-list.php:8 views/rayons-list.php:8
 #, fuzzy
 msgid "Gestion & Création des rayons"
-msgstr "Creation & Management rays"
+msgstr "Management & Creation of rays"
 
 #: views/categories-list.php:8
 #, fuzzy
 msgid "Gestion & Création des categories"
-msgstr "Creation & Management Categories"
+msgstr "Management & Creation of categories"
 
-#: views/checkout/v2/col_1.php:15
+#: views/checkout/v2/col_1.php:12
 msgid "Choisir un client"
 msgstr "Please choose a customer"
 
-#: views/checkout/v2/col_1.php:16 views/checkout/v2/script.php:898
+#: views/checkout/v2/col_1.php:13 views/checkout/v2/script.php:1189
 msgid "Veuillez choisir un client"
 msgstr "Please choose a customer"
 
-#: views/checkout/v2/col_1.php:17
+#: views/checkout/v2/col_1.php:14
 msgid "Sélectionner un client"
 msgstr "Please choose a customer."
 
-#: views/checkout/v2/col_1.php:29
+#: views/checkout/v2/col_1.php:27
 msgid "Article"
 msgstr "Items"
 
-#: views/checkout/v2/col_1.php:30 views/commandes-dom - Deprecated.php:23
-#, fuzzy
-msgid "Prix Unitaire"
-msgstr "Unit Price"
-
-#: views/checkout/v2/col_1.php:31 views/commandes-dom - Deprecated.php:24
-#, fuzzy
-msgid "Quantité"
-msgstr "quantity"
-
-#: views/checkout/v2/col_1.php:32 views/commandes-dom - Deprecated.php:25
+#: views/checkout/v2/col_1.php:30 views/commandes-dom - Deprecated.php:25
 #, fuzzy
 msgid "Prix Total"
 msgstr "Total Price"
 
-#: views/checkout/v2/col_1.php:40 views/checkout/v2/script.php:550
+#: views/checkout/v2/col_1.php:38 views/checkout/v2/script.php:692
 msgid "Veuillez ajouter un produit..."
 msgstr "Please add an item"
 
-#: views/checkout/v2/col_1.php:53
+#: views/checkout/v2/col_1.php:51
 msgid "Net hors taxe"
 msgstr "Net Excluding Tax"
 
-#: views/checkout/v2/col_1.php:63 views/checkout/v2/col_1.php:101
+#: views/checkout/v2/col_1.php:61 views/checkout/v2/col_1.php:101
 msgid "Remise"
 msgstr "Discount"
 
-#: views/checkout/v2/col_1.php:72
+#: views/checkout/v2/col_1.php:70
 #, php-format
 msgid "TVA (%s%%)"
 msgstr "VAT (%s %%):"
 
-#: views/checkout/v2/col_1.php:83
+#: views/checkout/v2/col_1.php:81
 msgid "Net à payer"
 msgstr "Net Payable"
 
-#: views/checkout/v2/col_1.php:95 views/commandes-dom - Deprecated.php:130
+#: views/checkout/v2/col_1.php:94 views/commandes-dom - Deprecated.php:130
 #: views/commandes-script2 Deprecated.php:40
 msgid "Payer"
 msgstr "Pay"
 
-#: views/checkout/v2/col_1.php:107 views/checkout/v2/script.php:1539
+#: views/checkout/v2/col_1.php:108 views/checkout/v2/script.php:1879
 msgid "Annuler"
 msgstr "Cancel"
 
-#: views/checkout/v2/col_2.php:4 views/guides/checkout.php:22
-#, fuzzy
-msgid "Liste des produits"
-msgstr "List Item"
-
-#: views/checkout/v2/col_2.php:9 views/checkout/v2/options.php:2
-msgid "Filtrer les catégories"
-msgstr "Filter Categories"
-
-#: views/checkout/v2/col_2.php:17
+#: views/checkout/v2/col_2.php:6 views/checkout/v2/col_2.php:47
 msgid "Rechercher"
 msgstr "Search"
 
-#: views/checkout/v2/col_2.php:19
+#: views/checkout/v2/col_2.php:8
+msgid "Codebarre, UGS, nom du produit ou de la catégorie..."
+msgstr "Barcode, SKU, product name or category ..."
+
+#: views/checkout/v2/col_2.php:49
 msgid "Codebarre ou UGS..."
 msgstr "Barcodes or SKU..."
+
+#: views/checkout/v2/col_2.php:53 views/checkout/v2/options.php:2
+msgid "Filtrer les catégories"
+msgstr "Filter Categories"
 
 #: views/checkout/v2/options.php:6
 msgid "Masquer les options"
 msgstr "Hide options"
 
-#: views/checkout/v2/script.php:223
+#: views/checkout/v2/script.php:192
 msgid "Définir la quantité à  ajouter"
 msgstr "Set the quantity to add"
 
-#: views/checkout/v2/script.php:237
+#: views/checkout/v2/script.php:205
+msgid "Ajouter une note à la commande"
+msgstr "Add a note to the order"
+
+#: views/checkout/v2/script.php:207
+msgid "Note de la commande"
+msgstr "Order Note"
+
+#: views/checkout/v2/script.php:209
+msgid "Cette note sera rattachée à la commande en cours."
+msgstr "This note will be attached to the current order."
+
+#: views/checkout/v2/script.php:294
 msgid "Souhaitez-vous annuler la réduction de groupe ?"
 msgstr "Do you want to disable group discount ?"
 
-#: views/checkout/v2/script.php:258
+#: views/checkout/v2/script.php:315
 msgid "Souhaitez-vous annuler cette remise ?"
 msgstr "Do you really like to cancel this discount?"
 
-#: views/checkout/v2/script.php:281
+#: views/checkout/v2/script.php:338
 msgid "Souhaitez-vous annuler cette ristourne ?"
 msgstr "Do you want to cancel this refund ?"
 
-#: views/checkout/v2/script.php:300
+#: views/checkout/v2/script.php:357
 msgid "Appliquer une remise"
 msgstr "Apply Discount"
 
-#: views/checkout/v2/script.php:303
+#: views/checkout/v2/script.php:360
 msgid "Pourcentage"
 msgstr "Percentage"
 
-#: views/checkout/v2/script.php:305
+#: views/checkout/v2/script.php:362
 msgid "Définir le montant ou le pourcentage ici..."
 msgstr "Define the amount or percentage here..."
 
-#: views/checkout/v2/script.php:307
+#: views/checkout/v2/script.php:364
 #, fuzzy
 msgid "Espèces"
 msgstr "Cash"
 
-#: views/checkout/v2/script.php:315 views/checkout/v2/script.php:1378
+#: views/checkout/v2/script.php:372 views/checkout/v2/script.php:1718
 #, fuzzy
 msgid "7"
 msgstr "Turnover these last 7 days"
 
-#: views/checkout/v2/script.php:318 views/checkout/v2/script.php:1381
+#: views/checkout/v2/script.php:375 views/checkout/v2/script.php:1721
 #, fuzzy
 msgid "8"
 msgstr "8"
 
-#: views/checkout/v2/script.php:321 views/checkout/v2/script.php:1384
+#: views/checkout/v2/script.php:378 views/checkout/v2/script.php:1724
 #, fuzzy
 msgid "9"
 msgstr "9"
 
-#: views/checkout/v2/script.php:324
+#: views/checkout/v2/script.php:381
 msgid "Retour arrière"
 msgstr "Go Back"
 
-#: views/checkout/v2/script.php:330 views/checkout/v2/script.php:1393
+#: views/checkout/v2/script.php:387 views/checkout/v2/script.php:1733
 #, fuzzy
 msgid "4"
 msgstr "4"
 
-#: views/checkout/v2/script.php:333 views/checkout/v2/script.php:1396
+#: views/checkout/v2/script.php:390 views/checkout/v2/script.php:1736
 #, fuzzy
 msgid "5"
 msgstr "5"
 
-#: views/checkout/v2/script.php:336 views/checkout/v2/script.php:1399
+#: views/checkout/v2/script.php:393 views/checkout/v2/script.php:1739
 #, fuzzy
 msgid "6"
 msgstr "6"
 
-#: views/checkout/v2/script.php:339
+#: views/checkout/v2/script.php:396
 msgid "Vider"
 msgstr "Clear"
 
-#: views/checkout/v2/script.php:345 views/checkout/v2/script.php:1408
+#: views/checkout/v2/script.php:402 views/checkout/v2/script.php:1748
 #, fuzzy
 msgid "1"
 msgstr "1"
 
-#: views/checkout/v2/script.php:348 views/checkout/v2/script.php:1411
+#: views/checkout/v2/script.php:405 views/checkout/v2/script.php:1751
 #, fuzzy
 msgid "2"
 msgstr "2"
 
-#: views/checkout/v2/script.php:351 views/checkout/v2/script.php:1414
+#: views/checkout/v2/script.php:408 views/checkout/v2/script.php:1754
 #, fuzzy
 msgid "3"
 msgstr "3"
 
-#: views/checkout/v2/script.php:357
+#: views/checkout/v2/script.php:414
 #, fuzzy
 msgid "00"
 msgstr "00"
 
-#: views/checkout/v2/script.php:360 views/checkout/v2/script.php:1423
+#: views/checkout/v2/script.php:417 views/checkout/v2/script.php:1763
 #, fuzzy
 msgid "0"
 msgstr "0"
 
-#: views/checkout/v2/script.php:372
+#: views/checkout/v2/script.php:429
 msgid "Vous devez définir un pourcentage ou une somme."
 msgstr "You set a percentage or an amount."
 
-#: views/checkout/v2/script.php:406
+#: views/checkout/v2/script.php:463
 msgid " : <span class=\"label label-primary\">au pourcentage</span>"
 msgstr ": <span class=\"label label-primary\">percentage</span>"
 
-#: views/checkout/v2/script.php:423
+#: views/checkout/v2/script.php:480
 msgid " : <span class=\"label label-info\">à prix fixe</span>"
 msgstr ": <span class=\"label label-info\">fixed price</span>"
 
-#: views/checkout/v2/script.php:453 views/checkout/v2/script.php:754
+#: views/checkout/v2/script.php:510 views/checkout/v2/script.php:937
 #: views/product-script.php:61 views/settings/reset-script.php:74
 msgid "Attention"
 msgstr "Warning"
 
-#: views/checkout/v2/script.php:453
+#: views/checkout/v2/script.php:510
 msgid ""
 "La remise fixe ne peut pas excéder la valeur actuelle du panier. Le montant "
 "de la remise à été réduite à la valeur du panier."
@@ -1442,61 +2041,73 @@ msgstr ""
 "The fixed discount cannot exceed the current value of the cart. The amount "
 "of the discount was reduced to the current value of the cart."
 
-#: views/checkout/v2/script.php:588 views/checkout/v2/script.php:597
+#: views/checkout/v2/script.php:573
+msgid "Modifier l'article :"
+msgstr "Edit item"
+
+#: views/checkout/v2/script.php:577
+msgid "Définir un prix de vente"
+msgstr "Set a selling price"
+
+#: views/checkout/v2/script.php:578
+msgid "Seuil :"
+msgstr "Threshold:"
+
+#: views/checkout/v2/script.php:583
+msgid "Produit introuvable"
+msgstr "Product not found"
+
+#: views/checkout/v2/script.php:593
+msgid "Le nouveau prix ne peut pas être inférieur au prix minimal (seuil)"
+msgstr "The new price can not be lower than the minimum price (threshold)"
+
+#: views/checkout/v2/script.php:735 views/checkout/v2/script.php:744
 msgid "Remise : "
 msgstr "Discount:"
 
-#: views/checkout/v2/script.php:625 views/checkout/v2/script.php:632
+#: views/checkout/v2/script.php:772 views/checkout/v2/script.php:779
 msgid "Ristourne : "
 msgstr "Refund :"
 
-#: views/checkout/v2/script.php:653 views/checkout/v2/script.php:659
+#: views/checkout/v2/script.php:800 views/checkout/v2/script.php:806
 msgid "Remise de groupe : "
 msgstr "Group discount :"
 
-#: views/checkout/v2/script.php:682
-msgid ""
-"Souhaitez-vous annuler la récente modification et revenir à la liste des "
-"commandes ?"
-msgstr "Would you undo the recent change and return to the sales list ?"
+#: views/checkout/v2/script.php:829
+msgid "Souhaitez-vous annuler cette commande ?"
+msgstr "Would you like to cancel this order?"
 
-#: views/checkout/v2/script.php:754
+#: views/checkout/v2/script.php:937
 msgid ""
 "La carte de crédit doit d'abord être facturée avant de valider la commande."
 msgstr "The credit card must be charged before validating the order."
 
-#: views/checkout/v2/script.php:758 views/checkout/v2/script.php:1283
-#: views/checkout/v2/script.php:1776 views/checkout/v2/script.php:1791
-#: views/checkout/v2/script.php:1836
-msgid "Une erreur s'est produite"
-msgstr "An error has occurred."
-
-#: views/checkout/v2/script.php:758
+#: views/checkout/v2/script.php:952
 msgid "Impossible de reconnaitre le moyen de paiement."
 msgstr "Unable to recognize the payment means."
 
-#: views/checkout/v2/script.php:776 views/checkout/v2/script.php:1813
+#: views/checkout/v2/script.php:976 views/checkout/v2/script.php:2177
 msgid "Veuillez patienter"
 msgstr "Please wait"
 
-#: views/checkout/v2/script.php:776 views/checkout/v2/script.php:1813
+#: views/checkout/v2/script.php:976 views/checkout/v2/script.php:2177
 msgid "Paiement en cours..."
 msgstr "Payment in process..."
 
-#: views/checkout/v2/script.php:786 views/checkout/v2/script.php:797
-#: views/checkout/v2/script.php:809 views/checkout/v2/script.php:811
+#: views/checkout/v2/script.php:995 views/checkout/v2/script.php:1014
+#: views/checkout/v2/script.php:1029 views/checkout/v2/script.php:1034
 msgid "Effectué"
 msgstr "Done"
 
-#: views/checkout/v2/script.php:786
+#: views/checkout/v2/script.php:996
 msgid "La commande est en cours d'impression."
 msgstr "The order is being printed."
 
-#: views/checkout/v2/script.php:797
+#: views/checkout/v2/script.php:1015
 msgid "La commande a été enregistrée."
 msgstr "The order has been saved."
 
-#: views/checkout/v2/script.php:809
+#: views/checkout/v2/script.php:1030
 msgid ""
 "La commande a été enregistrée, mais ne peut pas être imprimée tant qu'elle "
 "n'est pas complète."
@@ -1504,63 +2115,89 @@ msgstr ""
 "The order has been registered, but cannot be printed as long as it is not "
 "complete."
 
-#: views/checkout/v2/script.php:811
+#: views/checkout/v2/script.php:1035
 msgid "La commande a été enregistrée"
 msgstr "The order has been saved."
 
-#: views/checkout/v2/script.php:869 views/commandes-script - Deprecated.php:21
+#: views/checkout/v2/script.php:1069 views/checkout/v2/script.php:1604
+#: views/checkout/v2/script.php:2140 views/checkout/v2/script.php:2155
+#: views/checkout/v2/script.php:2200
+msgid "Une erreur s'est produite"
+msgstr "An error has occurred."
+
+#: views/checkout/v2/script.php:1069
+msgid "Le paiement n'a pas pu être effectuée."
+msgstr "The payment could not be made."
+
+#: views/checkout/v2/script.php:1085
+msgid "Veuillez définir le montant initiale de la caisse"
+msgstr "Please set outlet initial balance"
+
+#: views/checkout/v2/script.php:1087
+msgid "Avant de continuer, vous devez définir un montant."
+msgstr "Before continuing, you must set an amount."
+
+#: views/checkout/v2/script.php:1096
+msgid ""
+"Le montant spécifié est incorrecte. Veuillez spécifier une valeur supérieure "
+"ou égale à \"0\"."
+msgstr ""
+"The specified amount is incorrect. Please specify a value greater or equal "
+"to \"0\"."
+
+#: views/checkout/v2/script.php:1160 views/commandes-script - Deprecated.php:21
 #, fuzzy
 msgid ""
 "Toutes les autres informations comme la \"date de naissance\" pourront être "
 "remplis ultérieurement."
 msgstr "All other information like \"date of birth\" may be filled later."
 
-#: views/checkout/v2/script.php:873 views/commandes-script - Deprecated.php:25
+#: views/checkout/v2/script.php:1164 views/commandes-script - Deprecated.php:25
 #, fuzzy
 msgid "Name"
 msgstr "Name"
 
-#: views/checkout/v2/script.php:879 views/commandes-script - Deprecated.php:31
+#: views/checkout/v2/script.php:1170 views/commandes-script - Deprecated.php:31
 msgid "Prénom"
 msgstr "First Name"
 
-#: views/checkout/v2/script.php:891 views/commandes-script - Deprecated.php:43
+#: views/checkout/v2/script.php:1182 views/commandes-script - Deprecated.php:43
 #, fuzzy
 msgid "Téléphone"
 msgstr "Phone:"
 
-#: views/checkout/v2/script.php:896
+#: views/checkout/v2/script.php:1187
 msgid "Groupe du client"
 msgstr "Customer Group"
 
-#: views/checkout/v2/script.php:935
+#: views/checkout/v2/script.php:1226
 msgid "Vous devez définir le nom du client"
 msgstr "You must provide a name for le new customer"
 
-#: views/checkout/v2/script.php:940
+#: views/checkout/v2/script.php:1231
 msgid "Vous devez choisir un groupe pour le client"
 msgstr "You must assign the customer to a group"
 
-#: views/checkout/v2/script.php:1103
+#: views/checkout/v2/script.php:1394
 msgid "Une erreur s'est produite durant la récupération des clients"
 msgstr "An error occurred during the data recovery"
 
-#: views/checkout/v2/script.php:1121
+#: views/checkout/v2/script.php:1412
 msgid ""
 "Une erreur s'est produite durant la récupération des groupes des clients"
 msgstr "An error occurred during recovery of the client groups data"
 
-#: views/checkout/v2/script.php:1196
+#: views/checkout/v2/script.php:1506
 msgid ""
 "Vous ne pouvez pas procéder à une vente, car aucun article n'est disponible "
 "pour la vente."
 msgstr "You cannot proceed with a sale, because no item is available for sale."
 
-#: views/checkout/v2/script.php:1239 views/checkout/v2/script.php:1265
+#: views/checkout/v2/script.php:1549 views/checkout/v2/script.php:1575
 msgid "Stock épuisé"
 msgstr "Out of Stock"
 
-#: views/checkout/v2/script.php:1240
+#: views/checkout/v2/script.php:1550
 msgid ""
 "Impossible d'ajouter ce produit. La quantité restante du produit n'est pas "
 "suffisante."
@@ -1568,7 +2205,7 @@ msgstr ""
 "Cannot add this product. The remaining quantity of the product is not "
 "sufficient."
 
-#: views/checkout/v2/script.php:1251
+#: views/checkout/v2/script.php:1561
 msgid ""
 "Défininr \"0\" comme quantité, retirera le produit du panier. Voulez-vous "
 "continuer ?"
@@ -1576,15 +2213,15 @@ msgstr ""
 "Defininr \"0\" as the quantity, remove the product from the cart. Do you "
 "want to continue?"
 
-#: views/checkout/v2/script.php:1266
+#: views/checkout/v2/script.php:1576
 msgid "Impossible d'ajouter ce produit, car son stock est épuisé."
 msgstr "Cannot add to the cart since it's out of Stock!"
 
-#: views/checkout/v2/script.php:1278
+#: views/checkout/v2/script.php:1599
 msgid "Erreur sur le code/article"
 msgstr "Error on the code/item"
 
-#: views/checkout/v2/script.php:1278
+#: views/checkout/v2/script.php:1599
 msgid ""
 "Impossible de récupérer l'article, ce dernier est introuvable ou le code "
 "envoyé est incorrecte."
@@ -1592,77 +2229,77 @@ msgstr ""
 "Unable to retrieve the article, the latter is not found or the sent code is "
 "incorrect."
 
-#: views/checkout/v2/script.php:1283
+#: views/checkout/v2/script.php:1604
 msgid ""
 "Impossible de récupérer les données. L'article recherché est introuvable."
 msgstr "Unable to retrieve the data. The item you are looking is not found."
 
-#: views/checkout/v2/script.php:1301
+#: views/checkout/v2/script.php:1641
 msgid "Une erreur s'est produite durant la récupération des produits"
 msgstr "An error occurred during the data recovery"
 
-#: views/checkout/v2/script.php:1387
+#: views/checkout/v2/script.php:1727
 #, fuzzy
 msgid "+"
 msgstr "+"
 
-#: views/checkout/v2/script.php:1402
+#: views/checkout/v2/script.php:1742
 #, fuzzy
 msgid "-"
 msgstr "-"
 
-#: views/checkout/v2/script.php:1426
+#: views/checkout/v2/script.php:1766
 msgid "."
 msgstr "."
 
-#: views/checkout/v2/script.php:1521
+#: views/checkout/v2/script.php:1861
 msgid "Impossible de continuer"
 msgstr "Unable to proceed"
 
-#: views/checkout/v2/script.php:1521
+#: views/checkout/v2/script.php:1861
 msgid ""
 "Vous ne pouvez pas valider une commande sans article. Veuillez ajouter au "
 "moins un article."
 msgstr ""
 "You cannot validate an order without item. Please add at least one item."
 
-#: views/checkout/v2/script.php:1527
+#: views/checkout/v2/script.php:1867
 msgid "Paiement de la commande"
 msgstr "Order Payment"
 
-#: views/checkout/v2/script.php:1530
+#: views/checkout/v2/script.php:1870
 msgid "Valider & Payer"
 msgstr "Confirm & Pay"
 
-#: views/checkout/v2/script.php:1583
+#: views/checkout/v2/script.php:1923
 msgid "Détails du panier"
 msgstr "Cart Details"
 
-#: views/checkout/v2/script.php:1648
+#: views/checkout/v2/script.php:1988
 msgid "Paiement Comptant : "
 msgstr "Cash Payment : "
 
-#: views/checkout/v2/script.php:1649
+#: views/checkout/v2/script.php:1989
 msgid "Veuillez spécifier la somme perçue..."
 msgstr "Please specify the amount collected..."
 
-#: views/checkout/v2/script.php:1653
+#: views/checkout/v2/script.php:1993
 msgid "Somme a rembourser"
 msgstr "To be refunded/invoiced"
 
-#: views/checkout/v2/script.php:1656
+#: views/checkout/v2/script.php:1996
 msgid "Créance"
 msgstr "Receivables"
 
-#: views/checkout/v2/script.php:1663
+#: views/checkout/v2/script.php:2003
 msgid "Veuillez définir le montant perçu"
 msgstr "Please define the amount collected"
 
-#: views/checkout/v2/script.php:1681
+#: views/checkout/v2/script.php:2021
 msgid "Transfert Bancaire : "
 msgstr "Bank Transfer : "
 
-#: views/checkout/v2/script.php:1682
+#: views/checkout/v2/script.php:2022
 msgid ""
 "Un paiement par transfert bancaire paie entièrement la commande. Assurez-"
 "vous que transfert banciare est émis pour le compte de votre point de vente "
@@ -1672,11 +2309,11 @@ msgstr ""
 "transfer is issued on behalf of your point of sale on the occasion of the "
 "current sale."
 
-#: views/checkout/v2/script.php:1690
+#: views/checkout/v2/script.php:2030
 msgid "Paiement par Stripe : "
 msgstr "Stripe Payment : "
 
-#: views/checkout/v2/script.php:1691
+#: views/checkout/v2/script.php:2031
 msgid ""
 "Activer le paiement avec Stripe. Le paiement sera intégrale. La carte de "
 "crédit sera facturée. Si l'opération de paiement réussie, la commande sera "
@@ -1686,7 +2323,7 @@ msgstr ""
 "charged. If the payment transaction is successful, the order will be "
 "validated and registered."
 
-#: views/checkout/v2/script.php:1694
+#: views/checkout/v2/script.php:2034
 #, php-format
 msgid ""
 "Pour tester stripe, vous pouvez utiliser des numéros de carte de crédit "
@@ -1698,15 +2335,15 @@ msgstr ""
 "use: <strong>4242 4242 4242 4242</strong>.<br>Find all the lists of the "
 "cards to test on <a href=\"%s\">Stripe</a>."
 
-#: views/checkout/v2/script.php:1697
+#: views/checkout/v2/script.php:2037
 msgid "Facturer la carte de crédit Stripe"
 msgstr "Charge Stripe Credit Card"
 
-#: views/checkout/v2/script.php:1769
+#: views/checkout/v2/script.php:2133
 msgid ": produit(s) acheté(s)"
 msgstr ": item (s) purchased (s)"
 
-#: views/checkout/v2/script.php:1776
+#: views/checkout/v2/script.php:2140
 msgid ""
 "Vous n'avez pas définit la \"publishable key\" dans les réglages stripe. Le "
 "paiement par ce moyen ne fonctionnera pas."
@@ -1714,7 +2351,7 @@ msgstr ""
 "You haven't defined the \"publishable key\" in the stripe settings. The "
 "payment using Strip won't work."
 
-#: views/checkout/v2/script.php:1791
+#: views/checkout/v2/script.php:2155
 msgid ""
 "Stripe ne s'est pas chargé correctement. Le paiement via ce dernier ne "
 "fonctionnera pas. Veuillez rafraichir la page."
@@ -1722,7 +2359,7 @@ msgstr ""
 "Stripe is not loaded properly. Payment via the latter will not work. Please "
 "refresh the page."
 
-#: views/checkout/v2/script.php:1836
+#: views/checkout/v2/script.php:2200
 msgid ""
 "Le paiement n'a pu être effectuée. Une erreur s'est produite durant la "
 "facturation de la carte de crédit.<br>Le serveur à retourner cette erreur : "
@@ -1730,7 +2367,7 @@ msgstr ""
 "The payment could be made. An error occurred during the credit card billing."
 "<br>The server to return this error:"
 
-#: views/checkout/v2/script.php:2098
+#: views/checkout/v2/script.php:2492
 msgid ""
 "Le processus de commande a commencé. Si vous continuez, vous perdrez toutes "
 "les informations non enregistrées"
@@ -1741,7 +2378,7 @@ msgstr ""
 #: views/clients-list.php:8
 #, fuzzy
 msgid "Gestion & Création des clients"
-msgstr "Creating & Managing Customer"
+msgstr "Management & creating clients"
 
 #: views/commandes-dom - Deprecated.php:9
 msgid "Articles disponibles"
@@ -1781,10 +2418,6 @@ msgstr "Tax Included"
 msgid "Perçu :"
 msgstr "Perceived Sum :"
 
-#: views/commandes-dom - Deprecated.php:116 views/receipts/default.php:241
-msgid "Reste :"
-msgstr "Remain:"
-
 #: views/commandes-dom - Deprecated.php:134 views/reports/daily.php:5
 #, fuzzy
 msgid "Imprimer"
@@ -1803,7 +2436,7 @@ msgstr "Order Modification"
 #: views/commandes-list.php:8
 #, fuzzy
 msgid "Gestion & Création des commandes"
-msgstr "Creation & Management of orders"
+msgstr "Management & Creation commands"
 
 #: views/commandes-new - Deprecated.php:9
 msgid "Nouvelle commande"
@@ -1831,7 +2464,7 @@ msgstr "Remove"
 #: Deprecated.php:818
 #, fuzzy
 msgid "Ajouter"
-msgstr "Set the quantity to add"
+msgstr "Add a register &mdash; Nexo"
 
 #: views/commandes-script - Deprecated.php:190
 #, fuzzy
@@ -1868,7 +2501,7 @@ msgstr "The invoice was saved."
 #: views/commandes-script - Deprecated.php:471
 #, fuzzy
 msgid "Veuillez patienter SVP."
-msgstr "Please wait."
+msgstr "Please be patient"
 
 #: views/commandes-script - Deprecated.php:472
 msgid "La commande est en cours de rafraichissement."
@@ -1950,7 +2583,7 @@ msgstr "Register a new customer"
 #: views/commandes-script - Deprecated.php:866
 #, fuzzy
 msgid "Souhaitez-vous confirmer cette commande ?"
-msgstr "Would you confirm this order?"
+msgstr "Would you confirm this command?"
 
 #: views/commandes-script - Deprecated.php:949
 msgid ""
@@ -1983,7 +2616,7 @@ msgstr "Edit"
 #: views/fournisseurs-list.php:8
 #, fuzzy
 msgid "Gestion & Création des fournisseurs"
-msgstr "Creation & Management of suppliers"
+msgstr "Management & Creation of suppliers"
 
 #: views/guides/checkout.php:8 views/guides/checkout.php:37
 msgid "Détails de la commande"
@@ -2009,6 +2642,11 @@ msgid ""
 msgstr ""
 "This area primarily allows you to add a product using a bar code reader. You "
 "can also use the list of products available by clicking on \"List\"."
+
+#: views/guides/checkout.php:22
+#, fuzzy
+msgid "Liste des produits"
+msgstr "Products list"
 
 #: views/guides/checkout.php:23
 msgid ""
@@ -2039,13 +2677,13 @@ msgid ""
 "Cette section affiche les détails de la commande. Le montant de la "
 "commandee, les taxes, la rémise, la somme perçu, et la somme à rembourser."
 msgstr ""
-"This section displays the order details. The amount of the controlled, "
-"taxes, delivery, the perceived amount, and the amount to be repaid."
+"This section displays the order details. The amount of the orders, taxes, "
+"delivery, the perceived amount, and the amount to be repaid."
 
 #: views/paiements-list.php:8
 #, fuzzy
 msgid "Gestion & Création des moyens de paiements"
-msgstr "Creation & Management of means of payments"
+msgstr "Management & Creation of means of payment"
 
 #: views/product-script.php:51
 #, fuzzy
@@ -2063,143 +2701,172 @@ msgstr ""
 "The specified stock management unit is already in use. Please define one "
 "another."
 
-#: views/product-script.php:68 views/receipts/default.php:57
+#: views/product-script.php:68 views/receipts/default-backup.php:57
+#: views/receipts/default.php:52
 #, fuzzy
 msgid "Prix"
-msgstr "Price"
+msgstr "All Shadow Prices"
 
+#: views/products-labels/default-default.php:19
 #: views/products-labels/default.php:19
 #, fuzzy, php-format
 msgid "Etiquettes des produits : %s &mdash; Nexo POS"
 msgstr "Product Tags:%s - Nexo POS"
 
+#: views/products-labels/default-default.php:30
 #: views/products-labels/default.php:30
 msgid "Circonscrire les articles"
 msgstr "Circumscribe Items"
 
+#: views/products-labels/default-default.php:32
 #: views/products-labels/default.php:32
 msgid "Spécifier les identifiants des produits"
 msgstr "Specify item identifiers"
 
+#: views/products-labels/default-default.php:39
 #: views/products-labels/default.php:39
 #, fuzzy
 msgid "Revenir à la liste des collections"
 msgstr "Back to the list of collections"
 
+#: views/products-labels/default-default.php:42
 #: views/products-labels/default.php:42
 #, fuzzy
 msgid "Désactiver le cache"
 msgstr "Disable Cache"
 
+#: views/products-labels/default-default.php:50
 #: views/products-labels/default.php:50
 msgid "Etiquettes des produits"
 msgstr "Item labels"
 
-#: views/products-labels/default.php:71
+#: views/products-labels/default-default.php:71
 #, fuzzy, php-format
 msgid "Nom : %s"
 msgstr "Username: %s"
 
-#: views/products-labels/default.php:73
+#: views/products-labels/default-default.php:73
 #, php-format
 msgid "<strong>Prix de vente</strong> : %s"
 msgstr "<strong>Sales Price</strong> : %s"
 
-#: views/products-labels/default.php:79
+#: views/products-labels/default-default.php:79
 #, php-format
 msgid "<strong>Collection</strong> : %s"
 msgstr "<strong>Collection </strong>: %s"
 
-#: views/products-labels/default.php:81
+#: views/products-labels/default-default.php:81
 #, php-format
 msgid "<strong>Code Barre</strong> : %s"
 msgstr "<strong>Barcode</strong> : %s"
 
-#: views/products-labels/default.php:101
+#: views/products-labels/default-default.php:101
+#: views/products-labels/default.php:123
 msgid "Aucun produit disponible"
 msgstr "No item available"
 
-#: views/receipts/default.php:17
+#: views/receipts/default-backup.php:17 views/receipts/default.php:17
 #, php-format
 msgid "Order ID : %s &mdash; Nexo Shop Receipt"
 msgstr "Order ID : %s - Nexo Shop Receipt"
 
-#: views/receipts/default.php:35
+#: views/receipts/default-backup.php:35
 msgid "Téléphone:"
 msgstr "Phone:"
 
-#: views/receipts/default.php:40
+#: views/receipts/default-backup.php:40
 msgid "Date: %d/%m/%Y %h:%i:%s"
 msgstr "Date: %d/%m/%Y %h:%i:%s"
 
-#: views/receipts/default.php:41
+#: views/receipts/default-backup.php:41
 #, php-format
 msgid "ID : #%s"
 msgstr "Order ID : %s - Nexo Shop Receipt"
 
-#: views/receipts/default.php:43
+#: views/receipts/default-backup.php:43
 #, php-format
 msgid "Statut de la commande: %s"
 msgstr "Order Status: %s"
 
-#: views/receipts/default.php:44
+#: views/receipts/default-backup.php:44
 #, php-format
 msgid "Caissier : %s"
 msgstr "Cashier: %s"
 
-#: views/receipts/default.php:50
+#: views/receipts/default-backup.php:50 views/receipts/default.php:45
 #, fuzzy
 msgid "Ticket de caisse"
 msgstr "Sales receipt"
 
-#: views/receipts/default.php:56
+#: views/receipts/default-backup.php:56 views/receipts/default.php:51
 msgid "Produits"
 msgstr "Items"
 
-#: views/receipts/default.php:112 views/receipts/default.php:134
-#: views/receipts/default.php:149 views/receipts/default.php:164
-#: views/receipts/default.php:179 views/receipts/default.php:199
-#: views/receipts/default.php:212 views/receipts/default.php:233
+#: views/receipts/default-backup.php:113 views/receipts/default-backup.php:135
+#: views/receipts/default-backup.php:150 views/receipts/default-backup.php:165
+#: views/receipts/default-backup.php:180 views/receipts/default-backup.php:200
+#: views/receipts/default-backup.php:213 views/receipts/default-backup.php:234
+#: views/receipts/default.php:108 views/receipts/default.php:130
+#: views/receipts/default.php:145 views/receipts/default.php:160
+#: views/receipts/default.php:175 views/receipts/default.php:195
+#: views/receipts/default.php:208 views/receipts/default.php:229
 #, php-format
 msgid "%s %s %s"
 msgstr "%s %s %s"
 
-#: views/receipts/default.php:121
+#: views/receipts/default-backup.php:122 views/receipts/default.php:117
 msgid "Hors Taxe (HT)"
 msgstr "Excluding tax (VAT)"
 
-#: views/receipts/default.php:144
+#: views/receipts/default-backup.php:145 views/receipts/default.php:140
 msgid "Remise automatique"
 msgstr "Automatic Discount"
 
-#: views/receipts/default.php:159
+#: views/receipts/default-backup.php:160 views/receipts/default.php:155
 #, fuzzy
 msgid "Remise expresse"
 msgstr "Express Release"
 
-#: views/receipts/default.php:174
+#: views/receipts/default-backup.php:175 views/receipts/default.php:170
 msgid "Net Hors Taxe"
 msgstr "Net Excluding Tax"
 
-#: views/receipts/default.php:207
+#: views/receipts/default-backup.php:208 views/receipts/default.php:203
 msgid "TTC"
 msgstr "Tax Included"
 
-#: views/receipts/default.php:241
+#: views/receipts/default-backup.php:242 views/receipts/default.php:237
 msgid "&Agrave; percevoir :"
 msgstr "To recover"
 
-#: views/receipts/default.php:266 views/receipts/default.php:279
+#: views/receipts/default-backup.php:267 views/receipts/default-backup.php:280
+#: views/receipts/default.php:263 views/receipts/default.php:276
 msgid "Revenir à la liste des commandes"
 msgstr "Return to the Orders list"
 
-#: views/receipts/default.php:275
+#: views/receipts/default-backup.php:276 views/receipts/default.php:272
 msgid ""
 "Une erreur s'est produite durant l'affichage de ce reçu. La commande "
 "concernée semble ne pas être valide ou ne dispose d'aucun produit."
 msgstr ""
 "An error occurred during the display of this receipt. The relevant command "
 "seems not to be valid or does not have any product."
+
+#: views/registers.php:8
+msgid "Caisses Enregistreuse"
+msgstr "Registers"
+
+#: views/registers/for_cashiers_dom.php:149
+msgid "Utiliser"
+msgstr "Use it"
+
+#: views/registers/for_cashiers_dom.php:156
+msgid "Caisse Fermée"
+msgstr "Register Closed"
+
+#: views/registers/for_cashiers_dom.php:184
+msgid "Une ereur s'est produite durant le chargement des caisses"
+msgstr "An error occurred while loading registers."
 
 #: views/reports/daily.php:5
 msgid "Vider le cache"
@@ -2257,27 +2924,27 @@ msgstr "Loading in progress…"
 msgid "Détails du mois : %s"
 msgstr "Details month:%s"
 
-#: views/reports/daily.php:231 views/reports/daily.php:270
+#: views/reports/daily.php:231 views/reports/daily.php:271
 msgid "Ca :"
 msgstr "Sal :"
 
-#: views/reports/daily.php:237 views/reports/daily.php:276
+#: views/reports/daily.php:237 views/reports/daily.php:277
 msgid "Cc :"
 msgstr "Se :"
 
-#: views/reports/daily.php:242 views/reports/daily.php:272
+#: views/reports/daily.php:242 views/reports/daily.php:273
 msgid "CaN :"
 msgstr "Nr :"
 
-#: views/reports/daily.php:247 views/reports/daily.php:274
+#: views/reports/daily.php:247 views/reports/daily.php:275
 msgid "Cr :"
 msgstr "Rs :"
 
-#: views/reports/daily.php:252 views/reports/daily.php:278
+#: views/reports/daily.php:252 views/reports/daily.php:279
 msgid "Nc :"
 msgstr "No :"
 
-#: views/reports/daily.php:334
+#: views/reports/daily.php:335
 #, fuzzy
 msgid "Les dates ne sont pas spécifiée"
 msgstr "The dates are not specified"
@@ -2290,9 +2957,10 @@ msgstr "Checkout Settings"
 
 #: views/settings/checkout.php:12 views/settings/checkout.php:25
 #: views/settings/customers.php:11 views/settings/home.php:13
-#: views/settings/home.php:87 views/settings/items.php:23
-#: views/settings/reset.php:11 views/settings/stripe.php:13
-#: views/shop-checkout-settings - Deprecated.php:10
+#: views/settings/home.php:87 views/settings/invoices.php:12
+#: views/settings/items.php:23 views/settings/reset.php:11
+#: views/settings/stripe.php:13 views/shop-checkout-settings -
+#: Deprecated.php:10 views/stores/main.php:16
 #, fuzzy
 msgid "Sauvegarder les réglages"
 msgstr "Save settings"
@@ -2301,97 +2969,125 @@ msgstr "Save settings"
 msgid "Activer la TVA"
 msgstr "Enable VAT"
 
-#: views/settings/checkout.php:43
+#: views/settings/checkout.php:44
+msgid "Utiliser les caisses enregistreuses"
+msgstr "Use cash registers"
+
+#: views/settings/checkout.php:53
 msgid "Définir le taux de la TVA (%)"
 msgstr "Set VAT rate (%)"
 
-#: views/settings/checkout.php:45
+#: views/settings/checkout.php:55
 msgid "Exemple : 20"
 msgstr "Example: 20"
 
-#: views/settings/checkout.php:50 views/shop-checkout-settings -
+#: views/settings/checkout.php:60 views/shop-checkout-settings -
 #: Deprecated.php:88
 #, fuzzy
 msgid "Configuration de la devise"
 msgstr "Configuration of the currency"
 
-#: views/settings/checkout.php:56 views/shop-checkout-settings -
+#: views/settings/checkout.php:66 views/shop-checkout-settings -
 #: Deprecated.php:94
 #, fuzzy
 msgid "Symbole de la devise"
-msgstr "Currency Symbol"
+msgstr "Listing Currency Symbol"
 
-#: views/settings/checkout.php:62
+#: views/settings/checkout.php:72
 msgid "Format ISO de la devise"
 msgstr "ISO currency format"
 
-#: views/settings/checkout.php:68 views/shop-checkout-settings -
+#: views/settings/checkout.php:78 views/shop-checkout-settings -
 #: Deprecated.php:100
 #, fuzzy
 msgid "Position de la devise"
-msgstr "Unit Position"
+msgstr "background-position"
 
-#: views/settings/checkout.php:70 views/shop-checkout-settings -
+#: views/settings/checkout.php:80 views/shop-checkout-settings -
 #: Deprecated.php:102
 #, fuzzy
 msgid "Avant le montant"
 msgstr "Before cost"
 
-#: views/settings/checkout.php:71 views/shop-checkout-settings -
+#: views/settings/checkout.php:81 views/shop-checkout-settings -
 #: Deprecated.php:103
 #, fuzzy
 msgid "Après le montant"
 msgstr "After cost"
 
-#: views/settings/checkout.php:78 views/shop-checkout-settings -
-#: Deprecated.php:110
-#, fuzzy
-msgid "Thème des tickets de caisse"
-msgstr "receipts theme"
+#: views/settings/checkout.php:88
+msgid "Activer le mode comptact"
+msgstr "Enable comptact mode"
 
-#: views/settings/checkout.php:80 views/shop-checkout-settings -
-#: Deprecated.php:112
-msgid "Par défaut"
-msgstr "Default"
-
-#: views/settings/checkout.php:91 views/shop-checkout-settings -
-#: Deprecated.php:123
-#, fuzzy
-msgid "Activer l'impression automatique des tickets de caisse ?"
-msgstr "Enable automatic printing of receipts?"
-
-#: views/settings/checkout.php:92 views/shop-checkout-settings -
-#: Deprecated.php:124
-#, fuzzy
-msgid "Par défaut vaut : \"Non\""
-msgstr "The default is \"No.\""
-
-#: views/settings/checkout.php:94 views/settings/checkout.php:108
+#: views/settings/checkout.php:90 views/settings/checkout.php:116
+#: views/settings/checkout.php:130 views/settings/checkout.php:142
 #: views/shop-checkout-settings - Deprecated.php:126
 #, fuzzy
 msgid "Veuillez choisir une option"
 msgstr "Choose an option"
 
-#: views/settings/checkout.php:105
+#: views/settings/checkout.php:94
+msgid ""
+"Permettra de masquer certains éléments inutiles sur l'interface du point de "
+"vente."
+msgstr ""
+"Will hide some unnecessary elements on the interface of the point of sale."
+
+#: views/settings/checkout.php:100 views/shop-checkout-settings -
+#: Deprecated.php:110
+#, fuzzy
+msgid "Thème des tickets de caisse"
+msgstr "receipts theme"
+
+#: views/settings/checkout.php:102 views/shop-checkout-settings -
+#: Deprecated.php:112
+msgid "Par défaut"
+msgstr "Default"
+
+#: views/settings/checkout.php:113 views/shop-checkout-settings -
+#: Deprecated.php:123
+#, fuzzy
+msgid "Activer l'impression automatique des tickets de caisse ?"
+msgstr "Enable automatic printing of receipts?"
+
+#: views/settings/checkout.php:114 views/shop-checkout-settings -
+#: Deprecated.php:124
+#, fuzzy
+msgid "Par défaut vaut : \"Non\""
+msgstr "The default is \"No.\""
+
+#: views/settings/checkout.php:127
 msgid "Envoyer une facture par SMS"
 msgstr "Send invoice by SMS"
 
-#: views/settings/checkout.php:106
+#: views/settings/checkout.php:128
 msgid ""
 "Permet d'envoyer une facture par SMS pour les commandes complètes aux "
 "clients enregistrés."
 msgstr "To send an invoice by SMS for complete orders to registered customers."
 
-#: views/settings/checkout.php:117
+#: views/settings/checkout.php:139
+msgid "Utiliser les prix fictif"
+msgstr "Use the shadow price"
+
+#: views/settings/checkout.php:140
+msgid ""
+"Permet d'afficher un prix fictif \"discutable\", qui ne doit pas être "
+"inférieure au prix de vente réel d'un article."
+msgstr ""
+"Displays a shadow price \"bargain price\", which should not be less than the "
+"actual sale price of an item."
+
+#: views/settings/checkout.php:151
 msgid "Activer le clavier numérique"
 msgstr "Activate the numeric keypad"
 
-#: views/settings/checkout.php:126 views/shop-checkout-settings -
+#: views/settings/checkout.php:160 views/shop-checkout-settings -
 #: Deprecated.php:136
 msgid "Validité des commandes devis (en jours)"
 msgstr "Quote orders expiration (days)"
 
-#: views/settings/checkout.php:128 views/shop-checkout-settings -
+#: views/settings/checkout.php:162 views/shop-checkout-settings -
 #: Deprecated.php:138
 #, fuzzy
 msgid "Par défaut: Illimité"
@@ -2403,6 +3099,7 @@ msgid "Type de la remise"
 msgstr "Discount Type"
 
 #: views/settings/customers.php:22 views/settings/home.php:98
+#: views/stores/main.php:26
 #, fuzzy
 msgid "Désactiver"
 msgstr "Disable"
@@ -2452,11 +3149,6 @@ msgstr "This client does not benefit from the automatic reductions."
 msgid "Détails de la boutique"
 msgstr "Shop Details"
 
-#: views/settings/home.php:22
-#, fuzzy
-msgid "Nom de la boutique"
-msgstr "Shop name"
-
 #: views/settings/home.php:23
 #, fuzzy
 msgid "Vous pouvez utiliser le nom du site"
@@ -2475,7 +3167,7 @@ msgstr "Street shop"
 #: views/settings/home.php:41
 #, fuzzy
 msgid "Boite postale"
-msgstr "P.O Box"
+msgstr "P.O. Box"
 
 #: views/settings/home.php:47
 msgid "Email pour la boutique"
@@ -2517,9 +3209,50 @@ msgstr ""
 msgid "Activer les effets sonores"
 msgstr "Enable sound effects"
 
-#: views/settings/home.php:99
+#: views/settings/home.php:99 views/stores/main.php:27
 msgid "Activer"
 msgstr "Enable"
+
+#: views/settings/invoices.php:8
+#, fuzzy
+msgid "Réglages des reçus de caisse"
+msgstr "Cash register receipts settings"
+
+#: views/settings/invoices.php:21
+#, fuzzy
+msgid "Veuillez choisir le format du reçu par défaut"
+msgstr "Please choose the format of the default receipt"
+
+#: views/settings/invoices.php:27
+#, fuzzy
+msgid "Colonne 1 du reçu par défaut"
+msgstr "Column 1 of the default receipt"
+
+#: views/settings/invoices.php:33
+#, fuzzy
+msgid "Colonne 2 du reçu par défaut"
+msgstr "Column 2 of the default receipt"
+
+#: views/settings/invoices.php:40
+#, fuzzy
+msgid ""
+"Vous permet de personnaliser les informations affichés sur la colonne 1 du "
+"reçu de caisse."
+msgstr ""
+"Allows you to customize the information displayed on the column 1 of the "
+"sales receipt."
+
+#: views/settings/invoices.php:40
+msgid ""
+"Utilisez les balises suivantes : <br> {{shop_name}} poura afficher le nom de "
+"la boutique<br>{{shop_phone}} pour afficher le numéro de téléphone de la "
+"boutique<br>{{shop_fax}} pour afficher le fax de la "
+"boutique<br>{{shop_pobox}} pour afficher la boite postale de la boutique<br> "
+"{{shop_streetshop}} pour afficher la rue de la boutique<br>{{shop_email}} "
+"pour afficher l'email de la boutique<br>{{shop_ordertable}} pour afficher le "
+"tableau avec les produits<br>{{shop_details}} pour afficher les détails de "
+"la boutique."
+msgstr ""
 
 #: views/settings/items-script.php:2
 #, fuzzy
@@ -2619,28 +3352,28 @@ msgstr "Choose a template for product labels."
 
 #: views/settings/items.php:70
 #, fuzzy
+msgid "Produits 1/10 sur A4"
+msgstr "Products 1/10 A4"
+
+#: views/settings/items.php:71
+#, fuzzy
+msgid "Produits 1/7 sur A4"
+msgstr "Products 1/7 on A4"
+
+#: views/settings/items.php:72
+#, fuzzy
 msgid "Produits 1/5 sur A4"
 msgstr "Products 1/5 A4"
 
-#: views/settings/items.php:71
+#: views/settings/items.php:73
 #, fuzzy
 msgid "Produits 1/4 sur A4"
 msgstr "Products 1/4 A4"
 
-#: views/settings/items.php:72
-#, fuzzy
-msgid "Produits 1/3 sur A4"
-msgstr "Products 1/3 A4"
-
-#: views/settings/items.php:73
+#: views/settings/items.php:74
 #, fuzzy
 msgid "Produits 1/2 sur A4"
 msgstr "Products 1/2 A4"
-
-#: views/settings/items.php:74
-#, fuzzy
-msgid "Produits 1/1 sur A4"
-msgstr "Products 1/1 A4"
 
 #: views/settings/reset-script.php:4
 #, fuzzy
@@ -2812,9 +3545,63 @@ msgid ""
 msgstr ""
 "Assign this type of order to order whose total amount received is equal to 0"
 
+#: views/stores/list.php:8
+#, fuzzy
+msgid "Gestion des boutiques"
+msgstr "Manage Stores"
+
+#: views/stores/main.php:24
+#, fuzzy
+msgid "Activer le mode \"Multi Boutique\""
+msgstr "Activate the mode \"Multi Boutique\""
+
+#: views/stores/main.php:29
+#, fuzzy
+msgid "Permet d'utiliser les fonctionnalités Multi-boutique sur NexoPOS."
+msgstr "To use the Multi-boutique on NexoPOS features."
+
 #: views/user-groups.php:7
 msgid "Liste des groupes de clients"
 msgstr "Customers groups lists"
+
+#~ msgid "Dashboard"
+#~ msgstr "Dashboard"
+
+#, fuzzy
+#~ msgid "Produits 1/3 sur A4"
+#~ msgstr "Products 1/3 A4"
+
+#, fuzzy
+#~ msgid "Produits 1/1 sur A4"
+#~ msgstr "Products 1/1 A4"
+
+#~ msgid "Liste des ventes"
+#~ msgstr "Sales list"
+
+#~ msgid "Effectuer une vente"
+#~ msgstr "Proceed a sale"
+
+#, fuzzy
+#~ msgid "Rapports & Statistiques"
+#~ msgstr "Statistical reports"
+
+#~ msgid "Les meilleurs"
+#~ msgstr "The best"
+
+#, fuzzy
+#~ msgid "Rapport Journalier"
+#~ msgstr "Daily report"
+
+#~ msgid "Arrivages"
+#~ msgstr "Shippings"
+
+#~ msgid "Seules les commandes complètes peuvent être imprimées"
+#~ msgstr "Only complete orders can be printed"
+
+#~ msgid ""
+#~ "Souhaitez-vous annuler la récente modification et revenir à la liste des "
+#~ "commandes ?"
+#~ msgstr "Would you undo the recent change and return to the sales list ?"
 
 #~ msgid "Tutoriels NexoPOS"
 #~ msgstr "NexoPOS tutorials"
@@ -2825,10 +3612,6 @@ msgstr "Customers groups lists"
 #, fuzzy
 #~ msgid "Préférence du client"
 #~ msgstr "Customer Preference"
-
-#, fuzzy
-#~ msgid "Taille"
-#~ msgstr "Size"
 
 #, fuzzy
 #~ msgid "Nombres de commandes journalières"
@@ -2891,13 +3674,6 @@ msgstr "Customers groups lists"
 
 #~ msgid "Type de la commande"
 #~ msgstr "Order type"
-
-#, fuzzy
-#~ msgid "Modifier la commande"
-#~ msgstr "Edit Order"
-
-#~ msgid "Ventes"
-#~ msgstr "Sales"
 
 #, fuzzy
 #~ msgid "Commandes"
@@ -3173,12 +3949,6 @@ msgstr "Customers groups lists"
 #~ msgid "Gérant de la caisse"
 #~ msgstr "Checkout Manager"
 
-#~ msgid "Gérant de la boutique"
-#~ msgstr "Shop Manager"
-
-#~ msgid "Privilège pour testeur"
-#~ msgstr "Tester Privilege"
-
 #~ msgid "Peut créer des commandes"
 #~ msgstr "Can create orders"
 
@@ -3218,10 +3988,6 @@ msgstr "Customers groups lists"
 #, fuzzy
 #~ msgid "Le client a été correctement crée."
 #~ msgstr "The customer has been properly created."
-
-#, fuzzy
-#~ msgid "Tableau de bord"
-#~ msgstr "Your dashboard"
 
 #, fuzzy
 #~ msgid "Ignorer le cache"

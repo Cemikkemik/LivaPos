@@ -1,4 +1,17 @@
 <?php
+/**
+ * Add support for Multi Store
+ * @since 2.8
+**/
+
+global $store_id, $CurrentStore;
+
+$option_prefix		=	'';
+
+if( $store_id != null ) {
+	$option_prefix	=	'store_' . $store_id . '_' ;
+}
+
 $this->Gui->col_width(1, 3);
 
 $this->Gui->add_meta(array(
@@ -17,7 +30,7 @@ $this->Gui->add_meta(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    'nexo_enable_stripe',
+    'name'        =>    $option_prefix	. 'nexo_enable_stripe',
     'label'        =>    __('Activer Stripe', 'nexo'),
     'options'    =>    array(
         'no'    =>    __('Non', 'nexo'),
@@ -29,7 +42,7 @@ $this->Gui->add_item(array(
 // Publishable API Key
 $this->Gui->add_item(array(
     'type'        =>    'text',
-    'name'        =>    'nexo_stripe_publishable_key',
+    'name'        =>    $option_prefix	. 'nexo_stripe_publishable_key',
     'label'        =>    __('Publishable Key', 'nexo'),
     'description'    =>    sprintf(__('Récupérez les informations de votre "publishable key" sur votre compte <a href="%s">Stripe</a>.', 'nexo'), 'https://dashboard.stripe.com/account/apikeys')
 ), 'stripe_settings', 1);
@@ -37,7 +50,7 @@ $this->Gui->add_item(array(
 // API Secret Key
 $this->Gui->add_item(array(
     'type'        =>    'text',
-    'name'        =>    'nexo_stripe_secret_key',
+    'name'        =>    $option_prefix	. 'nexo_stripe_secret_key',
     'label'        =>    __('Secret Key', 'nexo'),
     'description'    =>    sprintf(__('Récupérez les informations de votre clé secrete sur votre compte <a href="%s">Stripe</a>.', 'nexo'), 'https://dashboard.stripe.com/account/apikeys')
 ), 'stripe_settings', 1);

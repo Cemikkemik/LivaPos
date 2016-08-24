@@ -27,12 +27,14 @@ class Nexo_Arrivages extends CI_Model
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');
         $crud->set_subject(__('Livraisons', 'nexo'));
-
-        $crud->set_table($this->db->dbprefix('nexo_arrivages'));
+		$crud->set_table( $this->db->dbprefix( store_prefix() . 'nexo_arrivages' ) );
+		
+		// fields
+		$fields			=	array( 'TITRE', 'FOURNISSEUR_REF_ID', 'DESCRIPTION' );
         $crud->columns('TITRE', 'FOURNISSEUR_REF_ID', 'DESCRIPTION');
-        $crud->fields('TITRE', 'FOURNISSEUR_REF_ID', 'DESCRIPTION');
-        $crud->set_relation('FOURNISSEUR_REF_ID', 'nexo_fournisseurs', 'NOM');
-        
+        $crud->fields( $fields );
+		
+		$crud->set_relation('FOURNISSEUR_REF_ID', store_prefix() . 'nexo_fournisseurs', 'NOM');        
         $crud->order_by('TITRE', 'asc');
         
         $crud->display_as('TITRE', __('Nom de la livraison', 'nexo'));
@@ -62,17 +64,17 @@ class Nexo_Arrivages extends CI_Model
     public function lists($page = 'index', $id = null)
     {
         if ($page == 'index') {
-            $this->Gui->set_title(__('Liste des livraisons &mdash; Nexo', 'nexo'));
+            $this->Gui->set_title( store_title( __('Liste des livraisons', 'nexo')) ); 
         } elseif ($page == 'delete') { // Check Deletion permission
 
             nexo_permission_check('delete_shop_shippings');
             
             // Checks whether an item is in use before delete
             nexo_availability_check($id, array(
-                array( 'col'    =>    'REF_SHIPPING', 'table'    =>    'nexo_articles' )
+                array( 'col'    =>    'REF_SHIPPING', 'table'    =>    store_prefix() . 'nexo_articles' )
             ));
         } else {
-            $this->Gui->set_title(__('Ajouter une nouvelle livraison &mdash; Nexo', 'nexo'));
+            $this->Gui->set_title( store_title( __('Ajouter une nouvelle livraison', 'nexo')) );
         }
         
         $data[ 'crud_content' ]    =    $this->crud_header();
@@ -88,13 +90,14 @@ class Nexo_Arrivages extends CI_Model
         
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1    =    'arrivages';
-        $this->Gui->set_title(sprintf(__('Ajouter une nouvelle livraison : &mdash; %s', 'nexo'), ucwords(str_replace('_', ' ', $_var1)), get('core_signature')));
+        $this->Gui->set_title( store_title( __( 'Ajouter une nouvelle livraison', 'nexo') ) );
         $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
     }
     
     public function defaults()
     {
         $this->lists();
-    }
+	}
+
 }
 new Nexo_Arrivages($this->args);

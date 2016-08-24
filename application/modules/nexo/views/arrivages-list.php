@@ -3,7 +3,7 @@ $this->Gui->col_width(1, 4);
 
 $this->Gui->add_meta(array(
     'namespace'    =>    'livraisons',
-    'type'        =>    'box',
+    'type'        =>    'unwrapped',
     'col_id'    =>    1,
     'title'        =>    __('Gestion & Création des livraisons', 'nexo')
 ));

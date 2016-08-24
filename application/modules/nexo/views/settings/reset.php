@@ -1,6 +1,8 @@
 <?php
 $this->Gui->col_width(1, 2);
 
+$this->Gui->col_width(1, 2);
+
 $this->Gui->add_meta(array(
     'namespace'        =>        'Nexo_reset',
     'title'            =>        __('Réinitialiser', 'nexo'),

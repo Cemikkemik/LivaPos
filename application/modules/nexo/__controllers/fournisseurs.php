@@ -28,9 +28,14 @@ class Nexo_Categories extends CI_Model
         $crud->set_subject(__('Fournisseurs', 'nexo'));
         $crud->set_theme('bootstrap');
         // $crud->set_theme( 'bootstrap' );
-        $crud->set_table($this->db->dbprefix('nexo_fournisseurs'));
-        $crud->columns('NOM', 'BP', 'TEL', 'EMAIL', 'DESCRIPTION');
-        $crud->fields('NOM', 'BP', 'TEL', 'EMAIL', 'DESCRIPTION');
+        $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_fournisseurs'));
+		
+		// If Multi store is enabled
+		// @since 2.8		
+		$fields					=	array( 'NOM', 'BP', 'TEL', 'EMAIL', 'DESCRIPTION' );
+		
+		$crud->columns('NOM', 'BP', 'TEL', 'EMAIL', 'DESCRIPTION');
+        $crud->fields( $fields );
         
         $crud->display_as('NOM', __('Nom du fournisseur', 'nexo'));
         $crud->display_as('EMAIL', __('Email du fournisseur', 'nexo'));
@@ -63,16 +68,16 @@ class Nexo_Categories extends CI_Model
     public function lists($page = 'index', $id = null)
     {
         if ($page == 'index') {
-            $this->Gui->set_title(__('Liste des fournisseurs &mdash; Nexo', 'nexo'));
+            $this->Gui->set_title( store_title( __('Liste des fournisseurs', 'nexo' ) ) );
         } elseif ($page == 'delete') {
             nexo_permission_check('delete_shop_providers');
             
             // Checks whether an item is in use before delete
             nexo_availability_check($id, array(
-                array( 'col'    =>    'FOURNISSEUR_REF_ID', 'table'    =>    'nexo_arrivages' )
+                array( 'col'    =>    'FOURNISSEUR_REF_ID', 'table'    =>    store_prefix() . 'nexo_arrivages' )
             ));
         } else {
-            $this->Gui->set_title(__('Ajouter un nouveau fournisseur &mdash; Nexo', 'nexo'));
+            $this->Gui->set_title( store_title( __( 'Ajouter un nouveau fournisseur', 'nexo') ) );
         }
         
         $data[ 'crud_content' ]    =    $this->crud_header();
@@ -88,7 +93,7 @@ class Nexo_Categories extends CI_Model
         
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1                    =    'fournisseurs';
-        $this->Gui->set_title(__('Ajouter un nouveau fournisseur &mdash; Nexo', 'nexo'));
+        $this->Gui->set_title( store_title( __('Ajouter un nouveau fournisseur', 'nexo' ) ) );
         $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
     }
     

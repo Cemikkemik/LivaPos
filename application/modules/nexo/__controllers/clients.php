@@ -26,11 +26,12 @@ class Nexo_Clients extends CI_Model
 
         $crud = new grocery_CRUD();
         $crud->set_subject(__('Clients', 'nexo'));
-        $crud->set_table($this->db->dbprefix('nexo_clients'));
-        $crud->set_theme('bootstrap');
-        $crud->columns('NOM', 'EMAIL', 'TEL', 'OVERALL_COMMANDES', 'REF_GROUP', 'AUTHOR', 'DATE_CREATION', 'DATE_MOD');
-        $crud->fields(
-            'REF_GROUP',
+        $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_clients'));
+		
+		// If Multi store is enabled
+		// @since 2.8	
+		$fields					=	array( 	
+			'REF_GROUP',
             'NOM',
             'PRENOM',
             'EMAIL',
@@ -46,7 +47,11 @@ class Nexo_Clients extends CI_Model
             'AUTHOR',
             'DATE_CREATION',
             'DATE_MOD'
-        );
+		);
+		
+		$crud->set_theme('bootstrap');
+        $crud->columns('NOM', 'EMAIL', 'TEL', 'OVERALL_COMMANDES', 'REF_GROUP', 'AUTHOR', 'DATE_CREATION', 'DATE_MOD');
+        $crud->fields( $fields );
 
         $crud->display_as('NOM', __('Nom du client', 'nexo'));
         $crud->display_as('EMAIL', __('Email du client', 'nexo'));
@@ -56,7 +61,6 @@ class Nexo_Clients extends CI_Model
         $crud->display_as('PRENOM', __('Prénom du client', 'nexo'));
         $crud->display_as('DATE_NAISSANCE', __('Date de naissance', 'nexo'));
         $crud->display_as('ADRESSE', __('Adresse', 'nexo'));
-
         $crud->display_as('TOTAL_SEND', __('Dépense effectué', 'nexo'));
         $crud->display_as('LAST_ORDER', __('Dernière commande', 'nexo'));
         $crud->display_as('AVATAR', __('Avatar', 'nexo'));
@@ -67,29 +71,27 @@ class Nexo_Clients extends CI_Model
         $crud->display_as('DATE_CREATION', __('Crée', 'nexo'));
         $crud->display_as('DATE_MOD', __('Modifié le', 'nexo'));
         $crud->display_as('AUTHOR', __('Par', 'nexo'));
+        $crud->display_as('DESCRIPTION', __('Description', 'nexo'));
+        $crud->display_as('REF_GROUP', __('Groupe', 'nexo'));
         
         $crud->change_field_type('AUTHOR', 'invisible');
         $crud->change_field_type('DATE_MOD', 'invisible');
         $crud->change_field_type('DATE_CREATION', 'invisible');
         
         $crud->callback_before_update(array( $this, '__update' ));
-        $crud->callback_before_insert(array( $this, '__insert' ));
-        
-        $crud->display_as('DESCRIPTION', __('Description', 'nexo'));
-        $crud->display_as('REF_GROUP', __('Groupe', 'nexo'));
+        $crud->callback_before_insert(array( $this, '__insert' ));        
         
         $crud->set_field_upload('AVATAR', 'public/upload/customers/');
         
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
-
         $crud->required_fields('NOM', 'REF_GROUP');
-        $crud->set_relation('REF_GROUP', 'nexo_clients_groups', 'NAME');
-        $crud->set_relation('AUTHOR', 'aauth_users', 'name');
-        
+		
+		$crud->set_relation('REF_GROUP', store_prefix() . 'nexo_clients_groups', 'NAME');		
+        $crud->set_relation('AUTHOR', 'aauth_users', 'name');        		
         $crud->set_rules('EMAIL', __('Email', 'nexo'), 'valid_email');
-
+		
         $crud->unset_jquery();
         $output = $crud->render();
 
@@ -128,16 +130,16 @@ class Nexo_Clients extends CI_Model
     public function lists($page = 'index', $id = null)
     {
         if ($page == 'index') {
-            $this->Gui->set_title(__('Liste des clients &mdash; Nexo', 'nexo'));
+            $this->Gui->set_title( store_title( __('Liste des clients', 'nexo')) );
         } elseif ($page == 'delete') {
             nexo_permission_check('delete_shop_customers');
             
             // Checks whether an item is in use before delete
             nexo_availability_check($id, array(
-                array( 'col'    =>    'REF_CLIENT', 'table'    =>    'nexo_commandes' )
+                array( 'col'    =>    'REF_CLIENT', 'table'    =>    store_prefix() . 'nexo_commandes' )
             ));
         } else {
-            $this->Gui->set_title(__('Liste des clients &mdash; Nexo', 'nexo'));
+            $this->Gui->set_title( store_title( __('Liste des clients', 'nexo') ));
         }
         
         $data[ 'crud_content' ]    =    $this->crud_header();
@@ -153,7 +155,7 @@ class Nexo_Clients extends CI_Model
         
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1                    =    'clients';
-        $this->Gui->set_title(__('Ajouter un nouveau client &mdash; Nexo', 'nexo'));
+        $this->Gui->set_title( store_title( __( 'Ajouter un nouveau client', 'nexo' ) ) );
         $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
     }
 
@@ -174,11 +176,14 @@ class Nexo_Clients extends CI_Model
 
         $crud = new grocery_CRUD();
         $crud->set_subject(__('Groupes d\'utilisateurs', 'nexo'));
-        $crud->set_table($this->db->dbprefix('nexo_clients_groups'));
-        $crud->set_theme('bootstrap');
+        $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_clients_groups'));
+		
+		$fields				=	array( 'NAME', 'DISCOUNT_TYPE', 'DISCOUNT_PERCENT', 'DISCOUNT_AMOUNT', 'DISCOUNT_ENABLE_SCHEDULE', 'DISCOUNT_START', 'DISCOUNT_END', 'DESCRIPTION',  'AUTHOR', 'DATE_CREATION', 'DATE_MODIFICATION' );
+		
+		$crud->set_theme('bootstrap');
 
         $crud->columns('NAME', 'AUTHOR', 'DISCOUNT_TYPE', 'DISCOUNT_PERCENT', 'DISCOUNT_AMOUNT', 'DATE_CREATION', 'DATE_MODIFICATION');
-        $crud->fields('NAME', 'DISCOUNT_TYPE', 'DISCOUNT_PERCENT', 'DISCOUNT_AMOUNT', 'DISCOUNT_ENABLE_SCHEDULE', 'DISCOUNT_START', 'DISCOUNT_END', 'DESCRIPTION',  'AUTHOR', 'DATE_CREATION', 'DATE_MODIFICATION');
+        $crud->fields( $fields );
 
         $crud->display_as('NAME', __('Nom', 'nexo'));
         $crud->display_as('DESCRIPTION', __('Description', 'nexo'));
@@ -233,16 +238,16 @@ class Nexo_Clients extends CI_Model
     public function groups($page = 'index', $id = null)
     {
         if ($page == 'index') {
-            $this->Gui->set_title(__('Groupes &mdash; Nexo', 'nexo'));
+            $this->Gui->set_title( store_title( __('Groupes', 'nexo')) );
         } elseif ($page == 'delete') {
             nexo_permission_check('delete_shop_customers_groups');
             
             // Checks whether an item is in use before delete
             nexo_availability_check($id, array(
-                array( 'col'    =>    'REF_GROUP', 'table'    =>    'nexo_clients' )
+                array( 'col'    =>    'REF_GROUP', 'table'    =>    store_prefix() . 'nexo_clients' )
             ));
         } else {
-            $this->Gui->set_title(__('Ajouter/Modifier un groupe de clients &mdash; Nexo', 'nexo'));
+            $this->Gui->set_title( store_title( __('Ajouter/Modifier un groupe de clients', 'nexo') ) );
         }
         
         $data[ 'crud_content' ]    =    $this->groups_header();

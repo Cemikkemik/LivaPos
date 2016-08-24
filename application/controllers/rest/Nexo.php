@@ -19,7 +19,9 @@ class Nexo extends REST_Controller
         Nexo_cashiers,
         Nexo_rest_misc,
 		Nexo_categories,
-		Nexo_Checkout_Money;
+		Nexo_collection,
+		Nexo_Registers,
+		Nexo_customers;
     
     public function __construct()
     {

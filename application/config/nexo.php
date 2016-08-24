@@ -95,3 +95,116 @@ $config[ 'feed_execution_time' ]  = 10; // seconds
 **/
 
 $config[ 'profile_widget_cashier_sales_lifetime' ]    =    86400; // one day
+
+/**
+ * Balance Namespace
+**/
+
+$config[ 'nexo_balance_namespace' ]		=	array(
+	'opening_balance'		=>	get_instance()->lang->line( 'balance_opening' ),
+	'closing_balance'		=>	get_instance()->lang->line( 'balance_closing' )
+);
+
+/**
+ * Nexo Register Status
+**/
+
+$config[ 'nexo_registers_status' ]		=	array(
+	'opened'			=>	get_instance()->lang->line( 'register_open' ),
+	'closed'		=>	get_instance()->lang->line( 'register_closed' ),
+	'locked'		=>	get_instance()->lang->line( 'register_locked' ),
+);
+
+$config[ 'nexo_registers_status_for_creating' ]		=	$config[ 'nexo_registers_status' ];
+
+/**
+ * Register Can only be closed or locked while creating. Its not allowed to open register
+ * because register need an initial balance to start, which is required
+**/
+
+unset( $config[ 'nexo_registers_status_for_creating' ][ 'opened' ] );
+
+/**
+ * Invoice/Receipt 
+ * @since 2.7.9
+**/
+
+$config[ 'nexo_receipts_namespaces' ]		=	array(
+	'custom'			=>	get_instance()->lang->line( 'custom_receipt' ),
+	'default'			=>	get_instance()->lang->line( 'receipt_default' )
+);
+
+$config[ 'nexo_receipts_routes' ]			=	array(
+	'default'			=>	MODULES_PATH . '/nexo/views/invoices/default.php',
+	'custom'			=>	null
+);
+
+/**
+ * Nexo Shop Status
+ * @since 2.8.0
+**/
+
+$config[ 'nexo_shop_status' ]			=	array(
+	'opened'			=>	get_instance()->lang->line( 'opened' ),
+	'closed'			=>	get_instance()->lang->line( 'closed' ),
+	'unavailable'		=>	get_instance()->lang->line( 'unavailable' )
+);
+
+/**
+ * Enable Multi Store Services
+ * @since 2.8.0
+**/
+
+$config[ 'nexo_multi_store_enabled' ]		=	true; // default false;
+
+/**
+ * Item Tpe
+**/
+
+$config[ 'nexo_item_type' ]		=	array( 
+	1	=>	get_instance()->lang->line( 'physical_item' ),
+	2	=>	get_instance()->lang->line( 'numerical_item' )
+);
+
+/**
+ * Item Status
+**/
+
+$config[ 'nexo_item_status' ]		=	array( 
+	1	=>	get_instance()->lang->line( 'item_on_sale' ),
+	2	=>	get_instance()->lang->line( 'item_out_of_stock_disabled' )
+);
+
+/**
+ * Item Stock
+**/
+
+$config[ 'nexo_item_stock' ]		=	array( 
+	1	=>	get_instance()->lang->line( 'enabled' ),
+	2	=>	get_instance()->lang->line( 'disabled' )
+);
+
+/**
+ * Grocery Groups
+**/
+
+// Price Group
+
+$config[ 'nexo_item_price_group' ]	=	array(
+	'PRIX_DACHAT', 'FRAIS_ACCESSOIRE', 'PRIX_DE_VENTE', 'SHADOW_PRICE', 'TAUX_DE_MARGE', 'COUT_DACHAT', 'PRIX_PROMOTIONEL', 'SPECIAL_PRICE_START_DATE', 'SPECIAL_PRICE_END_DATE'
+);
+
+// Stock Group
+$config[ 'nexo_item_stock_group' ]	=	array(
+	'STATUS', 'TYPE', 'STOCK_ENABLED', 'QUANTITY', 'DEFECTUEUX', 'QUANTITE_RESTANTE', 'QUANTITE_VENDU' 
+);
+
+// Caracteristiques
+$config[ 'nexo_item_spec_group' ] 	=	array(
+	'HAUTEUR', 'LARGEUR', 'POIDS', 'TAILLE', 'COULEUR', 'APERCU', 'CODEBAR', 'DATE_CREATION', 'DATE_MOD', 'AUTHOR'
+);
+
+// Details
+$config[ 'nexo_item_details_group' ]=	array(
+	'DESIGN', 'SKU', 'REF_CATEGORIE', 'REF_RAYON', 'REF_SHIPPING', 'DESCRIPTION'
+);

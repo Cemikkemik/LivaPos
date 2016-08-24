@@ -321,10 +321,19 @@ class Nexo_Premium_Controller extends CI_Model
     public function Controller_Clear_Cache($id)
     {
         if ($id == 'dashboard_card') {
-            foreach (glob(APPPATH . 'cache/app/nexo_premium_dashboard_card_*') as $filename) {
+            foreach (glob(APPPATH . 'cache/app/nexo_premium_dashboard_card_' . store_prefix() . '*') as $filename) {
                 unlink($filename);
             }
-            redirect(array( 'dashboard' ));
+			
+			/***
+			 * Return to store dashboard
+			**/
+			
+			if( get_store_id() ) {
+				redirect( array( 'dashboard', 'stores', get_store_id() ) );
+			} else {
+            	redirect(array( 'dashboard' ));
+			}
         }
     }
     

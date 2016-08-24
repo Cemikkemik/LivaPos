@@ -93,6 +93,9 @@ class Nexo_premium extends REST_Controller
     
     /**
      * Sale Stats
+	 * @params string Year
+	 * @response json
+	 * @return void
     **/
     
     public function sales_stats_post($year)
@@ -372,7 +375,7 @@ class Nexo_premium extends REST_Controller
         
         $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_'));
         
-        if ($cached    =    $Cache->get('best_categories_post_' . $this->post('start') . '_' . $this->post('end'))) {
+        if ($cached    =    $Cache->get('best_shippings_post_' . $this->post('start') . '_' . $this->post('end'))) {
             $this->response($cached, 200);
         } else {
             $this->config->load('nexo_premium');
@@ -424,7 +427,7 @@ class Nexo_premium extends REST_Controller
                     'items_sales'            =>    $items_sales
                 );
                 
-                $Cache->save('best_categories_post_' . $this->post('start') . '_' . $this->post('end'), $Response, $this->config->item('best_of_cache_lifetime'));
+                $Cache->save('best_shippings_post_' . $this->post('start') . '_' . $this->post('end'), $Response, $this->config->item('best_of_cache_lifetime'));
             
                 $this->response($Response, 200);
             }

@@ -6,25 +6,25 @@ trait Nexo_items
      *
     **/
     
-    public function item_get($id = null, $filter = 'ID')
+    public function item_get($id = null, $filter = 'ID' )
     {
         if ($id != null && $filter != 'sku-barcode') {
-            $result        =    $this->db->where($filter, $id)->get('nexo_articles')->result();
+            $result        =    $this->db->where($filter, $id)->get( store_prefix() . 'nexo_articles')->result();
             $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
         } elseif ($filter == 'sku-barcode') {
             $result        =    $this->db
                                 ->where('CODEBAR', $id)
                                 ->or_where('SKU', $id)
-                                ->get('nexo_articles')
+                                ->get( store_prefix() . 'nexo_articles')
                                 ->result();
             $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
         } else {
             $this->db->select('*,
-			nexo_articles.ID as ID,
-			nexo_categories.ID as CAT_ID
+			' . store_prefix() . 'nexo_articles.ID as ID,
+			' . store_prefix() . 'nexo_categories.ID as CAT_ID
 			')
-            ->from('nexo_articles')
-            ->join('nexo_categories', 'nexo_articles.REF_CATEGORIE = nexo_categories.ID');
+            ->from( store_prefix() . 'nexo_articles')
+            ->join( store_prefix() . 'nexo_categories', store_prefix() . 'nexo_articles.REF_CATEGORIE = ' . store_prefix() . 'nexo_categories.ID');
             $this->response($this->db->get()->result());
         }
     }
@@ -41,7 +41,7 @@ trait Nexo_items
                 'status' => 'failed'
             ));
         } else {
-            $this->db->where('ID', $id)->delete('nexo_articles')->result();
+            $this->db->where('ID', $id)->delete( store_prefix() . 'nexo_articles')->result();
             
             $this->response(array(
                 'status' => 'failed'
@@ -71,7 +71,7 @@ trait Nexo_items
         ->set('COUT_DACHAT', $this->put('cout_dachat'))
         ->set('TAUX_DE_MARGE', $this->put('taux_de_marge'))
         ->set('PRIX_DE_VENTE', $this->put('prix_de_vente'))
-        ->update('nexo_articles');
+        ->update( store_prefix() . 'nexo_articles');
         
         if ($request) {
             $this->response(array(
@@ -105,7 +105,7 @@ trait Nexo_items
         ->set('COUT_DACHAT', $this->put('cout_dachat'))
         ->set('TAUX_DE_MARGE', $this->put('taux_de_marge'))
         ->set('PRIX_DE_VENTE', $this->put('prix_de_vente'))
-        ->insert('nexo_articles');
+        ->insert( store_prefix() . 'nexo_articles');
         
         if ($request) {
             $this->response(array(
@@ -117,4 +117,22 @@ trait Nexo_items
             ), 404);
         }
     }
+	
+	/** 
+	 * Item by collection
+	 *
+	 * @params int collection id
+	 * @return json
+	**/
+	
+	public function item_by_collection_get( $collection_id )
+	{
+		$this->response( 
+		$this->db->select( '*,
+		' . store_prefix() . 'nexo_categories.NOM as CAT_NAME' )
+		->from( store_prefix() . 'nexo_articles' )
+		->join( store_prefix() . 'nexo_categories', store_prefix() . 'nexo_articles.REF_CATEGORIE = ' . store_prefix() . 'nexo_categories.ID', 'inner' )
+		->where( 'REF_SHIPPING', $collection_id )
+		->get()->result() );
+	}
 }

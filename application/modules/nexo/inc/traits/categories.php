@@ -17,7 +17,7 @@ trait Nexo_categories
 			$this->db->where( $filter, $item );
 		}
 		
-		$this->response( $this->db->get( 'nexo_categories' )->result(), 200 );
+		$this->response( $this->db->get( store_prefix() . 'nexo_categories' )->result(), 200 );
     }
 	
 	/**
@@ -27,6 +27,18 @@ trait Nexo_categories
 	
 	public function category_post()
 	{
+		// Check if name already exists
+		if( $filter != null ) {
+			$this->db->where( 'LOWER(NOM)', strtolower( $this->post( 'name' ) ) );
+		}
+		
+		$result					=		$this->db->get( store_prefix() . 'nexo_categories' )->result_array();
+		
+		if( $result ) {
+			$this->__failed();
+			return;
+		}
+		
 		$data			=	array(
 			'NOM'				=>		$this->post( 'name' ),
 			'DESCRIPTION'		=>		$this->post( 'description' ),
@@ -49,7 +61,7 @@ trait Nexo_categories
 			$this->simplefilemanager->file_copy( $image[ 'src' ], UPLOAD_PATH . '/categories/' );
 		}
 		
-		$this->db->insert( 'nexo_categories', $data );
+		$this->db->insert( store_prefix() . 'nexo_categories', $data );
 		
 		$this->__success();
 	}
@@ -79,7 +91,7 @@ trait Nexo_categories
 			$this->simplefilemanager->file_copy( $image[ 'src' ], UPLOAD_PATH . '/categories/' );
 		}
 		
-		if( $this->db->where( 'ID', $id )->update( 'nexo_categories', $data ) ) {		
+		if( $this->db->where( 'ID', $id )->update( store_prefix() . 'nexo_categories', $data ) ) {		
 			$this->__success();
 		} else {
 			$this->__failed();
@@ -93,7 +105,7 @@ trait Nexo_categories
 	
 	public function category_delete( $id )
 	{
-		$this->db->where( 'ID', $id )->delete( 'nexo_categories' );
+		$this->db->where( 'ID', $id )->delete( store_prefix() . 'nexo_categories' );
 		$this->__success();
 	}
 	
@@ -102,9 +114,9 @@ trait Nexo_categories
 	 * @return json
 	**/
 	
-	public function category_delete_all()
+	public function category_all_delete()
 	{
-		$this->db->delete( 'nexo_categories' );
+		$this->db->where( 'ID >', 0 )->delete( store_prefix() . 'nexo_categories' );
 		$this->__success();
 	}
 }

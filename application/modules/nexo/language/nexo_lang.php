@@ -26,6 +26,69 @@ $lang[ 'no' ]                        =    __('Non', 'nexo');
 $lang[ 'cash' ]                        =    __('Paiement en espèces', 'nexo');
 $lang[ 'cheque' ]                    =    __('Chèque', 'nexo');
 $lang[ 'bank_transfert' ]            =    __('Transfert Bancaire', 'nexo');
-$lang[ 'only_cash_order_can_be_printed' ]    =    tendoo_error(__('Seules les commandes complètes peuvent être imprimées', 'nexo'));
+$lang[ 'print_disabled' ]    =    tendoo_error(__('Ce type de commande ne peut pas être imprimé.', 'nexo'));
 $lang[ 'stripe']      = __('Stripe', 'nexo');
 $lang[ 'nexo_order_web' ]			=	__( 'Web', 'nexo' );
+$lang[ 'balance_opening' ]			=	__( 'Solde d\'ouverture', 'nexo' );
+$lang[ 'balance_closing' ]			=	__( 'Solde de fermeture', 'nexo' );
+
+// @since 2.7.5
+$lang[ 'create_registers' ]			=	__( 'Créer des caisses', 'nexo' );
+$lang[ 'edit_registers' ]			=	__( 'Modifier des caisses', 'nexo' );
+$lang[ 'delete_registers' ]			=	__( 'Supprimer des caisses', 'nexo' );
+$lang[ 'view_registers' ]			=	__( 'Peut consulter les caisses', 'nexo' );
+
+$lang[ 'create_registers_details' ]			=	__( 'Donne accès à la création des caisses enregistreuses.', 'nexo' );
+$lang[ 'edit_registers_details' ]			=	__( 'Donne accès à la modification des caisses enregistreuses.', 'nexo' );
+$lang[ 'delete_registers_details' ]			=	__( 'Donne accès à la suppressions des caisses enregistreuses.', 'nexo' );
+$lang[ 'view_registers_details' ]			=	__( 'Donne accès à la liste des caisses enregistreuses.', 'nexo' );
+
+
+$lang[ 'register_open' ]			=	__( 'Ouvert', 'nexo' );
+$lang[ 'register_closed' ]			=	__( 'Fermé', 'nexo' );
+$lang[ 'register_locked' ]			=	__( 'Verrouillé', 'nexo' );
+
+$lang[ 'nexo_cashier' ]				=	__('Caissier', 'nexo');
+$lang[ 'nexo_cashier_details' ]		=	__('Permet de gérer la vente des articles, la gestion des clients.', 'nexo');
+$lang[ 'nexo_shop_manager' ]		=	__('Gérant de la boutique', 'nexo');
+$lang[ 'nexo_shop_manager_details' ]=	__('Permet de gérer la vente des articles, la gestion des clients, la modification des réglages et accède aux rapports.', 'nexo');
+$lang[ 'nexo_tester' ]				=	__('Privilège pour testeur', 'nexo');
+$lang[ 'nexo_tester_details' ]		=	__('Effectue toutes tâches d\'ajout et de modification. Ne peux pas supprimer du contenu.', 'nexo');
+
+$lang[ 'register_not_found' ]		=	tendoo_error( __( 'La caisse demandée est introuvable.', 'nexo' ) );
+$lang[ 'register_is_closed' ]		=	tendoo_error( __( 'La caisse doit être ouverte, avant de procéder à la vente.', 'nexo' ) );
+$lang[ 'unknow_register_status' ]	=	tendoo_error( __( 'Statut de la caisse inconnu.', 'nexo') );
+$lang[ 'register_is_locked' ]		=	tendoo_info( __( 'Cette caisse a été expressément vérrouillée. Elle ne peut pas être ouverte. Contactez l\'administrateur pour en savoir plus.', 'nexo' ) );
+$lang[ 'register_busy' ]			=	tendoo_error( __( 'La caisse est en cours d\'utilisation. Si le problème persiste, contactez l\'administrateur', 'nexo' ) );
+$lang[ 'register_has_been_closed' ]		=	tendoo_success( __( 'La caisse a été correctement fermée', 'nexo' ) );
+
+// @since 2.7.9
+$lang[ 'receipt_default' ]			=	__( 'Reçu par défaut', 'nexo');
+$lang[ 'custom_receipt' ]			=	__( 'Reçu personnalisé', 'nexo' );
+
+// @since 2.7.8
+$lang[ 'unknow-store' ]				= 	tendoo_error( __( 'Boutique introuvable', 'nexo' ) );
+$lang[ 'create_shop' ]				=	__( 'Création des boutiques', 'nexo' );
+$lang[ 'delete_shop' ]				=	__( 'Suppression des boutiques', 'nexo' );
+$lang[ 'edit_shop' ]				=	__( 'Modification des boutiques', 'nexo' );
+$lang[ 'enter_shop' ]				=	__( 'Servir dans une boutique', 'nexo' );
+$lang[ 'create_shop_details' ]		=	__( 'Cet utilisateur pourra créer des boutiques', 'nexo' );
+$lang[ 'delete_shop_details' ]		=	__( 'Cet utilisateur pourra supprimer des boutiques', 'nexo' );
+$lang[ 'edit_shop_details' ]		=	__( 'Cet utilisateur pourra modifier des boutiques', 'nexo' );
+$lang[ 'enter_shop_details' ]		=	__( 'Cet utilisateur pourra servir dans une boutique', 'nexo' );
+
+// @since 2.8.0
+$lang[ 'opened' ]					=	__( 'Ouvert', 'nexo' );
+$lang[ 'closed' ]					=	__( 'Fermé', 'nexo' );
+$lang[ 'unavailable' ]				=	__( 'Indisponible', 'nexo' );
+$lang[ 'nexo-feature-unavailable' ]	=	tendoo_info( __( 'This feature is not enabled.', 'nexo' ) );
+
+// @since 2.8.2
+$lang[ 'physical_item' ]			=	__( 'Article Physique', 'nexo' );
+$lang[ 'numerical_item' ]			=	__( 'Article Numérique', 'nexo' );
+
+$lang[ 'item_on_sale' ]				=	__( 'En vente', 'nexo' );
+$lang[ 'item_out_of_stock_disabled' ]	=	__( 'Indisponible', 'nexo' );
+
+$lang[ 'enabled' ]					=	__( 'Activé', 'nexo' );
+$lang[ 'disabled' ]					=	__( 'Désactivé', 'nexo' );

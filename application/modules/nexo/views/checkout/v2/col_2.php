@@ -5,25 +5,41 @@
                 <span class="input-group-btn">
                     <button type="submit" class="btn btn-large btn-default"><?php _e('Rechercher', 'nexo');?></button>
                 </span>
-                <input type="text" name="item_sku_barcode" placeholder="<?php _e('Codebarre ou UGS...', 'nexo');?>" class="form-control">
+                <input type="text" name="item_sku_barcode" placeholder="<?php _e('Codebarre, UGS, nom du produit ou de la catégorie...', 'nexo');?>" class="form-control">
                 <span class="input-group-btn">
-                    <button class="btn btn-default item-list-settings" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    <i class="fa fa-cogs"></i>
-                    <?php _e('Filtrer les catégories', 'nexo');?>
-                </button>
+                <?php echo $this->events->apply_filters( 'pos_search_input_after', '' );?>
                 </span>
 			</div>
         </form>
-        <!--<h3 class="box-title">
-            <?php _e('Liste des produits', 'nexo');?>
-        </h3>
-        <div class="box-tools pull-right">
-            <button class="btn btn-primary item-list-settings btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            	<i class="fa fa-cogs"></i>
-                <?php _e('Filtrer les catégories', 'nexo');?>
-			</button>
-        </div>-->
     </div>
+    <div class="box-header with-border cattegory-slider" style="padding:0px;">
+    	<div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-1 col-md-1 hidden-sm text-center slick-button cat-prev" style="padding:0;border-right:solid 1px #EEE;"><i style="font-size:20px;line-height:40px;" class="fa fa-arrow-left"></i></div>
+                <div class="col-lg-10 col-md-10 col-sm-12 add_slick_inside" style="padding:0;">
+                
+                <div class="slick slick-wrapper">
+                <!-- Waiting Categories -->
+                </div>
+                
+                </div>
+                <div class="col-lg-1 col-md-1 hidden-sm text-center slick-button cat-next" style="padding:0;border-left:solid 1px #EEE;"><i style="font-size:20px;line-height:40px;" class="fa fa-arrow-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <style type="text/css">
+	.slick-button:hover {
+		background : #F2F2F2;
+		cursor: pointer;
+	}
+	.slick-item:hover {
+		box-shadow:inset 0px -3px 10px 5px #F2F2F2;
+		cursor: pointer
+	}
+	.slick-item-active {
+		background: #EEE
+	}
+	</style>
     <!--<div class="box-footer" id="search-product-code-bar" style="border-bottom:1px solid #EEE;">
         <form action="#" method="post" id="search-item-form">
             <div class="input-group">

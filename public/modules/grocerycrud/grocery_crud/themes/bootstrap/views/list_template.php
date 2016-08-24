@@ -56,126 +56,100 @@ if ($success_message !== null) {
     <!--<div class="mDiv">
         <div class="ftitle"> &nbsp; </div>
         <div title="<?php echo $this->l('minimize_maximize');?>" class="ptogtitle"> <span></span> </div>
-    </div>-->
-	<?php echo form_open($ajax_list_url, 'method="post" id="filtering_form" class="filtering_form" autocomplete = "off" data-ajax-list-info-url="'.$ajax_list_info_url.'"'); ?>
-    <div id='main-table-box' class="main-table-box">
-        <?php if (!$unset_add || !$unset_export || !$unset_print) {
-    ?>
-        <div class="row">
-            <div class="col-lg-12 grocery_buttons">
-                <div class="form-inline">
-                    <?php if (!$unset_add) {
-    ?>
-                    <div class="btn-group"> <a href='<?php echo get_instance()->events->apply_filters('grocery_add_url', $add_url);
-    ?>' title='<?php echo get_instance()->events->apply_filters('grocery_add_text', $this->l('list_add'));
-    ?> <?php echo $subject?>' class='btn btn-default add-anchor add_button'> <?php echo $this->l('list_add');
-    ?> <?php echo $subject?> </a> </div>
-                    <?php 
-}
-    ?>
-                    <?php if (!$unset_export) {
-    ?>
-                    <div class="btn-group"> <a class="export-anchor btn btn-default" data-url="<?php echo $export_url;
-    ?>" target="_blank">
+    </div>--> 
+    <?php echo form_open($ajax_list_url, 'method="post" id="filtering_form" class="filtering_form" autocomplete = "off" data-ajax-list-info-url="'.$ajax_list_info_url.'"'); ?>
+    <div id='main-table-box' class="box">
+        <div class="box-header">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-xs-12">
+                    <?php if (!$unset_add || !$unset_export || !$unset_print):?>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                        <?php if (!$unset_add):?>
+                        <a href='<?php echo get_instance()->events->apply_filters('grocery_add_url', $add_url);
+        ?>' title='<?php echo get_instance()->events->apply_filters('grocery_add_text', $this->l('list_add'));
+        ?> <?php echo $subject?>' class='btn btn-default add-anchor add_button'> <?php echo $this->l('list_add');
+        ?> <?php echo $subject?> </a>
+                        <?php endif;?>
+                        <?php if (!$unset_export):?>
+                        <a class="export-anchor btn btn-default" data-url="<?php echo $export_url;?>" target="_blank">
                         <div class="fbutton">
                             <div> <span class="export"><?php echo $this->l('list_export');
-    ?></span> </div>
+                ?></span> </div>
                         </div>
-                        </a> </div>
-                    <?php 
-}
-    ?>
-                    <?php if (!$unset_print) {
-    ?>
-                    <div class="btn-group"> <a class="print-anchor btn btn-default" data-url="<?php echo $print_url;
-    ?>">
+                        </a>
+                        <?php endif;?>
+                        <a class="pReload btn btn-default ajax_refresh_and_loading" id='ajax_refresh_and_loading' title	="<?php _e('Refresh');?>"> <span class="fa fa-refresh"></span>
+                        </a>
+                        <?php if (!$unset_print):?>
+                        <a class="print-anchor btn btn-default" data-url="<?php echo $print_url;?>">
                         <div class="fbutton">
-                            <div> <span class="print"><?php echo $this->l('list_print');
-    ?></span> </div>
+                            <div> <span class="print"><?php echo $this->l('list_print');?></span> </div>
                         </div>
-                        </a> </div>
-                    <?php 
-}
-    ?>
-                    
-                    <div class="form-group">
-                        <div class="pReload btn btn-default ajax_refresh_and_loading" id='ajax_refresh_and_loading'> <span class="fa fa-refresh"></span>
-                            <?php _e('Refresh Current Page');
-    ?>
-                        </div>
-                        <label class="sr-only" for="search_text"></label>
-                        <div class="input-group">
-                            <div class="input-group-addon"><?php echo $this->l('list_search');
-    ?>:</div>
-                            <input type="text" class="form-control qsbsearch_fieldox search_text" id="search_text" name="search_text" placeholder="<?php echo $this->l('list_search');
+                        </a>
+                        <?php endif;?>
+                    </div>
+                    <?php endif;?>
+                </div>
+                <div class="col-lg-3 col-md-3 col-xs-12">
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-addon"> <?php echo $this->l('list_search');?>: </div>
+                        <input type="text" class="form-control qsbsearch_fieldox search_text" id="search_text" name="search_text" placeholder="<?php echo $this->l('list_search');
     ?>">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-primary crud_search" id='crud_search'><?php echo $this->l('list_search');?></button>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <select class="form-control" name="search_field" id="search_field" style="width:250px;">
-                                <option value=""><?php echo $this->l('list_search_all');
-    ?></option>
-                                <?php foreach ($columns as $column) {
-    ?>
-                                <option value="<?php echo $column->field_name?>"><?php echo $column->display_as?>&nbsp;&nbsp;</option>
-                                <?php 
-}
-    ?>
-                            </select>
-                        </div>
-                    </div>
-                    <input type="button" value="<?php echo $this->l('list_search');
-    ?>" class="btn btn-primary crud_search" id='crud_search'>
-                    <input type="button" class="btn btn-primary search_clear" id="search_clear" value="<?php echo $this->l('list_clear_filtering');
-    ?>" />
-                    
+                </div>
+                <div class="col-lg-4 col-md-4 col-xs-12">
+                    <div class="input-group input-group-sm">
+                        <select class="form-control" name="search_field" id="search_field">
+                            <option value=""><?php echo $this->l('list_search_all');?></option>
+                            <?php foreach ($columns as $column) {?>
+                            <option value="<?php echo $column->field_name?>"><?php echo $column->display_as?>&nbsp;&nbsp;</option>
+                            <?php  }  ?>
+                        </select>
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary search_clear" id="search_clear"><?php echo $this->l('list_clear_filtering');?></button>
+                        </span> </div>
                 </div>
             </div>
         </div>
-        <br />
-        <?php 
-}?>
-        <div id='ajax_list' class="ajax_list"> <?php echo $list_view?> </div>
-        
-        <table class="pDiv table table-bordered">
-            <tr class="pDiv2">
-                <td class="pGroup"><div class="form-inline">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <?php list($show_lang_string, $entries_lang_string) = explode('{paging}', $this->l('list_show_entries')); ?>
-                                    <?php echo $show_lang_string; ?></div>
-                                <select name="per_page" id='per_page' class="per_page form-control">
-                                    <?php foreach ($paging_options as $option) {
-    ?>
-                                    <option value="<?php echo $option;
-    ?>" <?php if ($option == $default_per_page) {
-    ?>selected="selected"<?php 
-}
-    ?>><?php echo $option;
-    ?>&nbsp;&nbsp;</option>
-                                    <?php 
-}?>
-                                </select>
-                                <div class="input-group-addon"><?php echo $entries_lang_string; ?></div>
-                            </div>
+        <div id='ajax_list' class="ajax_list" style="border-top:solid 1px #EEE;"><?php echo $list_view?> </div>
+        <div class="box-footer clearfix">
+        	<div class="row">
+            	<div class="col-lg-4 col-md-4 col-xs-3">
+                    <div class="btn-group">
+                    	<div class="pFirst btn btn-default first-button" title="<?php _e('First Page');?>"> <span>
+                        <?php _e('&laquo;');?>
+                        </span> </div>
+                        <div class="pPrev btn btn-default prev-button" title="<?php _e('Previous Page');?>"> <span>
+                            <?php _e('Previous');?>
+                            </span> 
                         </div>
                     </div>
-                    <input type='hidden' name='order_by[0]' id='hidden-sorting' class='hidden-sorting' value='<?php if (!empty($order_by[0])) {
-    ?><?php echo $order_by[0]?><?php 
-}?>' />
-                    <input type='hidden' name='order_by[1]' id='hidden-ordering' class='hidden-ordering'  value='<?php if (!empty($order_by[1])) {
-    ?><?php echo $order_by[1]?><?php 
-}?>'/></td>
-                <td class="pGroup"><div class="pPrev btn btn-default prev-button"> <span>
-                        <?php _e('&laquo; Previous Page');?>
-                        </span> </div>
-                    <div class="pNext btn btn-default next-button" > <span>
-                        <?php _e('Next Page &raquo;');?>
-                        </span> </div></td>
-                <td class="pGroup">
-                	<div class="form-inline">
+                </div>
+            	<div class="col-lg-2 col-md-2 col-xs-3">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <?php list($show_lang_string, $entries_lang_string) = explode('{paging}', $this->l('list_show_entries')); ?>
+                            <?php echo $show_lang_string; ?></div>
+                        <select name="per_page" id='per_page' class="per_page form-control">
+                            <?php foreach ($paging_options as $option) {
+        ?>
+                            <option value="<?php echo $option;
+        ?>" <?php if ($option == $default_per_page) {
+        ?>selected="selected"<?php 
+        }
+        ?>><?php echo $option;
+        ?>&nbsp;&nbsp;</option>
+                            <?php 
+        }?>
+                        </select>
+                        <div class="input-group-addon"><?php echo $entries_lang_string; ?></div>
+                    </div>
+				</div>
+            	<div class="col-lg-3 col-md-3 col-xs-3">
+                    <div class="form-inline">
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon"><?php echo $this->l('list_page'); ?> </div>
@@ -183,27 +157,33 @@ if ($success_message !== null) {
                                 <div class="input-group-addon"><?php echo $this->l('list_paging_of'); ?> <span id='last-page-number' class="last-page-number"><?php echo ceil($total_results / $default_per_page)?></span></div>
                             </div>
                         </div>
-                    </div></td>
-                <td class="pGroup">
-                	<div class="pFirst btn btn-default first-button"> <span>
-                        <?php _e('&laquo; First Page');?>
-                        </span> </div>
-                    <div class="pLast btn btn-default last-button"> <span>
-                        <?php _e('Last Page &raquo;');?>
-                        </span> </div></td>
-                <td class="pGroup form-group"><p class="pPageStat">
-                <label>
-                    <?php $paging_starts_from = "<span id='page-starts-from' class='page-starts-from'>1</span>"; ?>
-                    <?php $paging_ends_to = "<span id='page-ends-to' class='page-ends-to'>". ($total_results < $default_per_page ? $total_results : $default_per_page) ."</span>"; ?>
-                    <?php $paging_total_results = "<span id='total_items' class='total_items'>$total_results</span>"?>
-                    <?php echo str_replace(array('{start}', '{end}', '{results}'),
-                                                array($paging_starts_from, $paging_ends_to, $paging_total_results),
-                                                $this->l('list_displaying')
-                                               ); ?> </p></label>
-                                               </td>
-            </tr>
-            <div style="clear: both;"> </div>
-        </table>
+                    </div>
+				</div>
+                <div class="col-lg-3 col-md-3 col-xs-3">
+                	<div class="btn-group pull-right">
+                        <div class="pNext btn btn-default next-button" title="<?php _e('Next Page');?>"> <span>
+                                <?php _e('Next');?>
+                                </span> 
+                            </div>
+                            <div class="pLast btn btn-default last-button" title="<?php _e('Last Page');?>"> <span>
+                            <?php _e('&raquo;');?>
+                            </span> 
+						</div>
+                    </div>
+                	<!-- 
+                    <p class="pPageStat">
+						<?php $paging_starts_from = "<span id='page-starts-from' class='page-starts-from'>1</span>"; ?>
+                        <?php $paging_ends_to = "<span id='page-ends-to' class='page-ends-to'>". ($total_results < $default_per_page ? $total_results : $default_per_page) ."</span>"; ?>
+                        <?php $paging_total_results = "<span id='total_items' class='total_items'>$total_results</span>"?>
+                        <?php echo str_replace(array('{start}', '{end}', '{results}'),
+                        array($paging_starts_from, $paging_ends_to, $paging_total_results),
+                        $this->l('list_displaying')
+                       ); ?> 
+                    </p>
+                    -->
+                </div>
+            </div>
         </div>
-         <?php echo form_close(); ?>
+    </div>
+    <?php echo form_close(); ?> 
 </div>

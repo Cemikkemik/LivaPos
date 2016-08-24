@@ -53,36 +53,58 @@ if (! $products_labels = $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'tr
             <tbody>
             <?php 
             if (count($products) > 0) {
+				
+				$this->load->model( 'Nexo_Categories' );
+				
                 $start        =    1;
                 foreach ($products as $product) {
                     $shipping        =    $this->Nexo_Shipping->get_shipping($shipping_id, 'as_id');
+					$category		=	get_instance()->Nexo_Categories->get( $product[ 'REF_CATEGORIE' ], 'as_id' );		
                     
                     // Parcours des produits restants
-                    for ($i = 0; $i < intval($product[ 'QUANTITE_RESTANTE' ]) ; $i++) {
+                    for ($i = 0; $i < intval( $product[ 'QUANTITE_RESTANTE' ] ) ; $i++) { // $product[ 'QUANTITE_RESTANTE' ]
                         // Balise d'ouverture
                         if ($start == 0) {
                             echo '<tr>';
                         }
                         ?>
-					<td style="width:<?php echo ceil(100 / $pp_row_limit);
-                        ?>%;float:left;">
-                    	<h4 class="text-center" style="margin:3px 0;"><?php echo $Options[ 'site_name' ];
-                        ?></h4>
-                    	<strong><?php echo sprintf(__('Nom : %s', 'nexo'), $product[ 'DESIGN' ]);
-                        ?></strong><br>
-                        <small><?php echo sprintf(__('<strong>Prix de vente</strong> : %s', 'nexo'),
-                            $this->Nexo_Misc->display_currency('before') .
-                            $product[ 'PRIX_DE_VENTE' ] .
-                            $this->Nexo_Misc->display_currency('after'));
-                        ?>
-						</small><br>
-                        <small><?php echo sprintf(__('<strong>Collection</strong> : %s', 'nexo'), $shipping[0][ 'TITRE' ]);
-                        ?></small><br>
-                        <small><?php echo sprintf(__('<strong>Code Barre</strong> : %s', 'nexo'), $product[ 'CODEBAR' ]);
-                        ?></small>
-                        <hr style="margin:5px 0 10px;">
-                    	<img style="width:100%;" src="<?php echo upload_url() . '/codebar/' . $product[ 'CODEBAR' ] . '.jpg';
+					<td style="width:<?php echo 100 / $pp_row_limit;?>%;float:left;padding:0;">
+                    	<!-- <h4 class="text-center" style="margin:3px 0;"><?php echo $Options[ 'site_name' ];
+                        ?></h4> -->
+                    	<h4 class="text-center" style="margin:10px;padding:0px;"><?php echo $product[ 'DESIGN' ];?></h4>
+                        <img style="width:94%;height:50px;margin:2%" src="<?php echo upload_url() . '/codebar/' . $product[ 'CODEBAR' ] . '.jpg';
                         ?>">
+                        
+                        <p class="text-center" style="margin:0px;font-size:12px;"><?php echo $product[ 'CODEBAR' ];?></p>
+                        
+                        <p style="border:solid 1px #CCC;margin-top:0px;padding:5px 10px;position:relative;right:0px;float:right;margin-bottom:0px;border-right:0px;border-bottom:0px;font-size:12px;">
+                        <?php echo
+						$this->Nexo_Misc->display_currency('before') . ' ' .
+						$product[ 'PRIX_DE_VENTE' ] . ' ' .
+						// $this->Nexo_Misc->cmoney_format( $product[ 'PRIX_DE_VENTE' ] )	
+						$this->Nexo_Misc->display_currency('after');
+                        ?>
+						</p>
+                        <?php
+						
+						$ship_title	=	$shipping[0][ 'TITRE' ];
+						$exploded	=	explode( ' ', $ship_title );
+						
+						foreach( $exploded as $key => $string ) {
+							if( $key < count( $exploded ) - 1 ) {
+								$exploded[ $key ]	=	substr( $string, 0, 1 );
+							}
+						}
+						
+						$array_string		=	explode( ' ', $ship_title );
+						$final_string		=	'';
+						foreach( $array_string as $final ) {
+							$final_string	.=	ucwords( $final[0] );
+						}
+						?>
+                        <p style="padding:3px 10px;margin:0px;float:left;">
+	                        <strong><?php echo $final_string . '-' . $product[ 'SKU' ];?></strong>
+                        </p>
                     </td>
 					<?php
                         // Inclusion ou non de la balise de fin
@@ -116,6 +138,15 @@ if (! $products_labels = $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'tr
 		display:none !important;
 	}
 }
+	h3 {
+		font-size: 0.8vw;
+	}
+	h4 {
+		font-size: 1vw;
+	}
+	strong {
+		font-size: 0.7vw;
+	}
 </style>
 <?php
 if (! $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'true') {

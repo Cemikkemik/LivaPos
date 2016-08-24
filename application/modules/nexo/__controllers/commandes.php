@@ -32,22 +32,54 @@ class Nexo_Commandes extends CI_Model
         $crud->set_theme('bootstrap');
         $crud->set_subject(__('Vente', 'nexo'));
 
-        $crud->set_table($this->db->dbprefix('nexo_commandes'));
-        $cols            =    array( 'CODE', 'REF_CLIENT', 'TOTAL', 'PAYMENT_TYPE', 'TYPE', 'DATE_CREATION', 'AUTHOR' );
+        $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_commandes'));
+		
+		/**
+		 * Hide register Cols when register option is disabled
+		 * @since 2.7.7
+		**/
+		
+		$cols       	=    array( 'CODE', 'REF_REGISTER', 'REF_CLIENT', 'TOTAL', 'PAYMENT_TYPE', 'TYPE', 'DATE_CREATION', 'AUTHOR' );
+		$edit_link		=	site_url(array( 'rest', 'nexo', 'registers' )) . '/';
+		$preview_class	=	'preview_order';
+		$edit_class		=	'select_register';
+		
+		if( in_array( @$Options[ 'nexo_enable_registers' ], array( null, 'non' ) ) ){ 
+	        unset( $cols[ 1 ] ); // remove "REF_REGISTER"
+			$edit_link		=	site_url( array( 'dashboard',  store_slug(), 'nexo', 'registers', '__use', 'default' ) ) . '/';
+			$edit_class		=	'';
+		} 
         
         if (@$Options[ 'nexo_enable_vat' ] == 'oui') {
             array_splice($cols, 5, 0, 'TVA');
         }
-        
+		
+		$crud->unset_edit();        
         $crud->columns($cols);
-        
-        // $fields            =    array( 'RABAIS', 'RISTOURNE', 'TYPE', 'CODE', 'DATE_CREATION', 'DATE_MOD', 'TOTAL', 'AUTHOR', 'DISCOUNT_TYPE' );
 
         // Add custom Actions
-        $crud->add_action(__('Imprimer le ticket de caisse', 'nexo'), '', site_url(array( 'dashboard', 'nexo', 'print', 'order_receipt' )) . '/', 'btn btn-info fa fa-file');
-        
-        // call_user_func_array(array( $crud, 'fields' ), $fields);
-
+        $crud->add_action(
+			__('Imprimer le ticket de caisse', 'nexo'), 
+			'', 
+			site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' )) . 
+			'/', 
+			'btn btn-info fa fa-file'
+		);
+		
+		$crud->add_action(
+			__('Prévisualiser la commande', 'nexo'), 
+			'', 
+			site_url(array( 'rest', 'nexo', 'order_with_item' )) . '/', 
+			'btn btn-default fa fa-eye ' . $preview_class 
+		);
+		
+		$crud->add_action(
+			__('Modifier la commande', 'nexo'), 
+			'', 
+			$edit_link, 
+			'btn btn-default fa fa-edit ' . $edit_class 
+		);
+		
         $crud->display_as('CODE', __('Code', 'nexo'));
         $crud->display_as('REF_CLIENT', __('Client', 'nexo'));
         $crud->display_as('REMISE', __('Remise Expresse', 'nexo'));
@@ -59,14 +91,16 @@ class Nexo_Commandes extends CI_Model
         $crud->display_as('DATE_CREATION', __('Date', 'nexo'));
         $crud->display_as('DATE_MOD', __('Date de modification', 'nexo'));
         $crud->display_as('TOTAL', __('Total', 'nexo'));
-        
-        $crud->set_relation('REF_CLIENT', 'nexo_clients', 'NOM');
+		$crud->display_as( 'REF_REGISTER', __( 'Caisse', 'nexo' ) );	
+		
+		$crud->order_by('DATE_CREATION', 'desc');
 
         $crud->field_type('TYPE', 'dropdown', $this->config->item('nexo_order_types'));
         $crud->field_type('PAYMENT_TYPE', 'dropdown', $this->config->item('nexo_payment_types'));
-        
-        $crud->set_relation('AUTHOR', 'aauth_users', 'name');
-        // $crud->set_relation('PAYMENT_TYPE', 'nexo_paiements', 'DESIGN');
+		
+		$crud->set_relation('REF_CLIENT', store_prefix() . 'nexo_clients', 'NOM');
+		$crud->set_relation('REF_REGISTER', store_prefix() . 'nexo_registers', 'NAME');		
+		$crud->set_relation('AUTHOR', 'aauth_users', 'name');
 
         $crud->change_field_type('RABAIS', 'invisible');
         $crud->change_field_type('RISTOURNE', 'invisible');
@@ -77,6 +111,8 @@ class Nexo_Commandes extends CI_Model
         $crud->change_field_type('AUTHOR', 'invisible');
         $crud->change_field_type('DISCOUNT_TYPE', 'invisible');
         $crud->change_field_type('TVA', 'invisible');
+		
+		$crud->unset_add();
         
         
         // XSS Cleaner
@@ -126,82 +162,17 @@ class Nexo_Commandes extends CI_Model
 
             }
         });
+		
+		$this->events->add_action( 'dashboard_footer', array( $this, 'footer' ) );
         
-        if ($page == 'add') {
-            redirect(array( 'dashboard', 'nexo', 'commandes', 'lists' ));
-            
-            /**
-             * Deprecated
-            **/
-        } elseif ($page == 'edit') {
-            redirect(array( 'dashboard', 'nexo', 'commandes', 'lists' ));
-            
-            /**
-             * Deprecated
-            **/
-        } elseif ($page == 'v2_checkout') {
-            if (! User::can('create_shop_orders')) {
-                redirect(array( 'dashboard', 'access-denied' ));
-            }
-            
-            $data        =    array();
-            // Prefetch order
-            if ($id != null) {
-                $this->load->model('Nexo_Checkout');
-                
-                $order        =    $this->Nexo_Checkout->get_order_products($id, true);
-                
-                if ($order) {
-                    
-					if (! User::can('edit_shop_orders')) {
-                        redirect(array( 'dashboard', 'access-denied' ));
-                    }                    
-                    
-                    if (in_array($order[ 'order' ][0][ 'TYPE' ], array( 'nexo_order_comptant', 'nexo_order_advance' ))) {
-                        redirect(array( 'dashboard', 'nexo', 'commandes', 'lists?notice=order_edit_not_allowed' ));
-                    }
-                
-                    $data[ 'order' ]    =    $order;
-					
-                } else {
-                    redirect(array( 'dashboard', 'nexo', 'commandes', 'lists?notice=order_not_found' ));
-                }
-            }
-            
-            if (@$Options[ 'default_compte_client' ] == null && User::can('edit_options')) {
-                redirect(array( 'dashboard', 'nexo', 'settings', 'customers?notice=default-customer-required' ));
-            } elseif (@$Options[ 'default_compte_client' ] == null) {
-                redirect(array( 'dashboard?notice=default-customer-required' ));
-            }
+        if ($page == 'delete') {
 			
-			// $this->Nexo_Misc->checkout_balance();die;
-            
-            // Before Cols
-            $this->events->add_filter('gui_before_rows', function ($content) {
-                return $content . get_instance()->load->module_view('nexo', 'checkout/v2/options', array(), true);
-            });
-            
-            $this->load->model('Nexo_Checkout');
-            
-            $this->enqueue->js('../modules/nexo/bower_components/moment/min/moment.min');
-            $this->enqueue->js('../plugins/bootstrap-select/dist/js/bootstrap-select.min');
-            
-            $this->enqueue->css('../modules/nexo/css/animate');
-            $this->enqueue->css('../plugins/bootstrap-select/dist/css/bootstrap-select.min');
-
-            if ($id == null) {
-                $this->Gui->set_title(__('Effectuer un vente &mdash; NexoPOS', 'nexo'));
-            } else {
-                $this->Gui->set_title(__('Modifier une commande &mdash; NexoPOS', 'nexo'));
-            }
-            
-            $this->load->view('../modules/nexo/views/checkout/v2/body.php', $data);
-        } elseif ($page == 'delete') {
             nexo_permission_check('delete_shop_orders');
             
-            $data[ 'crud_content' ]    =    $this->crud_header();
-            $_var1                    =    'commandes';
-            $this->Gui->set_title(__('Modifier une commande existante &mdash; Nexo', 'nexo'));
+            $data[ 'crud_content' ]    	=    $this->crud_header();
+            $_var1                    	=    'commandes';
+			
+            $this->Gui->set_title( store_title( __('Modifier une commande', 'nexo') ) );
             $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
         } else {
             
@@ -210,9 +181,10 @@ class Nexo_Commandes extends CI_Model
                 return site_url(array( 'dashboard', 'nexo', 'commandes', 'lists', 'v2_checkout' ));
             });
             
-            $data[ 'crud_content' ]    =    $this->crud_header();
-            $_var1    =    'commandes';
-            $this->Gui->set_title(__('Liste des commandes &mdash; Nexo', 'nexo'));
+            $data[ 'crud_content' ]    	=    $this->crud_header();
+            $_var1    					=    'commandes';
+			
+            $this->Gui->set_title( store_title( __('Liste des commandes', 'nexo') ) );
             $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
         }
     }
@@ -262,9 +234,10 @@ class Nexo_Commandes extends CI_Model
         } elseif (@$nexo_order_types[ $row->TYPE ] == $Estimate) {
             return 'warning';
         } else {
-            return $class;
+			//@since 2.7.1
+			// Let custom class for unknow order type
+            return $this->events->apply_filters_ref_array( 'order_list_class', array( $class, $row ) );
         }
-        return $class;
     }
     
     /**
@@ -279,29 +252,30 @@ class Nexo_Commandes extends CI_Model
         $Estimate        =   'nexo_order_devis';
         
         $nexo_order_types    =    array_flip($this->config->item('nexo_order_types'));
-        
-        if (in_array(@$nexo_order_types[ $row->TYPE ], array( $Cash ))) {
+		        
+        if (in_array( @$nexo_order_types[ $row->TYPE ], $this->events->apply_filters( 'order_type_locked', array( $Cash ) ) ) ) {
             return;
-        } elseif (in_array(@$nexo_order_types[ $row->TYPE ], array( $Estimate ))) {
+        } elseif (in_array(@$nexo_order_types[ $row->TYPE ], $this->events->apply_filters( 'order_editable', array( $Estimate ) ) ) ) {
             ob_start();
             ?>
-            <a href='<?php echo site_url(array( 'dashboard', 'nexo', 'commandes', 'lists', 'v2_checkout', $row->ID ));
+            <a href='<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'commandes', 'lists', 'v2_checkout', $row->ID ));
             ?>' title='<?php echo $edit_text?> <?php echo $subject?>'>
                 <span class='edit-icon fa fa-edit btn-default btn'></span>
             </a>
             <?php
             return ob_get_clean();
-        } elseif (@$nexo_order_types[ $row->TYPE ] ==  $Advance) {
+        } elseif ( in_array( @$nexo_order_types[ $row->TYPE ], $this->events->apply_filters( 'order_only_payable', array( $Advance ) ) ) ) {
             ob_start();
             ?>
-            <a href='<?php echo site_url(array( 'dashboard', 'nexo', 'commandes', 'proceed', $row->ID ));
-            ?>' title='<?php _e('Payer un commande', 'nexo');
+            <a href='<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'commandes', 'proceed', $row->ID ));
+            ?>' title='<?php _e('Payer une commande', 'nexo');
             ?>'>
                 <span class='edit-icon fa fa-money btn-success btn'></span>
             </a>
             <?php
             return ob_get_clean();
         }
+		
         return $string;
     }
     
@@ -314,15 +288,170 @@ class Nexo_Commandes extends CI_Model
     
     public function filter_grocery_actions($grocery_actions_obj, $actions, $row)
     {
-        // var_dump( $actions );
         // return $grocery_actions_obj;
         foreach ($actions as $key => $action) {
             $order_type        =    array_flip($this->config->item('nexo_order_types'));
+			
             if ($order_type[ $row->TYPE ] != 'nexo_order_comptant' && $action->css_class == 'btn btn-info fa fa-file') {
                 unset($grocery_actions_obj[ $key ]);
             }
+			// Hide edit for complete order
+			if ($order_type[ $row->TYPE ] == 'nexo_order_comptant' && trim( $action->css_class ) == 'btn btn-default fa fa-edit' ) {
+                unset($grocery_actions_obj[ $key ]);
+            }
         }
+		
         return $grocery_actions_obj;
     }
+	
+	/**
+	 * Footer
+	 * @since 2.7.1
+	**/
+	
+	public function footer()
+	{
+		if( ( $this->uri->segment( 4 ) == 'lists' && $this->uri->segment( 4 ) != '__use' ) || ( $this->uri->segment( 6 ) == 'lists' && $this->uri->segment( 6 ) != '__use' ) ) {
+?>
+<script type="text/javascript">
+"use strict";
+var BindAction		=	function(){
+	 $( '.preview_order' ).each( function(){
+		 if( typeof $(this).attr( 'preview-able' ) == 'undefined' ) {
+		 	$(this).bind( 'click', function(){
+				$.ajax( $(this).attr( 'href' ) + '?store_id=<?php echo get_store_id();?>', {
+					type		:	'GET',
+					dataType	:	'json',
+					success		:	function( data ){
+						
+						if( ! _.isEmpty( data ) ) {
+							var items	=	'';
+							
+							_.each( data.items, function( value, key ) {
+								items	+=	'<tr>' +
+												'<td>' + value.DESIGN + '</td>' +
+												'<td>' + NexoAPI.DisplayMoney( value.PRIX ) + '</td>' +
+												'<td>' + value.QUANTITE + '</td>' +
+												'<td>' + NexoAPI.DisplayMoney( value.PRIX_TOTAL ) + '</td>' +
+											'</tr>';
+							});
+							
+							var Sentence		=	'';
+							if( parseFloat( data.order.SOMME_PERCU ) >= parseFloat( data.order.TOTAL ) ) {
+								var Sentence	=	'<?php echo _s( 'Reste :', 'nexo' );?>';
+							} else if( parseFloat( data.order.SOMME_PERCU ) > 0 && parseFloat( data.order.SOMME_PERCU ) < parseFloat( data.order.TOTAL ) ) {
+								var Sentence	=	'<?php echo _s( 'Reste à verser :', 'nexo' );?>';
+							} else if( parseFloat( data.order.SOMME_PERCU ) == 0  ) {
+								var Sentence	=	'<?php echo _s( 'Reste à verser :', 'nexo' );?>';
+							}
+							
+							var dom		=	'<h4 class="text-center"><?php echo _s( 'Aperçu commande : ', 'nexo' );?> &mdash; ' + data.order.CODE + '</h4>';
+							
+								dom		+=	'<table class="table table-bordered">' +
+												'<thead>' +
+													'<tr>' +
+														'<td><?php echo _s( 'Désignation', 'nexo' );?></td>' + 
+														'<td><?php echo _s( 'Prix Unitaire', 'nexo' );?></td>' + 
+														'<td><?php echo _s( 'Quantité', 'nexo' );?></td>' +
+														'<td><?php echo _s( 'Total', 'nexo' );?></td>' +
+													'</tr>' +
+												'</thead>' +
+												'<tbody>' + 
+													items +
+												'</tbody>' +
+											'</table>' + 
+											
+											'<h4><?php echo _s( 'Remise (RRR) : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( 
+												NexoAPI.ParseFloat( data.order.REMISE ) +
+												NexoAPI.ParseFloat( data.order.RABAIS ) +
+												NexoAPI.ParseFloat( data.order.RISTOURNE ) 
+											) + '</span></h4>' + 
+											
+											'<h4><?php echo _s( 'TVA : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( 
+												NexoAPI.ParseFloat( data.order.TVA ) 
+											) + '</span></h4>' +
+											'<h4><?php echo _s( 'Total : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( data.order.TOTAL ) + '</span></h4>' + 
+											
+											'<h4><?php echo _s( 'Somme perçu : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( data.order.SOMME_PERCU ) + '</span></h4>' + 
+											
+											'<h4>' + Sentence + ' <span class="pull-right">' + NexoAPI.DisplayMoney( 
+												Math.abs( NexoAPI.ParseFloat( data.order.TOTAL ) -
+												NexoAPI.ParseFloat( data.order.SOMME_PERCU ) )
+											) + '</span></h4>';
+							bootbox.alert( dom );
+						}
+					},
+					error		: 	function(){
+						bootbox.alert( '<?php echo _s( 'Une erreur s\'est produite durant la récupération de la commande', 'nexo' );?>' );
+					}
+				});
+				return false;
+			});
+			$(this).attr( 'preview-able', 'true' );
+		 }
+	 });
+	 
+	$( '.select_register' ).each(function(index, element) {
+		if( typeof $(this).attr( 'bound' ) == 'undefined' ) {
+			$( this ).bind( 'click', function(){
+				$this	=	$( this );
+				$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'registers?store_id=' . get_store_id() ) );?>', {
+					success	:	function( data ){
+						
+						var register_lists	=	'';
+						
+						console.log( data );
+						
+						_.each( data, function( value, key ) {
+							if( value.STATUS == 'opened' ) {
+								register_lists	+=	'<tr>' +
+									'<td>' + value.NAME + '</td>' +
+									'<td><a class="btn btn-primary btn-sm" href="<?php echo site_url( array( 'dashboard', store_slug(), 'nexo', 'registers', '__use' ) );?>/' + value.ID + '/' + $this.data( 'item-id' ) + '"><?php echo _s( 'Utiliser cette caisse', 'nexo' );?></a></td>' +
+								'</tr>';
+							}
+						});
+
+						var dom		=	'<h4><?php echo _s( 'Selectionner une caisse', 'nexo' );?></h4>' +
+						'<br>' +
+						'<table class="table table-bordered table-striped">' +
+							'<thead>' +
+								'<tr>' +
+									'<td><?php echo _s( 'Caisse', 'nexo' );?></td>' +
+									'<td width="200"><?php echo _s( 'Action', 'nexo' );?></td>' +
+								'</tr>' +
+							'</thead>' +
+							'<tbody>' +
+								register_lists +
+							'</tbody>' +
+						'</table>' + 
+						'<br>' +
+						'<?php echo tendoo_info( _s( 'Les caisses affichées sont celles actuellement ouvertes. Assurez-vous de choisir une caisse ayant une de vos sessions', 'nexo' ) );?>';
+						
+						NexoAPI.Bootbox().alert( dom, function( action ) {
+							
+						});
+					},
+					dataType:"json",
+					error: function(){
+						bootbox.alert( '<?php echo _s( 'Une erreur s\'est produite durant le chargement des caisses.', 'nexo' );?>' );
+					}
+				});
+				return false;
+			})
+			$(this).attr( 'bound', 'true' );
+		}
+	});
+}
+$(document).ready(function(e) {
+   BindAction();
+});
+$( document ).ajaxComplete(function(){
+	BindAction();
+});
+</script>
+<?php
+		}
+	}
+	
 }
 new Nexo_Commandes($this->args);

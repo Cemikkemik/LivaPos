@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nexo Premium\n"
-"POT-Creation-Date: 2016-07-29 09:40+0100\n"
-"PO-Revision-Date: 2016-07-29 09:47+0100\n"
+"POT-Creation-Date: 2016-09-02 10:39+0100\n"
+"PO-Revision-Date: 2016-09-02 10:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en_US\n"
@@ -16,66 +16,62 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: inc/Actions.php:36 inc/Controller.php:216 views/factures.php:10
-#, fuzzy
-msgid "Factures"
-msgstr "Invoices"
+#: inc/Actions.php:36
+msgid "Dépenses"
+msgstr "Expenses"
 
-#: inc/Actions.php:41
-#, fuzzy
-msgid "Liste des factures"
-msgstr "Invoices List"
+#: inc/Actions.php:42
+msgid "Liste des dépenses"
+msgstr "Expenses List"
 
-#: inc/Actions.php:46
-#, fuzzy
-msgid "Nouvelle facture"
-msgstr "New Invoice"
+#: inc/Actions.php:47
+msgid "Nouvelle dépense"
+msgstr "New Expense"
 
-#: inc/Actions.php:64
-#, fuzzy
-msgid "Clear cache"
-msgstr "Clear cache"
+#: inc/Actions.php:67
+msgid "Supprimer le cache"
+msgstr "Delete Cache"
 
-#: inc/Actions.php:236
+#: inc/Actions.php:250
 msgid "Création d'une nouvelle commande"
 msgstr "Creating a new order"
 
-#: inc/Actions.php:238
+#: inc/Actions.php:252
 #, php-format
 msgid "L'utilisateur %s a crée une nouvelle commande avec pour code : %s"
 msgstr "User%s created a new order with the following code:%s"
 
-#: inc/Actions.php:254
+#: inc/Actions.php:268
 msgid "Modification d'une commande"
 msgstr "Order Modification"
 
-#: inc/Actions.php:256
+#: inc/Actions.php:270
 #, php-format
 msgid "L'utilisateur %s a modifié une commande avec pour code : %s"
 msgstr "User%s modified an order with the following code:%s"
 
-#: inc/Actions.php:273
+#: inc/Actions.php:287
 msgid "Suppréssion d'une commande"
 msgstr "Deleting an order"
 
-#: inc/Actions.php:275
+#: inc/Actions.php:289
 #, php-format
 msgid "L'utilisateur %s a supprimé une commande avec pour identifiant : %s"
 msgstr "User%s removed an order with the following id:%s"
 
-#: inc/Actions.php:291
+#: inc/Actions.php:305
 msgid "Historique des utilisateurs"
 msgstr "User History Report"
 
-#: inc/Actions.php:296
+#: inc/Actions.php:310
 msgid "Sauvegarder les réglages"
 msgstr "Save settings"
 
-#: inc/Actions.php:310
+#: inc/Actions.php:324
 msgid "Souhaitez-vous activer l'historique des activités ?"
 msgstr "Would you like to activate the activity history?"
 
-#: inc/Actions.php:311
+#: inc/Actions.php:325
 msgid ""
 "Ceci peut très légèrement ralentir l'application, et prendre plus d'espace "
 "dans votre base de données."
@@ -83,15 +79,15 @@ msgstr ""
 "This may slightly slow down the application, and take more space in your "
 "database."
 
-#: inc/Actions.php:313
+#: inc/Actions.php:327
 msgid "Veuillez choisir une option"
 msgstr "Choose an option"
 
-#: inc/Actions.php:314
+#: inc/Actions.php:328
 msgid "Oui"
 msgstr "Yes"
 
-#: inc/Actions.php:315
+#: inc/Actions.php:329
 msgid "Non"
 msgstr "No"
 
@@ -130,7 +126,7 @@ msgstr "Go back"
 msgid "Vider le cache"
 msgstr "Empty cache"
 
-#: inc/Controller.php:119 inc/Filters.php:55
+#: inc/Controller.php:119 inc/Filters.php:70
 #, fuzzy
 msgid "Flux de trésorerie"
 msgstr "Cash flow"
@@ -144,6 +140,11 @@ msgstr "The annual sales report"
 #, fuzzy
 msgid "Fiche de suivi de stock &mdash; Nexo POS"
 msgstr "Inventory Tracker &mdash; Nexo POS"
+
+#: inc/Controller.php:216 views/factures.php:10
+#, fuzzy
+msgid "Factures"
+msgstr "Invoices"
 
 #: inc/Controller.php:224
 #, fuzzy
@@ -170,125 +171,124 @@ msgstr "Description"
 msgid "Image"
 msgstr "Picture"
 
-#: inc/Controller.php:229 inc/Controller.php:485
+#: inc/Controller.php:229 inc/Controller.php:496
 #, fuzzy
 msgid "Auteur"
 msgstr "Author"
 
-#: inc/Controller.php:230 inc/Controller.php:486
+#: inc/Controller.php:230 inc/Controller.php:497
 #, fuzzy
 msgid "Date de création"
 msgstr "Creation date"
 
-#: inc/Controller.php:231 inc/Controller.php:487
+#: inc/Controller.php:231 inc/Controller.php:498
 #, fuzzy
 msgid "Date de modification"
 msgstr "Last modified date"
 
 #: inc/Controller.php:300
 #, fuzzy
-msgid "Liste des factures &mdash; Nexo"
-msgstr "List invoices &mdash; Nexo"
+msgid "Liste des factures"
+msgstr "Invoices List"
 
 #: inc/Controller.php:308
-#, fuzzy
-msgid "Ajouter/modifier une facture &mdash; Nexo"
-msgstr "Add/Edit an invoice &mdash; Nexo"
+msgid "Ajouter/modifier une facture"
+msgstr "Add / Edit Invoice"
 
-#: inc/Controller.php:354 inc/Filters.php:65
+#: inc/Controller.php:363 inc/Filters.php:80
 msgid "Performances des caissiers"
 msgstr "Cashiers performance"
 
-#: inc/Controller.php:387
+#: inc/Controller.php:396
 msgid "Statistiques des clients"
 msgstr "Customers Statistics"
 
-#: inc/Controller.php:420
+#: inc/Controller.php:429
 msgid "Supprimer l'historique"
 msgstr "Delete history"
 
-#: inc/Controller.php:425 inc/Filters.php:100
+#: inc/Controller.php:434 inc/Filters.php:120
 msgid "Historique des activités"
 msgstr "User History Report"
 
-#: inc/Controller.php:448
+#: inc/Controller.php:459
 msgid "Réinitialisation de l'historique"
 msgstr "History Reset"
 
-#: inc/Controller.php:449
+#: inc/Controller.php:460
 #, php-format
 msgid ""
 "L'utilisateur <strong>%s</strong> à supprimé le contenu de l'historique des "
 "activités."
 msgstr "User <strong>%s</strong> deleted the content of the activity history."
 
-#: inc/Controller.php:475 inc/Filters.php:112
+#: inc/Controller.php:486 inc/Filters.php:132
 msgid "Sauvegardes"
 msgstr "Backups"
 
-#: inc/Controller.php:483
+#: inc/Controller.php:494
 msgid "Titre de la sauvegarde"
 msgstr "Backup Title"
 
-#: inc/Controller.php:484
+#: inc/Controller.php:495
 msgid "Emplacement du fichier"
 msgstr "File Location"
 
-#: inc/Controller.php:502
+#: inc/Controller.php:513
 msgid "Télécharger la sauvegarde"
 msgstr "Download Backup"
 
-#: inc/Controller.php:529
-msgid "Liste des sauvegardes &mdash; Nexo"
-msgstr "Backup list - Nexo"
+#: inc/Controller.php:540
+msgid "Liste des sauvegardes"
+msgstr "Backup list"
 
-#: inc/Controller.php:534
-msgid "Ajouter une sauvegarde &mdash; Nexo"
-msgstr "Add a backup &mdash; Nexo"
+#: inc/Controller.php:545
+msgid "Ajouter une sauvegarde"
+msgstr "Add a backup"
 
-#: inc/Controller.php:541
-msgid "Edition une sauvegarde &mdash; Nexo"
-msgstr "Editing a backup &mdash; Nexo"
+#: inc/Controller.php:552
+msgid "Edition une sauvegarde"
+msgstr "Backup Edition"
 
-#: inc/Controller.php:556 inc/Controller.php:579
+#: inc/Controller.php:567 inc/Controller.php:590
 msgid "Sauvegarde Base de donnée Nexo POS"
 msgstr "Backup Database Nexo POS"
 
-#: inc/Controller.php:692 inc/Filters.php:116
+#: inc/Controller.php:703 inc/Filters.php:136
 msgid "Restauration"
 msgstr "Restoring"
 
-#: inc/Controller.php:725
+#: inc/Controller.php:736
 msgid "Les Meilleurs"
 msgstr "Best Sales"
 
-#: inc/Filters.php:40
-msgid "Rapports & Statistiques"
+#: inc/Filters.php:55
+msgid "Rapports"
 msgstr "Reports"
 
-#: inc/Filters.php:46
+#: inc/Filters.php:61
 msgid "Les meilleurs"
 msgstr "Best Sales"
 
-#: inc/Filters.php:50
+#: inc/Filters.php:65
 msgid "Journalier"
 msgstr "Daily Sales"
 
-#: inc/Filters.php:60
+#: inc/Filters.php:75
 #, fuzzy
 msgid "Ventes Annuelles"
 msgstr "Annual Sales"
 
-#: inc/Filters.php:70
+#: inc/Filters.php:85
 msgid "Statistique des clients"
 msgstr "Customers Statistics"
 
-#: inc/Filters.php:75
+#: inc/Filters.php:90
 #, fuzzy
 msgid "Fiche de Suivi de Stocks"
 msgstr "Inventory tracking sheet"
 
-#: inc/Filters.php:95
+#: inc/Filters.php:115
 msgid "Maintenance & Historique"
 msgstr "Maintenance & History"
 
@@ -379,7 +379,7 @@ msgstr "No cashier available"
 msgid "Impossible d'afficher les données pour cette sélection."
 msgstr "Unable to display the data for that selection."
 
-#: views/cashier-performances.php:102 views/customers-statistics.php:102
+#: views/cashier-performances.php:102
 msgid "Une erreur s'est produite durant l'affichage du rapport"
 msgstr "An error occurred while displaying the report"
 
@@ -395,36 +395,55 @@ msgstr "Please choose a customer."
 msgid "Aucun client disponible"
 msgstr "No customer available"
 
+#: views/customers-statistics.php:102
+msgid ""
+"Une erreur s'est produite durant l'affichage du rapport. Assurez-vous de "
+"choisir un bon interval de temps. Il doit y avoir au minimum 1 mois "
+"d'intervale entre les dates."
+msgstr ""
+"An error occurred while displaying the report. Make sure you choose a good "
+"time interval. There must be at least 1-month interval between dates."
+
 #: views/dashboard-content.php:8
 #, fuzzy
 msgid "Ventes réalisées"
 msgstr "Sales"
 
-#: views/dashboard-content.php:13 views/dashboard-content.php:44
-#: views/dashboard-content.php:76 views/dashboard-content.php:106
+#: views/dashboard-content.php:10 views/dashboard-content.php:43
+#: views/dashboard-content.php:77 views/dashboard-content.php:108
 msgid "Aujourd'hui"
 msgstr "Today"
 
-#: views/dashboard-content.php:20 views/dashboard-content.php:52
-#: views/dashboard-content.php:82 views/dashboard-content.php:112
+#: views/dashboard-content.php:17 views/dashboard-content.php:51
+#: views/dashboard-content.php:83 views/dashboard-content.php:114
 msgid "Hier"
 msgstr "Yesterday"
 
-#: views/dashboard-content.php:30 views/dashboard-content.php:62
-#: views/dashboard-content.php:92 views/dashboard-content.php:122
+#: views/dashboard-content.php:22 views/dashboard-content.php:56
+#: views/dashboard-content.php:88 views/dashboard-content.php:119
+#: views/fiche-de-suivi/by-categories.php:41
+#: views/flux-de-la-tresorerie.php:136
+#: views/rapport-journalier-detaille.php:125 views/stats-des-ventes.php:123
+#: views/stats-des-ventes.php:136
+#, fuzzy
+msgid "Total"
+msgstr "Total"
+
+#: views/dashboard-content.php:32 views/dashboard-content.php:66
+#: views/dashboard-content.php:98 views/dashboard-content.php:129
 msgid "Plus de détails"
 msgstr "View Detail"
 
-#: views/dashboard-content.php:39
+#: views/dashboard-content.php:41
 #, fuzzy
 msgid "Chiffre d'affaire globale"
 msgstr "Global turnover"
 
-#: views/dashboard-content.php:71
+#: views/dashboard-content.php:75
 msgid "Clients"
 msgstr "Customers"
 
-#: views/dashboard-content.php:101
+#: views/dashboard-content.php:107
 msgid "Créances"
 msgstr "Receivables"
 
@@ -489,13 +508,6 @@ msgstr "Outings"
 #: views/fiche-de-suivi/by-categories.php:33
 msgid "Stock Final"
 msgstr "Final Stock"
-
-#: views/fiche-de-suivi/by-categories.php:41
-#: views/flux-de-la-tresorerie.php:136 views/stats-des-ventes.php:123
-#: views/stats-des-ventes.php:136
-#, fuzzy
-msgid "Total"
-msgstr "Total"
 
 #: views/flux-de-la-tresorerie.php:7 views/stats-des-ventes.php:14
 #, fuzzy
@@ -570,7 +582,7 @@ msgstr "Income(+)"
 msgid "Dépenses(-)"
 msgstr "Spending"
 
-#: views/flux-de-la-tresorerie.php:50 views/rapport-journalier-detaille.php:208
+#: views/flux-de-la-tresorerie.php:50 views/rapport-journalier-detaille.php:214
 #, fuzzy
 msgid "Solde Final"
 msgstr "Final balance"
@@ -707,78 +719,76 @@ msgid "Bonus des prix fictifs"
 msgstr "All Shadow Prices"
 
 #: views/rapport-journalier-detaille.php:113
-#, fuzzy
-msgid "Chiffre d'affaire journalier (Commandes Cash + Commandes Avance)"
-msgstr "Daily turnover (commands Cash + commands advance)"
+msgid "Revenu journalier"
+msgstr "Daily Income"
 
 #: views/rapport-journalier-detaille.php:119
-#, fuzzy
-msgid "Chiffre d'affaire à recouvrer (Créances)"
-msgstr "Turnover to recover (claims)"
+msgid "Revenu exigible"
+msgstr "Due Income"
 
-#: views/rapport-journalier-detaille.php:127
-#: views/rapport-journalier-detaille.php:132
+#: views/rapport-journalier-detaille.php:133
+#: views/rapport-journalier-detaille.php:138
 #, fuzzy
 msgid "Récapitulatif des dépenses"
 msgstr "Summary of expenditures"
 
-#: views/rapport-journalier-detaille.php:136
+#: views/rapport-journalier-detaille.php:142
 msgid "Désignation des documents"
 msgstr "Documents Names"
 
-#: views/rapport-journalier-detaille.php:138
-#: views/rapport-journalier-detaille.php:168
+#: views/rapport-journalier-detaille.php:144
+#: views/rapport-journalier-detaille.php:174
 #, fuzzy, php-format
 msgid "Montant (%s)"
 msgstr "Amount (%s)"
 
-#: views/rapport-journalier-detaille.php:144
+#: views/rapport-journalier-detaille.php:150
 msgid "Remise + Rabais + Ristourne"
 msgstr "All discounts type"
 
-#: views/rapport-journalier-detaille.php:151
+#: views/rapport-journalier-detaille.php:157
 #, fuzzy
 msgid "Total dépense"
 msgstr "Total expenditure"
 
-#: views/rapport-journalier-detaille.php:159
+#: views/rapport-journalier-detaille.php:165
 msgid ""
 "Bilan de la trésorerie<br><br>Chiffre d'Affaire Net = ( Commandes Cash -  "
 "( Remise + Rabais + Ristourne ) )"
 msgstr ""
 "Balance of cash <br><br> Net business turnover = (Cash Orders -  Discount )"
 
-#: views/rapport-journalier-detaille.php:166
+#: views/rapport-journalier-detaille.php:172
 msgid "Bilan tresorerie"
 msgstr "Cash Balance"
 
-#: views/rapport-journalier-detaille.php:183
+#: views/rapport-journalier-detaille.php:189
 #, fuzzy
 msgid "Solde Initial"
 msgstr "Initial balance"
 
-#: views/rapport-journalier-detaille.php:191
+#: views/rapport-journalier-detaille.php:197
 msgid "Recettes (+)"
 msgstr "Income(+)"
 
-#: views/rapport-journalier-detaille.php:195
+#: views/rapport-journalier-detaille.php:201
 #, fuzzy
 msgid "Dépenses (-)"
 msgstr "Spending"
 
-#: views/rapport-journalier-detaille.php:215
+#: views/rapport-journalier-detaille.php:221
 msgid "Chiffre d'affaire net (*)"
 msgstr "Turnover(*)"
 
-#: views/rapport-journalier-detaille.php:291
+#: views/rapport-journalier-detaille.php:297
 msgid "Une erreur s'est produite durant la récupération des caisses"
 msgstr "An error occurred while loading registers"
 
-#: views/rapport-journalier-detaille.php:472
+#: views/rapport-journalier-detaille.php:479
 msgid "Cette caisse n'a pas été fermée en ce jour."
 msgstr "This register has not been closed on that day."
 
-#: views/rapport-journalier-detaille.php:476
+#: views/rapport-journalier-detaille.php:483
 msgid "Cette caisse n'a pas été ouverte en ce jour"
 msgstr "This register has not been opened on that day."
 
@@ -832,6 +842,42 @@ msgstr "Sales Statistics"
 #, fuzzy, php-format
 msgid "Level %s"
 msgstr "Level %s"
+
+#, fuzzy
+#~ msgid "Nouvelle facture"
+#~ msgstr "New Invoice"
+
+#, fuzzy
+#~ msgid "Clear cache"
+#~ msgstr "Clear cache"
+
+#, fuzzy
+#~ msgid "Liste des factures &mdash; Nexo"
+#~ msgstr "List invoices &mdash; Nexo"
+
+#, fuzzy
+#~ msgid "Ajouter/modifier une facture &mdash; Nexo"
+#~ msgstr "Add/Edit an invoice &mdash; Nexo"
+
+#~ msgid "Liste des sauvegardes &mdash; Nexo"
+#~ msgstr "Backup list - Nexo"
+
+#~ msgid "Ajouter une sauvegarde &mdash; Nexo"
+#~ msgstr "Add a backup &mdash; Nexo"
+
+#~ msgid "Edition une sauvegarde &mdash; Nexo"
+#~ msgstr "Editing a backup &mdash; Nexo"
+
+#~ msgid "Rapports & Statistiques"
+#~ msgstr "Reports"
+
+#, fuzzy
+#~ msgid "Chiffre d'affaire journalier (Commandes Cash + Commandes Avance)"
+#~ msgstr "Daily turnover (commands Cash + commands advance)"
+
+#, fuzzy
+#~ msgid "Chiffre d'affaire à recouvrer (Créances)"
+#~ msgstr "Turnover to recover (claims)"
 
 #~ msgid "Stock initial"
 #~ msgstr "Initial Stock"
@@ -897,10 +943,6 @@ msgstr "Level %s"
 #, fuzzy
 #~ msgid "Recettes commulées"
 #~ msgstr "Recipes commulees"
-
-#, fuzzy
-#~ msgid "Dépenses"
-#~ msgstr "Spending"
 
 #, fuzzy
 #~ msgid "Category Niveau :"

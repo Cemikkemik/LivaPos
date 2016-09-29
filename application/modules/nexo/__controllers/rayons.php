@@ -23,6 +23,15 @@ class Nexo_Rayons extends CI_Model
         ) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
+		
+		/**
+		 * This feature is not more accessible on main site when
+		 * multistore is enabled
+		**/
+		
+		if( multistore_enabled() && ! is_multistore() ) {
+			redirect( array( 'dashboard', 'feature-disabled' ) );
+		}
         
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');
@@ -83,7 +92,7 @@ class Nexo_Rayons extends CI_Model
         
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1                    =    'rayons';
-        $this->Gui->set_title( store_title( __( 'Créer une nouveau rayon', 'nexo' ) ) );
+        $this->Gui->set_title( store_title( __( 'Créer un nouveau rayon', 'nexo' ) ) );
         $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
     }
     

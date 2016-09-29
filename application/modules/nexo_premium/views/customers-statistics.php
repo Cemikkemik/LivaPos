@@ -91,7 +91,7 @@ var NexoCashierPerformance	=	new function(){
 			return;
 		}
 		
-		$.ajax( '<?php echo site_url(array( 'nexo', 'customer_statistics' ));?>/' + start_date + '/' + end_date, {
+		$.ajax( '<?php echo site_url(array( 'nexo', 'customer_statistics' ));?>/' + start_date + '/' + end_date + '<?php echo store_get_param( '?' );?>', {
 			data	:	_.object( [ 'customer_id' ], [ customer_id ] ), 
 			dataType:	"json",
 			type	:	'POST',
@@ -99,7 +99,7 @@ var NexoCashierPerformance	=	new function(){
 				NexoCashierPerformance.ShowChart( data );
 			},
 			error	:	function(){
-				bootbox.alert( '<?php echo addslashes(__('Une erreur s\'est produite durant l\'affichage du rapport', 'nexo'));?>' );
+				bootbox.alert( '<?php echo addslashes(__('Une erreur s\'est produite durant l\'affichage du rapport. Assurez-vous de choisir un bon interval de temps. Il doit y avoir au minimum 1 mois d\'intervale entre les dates.', 'nexo'));?>' );
 			}
 		});
 	};

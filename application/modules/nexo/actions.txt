@@ -97,3 +97,14 @@ Regroupe toutes les actions de la boutique
  * stores_controller_callback
  * Execute des objects enregitré pour gérer le multi store
 **/
+
+/**
+ * nexo_after_install_tables
+ * Execute une action durant la création des tables pour le multi store
+**/
+
+
+/**
+ * nexo_after_delete_tables
+ * Execute une action après avoir supprimé les tables pour le multi store
+**/

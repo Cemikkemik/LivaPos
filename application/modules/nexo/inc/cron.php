@@ -161,7 +161,7 @@ class Nexo_Cron extends CI_Model
     
     public function init_cache()
     {
-        $this->cache    =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    $this->cache_namespace ));
+        $this->cache    =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    $this->cache_namespace . store_prefix() ));
     }
 }
 new Nexo_Cron;

@@ -15,7 +15,8 @@ class Nexo_premium extends REST_Controller
     public function __construct()
     {
         parent::__construct();
-        
+		
+        $this->load->helper( 'nexopos' );
         $this->load->library('session');
         $this->load->database();
     }
@@ -74,14 +75,14 @@ class Nexo_premium extends REST_Controller
         $query    =    $this->db
         ->where('DATE_CREATION >=', $this->post('start'))
         ->where('DATE_CREATION <=', $this->post('end'))
-        ->get('nexo_premium_factures');
+        ->get( store_prefix() . 'nexo_premium_factures');
         
         $bills    =    $query->result();
         
         $query    =    $this->db
         ->where('DATE_CREATION >=', $this->post('start'))
         ->where('DATE_CREATION <=', $this->post('end'))
-        ->get('nexo_commandes');
+        ->get( store_prefix() . 'nexo_commandes');
         
         $orders    =    $query->result();
         
@@ -109,20 +110,45 @@ class Nexo_premium extends REST_Controller
         
         if (is_array($_POST[ 'ids' ])) {
             foreach ($_POST[ 'ids' ] as $key    =>    $_id) {
-                $this->db
-                ->select('*,
-				nexo_commandes.TYPE as TYPE_COMMANDE')
-                ->from('nexo_commandes_produits')
-                ->join('nexo_articles', 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = nexo_articles.CODEBAR')
-                ->join('nexo_categories', 'nexo_articles.REF_CATEGORIE = nexo_categories.ID')
-                ->join('nexo_commandes', 'nexo_commandes_produits.REF_COMMAND_CODE = nexo_commandes.CODE')
-                ->where('nexo_commandes.DATE_CREATION >=', $startOfMonth)
-                ->where('nexo_commandes.DATE_CREATION <=', $endOfMonth)
-                ->where('nexo_categories.ID', $_id);
-                
-                $query    =    $this->db->get();
-                
-                $complete[ $key + 1 ]    =    $query->result();
+				
+				if( $_id != '' ) {
+					
+					$this->db
+					
+					->select(
+						'*,' . 
+						store_prefix() . 'nexo_commandes.TYPE as TYPE_COMMANDE'
+					)
+					
+					->from( store_prefix() . 'nexo_commandes_produits')
+					
+					->join( 
+						store_prefix() . 'nexo_articles', 
+						store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = ' . 
+						store_prefix() . 'nexo_articles.CODEBAR'
+					)
+					
+					->join( 
+						store_prefix() . 'nexo_categories', 
+						store_prefix() . 'nexo_articles.REF_CATEGORIE = ' . 
+						store_prefix() . 'nexo_categories.ID'
+					)
+					
+					->join( 
+						store_prefix() . 'nexo_commandes', 
+						store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE = ' . 
+						store_prefix() . 'nexo_commandes.CODE'
+					)
+					
+					->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', $startOfMonth)
+					->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', $endOfMonth)
+					->where( store_prefix() . 'nexo_categories.ID', $_id);
+					
+					$query    =    $this->db->get();
+					
+					$complete[ $key + 1 ]    =    $query->result();
+					
+				}
             }
         }
         
@@ -150,11 +176,11 @@ class Nexo_premium extends REST_Controller
     public function previous_stock_post($shipping_id)
     {
         $this->db->select('*')
-            ->from('nexo_articles')
-            ->join('nexo_arrivages', 'nexo_arrivages.ID = nexo_articles.REF_SHIPPING')
-            ->join('nexo_categories', 'nexo_categories.ID = nexo_articles.REF_CATEGORIE');
+            ->from( store_prefix() . 'nexo_articles')
+            ->join( store_prefix() . 'nexo_arrivages', store_prefix() . 'nexo_arrivages.ID = ' . store_prefix() . 'nexo_articles.REF_SHIPPING')
+            ->join( store_prefix() . 'nexo_categories', store_prefix() . 'nexo_categories.ID = ' . store_prefix() . 'nexo_articles.REF_CATEGORIE');
                 
-        $this->db->where('nexo_arrivages.ID <', $shipping_id);
+        $this->db->where( store_prefix() . 'nexo_arrivages.ID <', $shipping_id);
         
         $cats_array        =    array();
         
@@ -163,7 +189,7 @@ class Nexo_premium extends REST_Controller
                 $cats_array[]    =    $_catid[ 'ID' ];
             }
             
-            $this->db->where_in('nexo_categories.ID', $cats_array);
+            $this->db->where_in( store_prefix() . 'nexo_categories.ID', $cats_array);
         }
         
         $query    =    $this->db->get();
@@ -181,11 +207,11 @@ class Nexo_premium extends REST_Controller
     public function current_stock_post($shipping_id)
     {
         $this->db->select('*')
-            ->from('nexo_articles')
-            ->join('nexo_arrivages', 'nexo_arrivages.ID = nexo_articles.REF_SHIPPING')
-            ->join('nexo_categories', 'nexo_categories.ID = nexo_articles.REF_CATEGORIE');
+            ->from( store_prefix() . 'nexo_articles')
+            ->join( store_prefix() . 'nexo_arrivages', store_prefix() . 'nexo_arrivages.ID = ' . store_prefix() . 'nexo_articles.REF_SHIPPING')
+            ->join( store_prefix() . 'nexo_categories', store_prefix() . 'nexo_categories.ID = ' . store_prefix() . 'nexo_articles.REF_CATEGORIE');
                 
-        $this->db->where('nexo_arrivages.ID =', $shipping_id);
+        $this->db->where( store_prefix() . 'nexo_arrivages.ID =', $shipping_id);
         
         $cats_array        =    array();
         
@@ -194,7 +220,7 @@ class Nexo_premium extends REST_Controller
                 $cats_array[]    =    $_catid[ 'ID' ];
             }
             
-            $this->db->where_in('nexo_categories.ID', $cats_array);
+            $this->db->where_in( store_prefix() . 'nexo_categories.ID', $cats_array);
         }
         
         $query    =    $this->db->get();
@@ -210,7 +236,7 @@ class Nexo_premium extends REST_Controller
     {
         $table_prefix     = $table_prefix == '' ? $this->db->dbprefix : $table_prefix;
         
-        $Cache            =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_'));
+        $Cache            =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_' . store_prefix() ));
         $Query            =    $Cache->get('restore_queries');
         if (@$Query[ $index - 1 ] != null) {
             $SQL            =    str_replace($table_prefix, $this->db->dbprefix, $Query[ $index - 1 ]);
@@ -232,7 +258,7 @@ class Nexo_premium extends REST_Controller
         $this->load->model('Options');
         $this->load->model('Nexo_Misc');
         
-        $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_'));
+        $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_' . store_prefix() ));
         
         if ($cached    =    $Cache->get('best_items_post_' . $this->post('start') . '_' . $this->post('end'))) {
             $this->response($cached, 200);
@@ -252,24 +278,24 @@ class Nexo_premium extends REST_Controller
                     $EndDay                =        Carbon::parse($Date)->endOfDay()->toDateTimeString();
                     
                     $this->db->select('
-					nexo_articles.DESIGN as DESIGN,
-					nexo_commandes_produits.QUANTITE as QUANTITE_UNIQUE_VENDUE,
-					nexo_articles.QUANTITE_VENDU as QUANTITE_VENDU,
-					nexo_articles.PRIX_DE_VENTE as PRIX_DE_VENTE,
-					nexo_articles.ID as ITEM_ID,
-					nexo_commandes.DATE_CREATION as SOLD_DATE')
-                    ->from('nexo_commandes_produits')
-                    ->join('nexo_articles', 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = nexo_articles.CODEBAR')
-                    ->join('nexo_commandes', 'nexo_commandes.CODE = nexo_commandes_produits.REF_COMMAND_CODE');
+					' . store_prefix() . 'nexo_articles.DESIGN as DESIGN,
+					' . store_prefix() . 'nexo_commandes_produits.QUANTITE as QUANTITE_UNIQUE_VENDUE,
+					' . store_prefix() . 'nexo_articles.QUANTITE_VENDU as QUANTITE_VENDU,
+					' . store_prefix() . 'nexo_articles.PRIX_DE_VENTE as PRIX_DE_VENTE,
+					' . store_prefix() . 'nexo_articles.ID as ITEM_ID,
+					' . store_prefix() . 'nexo_commandes.DATE_CREATION as SOLD_DATE')
+                    ->from( store_prefix() . 'nexo_commandes_produits')
+                    ->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = ' . store_prefix() . 'nexo_articles.CODEBAR')
+                    ->join( store_prefix() . 'nexo_commandes', store_prefix() . 'nexo_commandes.CODE = ' . store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE');
                     
                     // $this->db->group_by( 'nexo_articles.CODEBAR' );
 
-                    $this->db->order_by('nexo_articles.QUANTITE_VENDU', 'DESC');
+                    $this->db->order_by( store_prefix() . 'nexo_articles.QUANTITE_VENDU', 'DESC');
                     
-                    $this->db->where('nexo_commandes.TYPE', $CashOrder);
+                    $this->db->where( store_prefix() . 'nexo_commandes.TYPE', $CashOrder);
                     
-                    $this->db->where('nexo_commandes.DATE_CREATION >=', $StartDay);
-                    $this->db->where('nexo_commandes.DATE_CREATION <=', $EndDay);
+                    $this->db->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', $StartDay);
+                    $this->db->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', $EndDay);
                     
                     $this->db->limit($this->config->item('best_of_items_limit'));
                     
@@ -301,7 +327,7 @@ class Nexo_premium extends REST_Controller
         $this->load->model('Options');
         $this->load->model('Nexo_Misc');
         
-        $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_'));
+        $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_' . store_prefix() ) );
         
         if ($cached    =    $Cache->get('best_categories_post_' . $this->post('start') . '_' . $this->post('end'))) {
             $this->response($cached, 200);
@@ -322,27 +348,27 @@ class Nexo_premium extends REST_Controller
                     
                     // Here categories takes item_as and item use product_id instead.
                     $this->db->select('
-					nexo_categories.NOM as DESIGN,
-					nexo_categories.ID as ITEM_ID,
-					nexo_articles.DESIGN as ITEM_NAME,
-					nexo_commandes_produits.QUANTITE as QUANTITE_UNIQUE_VENDUE,
-					nexo_articles.QUANTITE_VENDU as QUANTITE_VENDU,
-					nexo_articles.PRIX_DE_VENTE as PRIX_DE_VENTE,
-					nexo_articles.ID as PRODUCT_ID,
-					nexo_commandes.DATE_CREATION as SOLD_DATE')
-                    ->from('nexo_commandes_produits')
-                    ->join('nexo_articles', 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = nexo_articles.CODEBAR')
-                    ->join('nexo_categories', 'nexo_categories.ID = nexo_articles.REF_CATEGORIE')
-                    ->join('nexo_commandes', 'nexo_commandes.CODE = nexo_commandes_produits.REF_COMMAND_CODE');
+					' . store_prefix() . 'nexo_categories.NOM as DESIGN,
+					' . store_prefix() . 'nexo_categories.ID as ITEM_ID,
+					' . store_prefix() . 'nexo_articles.DESIGN as ITEM_NAME,
+					' . store_prefix() . 'nexo_commandes_produits.QUANTITE as QUANTITE_UNIQUE_VENDUE,
+					' . store_prefix() . 'nexo_articles.QUANTITE_VENDU as QUANTITE_VENDU,
+					' . store_prefix() . 'nexo_articles.PRIX_DE_VENTE as PRIX_DE_VENTE,
+					' . store_prefix() . 'nexo_articles.ID as PRODUCT_ID,
+					' . store_prefix() . 'nexo_commandes.DATE_CREATION as SOLD_DATE')
+                    ->from( store_prefix() . 'nexo_commandes_produits')
+                    ->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = ' . store_prefix() . 'nexo_articles.CODEBAR')
+                    ->join( store_prefix() . 'nexo_categories', store_prefix() . 'nexo_categories.ID = ' . store_prefix() . 'nexo_articles.REF_CATEGORIE')
+                    ->join( store_prefix() . 'nexo_commandes', store_prefix() . 'nexo_commandes.CODE = ' . store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE');
                     
                     // $this->db->group_by( 'nexo_articles.CODEBAR' );
 
-                    $this->db->order_by('nexo_articles.QUANTITE_VENDU', 'DESC');
+                    $this->db->order_by( store_prefix() . 'nexo_articles.QUANTITE_VENDU', 'DESC');
                     
-                    $this->db->where('nexo_commandes.TYPE', $CashOrder);
+                    $this->db->where( store_prefix() . 'nexo_commandes.TYPE', $CashOrder);
                     
-                    $this->db->where('nexo_commandes.DATE_CREATION >=', $StartDay);
-                    $this->db->where('nexo_commandes.DATE_CREATION <=', $EndDay);
+                    $this->db->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', $StartDay);
+                    $this->db->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', $EndDay);
                     
                     $this->db->limit($this->config->item('best_of_items_limit'));
                     
@@ -373,7 +399,7 @@ class Nexo_premium extends REST_Controller
         $this->load->model('Options');
         $this->load->model('Nexo_Misc');
         
-        $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_'));
+        $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_' . store_prefix() ) );
         
         if ($cached    =    $Cache->get('best_shippings_post_' . $this->post('start') . '_' . $this->post('end'))) {
             $this->response($cached, 200);
@@ -394,27 +420,28 @@ class Nexo_premium extends REST_Controller
                     
                     // Here categories takes item_as and item use product_id instead.
                     $this->db->select('
-					nexo_arrivages.TITRE as DESIGN,
-					nexo_arrivages.ID as ITEM_ID,
-					nexo_articles.DESIGN as ITEM_NAME,
-					nexo_commandes_produits.QUANTITE as QUANTITE_UNIQUE_VENDUE,
-					nexo_articles.QUANTITE_VENDU as QUANTITE_VENDU,
-					nexo_articles.PRIX_DE_VENTE as PRIX_DE_VENTE,
-					nexo_articles.ID as PRODUCT_ID,
-					nexo_commandes.DATE_CREATION as SOLD_DATE')
-                    ->from('nexo_commandes_produits')
-                    ->join('nexo_articles', 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = nexo_articles.CODEBAR')
-                    ->join('nexo_arrivages', 'nexo_arrivages.ID = nexo_articles.REF_SHIPPING')
-                    ->join('nexo_commandes', 'nexo_commandes.CODE = nexo_commandes_produits.REF_COMMAND_CODE');
+					' . store_prefix() . 'nexo_arrivages.TITRE as DESIGN,
+					' . store_prefix() . 'nexo_arrivages.ID as ITEM_ID,
+					' . store_prefix() . 'nexo_articles.DESIGN as ITEM_NAME,
+					' . store_prefix() . 'nexo_commandes_produits.QUANTITE as QUANTITE_UNIQUE_VENDUE,
+					' . store_prefix() . 'nexo_articles.QUANTITE_VENDU as QUANTITE_VENDU,
+					' . store_prefix() . 'nexo_articles.PRIX_DE_VENTE as PRIX_DE_VENTE,
+					' . store_prefix() . 'nexo_articles.ID as PRODUCT_ID,
+					' . store_prefix() . 'nexo_commandes.DATE_CREATION as SOLD_DATE')
+					
+                    ->from( store_prefix() . 'nexo_commandes_produits')
+                    ->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = ' . store_prefix() . 'nexo_articles.CODEBAR')
+                    ->join( store_prefix() . 'nexo_arrivages', store_prefix() . 'nexo_arrivages.ID = ' . store_prefix() . 'nexo_articles.REF_SHIPPING')
+                    ->join( store_prefix() . 'nexo_commandes', store_prefix() . 'nexo_commandes.CODE = ' . store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE');
                     
                     // $this->db->group_by( 'nexo_articles.CODEBAR' );
 
-                    $this->db->order_by('nexo_articles.QUANTITE_VENDU', 'DESC');
+                    $this->db->order_by( store_prefix() . 'nexo_articles.QUANTITE_VENDU', 'DESC');
                     
-                    $this->db->where('nexo_commandes.TYPE', $CashOrder);
+                    $this->db->where( store_prefix() . 'nexo_commandes.TYPE', $CashOrder);
                     
-                    $this->db->where('nexo_commandes.DATE_CREATION >=', $StartDay);
-                    $this->db->where('nexo_commandes.DATE_CREATION <=', $EndDay);
+                    $this->db->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', $StartDay);
+                    $this->db->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', $EndDay);
                     
                     $this->db->limit($this->config->item('best_of_items_limit'));
                     
@@ -433,4 +460,13 @@ class Nexo_premium extends REST_Controller
             }
         }
     }
+	
+	/**
+	 * Load Expenses.
+	**/
+	
+	public function expenses_get()
+	{
+		$this->response( $this->db->get( store_prefix() . 'nexo_premium_factures' )->result() );
+	}
 }

@@ -12,7 +12,7 @@ class Dashboard_Model extends CI_Model
     {
         parent::__construct();
         $this->events->add_action('dashboard_header', array( $this, '__dashboard_header' ));
-        $this->events->add_action('dashboard_footer', array( $this, '__dashboard_footer' ));
+        $this->events->add_action('dashboard_footer', array( $this, '__dashboard_footer' ), 1);
         $this->events->add_action('load_dashboard', array( $this, '__set_admin_menu' ));
         $this->events->add_action('load_dashboard', array( $this, 'load_dashboard' ), 1);
         $this->events->add_action('create_dashboard_pages', array( $this, '__dashboard_config' ));
@@ -69,9 +69,6 @@ class Dashboard_Model extends CI_Model
     
     public function load_widgets()
     {
-        if (! Modules::is_active('aauth')) {
-            return false;
-        }
         // get global widget and cols
         global $AdminWidgets;
         global $AdminWidgetsCols;
@@ -121,7 +118,7 @@ class Dashboard_Model extends CI_Model
     public function __dashboard_footer()
     {
         $segments    = $this->uri->segment_array();
-        if (riake(2, $segments, 'index') == 'index') {
+        if (riake(2, $segments, 'index') == 'index' || ( @$segments[ 2 ] == 'stores' && @$segments[ 4 ] == null ) ) {
             ?>
 <script type="text/javascript">
 
@@ -184,6 +181,12 @@ $('[data-meta-namespace]').find( '[data-widget]' ).bind( 'click', function(){
 		true
 	);
 });
+
+/**
+ * Introducing Angular on Tendoo CMS
+**/
+
+var tendooApp		=	angular.module( 'tendooApp', [ ] );
 </script>
         <?php
 

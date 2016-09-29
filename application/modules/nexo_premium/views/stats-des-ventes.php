@@ -225,7 +225,7 @@ $( document ).ready(function(e) {
 			if( this.Index < this.EntryLength ) {
 				// Looping IDS
 				$.ajax( '<?php echo site_url(array( 'nexo_premium', 'sales_stats' ));
-    ?>' + '/' + this.CurrentDate, {
+    ?>' + '/' + this.CurrentDate + '<?php echo store_get_param( '?' );?>', {
 					beforeSend	:	function(){
 						NexoPremium_Sales_Statistics.DisplayModal();
 					},

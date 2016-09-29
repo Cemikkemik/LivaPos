@@ -155,7 +155,80 @@ if( ! function_exists( 'get_store_upload_path' ) ) {
 			return 'public/upload/store_' . $id;
 		}
 		
-		return 'public/upload/store_' . $store_id;
+		if( $store_id != null ) {
+			return 'public/upload/store_' . $store_id;
+		}
+		
+		return 'public/upload';
+		
+	}
+}
+
+/**
+ * Store URL
+ * @param int store id
+ * @return string store URL
+**/
+
+if( ! function_exists( 'get_store_upload_url' ) ) {
+	function get_store_upload_url( $id = null ) {
+		
+		global $store_id;
+		
+		if( $id != null ) {
+			return base_url() . 'public/upload/store_' . $id . '/';
+		}
+		
+		if( $store_id != null ) {
+			return base_url() . 'public/upload/store_' . $store_id . '/';
+		}
+		
+		return base_url() . 'public/upload/';
+		
+	}
+}
+
+/**
+ * Store Get param
+**/
+
+if( ! function_exists( 'store_get_param' ) ) {
+	function store_get_param( $prefix = '?' ) {
+		
+		if( store_prefix() != '' ) {
+			return $prefix . 'store_id=' . get_store_id();
+		}
+		return;
+	}
+}
+
+/**
+ * Is MultiStore
+**/
+
+if( ! function_exists( 'is_multistore' ) ) {
+	function is_multistore() {
+		
+		if( store_prefix() != '' ) {
+			return true;
+		}
+		return false;
+	}
+}
+
+/**
+ * Check Whether a multistore is enabled
+**/
+
+if( ! function_exists( 'multistore_enabled' ) ) {
+	function multistore_enabled() {
+		
+		global $Options;
+		
+		if( @$Options[ 'nexo_store' ] == 'enabled' ) {
+			return true;
+		}
+		return false;
 		
 	}
 }

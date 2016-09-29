@@ -744,7 +744,9 @@ class Nexo_Checkout extends CI_Model
                 $this->db->where($mark, $value);
             }
         }
+		
         $query    =    $this->db->get( store_prefix() . 'nexo_commandes');
+		
         if ($query->result_array()) {
             return $query->result_array();
         }

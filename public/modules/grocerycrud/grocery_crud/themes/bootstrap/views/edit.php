@@ -57,6 +57,10 @@
 								?>" name="<?php echo $field->field_name;
 								?>" aria-describedby="basic-addon1"> --> 
                 </div>
+                <?php if( ! empty( $field->description ) ):?>
+                <br />
+                <?php echo $field->description;?>
+                <?php endif;?>
             </div>
             <?php 
 							} else {
@@ -69,6 +73,7 @@
                 <br />
                 <?php echo $input_fields[$field->field_name]->input;
 								?> </div>
+                                <?php echo $field->description;?>
             <?php
 			$index++;
 		
@@ -106,6 +111,7 @@
 		<!--<input type="text" class="form-control" placeholder="<?php echo $field->display_as;
 				?>" name="<?php echo $field->field_name;
 				?>" aria-describedby="basic-addon1"> --> 
+                <?php echo $field->description;?>
 	</div>
 </div>
 <?php 
@@ -119,6 +125,7 @@
 	<br />
 	<?php echo $input_fields[$field->field_name]->input;
 				?> </div>
+                <?php echo $field->description;?>
 <?php
 
 			}

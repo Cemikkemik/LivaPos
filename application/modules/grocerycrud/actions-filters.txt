@@ -42,3 +42,11 @@ grocery_filter_edit_button {
 	}
 }
 
+grocery_row_actions_output {
+	type : filter
+	desc : filter row dom at end
+	params : {
+		$row, $this->l('list_edit'), $subject
+	}
+}
+

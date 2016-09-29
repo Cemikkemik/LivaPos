@@ -45,7 +45,7 @@ var Nexo_Best_Of		=	new function(){
 			this.last_url	=	url;
 		}
 				
-		$.ajax( this.last_url, {
+		$.ajax( this.last_url + '<?php echo store_get_param( '?' );?>', {
 			beforeSend	:	function() {
 				$( output_wrapper ).html( '<h3 style="margin:10px 0px" class="text-center"><?php echo addslashes(__('Chargement...', 'nexo_premium'));?></h3>' );
 			},

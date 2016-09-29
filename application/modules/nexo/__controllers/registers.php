@@ -30,10 +30,19 @@ class Nexo_Settings_Controller extends CI_Model
             redirect(array( 'dashboard', 'access-denied' ));
         }
 		
+		/**
+		 * This feature is not more accessible on main site when
+		 * multistore is enabled
+		**/
+		
+		if( multistore_enabled() && ! is_multistore() ) {
+			redirect( array( 'dashboard', 'feature-disabled' ) );
+		}
+		
 		$crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');
         $crud->set_subject(__( 'Caisses', 'nexo'));
-
+		
         $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_registers'));
 		
 		// If Multi store is enabled
@@ -171,7 +180,7 @@ class Nexo_Settings_Controller extends CI_Model
 			$( document ).ready(function(e) {
                 $( '.open_register' ).bind( 'click', function(){
 					var $this	=	$( this );
-					$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'register_status' ) );?>/' + $( this ).data( 'item-id' ), {
+					$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'register_status' ) );?>/' + $( this ).data( 'item-id' ) + '?<?php echo store_get_param( null );?>', {
 						success		:	function( data ){
 							// Somebody is logged in
 							if( data[0].STATUS == 'opened' ) {
@@ -196,13 +205,13 @@ class Nexo_Settings_Controller extends CI_Model
 								
 								bootbox.confirm( dom, function( action ) {
 									if( action ) {
-										$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'open_register' ) );?>/' + $this.data( 'item-id' ), {
+										$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'open_register' ) );?>/' + $this.data( 'item-id' ) + '?<?php echo store_get_param( null );?>', {
 											dataType	:	'json',
 											type		:	'POST',
 											data		:	_.object( [ 'date', 'balance', 'used_by' ], [ '<?php echo date_now();?>', $( '.open_balance' ).val(), '<?php echo User::id();?>' ]),
 											success: function( data ){
 												bootbox.alert( '<?php echo _s( 'La caisse a été ouverte. Veuillez patientez...', 'nexo' );?>' );
-												document.location	=	'<?php echo site_url( array( 'dashboard', 'nexo', 'registers', '__use' ) );?>/' + $this.data( 'item-id');
+												document.location	=	'<?php echo site_url( array( 'dashboard', store_slug(), 'nexo', 'registers', '__use' ) );?>/' + $this.data( 'item-id');
 											}
 										});
 									}
@@ -226,7 +235,7 @@ class Nexo_Settings_Controller extends CI_Model
 				
 				$( '.close_register' ).bind( 'click', function(){
 					var $this	=	$( this );
-					$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'register_status' ) );?>/' + $( this ).data( 'item-id' ), {
+					$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'register_status' ) );?>/' + $( this ).data( 'item-id' ) + '?<?php echo store_get_param( null );?>', {
 						success		:	function( data ){
 							// Somebody is logged in
 							if( data[0].STATUS == 'opened' ) {
@@ -246,7 +255,7 @@ class Nexo_Settings_Controller extends CI_Model
 								
 								bootbox.confirm( dom, function( action ) {
 									if( action == true ) {
-										$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'close_register' ) );?>/' + $this.data( 'item-id' ), {
+										$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'close_register' ) );?>/' + $this.data( 'item-id' ) + '?<?php echo store_get_param( null );?>', {
 											dataType	:	'json',
 											type		:	'POST',
 											data		:	_.object( [ 'date', 'balance', 'used_by' ], [ '<?php echo date_now();?>', $( '.open_balance' ).val(), '<?php echo User::id();?>' ]),
@@ -285,7 +294,7 @@ class Nexo_Settings_Controller extends CI_Model
 				
 				$( '.register_history' ).bind( 'click', function(){
 					
-					$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'register_activities' ) );?>/' + $( this ).data( 'item-id' ) + '?store_id=<?php echo get_store_id();?>', {
+					$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'register_activities' ) );?>/' + $( this ).data( 'item-id' ) + '?<?php echo store_get_param( null );?>', {
 						success	:	function( data ){
 							var dom			=	'<h4><?php echo _s( 'Historique de la caisse', 'nexo' );?></h4>';
 							var lignes		=	'';
@@ -399,7 +408,7 @@ class Nexo_Settings_Controller extends CI_Model
 		if( ! in_array( @$Options[ $options_prefix . 'nexo_enable_registers' ], array( null, 'non' ) ) ){
 		
 			$this->events->add_action( 'display_admin_header_menu', function(){
-			$item_id	=	$this->uri->segment( 5 );
+			$item_id	=	store_prefix() == '' ? $this->uri->segment( 5 ) : $this->uri->segment( 7 );
 			?>
             <li class="dropdown messages-menu">
             <a href="#" class="dropdown-toggle close_register" data-item-id="<?php echo $item_id;?>" data-toggle="dropdown" aria-expanded="true">
@@ -413,7 +422,7 @@ class Nexo_Settings_Controller extends CI_Model
 		  $( document ).ready(function(e) {
             $( '.close_register' ).bind( 'click', function(){
 					var $this	=	$( this );
-					$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'register_status' ) );?>/' + $( this ).data( 'item-id' ), {
+					$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'register_status' ) );?>/' + $( this ).data( 'item-id' ) + '?<?php echo store_get_param( null );?>', {
 						success		:	function( data ){
 							// Somebody is logged in
 							if( data[0].STATUS == 'opened' ) {
@@ -433,16 +442,16 @@ class Nexo_Settings_Controller extends CI_Model
 								
 								bootbox.confirm( dom, function( action ) {
 									if( action == true ) {
-										$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'close_register' ) );?>/' + $this.data( 'item-id' ), {
+										$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'close_register' ) );?>/' + $this.data( 'item-id' ) + '?<?php echo store_get_param( null );?>', {
 											dataType	:	'json',
 											type		:	'POST',
 											data		:	_.object( [ 'date', 'balance', 'used_by' ], [ '<?php echo date_now();?>', $( '.open_balance' ).val(), '<?php echo User::id();?>' ]),
 											success: function( data ){
 												bootbox.alert( '<?php echo _s( 'La caisse a été fermée. Veuillez patientez...', 'nexo' );?>' );
 												<?php if( User::in_group( 'shop_cashier' ) ):?>
-													document.location	=	'<?php echo site_url( array( 'dashboard', 'nexo', 'registers', 'for_cashiers?notice=register_has_been_closed' ) );?>';
+													document.location	=	'<?php echo site_url( array( 'dashboard', store_slug(), 'nexo', 'registers', 'for_cashiers?notice=register_has_been_closed' ) );?>';
 												<?php else:?>
-													document.location	=	'<?php echo site_url( array( 'dashboard', 'nexo', 'registers?notice=register_has_been_closed' ) );?>';
+													document.location	=	'<?php echo site_url( array( 'dashboard', store_slug(), 'nexo', 'registers?notice=register_has_been_closed' ) );?>';
 												<?php endif;?>
 											}
 										});
@@ -557,7 +566,7 @@ class Nexo_Settings_Controller extends CI_Model
 		$this->enqueue->css('../modules/nexo/css/animate');
 		$this->enqueue->css('../plugins/bootstrap-select/dist/css/bootstrap-select.min');
 
-		if ($id == null) {
+		if ($order_id == null) {
 			$this->Gui->set_title( store_title( __('Effectuer un vente', 'nexo')) );
 		} else {
 			$this->Gui->set_title( store_title( __('Modifier une commande', 'nexo')) );

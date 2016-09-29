@@ -1,11 +1,11 @@
 <?php
 use Carbon\Carbon;
 
-$Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_'));
+$Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' . store_prefix() ));
 $this->load->config('nexo');
 ?>
 <!-- bg-<?php echo $this->users->get_meta('theme-skin') ? str_replace('skin-', '', $this->users->get_meta('theme-skin')) : 'primary';?> -->
-<div class="box box-solid bg-blue" data-meta-namespace="nexo_sales_new">
+<div class="box box-solid bg-blue" data-meta-namespace="<?php echo store_prefix() ;?>nexo_sales_new">
     <div class="box-header ui-sortable-handle" style="cursor: move;"> <i class="fa fa-money"></i>
         <h3 class="box-title">
             <?php _e('Meilleurs articles', 'nexo');?>
@@ -66,7 +66,7 @@ if (! $Cache->get('widget_sale_new_best_items') || ! $Cache->get('widget_sale_ne
 <script type="text/javascript">
 "use strict";
 $(function(){
-	Nexo_Sales_Widget.load();
+	// Nexo_Sales_Widget.load();
 });
 </script>
     <?php
@@ -78,12 +78,12 @@ $(function(){
 var Nexo_Sales_Widget		=	new function(){
 	this.load				=	function( arg ){
 		var colors				=	[ '#02B3E7', '#CFD3D6', '#736D79', '#776068', '#EB0D42', '#FFEC62', '#04374E' ];
-		var refresh_it			=	arg == 'refresh' ? '?refresh=true' : '';
+		var refresh_it			=	arg == 'refresh' ? '?refresh=true' : '?load=cache';
 		var start_date			=	'<?php echo Carbon::parse(date_now())->subDays(7)->startOfDay()->toDateTimeString();?>';
 		var end_date			=	'<?php echo Carbon::parse(date_now())->endOfDay()->toDateTimeString();?>';
 		var limit				=	7;
 		var post_data			=	_.object( [ 'start_date', 'end_date', 'limit' ], [ start_date, end_date, limit ] );
-		$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'widget_sale_new' ));?>' + refresh_it, {
+		$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'widget_sale_new' ));?>' + refresh_it + '<?php echo store_get_param( '&' );?>', {
 			data		:	post_data,
 			type		:	'POST',
 			dataType	:	"json",
@@ -93,7 +93,7 @@ var Nexo_Sales_Widget		=	new function(){
 					$( this ).remove();
 					$( '.pieTip' ).remove();
 					
-					$( '[data-meta-namespace="nexo_sales_new"]' ).find( '.box-body' ).prepend( '<div id="new_sales" class="chart"></div>' );
+					$( '[data-meta-namespace="<?php echo store_prefix();?>nexo_sales_new"]' ).find( '.box-body' ).prepend( '<div id="new_sales" class="chart"></div>' );
 					
 					var _i			=	0;
 					var ItemsObject	=	new Object;
@@ -114,6 +114,7 @@ var Nexo_Sales_Widget		=	new function(){
 					}
 					
 					$("#new_sales").drawPieChart( _.toArray( ItemsObject ) );
+
 					// Left Stock
 					if( _.isObject( data.items ) ) {
 						var stock_total			=	0;

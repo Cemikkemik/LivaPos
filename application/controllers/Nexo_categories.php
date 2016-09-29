@@ -14,6 +14,7 @@ class Nexo_categories extends REST_Controller
         
         $this->load->library('session');
         $this->load->database();
+		$this->load->helper( 'nexopos' );
     }
     
     private function __success()
@@ -73,7 +74,7 @@ class Nexo_categories extends REST_Controller
             $this->db->where('ID', $mixed);
         }
         
-        $query    =    $this->db->get('nexo_categories');
+        $query    =    $this->db->get( store_prefix() . 'nexo_categories');
         $this->response($query->result(), 200);
     }
 }

@@ -3,7 +3,7 @@ $this->Gui->col_width(1, 4);
 
 $this->Gui->add_meta(array(
     'namespace'    =>    'registers',
-    'type'        =>    'box',
+    'type'        =>    'unwrapped',
     'col_id'    =>    1,
     'title'        =>    __('Caisses Enregistreuse', 'nexo')
 ));

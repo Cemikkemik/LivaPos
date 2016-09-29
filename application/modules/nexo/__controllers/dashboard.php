@@ -16,8 +16,6 @@ class Nexo_Dashboard extends CI_Model
     
     public function defaults()
     {
-		global $CurrentStore;
-		
 		// load widget model here only
 		$this->load->model('Dashboard_Model', 'dashboard');
 		$this->load->model('Dashboard_Widgets_Model', 'dashboard_widgets');

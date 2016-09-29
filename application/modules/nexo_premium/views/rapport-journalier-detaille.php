@@ -48,7 +48,7 @@ if( ! in_array( @$Options[ 'nexo_enable_registers' ], array( null, 'non' ) ) ){
 <div class="input-group"> <span class="input-group-addon" id="basic-addon1"><?php echo _s( 'Selectionnez la caisse dont vous souhaitez afficher le rapport journalier', 'nexo' );?></span>
     <select type="text" class="form-control" name="register_id">
         <option value="">
-        <?php _e( 'Faites un choix', 'nexo' );?>
+        <?php _e( 'Faites un choix', 'nexo_premium' );?>
         </option>
     </select>
 </div>
@@ -110,15 +110,21 @@ if( ! in_array( @$Options[ 'nexo_enable_registers' ], array( null, 'non' ) ) ){
         <?php endif;?>
         <tr>
             <td></td>
-            <td><?php _e('Chiffre d\'affaire journalier (Commandes Cash + Commandes Avance)', 'nexo_premium');
+            <td><?php _e('Revenu journalier', 'nexo_premium');
     ?></td>
             <td id="cash_avance_amount_total" class="text-right"></td>
         </tr>
         <tr>
             <td></td>
-            <td><?php _e('Chiffre d\'affaire à recouvrer (Créances)', 'nexo_premium');
+            <td><?php _e('Revenu exigible', 'nexo_premium');
     ?></td>
             <td id="avance_amount_left_total" class="text-right"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><?php _e('Total', 'nexo_premium');
+    ?></td>
+            <td id="daily_order_total_expected" class="text-right"></td>
         </tr>
     </tbody>
 </table>
@@ -213,7 +219,7 @@ if( ! in_array( @$Options[ 'nexo_enable_registers' ], array( null, 'non' ) ) ){
 		?>
         <tr>
             <td><?php _e('Chiffre d\'affaire net (*)', 'nexo_premium');?></td>
-            <td></td>
+            <td id="ca_net" class="text-right"></td>
         </tr>
     </tbody>
 </table>
@@ -271,7 +277,7 @@ var Nexo_Daily_Report	=	new function(){
 	
 	// @since 2.7.5
 	this.LoadRegisters		=	function(){
-		$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'registers' ) );?>', {
+		$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'registers', store_get_param( '?' ) ) );?>', {
 			success			:	function( data ) {
 				if( ! _.isEmpty( data ) ) {
 					_.each( data, function( register, key ){
@@ -315,7 +321,7 @@ var Nexo_Daily_Report	=	new function(){
 	this.OrderReport	=	function(){
 
 		$.post( 
-			'<?php echo site_url(array( 'rest', 'nexo', 'order_by_dates' ));?>/all/' + this.Register_ID,
+			'<?php echo site_url(array( 'rest', 'nexo', 'order_by_dates' ));?>/all/' + this.Register_ID + '<?php echo store_get_param( '?' );?>',
 			_.object( 
 				[ 'start', 'end' ], 
 				[ '<?php echo $CarbonReportDate->copy()->startOfDay();?>', '<?php echo $CarbonReportDate->copy()->endOfDay();?>' ] 
@@ -362,7 +368,7 @@ var Nexo_Daily_Report	=	new function(){
 				});
 				
 				// <!-- MARK -->
-				$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'order_items_dual_item' ) );?>', {
+				$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'order_items_dual_item', store_get_param( '?' ) ) );?>', {
 					dataType	:	'json',
 					data		:	_.object( [ 'orders_code' ], [ CashOrderCode ] ),
 					type		:	'POST',
@@ -396,6 +402,7 @@ var Nexo_Daily_Report	=	new function(){
 		
 		$( '#cash_avance_amount_total' ).html( NexoAPI.DisplayMoney( this.CashAvanceTotal ) );
 		$( '#avance_amount_left_total' ).html( NexoAPI.DisplayMoney( this.AvanceLeftTotal ) );
+		$( '#daily_order_total_expected' ).html( NexoAPI.DisplayMoney( this.AvanceLeftTotal + this.CashAvanceTotal ) );
 		
 		$( '#shadow_price' ).html( NexoAPI.DisplayMoney( Math.abs( 
 			NexoAPI.ParseFloat( Nexo_Daily_Report.ShadowPrice_Total - Nexo_Daily_Report.RealPrice_Total ) 
@@ -416,7 +423,7 @@ var Nexo_Daily_Report	=	new function(){
 		$( '#charge_total_amount' ).html( NexoAPI.DisplayMoney( this.RRR_Total ) );
 		
 		$.post( 
-			'<?php echo site_url(array( 'nexo_bills', 'bills_by_date' ));
+			'<?php echo site_url(array( 'nexo_bills', 'bills_by_date', store_get_param( '?' ) ));
     ?>', 
 			_.object( [ 'start', 'end' ], [ '<?php echo $CarbonReportDate->copy()->startOfDay();
     ?>', '<?php echo $CarbonReportDate->copy()->endOfDay();
@@ -444,7 +451,7 @@ var Nexo_Daily_Report	=	new function(){
 				if( @$Options[ 'nexo_enable_registers' ] == 'oui' ):
 				
 				?>
-				$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'register_activities_by_timerange' ) );?>/' + Nexo_Daily_Report.Register_ID, {
+				$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'register_activities_by_timerange' ) );?>/' + Nexo_Daily_Report.Register_ID + '<?php echo store_get_param( '?' );?>', {
 					success		:	function( data ){
 						console.log( data );
 						
@@ -532,6 +539,7 @@ var Nexo_Daily_Report	=	new function(){
 		$( '#depenses_total' ).html( NexoAPI.DisplayMoney( this.Depense_Totales ) );
 		
 		$( '#collected_tax' ).html( NexoAPI.DisplayMoney( this.VAT_Total ) );
+		$( '#ca_net' ).html( NexoAPI.DisplayMoney( this.Recettes_Totales - this.Depense_Totales ) ); 
 	};
 };
 

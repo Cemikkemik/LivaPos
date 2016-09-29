@@ -13,7 +13,7 @@ trait Nexo_Restaurant_Tables_Trait
 		if( $id != null ) {
 			$this->db->where( 'ID', $id );
 		}
-		$this->response( $this->db->get( 'nexo_restaurant_tables' )->result() );
+		$this->response( $this->db->get( store_prefix() . 'nexo_restaurant_tables' )->result() );
 	}
 	
 	/**
@@ -33,7 +33,7 @@ trait Nexo_Restaurant_Tables_Trait
 		$this->put( 'REF_GROUP' ) 		? $data[ 'REF_GROUP' ]			= $this->put( 'REF_GROUP' ) : null;
 		$this->put( 'NAME' ) 			? $data[ 'NAME' ]				= $this->put( 'NAME' ) : null;
 		
-		$this->db->where( 'ID', $id )->update( 'nexo_restaurant_tables', $data );
+		$this->db->where( 'ID', $id )->update( store_prefix() . 'nexo_restaurant_tables', $data );
 		
 		$this->__success();
 	}

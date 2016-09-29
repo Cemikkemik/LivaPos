@@ -80,9 +80,11 @@ class Nexo_Restaurant_Install extends CI_Model
 	 * SQL Tables
 	**/
 	
-	public function sql_install_queries()
-	{				
-		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_restaurant_tables` (
+	public function sql_install_queries( $prefix = '' )
+	{
+		$table_prefix		=	( $prefix == '' ) ? $this->db->dbprefix : $prefix;
+						
+		$this->db->query('CREATE TABLE IF NOT EXISTS `'. $table_prefix . 'nexo_restaurant_tables` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `NAME` varchar(200) NOT NULL,
 		  `DESCRIPTION` text NOT NULL,
@@ -98,7 +100,7 @@ class Nexo_Restaurant_Install extends CI_Model
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 		
-		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_restaurant_tables_groups` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `'. $table_prefix .'nexo_restaurant_tables_groups` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `NAME` varchar(200) NOT NULL,
 		  `DESCRIPTION` text NOT NULL,
@@ -109,7 +111,7 @@ class Nexo_Restaurant_Install extends CI_Model
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 		
-		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_restaurant_kitchens` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `'. $table_prefix .'nexo_restaurant_kitchens` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `NAME` varchar(200) NOT NULL,
 		  `DESCRIPTION` text NOT NULL,
@@ -121,7 +123,7 @@ class Nexo_Restaurant_Install extends CI_Model
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 		
-		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_restaurant_orders_meta` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `'. $table_prefix .'nexo_restaurant_orders_meta` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `KEY` varchar(200) NOT NULL,
 		  `VALUE` text NOT NULL,
@@ -153,6 +155,8 @@ class Nexo_Restaurant_Install extends CI_Model
 		if( $module == 'nexo_restaurant' ) {
 			if( @$Options[ 'nexo_restaurant_installed' ] == null ) {
 				$this->sql_install_queries();
+				$this->create_permissions();
+				$this->options->set( 'nexo_restaurant_installed', 'true', true );
 			}
 		}
 	}

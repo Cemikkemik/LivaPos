@@ -42,7 +42,7 @@
 </action>
 <action namespace="before_creating_tables">	
 	<action namespace="tendoo_setup">
-		<action namespace="before_setting_tables"></action>
+		<action namespace="before_db_setup"></action>
 		<action namespace="tendoo_settings_tables"></action>
 		<action namespace="tendoo_settings_final_config"></action>
 	</action>

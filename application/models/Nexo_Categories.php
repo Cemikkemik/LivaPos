@@ -18,7 +18,7 @@ class Nexo_Categories extends CI_Model
             }
         }
         
-        $query    =    $this->db->get('nexo_categories');
+        $query    =    $this->db->get( store_prefix() . 'nexo_categories');
         return $query->result_array();
     }
 }

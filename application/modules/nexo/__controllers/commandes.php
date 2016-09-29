@@ -23,8 +23,18 @@ class Nexo_Commandes extends CI_Model
         ) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
+		
+		/**
+		 * This feature is not more accessible on main site when
+		 * multistore is enabled
+		**/
+		
+		if( multistore_enabled() && ! is_multistore() ) {
+			redirect( array( 'dashboard', 'feature-disabled' ) );
+		}
             
         global $Options;
+		
         $this->load->model('Nexo_Checkout');
         $this->load->model('Nexo_Misc');
         $this->load->config('nexo');
@@ -44,13 +54,13 @@ class Nexo_Commandes extends CI_Model
 		$preview_class	=	'preview_order';
 		$edit_class		=	'select_register';
 		
-		if( in_array( @$Options[ 'nexo_enable_registers' ], array( null, 'non' ) ) ){ 
+		if( in_array( @$Options[ store_prefix() .'nexo_enable_registers' ], array( null, 'non' ) ) ){ 
 	        unset( $cols[ 1 ] ); // remove "REF_REGISTER"
 			$edit_link		=	site_url( array( 'dashboard',  store_slug(), 'nexo', 'registers', '__use', 'default' ) ) . '/';
 			$edit_class		=	'';
 		} 
         
-        if (@$Options[ 'nexo_enable_vat' ] == 'oui') {
+        if (@$Options[ store_prefix() .'nexo_enable_vat' ] == 'oui') {
             array_splice($cols, 5, 0, 'TVA');
         }
 		
@@ -122,6 +132,13 @@ class Nexo_Commandes extends CI_Model
         $this->events->add_filter('grocery_crud_list_item_class', array( $this, 'filter_grocery_list_item_class' ), 10, 2);
         $this->events->add_filter('grocery_filter_edit_button', array( $this, 'filter_edit_button' ), 10, 4);
         $this->events->add_filter('grocery_filter_actions', array( $this, 'filter_grocery_actions' ), 10, 3);
+		$this->events->add_filter('gui_wrapper_attrs', function( $content ){
+			return $content	.	'ng-controller="nexo_order_list"';
+		}, 10 );
+		
+		$this->events->add_filter( 'grocery_row_actions_output', function( $filter, $row ) {
+			return $filter . '<span class="btn btn-primary btn-sm" ng-click="openDetails( ' . $row->ID . ' )">' . __( 'Options', 'nexo' ) . '</span>';
+		}, 10, 2 );
 
         
         // $crud->required_fields( 'PAYMENT_TYPE', 'SOMME_PERCU' );
@@ -311,6 +328,8 @@ class Nexo_Commandes extends CI_Model
 	
 	public function footer()
 	{
+		$this->load->config('rest');
+		global $Options;
 		if( ( $this->uri->segment( 4 ) == 'lists' && $this->uri->segment( 4 ) != '__use' ) || ( $this->uri->segment( 6 ) == 'lists' && $this->uri->segment( 6 ) != '__use' ) ) {
 ?>
 <script type="text/javascript">
@@ -319,26 +338,30 @@ var BindAction		=	function(){
 	 $( '.preview_order' ).each( function(){
 		 if( typeof $(this).attr( 'preview-able' ) == 'undefined' ) {
 		 	$(this).bind( 'click', function(){
-				$.ajax( $(this).attr( 'href' ) + '?store_id=<?php echo get_store_id();?>', {
+				$.ajax( $(this).attr( 'href' ) + '?<?php echo store_get_param( null );?>', {
 					type		:	'GET',
 					dataType	:	'json',
 					success		:	function( data ){
+						
+						var SubTotal		=	0;
 						
 						if( ! _.isEmpty( data ) ) {
 							var items	=	'';
 							
 							_.each( data.items, function( value, key ) {
+								
 								items	+=	'<tr>' +
 												'<td>' + value.DESIGN + '</td>' +
 												'<td>' + NexoAPI.DisplayMoney( value.PRIX ) + '</td>' +
 												'<td>' + value.QUANTITE + '</td>' +
 												'<td>' + NexoAPI.DisplayMoney( value.PRIX_TOTAL ) + '</td>' +
 											'</tr>';
+								SubTotal	+=	parseFloat( value.PRIX_TOTAL );
 							});
 							
 							var Sentence		=	'';
 							if( parseFloat( data.order.SOMME_PERCU ) >= parseFloat( data.order.TOTAL ) ) {
-								var Sentence	=	'<?php echo _s( 'Reste :', 'nexo' );?>';
+								var Sentence	=	'<?php echo _s( 'Solde :', 'nexo' );?>';
 							} else if( parseFloat( data.order.SOMME_PERCU ) > 0 && parseFloat( data.order.SOMME_PERCU ) < parseFloat( data.order.TOTAL ) ) {
 								var Sentence	=	'<?php echo _s( 'Reste à verser :', 'nexo' );?>';
 							} else if( parseFloat( data.order.SOMME_PERCU ) == 0  ) {
@@ -361,18 +384,31 @@ var BindAction		=	function(){
 												'</tbody>' +
 											'</table>' + 
 											
-											'<h4><?php echo _s( 'Remise (RRR) : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( 
+											'<h4><?php echo _s( 'Sous Total : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( 
+												SubTotal
+											) + '</span></h4>' +
+											
+											'<h4>(-) <?php echo _s( 'Remise : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( 
 												NexoAPI.ParseFloat( data.order.REMISE ) +
 												NexoAPI.ParseFloat( data.order.RABAIS ) +
 												NexoAPI.ParseFloat( data.order.RISTOURNE ) 
 											) + '</span></h4>' + 
 											
-											'<h4><?php echo _s( 'TVA : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( 
+											<?php if( @$Options[ store_prefix() . 'enable_group_discount' ] == 'enable' ):?>
+											
+											'<h4>(-) <?php echo _s( 'Remise de groupe : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( 
+												NexoAPI.ParseFloat( data.order.GROUP_DISCOUNT )
+											) + '</span></h4>' + 
+											
+											<?php endif;?>
+											
+											'<h4>(+) <?php echo _s( 'TVA : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( 
 												NexoAPI.ParseFloat( data.order.TVA ) 
 											) + '</span></h4>' +
-											'<h4><?php echo _s( 'Total : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( data.order.TOTAL ) + '</span></h4>' + 
 											
-											'<h4><?php echo _s( 'Somme perçu : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( data.order.SOMME_PERCU ) + '</span></h4>' + 
+											'<h4><?php echo _s( 'Net à Payer : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( data.order.TOTAL ) + '</span></h4>' + 
+											
+											'<h4><?php echo _s( 'Perçu : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( data.order.SOMME_PERCU ) + '</span></h4>' + 
 											
 											'<h4>' + Sentence + ' <span class="pull-right">' + NexoAPI.DisplayMoney( 
 												Math.abs( NexoAPI.ParseFloat( data.order.TOTAL ) -
@@ -449,6 +485,8 @@ $( document ).ajaxComplete(function(){
 	BindAction();
 });
 </script>
+<?php include_once( MODULESPATH . '/nexo/inc/angular/filters/money-format.php' );?>
+<?php include_once( MODULESPATH . '/nexo/inc/angular/controllers/orders-list.php' );?>
 <?php
 		}
 	}

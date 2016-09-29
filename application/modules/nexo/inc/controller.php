@@ -52,26 +52,23 @@ class Nexo_Controller extends CI_Model
 			
 				if( User::can( 'create_shop' ) || User::can( 'edit_shop' ) || User::can( 'delete_shop' ) ) {
 					
-					if( User::in_group( 'master' ) || User::in_group( 'shop_manager' ) ) {
-						// Create a new store
-						$Nexo_Menus[ 'nexo_shop' ][]	=	array(
-							'title'		=>        __('Toutes les boutiques', 'nexo'), // menu title
-							'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'lists' ) )
-						);
-					
-					} else {
-					
-						$Nexo_Menus[ 'nexo_shop' ][]	=	array(
-							'title'		=>        __('Toutes les boutiques', 'nexo'), // menu title
-							'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'all' ) )
-						);
-					
-					}
+					// Create a new store
+					$Nexo_Menus[ 'nexo_shop' ][]	=	array(
+						'title'		=>        __('Toutes les boutiques', 'nexo'), // menu title
+						'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'lists' ) )
+					);
 					
 					$Nexo_Menus[ 'nexo_shop' ][]	=	array(
 						'title'		=>        __('Ajouter une boutique', 'nexo'), // menu title
 						'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'lists', 'add' ) )
 					);
+				} else {
+					
+					$Nexo_Menus[ 'nexo_shop' ][]	=	array(
+						'title'		=>        __('Toutes les boutiques', 'nexo'), // menu title
+						'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'all' ) )
+					);
+					
 				}
 				
 			}
@@ -92,7 +89,7 @@ class Nexo_Controller extends CI_Model
 				$store_uri	=	'stores/' . $this->uri->segment( 3, 0 ) . '/';
 			}
 		
-			if( @$Options[ 'nexo_enable_registers' ] == 'oui' ) {
+			if( @$Options[ store_prefix() . 'nexo_enable_registers' ] == 'oui' ) {
 			
 				if (
 					User::can('create_shop_registers') ||
@@ -142,7 +139,8 @@ class Nexo_Controller extends CI_Model
 				User::can('edit_shop_orders') ||
 				User::can('delete_shop_orders')
 			) {
-				if( in_array( @$Options[ 'nexo_enable_registers' ], array( null, 'non' ) ) ){
+				
+				if( in_array( @$Options[ store_prefix() . 'nexo_enable_registers' ], array( null, 'non' ) ) ){
 					$Nexo_Menus[ 'caisse' ][]		=	array(
 						'title'       =>    __('Ouvrir le PDV', 'nexo'), // menu title
 						'icon'        =>    'fa fa-shopping-cart', // menu icon
@@ -320,12 +318,17 @@ class Nexo_Controller extends CI_Model
 					
 			$this->events->do_action('nexo_before_history', $Nexo_Menus);
 			
-			if (
+			/** 
+			 * Disabled
 				User::can('create_shop_backup') ||
 				User::can('edit_shop_backup') ||
 				User::can('delete_shop_backup') ||
 				User::can('read_shop_user_tracker') ||
 				User::can('delete_shop_user_tracker')
+			**/
+			
+			if (
+				true == false
 			) {
 				$Nexo_Menus[ 'activite' ]    =    $this->events->apply_filters('nexo_history_menu_array', array(
 					array(
@@ -488,14 +491,21 @@ class Nexo_Controller extends CI_Model
 			if( @$Options[ 'nexo_store' ] == 'enabled' ) {
 			?>
 <li class="messages-menu">
-    <a href="<?php echo site_url( array( 'dashboard', 'nexo', 'stores', 'lists' ) );?>" title="<?php _e( 'Gérer les boutiques', 'nexo' );?>"> 
+<?php
+if( User::in_group( 'shop_cashier' ) || User::in_group( 'shop_tester' ) ) {
+	$store_url	=	site_url( array( 'dashboard', 'nexo', 'stores', 'all' ) );
+} else {
+	$store_url	=	site_url( array( 'dashboard', 'nexo', 'stores', 'lists' ) );
+}
+?>
+    <a href="<?php echo $store_url;?>" title="<?php _e( 'Gérer les boutiques', 'nexo' );?>"> 
     	<i class="fa fa-home"></i>
     </a>
 </li>
 <li class="dropdown messages-menu">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true"> 
     	<i class="fa fa-cubes"></i>
-    	<?php _e( 'Boutiques', 'nexo_restaurant' );?>
+    	<?php _e( 'Boutiques', 'nexo' );?>
     </a>
     <ul class="dropdown-menu">
         <li>
@@ -554,9 +564,7 @@ class Nexo_Controller extends CI_Model
 			$store_id	=	$urls[0];
 			$urls		=	array_splice( $urls, 2 );
 			
-			$this->load->model( 'Nexo_Stores' );
-			
-			if( $CurrentStore		=	$this->Nexo_Stores->get( $store_id ) ) {
+			if( $CurrentStore ) {
 				
 				$this->args    =    $urls;
 	

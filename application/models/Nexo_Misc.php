@@ -127,6 +127,7 @@ class Nexo_Misc extends CI_Model
      * @param string
      * @param string license 
      * @return void
+	 * @deprecated
     **/
     
     private function upgrade_duration_time($code, $Nexo_license)
@@ -148,8 +149,8 @@ class Nexo_Misc extends CI_Model
     public function display_currency($position)
     {
         global $Options;
-        if (@$Options[ 'nexo_currency_position' ] === $position) {
-            return $Options[ 'nexo_currency' ];
+        if (@$Options[ store_prefix() . 'nexo_currency_position' ] === $position) {
+            return $Options[ store_prefix() . 'nexo_currency' ];
         }
     }
     
@@ -162,7 +163,7 @@ class Nexo_Misc extends CI_Model
     public function currency()
     {
         global $Options;
-        return @$Options[ 'nexo_currency' ];
+        return @$Options[ store_prefix() . 'nexo_currency' ];
     }
     
     /**
@@ -175,21 +176,21 @@ class Nexo_Misc extends CI_Model
     {
         $this->clear_cache();
         // $this->db->query( 'TRUNCATE `'.$this->db->dbprefix.'nexo_bon_davoir`;' );
-        $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_commandes`;');
-        $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_commandes_produits`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_commandes`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_commandes_produits`;');
         
-        $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_articles`;');
-        $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_categories`;');
-        $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_fournisseurs`;');
-        $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_arrivages`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_categories`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_fournisseurs`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_arrivages`;');
         
-        $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_rayons`;');
-        $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_clients`;');
-        $this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_clients_groups`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_rayons`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_clients`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_clients_groups`;');
 		
 		// @since 2.7.5
-		$this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_registers`;');
-		$this->db->query('TRUNCATE `'.$this->db->dbprefix.'nexo_registers_activities`;');
+		$this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_registers`;');
+		$this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_registers_activities`;');
 		
     }
     
@@ -641,7 +642,7 @@ class Nexo_Misc extends CI_Model
                 }
             }
             
-            $Cache            =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_'));
+            $Cache            =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_' . store_prefix() ) );
             $Cache->save('restore_queries', $CleanSQLQueries, 300);
             
             $this->SimpleFileManager->drop($temp_folder);
@@ -696,7 +697,7 @@ class Nexo_Misc extends CI_Model
 			$cacheDurationTime	=	24 - intval( $currentDay->hour );
 		}
 		
-		$Cache				=	new CI_Cache( array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' ) );
+		$Cache				=	new CI_Cache( array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' . store_prefix() ) );
 		
 		if( ! $Cache->get( 'initial_balance' ) || $cacheDurationTime == false ) {
 			

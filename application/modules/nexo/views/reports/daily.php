@@ -329,7 +329,7 @@ $(function () {
 $( document ).ready(function(e) {
 	$( '.submitTime' ).bind( 'click', function(){
 		if( $( '[name="start"]' ).val() != '' && $( '[name="end"]' ).val() != '' ) {
-			document.location	=	'<?php echo site_url(array( 'dashboard', 'nexo', 'rapports', 'journalier' )) . '/';
+			document.location	=	'<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'rapports', 'journalier' )) . '/';
     ?>' + $( '[name="start"]' ).val() + '/' + $( '[name="end"]' ).val() + '?refresh=true';
 		} else {
 			alert( '<?php echo addslashes(__('Les dates ne sont pas spécifiée', 'nexo'));
@@ -387,7 +387,7 @@ var	Nexo_Daily_Report	=	new function(){
 		this.DisplayModal();
 		var tableItemId		=	this.Dates[0];
 		
-		$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'get', 'nexo_commandes', 'DATE_CREATION', 'filter_date_interval' ));
+		$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'get', 'nexo_commandes', 'DATE_CREATION', 'filter_date_interval',  store_get_param( '?' ) ));
     ?>', {
 			data			:	_.object( [ 'key' ], [ this.Dates[0] ] ),
 			type			:	'POST',

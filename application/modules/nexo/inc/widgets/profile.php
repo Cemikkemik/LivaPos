@@ -3,7 +3,7 @@ use Carbon\Carbon;
 
 $this->load->helper('nexopos');
 ?>
-<div class="box box-widget widget-user-2" data-meta-namespace="nexo_profile"> 
+<div class="box box-widget widget-user-2" data-meta-namespace="<?php echo store_prefix() ;?>nexo_profile"> 
     <!-- Add the bg color to the header using any of the bg-* classes -->
     <div class="widget-user-header bg-<?php echo $this->users->get_meta('theme-skin') ? str_replace('skin-', '', $this->users->get_meta('theme-skin')) : 'primary';?>">
         <div class="widget-user-image"> <img class="img-circle" src="<?php echo User::get_gravatar_url();?>" alt="User Avatar"> </div>
@@ -21,7 +21,7 @@ $this->load->helper('nexopos');
     </div>
     <?php
     // Fetch from cache
-    $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_'));
+    $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' . store_prefix() ));
     $Report        =    $Cache->get('profile_widget_cashier_sales_' . User::id());
     $this->load->model('Nexo_Misc');
     ?>
@@ -59,14 +59,14 @@ $this->load->helper('nexopos');
   "use strict";
   var Nexo_Profile_Widget	=	new function(){
 	  this.load				=	function( arg ) {
-		  var refresh_it	=	arg == 'refresh' ? '?refresh=true' : '';
+		  var refresh_it	=	arg == 'refresh' ? '?refresh=true' : '?load=cache';
 		  // Start of Day is unused now.
 		  var start_of_day		=	'<?php echo Carbon::parse(date_now())->subDays(7)->startOfDay()->toDateTimeString();?>';
 		  var end_of_day		=	'<?php echo Carbon::parse(date_now())->endOfDay()->toDateTimeString();?>';
 		  var cashier_id		=	<?php echo User::id();?>;
 		  var post_data			=	_.object( [ 'start_of_day', 'end_of_day', 'cashier_id' ], [ start_of_day, end_of_day, cashier_id ] );
 		  
-		  $.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'cashier_sales' ));?>' + refresh_it, {
+		  $.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'cashier_sales' ));?>' + refresh_it + '<?php echo store_get_param( '&' );?>', {
 			  beforeSend	:	function(){
 				  $( '.sales_numbers' ).html( 0 );
 				  $( '.sales_income' ).html( NexoAPI.DisplayMoney( 0 ) );

@@ -21,7 +21,8 @@ class Nexo extends REST_Controller
 		Nexo_categories,
 		Nexo_collection,
 		Nexo_Registers,
-		Nexo_customers;
+		Nexo_customers,
+		Nexo_stores;
     
     public function __construct()
     {

@@ -23,13 +23,13 @@ $this->Gui->add_meta( array(
 	'namespace'	=>	'nexo_woo_settings_2'
 ) );
 
-$this->Gui->add_meta( array(
+/*$this->Gui->add_meta( array(
 	'col_id'	=>	2,
 	'type'		=>	'box',
 	'title'		=>	__( 'WooCommerce &rarr; NexoPOS', 'nexo_woo' ),
 	'gui_saver'	=>	true,
 	'namespace'	=>	'nexo_woo_settings_3'
-) );
+) );*/
 
 $this->Gui->add_item( array(
 	'type'	=>	'text',
@@ -56,11 +56,31 @@ $this->Gui->add_item( array(
 ob_start();
 
 $this->load->config( 'nexo_woo' );
+$this->load->model( 'Nexo_Shipping' );
+
+$shippings		=	get_instance()->Nexo_Shipping->get_shipping();
+
 
 global $Options;
 if( @$Options[ 'woocommerce_url' ] != null && @$Options[ 'woocommerce_url' ] != null && @$Options[ 'woocommerce_url' ] != null ) {
 ?>
 <form>
+<div class="input-group">
+  <span class="input-group-addon" id="basic-addon1"><?php _e( 'Collection a exclure', 'nexo_woo' );?></span>
+  <select name="exclude" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+	<?php if( ! $shippings ):?>
+    	<option value="false"><?php _e( 'Aucune collection disponible', 'nexo_woo' );?></option>
+	<?php else:?>
+    	<?php if( is_array( $shippings ) ):?>
+        	<option value="all"><?php _e( 'Tout inclure', 'nexo_woo' );?></option>
+        	<?php foreach( $shippings as $ship ):?>
+            	<option value="<?php echo $ship[ 'ID' ];?>"><?php echo $ship[ 'TITRE' ];?></option>
+            <?php endforeach;?>
+        <?php endif;?>
+    <?php endif;?>
+  </select>
+</div>
+
 <div class="checkbox">
 <label>
   <input type="checkbox" class="delete_on_woocommerce" value="true"> <?php _e( 'Supprimer tout le contenu de la boutique', 'nexo_woo' );?>
@@ -81,8 +101,17 @@ var NexoSync		=	new function(){
 	
 	this.proceedDelete	=	function(){
 		
+		this.Exclude		=	$( '[name="exclude"]' ).val();		
 		var WooCategories	=	[];
 		var WooItems		=	[];
+		var ItemWave		=	0;
+		
+		if( this.Exclude  == 'false' ) {
+			bootbox.alert( '<?php echo _s( 'La synchronisation ne peut pas fonctionner, car NexoPOS ne contient aucune données exploitables', 'nexo_woo' );?>' );
+			return false;
+		}
+		
+		
 		
 		/**
 		 * Get WooCategories
@@ -98,8 +127,15 @@ var NexoSync		=	new function(){
 				type		:	'GET',
 				success		:	function( data ) {				
 					WooCategories		=	data;
-					// Now Get WooItems
-					GetWooItems();
+					
+					if( ! _.isEmpty( data ) && $( '.delete_on_woocommerce' ).is( ':checked' ) ) {
+						RunWooCategoriesDelete();
+					} else {
+						// Now Get WooItems
+						GetWooItems();
+					}
+					
+					
 				},
 				error		:	function(){
 					$( '.sync_list' ).append( '<li class="list-group-item"><?php echo _s( 'Une erreur s\'est produite... ', 'nexo_woo' );?></li>' );
@@ -113,6 +149,7 @@ var NexoSync		=	new function(){
 		**/
 		
 		var GetWooItems		=	function(){
+			ItemWave++;
 			$.ajax( '<?php echo site_url( array( 'rest', 'woocommerce', 'sync_get_woo_items' ) );?>', {
 				beforeSend: function(xhr) { 
 					xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_url_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_url' ];?>'); 
@@ -121,8 +158,15 @@ var NexoSync		=	new function(){
 				},
 				type		:	'GET',
 				success		:	function( data ) {				
+					
 					WooItems		=	data.products;
-					RunWooCategoriesDelete();
+					
+					if( ! _.isEmpty( data ) && $( '.delete_on_woocommerce' ).is( ':checked' ) ) {
+						RunWooItemDelete();
+					} else {
+						NexoSync.syncCategories();
+					}
+					
 				},
 				error		:	function(){
 					$( '.sync_list' ).append( '<li class="list-group-item"><?php echo _s( 'Une erreur s\'est produite... ', 'nexo_woo' );?></li>' );
@@ -139,6 +183,7 @@ var NexoSync		=	new function(){
 				$( '.delete_category_notice' ).html( '<?php echo _s( 'Suppression des categories. Restant = ', 'nexo_woo' );?> ' + WooCategories.length );
 			}
 			
+			if( WooCategories.length > 0 ) {
 			
 			
 			$.ajax( '<?php echo site_url( array( 'rest', 'woocommerce', 'sync_delete_woo_categories' ) );?>/' + WooCategories[0].id, {
@@ -159,7 +204,7 @@ var NexoSync		=	new function(){
 					if( WooCategories.length > 0 ) {
 						RunWooCategoriesDelete();
 					} else {
-						RunWooItemDelete();
+						GetWooCategories();
 					}
 				},
 				error		:	function(){
@@ -167,6 +212,11 @@ var NexoSync		=	new function(){
 				},
 				dataType	:	"json"
 			});
+			
+			} else {
+				// No category to delete
+				RunWooItemDelete();
+			}
 		};
 		
 		/**
@@ -176,39 +226,45 @@ var NexoSync		=	new function(){
 		var RunWooItemDelete	=	function(){
 			
 			if( $( '.delete_item_notice' ).length == 0 ){
-				$( '.sync_list' ).append( '<li class="list-group-item delete_item_notice"><?php echo _s( 'Suppression des produits. Restant = ', 'nexo_woo' );?> ' + WooCategories.length + '</li>' );
+				$( '.sync_list' ).append( '<li class="list-group-item delete_item_notice"><?php echo _s( 'Suppression des produits. Restant = ', 'nexo_woo' );?> ' + WooItems.length + ' &mdash; <?php echo _s( 'page : ', 'nexo' );?><span class="item_del_page">' + ItemWave + '</span></li>' );
 			} else {
-				$( '.delete_item_notice' ).html( '<?php echo _s( 'Suppression des produits. Restant = ', 'nexo_woo' );?> ' + WooItems.length );
+				$( '.delete_item_notice' ).html( '<?php echo _s( 'Suppression des produits. Restant = ', 'nexo_woo' );?> ' + WooItems.length + ' &mdash; <?php echo _s( 'page : ', 'nexo' );?><span class="item_del_page">' + ItemWave + '</span>' );
 			}
 			
-			console.log( WooItems );
-			
-			$.ajax( '<?php echo site_url( array( 'rest', 'woocommerce', 'sync_get_woo_items' ) );?>/' + WooItems.products[0].id, {
-				beforeSend: function(xhr) { 
-					xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_url_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_url' ];?>'); 
-					xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_consumer_key_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_cusommer_key' ];?>'); 
-					xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_consumer_secret_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_secret_key' ];?>'); 
-				},
-				type		:	'GET',
-				success		:	function( data ) {				
-					
-					WooItems.products.shift();
-					
-					/**
-					 * as long as we have category, we remove it
-					**/
-					
-					if( WooItems.products.length > 0 ) {
-						RunWooItemDelete();
-					} else {
-						NexoSync.syncCategories();
-					}
-				},
-				error		:	function(){
-					$( '.sync_list' ).append( '<li class="list-group-item"><?php echo _s( 'Une erreur s\'est produite... ', 'nexo_woo' );?></li>' );
-				},
-				dataType	:	"json"
-			});
+			// console.log( WooItems );
+			if( ! _.isEmpty( WooItems ) ) {
+
+				$.ajax( '<?php echo site_url( array( 'rest', 'woocommerce', 'sync_delete_woo_item' ) );?>/' + WooItems[0].id, {
+					beforeSend: function(xhr) { 
+						xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_url_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_url' ];?>'); 
+						xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_consumer_key_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_cusommer_key' ];?>'); 
+						xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_consumer_secret_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_secret_key' ];?>'); 
+					},
+					type		:	'GET',
+					success		:	function( data ) {				
+						
+						WooItems.shift();
+						
+						/**
+						 * as long as we have category, we remove it
+						**/
+						
+						if( WooItems.length > 0 ) {
+							RunWooItemDelete();
+						} else {
+							// Check wheter item still avaialble
+							GetWooItems();
+						}
+					},
+					error		:	function(){
+						$( '.sync_list' ).append( '<li class="list-group-item"><?php echo _s( 'Une erreur s\'est produite... ', 'nexo_woo' );?></li>' );
+					},
+					dataType	:	"json"
+				});
+			} else {
+				// No item
+				NexoSync.syncCategories();
+			}
 		};
 		
 		var deleteContent	=	$( '.delete_on_woocommerce' ).is( ':checked' );
@@ -326,7 +382,7 @@ var NexoSync		=	new function(){
 					} else {
 						
 						$( '.sync_categories' ).html( ': <?php echo _s( 'Terminé', 'nexo_woo' );?>' );						
-						NexoSync.getWooItems();
+						NexoSync.getNexoPOSItems();
 						
 					}				
 				},
@@ -340,8 +396,8 @@ var NexoSync		=	new function(){
 		
 		// Now launch Run
 		run_sync({
-				merged_categories	:	finalCategories,
-				woo_categories		:	[]
+			merged_categories	:	finalCategories,
+			woo_categories		:	[]
 		});
 	}
 	
@@ -349,29 +405,64 @@ var NexoSync		=	new function(){
 	 * Sync Tags used on NexoPOS as Radius
 	**/
 	
-	this.getWooItems			=	function(){
+	this.getWooItems			=	function(){ // deprecated ?
 		
 		var deleteContent	=	$( '.delete_on_woocommerce' ).is( ':checked' ) ? 'clear' : '';
+		
+		var getWooItem		=	function(){
+			$.ajax( '<?php echo site_url( array( 'rest', 'woocommerce', 'sync_woo_items' ) );?>/' + deleteContent, {
+				beforeSend: function(xhr) { 
+					xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_url_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_url' ];?>'); 
+					xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_consumer_key_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_cusommer_key' ];?>'); 
+					xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_consumer_secret_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_secret_key' ];?>'); 
+				},
+				type		:	'GET',
+				success		:	function( data ) {
+					
+					if( ! _.isEmpty( data ) ) {						
+						deleteWooItem( data );						
+					} else {
+						NexoSync.getNexoPOSItems();
+					}
+								
+				},
+				error		:	function(){
+					$( '.sync_list' ).append( '<li class="list-group-item"><?php echo _s( 'Une erreur s\'est produite... ', 'nexo_woo' );?></li>' );
+				},
+				dataType	:	"json"
+			});
+		}
+		
+		var deleteWooItem	=	function( data ){
+			if( ! _.isEmpty( data ) ) {
+				$.ajax( '<?php echo site_url( array( 'rest', 'woocommerce', 'sync_delete_woo_item' ) );?>/' + data[0].ID, {
+					beforeSend: function(xhr) { 
+						xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_url_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_url' ];?>'); 
+						xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_consumer_key_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_cusommer_key' ];?>'); 
+						xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_consumer_secret_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_secret_key' ];?>'); 
+					},
+					type		:	'GET',
+					success		:	function() {
+						
+						data.shift();
+						
+						deleteWooItem( data );
+						
+					},
+					error		:	function(){
+						$( '.sync_list' ).append( '<li class="list-group-item"><?php echo _s( 'Une erreur s\'est produite... ', 'nexo_woo' );?></li>' );
+					},
+					dataType	:	"json"
+				});
+			} else {
 				
-		$.ajax( '<?php echo site_url( array( 'rest', 'woocommerce', 'sync_woo_items' ) );?>/' + deleteContent, {
-			beforeSend: function(xhr) { 
-				xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_url_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_url' ];?>'); 
-				xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_consumer_key_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_cusommer_key' ];?>'); 
-				xhr.setRequestHeader('<?php echo $this->config->item( 'nexo_woo_consumer_secret_prefix' );?>',	'<?php echo @$Options[ 'woocommerce_secret_key' ];?>'); 
-			},
-			type		:	'GET',
-			success		:	function( data ) {
+				/**
+				 * If all returned item has been delete, we try to look 
+				**/
 				
-				console.log( data );
-				
-				NexoSync.getNexoPOSItems();
-							
-			},
-			error		:	function(){
-				$( '.sync_list' ).append( '<li class="list-group-item"><?php echo _s( 'Une erreur s\'est produite... ', 'nexo_woo' );?></li>' );
-			},
-			dataType	:	"json"
-		});
+				getWooItem();
+			}	
+		} 	
 	}
 	
 	/**
@@ -391,7 +482,22 @@ var NexoSync		=	new function(){
 				
 				$( '.sync_get_nexopositems' ).html( ': <?php echo _s( 'Terminé', 'nexo_woo' );?>' );
 				
-				NexoSync.mergeItems( data );
+				if( NexoSync.Exclude == 'all' ) {
+					NexoSync.mergeItems( data );
+				} else {
+					var ItemsArray	=	new Array;
+					_.each( data, function( _item ){
+						
+						/**
+						 * Si la collection de l'article correspond à la collection a supprimer'
+						**/
+						
+						if( value.ID != NexoSync.Exclude ) {
+							ItemsArray.push( _item );
+						}
+					});
+					NexoSync.mergeItems( ItemsArray );
+				}
 			},
 			error		:	function(){
 				$( '.sync_list' ).append( '<li class="list-group-item"><?php echo _s( 'Une erreur s\'est produite... ', 'nexo_woo' );?></li>' );

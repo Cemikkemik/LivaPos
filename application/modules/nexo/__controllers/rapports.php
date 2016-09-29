@@ -36,7 +36,7 @@ class Nexo_Reports extends CI_Model
         
         Carbon::setLocale($lang);
                 
-        $this->cache        =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_daily_reports_' ));
+        $this->cache        =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_daily_reports_' . store_prefix() ));
                 
         if ($start_date == null && $end_date == null) {
         
@@ -83,7 +83,7 @@ class Nexo_Reports extends CI_Model
         $this->enqueue->js('../modules/nexo/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min');
         $this->enqueue->css('../modules/nexo/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min');
         
-        $this->Gui->set_title( store_title( sprintf(__('Rapport des ventes journalières du %s au %s', 'nexo'), $CarbonStart->formatLocalized('%A %d %B %Y'), $CarbonEnd->formatLocalized('%A %d %B %Y') ) ) );
+        $this->Gui->set_title( store_title( __('Rapport des ventes journalières', 'nexo') ) );
                 
         $data[ 'start_date' ]    =    $CarbonStart->toDateString();
         $data[ 'end_date' ]        =    $CarbonEnd->toDateString();

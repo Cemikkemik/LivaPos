@@ -34,3 +34,5 @@ user_menu_card_avatar_alt	:	contain user avatar alt
 update_center_notice_nbr	:	hold notice number for update center sub menu
 gui_before_rows				:	before GUI row tag
 login_redirection			: 	contain default route when user login 
+gui_wrapper_attrs			:	filter content output on gui div wrapper as attribute
+dashboard_body_attrs		:	filter content output on gui body tag as attribute

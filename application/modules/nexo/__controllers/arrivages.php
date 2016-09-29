@@ -23,6 +23,15 @@ class Nexo_Arrivages extends CI_Model
         ) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
+		
+		/**
+		 * This feature is not more accessible on main site when
+		 * multistore is enabled
+		**/
+		
+		if( multistore_enabled() && ! is_multistore() ) {
+			redirect( array( 'dashboard', 'feature-disabled' ) );
+		}
         
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');

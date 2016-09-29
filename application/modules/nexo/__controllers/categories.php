@@ -23,6 +23,15 @@ class Nexo_Categories extends CI_Model
         ) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
+		
+		/**
+		 * This feature is not more accessible on main site when
+		 * multistore is enabled
+		**/
+		
+		if( multistore_enabled() && ! is_multistore() ) {
+			redirect( array( 'dashboard', 'feature-disabled' ) );
+		}
         
         $crud = new grocery_CRUD();
 
@@ -49,7 +58,7 @@ class Nexo_Categories extends CI_Model
         $crud->display_as('DESCRIPTION', __('Description de la catégorie', 'nexo'));
         $crud->display_as('PARENT_REF_ID', __('Catégorie parente', 'nexo'));
 
-		$crud->set_field_upload('THUMB', 'public/upload/categories');
+		$crud->set_field_upload('THUMB', get_store_upload_path() . '/categories');
         
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));

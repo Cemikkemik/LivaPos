@@ -29,6 +29,16 @@ $this->Gui->add_meta(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
+    'name'        =>    $option_prefix . 'enable_group_discount',
+    'label'        =>    __('Activer les remises de groupe', 'nexo'),
+    'options'    =>    array(
+        'disable'    =>    __('Désactiver', 'nexo'),
+        'enable'    =>    __('Activer', 'nexo')
+    )
+), 'Nexo_discount_customers', 1);
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
     'name'        =>    $option_prefix . 'discount_type',
     'label'        =>    __('Type de la remise', 'nexo'),
     'options'    =>    array(

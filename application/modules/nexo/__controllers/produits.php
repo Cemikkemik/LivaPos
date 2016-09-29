@@ -23,6 +23,15 @@ class Nexo_Produits extends CI_Model
         ) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
+		
+		/**
+		 * This feature is not more accessible on main site when
+		 * multistore is enabled
+		**/
+		
+		if( multistore_enabled() && ! is_multistore() ) {
+			redirect( array( 'dashboard', 'feature-disabled' ) );
+		}
         
         $this->load->model('Nexo_Products');
         $crud = new grocery_CRUD();
@@ -65,38 +74,46 @@ class Nexo_Produits extends CI_Model
 		$crud->set_relation('REF_SHIPPING', store_prefix() . 'nexo_arrivages', 'TITRE');
 		$crud->set_relation('AUTHOR', 'aauth_users', 'name');
         
-        $crud->display_as('DESIGN', __('Désignation', 'nexo'));
-        $crud->display_as('SKU', __('UGS (Unité de gestion de stock)', 'nexo'));
-        $crud->display_as('REF_RAYON', __('Assigner à un rayon', 'nexo'));
-        $crud->display_as('REF_CATEGORIE', __('Assign à une catégorie', 'nexo'));
-        $crud->display_as('REF_SHIPPING', __('Assign à un arrivage', 'nexo'));
-        $crud->display_as('QUANTITY', __('Quantité Totale', 'nexo'));
-        $crud->display_as('DEFECTUEUX', __('Quantité défectueuse', 'nexo'));
-        $crud->display_as('FRAIS_ACCESSOIRE', __('Frais Accéssoires', 'nexo'));
-        $crud->display_as('TAUX_DE_MARGE', __('Taux de marge', 'nexo'));
-        $crud->display_as('PRIX_DE_VENTE', __('Prix de vente', 'nexo'));
-        $crud->display_as('COUT_DACHAT', __("Cout d'achat", 'nexo'));
-        $crud->display_as('HAUTEUR', __('Hauteur', 'nexo'));
-        $crud->display_as('LARGEUR', __('Largeur', 'nexo'));
-		$crud->display_as('TAILLE', __('Taille', 'nexo'));
-        $crud->display_as('POIDS', __('Poids', 'nexo'));
-        $crud->display_as('DESCRIPTION', __('Description', 'nexo'));
-        $crud->display_as('COULEUR', __('Couleur', 'nexo'));
-        $crud->display_as('APERCU', __('Aperçu de l\'article', 'nexo'));
-        $crud->display_as('CODEBAR', __('Codebarre', 'nexo'));
-        $crud->display_as('PRIX_DACHAT', __('Prix d\'achat', 'nexo'));
-        $crud->display_as('DATE_CREATION', __('Crée le', 'nexo'));
-        $crud->display_as('DATE_MOD', __('Modifié le', 'nexo'));
-        $crud->display_as('AUTHOR', __('Auteur', 'nexo'));
-        $crud->display_as('QUANTITE_RESTANTE', __('Qte Rest.', 'nexo'));
-        $crud->display_as('QUANTITE_VENDU', __('Qte Vendue.', 'nexo'));
-        $crud->display_as('PRIX_PROMOTIONEL', __('Prix promotionnel', 'nexo'));
-        $crud->display_as('SPECIAL_PRICE_START_DATE', __('Début de la promotion', 'nexo'));
-        $crud->display_as('SPECIAL_PRICE_END_DATE', __('Fin de la promotion', 'nexo'));
+        $crud->display_as( 'DESIGN', __('Désignation', 'nexo'));
+        $crud->display_as( 'SKU', __('UGS (Unité de gestion de stock)', 'nexo'));
+        $crud->display_as( 'REF_RAYON', __('Assigner à un rayon', 'nexo'));
+        $crud->display_as( 'REF_CATEGORIE', __('Assign à une catégorie', 'nexo'));
+        $crud->display_as( 'REF_SHIPPING', __('Assign à un arrivage', 'nexo'));
+        $crud->display_as( 'QUANTITY', __('Quantité Totale', 'nexo'));
+        $crud->display_as( 'DEFECTUEUX', __('Quantité défectueuse', 'nexo'));
+        $crud->display_as( 'FRAIS_ACCESSOIRE', __('Frais Accéssoires', 'nexo'));
+        $crud->display_as( 'TAUX_DE_MARGE', __('Taux de marge', 'nexo'));
+        $crud->display_as( 'PRIX_DE_VENTE', __('Prix de vente', 'nexo'));
+        $crud->display_as( 'COUT_DACHAT', __("Cout d'achat", 'nexo'));
+        $crud->display_as( 'HAUTEUR', __('Hauteur', 'nexo'));
+        $crud->display_as( 'LARGEUR', __('Largeur', 'nexo'));
+		$crud->display_as( 'TAILLE', __('Taille', 'nexo'));
+        $crud->display_as( 'POIDS', __('Poids', 'nexo'));
+        $crud->display_as( 'DESCRIPTION', __('Description', 'nexo'));
+        $crud->display_as( 'COULEUR', __('Couleur', 'nexo'));
+        $crud->display_as( 'APERCU', __('Aperçu de l\'article', 'nexo'));
+        $crud->display_as( 'CODEBAR', __('Codebarre', 'nexo'));
+        $crud->display_as( 'PRIX_DACHAT', __('Prix d\'achat', 'nexo'));
+        $crud->display_as( 'DATE_CREATION', __('Crée le', 'nexo'));
+        $crud->display_as( 'DATE_MOD', __('Modifié le', 'nexo'));
+        $crud->display_as( 'AUTHOR', __('Auteur', 'nexo'));
+        $crud->display_as( 'QUANTITE_RESTANTE', __('Qte Rest.', 'nexo'));
+        $crud->display_as( 'QUANTITE_VENDU', __('Qte Vendue.', 'nexo'));
+        $crud->display_as( 'PRIX_PROMOTIONEL', __('Prix promotionnel', 'nexo'));
+        $crud->display_as( 'SPECIAL_PRICE_START_DATE', __('Début de la promotion', 'nexo'));
+        $crud->display_as( 'SPECIAL_PRICE_END_DATE', __('Fin de la promotion', 'nexo'));
 		$crud->display_as( 'SHADOW_PRICE', __( 'Prix de vente fictif', 'nexo' ) );
 		$crud->display_as( 'TYPE', __( 'Type d\'article', 'nexo' ) );
 		$crud->display_as( 'STATUS', __( 'Etat de l\'article', 'nexo' ) );
 		$crud->display_as( 'STOCK_ENABLED', __( 'Gestion de stock', 'nexo' ) );
+		$crud->display_as( 'BARCODE_TYPE', __( 'Type de code barre', 'nexo' ) );
+		$crud->display_as( 'AUTO_BARCODE', __( 'Générer une étiquette automatiquement', 'nexo' ) );
+		
+		$crud->field_description( 'AUTO_BARCODE', tendoo_info( __( 'Lorsque cette option est activée, Après la création/mise à jour de cet article, une étiquette sera générée en fonction du type de code barre. Si cette option est désactivée, alors le champ "Code barre" sera utilsiée pour générer l\'étiquette de l\'article. Assurez-vous de définir une valeur unique.', 'nexo' ) ) );
+		
+		$crud->field_description( 'BARCODE_TYPE', tendoo_info( __( 'Si la valeur de ce champ est vide et que l\'option "Générer une étiquette" est activée, alors le type de code barre utilisé sera celui des réglages des articles. Si aucun réglage n\'est défini, la génération de l\'étiquette sera ignorée.', 'nexo' ) ) );
+		
+		$crud->field_description( 'CODEBAR', tendoo_info( __( 'Si la valeur de ce champ est vide et que l\'option "Générer un étiquette" est activée, la génération d\'une étiuette sera ignorée.', 'nexo' ) ) );
 		
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
@@ -118,7 +135,7 @@ class Nexo_Produits extends CI_Model
 			'STOCK_ENABLED'
 		);
 
-        $crud->set_field_upload('APERCU', 'public/upload/');
+        $crud->set_field_upload('APERCU', get_store_upload_path() );
         
         $crud->set_rules('QUANTITY', __('Quantité Totale', 'nexo'), 'is_natural_no_zero');
         $crud->set_rules('DEFECTUEUX', __('Quantité Defectueuse', 'nexo'), 'numeric');
@@ -129,18 +146,21 @@ class Nexo_Produits extends CI_Model
         $crud->set_rules('FRAIS_ACCESSOIRE', __('Frais Accessoires', 'nexo'), 'numeric');
         
         // Masquer le champ codebar
-        $crud->change_field_type('CODEBAR', 'invisible');
+        // $crud->change_field_type('CODEBAR', 'invisible');
         $crud->change_field_type('COUT_DACHAT', 'invisible');
         $crud->change_field_type('QUANTITE_RESTANTE', 'invisible');
         $crud->change_field_type('QUANTITE_VENDU', 'invisible');
         $crud->change_field_type('DATE_CREATION', 'invisible');
         $crud->change_field_type('DATE_MOD', 'invisible');
         $crud->change_field_type('AUTHOR', 'invisible');
+		// $crud->change_field_type( 'BARCODE_TYPE', 'invisible' );
 		
 		// @since 2.8.2
 		$crud->field_type('TYPE', 'dropdown', $this->config->item('nexo_item_type'));
 		$crud->field_type('STATUS', 'dropdown', $this->config->item('nexo_item_status'));
 		$crud->field_type('STOCK_ENABLED', 'dropdown', $this->config->item('nexo_item_stock'));
+		$crud->field_type( 'AUTO_BARCODE', 'dropdown', $this->config->item('nexo_yes_no' ) );
+		$crud->field_type( 'BARCODE_TYPE', 'dropdown', $this->config->item( 'nexo_barcode_supported' ) );
         
         // Callback Before Render
         $crud->callback_before_insert(array( $this->Nexo_Products, 'product_save' ));

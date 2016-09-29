@@ -79,7 +79,7 @@ if (! $Cache->get($report_slug) || @$_GET[ 'refresh' ] == 'true') {
 $( document ).ready(function(e) {
     $( '.circonstrire' ).bind( 'submit', function() {
 		if( $( '#report_date' ).val() != '' ) {
-			document.location =	'<?php echo site_url(array( 'dashboard', 'nexo_premium', 'Controller_Mouvement_Annuel_Tresorerie' ));
+			document.location =	'<?php echo site_url(array( 'dashboard', store_slug(), 'nexo_premium', 'Controller_Mouvement_Annuel_Tresorerie' ));
     ?>/' + $( '#report_date' ).val();
 		} else {
 			bootbox.alert( '<?php _e('Vous devez spécifier une date', 'nexo_premium');
@@ -225,7 +225,7 @@ var NexoCashFlow	=	new function(){
 			var	data	=	_.object( [ 'start', 'end' ], [ $( '.month_thead' ).eq( this.Index ).data( 'start-date' ), $( '.month_thead' ).eq( this.Index ).data( 'end-date' ) ] );
 			
 			$.post( 
-				'<?php echo site_url(array( 'nexo_premium', 'flux' ));
+				'<?php echo site_url(array( 'nexo_premium', 'flux', store_get_param( '?' ) ));
     ?>', 
 				data,
 				function( content ) {

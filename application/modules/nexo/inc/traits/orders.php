@@ -13,7 +13,7 @@ trait Nexo_orders
         if ($var != null) {
             $this->db->where($filter, $var);
         }
-        $query    =    $this->db->get('nexo_commandes');
+        $query    =    $this->db->get( store_prefix() . 'nexo_commandes');
         $this->response($query->result(), 200);
     }
     
@@ -378,12 +378,40 @@ trait Nexo_orders
 	
 	public function order_with_item_get( $order_id )
 	{		
-		$order		=	$this->db->where( 'ID', $order_id )->get( store_prefix() . 'nexo_commandes' )->result();
+		$order		=	$this->db->select( '*,
+		nexo_clients.NOM as CLIENT_NAME,
+		aauth_users.name as AUTHOR_NAME' )
+		
+		->from( store_prefix() . 'nexo_commandes' )
+		
+		->join( 
+			store_prefix() . 'nexo_clients', 
+			store_prefix() . 'nexo_clients.ID = ' . store_prefix() . 'nexo_commandes.REF_CLIENT', 
+			'left' 
+		)
+		
+		->join( 
+			'aauth_users', 
+			store_prefix() . 'nexo_commandes.AUTHOR = aauth_users.id', 
+			'left' 
+		)
+		
+		->where( store_prefix() . 'nexo_commandes.ID', $order_id )
+		
+		->get()->result();
 		
 		$items		=	$this->db->select( '*' )
+		
 		->from( store_prefix() . 'nexo_commandes_produits' )
-		->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR', 'left' )
+		
+		->join( 
+			store_prefix() . 'nexo_articles', 
+			store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR', 
+			'left' 
+		)
+		
 		->where( store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE', $order[0]->CODE )
+		
 		->get()->result();
 		
 		if( $order && $items ) {

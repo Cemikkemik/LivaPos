@@ -68,7 +68,7 @@ var	NexoRestaure	=	new function(){
 	}
 	//
 	this.doReset	=	function( password ){
-		$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'reset_shop' ));?>', {
+		$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'reset_shop?store_id=' . get_store_id() ));?>', {
 			success	:	function(a){
 				if( _.isObject( a ) ) {
 					eval( 'tendoo.notify.' + a.type + '( "<?php echo addslashes(__('Attention', 'nexo'));?><br>", a.msg );' );

@@ -98,6 +98,8 @@ if (!empty($row->action_urls)) {
                         <?php 
     }
 }
+
+echo get_instance()->events->apply_filters('grocery_row_actions_output', '', $row, $this->l('list_edit'), $subject);
 ?>
                         <div class='clear'></div>
                     </div></td>

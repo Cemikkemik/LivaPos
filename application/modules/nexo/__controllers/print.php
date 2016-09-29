@@ -22,7 +22,7 @@ class Nexo_Print extends CI_Model
     public function order_receipt($order_id = null)
     {
         if ($order_id != null) {
-            $this->cache        =    new CI_Cache(array( 'adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_order_' ));
+            $this->cache        =    new CI_Cache(array( 'adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_order_' . store_prefix() ));
             
             if ($order_cache = $this->cache->get($order_id) && @$_GET[ 'refresh' ] != 'true') {
                 echo $this->cache->get($order_id);
@@ -54,13 +54,13 @@ class Nexo_Print extends CI_Model
 			$data[ 'template' ][ 'order_code' ]		=	$data[ 'order' ][ 'order' ][0][ 'CODE' ];
 			$data[ 'template' ][ 'order_status' ]	=	$this->Nexo_Checkout->get_order_type($data[ 'order' ][ 'order' ][0][ 'TYPE' ]);
 			$data[ 'template' ][ 'order_cashier' ]	=	User::pseudo($data[ 'order' ][ 'order' ][0][ 'AUTHOR' ]);			
-			$data[ 'template' ][ 'shop_name' ]		=	@$Options[ 'site_name' ];
-			$data[ 'template' ][ 'shop_pobox' ]		=	@$Options[ 'nexo_shop_pobox' ];
-			$data[ 'template' ][ 'shop_fax' ]		=	@$Options[ 'nexo_shop_fax' ];
-			$data[ 'template' ][ 'shop_email' ]		=	@$Options[ 'nexo_shop_email' ];
-			$data[ 'template' ][ 'shop_street' ]	=	@$Options[ 'nexo_shop_street' ];
-			$data[ 'template' ][ 'shop_phone' ]		=	@$Options[ 'nexo_shop_phone' ];
-            $theme                					=	@$Options[ 'nexo_receipt_theme' ] ? @$Options[ 'nexo_receipt_theme' ] : 'default';
+			$data[ 'template' ][ 'shop_name' ]		=	@$Options[ store_prefix() . 'site_name' ];
+			$data[ 'template' ][ 'shop_pobox' ]		=	@$Options[ store_prefix() . 'nexo_shop_pobox' ];
+			$data[ 'template' ][ 'shop_fax' ]		=	@$Options[ store_prefix() . 'nexo_shop_fax' ];
+			$data[ 'template' ][ 'shop_email' ]		=	@$Options[ store_prefix() . 'nexo_shop_email' ];
+			$data[ 'template' ][ 'shop_street' ]	=	@$Options[ store_prefix() . 'nexo_shop_street' ];
+			$data[ 'template' ][ 'shop_phone' ]		=	@$Options[ store_prefix() . 'nexo_shop_phone' ];
+            $theme                					=	@$Options[ store_prefix() . 'nexo_receipt_theme' ] ? @$Options[ store_prefix() . 'nexo_receipt_theme' ] : 'default';
 			
             $this->load->view('../modules/nexo/views/receipts/' . $theme . '.php', $data);
         } else {
@@ -78,7 +78,7 @@ class Nexo_Print extends CI_Model
             die(__('Arrivage non définie', 'nexo'));
         }
         
-        $this->cache        =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_products_labels_' ));
+        $this->cache        =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_products_labels_' . store_prefix() ));
 		
         if ($products_labels = $this->cache->get($shipping_id) && @$_GET[ 'refresh' ] != 'true') {
             echo $this->cache->get( $shipping_id );
@@ -89,7 +89,7 @@ class Nexo_Print extends CI_Model
         $this->load->model('Nexo_Shipping');
         
         global $Options;
-        $pp_row                    =    ! empty($Options[ 'nexo_products_labels' ]) ? @$Options[ 'nexo_products_labels' ] : 4;
+        $pp_row                    =    ! empty($Options[ store_prefix() . 'nexo_products_labels' ]) ? @$Options[ store_prefix() . 'nexo_products_labels' ] : 4;
 		
         $data                    =    array();
         $data[ 'shipping_id' ]    =    $shipping_id;

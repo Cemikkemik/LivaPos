@@ -22,7 +22,7 @@ class Nexo_Premium_Filters extends CI_Model
     
     public function nexo_daily_details_link($string, $date)
     {
-        return site_url(array( 'dashboard', 'nexo_premium', 'Controller_Rapport_Journalier_Detaille', $date . '?ref=' . urlencode(current_url()) )) ;
+        return site_url(array( 'dashboard', store_slug(), 'nexo_premium', 'Controller_Rapport_Journalier_Detaille', $date . '?ref=' . urlencode(current_url()) )) ;
     }
     
     /**
@@ -94,12 +94,17 @@ class Nexo_Premium_Filters extends CI_Model
 			));
 			}
 			
+			/**
+			 * 	Disabled
+			 *	User::can('create_shop_backup') ||
+			 *	User::can('edit_shop_backup') ||
+			 *	User::can('delete_shop_backup') ||
+			 *	User::can('read_shop_user_tracker') ||
+			 *	User::can('delete_shop_user_tracker')
+			**/
+			
 			if (
-				User::can('create_shop_backup') ||
-				User::can('edit_shop_backup') ||
-				User::can('delete_shop_backup') ||
-				User::can('read_shop_user_tracker') ||
-				User::can('delete_shop_user_tracker')
+				true == false
 			) {
 				if (
 					User::can('read_shop_user_tracker') ||

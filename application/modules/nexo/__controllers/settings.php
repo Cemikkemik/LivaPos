@@ -40,7 +40,7 @@ class Nexo_Settings_Controller extends CI_Model
                 $this->Gui->set_title( store_title( __('Réglages sur les passerelles de paiments', 'nexo')));
                 $this->load->view("../modules/nexo/views/settings/{$page}.php");
             } elseif ($page == 'reset') {
-                $this->Gui->set_title( store_title( __('Réglages la reinitialisation', 'nexo')));
+                $this->Gui->set_title( store_title( __('Réglages de la reinitialisation', 'nexo')));
                 $this->load->view("../modules/nexo/views/settings/{$page}.php");
 			} elseif ($page == 'invoices') { // @since 2.7.9
                 $this->Gui->set_title( store_title( __('Réglages des factures/reçu de caisse', 'nexo')));

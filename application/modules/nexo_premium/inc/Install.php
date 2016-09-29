@@ -19,6 +19,9 @@ class Nexo_Premium_Install extends CI_Model
         // While installing
 
         $this->events->add_action('tendoo_settings_tables', array( $this, 'Install' ));
+		
+		$this->events->add_action( 'nexo_after_install_tables', array( $this, 'SQL_Install_Queries' ) );
+		$this->events->add_action( 'nexo_after_delete_tables', array( $this, 'SQL_Uninstall_Queries' ) );
         
         // While activating
 
@@ -39,7 +42,8 @@ class Nexo_Premium_Install extends CI_Model
     {
         if ($module != 'nexo_premium') : return ;
         endif;
-        $this->db->query('DROP TABLE IF EXISTS `'.$this->db->dbprefix.'nexo_premium_factures`;');
+        
+		$this->SQL_Uninstall_Queries( $this->db->dbprefix );
     }
     
     /**
@@ -62,7 +66,18 @@ class Nexo_Premium_Install extends CI_Model
         
         Modules::enable('nexo_premium');
         
-        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_premium_factures` (
+        $this->SQL_Install_Queries( $this->db->dbprefix );
+        
+        $this->options->set('nexo_premium_installed', true, true);
+    }
+	
+	/**
+	 * SQL
+	**/
+	
+	public function SQL_Install_Queries( $table_prefix )
+	{
+		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_premium_factures` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `INTITULE` varchar(200) NOT NULL,
 		  `REF` varchar(200) NOT NULL,
@@ -77,7 +92,7 @@ class Nexo_Premium_Install extends CI_Model
         
         // Backup
 
-        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix.'nexo_premium_backups` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_premium_backups` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `NAME` varchar(200) NOT NULL,
 		  `FILE_LOCATION` text NOT NULL,
@@ -86,9 +101,17 @@ class Nexo_Premium_Install extends CI_Model
 		  `AUTHOR` int(11) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
-        
-        $this->options->set('nexo_premium_installed', true, true);
-    }
+	}
+	
+	/**
+	 * Uninstall Query
+	**/
+	
+	public function SQL_Uninstall_Queries( $table_prefix )
+	{
+		$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_premium_factures`;');
+		$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_premium_backups`;');
+	}
 }
 
 new Nexo_Premium_Install;

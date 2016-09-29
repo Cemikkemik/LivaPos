@@ -1,13 +1,4 @@
 ﻿<?php if( User::in_group( 'shop_manager' ) || User::in_group( 'master' ) || User::in_group( 'shop_tester' ) ):?>
-<?php
-/**
- * If MultiStore is enabled
-**/
-
-global $store_id;
-
-$prefix		=	$store_id != null ? 'store_' . $store_id . '_' : '';
-?>
 <br /> 
 <div class="container-fluid">
     <div class="row">
@@ -18,19 +9,19 @@ $prefix		=	$store_id != null ? 'store_' . $store_id . '_' : '';
                 </h4> 
                 <h5><?php _e('Aujourd\'hui', 'nexo_premium');?>
                 	<span class="pull-right">
-                    	<?php echo nexo_compare_card_values($Cache->get( $prefix . 'sales_number_today'), $Cache->get( $prefix . 'sales_number_yesterday'));?>
+                    	<?php echo nexo_compare_card_values($Cache->get( 'sales_number_today'), $Cache->get( 'sales_number_yesterday'));?>
                         
-                        <?php echo $Cache->get( $prefix . 'sales_number_today');?>
+                        <?php echo $Cache->get( 'sales_number_today');?>
                     </span>
                 </h5>
                 <h5><?php _e('Hier', 'nexo_premium');?>
                 	<span class="pull-right">
-                        <?php echo $Cache->get( $prefix . 'sales_number_yesterday');?>
+                        <?php echo $Cache->get( 'sales_number_yesterday');?>
                     </span>
                 </h5>
                 <h5><?php _e('Total', 'nexo_premium');?>
                 	<span class="pull-right">
-                    	<?php echo $Cache->get( $prefix . 'sales_number');?>
+                    	<?php echo $Cache->get( 'sales_number');?>
                     </span>
                 </h5>
                 </div>
@@ -52,19 +43,19 @@ $prefix		=	$store_id != null ? 'store_' . $store_id . '_' : '';
                 <h5><?php _e('Aujourd\'hui', 'nexo_premium');?>
                 	<span class="pull-right">
                     	
-                        <?php echo nexo_compare_card_values($Cache->get( $prefix . 'net_sales_today'), $Cache->get( $prefix . 'net_sales_yesterday'));?>
+                        <?php echo nexo_compare_card_values($Cache->get( 'net_sales_today'), $Cache->get( 'net_sales_yesterday'));?>
                         
-                        <?php echo $this->Nexo_Misc->cmoney_format($Cache->get( $prefix . 'net_sales_today'));?>
+                        <?php echo $this->Nexo_Misc->cmoney_format($Cache->get( 'net_sales_today'));?>
                     </span>
                 </h5>
                 <h5><?php _e('Hier', 'nexo_premium');?>
                 	<span class="pull-right">
-                        <?php echo $this->Nexo_Misc->cmoney_format($Cache->get( $prefix . 'net_sales_yesterday'));?>
+                        <?php echo $this->Nexo_Misc->cmoney_format($Cache->get( 'net_sales_yesterday'));?>
                     </span>
                 </h5>
                 <h5><?php _e('Total', 'nexo_premium');?>
                 	<span class="pull-right">
-                    	<?php echo $this->Nexo_Misc->cmoney_format($Cache->get( $prefix . 'net_sales'));?>
+                    	<?php echo $this->Nexo_Misc->cmoney_format($Cache->get( 'net_sales'));?>
                     </span>
                 </h5>
                 </div>
@@ -85,18 +76,18 @@ $prefix		=	$store_id != null ? 'store_' . $store_id . '_' : '';
                 </h4> 
                 <h5><?php _e('Aujourd\'hui', 'nexo_premium');?>
                 	<span class="pull-right">
-                    	<?php echo nexo_compare_card_values($Cache->get( $prefix . 'customers_number_today'), $Cache->get( $prefix . 'customers_number_yesterday'));?>
+                    	<?php echo nexo_compare_card_values($Cache->get( 'customers_number_today'), $Cache->get( 'customers_number_yesterday'));?>
                         <?php echo $Cache->get('customers_number_today');?>
                     </span>
                 </h5>
                 <h5><?php _e('Hier', 'nexo_premium');?>
                 	<span class="pull-right">
-                        <?php echo $Cache->get( $prefix . 'customers_number_yesterday');?>
+                        <?php echo $Cache->get( 'customers_number_yesterday');?>
                     </span>
                 </h5>
                 <h5><?php _e('Total', 'nexo_premium');?>
                 	<span class="pull-right">
-                    	<?php echo $Cache->get( $prefix . 'customers_number');?>
+                    	<?php echo $Cache->get( 'customers_number');?>
                     </span>
                 </h5>
                 </div>
@@ -116,18 +107,18 @@ $prefix		=	$store_id != null ? 'store_' . $store_id . '_' : '';
                 <h4><span class="fa fa-meh-o"></span> <?php _e('Créances', 'nexo_premium');?></h4> 
                 <h5><?php _e('Aujourd\'hui', 'nexo_premium');?>
                 	<span class="pull-right">
-                    	<?php echo nexo_compare_card_values($Cache->get( $prefix . 'creances_today'), $Cache->get( $prefix . 'creances_yesterday'), true);?>
-                        <?php echo $this->Nexo_Misc->cmoney_format($Cache->get( $prefix . 'creances_today'));?>
+                    	<?php echo nexo_compare_card_values($Cache->get( 'creances_today'), $Cache->get( 'creances_yesterday'), true);?>
+                        <?php echo $this->Nexo_Misc->cmoney_format($Cache->get( 'creances_today'));?>
                     </span>
                 </h5>
                 <h5><?php _e('Hier', 'nexo_premium');?>
                 	<span class="pull-right">
-                        <?php echo $this->Nexo_Misc->cmoney_format($Cache->get( $prefix . 'creances_yesterday'));?>
+                        <?php echo $this->Nexo_Misc->cmoney_format($Cache->get( 'creances_yesterday'));?>
                     </span>
                 </h5>
                 <h5><?php _e('Total', 'nexo_premium');?>
                 	<span class="pull-right">
-                    	<?php echo $this->Nexo_Misc->cmoney_format($Cache->get( $prefix . 'creances'));?>
+                    	<?php echo $this->Nexo_Misc->cmoney_format($Cache->get( 'creances'));?>
                     </span>
                 </h5>
                 </div>

@@ -123,7 +123,7 @@ class Nexo_Stores_Controller extends CI_Model
 	public function all()
 	{
 		$this->events->add_filter( 'gui_page_title', function( $title ) {
-			return '<section class="content-header"><h1>' . strip_tags($title) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url(array( 'dashboard', 'nexo', 'stores', 'all' )) . '">' . __('Mode Avancé', 'nexo') . '</a></h1></section>';
+			return '<section class="content-header"><h1>' . strip_tags($title) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url(array( 'dashboard', 'nexo', 'stores', 'lists' )) . '">' . __('Mode Avancé', 'nexo') . '</a></h1></section>';
 		});
 		
 		$this->load->model( 'Nexo_Stores' );

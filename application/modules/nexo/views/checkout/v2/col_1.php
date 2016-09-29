@@ -47,7 +47,7 @@
                     <td width="130" class="text-right"></td>
                     <td width="130" class="text-right">
 						<?php 
-                        if (@$Options[ 'nexo_enable_vat' ] == 'oui') {
+                        if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui') {
                             _e('Net hors taxe', 'nexo');
                         } else {
                             _e('Total', 'nexo');
@@ -62,12 +62,12 @@
                     <td width="110" class="text-right"><span id="cart-discount"></span></td>
                 </tr>
                 <?php 
-                if (@$Options[ 'nexo_enable_vat' ] == 'oui' && ! empty($Options[ 'nexo_vat_percent' ])) {
+                if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])) {
                     ?>
                 <tr class="active">
                     <td width="230" class="text-right"></td>
                     <td width="130" class="text-right"></td>
-                    <td width="130" class="text-right"><?php echo sprintf(__('TVA (%s%%)', 'nexo'), $Options[ 'nexo_vat_percent' ]);
+                    <td width="130" class="text-right"><?php echo sprintf(__('TVA (%s%%)', 'nexo'), $Options[ store_prefix() . 'nexo_vat_percent' ]);
                     ?></td>
                     <td width="110" class="text-right"><span id="cart-vat"></span></td>
                 </tr>
@@ -113,7 +113,7 @@
     <!-- /.box-footer--> 
 </div>
 
-<?php if (@$Options[ 'nexo_enable_stripe' ] != 'no'):?>
+<?php if (@$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):?>
 <script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
 <script type="text/javascript">
 	'use strict';

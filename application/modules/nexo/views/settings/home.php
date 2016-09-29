@@ -68,12 +68,6 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'textarea',
-    'name'        =>    $option_prefix . 'nexo_bills_notices',
-    'label'        =>    __('Notes pour factures', 'nexo')
-), 'Nexo_shop_details', 1);
-
-$this->Gui->add_item(array(
-    'type'        =>    'textarea',
     'name'        =>    $option_prefix . 'nexo_other_details',
     'label'        =>    __('Détails supplémentaires', 'nexo'),
     'description'    =>    __('Ce champ est susceptible d\'être utilisé au pied de page des rapports', 'nexo')

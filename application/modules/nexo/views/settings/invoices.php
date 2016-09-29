@@ -27,12 +27,13 @@ $this->Gui->add_meta( array(
 	)
 ) );
 
+/**
 $this->Gui->add_item( array(
 	'type'			=>	'select',
 	'options'		=>	$this->config->item( 'nexo_receipts_namespaces' ),
 	'name'			=>	$option_prefix . 'nexo_receipt',
 	'label'			=>	__( 'Veuillez choisir le format du reçu par défaut', 'nexo' )
-), 'invoice1', 1 );
+), 'invoice1', 1 ); **/
 
 $this->Gui->add_item( array(
 	'type'			=>	'textarea',
@@ -46,13 +47,25 @@ $this->Gui->add_item( array(
 	'label'			=>	__( 'Colonne 2 du reçu par défaut', 'nexo' ),
 ), 'invoice1', 1 );
 
+$this->Gui->add_item(array(
+    'type'        =>    'textarea',
+    'name'        =>    $option_prefix . 'nexo_bills_notices',
+    'label'        =>    __('Notes pour factures', 'nexo')
+), 'invoice1', 1);
+
 $this->Gui->add_item( array(
-	'type'			=>	'textarea',
-	'name'			=>	$option_prefix . 'custom_receipt',
-	'label'			=>	__( 'Reçu personnalisé', 'nexo' ),
-	'description'	=>	__( 'Vous permet de personnaliser les informations affichés sur la colonne 1 du reçu de caisse.', 'nexo' ) . '<br>' . __( 'Utilisez les balises suivantes : <br> {{shop_name}} poura afficher le nom de la boutique<br>{{shop_phone}} pour afficher le numéro de téléphone de la boutique<br>{{shop_fax}} pour afficher le fax de la boutique<br>{{shop_pobox}} pour afficher la boite postale de la boutique<br> {{shop_streetshop}} pour afficher la rue de la boutique<br>{{shop_email}} pour afficher l\'email de la boutique<br>{{shop_ordertable}} pour afficher le tableau avec les produits<br>{{shop_details}} pour afficher les détails de la boutique.', 'nexo' )
+	'type'			=>	'dom',
+	'content'		=>	
+	__( '<h4>Utilisez les balises suivantes : </h4>', 'nexo' ) .
+	__( '{shop_name} pour afficher le nom de la boutique', 'nexo' ) . '<br>' .
+	__( '{shop_phone} pour afficher le numéro de téléphone de la boutique', 'nexo' ) . '<br>' .
+	__( '{shop_fax} pour afficher le fax de la boutique', 'nexo' ) . '<br>' .
+	__( '{shop_pobox} pour afficher la boite postale de la boutique', 'nexo' ) . '<br>' . 
+	__( '{shop_street} pour afficher la rue de la boutique', 'nexo' ). '<br>' .
+	__( '{shop_email} pour afficher l\'email de la boutique', 'nexo' ). '<br>' . 
+	__( '{order_date}, pour afficher la date de la commande.', 'nexo' ) . '<br>' .
+	__( '{order_code}, pour afficher le code de la commande.', 'nexo' ) . '<br>' .
+	__( '{order_cashier}, pour afficher l\'auteur de la commande.', 'nexo' ) . '<br>' 
 ), 'invoice1', 1 );
-
-
 
 $this->Gui->output();

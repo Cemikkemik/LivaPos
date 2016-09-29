@@ -39,12 +39,12 @@
     <tfoot>
       <tr class="info">
         <td width="300"><?php _e('Total', 'nexo_premium');?></td>
-        <td width="100"></td>
-        <td width="150"></td>
-        <td width="100"></td>
-        <td width="150"></td>
-        <td width="100"></td>
-        <td width="150"></td>
+        <td class="text-right" width="100"></td>
+        <td money-format class="text-right" width="150"></td>
+        <td class="text-right" width="100"></td>
+        <td money-format class="text-right" width="150"></td>
+        <td class="text-right" width="100"></td>
+        <td money-format class="text-right" width="150"></td>
       </tr>
 		</tfoot>      
   </table>
@@ -99,12 +99,12 @@ var NexoFicheSuivi		=	new function(){
 			var RowContent		=	'<tr>';
 				RowContent		+=		'<td>' + _.last( value ).NOM + '</td>' + 
 										//'<td data-previous-stock cat-id="' + _.last( value ).ID + '"></td>' + 
-										'<td data-new-stock cat-id="' + _.last( value ).ID + '"></td>' + 
-										'<td data-new-value cat-id="' + _.last( value ).ID + '"></td>' +
-										'<td data-sold-stock cat-id="' + _.last( value ).ID + '"></td>' + 
-										'<td data-sold-value cat-id="' + _.last( value ).ID + '"></td>' +
-										'<td data-left-stock cat-id="' + _.last( value ).ID + '"></td>' +
-										'<td data-left-value cat-id="' + _.last( value ).ID + '"></td>';
+										'<td class="text-right" data-new-stock cat-id="' + _.last( value ).ID + '"></td>' + 
+										'<td class="text-right" data-new-value money-format cat-id="' + _.last( value ).ID + '"></td>' +
+										'<td class="text-right" data-sold-stock cat-id="' + _.last( value ).ID + '"></td>' + 
+										'<td class="text-right" data-sold-value money-format cat-id="' + _.last( value ).ID + '"></td>' +
+										'<td class="text-right" data-left-stock cat-id="' + _.last( value ).ID + '"></td>' +
+										'<td class="text-right" data-left-value money-format cat-id="' + _.last( value ).ID + '"></td>';
 				RowContent		+=	'</tr>';
 			$( '.fiche-suivi-table' ).append( RowContent );
 		});				
@@ -119,7 +119,7 @@ var NexoFicheSuivi		=	new function(){
 	
 	this.LoadPreviousStock		=	function( shipping_id ){
 		if( _.isObject( this.LatestCategories ) ) {
-			$.ajax( '<?php echo site_url(array( 'nexo_premium', 'previous_stock' ));?>' + '/' + shipping_id, {
+			$.ajax( '<?php echo site_url(array( 'nexo_premium', 'previous_stock' ));?>' + '/' + shipping_id + '<?php echo store_get_param( '?' );?>', {
 				type 		:		'POST',
 				dataType	:		'json',
 				data		:		_.object( [ 'categories_id' ], [ this.LatestCategories ] ),
@@ -143,20 +143,25 @@ var NexoFicheSuivi		=	new function(){
 	this.FillColStock			=	function( stock, products, shipping_id ) {
 		
 		var	ProductsStocks			=	new Array;
+		var ProductsValues			=	new Array;
 		
 		//  Loop product and add it to an array with latest category id as key
 		
 		_.each( products, function( value, key ) {
 			if( _.isUndefined( ProductsStocks[ value.REF_CATEGORIE ] ) ) {
 				ProductsStocks[ value.REF_CATEGORIE ]	=	0;
+				ProductsValues[ value.REF_CATEGORIE ]	=	0;
 			} 
 			// according to case, we select old quantity, the new quantity, the sold quantity and the left one		
 			if( stock == 'previous' ) {
 				ProductsStocks[ value.REF_CATEGORIE ]	+=	parseInt( value.QUANTITE_RESTANTE );
+				ProductsValues[ value.REF_CATEGORIE ]	+=	( parseInt( value.QUANTITE_RESTANTE ) * parseFloat( value.PRIX_DE_VENTE ) );
 			} else if( stock == 'new' ) {
 				ProductsStocks[ value.REF_CATEGORIE ]	+=	( parseInt( value.QUANTITY ) - parseInt( value.DEFECTUEUX ) );
+				ProductsValues[ value.REF_CATEGORIE ]	+=	( ( parseInt( value.QUANTITY ) - parseInt( value.DEFECTUEUX ) ) * parseFloat( value.PRIX_DE_VENTE ) );
 			} else if( stock == 'sold' ) {
 				ProductsStocks[ value.REF_CATEGORIE ]	+=	parseInt( value.QUANTITE_VENDU );
+				ProductsValues[ value.REF_CATEGORIE ]	+=	( parseInt( value.QUANTITE_VENDU ) * parseFloat( value.PRIX_DE_VENTE ) )
 			}
 		});
 		
@@ -178,6 +183,10 @@ var NexoFicheSuivi		=	new function(){
 				_.isUndefined( ProductsStocks[ value.ID ] ) ? 0 : ProductsStocks[ value.ID ]
 			);
 			
+			$( '[data-' + stock + '-value][cat-id="' + value.ID + '"]' ).html( 
+				_.isUndefined( ProductsValues[ value.ID ] ) ? 0 : ProductsValues[ value.ID ]
+			);
+			
 		});				
 	}
 	
@@ -188,7 +197,7 @@ var NexoFicheSuivi		=	new function(){
 	**/
 	
 	this.LoadCurrentStock			=	function( shipping_id ){
-		$.post( '<?php echo site_url(array( 'nexo_premium', 'current_stock' ));?>' + '/' + shipping_id, 
+		$.post( '<?php echo site_url(array( 'nexo_premium', 'current_stock' ));?>' + '/' + shipping_id + '<?php echo store_get_param( '?' );?>', 
 		_.object( [ 'categories_id' ], [ this.LatestCategories ] ),
 		function( current_stock ){
 			NexoFicheSuivi.FillColStock( 'new', current_stock, shipping_id );
@@ -211,6 +220,14 @@ var NexoFicheSuivi		=	new function(){
 			// ( PreviousTotal );
 			$( this ).html( CurrentEntry - CurrentSold );
 		});
+		
+		$( '[data-left-value]' ).each(function(){
+			// var PreviousTotal	=	parseInt( $( this ).siblings( '[data-previous-stock]' ).html() );
+			var CurrentValueEntry	=	parseInt( $( this ).siblings( '[data-new-value]' ).html() );
+			var CurrentValueSold	=	parseInt( $( this ).siblings( '[data-sold-value]' ).html() );
+			// ( PreviousTotal );
+			$( this ).html( CurrentValueEntry - CurrentValueSold );
+		});
 	};
 	
 	/**
@@ -220,20 +237,33 @@ var NexoFicheSuivi		=	new function(){
 	
 	this.TotalCols			=	function(){
 		var i;
-		for( i = 1; i <= 4; i++ ) { // Seconds Cols
+		for( i = 1; i <= 6; i++ ) { // Seconds Cols
 			var ColTotal		=	0;
 			$( '.fiche-suivi-table tr' ).each( function(){
 				ColTotal		+=	parseInt( $(this).find( 'td' ).eq(i).html() );
 			} );
 			
-			$( '.FicheDeSuiviParCategory tfoot tr td' ).eq(i).html( ColTotal );		
+			if( typeof $( '.FicheDeSuiviParCategory tfoot tr td' ).eq(i).attr( 'money-format' ) == 'undefined' ) {
+				$( '.FicheDeSuiviParCategory tfoot tr td' ).eq(i).html( ColTotal );		
+			} else {
+				$( '.FicheDeSuiviParCategory tfoot tr td' ).eq(i).html( NexoAPI.DisplayMoney( ColTotal ) );		
+			}
+		}
+		
+		// Add Price format everywhere
+		
+		for( i = 0; i <= 2; i++ ) { // Seconds Cols
+			var ColTotal		=	0;
+			$( '.fiche-suivi-table tr' ).each( function(){
+				$(this).find( 'td[money-format]' ).eq(i).html( NexoAPI.DisplayMoney( $(this).find( 'td[money-format]' ).eq(i).html() ) );
+			} );
 		}
 	};
 	
 };
 
 $( document ).ready(function(e) {
-    $.ajax( '<?php echo site_url(array( 'nexo_categories', 'get' ));?>', {
+    $.ajax( '<?php echo site_url(array( 'nexo_categories', 'get', store_get_param( '?' ) ));?>', {
 		success		:	function( e ) {
 			NexoFicheSuivi.BuildCategoryList( e );
 		},

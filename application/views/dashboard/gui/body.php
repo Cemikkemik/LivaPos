@@ -11,7 +11,7 @@ Version : 1.1
 Description : Provide simple UI manager
 Tendoo Version Required : 1.5
 -->
-<div class="content-wrapper" style="min-height: 916px;">
+<div class="content-wrapper" style="min-height: 916px;" <?php echo $this->events->apply_filters('gui_wrapper_attrs', '' );?>>
 <!-- Content Header (Page header) -->
 	<?php 
     

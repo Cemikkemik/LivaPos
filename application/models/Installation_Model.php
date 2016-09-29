@@ -42,7 +42,7 @@ class Installation_Model extends CI_Model
         // Before tendoo settings tables
         // Used internaly to load module only when database connection is established.
 
-        $this->events->do_action('before_setting_tables', array(
+        $this->events->do_action('before_db_setup', array(
             'database_prefix'    =>        $database_prefix,
             'install_model'        =>        $this
         ));

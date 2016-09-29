@@ -39,7 +39,7 @@ $this->Gui->add_meta(array(
     'use_namespace'    =>        false,
 ));
 
-$codebar            =    get_instance()->events->apply_filters('nexo_barcode_type', array( 'ean8', 'ean13', 'code_128', 'type_msi', 'codabar' )); // 'codabar', 'code11', 'code39',
+$codebar            =    get_instance()->events->apply_filters('nexo_barcode_type', $this->config->item( 'nexo_barcode_supported' ) ); // 'codabar', 'code11', 'code39',
 
 $codebar            =    array_combine($codebar, array_map('___toUpper', $codebar, $codebar));
 

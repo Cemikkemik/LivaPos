@@ -20,8 +20,8 @@ var v2Checkout					=	new function(){
 	this.CartPayButton			=	'#cart-pay-button';
 	this.CartCancelButton		=	'#cart-return-to-order';
 
-	this.CartVATEnabled			=	<?php echo @$Options[ 'nexo_enable_vat' ] == 'oui' ? 'true' : 'false';?>;
-	this.CartVATPercent			=	<?php echo in_array(@$Options[ 'nexo_vat_percent' ], array( null, '' )) ? 0 : @$Options[ 'nexo_vat_percent' ];?>
+	this.CartVATEnabled			=	<?php echo @$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' ? 'true' : 'false';?>;
+	this.CartVATPercent			=	<?php echo in_array(@$Options[ store_prefix() . 'nexo_vat_percent' ], array( null, '' )) ? 0 : @$Options[ store_prefix() . 'nexo_vat_percent' ];?>
 
 	if( this.CartVATPercent == '0' ) {
 		this.CartVATEnabled		=	false;
@@ -186,7 +186,7 @@ var v2Checkout					=	new function(){
 			}
 		});
 
-		<?php if (@$Options[ 'nexo_enable_numpad' ] != 'non'):?>
+		<?php if (@$Options[ store_prefix() . 'nexo_enable_numpad' ] != 'non'):?>
 		// Bind Num padd
 		$( '[name="shop_item_quantity"]' ).bind( 'click', function(){
 			v2Checkout.showNumPad( $( this ), '<?php echo addslashes(__('Définir la quantité à  ajouter', 'nexo'));?>' );
@@ -908,8 +908,8 @@ var v2Checkout					=	new function(){
 			order_details.DATE_CREATION		=	this.CartDateTime.format( 'YYYY-MM-DD HH:mm:ss' )
 			order_details.ITEMS				=	order_items;
 			order_details.DEFAULT_CUSTOMER	=	this.DefaultCustomerID;
-			order_details.DISCOUNT_TYPE		=	'<?php echo @$Options[ 'discount_type' ];?>';
-			order_details.HMB_DISCOUNT		=	'<?php echo @$Options[ 'how_many_before_discount' ];?>';
+			order_details.DISCOUNT_TYPE		=	'<?php echo @$Options[ store_prefix() . 'discount_type' ];?>';
+			order_details.HMB_DISCOUNT		=	'<?php echo @$Options[ store_prefix() . 'how_many_before_discount' ];?>';
 			// @since 2.7.5
 			order_details.REGISTER_ID		=	'<?php echo $register_id;?>';
 			
@@ -992,7 +992,7 @@ var v2Checkout					=	new function(){
 					
 					if( test_order == true ) {
 						
-						<?php if (@$Options[ 'nexo_enable_autoprint' ] == 'yes'):?>
+						<?php if (@$Options[ store_prefix() . 'nexo_enable_autoprint' ] == 'yes'):?>
 						
 						if( NexoAPI.events.applyFilters( 'cart_enable_print', true ) ) {
 						
@@ -1021,7 +1021,7 @@ var v2Checkout					=	new function(){
 						
 						<?php endif;?>
 
-						<?php if (@$Options[ 'nexo_enable_smsinvoice' ] == 'yes'):?>
+						<?php if (@$Options[ store_prefix() . 'nexo_enable_smsinvoice' ] == 'yes'):?>
  						/**
 						 * Send SMS
 						**/
@@ -1029,7 +1029,7 @@ var v2Checkout					=	new function(){
 						NexoAPI.events.doAction( 'is_cash_order', [ v2Checkout, returned ] );
 						<?php endif;?>
 					} else {
-						<?php if (@$Options[ 'nexo_enable_autoprint' ] == 'yes'):?>
+						<?php if (@$Options[ store_prefix() . 'nexo_enable_autoprint' ] == 'yes'):?>
 							MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
 							MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée, mais ne peut pas être imprimée tant qu\'elle n\'est pas complète.', 'nexo');?>';
 							MessageObject.type	=	'info';
@@ -1127,7 +1127,7 @@ var v2Checkout					=	new function(){
 
 	this.customers			=	new function(){
 
-		this.DefaultCustomerID	=	'<?php echo @$Options[ 'default_compte_client' ];?>';
+		this.DefaultCustomerID	=	'<?php echo @$Options[ store_prefix() . 'default_compte_client' ];?>';
 
 		/**
 		 * Bind
@@ -1263,7 +1263,7 @@ var v2Checkout					=	new function(){
 
 			if( customer_id != this.DefaultCustomerID ) {
 				// DISCOUNT_ACTIVE
-				$.ajax( '<?php echo site_url(array( 'nexo', 'customer' ));?>/' + customer_id, {
+				$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'customer' ));?>/' + customer_id + '?<?php echo store_get_param( null );?>', {
 					error		:	function(){
 						v2Checkout.showError( 'ajax_fetch' );
 					},
@@ -1478,7 +1478,7 @@ var v2Checkout					=	new function(){
 
 					$( '#filter-list' ).append(
 					'<div class="col-lg-2 col-md-3 col-xs-6 shop-items filter-add-product noselect text-center" data-codebar="' + value.CODEBAR + '" style="' + CustomBackground + ';padding:5px; border-right: solid 1px #DEDEDE;border-bottom: solid 1px #DEDEDE;" data-design="' + value.DESIGN.toLowerCase() + '" data-category="' + value.REF_CATEGORIE + '" data-sku="' + value.SKU.toLowerCase() + '">' +
-						'<img data-original="<?php echo upload_url();?>' + ImagePath + '" width="126" style="max-height:80px;" class="img-responsive img-rounded lazy">' +
+						'<img data-original="<?php echo get_store_upload_url();?>' + ImagePath + '" width="100" style="max-height:64px;" class="img-responsive img-rounded lazy">' +
 						'<div class="caption text-center" style="padding:2px;overflow:hidden;"><strong class="item-grid-title">' + design + '</strong><br>' +
 							'<span class="align-center">' + NexoAPI.DisplayMoney( MainPrice ) + '</span>' + Discounted +
 						'</div>' +
@@ -1921,7 +1921,7 @@ var v2Checkout					=	new function(){
 		 '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bootstrap-tab-menu">' +
 			 '<div class="list-group">' +
 			 	<?php foreach ($this->config->item('nexo_payment_types') as $payment_namespace => $payment_name):?>
-					<?php if ($payment_namespace != 'stripe' || $payment_namespace == 'stripe' && @$Options[ 'nexo_enable_stripe' ] != 'no'):?>
+					<?php if ($payment_namespace != 'stripe' || $payment_namespace == 'stripe' && @$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):?>
  				'<a ' +
 					'data-tab="<?php echo $payment_namespace;?>" ' +
 					'data-payment-namespace="<?php echo $payment_namespace;?>" ' +
@@ -1938,7 +1938,7 @@ var v2Checkout					=	new function(){
  			'</div>' +
  			'<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bootstrap-tab">' +
  				<?php foreach ($this->config->item('nexo_payment_types') as $payment_namespace => $payment_name):?>
-					<?php if ($payment_namespace != 'stripe' || $payment_namespace == 'stripe' && @$Options[ 'nexo_enable_stripe' ] != 'no'):?>
+					<?php if ($payment_namespace != 'stripe' || $payment_namespace == 'stripe' && @$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):?>
 				'<!-- flight section -->' +
                 '<div class="bootstrap-tab-content" id="<?php echo $payment_namespace;?>">' +
 					'<div class="content-for-<?php echo $payment_namespace;?>">' +
@@ -2062,6 +2062,8 @@ var v2Checkout					=	new function(){
 
 		<?php if ($this->config->item('nexo_test_mode')):?>
 		'<?php echo addslashes(tendoo_info(sprintf(__('Pour tester stripe, vous pouvez utiliser des numéros de carte de crédit factices. Par exemple vous pouvez utiliser : <strong>4242 4242 4242 4242</strong>.<br>Retrouvez toutes les listes des cartes utilisables pour tester sur <a href="%s">Stripe</a>.', 'nexo'), 'https://stripe.com/docs/testing')));?>' +
+		
+		'<?php echo tendoo_warning( sprintf( _s( 'Assurez-vous de respecter le <a href="%s" target="_blank">minimum en terme de tarification</a> selon les dévises.', 'nexo' ), 	'https://support.stripe.com/questions/what-is-the-minimum-amount-i-can-charge-with-stripe' ) );?>' +
 		<?php endif;?>
 
 		'<button class="btn btn-primary" id="pay-with-stripe"><?php echo _s('Facturer la carte de crédit Stripe', 'nexo');?></button>';
@@ -2071,10 +2073,10 @@ var v2Checkout					=	new function(){
 		$('#pay-with-stripe').on('click', function(e) {
 			// Open Checkout with further options:
 			v2Checkout.stripe.handler.open({
-				name: '<?php echo @$Options[ 'site_name' ];?>',
+				name: '<?php echo @$Options[ store_prefix() . 'site_name' ];?>',
 				description: v2Checkout.stripe.getDescription() ,
-				amount: v2Checkout.CartToPayLong ,
-				currency: '<?php echo @$Options[ 'nexo_currency_iso' ];?>'
+				amount: v2Checkout.CartToPayLong,
+				currency: '<?php echo @$Options[ store_prefix() . 'nexo_currency_iso' ];?>'
 			});
 			e.preventDefault();
 		});
@@ -2166,13 +2168,13 @@ var v2Checkout					=	new function(){
 		}
 
 		this.run			=	function(){
-			<?php if (@$Options[ 'nexo_enable_stripe' ] != 'no'):?>
+			<?php if (@$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):?>
 			if( typeof StripeCheckout != 'undefined' ) {
-				<?php if (empty($Options[ 'nexo_stripe_publishable_key' ])):?>
+				<?php if (empty($Options[ store_prefix() . 'nexo_stripe_publishable_key' ])):?>
 				NexoAPI.Notify().warning( '<?php echo _s('Une erreur s\'est produite', 'nexo');?>', '<?php echo _s('Vous n\'avez pas définit la "publishable key" dans les réglages stripe. Le paiement par ce moyen ne fonctionnera pas.', 'nexo');?>' );
 				<?php endif;?>
 				this.handler = StripeCheckout.configure({
-					key: '<?php echo @$Options[ 'nexo_stripe_publishable_key' ];?>',
+					key: '<?php echo @$Options[ store_prefix() . 'nexo_stripe_publishable_key' ];?>',
 					image: '<?php echo img_url('nexo') . '/nexopos-logo.png';?>',
 					locale: 'auto',
 					token: function(token) {
@@ -2196,9 +2198,10 @@ var v2Checkout					=	new function(){
 		**/
 
 		this.proceedPayment		=	function( token ) {
+			
 			token				=	_.extend( token, {
-				'apiKey' 		: 	'<?php echo @$Options[ 'nexo_stripe_secret_key' ];?>' ,
-				'currency'		:	'<?php echo @$Options[ 'nexo_currency_iso' ];?>' ,
+				'apiKey' 		: 	'<?php echo @$Options[ store_prefix() . 'nexo_stripe_secret_key' ];?>' ,
+				'currency'		:	'<?php echo @$Options[ store_prefix() . 'nexo_currency_iso' ];?>' ,
 				'amount'		:	v2Checkout.CartToPayLong,
 				'description'	:	this.getDescription()
 			});
@@ -2311,7 +2314,19 @@ var v2Checkout					=	new function(){
 		this.calculateCartVAT();
 
 		this.CartToPay			=	( this.CartValueRRR + this.CartVAT );
-		this.CartToPayLong		=	NexoAPI.ParseFloat( this.CartToPay )	<?php echo in_array(strtolower(@$Options[ 'nexo_currency_iso' ]), $this->config->item('nexo_currency_with_double_zero')) ? "+ '00'" : '';?>;
+		<?php if( in_array(strtolower(@$Options[ store_prefix() . 'nexo_currency_iso' ]), $this->config->item('nexo_supported_currency')) ) {
+			?>
+			this.CartToPayLong		=	numeral( this.CartToPay ).multiply(100).value();
+			<?php
+		} else {
+			?>
+			this.CartToPayLong		=	NexoAPI.Format( this.CartToPay, '0.00' );
+			<?php
+		};?>
+		
+		
+
+		// ;
 
 		$( '#cart-value' ).html( NexoAPI.DisplayMoney( this.CartValue ) );
 		$( '#cart-vat' ).html( NexoAPI.DisplayMoney( this.CartVAT ) );
@@ -2339,9 +2354,9 @@ var v2Checkout					=	new function(){
 	**/
 
 	this.restoreDefaultRistourne		=	function(){
-		this.CartRistourneType			=	'<?php echo @$Options[ 'discount_type' ];?>';
-		this.CartRistourneAmount		=	'<?php echo @$Options[ 'discount_amount' ];?>';
-		this.CartRistournePercent		=	'<?php echo @$Options[ 'discount_percent' ];?>';
+		this.CartRistourneType			=	'<?php echo @$Options[ store_prefix() . 'discount_type' ];?>';
+		this.CartRistourneAmount		=	'<?php echo @$Options[ store_prefix() . 'discount_amount' ];?>';
+		this.CartRistournePercent		=	'<?php echo @$Options[ store_prefix() . 'discount_percent' ];?>';
 		this.CartRistourneEnabled		=	false;
 		this.CartRistourne				=	0;
 	};
@@ -2388,8 +2403,8 @@ var v2Checkout					=	new function(){
 		this.CartRemiseEnabled		=	false;
 		this.CartRemisePercent		=	null;
 		this.CartPaymentType		=	null;
-		this.CartShadowPriceEnabled	=	<?php echo @$Options[ 'nexo_enable_shadow_price' ] == 'yes' ? 'true' : 'false';?>;
-		this.CartCustomerID			=	<?php echo @$Options[ 'default_compte_client' ] != null ? $Options[ 'default_compte_client' ] : 'null';?>;
+		this.CartShadowPriceEnabled	=	<?php echo @$Options[ store_prefix() . 'nexo_enable_shadow_price' ] == 'yes' ? 'true' : 'false';?>;
+		this.CartCustomerID			=	<?php echo @$Options[ store_prefix() . 'default_compte_client' ] != null ? $Options[ store_prefix() . 'default_compte_client' ] : 'null';?>;
 		this.CartAllowStripeSubmitOrder	=	false;
 
 		this.cartGroupDiscountReset();
@@ -2413,7 +2428,7 @@ var v2Checkout					=	new function(){
 
 	this.run							=	function(){
 		
-		<?php if( $Options[ 'nexo_compact_enabled' ] == 'yes' ):?>
+		<?php if( @$Options[ store_prefix() . 'nexo_compact_enabled' ] == 'yes' ):?>
 		$( '.content-header' ).css({
 			'padding'	:	0,
 			'height'	:	0

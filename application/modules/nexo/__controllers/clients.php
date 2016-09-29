@@ -23,6 +23,15 @@ class Nexo_Clients extends CI_Model
         ) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
+		
+		/**
+		 * This feature is not more accessible on main site when
+		 * multistore is enabled
+		**/
+		
+		if( multistore_enabled() && ! is_multistore() ) {
+			redirect( array( 'dashboard', 'feature-disabled' ) );
+		}
 
         $crud = new grocery_CRUD();
         $crud->set_subject(__('Clients', 'nexo'));
@@ -81,7 +90,7 @@ class Nexo_Clients extends CI_Model
         $crud->callback_before_update(array( $this, '__update' ));
         $crud->callback_before_insert(array( $this, '__insert' ));        
         
-        $crud->set_field_upload('AVATAR', 'public/upload/customers/');
+        $crud->set_field_upload('AVATAR', get_store_upload_path() . '/customers/');
         
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
@@ -173,6 +182,15 @@ class Nexo_Clients extends CI_Model
         ) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
+		
+		/**
+		 * This feature is not more accessible on main site when
+		 * multistore is enabled
+		**/
+		
+		if( multistore_enabled() && ! is_multistore() ) {
+			redirect( array( 'dashboard', 'feature-disabled' ) );
+		}
 
         $crud = new grocery_CRUD();
         $crud->set_subject(__('Groupes d\'utilisateurs', 'nexo'));

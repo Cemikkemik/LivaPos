@@ -478,4 +478,17 @@ function array_insert_after($key, &$array, $new_key, $new_value)
     }
     return false;
 }
+
+/**
+ * is
+ * Return boolean whether an item is a bool or not
+ * @param string page string slug
+**/
+
+function page_is( $page ) {
+	if( $page == get_instance()->uri->segment(3) ) {
+		return true;
+	}
+	return false;
+}
 /* End of file core_helper.php */

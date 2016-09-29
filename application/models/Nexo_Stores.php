@@ -44,12 +44,19 @@ class Nexo_Stores extends CI_Model
 	public function __callback_after_insert( $post, $id ) 
 	{		
 		$install	=	new Nexo_Install;		
-		$install->install_tables( 'store', 'store_' . $id . '_' );		
+		$install->install_tables( 'store', 'store_' . $id . '_' );	
+		$this->options->set( 'store_' . $id . '_site_name', $post[ 'NAME' ], true );	
+		$this->options->set( 'store_' . $id . '_nexo_enable_autoprint', 'yes', true );	
+		$this->options->set( 'store_' . $id . '_nexo_enable_smsinvoice', 'yes', true );	
+		$this->options->set( 'store_' . $id . '_nexo_devis_expiration', 7, true );
+		$this->options->set( 'store_' . $id . 'nexo_compact_enabled', 'yes', true );
+		$this->options->set( 'store_' . $id . 'nexo_enable_registers', 'no', true );
+		$this->options->set( 'store_' . $id . 'nexo_enable_vat', 'no', true );
 		
-		mkdir( PUBLICPATH . '/upload/store_' . $id );
-		mkdir( PUBLICPATH . '/upload/store_' . $id . '/customers' );
-		mkdir( PUBLICPATH . '/upload/store_' . $id . '/codebar' );
-		mkdir( PUBLICPATH . '/upload/store_' . $id . '/categories' );
+		@mkdir( PUBLICPATH . '/upload/store_' . $id );
+		@mkdir( PUBLICPATH . '/upload/store_' . $id . '/customers' );
+		@mkdir( PUBLICPATH . '/upload/store_' . $id . '/codebar' );
+		@mkdir( PUBLICPATH . '/upload/store_' . $id . '/categories' );
 	}
 	
 	/**
@@ -73,8 +80,8 @@ class Nexo_Stores extends CI_Model
 		$store		=	$this->get( $store_id );
 		$prefix		=	'store_' . $store_id . '_';
 		
-		$this->load->library( 'SimpleFileManager' );
-		$this->SimpleFileManager->drop( PUBLICPATH . '/upload/store_' . $store_id );
+		// $this->load->library( 'SimpleFileManager' );
+		SimpleFileManager::drop( PUBLICPATH . '/upload/store_' . $store_id );
 		
 		$this->events->do_action( 'delete_nexo_store', array( $store_id, $store ) );
 		

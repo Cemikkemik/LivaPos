@@ -2,7 +2,7 @@
 use Carbon\Carbon; 
 
 ?>
-<div class="box box-solid" data-meta-namespace="sale_type_new">
+<div class="box box-solid" data-meta-namespace="<?php echo store_prefix() ;?>sale_type_new">
     <div class="box-header ui-sortable-handle" style="cursor: move;"> <i class="fa fa-money"></i>
         <h3 class="box-title">
             <?php _e('Variétés des achats', 'nexo');?>
@@ -79,7 +79,7 @@ var config = {
 
 var NexoSalesStats	=	new function(){
 	this.load		=	function( action ){
-		var get_params	=	action == 'refresh' ? '?refresh=true' : '';
+		var get_params	=	action == 'refresh' ? '?refresh=true' : '?load=cache';
 		var post_data	=	_.object( [ 'start', 'end' ], [ startOfWeek, endOfWeek ] );
 		var order_types	=	$.parseJSON( '<?php echo json_encode($this->config->item('nexo_order_types'));?>' );
 		var colors		=	{
@@ -98,10 +98,14 @@ var NexoSalesStats	=	new function(){
 			nexo_order_web		:	{
 				borderColor			:	'rgb(216, 207, 86)',
 				backgroundColor 	: 	'rgba(216, 207, 86,0.2)'
+			},
+			nexo_order_refunded		:	{
+				borderColor			:	'rgb(116, 107, 50)',
+				backgroundColor 	: 	'rgba(216, 207, 86,0.2)'
 			}
 		}
 
-		$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'widget_sales_stats' ));?>' + get_params, {
+		$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'widget_sales_stats' ));?>' + get_params + '<?php echo store_get_param( '&' );?>', {
 			type	:	'POST',
 			data	:	post_data,
 			success	:	function( data ) {
@@ -109,9 +113,9 @@ var NexoSalesStats	=	new function(){
 				var i 	=	0;
 				
 				NexoSalesLines.data.datasets	=	[]; // Reset
-				
+
 				_.each( data, function( value, key ) {	
-					console.log( colors );
+					
 					NexoSalesLines.data.datasets.push({
 						data	:	_.toArray( value ),
 						label	: 	_.propertyOf( order_types )( key ),

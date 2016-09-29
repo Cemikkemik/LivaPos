@@ -21,7 +21,7 @@ class Nexo_shipping extends CI_Model
     {
         if ($mode == 'create') {
             if (! $this->shipping_exists($name, 'as_name') && $this->provider_exists($provider, 'as_id')) {
-                $exec    =    $this->db->insert('nexo_arrivages', array(
+                $exec    =    $this->db->insert( store_prefix() . 'nexo_arrivages', array(
                     'TITRE'            =>    $name,
                     'DESCRIPTION'    =>    $description,
                     'DATE_CREATION'    =>    $this->datetime,
@@ -34,7 +34,7 @@ class Nexo_shipping extends CI_Model
             return 'shipping-already-exists-or-unknow-provider';
         } elseif ($mode == 'edit') {
             if (! $this->shipping_exists($name, 'as_name', $id) && $this->provider_exists($provider, 'as_id')) {
-                $exec    =    $this->db->where('ID', $id)->update('Nexo_arrivages', array(
+                $exec    =    $this->db->where('ID', $id)->update( store_prefix() . 'nexo_arrivages', array(
                     'TITRE'                    =>    $name,
                     'DESCRIPTION'            =>    $description,
                     'DATE_MOD'        =>    $this->datetime,
@@ -59,7 +59,7 @@ class Nexo_shipping extends CI_Model
     public function shipping_exists($name, $filter = 'as_name', $exclude = 0)
     {
         if ($exclude != null) {
-            $query    =    $this->db->where('TITRE', $name)->where('ID !=', $exclude)->get('nexo_arrivages');
+            $query    =    $this->db->where('TITRE', $name)->where('ID !=', $exclude)->get( store_prefix() . 'nexo_arrivages');
             return $query->result_array() ? true : false;
         } else {
             return $this->get_shipping($name, $filter) ? true : false;
@@ -87,7 +87,7 @@ class Nexo_shipping extends CI_Model
                 $this->db->where('ID !=', $name);
             }
         }
-        $query    =    $this->db->get('nexo_arrivages');
+        $query    =    $this->db->get( store_prefix() . 'nexo_arrivages');
         return $query->result_array();
     }
 }

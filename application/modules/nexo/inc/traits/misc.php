@@ -13,7 +13,7 @@ trait Nexo_rest_misc
     
     public function widget_sale_new_post()
     {
-        $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_'));
+        $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' . store_prefix() ));
         $this->load->config('nexo');
             
         if ((! $Cache->get('widget_sale_new_best_items') && ! $Cache->get('widget_sale_new_items')) || @$_GET[ 'refresh' ] == 'true') {
@@ -53,7 +53,7 @@ trait Nexo_rest_misc
     
     public function widget_income_post()
     {
-        $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_'));
+        $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' . store_prefix() ));
         $this->load->config('nexo');
         $this->load->model('Nexo_Misc');
         $this->load->helper('nexopos');
@@ -68,13 +68,19 @@ trait Nexo_rest_misc
             if (! empty($dates)) {
                 $this->load->config('rest');
                 $curl->setHeader($this->config->item('rest_key_name'), $_SERVER[ 'HTTP_' . $this->config->item('rest_header_key') ]);
+				
+				$store_get			=	store_prefix() != '' ? '?store_id=' . $this->input->get( 'store_id' ) : '';
                 
                 foreach ($dates as $date) {
                     // get orders
-                    $orders                =    $curl->post(site_url(array( 'rest', 'nexo', 'order_by_dates', 'nexo_order_comptant' )), array(
-                        'start'            =>    Carbon::parse($date)->startOfDay()->toDateTimeString(),
-                        'end'            	=>    Carbon::parse($date)->endOfDay()->toDateTimeString()
-                    ));
+                    $orders                =    $curl->post(
+					site_url(
+						array( 'rest', 'nexo', 'order_by_dates', 'nexo_order_comptant' . $store_get )), 
+						array(
+							'start'            =>    Carbon::parse($date)->startOfDay()->toDateTimeString(),
+							'end'            	=>    Carbon::parse($date)->endOfDay()->toDateTimeString()
+						)
+					);
                     
                     if (! empty($orders)) {
                         $total        =    0;
@@ -100,7 +106,8 @@ trait Nexo_rest_misc
     
     public function widget_sales_stats_post()
     {
-        $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_'));
+        $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' . store_prefix() ) );
+		
         if (! $Cache->get('widget_sales_stats') || @$_GET[ 'refresh' ] == 'true') {
             $this->load->config('nexo');
             $this->load->model('Nexo_Misc');
@@ -118,10 +125,14 @@ trait Nexo_rest_misc
                 
                 foreach (array_keys($this->config->item('nexo_order_types')) as $order_types) {
                     $data[ $order_types ]    =    array();
+					
+					$store_get			=	store_prefix() != '' ? '?store_id=' . $this->input->get( 'store_id' ) : '';
+					
                     foreach ($dates as $date) {
                         $data[ $order_types ][ $date ]    =    array();
+
                         // get orders
-                        $orders            =    $curl->post(site_url(array( 'rest', 'nexo', 'order_by_dates', $order_types )), array(
+                        $orders            =    $curl->post(site_url(array( 'rest', 'nexo', 'order_by_dates', $order_types . $store_get )), array(
                             'start'        =>    Carbon::parse($date)->startOfDay()->toDateTimeString(),
                             'end'        =>    Carbon::parse($date)->endOfDay()->toDateTimeString()
                         ));

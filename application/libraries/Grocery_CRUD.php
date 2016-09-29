@@ -149,7 +149,8 @@ class grocery_CRUD_Field_Types
                                                 $this->display_as[$field_name] :
                                                 ucfirst(str_replace("_", " ", $field_name)),
                         'required'    => !empty($this->required_fields) && in_array($field_name, $this->required_fields) ? true : false,
-                        'extras'    => $extras
+                        'extras'    => $extras,
+						'description'	=>	@$this->diplay_as[$field_name]
                     );
 
                     $types[$field_name] = $field_info;
@@ -179,7 +180,8 @@ class grocery_CRUD_Field_Types
                                                 $this->display_as[$field_name] :
                                                 ucfirst(str_replace("_", " ", $field_name)),
                         'required'    => in_array($field_name, $this->required_fields) ? true : false,
-                        'extras'    => $extras
+                        'extras'    => $extras,
+						'description'	=>	@$this->diplay_as[$field_name]
                     );
 
                     $types[$field_name] = $field_info;
@@ -1660,6 +1662,9 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
         $data->input_fields    = $this->get_add_input_fields();
 
         $data->fields            = $this->get_add_fields();
+		
+		// var_dump( $data->fields );die;
+		
         $data->hidden_fields    = $this->get_add_hidden_fields();
         $data->unset_back_to_list    = $this->unset_back_to_list;
         $data->unique_hash            = $this->get_method_hash();
@@ -2752,7 +2757,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 	
 	public function get_group( $group_namespace = null ) 
 	{
-		if( $group_namepace != null ) {
+		if( $group_namespace != null ) {
 			return @$this->groups[ $group_namespace ];
 		}
 		return $this->groups;
@@ -3261,6 +3266,7 @@ class Grocery_CRUD extends grocery_CRUD_States
     protected $subject                = null;
     protected $subject_plural        = null;
     protected $display_as            = array();
+	protected $description            = array(); // new
     protected $order_by            = null;
     protected $where                = array();
     protected $like                = array();
@@ -3764,6 +3770,22 @@ class Grocery_CRUD extends grocery_CRUD_States
         }
         return $this;
     }
+	
+	/**
+	 * Field Description
+	**/
+	
+	public function field_description( $field_name, $description = null ) 
+	{
+		if (is_array($field_name)) {
+            foreach ($field_name as $field => $description) {
+                $this->description[$field] = $description;
+            }
+        } elseif ($description !== null) {
+            $this->description[$field_name] = $description;
+        }
+        return $this;
+	}
 
     /**
      *
@@ -3943,17 +3965,31 @@ class Grocery_CRUD extends grocery_CRUD_States
         if ($this->add_fields_checked === false) {
             $field_types = $this->get_field_types();
             if (!empty($this->add_fields)) {
-                foreach ($this->add_fields as $field_num => $field) {
+				foreach ($this->add_fields as $field_num => $field) {
                     if (isset($this->display_as[$field])) {
-                        $this->add_fields[$field_num] = (object)array('field_name' => $field, 'display_as' => $this->display_as[$field]);
+                        $this->add_fields[$field_num] = (object)array(
+							'field_name' => $field,
+							'display_as' => $this->display_as[$field],
+							'description' => @$this->description[$field]
+						);
                     } elseif (isset($field_types[$field]->display_as)) {
-                        $this->add_fields[$field_num] = (object)array('field_name' => $field, 'display_as' => $field_types[$field]->display_as);
+                        $this->add_fields[$field_num] = (object)array(
+							'field_name' => $field, 
+							'display_as' => $field_types[$field]->display_as,
+							'description' => @$this->description[$field]
+						);
                     } else {
-                        $this->add_fields[$field_num] = (object)array('field_name' => $field, 'display_as' => ucfirst(str_replace('_', ' ', $field)));
+                        $this->add_fields[$field_num] = (object)array(
+							'field_name' => $field, 
+							'display_as' => ucfirst(str_replace('_', ' ', $field)),
+							'description' => @$this->description[$field]
+						);
                     }
                 }
             } else {
                 $this->add_fields = array();
+				
+				
                 foreach ($field_types as $field) {
                     //Check if an unset_add_field is initialize for this field name
                     if ($this->unset_add_fields !== null && is_array($this->unset_add_fields) && in_array($field->name, $this->unset_add_fields)) {
@@ -3962,9 +3998,17 @@ class Grocery_CRUD extends grocery_CRUD_States
 
                     if ((!isset($field->db_extra) || $field->db_extra != 'auto_increment')) {
                         if (isset($this->display_as[$field->name])) {
-                            $this->add_fields[] = (object)array('field_name' => $field->name, 'display_as' => $this->display_as[$field->name]);
+                            $this->add_fields[] = (object)array(
+								'field_name' => $field->name, 
+								'display_as' => $this->display_as[$field->name],
+								'description'	=>	@$this->description[$field->name]
+							);
                         } else {
-                            $this->add_fields[] = (object)array('field_name' => $field->name, 'display_as' => $field->display_as);
+                            $this->add_fields[] = (object)array(
+								'field_name' => $field->name, 
+								'display_as' => $field->display_as,
+								'description'	=>	@$this->description[$field->name]
+							);
                         }
                     }
                 }
@@ -3986,9 +4030,17 @@ class Grocery_CRUD extends grocery_CRUD_States
             if (!empty($this->edit_fields)) {
                 foreach ($this->edit_fields as $field_num => $field) {
                     if (isset($this->display_as[$field])) {
-                        $this->edit_fields[$field_num] = (object)array('field_name' => $field, 'display_as' => $this->display_as[$field]);
+                        $this->edit_fields[$field_num] = (object)array(
+							'field_name' => $field, 
+							'display_as' => $this->display_as[$field],
+							'description'	=>	@$this->description[$field]
+						);
                     } else {
-                        $this->edit_fields[$field_num] = (object)array('field_name' => $field, 'display_as' => $field_types[$field]->display_as);
+                        $this->edit_fields[$field_num] = (object)array(
+							'field_name' => $field, 
+							'display_as' => $field_types[$field]->display_as,
+							'description'	=>	@$this->description[$field]
+						);
                     }
                 }
             } else {
@@ -4001,9 +4053,17 @@ class Grocery_CRUD extends grocery_CRUD_States
 
                     if (!isset($field->db_extra) || $field->db_extra != 'auto_increment') {
                         if (isset($this->display_as[$field->name])) {
-                            $this->edit_fields[] = (object)array('field_name' => $field->name, 'display_as' => $this->display_as[$field->name]);
+                            $this->edit_fields[] = (object)array(
+								'field_name' => $field->name, 
+								'display_as' => $this->display_as[$field->name],
+								'description'	=>	@$this->description[$field->name]
+							);
                         } else {
-                            $this->edit_fields[] = (object)array('field_name' => $field->name, 'display_as' => $field->display_as);
+                            $this->edit_fields[] = (object)array(
+								'field_name' => $field->name, 
+								'display_as' => $field->display_as,
+								'description'	=>	@$this->description[$field->name]
+							);
                         }
                     }
                 }

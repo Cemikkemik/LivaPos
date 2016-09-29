@@ -80,10 +80,10 @@ class Nexo_Premium_Main extends CI_Model
             $this->lang->load_lines(dirname(__FILE__) . '/language/lines.php');
             
             // Start Object
-            $this->UI            =    new Nexo_Premium_UI;
-            $this->Controller    =    new Nexo_Premium_Controller;
-            $this->Filters        =    new Nexo_Premium_Filters;
-            $this->Actions        =    new Nexo_Premium_Actions;
+            $this->UI           	=    new Nexo_Premium_UI;
+            $this->Controller    	=    new Nexo_Premium_Controller;
+            $this->Filters        	=    new Nexo_Premium_Filters;
+            $this->Actions        	=    new Nexo_Premium_Actions;
             // Load Nexo Misc
             $this->load->model('Nexo_Misc');
             

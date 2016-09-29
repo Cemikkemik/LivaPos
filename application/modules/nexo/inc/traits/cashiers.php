@@ -18,10 +18,11 @@ trait Nexo_cashiers
         $this->load->helper('nexopos');
         
         // Load Cache
-        $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_'));
+        $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' . store_prefix() ));
         $this->load->config('nexo');
         
         if (! $Cache->get('profile_widget_cashier_sales_' . $cashier_id) || @$_GET[ 'refresh' ] == 'true') {
+			
             $query        =    $this->db
                             //->where( 'DATE_CREATION >=', $start_date )
                             //->where( 'DATE_CREATION <=', $end_date )

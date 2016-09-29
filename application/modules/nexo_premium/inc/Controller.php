@@ -71,9 +71,9 @@ class Nexo_Premium_Controller extends CI_Model
         $data[ 'CarbonCurrent' ]        =    $CarbonCurrent;
         $data[ 'CarbonReportDate' ]        =    $CarbonReportDate;
         
-        $this->Gui->set_title(__('Rapport journalier détaillé', 'nexo_premium'));
+        $this->Gui->set_title( store_title( __('Rapport journalier détaillé', 'nexo_premium') ) );
         
-        $this->Cache                    =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    $data[ 'report_slug_prefix' ] ));
+        $this->Cache                    =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    $data[ 'report_slug_prefix' ] . store_prefix() ));
         $data[ 'Cache' ]                =    $this->Cache;
         $from                            =    isset($_GET[ 'ref' ]) ? '<a class="btn btn-default btn-sm" href="' . urldecode($_GET[ 'ref' ]) . '">' . __('Revenir en arrière', 'nexo_premium') . '</a>' : '';
         
@@ -102,7 +102,7 @@ class Nexo_Premium_Controller extends CI_Model
         $CarbonReportDate->year        =    $year;
 
         if ($CarbonCurrent->year    < $CarbonReportDate->year) {
-            $this->Gui->set_title(__('Erreur', 'nexo_premium'));
+            $this->Gui->set_title( store_title( __('Erreur', 'nexo_premium') ) );
             $this->notice->push_notice(tendoo_error(__('La date mentionnée est invalide. Le rapport sollicité ne peut se faire pour les jours à venir.', 'nexo_premium')));
             $this->Gui->output();
             return;
@@ -113,10 +113,10 @@ class Nexo_Premium_Controller extends CI_Model
         $data[ 'CarbonCurrent' ]        =    $CarbonCurrent;
         $data[ 'CarbonReportDate' ]        =    $CarbonReportDate;
         
-        $this->Cache                    =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    $data[ 'report_slug_prefix' ] ));
+        $this->Cache                    =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    $data[ 'report_slug_prefix' ] . store_prefix() ));
         $data[ 'Cache' ]                =    $this->Cache;
         
-        $this->Gui->set_title(__('Flux de trésorerie', 'nexo_premium'));
+        $this->Gui->set_title( store_title( __('Flux de trésorerie', 'nexo_premium') ) );
         
         $this->load->view('../modules/nexo_premium/views/flux-de-la-tresorerie', $data);
     }
@@ -144,7 +144,7 @@ class Nexo_Premium_Controller extends CI_Model
         $year                            =    $year == null ? Carbon::parse(date_now())->year : intval($year);
         $data                            =    array();
         $data[ 'report_slug_prefix' ]    =    'nexo_premium_';
-        $this->Cache                    =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    $data[ 'report_slug_prefix' ] ));
+        $this->Cache                    =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    $data[ 'report_slug_prefix' ] . store_prefix() ));
         $data[ 'report_slug' ]            =    'annual_sales_report_' . $year;
         $data[ 'CarbonCurrent' ]        =    $CarbonCurrent;
         $data[ 'CarbonReportDate' ]        =    $CarbonReportDate;
@@ -153,7 +153,7 @@ class Nexo_Premium_Controller extends CI_Model
         // Save Cache
         if (@$_GET[ 'refresh' ] == 'true' || (! $this->Cache->get('categories_hierarchy') || ! $this->Cache->get('categories'))) {
             // Build content
-            $data[ 'Categories'    ]            =    $this->Nexo_Categories->get();
+            $data[ 'Categories' ]            =    $this->Nexo_Categories->get();
             $data[ 'Categories_Hierarchy' ]    =    $this->Nexo_Misc->build_category_hierarchy($data[ 'Categories'    ]);
             $data[ 'Categories_Depth' ]        =    $this->Nexo_Misc->array_depth($data[ 'Categories_Hierarchy' ]);
             // Save to cache
@@ -166,7 +166,7 @@ class Nexo_Premium_Controller extends CI_Model
             $data[ 'Categories_Depth' ]        =    $this->Cache->get('categories_depth');
         }
         
-        $this->Gui->set_title(__('Rapport des Ventes Annuelles', 'nexo_premium'));
+        $this->Gui->set_title( store_title( __('Rapport des Ventes Annuelles', 'nexo_premium') ) );
         
         $this->load->view('../modules/nexo_premium/views/stats-des-ventes', $data);
     }
@@ -190,7 +190,7 @@ class Nexo_Premium_Controller extends CI_Model
         $data[ 'data' ]                    =    array();
         $data[ 'data' ][ 'shippings' ]    =    $this->Nexo_Shipping->get_shipping();
         
-        $this->Gui->set_title(__('Fiche de suivi de stock &mdash; Nexo POS', 'nexo_premium'));
+        $this->Gui->set_title( store_title( __('Fiche de suivi de stock &mdash; Nexo POS', 'nexo_premium') ) );
         $this->load->view('../modules/nexo_premium/views/fiche-de-suivi', $data);
     }
     
@@ -214,7 +214,7 @@ class Nexo_Premium_Controller extends CI_Model
         
         $crud->set_theme('bootstrap');
         $crud->set_subject(__('Factures', 'nexo_premium'));
-        $crud->set_table($this->db->dbprefix('nexo_premium_factures'));
+        $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_premium_factures'));
         
         $crud->columns('INTITULE', 'REF', 'MONTANT', 'DESCRIPTION', 'AUTHOR', 'IMAGE', 'DATE_CREATION', 'DATE_MODIFICATION');
         $crud->fields('INTITULE', 'REF', 'MONTANT', 'DESCRIPTION', 'AUTHOR', 'IMAGE', 'DATE_CREATION', 'DATE_MODIFICATION');
@@ -294,10 +294,10 @@ class Nexo_Premium_Controller extends CI_Model
      * @return void
     **/
     
-    public function Controller_Factures($page)
+    public function Controller_Factures($page = 'lists' )
     {
         if ($page == 'list') {
-            $this->Gui->set_title(__('Liste des factures &mdash; Nexo', 'nexo_premium'));
+            $this->Gui->set_title( store_title( __('Liste des factures', 'nexo_premium') ));
         } elseif ($page == 'delete') {
             nexo_permission_check('delete_shop_purchases_invoices');
         } else {
@@ -305,7 +305,7 @@ class Nexo_Premium_Controller extends CI_Model
                 redirect(array( 'dashboard', 'access-denied' ));
             }
             
-            $this->Gui->set_title(__('Ajouter/modifier une facture &mdash; Nexo', 'nexo_premium'));
+            $this->Gui->set_title( store_title( __('Ajouter/modifier une facture', 'nexo_premium') ) );
         }
         
         $data[ 'crud_content' ]    =    $this->Controller_Header();
@@ -360,7 +360,7 @@ class Nexo_Premium_Controller extends CI_Model
         $this->enqueue->css('../modules/nexo/bower_components/chosen/chosen');
         $this->enqueue->css('../modules/nexo/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min');
         
-        $this->Gui->set_title(__('Performances des caissiers', 'nexo_premium'));
+        $this->Gui->set_title( store_title( __('Performances des caissiers', 'nexo_premium') ) );
         
         $this->load->module_view('nexo_premium', 'cashier-performances', $data);
     }
@@ -393,7 +393,7 @@ class Nexo_Premium_Controller extends CI_Model
         $this->enqueue->css('../modules/nexo/bower_components/chosen/chosen');
         $this->enqueue->css('../modules/nexo/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min');
         
-        $this->Gui->set_title(__('Statistiques des clients', 'nexo_premium'));
+        $this->Gui->set_title( store_title( __('Statistiques des clients', 'nexo_premium') ) );
         
         $this->load->module_view('nexo_premium', 'customers-statistics', $data);
     }
@@ -431,11 +431,13 @@ class Nexo_Premium_Controller extends CI_Model
             
             $history                    =    $this->Nexo_Misc->history_get($page - 1, $config['per_page']);
     
-            $this->Gui->set_title(__('Historique des activités', 'nexo_premium'));
-            $this->load->module_view('nexo_premium', 'historique', array(
+            $this->Gui->set_title( store_title( __('Historique des activités', 'nexo_premium' ) ) );
+            
+			$this->load->module_view('nexo_premium', 'historique', array(
                 'history'                =>    $history,
                 'pagination'            =>    $this->pagination->create_links()
             ));
+			
         } else {
             redirect(array( 'dashboard', 'access-denied' ));
         }
@@ -535,19 +537,19 @@ class Nexo_Premium_Controller extends CI_Model
     public function Controller_Backup($page = 'list')
     {
         if (in_array($page, array( 'list', 'success' ))) {
-            $this->Gui->set_title(__('Liste des sauvegardes &mdash; Nexo', 'nexo_premium'));
+            $this->Gui->set_title( store_title( __('Liste des sauvegardes', 'nexo_premium') ) );
         } elseif ($page == 'add') {
             if (! User::can('create_shop_backup')) {
                 redirect(array( 'dashboard', 'access-denied' ));
             }
-            $this->Gui->set_title(__('Ajouter une sauvegarde &mdash; Nexo', 'nexo_premium'));
+            $this->Gui->set_title( store_title( __('Ajouter une sauvegarde', 'nexo_premium') ) );
         } elseif ($page == 'delete') {
             nexo_permission_check('delete_shop_backup');
         } else {
             if (! User::can('edit_shop_backup')) {
                 redirect(array( 'dashboard', 'access-denied' ));
             }
-            $this->Gui->set_title(__('Edition une sauvegarde &mdash; Nexo', 'nexo_premium'));
+            $this->Gui->set_title( store_title( __('Edition une sauvegarde', 'nexo_premium') ) );
         }
         $data[ 'crud_content' ]    =    $this->Backup_Controller_Header();
         $this->load->view('../modules/nexo_premium/views/backups.php', $data);
@@ -698,7 +700,7 @@ class Nexo_Premium_Controller extends CI_Model
             }
         }
         
-        $this->Gui->set_title(__('Restauration', 'nexo_premium'));
+        $this->Gui->set_title( store_title( __('Restauration', 'nexo_premium') ) );
         
         $this->load->module_view('nexo_premium', 'restore', $data);
     }
@@ -731,7 +733,7 @@ class Nexo_Premium_Controller extends CI_Model
         $this->enqueue->css('../modules/nexo/bower_components/chosen/chosen');
         $this->enqueue->css('../modules/nexo/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min');
         
-        $this->Gui->set_title(__('Les Meilleurs', 'nexo_premium'));
+        $this->Gui->set_title( store_title( __('Les Meilleurs', 'nexo_premium') ) );
         
         $this->load->module_view('nexo_premium', 'best_of/home', $data);
     }

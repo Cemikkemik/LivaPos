@@ -12,16 +12,16 @@ class Nexo_Products extends CI_Model
      * @return void
     **/
     
-    public function create_codebar($code)
+    public function create_codebar($code, $code_type = null )
     {
         $this->load->model('Nexo_Misc');
         
         global $Options;
         
-        $width        =    empty($Options[ 'nexo_codebar_width' ]) ? 300 : intval($Options[ 'nexo_codebar_width' ]);
-        $height        =    empty($Options[ 'nexo_codebar_height' ]) ? 300 : intval($Options[ 'nexo_codebar_height' ]);
-        $code_type    =    empty($Options[ 'nexo_product_codebar' ]) ? "code_128" : @$Options[ 'nexo_product_codebar' ];
-        $barwidth    =    empty($Options[ 'nexo_bar_width' ]) ? 3 : intval(@$Options[ 'nexo_bar_width' ]);
+        $width        =    empty($Options[ store_prefix() . 'nexo_codebar_width' ]) ? 300 : intval($Options[ store_prefix() . 'nexo_codebar_width' ]);
+        $height        =    empty($Options[ store_prefix() . 'nexo_codebar_height' ]) ? 300 : intval($Options[ store_prefix() . 'nexo_codebar_height' ]);
+        $code_type    =    $code_type != null ? $code_type : empty($Options[ store_prefix() . 'nexo_product_codebar' ]) ? "code_128" : @$Options[ store_prefix() . 'nexo_product_codebar' ];
+        $barwidth    =    empty($Options[ store_prefix() . 'nexo_bar_width' ]) ? 3 : intval(@$Options[ store_prefix() . 'nexo_bar_width' ]);
         
         $generator =    new Picqer\Barcode\BarcodeGeneratorJPG();
         
@@ -55,24 +55,24 @@ class Nexo_Products extends CI_Model
             return rand($start_int, 9);
         }
         
-        $saved_barcode    =    $this->options->get('nexo_saved_barcode');
+        $saved_barcode    =    $this->options->get( store_prefix() . 'nexo_saved_barcode');
         $code            =    '';
-        $limit            =    ! empty($Options[ 'nexo_codebar_limit_nbr' ]) ? intval(@$Options[ 'nexo_codebar_limit_nbr' ]) : 6;
+        $limit            =    ! empty($Options[ store_prefix() . 'nexo_codebar_limit_nbr' ]) ? intval(@$Options[ store_prefix() . 'nexo_codebar_limit_nbr' ]) : 6;
         
         if ($saved_barcode) {
             do {
-                if (@$Options[ 'nexo_product_codebar' ] == 'ean8') {
+                if (@$Options[ store_prefix() . 'nexo_product_codebar' ] == 'ean8') {
                     for ($i = 0; $i < 7; $i++) {
                         $start = ($i == 0) ? true : false;
                         $code .= random($start);
                     }
-                    $code        =    $code . $this->Nexo_Misc->ean_checkdigit($code, @$Options[ 'nexo_product_codebar' ]);
-                } elseif (@$Options[ 'nexo_product_codebar' ] == 'ean13') {
+                    $code        =    $code . $this->Nexo_Misc->ean_checkdigit($code, @$Options[ store_prefix() . 'nexo_product_codebar' ]);
+                } elseif (@$Options[ store_prefix() . 'nexo_product_codebar' ] == 'ean13') {
                     for ($i = 0; $i < 12; $i++) {
                         $start    = ($i == 0) ? true : false;
                         $code    .= random($start);
                     }
-                    $code        .=    $this->Nexo_Misc->ean_checkdigit($code, @$Options[ 'nexo_product_codebar' ]);
+                    $code        .=    $this->Nexo_Misc->ean_checkdigit($code, @$Options[ store_prefix() . 'nexo_product_codebar' ]);
                 } else {
                     for ($i = 0; $i < $limit ; $i++) {
                         $start = ($i == 0) ? true : false;
@@ -81,18 +81,18 @@ class Nexo_Products extends CI_Model
                 }
             } while (in_array($code, $saved_barcode));
         } else {
-            if (@$Options[ 'nexo_product_codebar' ] == 'ean8') {
+            if (@$Options[ store_prefix() . 'nexo_product_codebar' ] == 'ean8') {
                 for ($i = 0; $i < 7; $i++) {
                     $start    = ($i == 0) ? true : false;
                     $code    .= random($start);
                 }
-                $code        .=    $this->Nexo_Misc->ean_checkdigit($code, @$Options[ 'nexo_product_codebar' ]);
-            } elseif (@$Options[ 'nexo_product_codebar' ] == 'ean13') {
+                $code        .=    $this->Nexo_Misc->ean_checkdigit($code, @$Options[ store_prefix() . 'nexo_product_codebar' ]);
+            } elseif (@$Options[ store_prefix() . 'nexo_product_codebar' ] == 'ean13') {
                 for ($i = 0; $i < 12; $i++) {
                     $start = ($i == 0) ? true : false;
                     $code .= random($start);
                 }
-                $code        .= $this->Nexo_Misc->ean_checkdigit($code, @$Options[ 'nexo_product_codebar' ]);
+                $code        .= $this->Nexo_Misc->ean_checkdigit($code, @$Options[ store_prefix() . 'nexo_product_codebar' ]);
             } else {
                 for ($i = 0; $i < $limit ; $i++) {
                     $start = ($i == 0) ? true : false;
@@ -103,9 +103,9 @@ class Nexo_Products extends CI_Model
         
         $saved_barcode[]    =    $code;
 
-        $this->options->set('nexo_saved_barcode', $saved_barcode, true);
+        $this->options->set( store_prefix() . 'nexo_saved_barcode', $saved_barcode, true);
         
-        if (in_array(@$Options[ 'nexo_product_codebar' ], array( 'ean8', 'ean13' ))) {
+        if (in_array(@$Options[ store_prefix() . 'nexo_product_codebar' ], array( 'ean8', 'ean13' ))) {
             $this->create_codebar(substr($code, 0, -1));
         } else {
             $this->create_codebar($code);
@@ -122,18 +122,30 @@ class Nexo_Products extends CI_Model
     
     public function reset_barcode()
     {
-        $this->options->delete('nexo_saved_barcode');
+        $this->options->delete( store_prefix() . 'nexo_saved_barcode');
         
         /**
          * @source http://stackoverflow.com/questions/4594180/deleting-all-files-from-a-folder-using-php
         **/
-        $files = glob('public/upload/codebar/*'); // get all file names
+        $files = glob( NEXO_BARCODE_PATH . '*'); // get all file names
         foreach ($files as $file) { // iterate files
           if (is_file($file)) {
               unlink($file); // delete file
           }
         }
     }
+	
+	/**
+	 * Delete barcode image
+	 *
+	 * @param string barcode
+	 * @return void
+	**/
+	
+	public function delete_barcode_image( $barcode ) 
+	{
+		@unlink( NEXO_CODEBAR_PATH . $barcode . '.jpg' ); // delete file
+	}
     
     /**
      * Resample barcode
@@ -148,12 +160,12 @@ class Nexo_Products extends CI_Model
         $barcode        =    $this->generate_barcode();
         
         // Update Order Barcodes
-        $this->db->where('REF_PRODUCT_CODEBAR', $old_barcode)->update('nexo_commandes_produits', array(
+        $this->db->where('REF_PRODUCT_CODEBAR', $old_barcode)->update( store_prefix() . 'nexo_commandes_produits', array(
             'REF_PRODUCT_CODEBAR'    =>    $barcode
         ));
         
         // Update Barcode
-        $this->db->where('ID', $product_id)->update('nexo_articles', array(
+        $this->db->where('ID', $product_id)->update( store_prefix() . 'nexo_articles', array(
             'CODEBAR'    =>    $barcode
         ));
         
@@ -177,12 +189,18 @@ class Nexo_Products extends CI_Model
         }
         
         global $Options;
-        $param[ 'CODEBAR' ]                =    $this->generate_barcode();
-        $param[ 'AUTHOR' ]                =    intval(User::id());
-        $param[ 'QUANTITE_RESTANTE' ]    =    intval($param[ 'QUANTITY' ]) - intval($param[ 'DEFECTUEUX' ]);
-        $param[ 'QUANTITE_VENDU' ]        =    0;
-        $param[ 'COUT_DACHAT' ]            =    intval($param[ 'PRIX_DACHAT' ]) + intval($param[ 'FRAIS_ACCESSOIRE' ]);
-        $param[ 'DATE_CREATION' ]        =    date_now();
+        $param[ 'CODEBAR' ]               	=    $this->generate_barcode();
+        $param[ 'AUTHOR' ]                	=    intval(User::id());
+        $param[ 'QUANTITE_RESTANTE' ]    	=    intval($param[ 'QUANTITY' ]) - intval($param[ 'DEFECTUEUX' ]);
+        $param[ 'QUANTITE_VENDU' ]       	=    0;
+        $param[ 'COUT_DACHAT' ]            	=    intval($param[ 'PRIX_DACHAT' ]) + intval($param[ 'FRAIS_ACCESSOIRE' ]);
+        $param[ 'DATE_CREATION' ]        	=    date_now();
+		
+		// @since 2.9
+		// Generate barcode
+		if( $param[ 'AUTO_BARCODE' ] == '1' && ! empty( $param[ 'CODEBAR' ] ) && ! empty( $param[ 'BARCODE_TYPE' ] ) ) {
+			$this->create_codebar( $param[ 'CODEBAR' ], $param[ 'BARCODE_TYPE' ] );
+		}
 		
 		// If Multi store is enabled
 		// @since 2.8
@@ -219,6 +237,16 @@ class Nexo_Products extends CI_Model
         $param[ 'DATE_MOD' ]            =    date_now();
         $param[ 'AUTHOR' ]                =    intval(User::id());
         $param[ 'COUT_DACHAT' ]            =    intval($param[ 'PRIX_DACHAT' ]) + intval($param[ 'FRAIS_ACCESSOIRE' ]);
+		
+		// @since 2.9
+		// Generate barcode		
+		if( $param[ 'AUTO_BARCODE' ] == '1' && ! empty( $param[ 'CODEBAR' ] ) && ! empty( $param[ 'BARCODE_TYPE' ] ) ) {
+			// Delete fist old barcode
+			$this->delete_barcode_image( $article[0][ 'CODEBAR' ] );
+						
+			// Do generate barcode
+			$this->create_codebar( $param[ 'CODEBAR' ], $param[ 'BARCODE_TYPE' ] );
+		}
 		
 		// If Multi store is enabled
 		// @since 2.8

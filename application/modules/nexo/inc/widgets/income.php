@@ -2,7 +2,7 @@
 use Carbon\Carbon;
 
 ?>
-<div class="box box-solid" data-meta-namespace="nexo_sales_income">
+<div class="box box-solid" data-meta-namespace="<?php echo store_prefix() ;?>nexo_sales_income">
 <div class="box-header ui-sortable-handle" style="cursor: move;">
   <i class="fa fa-money"></i>
 
@@ -86,9 +86,9 @@ var myChart = new Chart(ctx, {
 
 var NexoIncomeWidget	=	new function(){
 	this.load			=	function( action ) {
-		var get_params	=	action == 'refresh' ? '?refresh=true' : '';
+		var get_params	=	action == 'refresh' ? '?refresh=true' : '?load=cache';
 		var post_data	=	_.object( [ 'start', 'end' ], [ startOfWeek, endOfWeek ] );
-		$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'widget_income' ));?>' + get_params, {
+		$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'widget_income' ));?>' + get_params + '<?php echo store_get_param( '&' );?>', {
 			type		:	'POST',
 			data		:	post_data,
 			success		: 	function( data ){				

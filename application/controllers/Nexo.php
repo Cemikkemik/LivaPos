@@ -17,6 +17,7 @@ class Nexo extends REST_Controller
         parent::__construct();
 
         $this->load->library('session');
+		$this->load->helper( 'nexopos' );
         $this->load->database();
     }
 
@@ -88,6 +89,7 @@ class Nexo extends REST_Controller
 
     /**
      * PUt item
+	 * @deprecated
      *
     **/
 
@@ -123,6 +125,7 @@ class Nexo extends REST_Controller
 
     /**
      * Item insert
+	 * @deprecated
     **/
 
     public function item_post()
@@ -176,6 +179,7 @@ class Nexo extends REST_Controller
      * @params POST string email
      * @params POST string tel
      * @params POST string prenom
+	 * @deprecated
     **/
 
     public function customer_post()
@@ -247,7 +251,7 @@ class Nexo extends REST_Controller
         set_time_limit($this->config->item('feed_execution_time '));
 
         // Fetch from cache
-        $this->cache        =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_' ));
+        $this->cache        =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_' . store_prefix() ));
 
         if ($this->cache->get('tutorials_feed')) {
             $content        =    json_decode($this->cache->get('tutorials_feed'));
@@ -272,7 +276,7 @@ class Nexo extends REST_Controller
         // Set max execution Time
         set_time_limit($this->config->item('feed_execution_time '));
 
-        $this->cache        =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_' ));
+        $this->cache        =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_' . store_prefix() ));
 
         if ($this->cache->get('news_feed')) {
             $content        =    json_decode($this->cache->get('news_feed'));
@@ -393,10 +397,10 @@ class Nexo extends REST_Controller
                     if (is_array($cashier_id)) {
                         foreach ($cashier_id as $id) {
                             $this->db->select('*')
-                            ->from('nexo_commandes')
-                            ->join('aauth_users', 'nexo_commandes.AUTHOR = aauth_users.id')
-                            ->where('nexo_commandes.DATE_CREATION >=', Carbon::parse($date_key)->startOfDay())
-                            ->where('nexo_commandes.DATE_CREATION <=', Carbon::parse($date_key)->endOfDay());
+                            ->from( store_prefix() . 'nexo_commandes')
+                            ->join('aauth_users', store_prefix() . 'nexo_commandes.AUTHOR = aauth_users.id')
+                            ->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', Carbon::parse($date_key)->startOfDay())
+                            ->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', Carbon::parse($date_key)->endOfDay());
 
                             $this->db->where('aauth_users.id', $id);
 
@@ -431,10 +435,10 @@ class Nexo extends REST_Controller
 
                 foreach ($Dates as $date_key => &$content) {
                     $this->db->select('*')
-                    ->from('nexo_commandes')
-                    ->join('aauth_users', 'nexo_commandes.AUTHOR = aauth_users.id')
-                    ->where('nexo_commandes.DATE_CREATION >=', Carbon::parse($date_key)->startOfMonth())
-                    ->where('nexo_commandes.DATE_CREATION <=', Carbon::parse($date_key)->endOfMonth())
+                    ->from( store_prefix() . 'nexo_commandes')
+                    ->join('aauth_users', store_prefix() . 'nexo_commandes.AUTHOR = aauth_users.id')
+                    ->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', Carbon::parse($date_key)->startOfMonth())
+                    ->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', Carbon::parse($date_key)->endOfMonth())
                     ->where('aauth_users.id', $cashier_id);
 
                     $query        =    $this->db->get();
@@ -463,7 +467,7 @@ class Nexo extends REST_Controller
         if (
             $CarbonStart->lt($CarbonEnd)
             && $CarbonStart->diffInMonths($CarbonEnd) >= 1
-            && $CarbonStart->diffInYears($CarbonEnd) < 12 // report can't exceed 3 months
+            && $CarbonStart->diffInYears($CarbonEnd) < 1 // report can't exceed 3 months
         ) {
             $Dates        =    array();
 
@@ -479,11 +483,17 @@ class Nexo extends REST_Controller
                 if (is_array($customers_id)) {
                     foreach ($customers_id as $customer_id) {
                         $this->db->select('*')
-                        ->from('nexo_clients')
-                        ->join('nexo_commandes', 'nexo_commandes.REF_CLIENT = nexo_clients.ID', 'inner')
-                        ->where('nexo_commandes.DATE_CREATION >=', Carbon::parse($date_key)->startOfMonth()->toDateTimeString())
-                        ->where('nexo_commandes.DATE_CREATION <=', Carbon::parse($date_key)->endOfMonth()->toDateTimeString())
-                        ->where('nexo_clients.ID', $customer_id);
+                        ->from( store_prefix() . 'nexo_clients')
+                        
+						->join( 
+							store_prefix() . 'nexo_commandes', 
+							store_prefix() . 'nexo_commandes.REF_CLIENT = ' . 
+							store_prefix() . 'nexo_clients.ID', 'inner'
+						)
+						
+                        ->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', Carbon::parse($date_key)->startOfMonth()->toDateTimeString())
+                        ->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', Carbon::parse($date_key)->endOfMonth()->toDateTimeString())
+                        ->where( store_prefix() . 'nexo_clients.ID', $customer_id);
 
                         $query        =    $this->db->get();
                         $content[ 'customers' ][ $customer_id ]        =    $query->result_array();

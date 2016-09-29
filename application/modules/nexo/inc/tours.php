@@ -24,7 +24,20 @@ class Nexo_Tours extends CI_Model
         ?>;
 			this.ShowPrompt	=	function(){
 				if( this.IsFirstRun == true ){
-					bootbox.confirm( '<?php echo addslashes(__('C\'est la première fois que Nexo est exécuté. Souhaitez-vous créer un exemple de boutique en activité, pour tester toutes les fonctionnalités ?<br><br><em>En appuyant sur "Annuler", Vous pourrez toujours activer cette option depuis les réglages.</em>', 'nexo'));
+					bootbox.confirm( '<?php echo
+						'<div class="row text-justified">' .
+							'<div class="col-lg-6">' .
+								_s( '<h4 class="text-center">Bienvenue sur NexoPOS</h4>', 'nexo' ) . '<br>' .
+								_s( 'Merci d\'avoir choisi d\'utiliser <strong>NexoPOS</strong> pour votre gérer votre boutique.', 'nexo' ) .
+								'<br>' . '<br>' . 
+								_s('C\'est la première fois que <strong>NexoPOS</strong> est exécuté. Souhaitez-vous créer un exemple de boutique en activité, pour tester toutes les fonctionnalités ?<br><br><em>En appuyant sur "Annuler", Vous pourrez toujours activer cette option depuis les réglages.</em>', 'nexo' ) . 	
+							'</div>' . 
+							'<div class="col-lg-6 text-justified">' .
+								_s( '<h4 class="text-center">Comment ça marche ?</h4>', 'nexo' ) . '<br>' .
+								'<iframe style="width:100%" height="300" src="https://www.youtube.com/embed/Pcs0vr3Izao" frameborder="0" allowfullscreen></iframe>' .
+							'</div>' . 
+							
+						'</div>';
         ?>', function( action ) {
 						if( action == true ) {
 							tendoo.options.success(function(){
@@ -35,6 +48,8 @@ class Nexo_Tours extends CI_Model
 							tendoo.options.set( 'nexo_first_run', true );
 						}
 					});
+					$( '.modal-dialog' ).css( 'width', '80%' );
+					$( '.bootbox-close-button' ).remove();
 				}
 			};
 			this.ShowPrompt();

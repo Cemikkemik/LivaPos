@@ -11,10 +11,12 @@ $config[ 'discounted_item_background' ]        =    '#DFF0D8';
 **/
 
 $config[ 'nexo_order_types' ]    =    array(
-    'nexo_order_comptant'            =>    get_instance()->lang->line('nexo_order_complete'),
-    'nexo_order_advance'            =>    get_instance()->lang->line('nexo_order_advance'),
-    'nexo_order_devis'                =>    get_instance()->lang->line('nexo_order_quote'),
-	'nexo_order_web'				=>	get_instance()->lang->line( 'nexo_order_web' )
+    'nexo_order_comptant'           =>    	get_instance()->lang->line('nexo_order_complete'),
+    'nexo_order_advance'            =>    	get_instance()->lang->line('nexo_order_advance'),
+    'nexo_order_devis'              =>    	get_instance()->lang->line('nexo_order_quote'),
+	'nexo_order_web'				=>		get_instance()->lang->line( 'nexo_order_web' ),
+	'nexo_order_refunded'			=>		get_instance()->lang->line( 'nexo_order_refunded' ),
+	'nexo_order_partialy_refunded'	=>		get_instance()->lang->line( 'nexo_order_partialy_refunded' ),
 );
 
 /**
@@ -22,9 +24,9 @@ $config[ 'nexo_order_types' ]    =    array(
 **/
 
 $config[ 'nexo_discount_type' ]    =    array(
-    'disable'        =>    get_instance()->lang->line('disabled'),
-    'amount'        =>    get_instance()->lang->line('nexo_flat_discount'),
-    'percent'        =>    get_instance()->lang->line('nexo_percentage_discount')
+    'disable'        		=>    get_instance()->lang->line('disabled'),
+    'amount'        		=>    get_instance()->lang->line('nexo_flat_discount'),
+    'percent'        		=>    get_instance()->lang->line('nexo_percentage_discount')
 );
 
 /**
@@ -54,10 +56,10 @@ $config[ 'nexo_payment_types' ]    =    array(
 $config[ 'nexo_cart_animation' ]    =    false; // was 'animated zoomIn';
 
 /**
- * Currency with double 00
+ * Supported Currency
 **/
 
-$config[ 'nexo_currency_with_double_zero' ]        =    array( 'usd', 'eur' );
+$config[ 'nexo_supported_currency' ]        =    array( 'usd', 'eur','gbp' );
 
 /**
  * Test Mode
@@ -135,7 +137,7 @@ $config[ 'nexo_receipts_namespaces' ]		=	array(
 );
 
 $config[ 'nexo_receipts_routes' ]			=	array(
-	'default'			=>	MODULES_PATH . '/nexo/views/invoices/default.php',
+	'default'			=>	MODULESPATH . '/nexo/views/invoices/default.php',
 	'custom'			=>	null
 );
 
@@ -185,6 +187,15 @@ $config[ 'nexo_item_stock' ]		=	array(
 );
 
 /**
+ * Yes No
+**/
+
+$config[ 'nexo_yes_no' ]		=	array(
+	1	=>	get_instance()->lang->line( 'yes' ),
+	2	=>	get_instance()->lang->line( 'no' )
+);
+
+/**
  * Grocery Groups
 **/
 
@@ -201,10 +212,20 @@ $config[ 'nexo_item_stock_group' ]	=	array(
 
 // Caracteristiques
 $config[ 'nexo_item_spec_group' ] 	=	array(
-	'HAUTEUR', 'LARGEUR', 'POIDS', 'TAILLE', 'COULEUR', 'APERCU', 'CODEBAR', 'DATE_CREATION', 'DATE_MOD', 'AUTHOR'
+	'HAUTEUR', 'LARGEUR', 'POIDS', 'TAILLE', 'COULEUR', 'APERCU', 'DATE_CREATION', 'DATE_MOD', 'AUTHOR', 'DESCRIPTION'
 );
 
 // Details
 $config[ 'nexo_item_details_group' ]=	array(
-	'DESIGN', 'SKU', 'REF_CATEGORIE', 'REF_RAYON', 'REF_SHIPPING', 'DESCRIPTION'
+	'DESIGN', 'SKU', 'REF_CATEGORIE', 'REF_RAYON', 'REF_SHIPPING', 'AUTO_BARCODE', 'BARCODE_TYPE', 'CODEBAR'
+);
+
+// Barcode Type
+$config[ 'nexo_barcode_supported' ]	=	array( 
+	// 'default'	=>	get_instance()->lang->line( 'default' ), 
+	'ean8'		=>	'EAN8', 
+	'ean13'		=>	'EAN 13', 
+	'code_128'	=>	'Code 128', 
+	'type_msi'	=>	'TYPE MSI', 
+	'codabar'	=>	'CODABAR' 
 );

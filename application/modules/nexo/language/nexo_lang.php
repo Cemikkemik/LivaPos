@@ -67,28 +67,28 @@ $lang[ 'receipt_default' ]			=	__( 'Reçu par défaut', 'nexo');
 $lang[ 'custom_receipt' ]			=	__( 'Reçu personnalisé', 'nexo' );
 
 // @since 2.7.8
-$lang[ 'unknow-store' ]				= 	tendoo_error( __( 'Boutique introuvable', 'nexo' ) );
-$lang[ 'create_shop' ]				=	__( 'Création des boutiques', 'nexo' );
-$lang[ 'delete_shop' ]				=	__( 'Suppression des boutiques', 'nexo' );
-$lang[ 'edit_shop' ]				=	__( 'Modification des boutiques', 'nexo' );
-$lang[ 'enter_shop' ]				=	__( 'Servir dans une boutique', 'nexo' );
-$lang[ 'create_shop_details' ]		=	__( 'Cet utilisateur pourra créer des boutiques', 'nexo' );
-$lang[ 'delete_shop_details' ]		=	__( 'Cet utilisateur pourra supprimer des boutiques', 'nexo' );
-$lang[ 'edit_shop_details' ]		=	__( 'Cet utilisateur pourra modifier des boutiques', 'nexo' );
-$lang[ 'enter_shop_details' ]		=	__( 'Cet utilisateur pourra servir dans une boutique', 'nexo' );
-
+$lang[ 'unknow-store' ]						= 	tendoo_error( __( 'Boutique introuvable', 'nexo' ) );
+$lang[ 'create_shop' ]						=	__( 'Création des boutiques', 'nexo' );
+$lang[ 'delete_shop' ]						=	__( 'Suppression des boutiques', 'nexo' );
+$lang[ 'edit_shop' ]						=	__( 'Modification des boutiques', 'nexo' );
+$lang[ 'enter_shop' ]						=	__( 'Servir dans une boutique', 'nexo' );
+$lang[ 'create_shop_details' ]				=	__( 'Cet utilisateur pourra créer des boutiques', 'nexo' );
+$lang[ 'delete_shop_details' ]				=	__( 'Cet utilisateur pourra supprimer des boutiques', 'nexo' );
+$lang[ 'edit_shop_details' ]				=	__( 'Cet utilisateur pourra modifier des boutiques', 'nexo' );
+$lang[ 'enter_shop_details' ]				=	__( 'Cet utilisateur pourra servir dans une boutique', 'nexo' );
 // @since 2.8.0
-$lang[ 'opened' ]					=	__( 'Ouvert', 'nexo' );
-$lang[ 'closed' ]					=	__( 'Fermé', 'nexo' );
-$lang[ 'unavailable' ]				=	__( 'Indisponible', 'nexo' );
-$lang[ 'nexo-feature-unavailable' ]	=	tendoo_info( __( 'This feature is not enabled.', 'nexo' ) );
-
+$lang[ 'opened' ]							=	__( 'Ouvert', 'nexo' );
+$lang[ 'closed' ]							=	__( 'Fermé', 'nexo' );
+$lang[ 'unavailable' ]						=	__( 'Indisponible', 'nexo' );
+$lang[ 'nexo-feature-unavailable' ]			=	tendoo_info( __( 'Cette fonctionnalité est désactivée.', 'nexo' ) );
 // @since 2.8.2
-$lang[ 'physical_item' ]			=	__( 'Article Physique', 'nexo' );
-$lang[ 'numerical_item' ]			=	__( 'Article Numérique', 'nexo' );
-
-$lang[ 'item_on_sale' ]				=	__( 'En vente', 'nexo' );
-$lang[ 'item_out_of_stock_disabled' ]	=	__( 'Indisponible', 'nexo' );
-
-$lang[ 'enabled' ]					=	__( 'Activé', 'nexo' );
-$lang[ 'disabled' ]					=	__( 'Désactivé', 'nexo' );
+$lang[ 'physical_item' ]					=	__( 'Article Physique', 'nexo' );
+$lang[ 'numerical_item' ]					=	__( 'Article Numérique', 'nexo' );
+$lang[ 'item_on_sale' ]						=	__( 'En vente', 'nexo' );
+$lang[ 'item_out_of_stock_disabled' ]		=	__( 'Indisponible', 'nexo' );
+$lang[ 'enabled' ]							=	__( 'Activé', 'nexo' );
+$lang[ 'disabled' ]							=	__( 'Désactivé', 'nexo' );
+$lang[ 'feature-disabled' ]					=	tendoo_info( __( 'Cette fonctionnalité à été exprèssement désactivée.', 'nexo' ) );
+$lang[ 'nexo_order_refunded' ]				=	__( 'Remboursé', 'nexo' );
+$lang[ 'default' ]							=	__( 'Par défaut', 'nexo' );
+$lang[ 'nexo_order_partialy_refunded' ]		=	__( 'Partiellement Remboursé', 'nexo' );

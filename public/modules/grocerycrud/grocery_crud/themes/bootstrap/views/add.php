@@ -38,6 +38,7 @@ if( $groups ) {
             <?php
 			$counter = 0;
 			foreach ($fields as $field) {
+				// var_dump( $field );
 				if( in_array( $field->field_name, $group[ 'fields' ] ) ) {
 					$even_odd = $counter % 2 == 0 ? 'odd' : 'even';
 					$counter++;
@@ -56,6 +57,10 @@ if( $groups ) {
 							?>" name="<?php echo $field->field_name;
 							?>" aria-describedby="basic-addon1"> --> 
                 </div>
+                <?php if( ! empty( $field->description ) ):?>
+                <br />
+                <?php echo $field->description;?>
+                <?php endif;?>
             </div>
             <?php 
 						} else {
@@ -68,6 +73,7 @@ if( $groups ) {
                 <br />
                 <?php echo $input_fields[$field->field_name]->input;?> 
 			</div>
+            	<?php echo $field->description;?>
             <?php	
 								}
 							}
@@ -107,6 +113,7 @@ if( $groups ) {
 					?>" name="<?php echo $field->field_name;
 					?>" aria-describedby="basic-addon1"> --> 
             </div>
+            <?php echo $field->description;?>
         </div>
         <?php 
 				} else {
@@ -119,6 +126,7 @@ if( $groups ) {
             <br />
             <?php echo $input_fields[$field->field_name]->input;
 					?> </div>
+                    <?php echo $field->description;?>
         <?php
 
 				}

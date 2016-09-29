@@ -31,9 +31,10 @@ class Sign_in extends Tendoo_Controller
         $this->events->do_action('set_login_rules');
         // in order to let validation return true
         $this->form_validation->set_rules('submit_button', __('Submit button'), 'alpha_dash');
+		
         if ($this->form_validation->run()) {
             // Log User After Applying Filters
-            $this->events->do_action('do_login');
+            $this->events->do_action( 'do_login' );
             $exec        =    $this->events->apply_filters('tendoo_login_notice', 'user-logged-in');
             if ($exec    == 'user-logged-in') {
                 if (riake('redirect', $_GET)) {
@@ -44,6 +45,7 @@ class Sign_in extends Tendoo_Controller
             }
             $this->notice->push_notice($this->lang->line($exec));
         }
+		
         // load login fields
         $this->config->set_item('signin_fields', $this->events->apply_filters('signin_fields', $this->config->item('signin_fields')));
         

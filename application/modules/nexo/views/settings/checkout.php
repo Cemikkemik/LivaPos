@@ -44,8 +44,8 @@ $this->Gui->add_meta(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    $option_prefix . 'nexo_enable_vat',
-    'label'        =>    __('Activer la TVA', 'nexo'),
+    'name'        =>    $option_prefix . 'nexo_enable_registers',
+    'label'        =>    __('Utiliser les caisses enregistreuses', 'nexo'),
     'options'    =>    array(
         'oui'        =>    __('Oui', 'nexo'),
         'non'        =>    __('Non', 'nexo')
@@ -54,8 +54,8 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    $option_prefix . 'nexo_enable_registers',
-    'label'        =>    __('Utiliser les caisses enregistreuses', 'nexo'),
+    'name'        =>    $option_prefix . 'nexo_enable_vat',
+    'label'        =>    __('Activer la TVA', 'nexo'),
     'options'    =>    array(
         'oui'        =>    __('Oui', 'nexo'),
         'non'        =>    __('Non', 'nexo')

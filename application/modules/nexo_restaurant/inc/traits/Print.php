@@ -10,7 +10,7 @@ trait Nexo_Restaurant_Print_Trait
 	
 	private function get_cat( $parent_id ) {
 		$categories		=	array();
-		$results	=	$this->db->where( 'PARENT_REF_ID', $parent_id )->get( 'nexo_categories' )->result_array();
+		$results	=	$this->db->where( 'PARENT_REF_ID', $parent_id )->get( store_prefix() . 'nexo_categories' )->result_array();
 		
 		if( $results ) {
 			foreach( $results as $r ) {
@@ -25,7 +25,7 @@ trait Nexo_Restaurant_Print_Trait
 	
 	public function print_to_kitchen_post()
 	{
-		$kitchens		=	$this->db->get( 'nexo_restaurant_kitchens' )->result_array();
+		$kitchens		=	$this->db->get( store_prefix() . 'nexo_restaurant_kitchens' )->result_array();
 		$kitchens_ids	=	array();
 		$cat_hierarchy	=	array();
 		
@@ -34,7 +34,7 @@ trait Nexo_Restaurant_Print_Trait
 		if( $kitchens ) {
 			foreach( $kitchens as $kitchen ) {
 				// Build Categories parent
-				$parent_category	=	$this->db->where( 'ID', $kitchen[ 'REF_CATEGORY' ] )->get( 'nexo_categories' )->result_array();			
+				$parent_category	=	$this->db->where( 'ID', $kitchen[ 'REF_CATEGORY' ] )->get( store_prefix() . 'nexo_categories' )->result_array();			
 				$cat_hierarchy[ $kitchen[ 'REF_CATEGORY' ] ]	=	array_merge( array( $kitchen[ 'REF_CATEGORY' ] ), $this->get_cat( $kitchen[ 'REF_CATEGORY' ] ) );
 				// Fil Kitchen IDS
 				$kitchens_ids[ $kitchen[ 'REF_CATEGORY' ] ]	=	$kitchen;
@@ -105,7 +105,7 @@ trait Nexo_Restaurant_Print_Trait
 		
 		$this->load->model( 'Nexo_Misc' );
 		
-		$full_items			=	$this->db->get( 'nexo_articles' )->result_array();
+		$full_items			=	$this->db->get( store_prefix() . 'nexo_articles' )->result_array();
 		$full_items_saved	=	array();
 		
 		foreach( $full_items as $full_item ) {

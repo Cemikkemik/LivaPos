@@ -214,7 +214,7 @@ class Nexo extends CI_Model
         ?>"></script>
         <link rel="stylesheet" href="<?php echo module_url('nexo') . '/bower_components/bootstrap-toggle/css/bootstrap2-toggle.min.css';
         ?>">
-        <script src="<?php echo module_url('nexo') . 'bower_components/angular/angular.min.js';?>"></script>
+		<script src="<?php echo module_url('nexo') . 'bower_components/angular/angular.min.js';?>"></script>
         
 
         <!-- Include PIE CHARTS -->

@@ -503,12 +503,8 @@ var v2Checkout					=	new function(){
 
 		NexoAPI.Bootbox().confirm( DiscountDom, function( action ) {
 			if( action == true ) {
+				
 				var value	=	$( '[name="discount_value"]' ).val();
-
-				if( value  == '' || value == '0' ) {
-					NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous devez définir un pourcentage ou une somme.', 'nexo'));?>' );
-					return false;
-				}
 
 				if( typeof config.onExit	==	'function' ) {
 					config.onExit( value );
@@ -1019,6 +1015,10 @@ var v2Checkout					=	new function(){
 				value.QUANTITE_RESTANTE,
 				// @since 2.8.2
 				value.STOCK_ENABLED, 
+				// @since 2.9.0
+				value.DISCOUNT_TYPE,
+				value.DISCOUNT_AMOUNT,
+				value.DISCOUNT_PERCENT
 			];
 			
 			// improved @since 2.7.3
@@ -2750,6 +2750,14 @@ var v2Checkout					=	new function(){
 					}
 				},
 				onExit				:	function( value ){
+					
+					var value	=	$( '[name="discount_value"]' ).val();
+
+					if( value  == '' || value == '0' ) {
+						NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous devez définir un pourcentage ou une somme.', 'nexo'));?>' );
+						return false;
+					}
+				
 					// console.log( 'Exit discount box	' );
 					// Percentage can't exceed 100%
 					if( v2Checkout.CartRemiseType == 'percentage' && NexoAPI.ParseFloat( value ) > 100 ) {

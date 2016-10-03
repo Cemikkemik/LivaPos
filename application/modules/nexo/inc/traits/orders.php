@@ -120,7 +120,11 @@ trait Nexo_orders
 				'REF_COMMAND_CODE'     =>    $order_details[ 'CODE' ],
 				'QUANTITE'             =>    $item[1],
 				'PRIX'                 =>    $item[3],
-				'PRIX_TOTAL'           =>    __floatval($item[1]) * __floatval($item[3])
+				'PRIX_TOTAL'           =>    __floatval($item[1]) * __floatval($item[3]),
+				// @since 2.9.0
+				'DISCOUNT_TYPE'			=>	$item[7],
+				'DISCOUNT_AMOUNT'		=>	$item[8],
+				'DISCOUNT_PERCENT'		=>	$item[9]
 			);
 						
 			$this->db->insert( store_prefix() . 'nexo_commandes_produits', $item_data );
@@ -321,7 +325,11 @@ trait Nexo_orders
                 'REF_COMMAND_CODE'            =>    $old_order[ 'order' ][0][ 'CODE' ],
                 'QUANTITE'                    =>    $item[1],
                 'PRIX'                        =>    $item[3],
-                'PRIX_TOTAL'                =>    intval($item[1]) * intval($item[3])
+                'PRIX_TOTAL'                =>    intval($item[1]) * intval($item[3]),
+				// @since 2.9.0
+				'DISCOUNT_TYPE'			=>	$item[7],
+				'DISCOUNT_AMOUNT'		=>	$item[8],
+				'DISCOUNT_PERCENT'		=>	$item[9]				
             );
 			
 			

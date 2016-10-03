@@ -210,9 +210,12 @@ class Nexo extends CI_Model
         ?>"></script>
         <script src="<?php echo module_url('nexo') . 'js/html5-audio-library.js';
         ?>"></script>
+        <script src="<?php echo module_url('nexo') . 'js/HTML.min.js';
+        ?>"></script>
         <link rel="stylesheet" href="<?php echo module_url('nexo') . '/bower_components/bootstrap-toggle/css/bootstrap2-toggle.min.css';
         ?>">
         <script src="<?php echo module_url('nexo') . 'bower_components/angular/angular.min.js';?>"></script>
+        
 
         <!-- Include PIE CHARTS -->
         <link rel="stylesheet" href="<?php echo css_url('nexo') . '/piecharts/piecharts.css';

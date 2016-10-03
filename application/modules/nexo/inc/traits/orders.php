@@ -1,4 +1,7 @@
 <?php
+
+use Curl\Curl;
+
 trait Nexo_orders
 {
     /**
@@ -151,7 +154,24 @@ trait Nexo_orders
 			}
 		
 		}
-        
+		
+		// @since 2.9 
+		// Save order payment
+		$this->load->config( 'rest' );
+		$Curl			=	new Curl;
+        //$header_key		=	$this->config->item( 'rest_header_key' );
+		//$header_value	=	$_SERVER[ 'HTTP_' .$this->config->item( 'rest_header_key' ) ];
+		// $Curl->setHeader( $header_key, $header_value );
+		$Curl->setHeader($this->config->item('rest_key_name'), $_SERVER[ 'HTTP_' . $this->config->item('rest_header_key') ]);
+		
+		$Curl->post( site_url( array( 'rest', 'nexo', 'order_payment', store_get_param( '?' ) ) ), array(
+			'author'		=>	$author_id,
+			'date'			=>	$this->post('DATE_CREATION'),
+			'payment_type'	=>	$this->post('PAYMENT_TYPE'),
+			'amount'		=>	$this->post( 'SOMME_PERCU' ),
+			'order_code'	=>	$current_order[0][ 'CODE' ]
+		) );
+		
         $this->response(array(
             'order_id'        =>    $current_order[0][ 'ID' ],
             'order_type'    =>    $order_details[ 'TYPE' ],
@@ -336,6 +356,22 @@ trait Nexo_orders
 			}
 			
 		}
+		
+		// @since 2.9 
+		// Save order payment
+		$this->load->config( 'rest' );
+		$Curl			=	new Curl;
+        // $header_key		=	$this->config->item( 'rest_key_name' );
+		// $header_value	=	$_SERVER[ 'HTTP_' . $this->config->item( 'rest_key_name' ) ];
+		$Curl->setHeader($this->config->item('rest_key_name'), $_SERVER[ 'HTTP_' . $this->config->item('rest_header_key') ]);
+		
+		$Curl->post( site_url( array( 'rest', 'nexo', 'order_payment', store_get_param( '?' ) ) ), array(
+			'author'	=>	$author_id,
+			'date'		=>	$this->put('DATE_CREATION'),
+			'payment_type'	=>	$this->put('PAYMENT_TYPE'),
+			'amount'	=>	$this->put( 'SOMME_PERCU' ),
+			'order_code'	=>	$current_order[0][ 'CODE' ]
+		) );
         
         $this->response(array(
             'order_id'        =>    $order_id,
@@ -379,8 +415,11 @@ trait Nexo_orders
 	public function order_with_item_get( $order_id )
 	{		
 		$order		=	$this->db->select( '*,
-		nexo_clients.NOM as CLIENT_NAME,
-		aauth_users.name as AUTHOR_NAME' )
+		' . store_prefix() .'nexo_commandes.ID as ID,
+		' . store_prefix() .'nexo_clients.NOM as CLIENT_NAME,
+		aauth_users.name as AUTHOR_NAME,
+		' . store_prefix() . 'nexo_commandes.DATE_CREATION as DATE_CREATION,
+		' )
 		
 		->from( store_prefix() . 'nexo_commandes' )
 		
@@ -449,4 +488,72 @@ trait Nexo_orders
 		}
 		$this->__empty();
 	}
+	
+	/**
+	 * Proceed Payment
+	 * @params int order id
+	 * @return json
+	**/
+	
+	public function order_payment_post( $order_id ) 
+	{
+		$order	=	$this->db->where( 'ID', $order_id )->get( store_prefix() . 'nexo_commandes' )->result();
+		
+		if( $order[0]->TYPE != 'nexo_commande_comptant' ) {
+			
+			if( floatval( $order[0]->TOTAL ) <= ( floatval( $order[0]->SOMME_PERCU ) + floatval( $this->post( 'amount' ) ) ) ) {
+				$this->db->where( 'ID', $order_id )->update( store_prefix() . 'nexo_commandes', array(
+					'AUTHOR'				=>	$this->post( 'author' ),
+					'DATE_MOD'				=>	$this->post( 'date' ),
+					'TYPE'					=>	'nexo_order_comptant',
+					'SOMME_PERCU'			=>	floatval( $order[0]->SOMME_PERCU ) + floatval( $this->post( 'amount' ) ),
+					'PAYMENT_TYPE'			=>	$this->post( 'payment_type' )
+				) );
+			} else {
+				$this->db->where( 'ID', $order_id )->update( store_prefix() . 'nexo_commandes', array(
+					'AUTHOR'				=>	$this->post( 'author' ),
+					'DATE_MOD'				=>	$this->post( 'date' ),
+					'TYPE'					=>	'nexo_order_advance',
+					'SOMME_PERCU'			=>	floatval( $order[0]->SOMME_PERCU ) + floatval( $this->post( 'amount' ) ),
+					'PAYMENT_TYPE'			=>	$this->post( 'payment_type' )
+				) );
+			}
+			
+			$this->db->insert( store_prefix() . 'nexo_commandes_paiements', array(
+				'REF_COMMAND_CODE'		=>	$this->post( 'order_code' ),
+				'AUTHOR'				=>	$this->post( 'author' ),
+				'DATE_CREATION'			=>	$this->post( 'date' ),
+				'PAYMENT_TYPE'			=>	$this->post( 'payment_type' ),
+				'MONTANT'				=>	$this->post( 'amount' )
+			) ); 
+			
+			$this->__success();
+			
+		} else {
+			$this->__forbidden();
+		}
+	}
+	
+	/**
+	 * Get Order Payments
+	 * @param int order id
+	 * @return json
+	**/
+	
+	public function order_payment_get( $order_code )
+	{
+		$this->response( 
+			$this->db
+			->select( '*,aauth_users.name as AUTHOR_NAME' )
+			->join( 'aauth_users', 'aauth_users.id = ' . store_prefix() . 'nexo_commandes_paiements.AUTHOR', 'right' )
+			->from( store_prefix() . 'nexo_commandes_paiements' )
+			->where( 'REF_COMMAND_CODE', $order_code )
+			->get()->result(),
+			200 
+		);
+	}
+
+
 }
+
+

@@ -58,54 +58,47 @@ var v2Checkout					=	new function(){
 	this.fixHeight				=	function(){
 		// Height and Width
 		var headerHeight				=	parseInt( $( '.main-header' ).outerHeight() );
+		var contentHeader				=	parseInt( $( '.content-header' ).outerHeight() );
 		var contentMargin				=	parseInt( $( '.content' ).css( 'padding-top' ) );
-		var contentHeader				=	parseInt( $( '.content-header' ).outerHeight( true ) );
+		var footerHeight				=	parseInt( $( '.main-footer' ).outerHeight() );
+		
 		// var windowHeight				=	parseInt( window.innerHeight < 500 ? 500 : window.innerHeight );
-		var	wrapperHeight				=	parseInt( $( '.content-wrapper' ).css( 'min-height' ) );
-		var footerHeight				=	parseInt( $( '.main-footer' ).height() );
-		var categorySliderHeight		=	parseInt( $( '.cattegory-slider' ).height() );
-
-		// Col 2
-		var boxHeaderOuterHeight		=	parseInt( $( '.box-header.with-border' ).outerHeight( true ) );
-		$( '.item-list-container' ).height( wrapperHeight - ( 
-			headerHeight + 
-			contentMargin + 
-			contentHeader + 
-			boxHeaderOuterHeight + 
-			footerHeight + 
-			categorySliderHeight 
-		) );
+		if( $( '.content-wrapper' ).css( 'min-height' ) ) {
+			var	wrapperHeight			=	window.innerHeight;
+				wrapperHeight			-=	footerHeight;
+				wrapperHeight			-= 	headerHeight; // GG
+				wrapperHeight			-=	contentHeader;
+				wrapperHeight			-=	contentMargin;
+		} else {
+			var	wrapperHeight			=	parseInt( $( '.new-wrapper' ).innerHeight() - 20 );
+		}
 		
 		// Col 1
 		
-		var cartHeader					=	parseInt( $( '#cart-header' ).outerHeight() );
-		var cartTableHeader				=	parseInt( $( '#cart-item-table-header' ).height() );
-		var cartTableFooter				=	parseInt( $( '#cart-details' ).height() );
-		var cartPanel					=	parseInt( $( '#cart-panel' ).outerHeight() );
+		var col1_paddingWrapper			=	parseInt( $( '#cart-details-wrapper' ).css( 'margin-bottom' ) );
+		var cartHeader					=	parseInt( $( '#cart-header' ).outerHeight(true) );
+		var cartTableHeader				=	parseInt( $( '#cart-item-table-header' ).outerHeight(true) );
+		var cartTableFooter				=	parseInt( $( '#cart-details' ).outerHeight(true) );
+		var cartPanel					=	parseInt( $( '#cart-panel' ).outerHeight(true) );
 				
 		$( '#cart-table-body' ).height( wrapperHeight - ( 
-			cartHeader + 
-			cartTableHeader + 
-			cartTableFooter + 
-			cartPanel + 
-			// Common Height
-			headerHeight + 
-			contentMargin + 
-			contentHeader + 
-			footerHeight
-		) );
-		
-		/*var cartDetailsHeight			=	$( '#cart-details' ).outerHeight();
-		var cartPanelHeight				=	$( '#cart-panel' ).outerHeight();
-		var cartSearchHeight			=	$( '#cart-search-wrapper' ).outerHeight();
-		var cartHeader					=	$( '#cart-header' ).outerHeight();
-		var cartTableHeader				=	-9; // $( '#cart-item-table-header' ).outerHeight();
-		var col1Height					=	windowHeight - ( ( cartDetailsHeight + cartPanelHeight + cartSearchHeight + cartHeader + cartTableHeader ) + ( ( headerHeight + contentHeader + contentPadding ) * 2 ) );
-		$( this.CartTableBody ).height( col1Height );
+			cartHeader  
+			+ cartTableHeader
+			+ cartTableFooter 
+			+ cartPanel	
+			+ col1_paddingWrapper
+		) );		
+
 		// Col 2
-		var searchProductInputHeight	=	$( this.ProductSearchInput ).height();
-		var col2Height			=	windowHeight - ( -16 + ( headerHeight + contentHeader + contentPadding + searchProductInputHeight ) * 2 );
-		$( this.ProductListWrapper	).find( '.direct-chat-messages' ).height( col2Height );*/
+		var categorySliderHeight		=	parseInt( $( '.cattegory-slider' ).height() );
+		var searchFieldHeight			=	parseInt( $( '.search-field-wrapper' ).outerHeight() );
+		var productListWrapper			=	parseInt( $( '#product-list-wrapper' ).css( 'margin-bottom' ) );
+		
+		$( '.item-list-container' ).height( wrapperHeight - ( 
+			productListWrapper + 
+			categorySliderHeight +
+			searchFieldHeight
+		) );
 	};
 
 	/**
@@ -281,6 +274,91 @@ var v2Checkout					=	new function(){
 			$('.slick').slick( 'slickPrev' );
 		});
 	}
+	
+	/**
+	 * Bind Change Unit Price
+	 * @since 2.9.0
+	**/
+	
+	this.bindChangeUnitPrice	=	function(){
+		
+		<?php if( @$Options[ store_prefix() . 'unit_price_changing' ] == 'yes' ):?>
+		
+		$( '.item-unit-price' ).bind( 'click', function(){
+			
+			var itemCodebar		=	$(this).closest( 'tr' ).attr( 'data-item-barcode' );
+			var currentItem		=	null;
+			
+			if( ! itemCodebar ) {
+				console.log( 'Cannot edit this item, since his barcode is not available' );
+				return false;
+			}
+			
+			for( var i = 0; i < v2Checkout.CartItems.length ; i++ ) {
+				if( v2Checkout.CartItems[i].CODEBAR == itemCodebar ) {
+					currentItem		=	v2Checkout.CartItems[i];	
+				}
+			}
+			
+			var promo_start					= 	moment( currentItem.SPECIAL_PRICE_START_DATE );
+			var promo_end					= 	moment( currentItem.SPECIAL_PRICE_END_DATE );
+
+			var MainPrice					= 	NexoAPI.ParseFloat( currentItem.PRIX_DE_VENTE )
+			var Discounted					= 	'';
+			var CustomBackground			=	'';
+				currentItem.PROMO_ENABLED	=	false;
+
+			if( promo_start.isBefore( v2Checkout.CartDateTime ) ) {
+				if( promo_end.isSameOrAfter( v2Checkout.CartDateTime ) ) {
+					currentItem.PROMO_ENABLED	=	true;
+					MainPrice			=	NexoAPI.ParseFloat( currentItem.PRIX_PROMOTIONEL );
+					Discounted			=	'<small><del>' + NexoAPI.DisplayMoney( NexoAPI.ParseFloat( currentItem.PRIX_DE_VENTE ) ) + '</del></small>';
+					CustomBackground	=	'background:<?php echo $this->config->item('discounted_item_background');?>';
+				}
+			}
+			
+			// @since 2.7.1
+			if( v2Checkout.CartShadowPriceEnabled ) {
+				MainPrice			=	NexoAPI.ParseFloat( currentItem.SHADOW_PRICE );
+			}
+			
+			$( this ).replaceWith( '<td width="130"><div class="input-group input-group-sm"><input type="number" value="' + MainPrice + '" class="unit-price-form form-control" aria-describedby="sizing-addon3"></div></td>' );
+			
+			$( '.unit-price-form' ).focus();
+			
+			$( '.unit-price-form' ).bind( 'blur', function(){
+				
+				if( ! isNaN( parseFloat( $( this ).val() ) ) ) {
+				
+					$( this ).closest( 'td' ).replaceWith( '<td width="130" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( $( this ).val() ) + '</td>' );
+				} else {
+					$( this ).closest( 'td' ).replaceWith( '<td width="130" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice ) + '</td>' );	
+				}
+				
+				// Update the price on Cart
+				
+				for( var i = 0; i < v2Checkout.CartItems.length ; i++ ) {
+					if( v2Checkout.CartItems[i].CODEBAR == itemCodebar ) {
+						if( v2Checkout.CartShadowPriceEnabled ) {
+							v2Checkout.CartItems[i].SHADOW_PRICE	=	$( this ).val();	
+						} else {
+							if( promo_start.isBefore( v2Checkout.CartDateTime ) ) {
+								if( promo_end.isSameOrAfter( v2Checkout.CartDateTime ) ) {
+									v2Checkout.CartItems[i].PRIX_PROMOTIONEL	=	$( this ).val();	
+								}
+							} else {
+								v2Checkout.CartItems[i].PRIX_DE_VENTE	=	$( this ).val();	
+							}
+						}
+					}
+				}				
+				
+				v2Checkout.buildCartItemTable();
+			});
+		});
+		
+		<?php endif;?>
+	}
 
 	/**
 	 * Bind remove cart group discount
@@ -351,7 +429,7 @@ var v2Checkout					=	new function(){
 	 * Bind Add Discount
 	**/
 
-	this.bindAddDiscount		=	function(){
+	this.bindAddDiscount		=	function( config ){
 		var	DiscountDom			=
 		'<div id="discount-box-wrapper">' +
 			'<h4 class="text-center"><?php echo addslashes(__('Appliquer une remise', 'nexo'));?><span class="discount_type"></h4><br>' +
@@ -420,6 +498,8 @@ var v2Checkout					=	new function(){
 				'</div>' +
 			'</div>' +
 		'</div>';
+		
+		config					=	_.extend( {}, config );
 
 		NexoAPI.Bootbox().confirm( DiscountDom, function( action ) {
 			if( action == true ) {
@@ -430,20 +510,9 @@ var v2Checkout					=	new function(){
 					return false;
 				}
 
-				// Percentage can't exceed 100%
-				if( v2Checkout.CartRemiseType == 'percentage' && NexoAPI.ParseFloat( value ) > 100 ) {
-					value = 100;
-				} else if( v2Checkout.CartRemiseType == 'flat' && NexoAPI.ParseFloat( value ) > v2Checkout.CartValue ) {
-					// flat discount cannot exceed cart value
-					value	=	v2Checkout.CartValue;
+				if( typeof config.onExit	==	'function' ) {
+					config.onExit( value );
 				}
-
-				$( '[name="discount_value"]' ).focus();
-				$( '[name="discount_value"]' ).blur();
-
-				v2Checkout.CartRemiseEnabled	=	true;
-				v2Checkout.calculateCartDiscount( value );
-				v2Checkout.refreshCartValues();
 			}
 		});
 
@@ -458,7 +527,9 @@ var v2Checkout					=	new function(){
 				// Proceed a quick check on the percentage value
 				$( '[name="discount_value"]' ).focus();
 
-				v2Checkout.CartRemiseType	=	'percentage';
+				if( typeof config.onPercentDiscount	==	'function' ) {
+					config.onPercentDiscount();
+				}
 
 				$( '.discount_type' ).html( '<?php echo addslashes(__(' : <span class="label label-primary">au pourcentage</span>', 'nexo'));?>' );
 			}
@@ -474,40 +545,28 @@ var v2Checkout					=	new function(){
 
 				$( '[name="discount_value"]' ).focus();
 				$( '[name="discount_value"]' ).blur();
-
-				v2Checkout.CartRemiseType	=	'flat';
+				
+				if( typeof config.onFixedDiscount	==	'function' ) {
+					config.onFixedDiscount();
+				}
 
 				$( '.discount_type' ).html( '<?php echo addslashes(__(' : <span class="label label-info">à prix fixe</span>', 'nexo'));?>' );
 			}
 		});
 
 		// Fillback form
-		if( v2Checkout.CartRemiseType != null ) {
-			$( '.' + v2Checkout.CartRemiseType + '_discount' ).trigger( 'click' );
-
-			if( v2Checkout.CartRemiseType == 'percentage' ) {
-				$( '[name="discount_value"]' ).val( v2Checkout.CartRemisePercent );
-			} else if( v2Checkout.CartRemiseType == 'flat' ) {
-				$( '[name="discount_value"]' ).val( v2Checkout.CartRemise );
-			}
-
-		} else {
-			$( '.flat_discount' ).trigger( 'click' );
+		if( typeof config.beforeLoad == 'function' ) {
+			config.beforeLoad();
 		}
-
+		
 		$( '[name="discount_value"]' ).bind( 'blur', function(){
 
 			if( NexoAPI.ParseFloat( $( this ).val() ) < 0 ) {
 				$( this ).val( 0 );
 			}
-
-			// Percentage allowed to 100% only
-			if( v2Checkout.CartRemiseType == 'percentage' && NexoAPI.ParseFloat( $( '[name="discount_value"]' ).val() ) > 100 ) {
-				$( this ).val( 100 );
-			} else if( v2Checkout.CartRemiseType == 'flat' && NexoAPI.ParseFloat( $( '[name="discount_value"]' ).val() ) > v2Checkout.CartValue ) {
-				// flat discount cannot exceed cart value
-				$( this ).val( v2Checkout.CartValue );
-				NexoAPI.Notify().info( '<?php echo _s('Attention', 'nexo');?>', '<?php echo _s('La remise fixe ne peut pas excéder la valeur actuelle du panier. Le montant de la remise à été réduite à la valeur du panier.', 'nexo');?>' );
+			
+			if( typeof config.beforeLoad == 'function' ) {
+				config.onFieldBlur();
 			}
 		});
 
@@ -612,6 +671,81 @@ var v2Checkout					=	new function(){
 			
 		});
 	};
+	
+	/**
+	 * Bind Unit Item Discount
+	 * @return void
+	 * @since 2.9.0
+	**/
+	
+	this.bindUnitItemDiscount 	=	function(){
+		$( '.item-discount' ).bind( 'click', function(){
+			
+			var _item			=	v2Checkout.getItem( $( this ).closest( 'tr' ).attr( 'data-item-barcode' ) );
+			var salePrice		=	v2Checkout.getItemSalePrice( _item );
+
+			v2Checkout.bindAddDiscount({
+				beforeLoad		:	function(){
+					if( _item.DISCOUNT_TYPE == 'percentage' ) {
+						
+						$( '.' + _item.DISCOUNT_TYPE + '_discount' ).trigger( 'click' );
+			
+					} else {
+						$( '.flat_discount' ).trigger( 'click' );
+					}
+					
+					if( _item.DISCOUNT_TYPE == 'percentage' ) {
+						$( '[name="discount_value"]' ).val( _item.DISCOUNT_PERCENT );
+					} else if( _item.DISCOUNT_TYPE == 'flat' ) {
+						$( '[name="discount_value"]' ).val( _item.DISCOUNT_AMOUNT );
+					}
+				},
+				onFixedDiscount		:	function(){
+					_item.DISCOUNT_TYPE	=	'flat';
+				},
+				onPercentDiscount	:	function(){
+					_item.DISCOUNT_TYPE	=	'percentage';
+				},
+				onFieldBlur			:	function(){
+					// console.log( 'Field blur performed' );
+					// Percentage allowed to 100% only
+					if( _item.DISCOUNT_TYPE == 'percentage' && NexoAPI.ParseFloat( $( '[name="discount_value"]' ).val() ) > 100 ) {
+						$( this ).val( 100 );
+					} else if( _item.DISCOUNT_TYPE == 'flat' && NexoAPI.ParseFloat( $( '[name="discount_value"]' ).val() ) > salePrice ) {
+						// flat discount cannot exceed cart value
+						$( this ).val( salePrice );
+						NexoAPI.Notify().info( '<?php echo _s('Attention', 'nexo');?>', '<?php echo _s('La remise fixe ne peut pas excéder la valeur actuelle du panier. Le montant de la remise à été réduite à la valeur du panier.', 'nexo');?>' );
+					}
+				},
+				onExit				:	function( value ){
+					// console.log( 'Exit discount box	' );
+					// Percentage can't exceed 100%
+					if( _item.DISCOUNT_TYPE == 'percentage' ) {
+						if( NexoAPI.ParseFloat( value ) > 100 ) {
+							// Percentage
+							_item.DISCOUNT_PERCENT = 100;
+						} else {
+							_item.DISCOUNT_PERCENT	=	value;
+						}
+					}
+					
+					if( _item.DISCOUNT_TYPE == 'flat' ) {
+						if( NexoAPI.ParseFloat( value ) > salePrice ) {
+							// flat discount cannot exceed cart value
+							_item.DISCOUNT_AMOUNT	= 	salePrice;
+						} else {
+							_item.DISCOUNT_AMOUNT	=	value;
+						}
+					}
+	
+					$( '[name="discount_value"]' ).focus();
+					$( '[name="discount_value"]' ).blur();
+		
+					v2Checkout.buildCartItemTable();
+				}
+			});
+		});
+	};
 
 	/**
 	 * Build Cart Item table
@@ -659,11 +793,24 @@ var v2Checkout					=	new function(){
 				
 				// :: alert( value.DESIGN.length );
 				var item_design		=	value.DESIGN.length > 20 ? '<span style="text-overflow:hidden">' + value.DESIGN.substr( 0, 20 ) + '</span>' : value.DESIGN ;
+				
+				var DiscountAmount	=	value.DISCOUNT_TYPE	== 'percentage' ? value.DISCOUNT_PERCENT + '%' : NexoAPI.DisplayMoney( value.DISCOUNT_AMOUNT );
+				
+				var itemSubTotal	=	MainPrice * parseInt( value.QTE_ADDED );
+				
+				if( value.DISCOUNT_TYPE == 'percentage' && parseFloat( value.DISCOUNT_PERCENT ) > 0 ) {
+					var itemPercentOff	=	( itemSubTotal * parseFloat( value.DISCOUNT_PERCENT ) ) / 100;
+						itemSubTotal	-=	itemPercentOff;
+				} else if( value.DISCOUNT_TYPE == 'flat' && parseFloat( value.DISCOUNT_AMOUNT ) > 0 ) {
+					var itemPercentOff	=	 parseFloat( value.DISCOUNT_AMOUNT );
+						itemSubTotal	-=	itemPercentOff;
+				}
 
 				$( '#cart-table-body' ).find( 'table' ).append(
 					'<tr cart-item data-line-weight="' + ( MainPrice * parseInt( value.QTE_ADDED ) ) + '" data-item-barcode="' + value.CODEBAR + '">' +
-						'<td width="210" class="text-left" style="line-height:30px;">' + cartTableBeforeItemName + ' <span style="text-transform: uppercase;">' + item_design + '</span></td>' +
-						'<td width="130" class="text-center"  style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice ) + ' ' + Discounted + '</td>' +
+						// ' + cartTableBeforeItemName + '  has been disabled
+						'<td width="210" class="text-left" style="line-height:30px;"><span style="text-transform: uppercase;">' + item_design + '</span></td>' +
+						'<td width="130" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice ) + ' ' + Discounted + '</td>' +
 						'<td width="145" class="text-center">' +
 							'<div class="input-group input-group-sm">' +
 								'<span class="input-group-btn">' +
@@ -675,10 +822,14 @@ var v2Checkout					=	new function(){
 								'</span>'+
 							'</div>' +
 						'</td>' +
-						'<td width="115" class="text-right" style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice * parseInt( value.QTE_ADDED ) ) + '</td>' +
+						<?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+						'<td width="80" class="text-center item-discount"  style="line-height:28px;"><span class="btn btn-default btn-sm">' + DiscountAmount + '</span></td>' +
+						<?php endif;?>
+						'<td width="110" class="text-right" style="line-height:30px;">' + NexoAPI.DisplayMoney( itemSubTotal ) + '</td>' +
 					'</tr>'
 				);
-				_tempCartValue	+=	( MainPrice * parseInt( value.QTE_ADDED ) );
+				
+				_tempCartValue	+=	( itemSubTotal ); // MainPrice * parseInt( value.QTE_ADDED )
 
 				// Just to count all products
 				v2Checkout.CartTotalItems	+=	parseInt( value.QTE_ADDED );
@@ -694,6 +845,8 @@ var v2Checkout					=	new function(){
 		this.bindQuickEditItem();
 		this.bindAddByInput();
 		this.refreshCartValues();
+		this.bindChangeUnitPrice(); // @since 2.9.0
+		this.bindUnitItemDiscount();
 		
 		// @since 2.7.3
 		// trigger action when cart is refreshed
@@ -1518,7 +1671,7 @@ var v2Checkout					=	new function(){
 			NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous ne pouvez pas procéder à une vente, car aucun article n\'est disponible pour la vente.', 'nexo' ));?>' );
 		}
 	};
-
+	
 	/**
 	 * Empty cart item table
 	 *
@@ -1617,6 +1770,12 @@ var v2Checkout					=	new function(){
 								FinalMeta[1].push( _.values( value )[0] );
 							});
 							
+							// @since 2.9.0
+							// add unit item discount
+							_item[0].DISCOUNT_TYPE		=	'percentage'; // has two type, "percent" and "flat";
+							_item[0].DISCOUNT_AMOUNT	=	0;
+							_item[0].DISCOUNT_PERCENT	=	0;
+							
 							v2Checkout.CartItems.unshift( _.extend( _item[0], _.object( FinalMeta[0], FinalMeta[1] ) ) );
 						}
 					}
@@ -1683,6 +1842,49 @@ var v2Checkout					=	new function(){
 			dataType:"json"
 		});
 	};
+	
+	/**
+	 * Get Item
+	 * get item from cart
+	**/
+	
+	this.getItem				=	function( barcode ) {
+		for( var i = 0; i < this.CartItems.length ; i++ ) {
+			if( this.CartItems[i].CODEBAR == barcode ) {
+				return this.CartItems[i];
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Get Item Sale Price
+	 * @param object item
+	 * @return float main item price
+	**/
+	
+	this.getItemSalePrice			=	function( itemObj ) {
+		var promo_start				= 	moment( itemObj.SPECIAL_PRICE_START_DATE );
+		var promo_end				= 	moment( itemObj.SPECIAL_PRICE_END_DATE );
+
+		var MainPrice				= 	NexoAPI.ParseFloat( itemObj.PRIX_DE_VENTE )
+		var Discounted				= 	'';
+		var CustomBackground		=	'';
+			itemObj.PROMO_ENABLED	=	false;
+
+		if( promo_start.isBefore( v2Checkout.CartDateTime ) ) {
+			if( promo_end.isSameOrAfter( v2Checkout.CartDateTime ) ) {
+				itemObj.PROMO_ENABLED	=	true;
+				MainPrice				=	NexoAPI.ParseFloat( itemObj.PRIX_PROMOTIONEL );
+			}
+		}
+		
+		// @since 2.7.1
+		if( v2Checkout.CartShadowPriceEnabled ) {
+			MainPrice			=	NexoAPI.ParseFloat( itemObj.SHADOW_PRICE );
+		}
+		return MainPrice;
+	}
 
 	/**
 	 * Init Cart Date
@@ -1880,6 +2082,7 @@ var v2Checkout					=	new function(){
 	this.searchItems					=	function( value ){
 		this.fetchItem( value, 1, true, 'CODEBAR' ); // 'sku-barcode'
 	};
+
 
 	/**
 	 * Pay,
@@ -2433,9 +2636,25 @@ var v2Checkout					=	new function(){
 			'padding'	:	0,
 			'height'	:	0
 		});
+		
 		$( '.content-header > h1' ).remove();
-		$( '.main-footer' ).css( 'height', 0 );
+		$( '.main-footer' ).hide(0);
+		$( '.main-sidebar' ).hide(0);
 		$( '.main-footer > *' ).remove();
+		$( '.main-header' ).css({
+			'min-height' : 0,
+			'overflow': 'hidden'
+		}).animate({
+			'height' : '0'
+		}, 0 );		
+		
+		$( '.content-wrapper' ).addClass( 'new-wrapper' ).removeClass( 'content-wrapper' );
+		
+		$( '.new-wrapper' ).find( '.content' ).css( 'padding-bottom', 0 );
+		$( '.new-wrapper' ).find( '.content' ).css( 'height', window.innerHeight );
+		// $( '.new-wrapper' ).find( '.content' ).css( 'overflow', 'hidden' );
+		$( '.new-wrapper' ).find( '.content' ).css( 'background', 'rgb(211, 223, 228)' );
+		
 		<?php endif;?>
 
 		// Remove Slash First
@@ -2498,7 +2717,56 @@ var v2Checkout					=	new function(){
 		});
 
 		$( this.CartDiscountButton ).bind( 'click', function(){
-			v2Checkout.bindAddDiscount();
+			v2Checkout.bindAddDiscount({
+				beforeLoad		:	function(){
+					if( v2Checkout.CartRemiseType != null ) {
+						$( '.' + v2Checkout.CartRemiseType + '_discount' ).trigger( 'click' );
+			
+						if( v2Checkout.CartRemiseType == 'percentage' ) {
+							$( '[name="discount_value"]' ).val( v2Checkout.CartRemisePercent );
+						} else if( v2Checkout.CartRemiseType == 'flat' ) {
+							$( '[name="discount_value"]' ).val( v2Checkout.CartRemise );
+						}
+			
+					} else {
+						$( '.flat_discount' ).trigger( 'click' );
+					}
+				},
+				onFixedDiscount		:	function(){
+					v2Checkout.CartRemiseType	=	'flat';
+				},
+				onPercentDiscount	:	function(){
+					v2Checkout.CartRemiseType	=	'percentage';
+				},
+				onFieldBlur			:	function(){
+					// console.log( 'Field blur performed' );
+					// Percentage allowed to 100% only
+					if( v2Checkout.CartRemiseType == 'percentage' && NexoAPI.ParseFloat( $( '[name="discount_value"]' ).val() ) > 100 ) {
+						$( this ).val( 100 );
+					} else if( v2Checkout.CartRemiseType == 'flat' && NexoAPI.ParseFloat( $( '[name="discount_value"]' ).val() ) > v2Checkout.CartValue ) {
+						// flat discount cannot exceed cart value
+						$( this ).val( v2Checkout.CartValue );
+						NexoAPI.Notify().info( '<?php echo _s('Attention', 'nexo');?>', '<?php echo _s('La remise fixe ne peut pas excéder la valeur actuelle du panier. Le montant de la remise à été réduite à la valeur du panier.', 'nexo');?>' );
+					}
+				},
+				onExit				:	function( value ){
+					// console.log( 'Exit discount box	' );
+					// Percentage can't exceed 100%
+					if( v2Checkout.CartRemiseType == 'percentage' && NexoAPI.ParseFloat( value ) > 100 ) {
+						value = 100;
+					} else if( v2Checkout.CartRemiseType == 'flat' && NexoAPI.ParseFloat( value ) > v2Checkout.CartValue ) {
+						// flat discount cannot exceed cart value
+						value	=	v2Checkout.CartValue;
+					}
+	
+					$( '[name="discount_value"]' ).focus();
+					$( '[name="discount_value"]' ).blur();
+	
+					v2Checkout.CartRemiseEnabled	=	true;
+					v2Checkout.calculateCartDiscount( value );
+					v2Checkout.refreshCartValues();
+				}
+			});
 		});
 
 		/**

@@ -1,5 +1,5 @@
 <div class="box box-primary direct-chat direct-chat-primary" id="product-list-wrapper" style="visibility:hidden">
-    <div class="box-header with-border">
+    <div class="box-header with-border search-field-wrapper">
         <form action="#" method="post" id="search-item-form">
             <div class="input-group">
                 <span class="input-group-btn">

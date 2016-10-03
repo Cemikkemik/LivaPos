@@ -5,14 +5,22 @@ $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_articles` 					A
 
 $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_articles` 					ADD `USE_VARIATION` int(11) NOT NULL AFTER `BARCODE_TYPE`;' ); 
 
+$this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_commandes_produits` 					ADD `DISCOUNT_TYPE` varchar(200) NOT NULL AFTER `PRIX_TOTAL`;' );
+
+$this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_commandes_produits` 					ADD `DISCOUNT_AMOUNT` float NOT NULL AFTER `DISCOUNT_TYPE`;' );
+
+$this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_commandes_produits` 					ADD `DISCOUNT_PERCENT` float NOT NULL,` float NOT NULL AFTER `DISCOUNT_AMOUNT`;' );
+
+// `DISCOUNT_TYPE` varchar(200) NOT NULL,
 // Allow multiple paiement per item
 
-$this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_commandes_paiement` (
+$this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_commandes_paiements` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `REF_COMMAND_CODE` varchar(250) NOT NULL,
   `MONTANT` float NOT NULL,
   `AUTHOR` int(11) NOT NULL,
   `DATE_CREATION` datetime NOT NULL,
+  `PAYMENT_TYPE` varchar(200) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 

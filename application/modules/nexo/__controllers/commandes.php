@@ -51,7 +51,6 @@ class Nexo_Commandes extends CI_Model
 		
 		$cols       	=    array( 'CODE', 'REF_REGISTER', 'REF_CLIENT', 'TOTAL', 'PAYMENT_TYPE', 'TYPE', 'DATE_CREATION', 'AUTHOR' );
 		$edit_link		=	site_url(array( 'rest', 'nexo', 'registers' )) . '/';
-		$preview_class	=	'preview_order';
 		$edit_class		=	'select_register';
 		
 		if( in_array( @$Options[ store_prefix() .'nexo_enable_registers' ], array( null, 'non' ) ) ){ 
@@ -74,13 +73,6 @@ class Nexo_Commandes extends CI_Model
 			site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' )) . 
 			'/', 
 			'btn btn-info fa fa-file'
-		);
-		
-		$crud->add_action(
-			__('Prévisualiser la commande', 'nexo'), 
-			'', 
-			site_url(array( 'rest', 'nexo', 'order_with_item' )) . '/', 
-			'btn btn-default fa fa-eye ' . $preview_class 
 		);
 		
 		$crud->add_action(
@@ -142,8 +134,8 @@ class Nexo_Commandes extends CI_Model
 
         
         // $crud->required_fields( 'PAYMENT_TYPE', 'SOMME_PERCU' );
-        $crud->callback_before_insert(array( $this->Nexo_Checkout, 'commandes_save' ));
-        $crud->callback_before_update(array( $this->Nexo_Checkout, 'commandes_update' ));
+        // $crud->callback_before_insert(array( $this->Nexo_Checkout, 'commandes_save' ));
+        // $crud->callback_before_update(array( $this->Nexo_Checkout, 'commandes_update' ));
         $crud->callback_before_delete(array( $this->Nexo_Checkout, 'commandes_delete' ));
         
         $crud->unset_jquery();
@@ -308,7 +300,7 @@ class Nexo_Commandes extends CI_Model
         // return $grocery_actions_obj;
         foreach ($actions as $key => $action) {
             $order_type        =    array_flip($this->config->item('nexo_order_types'));
-			
+
             if ($order_type[ $row->TYPE ] != 'nexo_order_comptant' && $action->css_class == 'btn btn-info fa fa-file') {
                 unset($grocery_actions_obj[ $key ]);
             }
@@ -335,99 +327,7 @@ class Nexo_Commandes extends CI_Model
 <script type="text/javascript">
 "use strict";
 var BindAction		=	function(){
-	 $( '.preview_order' ).each( function(){
-		 if( typeof $(this).attr( 'preview-able' ) == 'undefined' ) {
-		 	$(this).bind( 'click', function(){
-				$.ajax( $(this).attr( 'href' ) + '?<?php echo store_get_param( null );?>', {
-					type		:	'GET',
-					dataType	:	'json',
-					success		:	function( data ){
-						
-						var SubTotal		=	0;
-						
-						if( ! _.isEmpty( data ) ) {
-							var items	=	'';
-							
-							_.each( data.items, function( value, key ) {
-								
-								items	+=	'<tr>' +
-												'<td>' + value.DESIGN + '</td>' +
-												'<td>' + NexoAPI.DisplayMoney( value.PRIX ) + '</td>' +
-												'<td>' + value.QUANTITE + '</td>' +
-												'<td>' + NexoAPI.DisplayMoney( value.PRIX_TOTAL ) + '</td>' +
-											'</tr>';
-								SubTotal	+=	parseFloat( value.PRIX_TOTAL );
-							});
-							
-							var Sentence		=	'';
-							if( parseFloat( data.order.SOMME_PERCU ) >= parseFloat( data.order.TOTAL ) ) {
-								var Sentence	=	'<?php echo _s( 'Solde :', 'nexo' );?>';
-							} else if( parseFloat( data.order.SOMME_PERCU ) > 0 && parseFloat( data.order.SOMME_PERCU ) < parseFloat( data.order.TOTAL ) ) {
-								var Sentence	=	'<?php echo _s( 'Reste à verser :', 'nexo' );?>';
-							} else if( parseFloat( data.order.SOMME_PERCU ) == 0  ) {
-								var Sentence	=	'<?php echo _s( 'Reste à verser :', 'nexo' );?>';
-							}
-							
-							var dom		=	'<h4 class="text-center"><?php echo _s( 'Aperçu commande : ', 'nexo' );?> &mdash; ' + data.order.CODE + '</h4>';
-							
-								dom		+=	'<table class="table table-bordered">' +
-												'<thead>' +
-													'<tr>' +
-														'<td><?php echo _s( 'Désignation', 'nexo' );?></td>' + 
-														'<td><?php echo _s( 'Prix Unitaire', 'nexo' );?></td>' + 
-														'<td><?php echo _s( 'Quantité', 'nexo' );?></td>' +
-														'<td><?php echo _s( 'Total', 'nexo' );?></td>' +
-													'</tr>' +
-												'</thead>' +
-												'<tbody>' + 
-													items +
-												'</tbody>' +
-											'</table>' + 
-											
-											'<h4><?php echo _s( 'Sous Total : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( 
-												SubTotal
-											) + '</span></h4>' +
-											
-											'<h4>(-) <?php echo _s( 'Remise : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( 
-												NexoAPI.ParseFloat( data.order.REMISE ) +
-												NexoAPI.ParseFloat( data.order.RABAIS ) +
-												NexoAPI.ParseFloat( data.order.RISTOURNE ) 
-											) + '</span></h4>' + 
-											
-											<?php if( @$Options[ store_prefix() . 'enable_group_discount' ] == 'enable' ):?>
-											
-											'<h4>(-) <?php echo _s( 'Remise de groupe : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( 
-												NexoAPI.ParseFloat( data.order.GROUP_DISCOUNT )
-											) + '</span></h4>' + 
-											
-											<?php endif;?>
-											
-											'<h4>(+) <?php echo _s( 'TVA : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( 
-												NexoAPI.ParseFloat( data.order.TVA ) 
-											) + '</span></h4>' +
-											
-											'<h4><?php echo _s( 'Net à Payer : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( data.order.TOTAL ) + '</span></h4>' + 
-											
-											'<h4><?php echo _s( 'Perçu : ', 'nexo' );?> <span class="pull-right">' + NexoAPI.DisplayMoney( data.order.SOMME_PERCU ) + '</span></h4>' + 
-											
-											'<h4>' + Sentence + ' <span class="pull-right">' + NexoAPI.DisplayMoney( 
-												Math.abs( NexoAPI.ParseFloat( data.order.TOTAL ) -
-												NexoAPI.ParseFloat( data.order.SOMME_PERCU ) )
-											) + '</span></h4>';
-							bootbox.alert( dom );
-						}
-					},
-					error		: 	function(){
-						bootbox.alert( '<?php echo _s( 'Une erreur s\'est produite durant la récupération de la commande', 'nexo' );?>' );
-					}
-				});
-				return false;
-			});
-			$(this).attr( 'preview-able', 'true' );
-		 }
-	 });
-	 
-	$( '.select_register' ).each(function(index, element) {
+	 $( '.select_register' ).each(function(index, element) {
 		if( typeof $(this).attr( 'bound' ) == 'undefined' ) {
 			$( this ).bind( 'click', function(){
 				$this	=	$( this );
@@ -485,7 +385,38 @@ $( document ).ajaxComplete(function(){
 	BindAction();
 });
 </script>
+<?php if (@$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):?>
+<script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
+<script type="text/javascript">
+	'use strict';
+	// Close Checkout on page navigation:
+	$(window).on('popstate', function() {
+		// alert( 'POP' );
+		//get your angular element
+		  var elem = angular.element(document.querySelector('[ng-controller="nexo_order_list"]'));
+		
+		  //get the injector.
+		  var injector = elem.injector();
+		
+		  //get the service.
+		  // var __stripeCheckout = injector.get( '__stripeCheckout' );
+		
+		  //update the service.
+		  // __stripeCheckout.handler.close();
+		  
+		  // elem.scope().$apply();
+	});
+</script>
+<?php endif;?>
+
+<?php include_once( MODULESPATH . '/nexo/inc/angular/directives/payment-options.php' );?>
 <?php include_once( MODULESPATH . '/nexo/inc/angular/filters/money-format.php' );?>
+<?php include_once( MODULESPATH . '/nexo/inc/angular/filters/order-status.php' );?>
+<?php include_once( MODULESPATH . '/nexo/inc/angular/filters/payment-name.php' );?>
+<?php include_once( MODULESPATH . '/nexo/inc/angular/services/stripe-checkout.php' );?>
+<?php include_once( MODULESPATH . '/nexo/inc/angular/services/order-status.php' );?>
+<?php include_once( MODULESPATH . '/nexo/inc/angular/services/payment-name.php' );?>
+<?php include_once( MODULESPATH . '/nexo/inc/angular/services/window-splash.php' );?>
 <?php include_once( MODULESPATH . '/nexo/inc/angular/controllers/orders-list.php' );?>
 <?php
 		}

@@ -45,6 +45,7 @@ Tendoo Version Required : 1.5
     ?>
     <div class="row gui-row-tag">
         <?php foreach (force_array($this->Gui->get_cols()) as $col_id =>    $col_data):?>
+        	<?php if( $col_data ):?>
         <div class="meta-row col-lg-<?php echo ceil(riake('width', $col_data, 1) * $col_range) ;?> col-md-<?php echo ceil(riake('width', $col_data, 1) * $col_range) ;?>">
             <?php 
             $config = riake('configs', $col_data);
@@ -295,6 +296,7 @@ Tendoo Version Required : 1.5
             echo $this->events->apply_filters('gui_inner_wrapper', '');
             ?>
         </div>
+        	<?php endif;?>
         <?php echo $this->events->apply_filters('gui_footer', '');    ?>
         <?php endforeach;?>
         <?php if (in_array('dynamic-tables', $this->events->apply_filters('gui_enabled', array()))) : ;?>

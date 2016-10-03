@@ -52,6 +52,7 @@ $this->Gui->add_item(array(
     )
 ), 'Nexo_checkout', 1);
 
+
 $this->Gui->add_item(array(
     'type'        =>    'select',
     'name'        =>    $option_prefix . 'nexo_enable_vat',
@@ -110,6 +111,17 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
+    'name'        =>    $option_prefix . 'unit_item_discount_enabled',
+    'label'        =>    __('Activer la remise par article ?', 'nexo'),
+	'description'	=>	__( 'Permet d\'appliquer une remise sur un produit unique. Ce type de remise est différent à la remise du panier, qui s\'applique sur tout les produits du panier.', 'nexo' ),
+    'options'    =>    array(
+        'no'        =>    __('Non', 'nexo'),
+		'yes'        =>    __('Oui', 'nexo')
+    )
+), 'Nexo_checkout', 1);
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
     'name'        =>    $option_prefix . 'nexo_receipt_theme',
     'label'        =>    __('Thème des tickets de caisse', 'nexo'),
     'options'    =>    array(
@@ -156,6 +168,18 @@ $this->Gui->add_item(array(
         ''            =>    __('Veuillez choisir une option', 'nexo'),
         'yes'        =>    __('Oui', 'nexo'),
         'no'        =>    __('Non', 'nexo')
+    )
+), 'Nexo_checkout2', 2);
+
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    $option_prefix . 'unit_price_changing',
+    'label'        =>    __('Prix unitaire modifiable ?', 'nexo'),
+	'description'	=>	__( 'Permet au prix d\'être modifié. La modification du prix unitaire s\'applique uniquement à la vente en cours. Cette modification portera sur le prix de vente, le prix promotionnel et sur le prix fictif.', 'nexo' ),
+    'options'    =>    array(
+        'no'        =>    __('Non', 'nexo'),
+		'yes'        =>    __('Oui', 'nexo')
     )
 ), 'Nexo_checkout2', 2);
 

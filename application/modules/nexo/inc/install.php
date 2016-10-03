@@ -160,17 +160,21 @@ class Nexo_Install extends CI_Model
 		  `QUANTITE` int(11) NOT NULL,
 		  `PRIX` float NOT NULL,
 		  `PRIX_TOTAL` float NOT NULL,
+		  `DISCOUNT_TYPE` varchar(200) NOT NULL,
+		  `DISCOUNT_AMOUNT` float NOT NULL,
+		  `DISCOUNT_PERCENT` float NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 		
 		// @since 2.9
 		
-		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_commandes_paiement` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_commandes_paiements` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `REF_COMMAND_CODE` varchar(250) NOT NULL,
 		  `MONTANT` float NOT NULL,
 		  `AUTHOR` int(11) NOT NULL,
 		  `DATE_CREATION` datetime NOT NULL,
+		  `PAYMENT_TYPE` varchar(200) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 		
@@ -234,7 +238,7 @@ class Nexo_Install extends CI_Model
 		  `STOCK_ENABLED` INT NOT NULL,
           `AUTO_BARCODE` INT NOT NULL,
 		  `BARCODE_TYPE` VARCHAR(200) NOT NULL,          
-		  `USE_VARIATION` INT NOT NULL,          
+		  `USE_VARIATION` INT NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 		

@@ -127,6 +127,9 @@ class Nexo_Checkout extends CI_Model
         // retire les produits vendu du panier de cette commande et les renvoies au stock
         $this->db->where('REF_COMMAND_CODE', $command[0][ 'CODE' ])->delete( store_prefix() . 'nexo_commandes_produits');
 		
+		// @since 2.9 supprime les paiements
+		$this->db->where('REF_COMMAND_CODE', $command[0][ 'CODE' ])->delete( store_prefix() . 'nexo_commandes_paiements');
+		
 		// Delete order meta
 		$this->db->where( 'REF_ORDER_ID', $command[0][ 'ID' ] )->delete( store_prefix() . 'nexo_commandes_meta' );
         

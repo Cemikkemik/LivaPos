@@ -43,10 +43,10 @@ $config[ 'nexo_true_false' ]    =    array(
 **/
 
 $config[ 'nexo_payment_types' ]    =    array(
-    'cash'            =>    get_instance()->lang->line('cash'),
+    'cash'            	=>    get_instance()->lang->line('cash'),
     // 'cheque'		=>	get_instance()->lang->line( 'cheque' ),
-    'bank'            =>    get_instance()->lang->line('bank_transfert'),
-    'stripe'        =>    get_instance()->lang->line('stripe')
+    'bank'            	=>    get_instance()->lang->line('bank_transfert'),
+    'stripe'        	=>    get_instance()->lang->line('stripe')
 );
 
 /**
@@ -59,7 +59,7 @@ $config[ 'nexo_cart_animation' ]    =    false; // was 'animated zoomIn';
  * Supported Currency
 **/
 
-$config[ 'nexo_supported_currency' ]        =    array( 'usd', 'eur','gbp' );
+$config[ 'nexo_supported_currency' ]        =    array( 'usd', 'eur','gbp', 'sgd', 'myr' );
 
 /**
  * Test Mode

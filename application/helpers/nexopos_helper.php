@@ -115,7 +115,7 @@ if( ! function_exists( 'store_prefix' ) ) {
 	function store_prefix() {
 		global $store_id;
 		$prefix		=	$store_id != null ? 'store_' . $store_id . '_' : '';
-		$prefix		=	( $prefix == '' && get_instance()->input->get( 'store_id' ) ) ? 'store_' . get_instance()->input->get( 'store_id' ) . '_' : $prefix;
+		$prefix		=	( $prefix == '' && intval( get_instance()->input->get( 'store_id' ) ) > 0 ) ? 'store_' . get_instance()->input->get( 'store_id' ) . '_' : $prefix;
 		return $prefix;
 	}
 }
@@ -138,7 +138,7 @@ if( ! function_exists( 'store_slug' ) ) {
 if( ! function_exists( 'get_store_id' ) ) {
 	function get_store_id() {
 		global $store_id;
-		return $store_id != null ? $store_id : false;
+		return $store_id != null ? $store_id : intval( get_instance()->input->get( 'store_id' ) ) > 0 ? get_instance()->input->get( 'store_id' ) : null;
 	}
 }
 

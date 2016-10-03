@@ -27,7 +27,10 @@
                     <td width="210" class="text-left"><?php _e('Article', 'nexo');?></td>
                     <td width="130" class="text-center"><?php _e('Prix Unitaire', 'nexo');?></td>
                     <td width="145" class="text-center"><?php _e('Quantité', 'nexo');?></td>
-                    <td width="115" class="text-right"><?php _e('Prix Total', 'nexo');?></td>
+                    <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                    <td width="80" class="text-center"><?php _e('Remise', 'nexo');?></td>
+                    <?php endif;?>
+                    <td width="110" class="text-right"><?php _e('Prix Total', 'nexo');?></td>
                 </tr>
             </thead>
         </table>
@@ -50,7 +53,7 @@
                         if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui') {
                             _e('Net hors taxe', 'nexo');
                         } else {
-                            _e('Total', 'nexo');
+                            _e('Sous Total', 'nexo');
                         }
                         ?>
                     </td>
@@ -58,7 +61,7 @@
                 </tr>
                 <tr class="active">
                     <td colspan="2" width="380" class="text-right cart-discount-notice-area"></td>
-                    <td width="130" class="text-right"><?php _e('Remise', 'nexo');?></td>
+                    <td width="160" class="text-right"><?php _e('Remise sur le panier', 'nexo');?></td>
                     <td width="110" class="text-right"><span id="cart-discount"></span></td>
                 </tr>
                 <?php 

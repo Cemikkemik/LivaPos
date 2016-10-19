@@ -30,13 +30,12 @@ tendooApp.directive( 'historyContent', function(){
 	.add( 'div.history-content-wrapper' )
 	.each( 'ng-repeat', '(key, val) in orderStatusObject' )
 	.each( 'ng-show', 'orderStatusObject[ key ].active' )
-	.each( 'style', 'border-left:solid 1px #DEDEDE;overflow-y:scroll;' )
 	.add( 'history-order-list' )
 	.each( 'object', 'loadedOrders[ key ]' )
 	.each( 'open-order-details', 'openOrderDetails' )
 	.each( 'namespace', '{{ key }}' );
 	
-	HTML.query( '.middle-content' ).only(0).add( 'my-spinner' ).each( 'namespace', 'spinner' );
+	HTML.query( '.middle-content' ).only(0).add( 'the-spinner' ).each( 'namespace', 'mspinner' );
 	
 	HTML.query( '.row-container' )
 	.add( 'div.col-lg-6.order-details' );

@@ -1,8 +1,11 @@
 <script>
 tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', function( $http, $compile, $scope ) {
 	
+	$scope.loadedOrders				=	new Object;
 	$scope.windowHeight				=	window.innerHeight;
 	$scope.wrapperHeight			=	$scope.windowHeight - ( ( 56 * 2 ) + 30 );
+	$scope.theSpinner				=	new Object;
+	$scope.theSpinner[ 'mspinner' ]	=	false;
 	
 	$scope.orderStatusObject		=	{
 		nexo_order_devis			:	{
@@ -10,6 +13,23 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', function( 
 			active					:	false
 		}
 	}
+	
+	/**
+	 * Load order for
+	**/
+	
+	$scope.loadOrders			=	function( namespace ){
+		
+		$scope.theSpinner[ 'mspinner' ]		=	true;
+	
+		$http.get( '<?php echo site_url( array( 'rest', 'nexo', 'order_with_status' ) );?>' + '/' + namespace + '?<?php echo store_get_param( null );?>', {
+			headers			:	{
+				'<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
+			}
+		}).then(function( returned ){
+			$scope.loadedOrders[ namespace ]	=	returned.data;
+		});
+	};
 	
 	/**
 	 * Open History Box
@@ -53,7 +73,10 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', function( 
 		angular.element( '.modal-body' ).css( 'height', $scope.wrapperHeight );
 		angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );
 		
-		$scope.selectHistoryTab( _.keys( $scope.orderStatusObject )[0] );
+		angular.element( '.middle-content' ).attr( 'style', 'border-left:solid 1px #DEDEDE;overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );	
+		angular.element( '.middle-content' ).css( 'padding', 0 );
+		// Select first option
+		$scope.selectHistoryTab( _.keys( $scope.orderStatusObject )[0] );		
 	};
 	
 	/**
@@ -66,6 +89,8 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', function( 
 		});
 		
 		_.propertyOf( $scope.orderStatusObject )( namespace ).active	=	true;
+		
+		$scope.loadOrders( namespace );
 	}
 }]);
 </script>

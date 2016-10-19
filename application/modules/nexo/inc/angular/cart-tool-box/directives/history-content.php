@@ -35,7 +35,7 @@ tendooApp.directive( 'historyContent', function(){
 	.each( 'open-order-details', 'openOrderDetails' )
 	.each( 'namespace', '{{ key }}' );
 	
-	HTML.query( '.middle-content' ).only(0).add( 'the-spinner' ).each( 'namespace', 'mspinner' );
+	HTML.query( '.middle-content' ).only(0).add( 'the-spinner' ).each( 'namespace', 'mspinner' ).each( 'spinner-obj', 'theSpinner' );
 	
 	HTML.query( '.row-container' )
 	.add( 'div.col-lg-6.order-details' );

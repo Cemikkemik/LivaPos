@@ -95,10 +95,10 @@ class Nexo_Commandes extends CI_Model
         $crud->display_as('TOTAL', __('Total', 'nexo'));
 		$crud->display_as( 'REF_REGISTER', __( 'Caisse', 'nexo' ) );	
 		
-		$crud->order_by('DATE_CREATION', 'desc');
+		// $crud->order_by('DATE_CREATION', 'desc');
 
         $crud->field_type('TYPE', 'dropdown', $this->config->item('nexo_order_types'));
-        $crud->field_type('PAYMENT_TYPE', 'dropdown', $this->config->item('nexo_payment_types'));
+        $crud->field_type('PAYMENT_TYPE', 'dropdown', $this->config->item('nexo_payments_types'));
 		
 		$crud->set_relation('REF_CLIENT', store_prefix() . 'nexo_clients', 'NOM');
 		$crud->set_relation('REF_REGISTER', store_prefix() . 'nexo_registers', 'NAME');		
@@ -129,7 +129,7 @@ class Nexo_Commandes extends CI_Model
 		}, 10 );
 		
 		$this->events->add_filter( 'grocery_row_actions_output', function( $filter, $row ) {
-			return $filter . '<span class="btn btn-primary btn-sm" ng-click="openDetails( ' . $row->ID . ' )">' . __( 'Options', 'nexo' ) . '</span>';
+			return $filter . '<span class="btn btn-primary btn-sm" ng-click="openDetails( ' . $row->ID . ', \'' . $row->CODE . '\'  )">' . __( 'Options', 'nexo' ) . '</span>';
 		}, 10, 2 );
 
         
@@ -152,9 +152,11 @@ class Nexo_Commandes extends CI_Model
     
     public function lists($page = 'home', $id = null)
     {
-        global $NexoEditScreen, $NexoAddScreen, $Options;
-        $NexoEditScreen    =    ( bool ) preg_match('#dashboard\/nexo/commandes\/lists\/edit#', uri_string());
-        $NexoAddScreen    =    ( bool ) preg_match('#dashboard\/nexo/commandes\/lists\/add#', uri_string());
+        global $NexoEditScreen, $NexoAddScreen, $Options, $PageNow;
+		
+        $NexoEditScreen    	= 	( bool ) preg_match('#dashboard\/nexo/commandes\/lists\/edit#', uri_string());
+        $NexoAddScreen    	= 	( bool ) preg_match('#dashboard\/nexo/commandes\/lists\/add#', uri_string());
+		$PageNow			=	'nexo/commandes/list';
         
         $this->events->add_action('dashboard_header', function () use ($NexoAddScreen, $NexoEditScreen) {
             /** 
@@ -409,15 +411,7 @@ $( document ).ajaxComplete(function(){
 </script>
 <?php endif;?>
 
-<?php include_once( MODULESPATH . '/nexo/inc/angular/directives/payment-options.php' );?>
-<?php include_once( MODULESPATH . '/nexo/inc/angular/filters/money-format.php' );?>
-<?php include_once( MODULESPATH . '/nexo/inc/angular/filters/order-status.php' );?>
-<?php include_once( MODULESPATH . '/nexo/inc/angular/filters/payment-name.php' );?>
-<?php include_once( MODULESPATH . '/nexo/inc/angular/services/stripe-checkout.php' );?>
-<?php include_once( MODULESPATH . '/nexo/inc/angular/services/order-status.php' );?>
-<?php include_once( MODULESPATH . '/nexo/inc/angular/services/payment-name.php' );?>
-<?php include_once( MODULESPATH . '/nexo/inc/angular/services/window-splash.php' );?>
-<?php include_once( MODULESPATH . '/nexo/inc/angular/controllers/orders-list.php' );?>
+<?php include_once( MODULESPATH . '/nexo/inc/angular/order-list/include.php' );?>
 <?php
 		}
 	}

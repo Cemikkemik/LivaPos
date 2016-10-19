@@ -138,7 +138,14 @@ if( ! function_exists( 'store_slug' ) ) {
 if( ! function_exists( 'get_store_id' ) ) {
 	function get_store_id() {
 		global $store_id;
-		return $store_id != null ? $store_id : intval( get_instance()->input->get( 'store_id' ) ) > 0 ? get_instance()->input->get( 'store_id' ) : null;
+		
+		if( $store_id != null ) {
+			return $store_id;
+		} else if( intval( get_instance()->input->get( 'store_id' ) ) > 0 ) {
+			return intval( get_instance()->input->get( 'store_id' ) );
+		} else {
+			return 0;
+		}
 	}
 }
 

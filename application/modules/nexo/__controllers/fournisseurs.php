@@ -76,6 +76,9 @@ class Nexo_Categories extends CI_Model
     
     public function lists($page = 'index', $id = null)
     {
+		global $PageNow;
+		$PageNow			=	'nexo/fournisseurs/list';
+		
         if ($page == 'index') {
             $this->Gui->set_title( store_title( __('Liste des fournisseurs', 'nexo' ) ) );
         } elseif ($page == 'delete') {
@@ -96,6 +99,9 @@ class Nexo_Categories extends CI_Model
     
     public function add()
     {
+		global $PageNow;
+		$PageNow			=	'nexo/fournisseurs/add';
+		
         if (! User::can('create_shop_providers')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }

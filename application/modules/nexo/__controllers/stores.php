@@ -80,17 +80,26 @@ class Nexo_Stores_Controller extends CI_Model
     
     public function lists($page = 'index', $id = null)
     {
+		global $PageNow;
 		$this->events->add_filter( 'gui_page_title', function( $title ) {
 			return '<section class="content-header"><h1>' . strip_tags($title) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url(array( 'dashboard', 'nexo', 'stores', 'all' )) . '">' . __('Mode Simplifié', 'nexo') . '</a></h1></section>';
 		});
 		
         if ($page == 'index') {
+			
+			$PageNow		=	'nexo/stores/list';
+			
             $this->Gui->set_title( store_title( __('Liste des boutiques', 'nexo')) );
         } elseif ($page == 'delete') { // Check Deletion permission
+		
+			$PageNow		=	'nexo/stores/delete';
 
             nexo_permission_check('delete_shop');
             
         } else {
+			
+			$PageNow		=	'nexo/stores/create';
+			
             $this->Gui->set_title( store_title( __('Créer une nouvelle boutique', 'nexo')) );
         }
         
@@ -104,6 +113,9 @@ class Nexo_Stores_Controller extends CI_Model
         if (! User::can('create_shop')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
+		
+		global $PageNow;
+		$PageNow					=	'nexo/stores/add';
         
         $data[ 'crud_content' ]    =    $this->crud_header();
 
@@ -122,6 +134,9 @@ class Nexo_Stores_Controller extends CI_Model
 	
 	public function all()
 	{
+		global $PageNow;
+		$PageNow					=	'nexo/stores_all/list';
+		
 		$this->events->add_filter( 'gui_page_title', function( $title ) {
 			return '<section class="content-header"><h1>' . strip_tags($title) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url(array( 'dashboard', 'nexo', 'stores', 'lists' )) . '">' . __('Mode Avancé', 'nexo') . '</a></h1></section>';
 		});

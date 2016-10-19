@@ -42,11 +42,11 @@ $config[ 'nexo_true_false' ]    =    array(
  * Payment Type
 **/
 
-$config[ 'nexo_payment_types' ]    =    array(
-    'cash'            	=>    get_instance()->lang->line('cash'),
-    // 'cheque'		=>	get_instance()->lang->line( 'cheque' ),
-    'bank'            	=>    get_instance()->lang->line('bank_transfert'),
-    'stripe'        	=>    get_instance()->lang->line('stripe')
+$config[ 'nexo_payments_types' ]    =    array(
+    'cash'            	=>    	get_instance()->lang->line('cash'),
+	'creditcard'		=>		get_instance()->lang->line( 'creditcard' ),
+    'cheque'			=>		get_instance()->lang->line( 'cheque' ),
+    'bank'            	=>    	get_instance()->lang->line('bank_transfert'),
 );
 
 /**
@@ -201,13 +201,16 @@ $config[ 'nexo_yes_no' ]		=	array(
 
 // Price Group
 
+// 'TAUX_DE_MARGE', 'COUT_DACHAT',
+// 'FRAIS_ACCESSOIRE', 
 $config[ 'nexo_item_price_group' ]	=	array(
-	'PRIX_DACHAT', 'FRAIS_ACCESSOIRE', 'PRIX_DE_VENTE', 'SHADOW_PRICE', 'TAUX_DE_MARGE', 'COUT_DACHAT', 'PRIX_PROMOTIONEL', 'SPECIAL_PRICE_START_DATE', 'SPECIAL_PRICE_END_DATE'
+	'PRIX_DACHAT', 'PRIX_DE_VENTE', 'SHADOW_PRICE', 'PRIX_PROMOTIONEL', 'SPECIAL_PRICE_START_DATE', 'SPECIAL_PRICE_END_DATE'
 );
 
 // Stock Group
+// 'DEFECTUEUX',
 $config[ 'nexo_item_stock_group' ]	=	array(
-	'STATUS', 'TYPE', 'STOCK_ENABLED', 'QUANTITY', 'DEFECTUEUX', 'QUANTITE_RESTANTE', 'QUANTITE_VENDU' 
+	'STATUS', 'TYPE', 'STOCK_ENABLED', 'QUANTITY', 'QUANTITE_RESTANTE', 'QUANTITE_VENDU' 
 );
 
 // Caracteristiques

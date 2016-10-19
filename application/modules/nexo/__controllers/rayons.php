@@ -66,6 +66,9 @@ class Nexo_Rayons extends CI_Model
     
     public function lists($page = 'index', $id = null)
     {
+		global $PageNow;
+		$PageNow			=	'nexo/rayons/list';
+		
         if ($page == 'add') {
             $this->Gui->set_title( store_title( __('Créer un nouveau rayon', 'nexo') ));
         } elseif ($page == 'delete') {
@@ -86,6 +89,9 @@ class Nexo_Rayons extends CI_Model
     
     public function add()
     {
+		global $PageNow;
+		$PageNow			=	'nexo/rayons/add';
+		
         if (! User::can('create_shop_radius')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }

@@ -101,3 +101,23 @@ payment_mean_checked : {
 	params		:	array first has an object "order_details", second has a string (current order payment mean)
 	screen		:	dashboard/nexo/commandes/lists/v2_checkout
 }
+
+// POS v2.1
+
+nexo_payments_types_object : {
+	type		:	filter
+	desc		:	run after paymentType has been loaded
+	params		:	objet paymentType object
+}
+
+allow_payment_edition	:	{
+	type		:	filter
+	desc		:	allow payment edition return an array [ true ]
+	prams		:	array with "true" to allow edition and payment.namespace
+}
+
+process_data	:	{
+	type		:	filter
+	desc		:	let you filter process data (url and type). You'll be able to customize post url for order and post method
+	params		:	object { url : string, type : string }
+}

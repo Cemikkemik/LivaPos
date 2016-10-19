@@ -108,3 +108,15 @@ Regroupe toutes les actions de la boutique
  * nexo_after_delete_tables
  * Execute une action après avoir supprimé les tables pour le multi store
 **/
+
+/**
+ * load_register_content
+ * Load angular component for register feature
+**/
+
+// New actions
+
+/**
+ * angular_paybox_footer
+ * Injecte un code dans le contrôler de la fenêtre de paiement
+**/

@@ -112,7 +112,7 @@ class Nexo_Print extends CI_Model
         } else {
             $data[ 'products' ]        =    $this->Nexo_Products->get_products_by_shipping($shipping_id);
         }
-        
+		
         $this->load->view('../modules/nexo/views/products-labels/default.php', $data);
     }
 }

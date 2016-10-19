@@ -115,12 +115,20 @@ trait Nexo_orders
 			}
 			
 			// Adding to order product
+			if( $item[7] == 'percentage' && $item[9] != '0' ) {
+				$discount_amount		=	__floatval( ( __floatval($item[1]) * __floatval($item[3]) ) * floatval( $item[9] ) / 100 );
+			} elseif( $item[7] == 'flat' ) {
+				$discount_amount		=	__floatval( $item[8] );
+			} else {
+				$discount_amount		=	0;
+			}
+			
 			$item_data		=	array(
 				'REF_PRODUCT_CODEBAR'  =>    $item[2],
 				'REF_COMMAND_CODE'     =>    $order_details[ 'CODE' ],
 				'QUANTITE'             =>    $item[1],
 				'PRIX'                 =>    $item[3],
-				'PRIX_TOTAL'           =>    __floatval($item[1]) * __floatval($item[3]),
+				'PRIX_TOTAL'           =>    ( __floatval($item[1]) * __floatval($item[3]) ) - $discount_amount,
 				// @since 2.9.0
 				'DISCOUNT_TYPE'			=>	$item[7],
 				'DISCOUNT_AMOUNT'		=>	$item[8],
@@ -168,13 +176,19 @@ trait Nexo_orders
 		// $Curl->setHeader( $header_key, $header_value );
 		$Curl->setHeader($this->config->item('rest_key_name'), $_SERVER[ 'HTTP_' . $this->config->item('rest_header_key') ]);
 		
-		$Curl->post( site_url( array( 'rest', 'nexo', 'order_payment', store_get_param( '?' ) ) ), array(
-			'author'		=>	$author_id,
-			'date'			=>	$this->post('DATE_CREATION'),
-			'payment_type'	=>	$this->post('PAYMENT_TYPE'),
-			'amount'		=>	$this->post( 'SOMME_PERCU' ),
-			'order_code'	=>	$current_order[0][ 'CODE' ]
-		) );
+		if( is_array( $this->post( 'payments' ) ) ) {
+			foreach( $this->post( 'payments' ) as $payment ) {
+			
+				$Curl->post( site_url( array( 'rest', 'nexo', 'order_payment', store_get_param( '?' ) ) ), array(
+					'author'		=>	$author_id,
+					'date'			=>	$this->post('DATE_CREATION'),
+					'payment_type'	=>	$payment[ 'namespace' ],
+					'amount'		=>	$payment[ 'amount' ],
+					'order_code'	=>	$current_order[0][ 'CODE' ]
+				) );
+			
+			}
+		}
 		
         $this->response(array(
             'order_id'        =>    $current_order[0][ 'ID' ],
@@ -318,6 +332,15 @@ trait Nexo_orders
 				));
 							
 			}
+			
+			// Adding to order product
+			if( $item[7] == 'percentage' && $item[9] != '0' ) {
+				$discount_amount		=	__floatval( ( __floatval($item[1]) * __floatval($item[3]) ) * floatval( $item[9] ) / 100 );
+			} elseif( $item[7] == 'flat' ) {
+				$discount_amount		=	__floatval( $item[8] );
+			} else {
+				$discount_amount		=	0;
+			}
             
             // Adding to order product
 			$item_data			=	array(
@@ -325,7 +348,7 @@ trait Nexo_orders
                 'REF_COMMAND_CODE'            =>    $old_order[ 'order' ][0][ 'CODE' ],
                 'QUANTITE'                    =>    $item[1],
                 'PRIX'                        =>    $item[3],
-                'PRIX_TOTAL'                =>    intval($item[1]) * intval($item[3]),
+                'PRIX_TOTAL'                =>    ( __floatval($item[1]) * __floatval($item[3]) ) - $discount_amount,
 				// @since 2.9.0
 				'DISCOUNT_TYPE'			=>	$item[7],
 				'DISCOUNT_AMOUNT'		=>	$item[8],
@@ -373,13 +396,18 @@ trait Nexo_orders
 		// $header_value	=	$_SERVER[ 'HTTP_' . $this->config->item( 'rest_key_name' ) ];
 		$Curl->setHeader($this->config->item('rest_key_name'), $_SERVER[ 'HTTP_' . $this->config->item('rest_header_key') ]);
 		
-		$Curl->post( site_url( array( 'rest', 'nexo', 'order_payment', store_get_param( '?' ) ) ), array(
-			'author'	=>	$author_id,
-			'date'		=>	$this->put('DATE_CREATION'),
-			'payment_type'	=>	$this->put('PAYMENT_TYPE'),
-			'amount'	=>	$this->put( 'SOMME_PERCU' ),
-			'order_code'	=>	$current_order[0][ 'CODE' ]
-		) );
+		if( is_array( $this->put( 'payments' ) ) ) {
+			foreach( $this->put( 'payments' ) as $payment ) {
+			
+				$Curl->post( site_url( array( 'rest', 'nexo', 'order_payment', store_get_param( '?' ) ) ), array(
+					'author'		=>	$author_id,
+					'date'			=>	$this->put('DATE_CREATION'),
+					'payment_type'	=>	$payment[ 'namespace' ],
+					'amount'		=>	$payment[ 'amount' ],
+					'order_code'	=>	$current_order[0][ 'CODE' ]
+				) );
+			}
+		}
         
         $this->response(array(
             'order_id'        =>    $order_id,
@@ -467,6 +495,44 @@ trait Nexo_orders
 				'items'		=>	$items
 			), 200 );
 		}
+		
+		$this->__empty();
+	}
+	
+	/**
+	 * Order With Status
+	 * @params string order status
+	 * @return json
+	**/
+	
+	public function order_with_status_get( $status )
+	{
+		$order		=	$this->db->select( '*,
+		' . store_prefix() .'nexo_commandes.ID as ID,
+		' . store_prefix() .'nexo_clients.NOM as CLIENT_NAME,
+		aauth_users.name as AUTHOR_NAME,
+		' . store_prefix() . 'nexo_commandes.DATE_CREATION as DATE_CREATION,
+		' )
+		
+		->from( store_prefix() . 'nexo_commandes' )
+		
+		->join( 
+			store_prefix() . 'nexo_clients', 
+			store_prefix() . 'nexo_clients.ID = ' . store_prefix() . 'nexo_commandes.REF_CLIENT', 
+			'left' 
+		)
+		
+		->join( 
+			'aauth_users', 
+			store_prefix() . 'nexo_commandes.AUTHOR = aauth_users.id', 
+			'left' 
+		)
+		
+		->where( store_prefix() . 'nexo_commandes.TYPE', $status )
+		
+		->get()->result();
+		
+		$this->response( $order, 200 );
 		
 		$this->__empty();
 	}
@@ -561,6 +627,104 @@ trait Nexo_orders
 		);
 	}
 
+	/**
+	 * Get order item with their defective stock
+	 * @param order code
+	**/
+	
+	public function order_items_defectives_get( $order_code ) 
+	{
+		$this->db->select( '*,' .
+		store_prefix() . 'nexo_articles_defectueux.QUANTITE as CURRENT_DEFECTIVE_QTE' )
+		->from( store_prefix() . 'nexo_articles' )
+		->join( store_prefix() . 'nexo_articles_defectueux', store_prefix() . 'nexo_articles_defectueux.REF_ARTICLE_BARCODE = ' . store_prefix() . 'nexo_articles.CODEBAR', 'left' )
+		->join( store_prefix() . 'nexo_commandes_produits', store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = ' . store_prefix() . 'nexo_articles.CODEBAR', 'inner' )
+		->join( store_prefix() . 'nexo_commandes', store_prefix() . 'nexo_commandes.CODE = ' . store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE', 'inner' )
+		->where( store_prefix() . 'nexo_commandes.CODE', $order_code );
+		// ->where( store_prefix() . 'nexo_articles_defectueux.REF_COMMAND_CODE', $order_code );
+			
+		$query	=	$this->db->get();	
+		
+		$this->response( $query->result(), 200 );
+	}
+	
+	/**
+	 * Refund Order
+	**/
+	
+	public function order_refund_post( $order_code )
+	{
+		$toRefund				=	0;
+		
+		foreach( $this->post( 'items' ) as $item ) {
+			
+			$this->db->where( 'REF_PRODUCT_CODEBAR', $item[ 'REF_PRODUCT_CODEBAR' ] )->update( store_prefix() . 'nexo_commandes_produits', array(
+				'QUANTITE'	=>	$item[ 'QUANTITE' ],				
+			) );
+			
+			// If a defective stock exists
+			if( intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ) ) {
+				
+				$this->db->insert( store_prefix() . 'nexo_articles_defectueux', array(
+					'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],	
+					'QUANTITE'				=>	$item[ 'CURRENT_DEFECTIVE_QTE' ],
+					'AUTHOR'				=>	$this->post( 'author' ),
+					'DATE_CREATION'			=>	$this->post( 'date' ),
+					'REF_COMMAND_CODE'		=>	$order_code			
+				) );
+				
+				// Increase defective item in stock
+				$this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )->update( store_prefix() . 'nexo_articles', array(
+					'DEFECTUEUX'				=>	intval( $item[ 'DEFECTUEUX' ] ) + intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] )
+				) );
+			}
+			
+			
+			
+			$total					=	floatval( $item[ 'PRIX' ] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] );
+			
+			// get discount
+			if( $item[ 'DISCOUNT_TYPE' ] == 'percent' ) {
+				$percentage			=	( floatval( $item[ 'DISCOUNT_PERCENT' ] ) * $total ) / 100;
+			} else {
+				$percentage			=	floatval( $item[ 'DISCOUNT_AMOUNT' ] );
+			}
+			
+			// Refund
+			$toRefund	+=	$total - $percentage;		
+		}
+		
+		// add to order payment 
+		$this->db->insert( store_prefix() . 'nexo_commandes_paiements', array(
+			'REF_COMMAND_CODE'		=>	$order_code,
+			'MONTANT'				=>	- intval( $toRefund ),
+			'AUTHOR'				=>	$this->post( 'author' ),
+			'DATE_CREATION'			=> 	$this->post( 'date' )
+		) );
+		
+		// Edit order status
+		$query			=	$this->db->where( 'CODE', $order_code )->get( store_prefix() . 'nexo_commandes' );
+		$order			=	$query->result_array();
+		
+		// Completely refunded
+		// Changing order status	
+		if( $toRefund == $order[0][ 'TOTAL' ] ) {
+			$data		=	array(
+				'TYPE'		=>		'nexo_order_refunded'
+			);
+		} else if( $toRefund < floatval( $order[0][ 'TOTAL' ] ) ) { // partial refund
+			$data		=	array(
+				'TYPE'		=>		'nexo_order_partialy_refunded'
+			);
+		}
+		
+		// Set new Total for this order
+		$data[ 'TOTAL' ]	=	floatval( $order[0][ 'TOTAL' ] ) - $toRefund;
+		
+		$this->db->where( 'CODE', $order_code )->update( store_prefix() . 'nexo_commandes', $data );
+		
+		$this->__success();
+	}
 
 }
 

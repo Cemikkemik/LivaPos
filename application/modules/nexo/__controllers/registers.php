@@ -171,6 +171,12 @@ class Nexo_Settings_Controller extends CI_Model
 	
 	public function lists($page = 'home', $id = null)
 	{
+		/**
+		 * Set Page Now namespace
+		**/
+		
+		global $PageNow;
+		
 		// Footer
 		$this->events->add_action( 'dashboard_footer', function(){
 			?>
@@ -353,21 +359,32 @@ class Nexo_Settings_Controller extends CI_Model
 			if( ! User::can('create_shop_registers') ) {
 				redirect( array( 'dashboard', 'access-denied' ) );
 			}
+			
+			$PageNow		=	'nexo/registers/add';
+			
 			$this->Gui->set_title( store_title( __('Ajouter une caisse', 'nexo')) );
 		} elseif( $page == 'edit' ) {
 			// Only for those who can create
 			if( ! User::can('edit_shop_registers') ) {
 				redirect( array( 'dashboard', 'access-denied' ) );
 			}
+			
+			$PageNow		=	'nexo/registers/edit';
+			
 			$this->Gui->set_title( store_title( __('Modifier une caisse', 'nexo')) );
 		} elseif( $page == 'delete' ) {
 			nexo_permission_check('delete_shop_registers');
+			
+			$PageNow		=	'nexo/registers/delete';
             
             // Checks whether an item is in use before delete
             nexo_availability_check($id, array(
                 array( 'col'    =>    'REF_REGISTER', 'table'    =>    store_prefix() . 'nexo_commandes' )
             ));
 		} else {
+			
+			$PageNow		=	'nexo/registers/list';
+			
 			$this->Gui->set_title( store_title( __('Liste des caisses', 'nexo')) );
 		}
 		
@@ -380,10 +397,13 @@ class Nexo_Settings_Controller extends CI_Model
 	 * Use Register
 	**/
 	
-	public function __use( $register_id, $order_id = null )
+	public function __use( $reg_id, $order_id = null )
 	{
-		global $Options, $store_id;		
+		global $Options, $store_id, $PageNow, $register_id;	
+		
+		$register_id		=	$reg_id;
 		$options_prefix		=	$store_id != null ? 'store_' . $store_id . '_' : '';
+		$PageNow			=	'nexo/registers/__use';
 		
 		/// If current user can open registers
 		if( ! User::can( 'view_shop_registers' ) && ! User::can('create_shop_orders') ){
@@ -399,6 +419,12 @@ class Nexo_Settings_Controller extends CI_Model
 			<?php
 		});
 		
+		$this->events->add_action( 'dashboard_footer', function(){
+			?>
+            <?php include_once( MODULESPATH . '/nexo/inc/angular/register/include.php' );?>
+            <div class="nexo-overlay" style="width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); z-index: 5000; position: absolute; top: 0px; left: 0px;"><i class="fa fa-refresh fa-spin nexo-refresh-icon" style="color: rgb(0, 0, 0); font-size: 50px; position: absolute; top: 50%; left: 50%; margin-top: -25px; margin-left: -25px; width: 44px; height: 50px;"></i></div>
+			<?php
+		});
 		/**
 		 * If Register Option is disabled, then we hide "close register" menu
 		 * Order proceeded when register option is disabled will be bound to default register which is "0"
@@ -564,7 +590,7 @@ class Nexo_Settings_Controller extends CI_Model
 		$this->enqueue->js('../plugins/bootstrap-select/dist/js/bootstrap-select.min');
 		
 		$this->enqueue->css('../modules/nexo/css/animate');
-		$this->enqueue->css('../plugins/bootstrap-select/dist/css/bootstrap-select.min');
+ 			$this->enqueue->css('../plugins/bootstrap-select/dist/css/bootstrap-select.min');
 
 		if ($order_id == null) {
 			$this->Gui->set_title( store_title( __('Effectuer un vente', 'nexo')) );
@@ -572,7 +598,7 @@ class Nexo_Settings_Controller extends CI_Model
 			$this->Gui->set_title( store_title( __('Modifier une commande', 'nexo')) );
 		}
 		
-		$this->load->view('../modules/nexo/views/checkout/v2/body.php', $data);		
+		$this->load->view('../modules/nexo/views/checkout/v2-1/body.php', $data);		
 	}
 	
 	/**

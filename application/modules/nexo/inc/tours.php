@@ -82,7 +82,13 @@ class Nexo_Tours extends CI_Model
 			
 			// Start the tour
 			tour.start(); 
+			
+			$( '#Nexo_restaure_value' ).bind( 'focus', function(){
+				tour.end();
+			});	
         });
+		
+		
 		</script>
         <?php endif;
     }

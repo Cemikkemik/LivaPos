@@ -92,3 +92,4 @@ $lang[ 'feature-disabled' ]					=	tendoo_info( __( 'Cette fonctionnalité à ét
 $lang[ 'nexo_order_refunded' ]				=	__( 'Remboursé', 'nexo' );
 $lang[ 'default' ]							=	__( 'Par défaut', 'nexo' );
 $lang[ 'nexo_order_partialy_refunded' ]		=	__( 'Partiellement Remboursé', 'nexo' );
+$lang[ 'creditcard' ]						=	__( 'Carte de crédit', 'nexo' );

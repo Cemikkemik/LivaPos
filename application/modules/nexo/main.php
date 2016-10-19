@@ -15,6 +15,11 @@ class Nexo extends CI_Model
 {
     public function __construct()
     {
+		global $PageNow;
+		
+		// Default PageNow value
+		$PageNow	=	'nexo/index';
+		
         parent::__construct();
         
         $this->events->add_action('load_dashboard_home', array( $this, 'init' ));
@@ -184,7 +189,8 @@ class Nexo extends CI_Model
 		}			
         
         $escapeAds    =    $this->events->apply_filters('nexo_escape_nexoadds', Modules::is_active('nexo_ads') );
-        if ( ( ! Modules::is_active('grocerycrud') || $escapeAds == false ) && ! page_is( 'migrate' ) ) {
+        
+		if ( ( ! Modules::is_active('grocerycrud') || $escapeAds == false ) && ! page_is( 'migrate' ) ) {
             Modules::disable('nexo');
             redirect(array( 'dashboard', 'modules?highlight=Nexo&notice=error-occured' ));
         }

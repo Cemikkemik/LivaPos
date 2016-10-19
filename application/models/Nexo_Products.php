@@ -189,9 +189,8 @@ class Nexo_Products extends CI_Model
         }
         
         global $Options;
-        $param[ 'CODEBAR' ]               	=    $this->generate_barcode();
         $param[ 'AUTHOR' ]                	=    intval(User::id());
-        $param[ 'QUANTITE_RESTANTE' ]    	=    intval($param[ 'QUANTITY' ]) - intval($param[ 'DEFECTUEUX' ]);
+        $param[ 'QUANTITE_RESTANTE' ]    	=    intval($param[ 'QUANTITY' ]); // - intval($param[ 'DEFECTUEUX' ]);
         $param[ 'QUANTITE_VENDU' ]       	=    0;
         $param[ 'COUT_DACHAT' ]            	=    intval($param[ 'PRIX_DACHAT' ]) + intval($param[ 'FRAIS_ACCESSOIRE' ]);
         $param[ 'DATE_CREATION' ]        	=    date_now();
@@ -200,6 +199,8 @@ class Nexo_Products extends CI_Model
 		// Generate barcode
 		if( $param[ 'AUTO_BARCODE' ] == '1' && ! empty( $param[ 'CODEBAR' ] ) && ! empty( $param[ 'BARCODE_TYPE' ] ) ) {
 			$this->create_codebar( $param[ 'CODEBAR' ], $param[ 'BARCODE_TYPE' ] );
+		} else { // if barcode is note generated automatically
+			$param[ 'CODEBAR' ]               	=    $this->generate_barcode();
 		}
 		
 		// If Multi store is enabled
@@ -233,7 +234,8 @@ class Nexo_Products extends CI_Model
         $quantite                        =    intval($article[0][ 'QUANTITY' ]);
         $old_defectueux                    =    intval($article[0][ 'DEFECTUEUX' ]);
         
-        $param[ 'QUANTITE_RESTANTE' ]    =    ((intval($param[ 'QUANTITY' ]) - intval($param[ 'DEFECTUEUX' ])) - intval($article[0][ 'QUANTITE_VENDU' ]));
+		// $param[ 'QUANTITE_RESTANTE' ]    =    ((intval($param[ 'QUANTITY' ]) - intval($param[ 'DEFECTUEUX' ])) - intval($article[0][ 'QUANTITE_VENDU' ]));
+        $param[ 'QUANTITE_RESTANTE' ]    =    ( intval($param[ 'QUANTITY' ] ) - intval( $article[0][ 'QUANTITE_VENDU' ] ) );
         $param[ 'DATE_MOD' ]            =    date_now();
         $param[ 'AUTHOR' ]                =    intval(User::id());
         $param[ 'COUT_DACHAT' ]            =    intval($param[ 'PRIX_DACHAT' ]) + intval($param[ 'FRAIS_ACCESSOIRE' ]);

@@ -11,6 +11,7 @@ $pp_row_limit    =    $pp_row;
 if (! $products_labels = $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'true') {
     ob_start();
 }
+
 ?>
 <!doctype html>
 <html>
@@ -62,7 +63,7 @@ if (! $products_labels = $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'tr
 					$category		=	get_instance()->Nexo_Categories->get( $product[ 'REF_CATEGORIE' ], 'as_id' );		
                     
                     // Parcours des produits restants
-                    for ($i = 0; $i < intval( $product[ 'QUANTITE_RESTANTE' ] ) ; $i++) { // $product[ 'QUANTITE_RESTANTE' ]
+                    for ($i = 0; $i < intval( $this->input->get( 'per_item' ) ? $this->input->get( 'per_item' ) : $product[ 'QUANTITE_RESTANTE' ] ) ; $i++) { // $product[ 'QUANTITE_RESTANTE' ]
                         // Balise d'ouverture
                         if ($start == 0) {
                             echo '<tr>';

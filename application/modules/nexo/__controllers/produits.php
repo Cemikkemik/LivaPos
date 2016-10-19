@@ -113,7 +113,7 @@ class Nexo_Produits extends CI_Model
 		
 		$crud->field_description( 'BARCODE_TYPE', tendoo_info( __( 'Si la valeur de ce champ est vide et que l\'option "Générer une étiquette" est activée, alors le type de code barre utilisé sera celui des réglages des articles. Si aucun réglage n\'est défini, la génération de l\'étiquette sera ignorée.', 'nexo' ) ) );
 		
-		$crud->field_description( 'CODEBAR', tendoo_info( __( 'Si la valeur de ce champ est vide et que l\'option "Générer un étiquette" est activée, la génération d\'une étiuette sera ignorée.', 'nexo' ) ) );
+		$crud->field_description( 'CODEBAR', tendoo_info( __( 'Si la valeur de ce champ est vide et que l\'option "Générer un étiquette" est activée, la génération d\'une étiquette sera ignorée.', 'nexo' ) ) );
 		
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
@@ -124,8 +124,8 @@ class Nexo_Produits extends CI_Model
 			'SKU', 
 			'REF_CATEGORIE', 
 			'REF_SHIPPING', 
-			'TAUX_DE_MARGE', 
-			'FRAIS_ACCESSOIRE', 
+			// 'TAUX_DE_MARGE', 
+			// 'FRAIS_ACCESSOIRE', 
 			'PRIX_DE_VENTE', 
 			'DEFECTUEUX', 
 			'QUANTITY', 
@@ -182,6 +182,9 @@ class Nexo_Produits extends CI_Model
     
     public function lists($page = 'index', $id = null)
     {
+		global $PageNow;
+		$PageNow			=	'nexo/produits/list';
+		
         if ($page == 'index') {
             $this->Gui->set_title( store_title( __('Liste des articles', 'nexo') ) );
         } elseif ($page == 'delete') {
@@ -206,6 +209,9 @@ class Nexo_Produits extends CI_Model
     
     public function add()
     {
+		global $PageNow;
+		$PageNow			=	'nexo/produits/add';
+		
         // Protecting
         if (! User::can('create_shop_items')) {
             redirect(array( 'dashboard', 'access-denied' ));

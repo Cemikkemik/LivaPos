@@ -91,3 +91,15 @@ Filtres:
  * before_cart_cancel_button
  * affiche un contenu avec le bouton "Annuler" sur la caisse
 **/
+
+// New
+
+/**
+ * nexo_payment_gateway
+ * renvoi une liste des moyens de paiement pris en charge par NexoPOS.
+**/
+
+/**
+ * paybox_dependencies
+ * Permet de charger des dépendances dans le controleur paybox
+**/

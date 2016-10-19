@@ -1,4 +1,8 @@
 <?php
+/**
+ * Deprecated
+**/
+
 class Nexo_Rest extends CI_Model
 {
     public function __construct($args)

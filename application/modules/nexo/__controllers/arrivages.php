@@ -72,6 +72,9 @@ class Nexo_Arrivages extends CI_Model
     
     public function lists($page = 'index', $id = null)
     {
+		global $PageNow;
+		$PageNow			=	'nexo/arrivages/list';
+		
         if ($page == 'index') {
             $this->Gui->set_title( store_title( __('Liste des livraisons', 'nexo')) ); 
         } elseif ($page == 'delete') { // Check Deletion permission
@@ -93,6 +96,9 @@ class Nexo_Arrivages extends CI_Model
     
     public function add()
     {
+		global $PageNow;
+		$PageNow			=	'nexo/arrivages/add';
+		
         if (! User::can('create_shop_shippings')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }

@@ -44,7 +44,9 @@ class Nexo_Stores extends CI_Model
 	public function __callback_after_insert( $post, $id ) 
 	{		
 		$install	=	new Nexo_Install;		
+		
 		$install->install_tables( 'store', 'store_' . $id . '_' );	
+		
 		$this->options->set( 'store_' . $id . '_site_name', $post[ 'NAME' ], true );	
 		$this->options->set( 'store_' . $id . '_nexo_enable_autoprint', 'yes', true );	
 		$this->options->set( 'store_' . $id . '_nexo_enable_smsinvoice', 'yes', true );	

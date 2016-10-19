@@ -29,7 +29,7 @@ class Tendoo_Controller extends CI_Controller
          * Global Vars
         **/
 
-        global $CurrentMethod, $CurrentScreen, $CurrentParams;
+        global $CurrentMethod, $CurrentScreen, $CurrentParams; 
 
         $CurrentMethod        =    $this->uri->segment(2);
         $CurrentScreen        =    $this->uri->segment(1);

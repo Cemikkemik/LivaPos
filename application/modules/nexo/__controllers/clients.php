@@ -138,6 +138,9 @@ class Nexo_Clients extends CI_Model
 
     public function lists($page = 'index', $id = null)
     {
+		global $PageNow;
+		$PageNow			=	'nexo/clients/list';
+		
         if ($page == 'index') {
             $this->Gui->set_title( store_title( __('Liste des clients', 'nexo')) );
         } elseif ($page == 'delete') {
@@ -158,6 +161,9 @@ class Nexo_Clients extends CI_Model
 
     public function add()
     {
+		global $PageNow;
+		$PageNow			=	'nexo/clients/add';
+		
         if (! User::can('create_shop_customers')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
@@ -255,6 +261,9 @@ class Nexo_Clients extends CI_Model
 
     public function groups($page = 'index', $id = null)
     {
+		global $PageNow;
+		$PageNow			=	'nexo/clients_groups/list';
+		
         if ($page == 'index') {
             $this->Gui->set_title( store_title( __('Groupes', 'nexo')) );
         } elseif ($page == 'delete') {

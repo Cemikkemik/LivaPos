@@ -16,6 +16,9 @@ class Nexo_Settings_Controller extends CI_Model
     
     public function settings($page = 'home')
     {
+		global $PageNow;		
+		$PageNow 	=	'nexo/settings';
+		
         if (
             User::can('create_options') &&
             User::can('edit_options') &&
@@ -45,7 +48,9 @@ class Nexo_Settings_Controller extends CI_Model
 			} elseif ($page == 'invoices') { // @since 2.7.9
                 $this->Gui->set_title( store_title( __('Réglages des factures/reçu de caisse', 'nexo')));
                 $this->load->view("../modules/nexo/views/settings/{$page}.php");
-            } elseif ($page == 'stripe') {
+            }
+			// Settings are now handled by another module
+			 elseif ($page == 'stripe') {
                 $this->Gui->set_title( store_title( __('Réglages Stripe', 'nexo')));
                 $this->load->view("../modules/nexo/views/settings/{$page}.php");
             } else {

@@ -1,6 +1,7 @@
 <?php global $Options;?>
+
 <div class="box box-primary direct-chat direct-chat-primary" id="cart-details-wrapper" style="visibility:hidden">
-    <div class="box-header with-border" id="cart-header">
+    <div class="box-header with-border" id="cart-header"> 
         <!--<h3 class="box-title">
             <?php _e('Caisse', 'nexo');?>
         </h3>
@@ -8,21 +9,29 @@
             <button type="button" class="btn btn-sm btn-primary cart-add-customer"><i class="fa fa-user"></i> <?php _e('Ajouter un client', 'nexo');?></button>
         </div>-->
         <form action="#" method="post">
-        	<div class="input-group">
-              <span class="input-group-addon" id="basic-addon1"><?php _e('Choisir un client', 'nexo');?></span>
-              <select data-live-search="true" name="customer_id" placeholder="<?php _e('Veuillez choisir un client');?>" class="form-control customers-list dropdown-bootstrap">
-                <option value=""><?php _e('Sélectionner un client', 'nexo');?></option>
-            </select>
-            	<span class="input-group-btn">
-                	<button type="button" class="btn btn-primary cart-add-customer"><i class="fa fa-user"></i> <?php _e('Ajouter un client', 'nexo');?></button>
-                </span>
-            </div>            
+            <div class="input-group">
+            	<span class="input-group-addon" id="sizing-addon1"><?php echo __( 'Choisir un client', 'nexo' );?></span>
+                <select data-live-search="true" name="customer_id" title="<?php _e('Veuillez choisir un client', 'nexo' );?>" class="form-control customers-list dropdown-bootstrap">
+                    <option value="">
+                    <?php _e('Sélectionner un client', 'nexo');?>
+                    </option>
+                </select>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default cart-add-customer"><i class="fa fa-user"></i>
+                    <?php _e('Ajouter un client', 'nexo');?>
+                    </button>
+                    <!--<button type="button" class="btn btn-default">
+                    	<i class="fa fa-truck"></i>
+                    </button>-->
+                </span> 
+                
+			</div>
         </form>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-    	<table class="table" id="cart-item-table-header">
-        	<thead>
+        <table class="table" id="cart-item-table-header">
+            <thead>
                 <tr class="active">
                     <td width="210" class="text-left"><?php _e('Article', 'nexo');?></td>
                     <td width="130" class="text-center"><?php _e('Prix Unitaire', 'nexo');?></td>
@@ -35,10 +44,10 @@
             </thead>
         </table>
         <div class="direct-chat-messages" id="cart-table-body" style="padding:0px;">
-            <table class="table" style="margin-bottom:0;">                
+            <table class="table" style="margin-bottom:0;">
                 <tbody>
-                	<tr id="cart-table-notice">
-                    	<td colspan="4"><?php _e('Veuillez ajouter un produit...', 'nexo');?></td>
+                    <tr id="cart-table-notice">
+                        <td colspan="4"><?php _e('Veuillez ajouter un produit...', 'nexo');?></td>
                     </tr>
                 </tbody>
             </table>
@@ -48,15 +57,13 @@
                 <tr class="active">
                     <td width="230" class="text-right"></td>
                     <td width="130" class="text-right"></td>
-                    <td width="130" class="text-right">
-						<?php 
+                    <td width="130" class="text-right"><?php 
                         if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui') {
                             _e('Net hors taxe', 'nexo');
                         } else {
                             _e('Sous Total', 'nexo');
                         }
-                        ?>
-                    </td>
+                        ?></td>
                     <td width="110" class="text-right"><span id="cart-value"></span></td>
                 </tr>
                 <tr class="active">
@@ -81,7 +88,9 @@
                 <tr class="success">
                     <td width="230" class="text-right"></td>
                     <td width="130" class="text-right"></td>
-                    <td width="130" class="text-right"><strong><?php _e('Net à payer', 'nexo');?></strong></td>
+                    <td width="130" class="text-right"><strong>
+                        <?php _e('Net à payer', 'nexo');?>
+                        </strong></td>
                     <td width="110" class="text-right"><span id="cart-topay"></span></td>
                 </tr>
             </tfoot>
@@ -89,43 +98,29 @@
     </div>
     <!-- /.box-body -->
     <div class="box-footer" id="cart-panel">
-        <div class="btn-group btn-group-justified" role="group" aria-label="...">
-        	<?php echo $this->events->apply_filters( 'before_cart_pay_button', '' );?>
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default btn-lg" id="cart-pay-button" style="margin-bottom:0px;">
-			<i class="fa fa-money"></i>
-			<?php _e('Payer', 'nexo');?>
-            </button>
-          </div>
-          <?php echo $this->events->apply_filters( 'before_cart_discount_button', '' );?>
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default btn-lg" id="cart-discount-button"  style="margin-bottom:0px;">
-            	<i class="fa fa-gift"></i>
-				<?php _e('Remise', 'nexo');?>
-			</button>
-          </div>
-          <?php echo $this->events->apply_filters( 'before_cart_cancel_button', '' );?>
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default btn-lg" id="cart-return-to-order"  style="margin-bottom:0px;"> <!-- btn-app  -->
-            	<i class="fa fa-remove"></i>
-				<?php _e('Annuler', 'nexo');?>
-			</button>
-          </div>
+        <div class="btn-group btn-group-justified" role="group" aria-label="..."> <?php echo $this->events->apply_filters( 'before_cart_pay_button', '' );?>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default btn-lg" id="cart-pay-button" style="margin-bottom:0px;"> <i class="fa fa-money"></i>
+                <?php _e('Payer', 'nexo');?>
+                </button>
+            </div>
+            <?php echo $this->events->apply_filters( 'before_cart_discount_button', '' );?>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default btn-lg" id="cart-discount-button"  style="margin-bottom:0px;"> <i class="fa fa-gift"></i>
+                <?php _e('Remise', 'nexo');?>
+                </button>
+            </div>
+            <?php echo $this->events->apply_filters( 'before_cart_cancel_button', '' );?>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default btn-lg" id="cart-return-to-order"  style="margin-bottom:0px;"> <!-- btn-app  --> 
+                <i class="fa fa-remove"></i>
+                <?php _e('Annuler', 'nexo');?>
+                </button>
+            </div>
         </div>
     </div>
     <!-- /.box-footer--> 
 </div>
-
-<?php if (@$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):?>
-<script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
-<script type="text/javascript">
-	'use strict';
-	// Close Checkout on page navigation:
-	$(window).on('popstate', function() {
-		v2Checkout.stripe.handler.close();
-	});
-</script>
-<?php endif;?>
 <style type="text/css">
 .expandable {
 	width: 19%;

@@ -668,6 +668,16 @@ var v2Checkout					=	new function(){
 		});
 	};
 	
+	/** 
+	 * BindToggle Comptact Mode
+	**/
+	
+	this.bindToggleComptactMode	=	function(){
+		$( '.toggleCompactMode' ).bind( 'click', function(){
+			v2Checkout.toggleCompactMode();
+		});
+	}
+	
 	/**
 	 * Bind Unit Item Discount
 	 * @return void
@@ -1691,7 +1701,7 @@ var v2Checkout					=	new function(){
 
 		var allow_increase			=	typeof allow_increase	==	'undefined' ? true : allow_increase
 		var qte_to_add				=	typeof qte_to_add == 'undefined' ? 1 : qte_to_add;
-		var filter					=	typeof filter == 'undefined' ? 'CODEBAR' : filter;
+		var filter					=	typeof filter == 'undefined' ? 'sku-barcode' : filter;
 		// For Store Feature
 		var store_id				=	'<?php echo $store_id == null ? 0 : $store_id;?>';
 		
@@ -2080,7 +2090,7 @@ var v2Checkout					=	new function(){
 	**/
 
 	this.searchItems					=	function( value ){
-		this.fetchItem( value, 1, true, 'CODEBAR' ); // 'sku-barcode'
+		this.fetchItem( value, 1, true, 'sku-barcode' ); // 'sku-barcode'
 	};
 
 
@@ -2123,7 +2133,7 @@ var v2Checkout					=	new function(){
 	 '<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bootstrap-tab-container">' +
 		 '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bootstrap-tab-menu">' +
 			 '<div class="list-group">' +
-			 	<?php foreach ($this->config->item('nexo_payment_types') as $payment_namespace => $payment_name):?>
+			 	<?php foreach ($this->config->item('nexo_payments_types') as $payment_namespace => $payment_name):?>
 					<?php if ($payment_namespace != 'stripe' || $payment_namespace == 'stripe' && @$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):?>
  				'<a ' +
 					'data-tab="<?php echo $payment_namespace;?>" ' +
@@ -2140,7 +2150,7 @@ var v2Checkout					=	new function(){
 				'</div>' +
  			'</div>' +
  			'<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bootstrap-tab">' +
- 				<?php foreach ($this->config->item('nexo_payment_types') as $payment_namespace => $payment_name):?>
+ 				<?php foreach ($this->config->item('nexo_payments_types') as $payment_namespace => $payment_name):?>
 					<?php if ($payment_namespace != 'stripe' || $payment_namespace == 'stripe' && @$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):?>
 				'<!-- flight section -->' +
                 '<div class="bootstrap-tab-content" id="<?php echo $payment_namespace;?>">' +
@@ -2630,30 +2640,10 @@ var v2Checkout					=	new function(){
 	**/
 
 	this.run							=	function(){
-		
+
 		<?php if( @$Options[ store_prefix() . 'nexo_compact_enabled' ] == 'yes' ):?>
-		$( '.content-header' ).css({
-			'padding'	:	0,
-			'height'	:	0
-		});
-		
-		$( '.content-header > h1' ).remove();
-		$( '.main-footer' ).hide(0);
-		$( '.main-sidebar' ).hide(0);
-		$( '.main-footer > *' ).remove();
-		$( '.main-header' ).css({
-			'min-height' : 0,
-			'overflow': 'hidden'
-		}).animate({
-			'height' : '0'
-		}, 0 );		
-		
-		$( '.content-wrapper' ).addClass( 'new-wrapper' ).removeClass( 'content-wrapper' );
-		
-		$( '.new-wrapper' ).find( '.content' ).css( 'padding-bottom', 0 );
-		$( '.new-wrapper' ).find( '.content' ).css( 'height', window.innerHeight );
-		// $( '.new-wrapper' ).find( '.content' ).css( 'overflow', 'hidden' );
-		$( '.new-wrapper' ).find( '.content' ).css( 'background', 'rgb(211, 223, 228)' );
+
+		this.toggleCompactMode();
 		
 		<?php endif;?>
 
@@ -2811,6 +2801,9 @@ var v2Checkout					=	new function(){
 		$( this.CartPayButton ).bind( 'click', function(){
 			v2Checkout.pay();
 		});
+		
+		// Bind toggle compact mode
+		this.bindToggleComptactMode();
 
 		//
 		$(window).on("beforeunload", function() {
@@ -2819,9 +2812,92 @@ var v2Checkout					=	new function(){
 			}
 		})
 
-		<?php if (in_array('stripe', array_keys($this->config->item('nexo_payment_types')))):?>
+		<?php if (in_array('stripe', array_keys($this->config->item('nexo_payments_types')))):?>
 		this.stripe.run();
 		<?php endif;?>
+	}
+	
+	/**
+	 * Toggle Compact Mode
+	**/
+	
+	this.CompactMode		=	true;
+	
+	this.DefaultModeOption	=	false
+	
+	this.toggleCompactMode		=	function(){
+		
+		if( this.DefaultModeOption == false ) {
+			this.DefaultModeOption	=	{};
+			// Default Class
+			this.DefaultModeOption.ContentHeader	=	{
+				padding				:	$( '.content-header' ).css( 'padding' ),
+				height				:	$( '.content-header' ).css( 'height' ),
+				h1					:	$( '.content-header > h1' ).html()
+			}
+			
+			this.DefaultModeOption.MainFooter		=	{
+				html				:	 $( '.main-footer' ).html()
+			}
+			
+			this.DefaultModeOption.MainHeader		=	{
+				min_height			:	$( '.main-header' ).css( 'min-height' ),
+				overflow			:	'visible'
+			}
+			
+			this.DefaultModeOption.background			=	$( '.new-wrapper' ).find( '.content' ).css( 'background' );
+			this.DefaultModeOption.contentHeight		=	$( '.new-wrapper' ).find( '.content' ).css( 'height' );
+		}
+		
+		if( this.CompactMode ) {
+			
+			$( '.content-header' ).css({
+				'padding'	:	0,
+				'height'	:	0
+			});
+			
+			$( '.content-header > h1' ).remove();
+			$( '.main-footer' ).hide(0);
+			$( '.main-sidebar' ).hide(0);
+			$( '.main-footer > *' ).remove();
+			$( '.main-header' ).css({
+				'min-height' : 0,
+				'overflow': 'hidden'
+			}).animate({
+				'height' : '0'
+			}, 0 );		
+			
+			$( '.content-wrapper' ).addClass( 'new-wrapper' ).removeClass( 'content-wrapper' );
+			
+			$( '.new-wrapper' ).find( '.content' ).css( 'padding-bottom', 0 );
+			$( '.new-wrapper' ).find( '.content' ).css( 'height', window.innerHeight );
+			// $( '.new-wrapper' ).find( '.content' ).css( 'overflow', 'hidden' );
+			$( '.new-wrapper' ).find( '.content' ).css( 'background', 'rgb(211, 223, 228)' );
+			this.CompactMode	=	false;
+			
+		} else {
+			$( '.content-header' ).css({
+				'padding'	:	this.DefaultModeOption.ContentHeader.padding,
+				'height'	:	this.DefaultModeOption.ContentHeader.height
+			});
+			
+			$( '.content-header' ).append( '<h1>' + this.DefaultModeOption.ContentHeader.h1 + '</h1>' );
+			$( '.main-footer' ).show();
+			$( '.main-sidebar' ).show();
+			$( '.main-footer' ).html( this.DefaultModeOption.MainFooter.html );
+			$( '.main-header' ).css({
+				'min-height' : this.DefaultModeOption.MainHeader.min_header,
+				'overflow': this.DefaultModeOption.MainHeader.overflow
+			});		
+			
+			$( '.new-wrapper' ).addClass( 'content-wrapper' ).removeClass( 'new-wrapper' );
+			$( '.content-wrapper').find( '.content' ).css( 'background', 'inherit' );
+			$( '.content-wrapper' ).find( '.content' ).css( 'height', 'auto' );
+			
+			this.CompactMode	=	true;
+		}	
+		
+		this.fixHeight();			
 	}
 
 	/**

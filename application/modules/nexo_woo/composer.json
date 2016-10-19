@@ -1,6 +1,0 @@
-{
-    "require": {
-        "automattic/woocommerce": "^1.1",
-        "woothemes/woocommerce-api": "^2.0"
-    }
-}

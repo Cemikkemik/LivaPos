@@ -81,6 +81,9 @@ class Nexo_Categories extends CI_Model
     
     public function lists($page = 'index', $id = null)
     {
+		global $PageNow;
+		$PageNow			=	'nexo/categories/list';
+		
         if ($page == 'index') {
             $this->Gui->set_title( store_title( __('Liste des catégories', 'nexo')) );
         } elseif ($page == 'delete') {
@@ -104,6 +107,9 @@ class Nexo_Categories extends CI_Model
     
     public function add()
     {
+		global $PageNow;
+		$PageNow			=	'nexo/categories/add';
+		
         if (! User::can('create_shop_shippings')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }

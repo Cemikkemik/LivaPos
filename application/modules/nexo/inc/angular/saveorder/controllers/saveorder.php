@@ -27,7 +27,7 @@ tendooApp.controller( 'saveBox', [ '$compile', '$http', '$scope', function( $com
 	
 	$scope.openSaveBox			=		function(){
 		
-		$scope.orderName			=	'';
+		$scope.orderName			=	typeof v2Checkout.CartTitle == 'undefined' ? '' : v2Checkout.CartTitle;
 		$scope.cart					=	new Object;
 		$scope.cart.value			=	v2Checkout.CartValue;
 		$scope.cart.netPayable		=	v2Checkout.CartToPay;

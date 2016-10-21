@@ -748,11 +748,10 @@ class Nexo_Premium_Controller extends CI_Model
         $this->load->model('Nexo_Checkout');
         $this->load->model('Nexo_Misc');
         
-        $Options    =    $this->options->get();
-        
-        $Expiration    =    @$Options[ 'nexo_devis_expiration' ];
-        $QuoteID    =    'nexo_order_devis';
-        $LogEnabled    =    @$Options[ 'nexo_premium_enable_history' ];
+        $Options   		=    $this->options->get();        
+        $Expiration    	=    @$Options[ 'nexo_devis_expiration' ];
+        $QuoteID    	=    'nexo_order_devis';
+        $LogEnabled    	=    @$Options[ 'nexo_premium_enable_history' ];
         
         $this->lang->load_lines(APPPATH . '/modules/nexo/language/nexo_lang.php');
         

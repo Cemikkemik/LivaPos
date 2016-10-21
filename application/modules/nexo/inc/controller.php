@@ -568,6 +568,7 @@ if( User::in_group( 'shop_cashier' ) || User::in_group( 'shop_tester' ) ) {
 				} else {
 					$file_name		=	'dashboard';
 				}
+				
 		
 				$file    =    dirname(__FILE__) . '/../__controllers/' . $file_name . '.php';
 				

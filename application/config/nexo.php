@@ -47,6 +47,7 @@ $config[ 'nexo_payments_types' ]    =    array(
 	'creditcard'		=>		get_instance()->lang->line( 'creditcard' ),
     'cheque'			=>		get_instance()->lang->line( 'cheque' ),
     'bank'            	=>    	get_instance()->lang->line('bank_transfert'),
+	'multi'				=>		get_instance()->lang->line( 'multi' )
 );
 
 /**

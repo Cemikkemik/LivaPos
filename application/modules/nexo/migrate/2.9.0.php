@@ -1,5 +1,4 @@
 <?php
-die( 'Youre kidding me' );
 $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_articles` 					ADD `AUTO_BARCODE` INT NOT NULL AFTER `AUTHOR`;' ); 
 
 $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_articles` 					ADD `BARCODE_TYPE` VARCHAR(200) NOT NULL AFTER `AUTO_BARCODE`;' );

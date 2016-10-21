@@ -182,11 +182,7 @@ $('[data-meta-namespace]').find( '[data-widget]' ).bind( 'click', function(){
 	);
 });
 
-/**
- * Introducing Angular on Tendoo CMS
-**/
 
-var tendooApp		=	angular.module( 'tendooApp', [ ] );
 </script>
         <?php
 
@@ -377,6 +373,13 @@ tendoo.loader			=	new function(){
 		}
 	}
 }
+
+/**
+ * Introducing Angular on Tendoo CMS
+**/
+
+var tendooApp		=	angular.module( 'tendooApp', [ ] );
+
 /**
  * Tendoo Tools
  * @since 3.0.5

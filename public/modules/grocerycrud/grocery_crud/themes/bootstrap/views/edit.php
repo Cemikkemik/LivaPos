@@ -33,6 +33,10 @@
     <div class="tab-content">
         <?php
 			$index	=	0;
+			
+			$fields				=	get_instance()->events->apply_filters( 'grocery_registered_fields', $fields );
+			$input_fields		=	get_instance()->events->apply_filters( 'grocery_input_fields', $input_fields );
+		
 			foreach( $groups as $namespace	=> $group ) {
 						?>
         <div class="tab-pane <?php echo $index == 0 ? 'active': '';?>" id="<?php echo $namespace;?>">
@@ -94,6 +98,9 @@
     <div class='form-div'>
 	<?php
 	$counter = 0;
+	$fields				=	get_instance()->events->apply_filters( 'grocery_registered_fields', $fields );
+	$input_fields		=	get_instance()->events->apply_filters( 'grocery_input_fields', $input_fields );
+	
 	foreach ($fields as $field) {
 		$even_odd = $counter % 2 == 0 ? 'odd' : 'even';
 		$counter++;
@@ -126,6 +133,8 @@
 	<?php echo $input_fields[$field->field_name]->input;
 				?> </div>
                 <?php echo $field->description;?>
+                
+                
 <?php
 
 			}

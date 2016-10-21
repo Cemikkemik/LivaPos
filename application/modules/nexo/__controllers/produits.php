@@ -38,6 +38,9 @@ class Nexo_Produits extends CI_Model
         $crud->set_theme('bootstrap');
         $crud->set_subject(__('Articles', 'nexo'));
 		
+		global $PageNow;
+		$PageNow			=	'nexo/produits';
+		
 
         $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_articles'));
 		
@@ -119,7 +122,7 @@ class Nexo_Produits extends CI_Model
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
         
-        $crud->required_fields( 
+        $crud->required_fields( $this->events->apply_filters( 'product_required_fields', array( 
 			'DESIGN', 
 			'SKU', 
 			'REF_CATEGORIE', 
@@ -133,7 +136,7 @@ class Nexo_Produits extends CI_Model
 			'STATUS', 
 			'TYPE', 
 			'STOCK_ENABLED'
-		);
+		) ) );
 
         $crud->set_field_upload('APERCU', get_store_upload_path() );
         
@@ -156,15 +159,20 @@ class Nexo_Produits extends CI_Model
 		// $crud->change_field_type( 'BARCODE_TYPE', 'invisible' );
 		
 		// @since 2.8.2
-		$crud->field_type('TYPE', 'dropdown', $this->config->item('nexo_item_type'));
-		$crud->field_type('STATUS', 'dropdown', $this->config->item('nexo_item_status'));
-		$crud->field_type('STOCK_ENABLED', 'dropdown', $this->config->item('nexo_item_stock'));
+		$crud->field_type( 'TYPE', 'dropdown', $this->config->item('nexo_item_type'));
+		$crud->field_type( 'STATUS', 'dropdown', $this->config->item('nexo_item_status'));
+		$crud->field_type( 'STOCK_ENABLED', 'dropdown', $this->config->item('nexo_item_stock'));
 		$crud->field_type( 'AUTO_BARCODE', 'dropdown', $this->config->item('nexo_yes_no' ) );
 		$crud->field_type( 'BARCODE_TYPE', 'dropdown', $this->config->item( 'nexo_barcode_supported' ) );
         
         // Callback Before Render
-        $crud->callback_before_insert(array( $this->Nexo_Products, 'product_save' ));
-        $crud->callback_before_update(array( $this->Nexo_Products, 'product_update' ));
+        $crud->callback_before_insert(array( 	$this->Nexo_Products, 'product_save' ) );
+		$crud->callback_after_insert( array( 	$this->Nexo_Products, 'product_after_save' ) );        
+		$crud->callback_before_update( array( 	$this->Nexo_Products, 'product_update' ) );
+		$crud->callback_after_update( array( 	$this->Nexo_Products, 'product_after_update' ) );		
+		$crud->callback_before_delete( array( 	$this->Nexo_Products, 'product_before_delete' ) );
+		
+		$crud		=	$this->events->apply_filters( 'load_product_crud', $crud );
 
         $output = $crud->render();
         
@@ -188,7 +196,8 @@ class Nexo_Produits extends CI_Model
         if ($page == 'index') {
             $this->Gui->set_title( store_title( __('Liste des articles', 'nexo') ) );
         } elseif ($page == 'delete') {
-            nexo_permission_check('delete_shop_items');
+            
+			nexo_permission_check('delete_shop_items');
             
             $this->load->model('Nexo_Products');
             $product    =    $this->Nexo_Products->get_product($id);
@@ -197,6 +206,8 @@ class Nexo_Produits extends CI_Model
                 nexo_availability_check($product[0][ 'CODEBAR' ], array(
                     array( 'col'    =>    'REF_PRODUCT_CODEBAR', 'table'    =>   store_prefix() . 'nexo_commandes_produits' )
                 ));
+				
+				
             }
         } else {
             $this->Gui->set_title( store_title( __( 'Ajouter un nouvel article', 'nexo' ) ) );

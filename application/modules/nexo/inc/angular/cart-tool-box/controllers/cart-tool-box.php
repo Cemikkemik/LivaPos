@@ -1,5 +1,5 @@
 <script>
-tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', function( $http, $compile, $scope ) {
+tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout', function( $http, $compile, $scope, $timeout ) {
 	
 	$scope.loadedOrders				=	new Object;
 	$scope.orderDetails				=	null;
@@ -13,7 +13,12 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', function( 
 	$scope.theSpinner[ 'mspinner' ]	=	false;
 	$scope.theSpinner[ 'rspinner' ]	=	true;
 	$scope.windowHeight				=	window.innerHeight;
-	$scope.wrapperHeight			=	$scope.windowHeight - ( ( 56 * 2 ) + 30 );	
+	$scope.wrapperHeight			=	$scope.windowHeight - ( ( 56 * 2 ) + 30 );
+	
+	// reset default URL when cart is reset
+	NexoAPI.events.addAction( 'reset_cart', function(){
+		NexoAPI.events.removeFilter( 'process_data' );
+	});
 	
 	/**
 	 * Load order for
@@ -39,7 +44,7 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', function( 
 	
 	$scope.openHistoryBox		=	function(){
 		if( ! v2Checkout.isCartEmpty() ) {
-			NexoAPI.Bootbox().confirm( '<?php echo _s( 'Une commande est déjà en cours, souhaitez vous la supprimer', 'nexo' );?>', function( action ){
+			NexoAPI.Bootbox().confirm( '<?php echo _s( 'Une commande est déjà en cours, souhaitez vous la supprimer ?', 'nexo' );?>', function( action ){
 				if( action ) {
 					v2Checkout.resetCart();
 					$scope.openHistoryBox();
@@ -68,15 +73,19 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', function( 
 		
 		$( '.historyboxwrapper' ).html( $compile( $( '.historyboxwrapper' ).html() )($scope) );
 		
-		angular.element( '.modal-dialog' ).css( 'width', '90%' );
-		angular.element( '.modal-body' ).css( 'padding-top', '0px' );
-		angular.element( '.modal-body' ).css( 'padding-bottom', '0px' );
-		angular.element( '.modal-body' ).css( 'padding-left', '0px' );
-		angular.element( '.modal-body' ).css( 'height', $scope.wrapperHeight );
-		angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );		
-		angular.element( '.middle-content' ).attr( 'style', 'border-left:solid 1px #DEDEDE;overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );	
-		angular.element( '.order-details' ).attr( 'style', 'overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );	
-		angular.element( '.middle-content' ).css( 'padding', 0 );
+		$timeout( function(){
+			angular.element( '.modal-dialog' ).css( 'width', '90%' );
+			angular.element( '.modal-body' ).css( 'padding-top', '0px' );
+			angular.element( '.modal-body' ).css( 'padding-bottom', '0px' );
+			angular.element( '.modal-body' ).css( 'padding-left', '0px' );
+			angular.element( '.modal-body' ).css( 'height', $scope.wrapperHeight );
+			angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );		
+			angular.element( '.middle-content' ).attr( 'style', 'border-left:solid 1px #DEDEDE;overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );	
+			angular.element( '.order-details' ).attr( 'style', 'overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );	
+			angular.element( '.middle-content' ).css( 'padding', 0 );
+		}, 150 );
+		
+		
 		// Select first option
 		$scope.selectHistoryTab( _.keys( $scope.orderStatusObject )[0] );		
 	};
@@ -101,13 +110,56 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', function( 
 	 * Open Order On POS
 	**/
 	
-	$scope.openOrderOnPOS			=	function(){
-		if( $scope.orderDetails == null ) {
-			NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Vous devez choisir une commande avant de l\'ouvrir.', 'nexo' );?>' );
-			return false;
+	$scope.openOrderOnPOS			=	function( action ){
+		if( action ) {
+			if( $scope.orderDetails == null ) {
+				NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Vous devez choisir une commande avant de l\'ouvrir.', 'nexo' );?>' );
+				return false;
+			}
+			
+			NexoAPI.events.addFilter( 'process_data', function( data ){
+				data.url			=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id() ) );?>/" + $scope.orderDetails.order.ID + "?store_id=<?php echo get_store_id();?>";
+				
+				data.type			=	'PUT';
+				return data;
+			});
+			
+			v2Checkout.emptyCartItemTable();
+			v2Checkout.CartItems			=	$scope.orderDetails.items;
+			
+			_.each( v2Checkout.CartItems, function( value, key ) {
+				value.QTE_ADDED		=	value.QUANTITE;
+			});
+
+			if( parseFloat( $scope.orderDetails.order.REMISE ) > 0 ) {
+				v2Checkout.CartRemiseType			=	'flat';
+				v2Checkout.CartRemise				=	NexoAPI.ParseFloat( $scope.orderDetails.order.REMISE );
+				v2Checkout.CartRemiseEnabled		=	true;
+			}
+
+			if( parseFloat( $scope.orderDetails.order.GROUP_DISCOUNT ) > 0 ) {
+				v2Checkout.CartGroupDiscount				=	parseFloat( $scope.orderDetails.order.GROUP_DISCOUNT ); // final amount
+				v2Checkout.CartGroupDiscountAmount			=	parseFloat( $scope.orderDetails.order.GROUP_DISCOUNT ); // Amount set on each group
+				v2Checkout.CartGroupDiscountType			=	'amount'; // Discount type
+				v2Checkout.CartGroupDiscountEnabled			=	true;
+			}
+
+			v2Checkout.CartCustomerID						=	$scope.orderDetails.order.REF_CLIENT;
+			
+			// @since 2.7.3
+			v2Checkout.CartNote								=	$scope.orderDetails.order.DESCRIPTION;	
+			
+			v2Checkout.CartTitle							=	$scope.orderDetails.order.TITRE;
+
+			// Restore Custom Ristourne
+			v2Checkout.restoreCustomRistourne();
+
+			// Refresh Cart
+			// Reset Cart state
+			v2Checkout.buildCartItemTable();
+			v2Checkout.refreshCart();
+			v2Checkout.refreshCartValues();
 		}
-		
-		
 	};
 	
 	/**

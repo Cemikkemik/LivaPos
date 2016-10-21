@@ -103,3 +103,8 @@ Filtres:
  * paybox_dependencies
  * Permet de charger des dépendances dans le controleur paybox
 **/
+
+/**
+ * load_product_crud
+ * charge l'objet CRUD a l'initialisation pour les produits
+**/

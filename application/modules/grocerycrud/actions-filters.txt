@@ -50,3 +50,29 @@ grocery_row_actions_output {
 	}
 }
 
+grocery_registered_fields {
+	type 	:	filter
+	desc	:	filter registered fields
+	params	:	$fields, an array with object {
+		field_name	:	'',
+		display_as	:	'',
+		description	:	''
+	}
+}
+
+grocery_edit_fields :  {
+	type 	:	filter
+	desc	:	return editable field for grocerycrud
+	params	:	$fields, an array with object {
+		field_name	:	'',
+		display_as	:	'',
+		description	:	''
+	}
+}
+
+grocery_required_fields	:	{
+	type	:	filter
+	desc	:	return required field for form validation
+	params 	:	array( 'FIELD_NAME', ... )
+}
+

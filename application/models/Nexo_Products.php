@@ -192,7 +192,7 @@ class Nexo_Products extends CI_Model
         $param[ 'AUTHOR' ]                	=    intval(User::id());
         $param[ 'QUANTITE_RESTANTE' ]    	=    intval($param[ 'QUANTITY' ]); // - intval($param[ 'DEFECTUEUX' ]);
         $param[ 'QUANTITE_VENDU' ]       	=    0;
-        $param[ 'COUT_DACHAT' ]            	=    intval($param[ 'PRIX_DACHAT' ]) + intval($param[ 'FRAIS_ACCESSOIRE' ]);
+        // $param[ 'COUT_DACHAT' ]            	=    intval($param[ 'PRIX_DACHAT' ]) + intval($param[ 'FRAIS_ACCESSOIRE' ]);
         $param[ 'DATE_CREATION' ]        	=    date_now();
 		
 		// @since 2.9
@@ -209,6 +209,8 @@ class Nexo_Products extends CI_Model
 		if( $store_id != null ) {
 			$param[ 'REF_STORE' ]		=	$store_id;
 		}
+		
+		$param		=	$this->events->apply_filters( 'nexo_save_product', $param );
 
         return $param;
     }
@@ -235,10 +237,10 @@ class Nexo_Products extends CI_Model
         $old_defectueux                    =    intval($article[0][ 'DEFECTUEUX' ]);
         
 		// $param[ 'QUANTITE_RESTANTE' ]    =    ((intval($param[ 'QUANTITY' ]) - intval($param[ 'DEFECTUEUX' ])) - intval($article[0][ 'QUANTITE_VENDU' ]));
-        $param[ 'QUANTITE_RESTANTE' ]    =    ( intval($param[ 'QUANTITY' ] ) - intval( $article[0][ 'QUANTITE_VENDU' ] ) );
-        $param[ 'DATE_MOD' ]            =    date_now();
-        $param[ 'AUTHOR' ]                =    intval(User::id());
-        $param[ 'COUT_DACHAT' ]            =    intval($param[ 'PRIX_DACHAT' ]) + intval($param[ 'FRAIS_ACCESSOIRE' ]);
+        $param[ 'QUANTITE_RESTANTE' ]    	=    ( intval($param[ 'QUANTITY' ] ) - intval( $article[0][ 'QUANTITE_VENDU' ] ) );
+        $param[ 'DATE_MOD' ]            	=    date_now();
+        $param[ 'AUTHOR' ]                	=    intval(User::id());
+        // $param[ 'COUT_DACHAT' ]           	=    intval($param[ 'PRIX_DACHAT' ]) + intval($param[ 'FRAIS_ACCESSOIRE' ]);
 		
 		// @since 2.9
 		// Generate barcode		
@@ -256,9 +258,41 @@ class Nexo_Products extends CI_Model
 		if( $store_id != null ) {
 			$param[ 'REF_STORE' ]		=	$store_id;
 		}
+		
+		$param		=	$this->events->apply_filters( 'nexo_update_product', $param );
         
         return $param;
     }
+	
+	/**
+	 * Delete Item related object
+	 * @param int item id
+	 * @return void
+	**/
+	
+	public function product_delete_related_component( $item_id ) 
+	{
+		$this->where( 'REF_ARTICLE', $item_id )->delete( store_prefix() . 'nexo_articles_meta' );
+		$this->where( 'REF_ARTICLE', $item_id )->delete( store_prefix() . 'nexo_articles_variations' );
+	}
+	
+	/**
+	 * After Insert Item
+	**/
+	
+	public function product_after_save( $array, $id )
+	{
+		$this->events->do_action( 'nexo_after_save_product', $array, $id );		
+	}
+	
+	/**
+	 * After Update Item
+	**/
+	
+	public function product_after_update( $array, $id )
+	{
+		$this->events->do_action( 'nexo_after_update_product', $array, $id );	
+	}
        
     // Deprecated
 

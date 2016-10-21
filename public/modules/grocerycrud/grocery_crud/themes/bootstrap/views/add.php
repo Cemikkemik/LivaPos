@@ -31,18 +31,21 @@ if( $groups ) {
     </ul>
     <div class="tab-content">
         <?php
-		$index	=	0;
+		$index				=	0;
+		// ** Let you create fake field
+		$fields				=	get_instance()->events->apply_filters( 'grocery_registered_fields', $fields );
+		$input_fields		=	get_instance()->events->apply_filters( 'grocery_input_fields', $input_fields );
+			
 		foreach( $groups as $namespace	=> $group ) {
 					?>
         <div class="tab-pane <?php echo $index == 0 ? 'active': '';?>" id="<?php echo $namespace;?>">
             <?php
 			$counter = 0;
 			foreach ($fields as $field) {
-				// var_dump( $field );
 				if( in_array( $field->field_name, $group[ 'fields' ] ) ) {
 					$even_odd = $counter % 2 == 0 ? 'odd' : 'even';
 					$counter++;
-					if ($input_fields[ $field->field_name ]->crud_type != 'relation_invisible') {
+					if ( $input_fields[ $field->field_name ]->crud_type != 'relation_invisible') {
 						if (
 							in_array($input_fields[ $field->field_name ]->type, array( 'double', 'varchar', 'int', 'float' )) &&
 							in_array($input_fields[ $field->field_name ]->crud_type, array( false, 'integer' ), true)) {
@@ -95,6 +98,9 @@ if( $groups ) {
     <div class='form-div'>
         <?php
 		$counter = 0;
+		$fields				=	get_instance()->events->apply_filters( 'grocery_registered_fields', $fields );
+		$input_fields		=	get_instance()->events->apply_filters( 'grocery_input_fields', $input_fields );
+		
 		foreach ($fields as $field) {
 			$even_odd = $counter % 2 == 0 ? 'odd' : 'even';
 			$counter++;

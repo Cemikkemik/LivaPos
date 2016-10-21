@@ -63,8 +63,8 @@ $lang[ 'register_busy' ]			=	tendoo_error( __( 'La caisse est en cours d\'utilis
 $lang[ 'register_has_been_closed' ]		=	tendoo_success( __( 'La caisse a été correctement fermée', 'nexo' ) );
 
 // @since 2.7.9
-$lang[ 'receipt_default' ]			=	__( 'Reçu par défaut', 'nexo');
-$lang[ 'custom_receipt' ]			=	__( 'Reçu personnalisé', 'nexo' );
+$lang[ 'receipt_default' ]					=	__( 'Reçu par défaut', 'nexo');
+$lang[ 'custom_receipt' ]					=	__( 'Reçu personnalisé', 'nexo' );
 
 // @since 2.7.8
 $lang[ 'unknow-store' ]						= 	tendoo_error( __( 'Boutique introuvable', 'nexo' ) );
@@ -93,3 +93,4 @@ $lang[ 'nexo_order_refunded' ]				=	__( 'Remboursé', 'nexo' );
 $lang[ 'default' ]							=	__( 'Par défaut', 'nexo' );
 $lang[ 'nexo_order_partialy_refunded' ]		=	__( 'Partiellement Remboursé', 'nexo' );
 $lang[ 'creditcard' ]						=	__( 'Carte de crédit', 'nexo' );
+$lang[ 'multi' ]							=	__( 'Paiement multiple', 'nexo' ); 

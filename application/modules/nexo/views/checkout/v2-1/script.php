@@ -1006,6 +1006,238 @@ var v2Checkout					=	new function(){
 	}
 
 	/**
+	 * Submit order
+	 * @params payment mean
+	**/
+
+	this.cartSubmitOrder			=	function( payment_means ){
+		var order_items				=	new Array;
+
+		_.each( this.CartItems, function( value, key ){
+			
+			var ArrayToPush			=	[
+				value.ID,
+				value.QTE_ADDED,
+				value.CODEBAR,
+				value.PROMO_ENABLED ? value.PRIX_PROMOTIONEL : ( v2Checkout.CartShadowPriceEnabled ? value.SHADOW_PRICE : value.PRIX_DE_VENTE ),
+				value.QUANTITE_VENDU,
+				value.QUANTITE_RESTANTE,
+				// @since 2.8.2
+				value.STOCK_ENABLED, 
+				// @since 2.9.0
+				value.DISCOUNT_TYPE,
+				value.DISCOUNT_AMOUNT,
+				value.DISCOUNT_PERCENT
+			];
+			
+			// improved @since 2.7.3
+			// add meta by default
+			var ItemMeta	=	NexoAPI.events.applyFilters( 'items_metas', [] );
+			
+			var MetaKeys	=	new Array;
+			
+			_.each( ItemMeta, function( _value, key ) {
+				var unZiped	=	_.keys( _value );
+				MetaKeys.push( unZiped[0] );				
+			});
+			
+			var AllMetas	=	new Object;
+			
+			// console.log( value );
+			
+			_.each( MetaKeys, function( MetaKey ) {
+				AllMetas	=	_.extend( AllMetas, _.object( [ MetaKey ], [ _.propertyOf( value )( MetaKey ) ] ) );
+			});
+			
+			// console.log( AllMetas );
+			
+			// 
+			ArrayToPush.push( JSON.stringify( AllMetas ) );
+			
+			// Add Meta JSON stringified to order_item
+			order_items.push( ArrayToPush );
+		});
+		
+		var order_details					=	new Object;
+			order_details.TOTAL				=	NexoAPI.ParseFloat( this.CartToPay );
+			order_details.REMISE			=	NexoAPI.ParseFloat( this.CartRemise );
+			order_details.RABAIS			=	NexoAPI.ParseFloat( this.CartRabais );
+			order_details.RISTOURNE			=	NexoAPI.ParseFloat( this.CartRistourne );
+			order_details.TVA				=	NexoAPI.ParseFloat( this.CartVAT );
+			order_details.REF_CLIENT		=	this.CartCustomerID == null ? this.customers.DefaultCustomerID : this.CartCustomerID;
+			order_details.PAYMENT_TYPE		=	this.CartPaymentType;
+			order_details.GROUP_DISCOUNT	=	NexoAPI.ParseFloat( this.CartGroupDiscount );
+			order_details.DATE_CREATION		=	this.CartDateTime.format( 'YYYY-MM-DD HH:mm:ss' )
+			order_details.ITEMS				=	order_items;
+			order_details.DEFAULT_CUSTOMER	=	this.DefaultCustomerID;
+			order_details.DISCOUNT_TYPE		=	'<?php echo @$Options[ store_prefix() . 'discount_type' ];?>';
+			order_details.HMB_DISCOUNT		=	'<?php echo @$Options[ store_prefix() . 'how_many_before_discount' ];?>';
+			// @since 2.7.5
+			order_details.REGISTER_ID		=	'<?php echo $register_id;?>';
+			
+			// @since 2.7.1, send editable order to Rest Server
+			order_details.EDITABLE_ORDERS	=	<?php echo json_encode( $this->events->apply_filters( 'order_editable', array( 'nexo_order_devis' ) ) );?>;
+			
+			// @since 2.7.3 add Order note
+			order_details.DESCRIPTION		=	this.CartNote;
+			
+			// @since 2.9.0
+			order_details.TITRE				=	this.CartTitle;
+			
+			// @since 2.8.2 add order meta
+			this.CartMetas					=	NexoAPI.events.applyFilters( 'order_metas', this.CartMetas );
+			order_details.METAS				=	JSON.stringify( this.CartMetas );
+
+		if( payment_means == 'cash' ) {
+
+			order_details.SOMME_PERCU		=	NexoAPI.ParseFloat( this.CartPerceivedSum );
+			order_details.SOMME_PERCU 		=	isNaN( order_details.SOMME_PERCU ) ? 0 : order_details.SOMME_PERCU;
+
+		} else if( payment_means == 'cheque' || payment_means == 'bank' ) {
+
+			order_details.SOMME_PERCU		=	NexoAPI.ParseFloat( this.CartToPay );
+
+		} else if( payment_means == 'stripe' ) {
+			if( this.CartAllowStripeSubmitOrder == true ) {
+
+				order_details.SOMME_PERCU		=	NexoAPI.ParseFloat( this.CartToPay );
+
+			} else {
+				NexoAPI.Notify().info( '<?php echo _s('Attention', 'nexo');?>', '<?php echo _s('La carte de crédit doit d\'abord être facturée avant de valider la commande.', 'nexo');?>' );
+				return false;
+			}
+		} else {
+			// Handle for custom Payment Means
+			if( NexoAPI.events.applyFilters( 'check_payment_mean', [ false, payment_means ] )[0] == true ) {
+				
+				/**
+				 * Make sure to return order_details
+				**/
+				
+				order_details		=	NexoAPI.events.applyFilters( 'payment_mean_checked', [ order_details, payment_means ] )[0];
+				
+			} else {
+				
+				NexoAPI.Bootbox().alert( '<?php echo _s('Impossible de reconnaitre le moyen de paiement.', 'nexo');?>' );
+				return false;
+				
+			}
+		}
+
+		
+		var ProcessObj	=	NexoAPI.events.applyFilters( 'process_data', {
+			url			:	this.ProcessURL,
+			type		:	this.ProcessType
+		});
+		
+		// Filter Submited Details
+		order_details	=	NexoAPI.events.applyFilters( 'before_submit_order', order_details );
+
+		$.ajax( ProcessObj.url, {
+			dataType		:	'json',
+			type			:	ProcessObj.type,
+			data			:	order_details,
+			beforeSend		: function(){
+				v2Checkout.paymentWindow.showSplash();
+				NexoAPI.Notify().info( '<?php echo _s('Veuillez patienter', 'nexo');?>', '<?php echo _s('Paiement en cours...', 'nexo');?>' );
+			},
+			success			:	function( returned ) {
+				v2Checkout.paymentWindow.hideSplash();
+				v2Checkout.paymentWindow.close();
+
+				if( _.isObject( returned ) ) {
+					// Init Message Object
+					var MessageObject	=	new Object;				
+					
+					var data	=	NexoAPI.events.applyFilters( 'test_order_type', [ ( returned.order_type == 'nexo_order_comptant' ), returned ] );
+					var test_order	=	data[0];
+					
+					if( test_order == true ) {
+						
+						<?php if (@$Options[ store_prefix() . 'nexo_enable_autoprint' ] == 'yes'):?>
+						
+						if( NexoAPI.events.applyFilters( 'cart_enable_print', true ) ) {
+						
+						MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
+						MessageObject.msg	=	'<?php echo _s('La commande est en cours d\'impression.', 'nexo');?>';
+						MessageObject.type	=	'success';
+
+						$( 'body' ).append( '<iframe style="display:none;" id="CurrentReceipt" name="CurrentReceipt" src="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true"></iframe>' );
+
+						window.frames["CurrentReceipt"].focus();
+						window.frames["CurrentReceipt"].print();
+
+						setTimeout( function(){
+							$( '#CurrentReceipt' ).remove();
+						}, 5000 );
+						
+						}
+						// Remove filter after it's done
+						NexoAPI.events.removeFilter( 'cart_enable_print' );
+
+						<?php else:?>
+						
+						MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
+						MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée.', 'nexo');?>';
+						MessageObject.type	=	'success';
+						
+						<?php endif;?>
+
+						<?php if (@$Options[ store_prefix() . 'nexo_enable_smsinvoice' ] == 'yes'):?>
+ 						/**
+						 * Send SMS
+						**/
+						// Do Action when order is complete and submited
+						NexoAPI.events.doAction( 'is_cash_order', [ v2Checkout, returned ] );
+						<?php endif;?>
+					} else {
+						<?php if (@$Options[ store_prefix() . 'nexo_enable_autoprint' ] == 'yes'):?>
+							MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
+							MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée, mais ne peut pas être imprimée tant qu\'elle n\'est pas complète.', 'nexo');?>';
+							MessageObject.type	=	'info';
+						
+						<?php else:?>
+							MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
+							MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée', 'nexo');?>';
+							MessageObject.type	=	'info';
+						<?php endif;?>
+					}
+					
+					// Filter Message Callback
+					var data				=	NexoAPI.events.applyFilters( 'callback_message', [ MessageObject, returned ] );	
+						MessageObject		=	data[0];
+					
+					// For Success
+					if( MessageObject.type == 'success' ) {
+						
+						NexoAPI.Notify().success( MessageObject.title, MessageObject.msg );
+					
+					// For Info
+					} else if( MessageObject.type == 'info' ) {
+						
+						NexoAPI.Notify().info( MessageObject.title, MessageObject.msg );
+						
+					}					
+				}
+
+				<?php if (! isset($order)):?>
+				v2Checkout.resetCart();
+				<?php else:?>
+				// If order is not more editable
+				if( returned.order_type != 'nexo_order_devis' ) {
+					v2Checkout.resetCart();
+					document.location	=	'<?php echo site_url(array( 'dashboard', 'nexo', 'commandes', 'lists' ));?>';
+				}
+				<?php endif;?>
+			},
+			error			:	function(){
+				v2Checkout.paymentWindow.hideSplash();
+				NexoAPI.Notify().warning( '<?php echo _s('Une erreur s\'est produite', 'nexo');?>', '<?php echo _s('Le paiement n\'a pas pu être effectuée.', 'nexo');?>' );
+			}
+		});
+	};
+	
+	/**
 	 * Customer DropDown Menu
 	**/
 
@@ -1996,6 +2228,15 @@ var v2Checkout					=	new function(){
 		this.CartPerceivedSum		=	0;
 		this.CartCreance			=	0;
 		this.CartToPayBack			=	0;
+		
+		
+		<?php if (isset($order[ 'order' ])):?>
+		this.ProcessURL				=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id(), $order[ 'order' ][0][ 'ID' ] ));?>?store_id=<?php echo get_store_id();?>";
+		this.ProcessType			=	'PUT';
+		<?php else :?>
+		this.ProcessURL				=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id() ));?>?store_id=<?php echo get_store_id();?>";
+		this.ProcessType			=	'POST';
+		<?php endif;?>
 
 		this.CartRemiseType			=	null;
 		this.CartRemiseEnabled		=	false;
@@ -2070,6 +2311,9 @@ var v2Checkout					=	new function(){
 			
 			// @since 2.7.3
 			this.CartNote						=	'<?php echo $order[ 'order'][0][ 'DESCRIPTION' ];?>';	
+			
+			// @since 2.9.1
+			this.CartTitle						=	'<?php echo $order[ 'order'][0][ 'TITRE' ];?>';	
 
 			// Restore Custom Ristourne
 			this.restoreCustomRistourne();

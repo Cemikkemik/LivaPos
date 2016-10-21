@@ -183,7 +183,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 					order_details.RISTOURNE			=	NexoAPI.ParseFloat( v2Checkout.CartRistourne );
 					order_details.TVA				=	NexoAPI.ParseFloat( v2Checkout.CartVAT );
 					order_details.REF_CLIENT		=	v2Checkout.CartCustomerID == null ? v2Checkout.customers.DefaultCustomerID : v2Checkout.CartCustomerID;
-					order_details.PAYMENT_TYPE		=	'multi'; // v2Checkout.CartPaymentType;
+					order_details.PAYMENT_TYPE		=	$scope.paymentList.length == 1 ? $scope.paymentList[0].namespace : 'multi'; // v2Checkout.CartPaymentType;
 					order_details.GROUP_DISCOUNT	=	NexoAPI.ParseFloat( v2Checkout.CartGroupDiscount );
 					order_details.DATE_CREATION		=	v2Checkout.CartDateTime.format( 'YYYY-MM-DD HH:mm:ss' )
 					order_details.ITEMS				=	order_items;
@@ -198,6 +198,9 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 					
 					// @since 2.7.3 add Order note
 					order_details.DESCRIPTION		=	v2Checkout.CartNote;
+					
+					// @since 2.9.0
+					order_details.TITRE				=	v2Checkout.CartTitle;
 					
 					// @since 2.8.2 add order meta
 					this.CartMetas					=	NexoAPI.events.applyFilters( 'order_metas', v2Checkout.CartMetas );
@@ -229,17 +232,9 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 				// Queue Payment
 				order_details.payments		=	$scope.paymentList;
 		
-				<?php if (isset($order[ 'order' ])):?>
-				var ProcessURL	=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id(), $order[ 'order' ][0][ 'ID' ] ));?>?store_id=<?php echo get_store_id();?>";
-				var ProcessType	=	'PUT';
-				<?php else :?>
-				var ProcessURL	=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id() ));?>?store_id=<?php echo get_store_id();?>";
-				var ProcessType	=	'POST';
-		
-				<?php endif;?>
 				var ProcessObj	=	NexoAPI.events.applyFilters( 'process_data', {
-					url			:	ProcessURL,
-					type		:	ProcessType
+					url			:	v2Checkout.ProcessURL,
+					type		:	v2Checkout.ProcessType
 				});
 				
 				console.log( ProcessObj );

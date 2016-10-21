@@ -432,7 +432,7 @@ function __return_false()
  *
  * @see array_insert_after()
  */
-function array_insert_before($key, array &$array, $new_key, $new_value)
+function array_insert_before($key, $array, $new_key, $new_value)
 {
     if (array_key_exists($key, $array)) {
         $new = array();

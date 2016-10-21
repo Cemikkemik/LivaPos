@@ -679,11 +679,11 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
     {
         $validation_result = (object)array('success'=>false);
 
-        $field_types = $this->get_field_types();
-        $required_fields = $this->required_fields;
-        $unique_fields = $this->_unique_fields;
-        $add_fields = $this->get_add_fields();
-
+        $field_types 		= 	get_instance()->events->apply_filters( 'grocery_input_fields', $this->get_field_types() );
+        $required_fields 	= 	$this->required_fields;
+        $unique_fields 		=	$this->_unique_fields;
+        $add_fields 		=  	get_instance()->events->apply_filters( 'grocery_registered_fields', $this->get_add_fields() );
+		
         if (!empty($required_fields)) {
             foreach ($add_fields as $add_field) {
                 $field_name = $add_field->field_name;
@@ -757,12 +757,12 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
     protected function db_update_validation()
     {
         $validation_result = (object)array('success'=>false);
-
-        $field_types = $this->get_field_types();
-        $required_fields = $this->required_fields;
-        $unique_fields = $this->_unique_fields;
-        $edit_fields = $this->get_edit_fields();
-
+		
+		$field_types 		= 	get_instance()->events->apply_filters( 'grocery_input_fields', $this->get_field_types() );
+        $required_fields 	= 	$this->required_fields;
+        $unique_fields 		=	$this->_unique_fields;
+		$edit_fields 		= 	get_instance()->events->apply_filters( 'grocery_edit_fields', $this->get_edit_fields() );
+		
         if (!empty($required_fields)) {
             foreach ($edit_fields as $edit_field) {
                 $field_name = $edit_field->field_name;
@@ -4779,7 +4779,7 @@ class Grocery_CRUD extends grocery_CRUD_States
         if (isset($args[0]) && is_array($args[0])) {
             $args = $args[0];
         }
-
+		
         $this->required_fields = $args;
 
         return $this;

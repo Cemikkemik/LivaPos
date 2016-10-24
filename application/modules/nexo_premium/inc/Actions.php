@@ -173,11 +173,11 @@ class Nexo_Premium_Actions extends CI_Model
 				if (is_array($Customers)) {
 					foreach ($Customers as $Customer) {
 						// Sale Today
-						if ($startOfDay->lte(Carbon::parse($Customer[ 'DATE_CREATION' ])) && $endOfDay->gte(Carbon::parse($sale[ 'DATE_CREATION' ]))) {
+						if ($startOfDay->lte(Carbon::parse($Customer[ 'DATE_CREATION' ])) && $endOfDay->gte(Carbon::parse($Customer[ 'DATE_CREATION' ]))) {
 							$CustomersToday++;
 						}
 						// Sales Yesterday
-						if ($startOfYesterday->lte(Carbon::parse($Customer[ 'DATE_CREATION' ])) && $endOfYesterday->gte(Carbon::parse($sale[ 'DATE_CREATION' ]))) {
+						if ($startOfYesterday->lte(Carbon::parse($Customer[ 'DATE_CREATION' ])) && $endOfYesterday->gte(Carbon::parse($Customer[ 'DATE_CREATION' ]))) {
 							$CustomersYesterday++;
 						}
 					}

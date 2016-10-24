@@ -771,5 +771,12 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 			$scope.showSpinner			=	false;
 		}
 	}
+	
+	$(document).ready(function(e) {
+	   // $( '.modal-content' ).html( $compile( $( '.modal-content' ).html() )( $scope ) );
+	});
+	$( document ).ajaxComplete(function(){
+		$( '.tools' ).html( $compile( $( '.tools' ).html() )( $scope ) );
+	});
 }]);
 </script>

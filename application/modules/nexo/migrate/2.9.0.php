@@ -5,11 +5,11 @@ $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_articles` 					A
 
 $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_articles` 					ADD `USE_VARIATION` int(11) NOT NULL AFTER `BARCODE_TYPE`;' ); 
 
-$this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_commandes_produits` 					ADD `DISCOUNT_TYPE` varchar(200) NOT NULL AFTER `PRIX_TOTAL`;' );
+$this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_commandes_produits` ADD `DISCOUNT_TYPE` varchar(200) NOT NULL AFTER `PRIX_TOTAL`;' );
 
-$this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_commandes_produits` 					ADD `DISCOUNT_AMOUNT` float NOT NULL AFTER `DISCOUNT_TYPE`;' );
+$this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_commandes_produits` ADD `DISCOUNT_AMOUNT` float NOT NULL AFTER `DISCOUNT_TYPE`;' );
 
-$this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_commandes_produits` 					ADD `DISCOUNT_PERCENT` float NOT NULL,` float NOT NULL AFTER `DISCOUNT_AMOUNT`;' );
+$this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . 'nexo_commandes_produits` ADD `DISCOUNT_PERCENT` float NOT NULL AFTER `DISCOUNT_AMOUNT`;' );
 
 // `DISCOUNT_TYPE` varchar(200) NOT NULL,
 // Allow multiple paiement per item

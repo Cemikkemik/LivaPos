@@ -292,10 +292,9 @@ function print_array($array, $return = false)
  * @return string date
 **/
 
-function date_now($format = 'DATE_W3C')
+function date_now( $format = DATE_W3C )
 {
-    return standard_date($format, date_timestamp());
-    ;
+    return date( $format, date_timestamp());
 }
 
 /**

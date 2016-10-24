@@ -241,6 +241,8 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 				
 				// Filter Submited Details
 				order_details	=	NexoAPI.events.applyFilters( 'before_submit_order', order_details );
+				
+				NexoAPI.events.doAction( 'submit_order' );
 		
 				$.ajax( ProcessObj.url, {
 					dataType		:	'json',
@@ -457,6 +459,8 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		
 		// Add Filter
 		angular.element( '.modal-footer' ).prepend( '<div class="pay_box_footer pull-left">' + NexoAPI.events.applyFilters( 'pay_box_footer', '' ) + '</div>' );
+		
+		NexoAPI.events.doAction( 'pay_box_loaded' );
 	};
 	
 	/**

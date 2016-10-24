@@ -230,11 +230,14 @@ class Nexo_Products extends CI_Model
         }
         
         global $Options;
-        $segments                =    $this->uri->segment_array();
-        $item_id                    =    end($segments) ;
-        $article                        =    $this->get('nexo_articles', $item_id, 'ID');
-        $quantite                        =    intval($article[0][ 'QUANTITY' ]);
-        $old_defectueux                    =    intval($article[0][ 'DEFECTUEUX' ]);
+        $segments                			=    $this->uri->segment_array();
+        $item_id                    		=    end($segments) ;
+        $article                        	=    $this->get_product( $item_id );
+		
+		var_dump( $article );;
+		
+        $quantite                        	=    intval($article[0][ 'QUANTITY' ]);
+        $old_defectueux                    	=    intval($article[0][ 'DEFECTUEUX' ]);
         
 		// $param[ 'QUANTITE_RESTANTE' ]    =    ((intval($param[ 'QUANTITY' ]) - intval($param[ 'DEFECTUEUX' ])) - intval($article[0][ 'QUANTITE_VENDU' ]));
         $param[ 'QUANTITE_RESTANTE' ]    	=    ( intval($param[ 'QUANTITY' ] ) - intval( $article[0][ 'QUANTITE_VENDU' ] ) );
@@ -298,7 +301,7 @@ class Nexo_Products extends CI_Model
 
     public function get($element, $key, $as = 'ID')
     {
-        $query    =    $this->db->where($as, $key)->get($element);
+        $query    =    $this->db->where($as, $key)->get( store_prefix() . $element);
         return $query->result_array();
     }
         
@@ -311,7 +314,7 @@ class Nexo_Products extends CI_Model
     
     public function get_products_by_shipping($shipping_id)
     {
-        $query    =    $this->db->where('REF_SHIPPING', $shipping_id)->get('nexo_articles');
+        $query    =    $this->db->where('REF_SHIPPING', $shipping_id)->get( store_prefix() . 'nexo_articles');
         return $query->result_array();
     }
     
@@ -323,7 +326,7 @@ class Nexo_Products extends CI_Model
     
     public function get_product($product_id)
     {
-        $query    =    $this->db->where('ID', $product_id)->get('nexo_articles');
+        $query    =    $this->db->where('ID', $product_id)->get( store_prefix() . 'nexo_articles');
         return $query->result_array();
     }
 }

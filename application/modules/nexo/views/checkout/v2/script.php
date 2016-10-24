@@ -8,20 +8,20 @@ global $Options, $store_id;
 
 var v2Checkout					=	new function(){
 
-	this.ProductListWrapper		=	'#product-list-wrapper';
-	this.CartTableBody			=	'#cart-table-body';
-	this.ItemsListSplash		=	'#product-list-splash';
-	this.CartTableWrapper		=	'#cart-details-wrapper';
-	this.CartTableBody			=	'#cart-table-body';
-	this.CartDiscountButton		=	'#cart-discount-button';
-	this.ProductSearchInput		=	'#search-product-code-bar';
-	this.ItemSettings			=	'.item-list-settings';
-	this.ItemSearchForm			=	'#search-item-form';
-	this.CartPayButton			=	'#cart-pay-button';
-	this.CartCancelButton		=	'#cart-return-to-order';
+	this.ProductListWrapper			=	'#product-list-wrapper';
+	this.CartTableBody					=	'#cart-table-body';
+	this.ItemsListSplash				=	'#product-list-splash';
+	this.CartTableWrapper				=	'#cart-details-wrapper';
+	this.CartTableBody					=	'#cart-table-body';
+	this.CartDiscountButton			=	'#cart-discount-button';
+	this.ProductSearchInput			=	'#search-product-code-bar';
+	this.ItemSettings						=	'.item-list-settings';
+	this.ItemSearchForm					=	'#search-item-form';
+	this.CartPayButton					=	'#cart-pay-button';
+	this.CartCancelButton				=	'#cart-return-to-order';
 
-	this.CartVATEnabled			=	<?php echo @$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' ? 'true' : 'false';?>;
-	this.CartVATPercent			=	<?php echo in_array(@$Options[ store_prefix() . 'nexo_vat_percent' ], array( null, '' )) ? 0 : @$Options[ store_prefix() . 'nexo_vat_percent' ];?>
+	this.CartVATEnabled					=	<?php echo @$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' ? 'true' : 'false';?>;
+	this.CartVATPercent					=	<?php echo in_array(@$Options[ store_prefix() . 'nexo_vat_percent' ], array( null, '' )) ? 0 : @$Options[ store_prefix() . 'nexo_vat_percent' ];?>
 
 	if( this.CartVATPercent == '0' ) {
 		this.CartVATEnabled		=	false;
@@ -61,7 +61,7 @@ var v2Checkout					=	new function(){
 		var contentHeader				=	parseInt( $( '.content-header' ).outerHeight() );
 		var contentMargin				=	parseInt( $( '.content' ).css( 'padding-top' ) );
 		var footerHeight				=	parseInt( $( '.main-footer' ).outerHeight() );
-		
+
 		// var windowHeight				=	parseInt( window.innerHeight < 500 ? 500 : window.innerHeight );
 		if( $( '.content-wrapper' ).css( 'min-height' ) ) {
 			var	wrapperHeight			=	window.innerHeight;
@@ -72,30 +72,30 @@ var v2Checkout					=	new function(){
 		} else {
 			var	wrapperHeight			=	parseInt( $( '.new-wrapper' ).innerHeight() - 20 );
 		}
-		
+
 		// Col 1
-		
+
 		var col1_paddingWrapper			=	parseInt( $( '#cart-details-wrapper' ).css( 'margin-bottom' ) );
 		var cartHeader					=	parseInt( $( '#cart-header' ).outerHeight(true) );
 		var cartTableHeader				=	parseInt( $( '#cart-item-table-header' ).outerHeight(true) );
 		var cartTableFooter				=	parseInt( $( '#cart-details' ).outerHeight(true) );
 		var cartPanel					=	parseInt( $( '#cart-panel' ).outerHeight(true) );
-				
-		$( '#cart-table-body' ).height( wrapperHeight - ( 
-			cartHeader  
+
+		$( '#cart-table-body' ).height( wrapperHeight - (
+			cartHeader
 			+ cartTableHeader
-			+ cartTableFooter 
-			+ cartPanel	
+			+ cartTableFooter
+			+ cartPanel
 			+ col1_paddingWrapper
-		) );		
+		) );
 
 		// Col 2
 		var categorySliderHeight		=	parseInt( $( '.cattegory-slider' ).height() );
 		var searchFieldHeight			=	parseInt( $( '.search-field-wrapper' ).outerHeight() );
 		var productListWrapper			=	parseInt( $( '#product-list-wrapper' ).css( 'margin-bottom' ) );
-		
-		$( '.item-list-container' ).height( wrapperHeight - ( 
-			productListWrapper + 
+
+		$( '.item-list-container' ).height( wrapperHeight - (
+			productListWrapper +
 			categorySliderHeight +
 			searchFieldHeight
 		) );
@@ -186,45 +186,45 @@ var v2Checkout					=	new function(){
 		});
 		<?php endif;?>
 	}
-	
+
 	/**
 	 * Bind Add Note
 	 * @since 2.7.3
 	**/
-	
+
 	this.bindAddNote			=	function(){
 		$( '[data-set-note]' ).bind( 'click', function(){
-			
+
 			var	dom		=	'<h4 class="text-center"><?php echo _s( 'Ajouter une note à la commande', 'nexo' );?></h4>' +
 			'<div class="form-group">' +
 				'<label for="exampleInputFile"><?php echo _s( 'Note de la commande', 'nexo' );?></label>' +
-				'<textarea class="form-control" order_note rows="10"></textarea>' + 
+				'<textarea class="form-control" order_note rows="10"></textarea>' +
 				'<p class="help-block"><?php echo _s( 'Cette note sera rattachée à la commande en cours.', 'nexo' );?></p>' +
 			'</div>';
-			
+
 			NexoAPI.Bootbox().confirm( dom, function( action ) {
 				if( action ) {
 					v2Checkout.CartNote		=	$( '[order_note]' ).val();
 				}
 			});
-			
+
 			$( '[order_note]' ).val( v2Checkout.CartNote );
 		});
 	};
-	
+
 	/**
-	 * Bind Category Action 
+	 * Bind Category Action
 	 * @since 2.7.1
 	**/
-	
+
 	this.bindCategoryActions	=	function(){
 		$( '.slick-wrapper' ).remove(); // empty all
 		$( '.add_slick_inside' ).html( '<div class="slick slick-wrapper"></div>' );
 		// Build New category wrapper @since 2.7.1
-		_.each( this.ItemsCategories, function( value, id ) {				
+		_.each( this.ItemsCategories, function( value, id ) {
 			// New Categories List
 			$( '.slick-wrapper' ).append( '<div data-cat-id="' + id + '" style="padding:0px 20px;font-size:20px;line-height:40px;border-right:solid 1px #EEE;margin-right:-1px;" class="text-center slick-item">' + value + '</div>' );
-			
+
 			// Add category name to each item
 			if( $( '[data-category="' + id + '"]' ).length > 0 ){
 				$( '[data-category="' + id + '"]' ).each( function(){
@@ -232,7 +232,7 @@ var v2Checkout					=	new function(){
 				});
 			}
 		});
-		
+
 		$('.slick').slick({
 		  infinite			: 	false,
 		  arrows			:	false,
@@ -240,31 +240,31 @@ var v2Checkout					=	new function(){
 		  slidesToScroll	: 	4,
 		  variableWidth : true
 		});
-		
+
 		$( '.slick-item' ).bind( 'click', function(){
-			
+
 			var categories	=	new Array;
 			var proceed		=	true;
-			
+
 			if( $( this ).hasClass( 'slick-item-active' ) ) {
 				proceed		=	false;
 			}
-			
+
 			$( '.slick-item.slick-item-active' ).each( function(){
 				$( this ).removeClass( 'slick-item-active' );
 			});
-			
+
 			if( ! $( this ).hasClass( 'slick-item-active' ) && proceed == true ) {
 				$( this ).toggleClass( 'slick-item-active' );
 				categories.push( $( this ).data( 'cat-id' ) );
-			} 
-			
-			
-			
+			}
+
+
+
 			v2Checkout.ActiveCategories		=	categories;
 			v2Checkout.filterItems( categories );
 		});
-		
+
 		// Bind Next button
 		$( '.cat-next' ).bind( 'click', function(){
 			$('.slick').slick( 'slickNext' );
@@ -274,32 +274,32 @@ var v2Checkout					=	new function(){
 			$('.slick').slick( 'slickPrev' );
 		});
 	}
-	
+
 	/**
 	 * Bind Change Unit Price
 	 * @since 2.9.0
 	**/
-	
+
 	this.bindChangeUnitPrice	=	function(){
-		
+
 		<?php if( @$Options[ store_prefix() . 'unit_price_changing' ] == 'yes' ):?>
-		
+
 		$( '.item-unit-price' ).bind( 'click', function(){
-			
+
 			var itemCodebar		=	$(this).closest( 'tr' ).attr( 'data-item-barcode' );
 			var currentItem		=	null;
-			
+
 			if( ! itemCodebar ) {
 				console.log( 'Cannot edit this item, since his barcode is not available' );
 				return false;
 			}
-			
+
 			for( var i = 0; i < v2Checkout.CartItems.length ; i++ ) {
 				if( v2Checkout.CartItems[i].CODEBAR == itemCodebar ) {
-					currentItem		=	v2Checkout.CartItems[i];	
+					currentItem		=	v2Checkout.CartItems[i];
 				}
 			}
-			
+
 			var promo_start					= 	moment( currentItem.SPECIAL_PRICE_START_DATE );
 			var promo_end					= 	moment( currentItem.SPECIAL_PRICE_END_DATE );
 
@@ -316,47 +316,47 @@ var v2Checkout					=	new function(){
 					CustomBackground	=	'background:<?php echo $this->config->item('discounted_item_background');?>';
 				}
 			}
-			
+
 			// @since 2.7.1
 			if( v2Checkout.CartShadowPriceEnabled ) {
 				MainPrice			=	NexoAPI.ParseFloat( currentItem.SHADOW_PRICE );
 			}
-			
+
 			$( this ).replaceWith( '<td width="130"><div class="input-group input-group-sm"><input type="number" value="' + MainPrice + '" class="unit-price-form form-control" aria-describedby="sizing-addon3"></div></td>' );
-			
+
 			$( '.unit-price-form' ).focus();
-			
+
 			$( '.unit-price-form' ).bind( 'blur', function(){
-				
+
 				if( ! isNaN( parseFloat( $( this ).val() ) ) ) {
-				
+
 					$( this ).closest( 'td' ).replaceWith( '<td width="130" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( $( this ).val() ) + '</td>' );
 				} else {
-					$( this ).closest( 'td' ).replaceWith( '<td width="130" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice ) + '</td>' );	
+					$( this ).closest( 'td' ).replaceWith( '<td width="130" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice ) + '</td>' );
 				}
-				
+
 				// Update the price on Cart
-				
+
 				for( var i = 0; i < v2Checkout.CartItems.length ; i++ ) {
 					if( v2Checkout.CartItems[i].CODEBAR == itemCodebar ) {
 						if( v2Checkout.CartShadowPriceEnabled ) {
-							v2Checkout.CartItems[i].SHADOW_PRICE	=	$( this ).val();	
+							v2Checkout.CartItems[i].SHADOW_PRICE	=	$( this ).val();
 						} else {
 							if( promo_start.isBefore( v2Checkout.CartDateTime ) ) {
 								if( promo_end.isSameOrAfter( v2Checkout.CartDateTime ) ) {
-									v2Checkout.CartItems[i].PRIX_PROMOTIONEL	=	$( this ).val();	
+									v2Checkout.CartItems[i].PRIX_PROMOTIONEL	=	$( this ).val();
 								}
 							} else {
-								v2Checkout.CartItems[i].PRIX_DE_VENTE	=	$( this ).val();	
+								v2Checkout.CartItems[i].PRIX_DE_VENTE	=	$( this ).val();
 							}
 						}
 					}
-				}				
-				
+				}
+
 				v2Checkout.buildCartItemTable();
 			});
 		});
-		
+
 		<?php endif;?>
 	}
 
@@ -498,12 +498,12 @@ var v2Checkout					=	new function(){
 				'</div>' +
 			'</div>' +
 		'</div>';
-		
+
 		config					=	_.extend( {}, config );
 
 		NexoAPI.Bootbox().confirm( DiscountDom, function( action ) {
 			if( action == true ) {
-				
+
 				var value	=	$( '[name="discount_value"]' ).val();
 
 				if( typeof config.onExit	==	'function' ) {
@@ -541,7 +541,7 @@ var v2Checkout					=	new function(){
 
 				$( '[name="discount_value"]' ).focus();
 				$( '[name="discount_value"]' ).blur();
-				
+
 				if( typeof config.onFixedDiscount	==	'function' ) {
 					config.onFixedDiscount();
 				}
@@ -554,13 +554,13 @@ var v2Checkout					=	new function(){
 		if( typeof config.beforeLoad == 'function' ) {
 			config.beforeLoad();
 		}
-		
+
 		$( '[name="discount_value"]' ).bind( 'blur', function(){
 
 			if( NexoAPI.ParseFloat( $( this ).val() ) < 0 ) {
 				$( this ).val( 0 );
 			}
-			
+
 			if( typeof config.beforeLoad == 'function' ) {
 				config.onFieldBlur();
 			}
@@ -597,19 +597,19 @@ var v2Checkout					=	new function(){
 			$( '[name="discount_value"]' ).val( numpad_value );
 		});
 	};
-	
+
 	/**
 	 * Bind Quick Edit item
 	 *
 	**/
-	
+
 	this.bindQuickEditItem		=	function(){
 		$( '.quick_edit_item' ).bind( 'click', function(){
-			
+
 			var CartItem		=	$( this ).closest( '[cart-item]' );
 			var Barcode			=	$( CartItem ).data( 'item-barcode' );
 			var CurrentItem		=	false;
-			
+
 			_.each( v2Checkout.CartItems, function( value, key ) {
 				if( typeof value != 'undefined' ) {
 					if( value.CODEBAR == Barcode ) {
@@ -618,30 +618,30 @@ var v2Checkout					=	new function(){
 					}
 				}
 			});
-			
+
 			if( v2Checkout.CartShadowPriceEnabled == false ) {
 				document.location	=	'<?php echo site_url('dashboard/nexo/produits/lists/edit');?>/' + CurrentItem.ID
 				return;
 			}
-			
-			if( CurrentItem != false ) {				
-				var dom				=	'<h4 class="text-center"><?php echo _s( 'Modifier l\'article :', 'nexo' );?> ' + CurrentItem.DESIGN + '</h4>' + 
-			
+
+			if( CurrentItem != false ) {
+				var dom				=	'<h4 class="text-center"><?php echo _s( 'Modifier l\'article :', 'nexo' );?> ' + CurrentItem.DESIGN + '</h4>' +
+
 				'<div class="input-group">' +
 				  '<span class="input-group-addon" id="basic-addon1"><?php echo _s( 'Prix de vente', 'nexo' );?></span>' +
 				  '<input type="text" class="current_item_price form-control" placeholder="<?php echo _s( 'Définir un prix de vente', 'nexo' );?>" aria-describedby="basic-addon1">' +
 				  '<span class="input-group-addon"><?php echo _s( 'Seuil :', 'nexo' );?> <span class="sale_price"></span></span>' +
 				'</div>';
-				
+
 			} else {
-				
+
 				NexoAPI.Bootbox().alert( '<?php echo _s( 'Produit introuvable', 'nexo' );?>' );
-				
+
 				var dom				=	'';
 			}
-			
+
 			// <?php echo site_url('dashboard/nexo/produits/lists/edit');?>
-			
+
 			NexoAPI.Bootbox().confirm( dom, function( action ) {
 				if( action ) {
 					if( NexoAPI.ParseFloat( $( '.current_item_price' ).val() ) < NexoAPI.ParseFloat( CurrentItem.PRIX_DE_VENTE ) ) {
@@ -661,45 +661,45 @@ var v2Checkout					=	new function(){
 					}
 				}
 			});
-			
+
 			$( '.sale_price' ).html( NexoAPI.DisplayMoney( CurrentItem.PRIX_DE_VENTE ) );
 			$( '.current_item_price' ).val( CurrentItem.SHADOW_PRICE );
-			
+
 		});
 	};
-	
-	/** 
+
+	/**
 	 * BindToggle Comptact Mode
 	**/
-	
+
 	this.bindToggleComptactMode	=	function(){
 		$( '.toggleCompactMode' ).bind( 'click', function(){
 			v2Checkout.toggleCompactMode();
 		});
 	}
-	
+
 	/**
 	 * Bind Unit Item Discount
 	 * @return void
 	 * @since 2.9.0
 	**/
-	
+
 	this.bindUnitItemDiscount 	=	function(){
 		$( '.item-discount' ).bind( 'click', function(){
-			
+
 			var _item			=	v2Checkout.getItem( $( this ).closest( 'tr' ).attr( 'data-item-barcode' ) );
 			var salePrice		=	v2Checkout.getItemSalePrice( _item );
 
 			v2Checkout.bindAddDiscount({
 				beforeLoad		:	function(){
 					if( _item.DISCOUNT_TYPE == 'percentage' ) {
-						
+
 						$( '.' + _item.DISCOUNT_TYPE + '_discount' ).trigger( 'click' );
-			
+
 					} else {
 						$( '.flat_discount' ).trigger( 'click' );
 					}
-					
+
 					if( _item.DISCOUNT_TYPE == 'percentage' ) {
 						$( '[name="discount_value"]' ).val( _item.DISCOUNT_PERCENT );
 					} else if( _item.DISCOUNT_TYPE == 'flat' ) {
@@ -734,7 +734,7 @@ var v2Checkout					=	new function(){
 							_item.DISCOUNT_PERCENT	=	value;
 						}
 					}
-					
+
 					if( _item.DISCOUNT_TYPE == 'flat' ) {
 						if( NexoAPI.ParseFloat( value ) > salePrice ) {
 							// flat discount cannot exceed cart value
@@ -743,10 +743,10 @@ var v2Checkout					=	new function(){
 							_item.DISCOUNT_AMOUNT	=	value;
 						}
 					}
-	
+
 					$( '[name="discount_value"]' ).focus();
 					$( '[name="discount_value"]' ).blur();
-		
+
 					v2Checkout.buildCartItemTable();
 				}
 			});
@@ -784,26 +784,26 @@ var v2Checkout					=	new function(){
 						CustomBackground	=	'background:<?php echo $this->config->item('discounted_item_background');?>';
 					}
 				}
-				
+
 				// @since 2.7.1
 				if( v2Checkout.CartShadowPriceEnabled ) {
 					MainPrice			=	NexoAPI.ParseFloat( value.SHADOW_PRICE );
 				}
 
 				// <span class="btn btn-primary btn-xs item-reduce hidden-sm hidden-xs">-</span> <input type="number" style="width:40px;border-radius:5px;border:solid 1px #CCC;" maxlength="3"/> <span class="btn btn-primary btn-xs   hidden-sm hidden-xs">+</span>
-				
+
 				// <?php echo site_url('dashboard/nexo/produits/lists/edit');?>
 				// /' + value.ID + '
-				
+
 				var	cartTableBeforeItemName		=	NexoAPI.events.applyFilters( 'cart_before_item_name', '<a class="btn btn-sm btn-default quick_edit_item" href="javascript:void(0)" style="vertical-align:inherit;margin-right:10px;"><i class="fa fa-edit"></i></a>' );
-				
+
 				// :: alert( value.DESIGN.length );
 				var item_design		=	value.DESIGN.length > 20 ? '<span style="text-overflow:hidden">' + value.DESIGN.substr( 0, 20 ) + '</span>' : value.DESIGN ;
-				
+
 				var DiscountAmount	=	value.DISCOUNT_TYPE	== 'percentage' ? value.DISCOUNT_PERCENT + '%' : NexoAPI.DisplayMoney( value.DISCOUNT_AMOUNT );
-				
+
 				var itemSubTotal	=	MainPrice * parseInt( value.QTE_ADDED );
-				
+
 				if( value.DISCOUNT_TYPE == 'percentage' && parseFloat( value.DISCOUNT_PERCENT ) > 0 ) {
 					var itemPercentOff	=	( itemSubTotal * parseFloat( value.DISCOUNT_PERCENT ) ) / 100;
 						itemSubTotal	-=	itemPercentOff;
@@ -834,7 +834,7 @@ var v2Checkout					=	new function(){
 						'<td width="110" class="text-right" style="line-height:30px;">' + NexoAPI.DisplayMoney( itemSubTotal ) + '</td>' +
 					'</tr>'
 				);
-				
+
 				_tempCartValue	+=	( itemSubTotal ); // MainPrice * parseInt( value.QTE_ADDED )
 
 				// Just to count all products
@@ -853,7 +853,7 @@ var v2Checkout					=	new function(){
 		this.refreshCartValues();
 		this.bindChangeUnitPrice(); // @since 2.9.0
 		this.bindUnitItemDiscount();
-		
+
 		// @since 2.7.3
 		// trigger action when cart is refreshed
 		NexoAPI.events.doAction( 'cart_refreshed', v2Checkout );
@@ -1015,7 +1015,7 @@ var v2Checkout					=	new function(){
 		var order_items				=	new Array;
 
 		_.each( this.CartItems, function( value, key ){
-			
+
 			var ArrayToPush			=	[
 				value.ID,
 				value.QTE_ADDED,
@@ -1024,41 +1024,41 @@ var v2Checkout					=	new function(){
 				value.QUANTITE_VENDU,
 				value.QUANTITE_RESTANTE,
 				// @since 2.8.2
-				value.STOCK_ENABLED, 
+				value.STOCK_ENABLED,
 				// @since 2.9.0
 				value.DISCOUNT_TYPE,
 				value.DISCOUNT_AMOUNT,
 				value.DISCOUNT_PERCENT
 			];
-			
+
 			// improved @since 2.7.3
 			// add meta by default
 			var ItemMeta	=	NexoAPI.events.applyFilters( 'items_metas', [] );
-			
+
 			var MetaKeys	=	new Array;
-			
+
 			_.each( ItemMeta, function( _value, key ) {
 				var unZiped	=	_.keys( _value );
-				MetaKeys.push( unZiped[0] );				
+				MetaKeys.push( unZiped[0] );
 			});
-			
+
 			var AllMetas	=	new Object;
-			
+
 			// console.log( value );
-			
+
 			_.each( MetaKeys, function( MetaKey ) {
 				AllMetas	=	_.extend( AllMetas, _.object( [ MetaKey ], [ _.propertyOf( value )( MetaKey ) ] ) );
 			});
-			
+
 			// console.log( AllMetas );
-			
-			// 
+
+			//
 			ArrayToPush.push( JSON.stringify( AllMetas ) );
-			
+
 			// Add Meta JSON stringified to order_item
 			order_items.push( ArrayToPush );
 		});
-		
+
 		var order_details					=	new Object;
 			order_details.TOTAL				=	NexoAPI.ParseFloat( this.CartToPay );
 			order_details.REMISE			=	NexoAPI.ParseFloat( this.CartRemise );
@@ -1075,13 +1075,13 @@ var v2Checkout					=	new function(){
 			order_details.HMB_DISCOUNT		=	'<?php echo @$Options[ store_prefix() . 'how_many_before_discount' ];?>';
 			// @since 2.7.5
 			order_details.REGISTER_ID		=	'<?php echo $register_id;?>';
-			
+
 			// @since 2.7.1, send editable order to Rest Server
 			order_details.EDITABLE_ORDERS	=	<?php echo json_encode( $this->events->apply_filters( 'order_editable', array( 'nexo_order_devis' ) ) );?>;
-			
+
 			// @since 2.7.3 add Order note
 			order_details.DESCRIPTION		=	this.CartNote;
-			
+
 			// @since 2.8.2 add order meta
 			this.CartMetas					=	NexoAPI.events.applyFilters( 'order_metas', this.CartMetas );
 			order_details.METAS				=	JSON.stringify( this.CartMetas );
@@ -1107,18 +1107,18 @@ var v2Checkout					=	new function(){
 		} else {
 			// Handle for custom Payment Means
 			if( NexoAPI.events.applyFilters( 'check_payment_mean', [ false, payment_means ] )[0] == true ) {
-				
+
 				/**
 				 * Make sure to return order_details
 				**/
-				
+
 				order_details		=	NexoAPI.events.applyFilters( 'payment_mean_checked', [ order_details, payment_means ] )[0];
-				
+
 			} else {
-				
+
 				NexoAPI.Bootbox().alert( '<?php echo _s('Impossible de reconnaitre le moyen de paiement.', 'nexo');?>' );
 				return false;
-				
+
 			}
 		}
 
@@ -1130,7 +1130,7 @@ var v2Checkout					=	new function(){
 		var ProcessType	=	'POST';
 
 		<?php endif;?>
-		
+
 		// Filter Submited Details
 		order_details	=	NexoAPI.events.applyFilters( 'before_submit_order', order_details );
 
@@ -1148,17 +1148,17 @@ var v2Checkout					=	new function(){
 
 				if( _.isObject( returned ) ) {
 					// Init Message Object
-					var MessageObject	=	new Object;				
-					
+					var MessageObject	=	new Object;
+
 					var data	=	NexoAPI.events.applyFilters( 'test_order_type', [ ( returned.order_type == 'nexo_order_comptant' ), returned ] );
 					var test_order	=	data[0];
-					
+
 					if( test_order == true ) {
-						
+
 						<?php if (@$Options[ store_prefix() . 'nexo_enable_autoprint' ] == 'yes'):?>
-						
+
 						if( NexoAPI.events.applyFilters( 'cart_enable_print', true ) ) {
-						
+
 						MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
 						MessageObject.msg	=	'<?php echo _s('La commande est en cours d\'impression.', 'nexo');?>';
 						MessageObject.type	=	'success';
@@ -1171,17 +1171,17 @@ var v2Checkout					=	new function(){
 						setTimeout( function(){
 							$( '#CurrentReceipt' ).remove();
 						}, 5000 );
-						
+
 						}
 						// Remove filter after it's done
 						NexoAPI.events.removeFilter( 'cart_enable_print' );
 
 						<?php else:?>
-						
+
 						MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
 						MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée.', 'nexo');?>';
 						MessageObject.type	=	'success';
-						
+
 						<?php endif;?>
 
 						<?php if (@$Options[ store_prefix() . 'nexo_enable_smsinvoice' ] == 'yes'):?>
@@ -1196,29 +1196,29 @@ var v2Checkout					=	new function(){
 							MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
 							MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée, mais ne peut pas être imprimée tant qu\'elle n\'est pas complète.', 'nexo');?>';
 							MessageObject.type	=	'info';
-						
+
 						<?php else:?>
 							MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
 							MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée', 'nexo');?>';
 							MessageObject.type	=	'info';
 						<?php endif;?>
 					}
-					
+
 					// Filter Message Callback
-					var data				=	NexoAPI.events.applyFilters( 'callback_message', [ MessageObject, returned ] );	
+					var data				=	NexoAPI.events.applyFilters( 'callback_message', [ MessageObject, returned ] );
 						MessageObject		=	data[0];
-					
+
 					// For Success
 					if( MessageObject.type == 'success' ) {
-						
+
 						NexoAPI.Notify().success( MessageObject.title, MessageObject.msg );
-					
+
 					// For Info
 					} else if( MessageObject.type == 'info' ) {
-						
+
 						NexoAPI.Notify().info( MessageObject.title, MessageObject.msg );
-						
-					}					
+
+					}
 				}
 
 				<?php if (! isset($order)):?>
@@ -1237,24 +1237,24 @@ var v2Checkout					=	new function(){
 			}
 		});
 	};
-	
+
 	/**
 	 * Check Checkout Balance
 	 * @pending
 	 * @deprecated
 	**/
-	
+
 	this.checkoutBalance			=	new function(){
 		return false;
 		this.open					=	function(){
 			// Show Loading Splash
-			
+
 			NexoAPI.Bootbox().prompt( '<?php echo _s( 'Veuillez définir le montant initiale de la caisse', 'nexo' );?>', function( action ){
 				if( action == null ) {
 					NexoAPI.Bootbox().alert( '<?php echo _s( 'Avant de continuer, vous devez définir un montant.', 'nexo' );?>', function(){
 						v2Checkout.checkoutBalance.open();
 					});
-					
+
 					// Special Bootbox treatment
 					$( '.bootbox.modal' ).css( 'z-index', 5000 );
 				} else {
@@ -1263,7 +1263,7 @@ var v2Checkout					=	new function(){
 						NexoAPI.Bootbox().alert( '<?php echo _s( 'Le montant spécifié est incorrecte. Veuillez spécifier une valeur supérieure ou égale à "0".', 'nexo' );?>', function(){
 							v2Checkout.checkoutBalance.open();
 						});
-						
+
 						// Special Bootbox treatment
 						$( '.bootbox.modal' ).css( 'z-index', 5000 );
 					} else {
@@ -1278,7 +1278,7 @@ var v2Checkout					=	new function(){
 					}
 				}
 			});
-			
+
 			// Special Bootbox treatment
 			$( '.bootbox.modal' ).css( 'z-index', 5000 );
 		}
@@ -1605,13 +1605,13 @@ var v2Checkout					=	new function(){
 			$( '#filter-list' ).html( '' );
 
 			_.each( json, function( value, key ) {
-				
+
 				/**
 				 * We test item quantity of skip that test if item is not countable.
 				 * value.TYPE = 0 means item is physical, = 1 means item is numerical
 				 * value.STATUS = 0 means item is on sale, = 1 means item is disabled
 				**/
-				
+
 				if( ( ( parseInt( value.QUANTITE_RESTANTE ) > 0 && value.TYPE == '1' ) || ( value.TYPE == '2' ) ) && value.STATUS == '1' ) {
 
 					var promo_start	= moment( value.SPECIAL_PRICE_START_DATE );
@@ -1629,7 +1629,7 @@ var v2Checkout					=	new function(){
 							// CustomBackground	=	'background:<?php echo $this->config->item('discounted_item_background');?>';
 						}
 					}
-					
+
 					// @since 2.7.1
 					if( v2Checkout.CartShadowPriceEnabled ) {
 						MainPrice			=	NexoAPI.ParseFloat( value.SHADOW_PRICE );
@@ -1650,19 +1650,19 @@ var v2Checkout					=	new function(){
 					v2Checkout.ItemsCategories	=	_.extend( v2Checkout.ItemsCategories, _.object( [ value.REF_CATEGORIE ], [ value.NOM ] ) );
 				}
 			});
-			
+
 			$( '.filter-add-product' ).each( function(){
 				$(this).bind( 'mouseenter', function(){
 					$( this ).find( '.marquee_me' ).replaceWith( '<marquee class="marquee_me" behavior="alternate" scrollamount="4" direction="left" style="width:100%;float:left;">' + $( this ).find( '.marquee_me' ).html() + '</marquee>' );
 				})
 			});
-			
+
 			$( '.filter-add-product' ).bind( 'mouseover', function(){
 				$(this).bind( 'mouseleave', function(){
 					$( this ).find( '.marquee_me' ).replaceWith( '<span class="marquee_me">' + $( this ).find( '.marquee_me' ).html() + '</span>' );
 				})
 			});
-			
+
 			// Bind Categorie @since 2.7.1
 			v2Checkout.bindCategoryActions();
 
@@ -1681,7 +1681,7 @@ var v2Checkout					=	new function(){
 			NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous ne pouvez pas procéder à une vente, car aucun article n\'est disponible pour la vente.', 'nexo' ));?>' );
 		}
 	};
-	
+
 	/**
 	 * Empty cart item table
 	 *
@@ -1704,15 +1704,15 @@ var v2Checkout					=	new function(){
 		var filter					=	typeof filter == 'undefined' ? 'sku-barcode' : filter;
 		// For Store Feature
 		var store_id				=	'<?php echo $store_id == null ? 0 : $store_id;?>';
-		
+
 
 		$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'item' ));?>/' + codebar + '/' + filter + '?store_id=' + store_id, {
 			success				:	function( _item ){
-				
+
 				/**
 				 * If Item is "On Sale"
 				**/
-				
+
 				if( _item.length > 0 && _item[0].STATUS == '1' ) {
 					var InCart			=	false;
 					var InCartIndex		=	null;
@@ -1727,16 +1727,16 @@ var v2Checkout					=	new function(){
 					if( InCart ) {
 						// if increase is disabled, we set value
 						var comparison_qte	=	allow_increase == true ? parseInt( v2Checkout.CartItems[ InCartIndex ].QTE_ADDED ) + parseInt( qte_to_add ) : qte_to_add;
-						
+
 						/**
 						 * For "Out of Stock" notice to work, item must be physical
 						 * and Stock management must be enabled
 						**/
-						
-						if( 
-							parseInt( _item[0].QUANTITE_RESTANTE ) - ( comparison_qte ) < 0 
-							&& _item[0].TYPE == '1' 
-							&& _item[0].STOCK_ENABLED == '1' 
+
+						if(
+							parseInt( _item[0].QUANTITE_RESTANTE ) - ( comparison_qte ) < 0
+							&& _item[0].TYPE == '1'
+							&& _item[0].STOCK_ENABLED == '1'
 						) {
 							NexoAPI.Notify().error(
 								'<?php echo addslashes(__('Stock épuisé', 'nexo'));?>',
@@ -1772,20 +1772,20 @@ var v2Checkout					=	new function(){
 							// improved @since 2.7.3
 							// add meta by default
 							var ItemMeta	=	NexoAPI.events.applyFilters( 'items_metas', [] );
-							
+
 							var FinalMeta	=	[ [ 'QTE_ADDED' ], [ qte_to_add ] ] ;
-							
+
 							_.each( ItemMeta, function( value, key ) {
 								FinalMeta[0].push( _.keys( value )[0] );
 								FinalMeta[1].push( _.values( value )[0] );
 							});
-							
+
 							// @since 2.9.0
 							// add unit item discount
 							_item[0].DISCOUNT_TYPE		=	'percentage'; // has two type, "percent" and "flat";
 							_item[0].DISCOUNT_AMOUNT	=	0;
 							_item[0].DISCOUNT_PERCENT	=	0;
-							
+
 							v2Checkout.CartItems.unshift( _.extend( _item[0], _.object( FinalMeta[0], FinalMeta[1] ) ) );
 						}
 					}
@@ -1805,7 +1805,7 @@ var v2Checkout					=	new function(){
 
 		});
 	};
-	
+
 	/**
 	 * Filter Item
 	 *
@@ -1852,12 +1852,12 @@ var v2Checkout					=	new function(){
 			dataType:"json"
 		});
 	};
-	
+
 	/**
 	 * Get Item
 	 * get item from cart
 	**/
-	
+
 	this.getItem				=	function( barcode ) {
 		for( var i = 0; i < this.CartItems.length ; i++ ) {
 			if( this.CartItems[i].CODEBAR == barcode ) {
@@ -1866,13 +1866,13 @@ var v2Checkout					=	new function(){
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Get Item Sale Price
 	 * @param object item
 	 * @return float main item price
 	**/
-	
+
 	this.getItemSalePrice			=	function( itemObj ) {
 		var promo_start				= 	moment( itemObj.SPECIAL_PRICE_START_DATE );
 		var promo_end				= 	moment( itemObj.SPECIAL_PRICE_END_DATE );
@@ -1888,7 +1888,7 @@ var v2Checkout					=	new function(){
 				MainPrice				=	NexoAPI.ParseFloat( itemObj.PRIX_PROMOTIONEL );
 			}
 		}
-		
+
 		// @since 2.7.1
 		if( v2Checkout.CartShadowPriceEnabled ) {
 			MainPrice			=	NexoAPI.ParseFloat( itemObj.SHADOW_PRICE );
@@ -1941,7 +1941,7 @@ var v2Checkout					=	new function(){
 	 * Show Numpad
 	**/
 
-	this.showNumPad				=	function( object, text, object_wrapper, real_time ){	
+	this.showNumPad				=	function( object, text, object_wrapper, real_time ){
 		// Field
 		var field				=	real_time == true ? object : '[name="numpad_field"]';
 
@@ -1997,7 +1997,7 @@ var v2Checkout					=	new function(){
 				'</div>' +
 				'<div class="col-lg-3 col-md-3 col-xs-3">' +
 					'<input type="button" class="btn btn-warning btn-block btn-lg numpad numpaddel" value="&larr;"/>' +
-				'</div>' +				
+				'</div>' +
 			'</div>' +
 			'<br/>' +
 			'<div class="row">' +
@@ -2275,7 +2275,7 @@ var v2Checkout					=	new function(){
 
 		<?php if ($this->config->item('nexo_test_mode')):?>
 		'<?php echo addslashes(tendoo_info(sprintf(__('Pour tester stripe, vous pouvez utiliser des numéros de carte de crédit factices. Par exemple vous pouvez utiliser : <strong>4242 4242 4242 4242</strong>.<br>Retrouvez toutes les listes des cartes utilisables pour tester sur <a href="%s">Stripe</a>.', 'nexo'), 'https://stripe.com/docs/testing')));?>' +
-		
+
 		'<?php echo tendoo_warning( sprintf( _s( 'Assurez-vous de respecter le <a href="%s" target="_blank">minimum en terme de tarification</a> selon les dévises.', 'nexo' ), 	'https://support.stripe.com/questions/what-is-the-minimum-amount-i-can-charge-with-stripe' ) );?>' +
 		<?php endif;?>
 
@@ -2318,7 +2318,7 @@ var v2Checkout					=	new function(){
 
 		this.CartPerceivedSum		=	Math.abs( NexoAPI.ParseFloat( $( '[name="perceived_sum"]' ).val() ) );
 
-		// Only numeric are expected on field "perceived_sum", otherwise field take "0";	
+		// Only numeric are expected on field "perceived_sum", otherwise field take "0";
 		if( isNaN( this.CartPerceivedSum ) ) {
 			this.CartPerceivedSum	=	0;
 			$( '[name="perceived_sum"]' ).val( this.CartPerceivedSum )
@@ -2343,12 +2343,12 @@ var v2Checkout					=	new function(){
 
 		}
 	}
-	
+
 	/**
 	 * Quick Search Items
 	 * @params
 	**/
-	
+
 	this.quickItemSearch			=	function( value ) {
 		if( value.length <= 3 ) {
 			$( '.filter-add-product' ).each( function(){
@@ -2358,8 +2358,8 @@ var v2Checkout					=	new function(){
 			$( '.filter-add-product' ).show();
 			$( '.filter-add-product' ).each( function(){
 				// Filter Item
-				if( 
-					$( this ).attr( 'data-design' ).search( value.toLowerCase() ) == -1 && 
+				if(
+					$( this ).attr( 'data-design' ).search( value.toLowerCase() ) == -1 &&
 					$( this ).attr( 'data-category-name' ).search( value.toLowerCase() ) == -1 &&
 					$( this ).attr( 'data-codebar' ).search( value.toLowerCase() ) == -1 && // Scan, also item Barcode
 					$( this ).attr( 'data-sku' ).search( value.toLowerCase() ) == -1  // Scan, also item SKU
@@ -2411,7 +2411,7 @@ var v2Checkout					=	new function(){
 		**/
 
 		this.proceedPayment		=	function( token ) {
-			
+
 			token				=	_.extend( token, {
 				'apiKey' 		: 	'<?php echo @$Options[ store_prefix() . 'nexo_stripe_secret_key' ];?>' ,
 				'currency'		:	'<?php echo @$Options[ store_prefix() . 'nexo_currency_iso' ];?>' ,
@@ -2452,7 +2452,7 @@ var v2Checkout					=	new function(){
 	}
 
 	/**
-	 * Payment	
+	 * Payment
 	**/
 
 	this.paymentWindow					=	new function(){
@@ -2470,9 +2470,9 @@ var v2Checkout					=	new function(){
 					'left' : 0,
 					'display' : 'none'
 				}).fadeIn( 500 );
-	
+
 				$( '.nexo-overlay' ).append( '<i class="fa fa-refresh fa-spin nexo-refresh-icon" style="color:#FFF;font-size:50px;"></i>');
-	
+
 				$( '.nexo-refresh-icon' ).css({
 					'position' : 'absolute',
 					'top'	:	'50%',
@@ -2481,7 +2481,7 @@ var v2Checkout					=	new function(){
 					'margin-left' : '-25px',
 					'width' : '44px',
 					'height' : '50px'
-				})			
+				})
 			}
 		}
 
@@ -2536,8 +2536,8 @@ var v2Checkout					=	new function(){
 			this.CartToPayLong		=	NexoAPI.Format( this.CartToPay, '0.00' );
 			<?php
 		};?>
-		
-		
+
+
 
 		// ;
 
@@ -2624,10 +2624,10 @@ var v2Checkout					=	new function(){
 		this.resetCartObject();
 		this.restoreDefaultRistourne();
 		this.refreshCartValues();
-		
+
 		// @since 2.7.3
 		this.CartNote				=	'';
-		
+
 		// @since 2.8.2
 		this.CartMetas				=	{};
 
@@ -2644,7 +2644,7 @@ var v2Checkout					=	new function(){
 		<?php if( @$Options[ store_prefix() . 'nexo_compact_enabled' ] == 'yes' ):?>
 
 		this.toggleCompactMode();
-		
+
 		<?php endif;?>
 
 		// Remove Slash First
@@ -2654,7 +2654,7 @@ var v2Checkout					=	new function(){
 		this.resetCart();
 		this.initCartDateTime();
 		this.bindHideItemOptions();
-		
+
 		// @since 2.7.3
 		this.bindAddNote();
 
@@ -2679,9 +2679,9 @@ var v2Checkout					=	new function(){
 			<?php endif;?>
 
 			this.CartCustomerID					=	<?php echo $order[ 'order' ][0][ 'REF_CLIENT' ];?>;
-			
+
 			// @since 2.7.3
-			this.CartNote						=	'<?php echo $order[ 'order'][0][ 'DESCRIPTION' ];?>';	
+			this.CartNote						=	'<?php echo $order[ 'order'][0][ 'DESCRIPTION' ];?>';
 
 			// Restore Custom Ristourne
 			this.restoreCustomRistourne();
@@ -2711,13 +2711,13 @@ var v2Checkout					=	new function(){
 				beforeLoad		:	function(){
 					if( v2Checkout.CartRemiseType != null ) {
 						$( '.' + v2Checkout.CartRemiseType + '_discount' ).trigger( 'click' );
-			
+
 						if( v2Checkout.CartRemiseType == 'percentage' ) {
 							$( '[name="discount_value"]' ).val( v2Checkout.CartRemisePercent );
 						} else if( v2Checkout.CartRemiseType == 'flat' ) {
 							$( '[name="discount_value"]' ).val( v2Checkout.CartRemise );
 						}
-			
+
 					} else {
 						$( '.flat_discount' ).trigger( 'click' );
 					}
@@ -2740,14 +2740,14 @@ var v2Checkout					=	new function(){
 					}
 				},
 				onExit				:	function( value ){
-					
+
 					var value	=	$( '[name="discount_value"]' ).val();
 
 					if( value  == '' || value == '0' ) {
 						NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous devez définir un pourcentage ou une somme.', 'nexo'));?>' );
 						return false;
 					}
-				
+
 					// console.log( 'Exit discount box	' );
 					// Percentage can't exceed 100%
 					if( v2Checkout.CartRemiseType == 'percentage' && NexoAPI.ParseFloat( value ) > 100 ) {
@@ -2756,10 +2756,10 @@ var v2Checkout					=	new function(){
 						// flat discount cannot exceed cart value
 						value	=	v2Checkout.CartValue;
 					}
-	
+
 					$( '[name="discount_value"]' ).focus();
 					$( '[name="discount_value"]' ).blur();
-	
+
 					v2Checkout.CartRemiseEnabled	=	true;
 					v2Checkout.calculateCartDiscount( value );
 					v2Checkout.refreshCartValues();
@@ -2776,11 +2776,11 @@ var v2Checkout					=	new function(){
 			$( '[name="item_sku_barcode"]' ).val('');
 			return false;
 		});
-		
+
 		/**
 		 * Filter Item
 		**/
-		
+
 		$( this.ItemSearchForm ).bind( 'keyup', function(){
 			v2Checkout.quickItemSearch( $( '[name="item_sku_barcode"]' ).val() );
 			console.log( 'ok' );
@@ -2801,7 +2801,7 @@ var v2Checkout					=	new function(){
 		$( this.CartPayButton ).bind( 'click', function(){
 			v2Checkout.pay();
 		});
-		
+
 		// Bind toggle compact mode
 		this.bindToggleComptactMode();
 
@@ -2816,17 +2816,17 @@ var v2Checkout					=	new function(){
 		this.stripe.run();
 		<?php endif;?>
 	}
-	
+
 	/**
 	 * Toggle Compact Mode
 	**/
-	
+
 	this.CompactMode		=	true;
-	
+
 	this.DefaultModeOption	=	false
-	
+
 	this.toggleCompactMode		=	function(){
-		
+
 		if( this.DefaultModeOption == false ) {
 			this.DefaultModeOption	=	{};
 			// Default Class
@@ -2835,27 +2835,27 @@ var v2Checkout					=	new function(){
 				height				:	$( '.content-header' ).css( 'height' ),
 				h1					:	$( '.content-header > h1' ).html()
 			}
-			
+
 			this.DefaultModeOption.MainFooter		=	{
 				html				:	 $( '.main-footer' ).html()
 			}
-			
+
 			this.DefaultModeOption.MainHeader		=	{
 				min_height			:	$( '.main-header' ).css( 'min-height' ),
 				overflow			:	'visible'
 			}
-			
+
 			this.DefaultModeOption.background			=	$( '.new-wrapper' ).find( '.content' ).css( 'background' );
 			this.DefaultModeOption.contentHeight		=	$( '.new-wrapper' ).find( '.content' ).css( 'height' );
 		}
-		
+
 		if( this.CompactMode ) {
-			
+
 			$( '.content-header' ).css({
 				'padding'	:	0,
 				'height'	:	0
 			});
-			
+
 			$( '.content-header > h1' ).remove();
 			$( '.main-footer' ).hide(0);
 			$( '.main-sidebar' ).hide(0);
@@ -2865,22 +2865,22 @@ var v2Checkout					=	new function(){
 				'overflow': 'hidden'
 			}).animate({
 				'height' : '0'
-			}, 0 );		
-			
+			}, 0 );
+
 			$( '.content-wrapper' ).addClass( 'new-wrapper' ).removeClass( 'content-wrapper' );
-			
+
 			$( '.new-wrapper' ).find( '.content' ).css( 'padding-bottom', 0 );
 			$( '.new-wrapper' ).find( '.content' ).css( 'height', window.innerHeight );
 			// $( '.new-wrapper' ).find( '.content' ).css( 'overflow', 'hidden' );
 			$( '.new-wrapper' ).find( '.content' ).css( 'background', 'rgb(211, 223, 228)' );
 			this.CompactMode	=	false;
-			
+
 		} else {
 			$( '.content-header' ).css({
 				'padding'	:	this.DefaultModeOption.ContentHeader.padding,
 				'height'	:	this.DefaultModeOption.ContentHeader.height
 			});
-			
+
 			$( '.content-header' ).append( '<h1>' + this.DefaultModeOption.ContentHeader.h1 + '</h1>' );
 			$( '.main-footer' ).show();
 			$( '.main-sidebar' ).show();
@@ -2888,16 +2888,16 @@ var v2Checkout					=	new function(){
 			$( '.main-header' ).css({
 				'min-height' : this.DefaultModeOption.MainHeader.min_header,
 				'overflow': this.DefaultModeOption.MainHeader.overflow
-			});		
-			
+			});
+
 			$( '.new-wrapper' ).addClass( 'content-wrapper' ).removeClass( 'new-wrapper' );
 			$( '.content-wrapper').find( '.content' ).css( 'background', 'inherit' );
 			$( '.content-wrapper' ).find( '.content' ).css( 'height', 'auto' );
-			
+
 			this.CompactMode	=	true;
-		}	
-		
-		this.fixHeight();			
+		}
+
+		this.fixHeight();
 	}
 
 	/**
@@ -2917,14 +2917,14 @@ $( document ).ready(function(e) {
 /**
  * Filters
  **/
- 
+
 // Default order printable
 NexoAPI.events.addFilter( 'test_order_type', function( data ) {
 	data[1].order_type == 'nexo_order_comptant';
 	return data;
 });
 
-// Return default data values					
+// Return default data values
 NexoAPI.events.addFilter( 'callback_message', function( data ) {
 	// console.log( data );
 	return data;

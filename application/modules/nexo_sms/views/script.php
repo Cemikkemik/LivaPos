@@ -1,5 +1,5 @@
 <?php global $Options;?>
-<?php if (@$Options[ 'nexo_sms_service' ] == 'plivo'):?>
+<?php if (@$Options[ store_prefix() . 'nexo_sms_service' ] == 'plivo'):?>
 <script type="text/javascript" src="https://s3.amazonaws.com/plivosdk/web/plivo.min.js"/></script>
 <script type="text/javascript">
 "use strict";
@@ -20,7 +20,7 @@ var NexoSMS			=	new Object;
 	NexoSMS.__CustomerNumber	=	'';
 	NexoSMS.__SendSMSInvoice	=	null;
 	NexoSMS.__CustomerName		=	'';
-<?php if (in_array('twilio', array_keys($this->config->item('nexo_sms_providers'))) && @$Options[ 'nexo_sms_service' ] == 'twilio'):?>
+<?php if (in_array('twilio', array_keys($this->config->item('nexo_sms_providers'))) && @$Options[ store_prefix() . 'nexo_sms_service' ] == 'twilio'):?>
 
 NexoAPI.events.addAction( 'is_cash_order', function( data ) {
 	if( NexoSMS.__SendSMSInvoice == true ) {
@@ -29,29 +29,30 @@ NexoAPI.events.addAction( 'is_cash_order', function( data ) {
 			var v2Checkout		=	data[0];
 			var order_details	=	data[1];
 			var ItemsDetails	=	v2Checkout.CartTotalItems + '<?php echo _s(': produit(s) acheté(s)', 'nexo_sms');?>';
-			
+
 			_.templateSettings = {
 			  interpolate: /\{\{(.+?)\}\}/g
 			};
-			
-			var	message			=	_.template( '<?php echo @$Options[ 'nexo_sms_invoice_template' ];?>' );			
+
+			var	message			=	_.template( '<?php echo @$Options[ store_prefix() . 'nexo_sms_invoice_template' ];?>' );
+
 			var SMS_object		=	{
-				'site_name'		:	'<?php echo @$Options[ 'site_name' ];?>',
+				'site_name'		:	'<?php echo @$Options[ store_prefix() . 'site_name' ];?>',
 				'order_code'	:	order_details.order_code,
-				'order_topay'	:	'<?php echo @$Options[ 'nexo_currency_iso' ];?> ' + NexoAPI.Format( v2Checkout.CartValue ),
+				'order_topay'	:	'<?php echo @$Options[ store_prefix() . 'nexo_currency_iso' ];?> ' + NexoAPI.Format( v2Checkout.CartValue ),
 				'name'			:	NexoSMS.__CustomerName
-			};		
-				
-			var SMS				=	message( SMS_object );			
-			
+			};
+
+			var SMS				=	message( SMS_object );
+
 			var phones			=	[ NexoSMS.__CustomerNumber ];
-			var from_number		=	'<?php echo @$Options[ 'nexo_twilio_from_number' ];?>';
+			var from_number		=	'<?php echo @$Options[ store_prefix() . 'nexo_twilio_from_number' ];?>';
 			var	post_data		=	_.object( [ 'message', 'phones', 'from_number' ], [ SMS, phones, from_number ] );
 			var twilioUrl		=	'<?php echo site_url(array( 'rest', 'twilio', 'send_sms' ));?>/';
 
 			$.ajax( twilioUrl +
-				'<?php echo @$Options[ 'nexo_twilio_account_sid' ];?>/' +
-				'<?php echo @$Options[ 'nexo_twilio_account_token' ];?>', {
+				'<?php echo @$Options[ store_prefix() . 'nexo_twilio_account_sid' ];?>/' +
+				'<?php echo @$Options[ store_prefix() . 'nexo_twilio_account_token' ];?>', {
 				success	:	function( returned ) {
 					if( _.isObject( returned ) ) {
 						if( returned.status == 'success' ) {
@@ -69,10 +70,10 @@ NexoAPI.events.addAction( 'is_cash_order', function( data ) {
 		} else {
 			NexoAPI.Notify().warning( '<?php echo _s('Une erreur s\'est produite.', 'nexo_sms');?>', '<?php echo _s('Vous devez specifier un numéro de téléphone. La facture par SMS n\'a pas pu être envoyée.', 'nexo_sms');?>' );
 		}
-	} 
+	}
 });
 
-<?php elseif (in_array('bulksms', array_keys($this->config->item('nexo_sms_providers'))) && @$Options[ 'nexo_sms_service' ] == 'bulksms'):?>
+<?php elseif (in_array('bulksms', array_keys($this->config->item('nexo_sms_providers'))) && @$Options[ store_prefix() . 'nexo_sms_service' ] == 'bulksms'):?>
 
 NexoAPI.events.addAction( 'is_cash_order', function( data ) {
 	if( NexoSMS.__SendSMSInvoice == true ) {
@@ -81,37 +82,37 @@ NexoAPI.events.addAction( 'is_cash_order', function( data ) {
 			var v2Checkout		=	data[0];
 			var order_details	=	data[1];
 			var ItemsDetails	=	v2Checkout.CartTotalItems + '<?php echo _s(': produit(s) acheté(s)', 'nexo_sms');?>';
-			
+
 			_.templateSettings = {
 			  interpolate: /\{\{(.+?)\}\}/g
 			};
-			
-			var	message			=	_.template( '<?php echo @$Options[ 'nexo_sms_invoice_template' ];?>' );			
+
+			var	message			=	_.template( '<?php echo @$Options[ store_prefix() . 'nexo_sms_invoice_template' ];?>' );
 			var SMS_object		=	{
-				'site_name'		:	'<?php echo @$Options[ 'site_name' ];?>',
+				'site_name'		:	'<?php echo @$Options[ store_prefix() . 'site_name' ];?>',
 				'order_code'	:	order_details.order_code,
-				'order_topay'	:	'<?php echo @$Options[ 'nexo_currency_iso' ];?> ' + NexoAPI.Format( v2Checkout.CartValue ),
+				'order_topay'	:	'<?php echo @$Options[ store_prefix() . 'nexo_currency_iso' ];?> ' + NexoAPI.Format( v2Checkout.CartValue ),
 				'name'			:	NexoSMS.__CustomerName
-			};		
-				
-			var SMS				=	message( SMS_object );			
-			
+			};
+
+			var SMS				=	message( SMS_object );
+
 			var phones			=	[ NexoSMS.__CustomerNumber ];
-			var from_number		=	'<?php echo @$Options[ 'nexo_twilio_from_number' ];?>';
-			var	post_data		=	_.object( [ 
-				'message', 
-				'phones', 
-				'user_name', 
+			var from_number		=	'<?php echo @$Options[ store_prefix() . 'nexo_twilio_from_number' ];?>';
+			var	post_data		=	_.object( [
+				'message',
+				'phones',
+				'user_name',
 				'user_pwd',
 				'http_url',
 				'port'
-			], [ 
-				SMS, 
-				phones, 
-				'<?php echo @$Options[ 'nexo_bulksms_username' ];?>',
-				'<?php echo @$Options[ 'nexo_bulksms_password' ];?>',
-				'<?php echo @$Options[ 'nexo_bulksms_url' ];?>',
-				'<?php echo @$Options[ 'nexo_bulksms_port' ];?>'
+			], [
+				SMS,
+				phones,
+				'<?php echo @$Options[ store_prefix() . 'nexo_bulksms_username' ];?>',
+				'<?php echo @$Options[ store_prefix() . 'nexo_bulksms_password' ];?>',
+				'<?php echo @$Options[ store_prefix() . 'nexo_bulksms_url' ];?>',
+				'<?php echo @$Options[ store_prefix() . 'nexo_bulksms_port' ];?>'
 			 ] );
 			var url				=	'<?php echo site_url(array( 'rest', 'bulksms', 'send_sms' ));?>/';
 
@@ -133,7 +134,7 @@ NexoAPI.events.addAction( 'is_cash_order', function( data ) {
 		} else {
 			NexoAPI.Notify().warning( '<?php echo _s('Une erreur s\'est produite.', 'nexo_sms');?>', '<?php echo _s('Vous devez specifier un numéro de téléphone. La facture par SMS n\'a pas pu être envoyée.', 'nexo_sms');?>' );
 		}
-	} 
+	}
 });
 
 <?php endif;?>
@@ -154,7 +155,7 @@ NexoAPI.events.addAction( 'select_customer', function( data ) {
 **/
 
 NexoAPI.events.addFilter( 'pay_box_footer', function( data ) {
-	return 	data + '<input type="checkbox" <?php echo @$Options[ 'nexo_enable_smsinvoice'] == 'yes' ? 'checked="checked"' : '';?> name="send_sms" send-sms-invoice data-toggle="toggle" data-width="150" data-height="35">';
+	return 	data + '<input type="checkbox" <?php echo @$Options[ store_prefix() . 'nexo_enable_smsinvoice'] == 'yes' ? 'checked="checked"' : '';?> name="send_sms" send-sms-invoice data-toggle="toggle" data-width="150" data-height="35">';
 });
 
 /**
@@ -166,9 +167,9 @@ NexoAPI.events.addAction( 'pay_box_loaded', function( data ) {
       on: '<?php echo _s('Activer les SMS', 'nexo_sms');?>',
       off: '<?php echo _s('Désactiver les SMS', 'nexo_sms');?>'
     });
-	
+
 	// Ask whether to change customer number
-	
+
 	$( '[send-sms-invoice]' ).bind( 'change', function(){
 		if( typeof $(this).attr( 'checked' ) != 'undefined' ) {
 			NexoAPI.Bootbox().prompt({
@@ -192,7 +193,7 @@ NexoAPI.events.addAction( 'submit_order', function() {
 	NexoSMS.__SendSMSInvoice	=	typeof $( '[send-sms-invoice]').attr( 'checked' ) != 'undefined' ? true : false;
 })
 
-/** 
+/**
  * When Cart is Reset
 **/
 

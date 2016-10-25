@@ -75,21 +75,21 @@ if (@$Options[ 'nexo_sms_service' ] == 'twilio') {
             )
         )
     ));
-    
+
     $this->Gui->add_item(array(
         'type'            =>    'text',
         'name'            =>    $option_prefix . 'nexo_twilio_account_sid',
         'label'            =>    __('SID du compte', 'nexo_sms'),
         'description'    =>    sprintf(__('Récupérer les informations relatives aux clés sur votre <a href="%s">compte Twilio</a>.', 'nexo_sms'), 'http://twilio.com/console')
     ), 'nexo_twilio', 2);
-    
+
     $this->Gui->add_item(array(
         'type'            =>    'text',
         'name'            =>    $option_prefix . 'nexo_twilio_account_token',
         'label'            =>    __('Jeton d\'accès', 'nexo_sms'),
         'description'    =>    sprintf(__('Récupérer les informations relatives aux clés sur votre <a href="%s">compte Twilio</a>.', 'nexo_sms'), 'http://twilio.com/console')
     ), 'nexo_twilio', 2);
-    
+
     $this->Gui->add_item(array(
         'type'            =>    'text',
         'name'            =>    $option_prefix . 'nexo_twilio_from_number',
@@ -110,14 +110,14 @@ if (@$Options[ 'nexo_sms_service' ] == 'twilio') {
             )
         )
     ));
-    
+
     $this->Gui->add_item(array(
         'type'            =>    'text',
         'name'            =>    $option_prefix . 'nexo_plivo_auth_id',
         'label'            =>    __('ID d\'accès', 'nexo_sms'),
         'description'    =>    ''
     ), 'nexo_plivo', 2);
-    
+
     $this->Gui->add_item(array(
         'type'            =>    'text',
         'name'            =>    $option_prefix . 'nexo_plivo_auth_key',
@@ -138,28 +138,28 @@ if (@$Options[ 'nexo_sms_service' ] == 'twilio') {
             )
         )
     ));
-    
+
     $this->Gui->add_item(array(
         'type'            =>    'text',
         'name'            =>    $option_prefix . 'nexo_bulksms_username',
         'label'            =>    __('Nom d\'utilisateur', 'nexo_sms'),
         'description'    =>    ''
     ), 'nexo_plivo', 2);
-    
+
     $this->Gui->add_item(array(
         'type'            =>    'text',
         'name'            =>    $option_prefix . 'nexo_bulksms_password',
         'label'            =>    __('Mot de passe', 'nexo_sms'),
         'description'    =>    ''
     ), 'nexo_plivo', 2);
-    
+
     $this->Gui->add_item(array(
         'type'            =>    'text',
         'name'            =>    $option_prefix . 'nexo_bulksms_url',
         'label'            =>    __('Url d\'accès', 'nexo_sms'),
         'description'    =>    __('Généralement cette adresse est : "https://bulksms.vsms.net/eapi/submission/send_sms/2/2.0". Consultez la FAQ BulkSMS pour en savoir plus', 'nexo_sms')
     ), 'nexo_plivo', 2);
-    
+
     $this->Gui->add_item(array(
         'type'            =>    'text',
         'name'            =>    $option_prefix . 'nexo_bulksms_port',

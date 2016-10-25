@@ -14,7 +14,7 @@ $config[ 'nexo_order_types' ]    =    array(
     'nexo_order_comptant'           =>    	get_instance()->lang->line('nexo_order_complete'),
     'nexo_order_advance'            =>    	get_instance()->lang->line('nexo_order_advance'),
     'nexo_order_devis'              =>    	get_instance()->lang->line('nexo_order_quote'),
-	'nexo_order_web'				=>		get_instance()->lang->line( 'nexo_order_web' ),
+	// 'nexo_order_web'				=>		get_instance()->lang->line( 'nexo_order_web' ),
 	'nexo_order_refunded'			=>		get_instance()->lang->line( 'nexo_order_refunded' ),
 	'nexo_order_partialy_refunded'	=>		get_instance()->lang->line( 'nexo_order_partialy_refunded' ),
 );
@@ -44,10 +44,10 @@ $config[ 'nexo_true_false' ]    =    array(
 
 $config[ 'nexo_payments_types' ]    =    array(
     'cash'            	=>    	get_instance()->lang->line('cash'),
-	'creditcard'		=>		get_instance()->lang->line( 'creditcard' ),
+	   'creditcard'		=>		get_instance()->lang->line( 'creditcard' ),
     'cheque'			=>		get_instance()->lang->line( 'cheque' ),
     'bank'            	=>    	get_instance()->lang->line('bank_transfert'),
-	'multi'				=>		get_instance()->lang->line( 'multi' )
+	// 'multi'				=>		get_instance()->lang->line( 'multi' )
 );
 
 /**
@@ -128,7 +128,7 @@ $config[ 'nexo_registers_status_for_creating' ]		=	$config[ 'nexo_registers_stat
 unset( $config[ 'nexo_registers_status_for_creating' ][ 'opened' ] );
 
 /**
- * Invoice/Receipt 
+ * Invoice/Receipt
  * @since 2.7.9
 **/
 
@@ -164,7 +164,7 @@ $config[ 'nexo_multi_store_enabled' ]		=	true; // default false;
  * Item Tpe
 **/
 
-$config[ 'nexo_item_type' ]		=	array( 
+$config[ 'nexo_item_type' ]		=	array(
 	1	=>	get_instance()->lang->line( 'physical_item' ),
 	2	=>	get_instance()->lang->line( 'numerical_item' )
 );
@@ -173,7 +173,7 @@ $config[ 'nexo_item_type' ]		=	array(
  * Item Status
 **/
 
-$config[ 'nexo_item_status' ]		=	array( 
+$config[ 'nexo_item_status' ]		=	array(
 	1	=>	get_instance()->lang->line( 'item_on_sale' ),
 	2	=>	get_instance()->lang->line( 'item_out_of_stock_disabled' )
 );
@@ -182,7 +182,7 @@ $config[ 'nexo_item_status' ]		=	array(
  * Item Stock
 **/
 
-$config[ 'nexo_item_stock' ]		=	array( 
+$config[ 'nexo_item_stock' ]		=	array(
 	1	=>	get_instance()->lang->line( 'enabled' ),
 	2	=>	get_instance()->lang->line( 'disabled' )
 );
@@ -203,7 +203,7 @@ $config[ 'nexo_yes_no' ]		=	array(
 // Price Group
 
 // 'TAUX_DE_MARGE', 'COUT_DACHAT',
-// 'FRAIS_ACCESSOIRE', 
+// 'FRAIS_ACCESSOIRE',
 $config[ 'nexo_item_price_group' ]	=	array(
 	'PRIX_DACHAT', 'PRIX_DE_VENTE', 'SHADOW_PRICE', 'PRIX_PROMOTIONEL', 'SPECIAL_PRICE_START_DATE', 'SPECIAL_PRICE_END_DATE'
 );
@@ -211,7 +211,7 @@ $config[ 'nexo_item_price_group' ]	=	array(
 // Stock Group
 // 'DEFECTUEUX',
 $config[ 'nexo_item_stock_group' ]	=	array(
-	'STATUS', 'TYPE', 'STOCK_ENABLED', 'QUANTITY', 'QUANTITE_RESTANTE', 'QUANTITE_VENDU' 
+	'STATUS', 'TYPE', 'STOCK_ENABLED', 'QUANTITY', 'QUANTITE_RESTANTE', 'QUANTITE_VENDU'
 );
 
 // Caracteristiques
@@ -225,11 +225,11 @@ $config[ 'nexo_item_details_group' ]=	array(
 );
 
 // Barcode Type
-$config[ 'nexo_barcode_supported' ]	=	array( 
-	// 'default'	=>	get_instance()->lang->line( 'default' ), 
-	'ean8'		=>	'EAN8', 
-	'ean13'		=>	'EAN 13', 
-	'code_128'	=>	'Code 128', 
-	'type_msi'	=>	'TYPE MSI', 
-	'codabar'	=>	'CODABAR' 
+$config[ 'nexo_barcode_supported' ]	=	array(
+	// 'default'	=>	get_instance()->lang->line( 'default' ),
+	'ean8'		=>	'EAN8',
+	'ean13'		=>	'EAN 13',
+	'code_128'	=>	'Code 128',
+	'type_msi'	=>	'TYPE MSI',
+	'codabar'	=>	'CODABAR'
 );

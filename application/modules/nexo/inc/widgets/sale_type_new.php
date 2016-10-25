@@ -1,5 +1,5 @@
 <?php
-use Carbon\Carbon; 
+use Carbon\Carbon;
 
 ?>
 <div class="box box-solid" data-meta-namespace="<?php echo store_prefix() ;?>sale_type_new">
@@ -72,7 +72,7 @@ var config = {
 					labelString: 'Value'
 				}
 			}],
-			scaleStartValue : 0 
+			scaleStartValue : 0
 		}
 	}
 };
@@ -95,7 +95,7 @@ var NexoSalesStats	=	new function(){
 				borderColor			:	'rgb(216, 89, 89)',
 				backgroundColor 	: 	'rgba(216, 89, 89,0.2)'
 			},
-			nexo_order_web		:	{
+			nexo_order_partialy_refunded		:	{
 				borderColor			:	'rgb(216, 207, 86)',
 				backgroundColor 	: 	'rgba(216, 207, 86,0.2)'
 			},
@@ -109,13 +109,13 @@ var NexoSalesStats	=	new function(){
 			type	:	'POST',
 			data	:	post_data,
 			success	:	function( data ) {
-				
+
 				var i 	=	0;
-				
+
 				NexoSalesLines.data.datasets	=	[]; // Reset
 
-				_.each( data, function( value, key ) {	
-					
+				_.each( data, function( value, key ) {
+
 					NexoSalesLines.data.datasets.push({
 						data	:	_.toArray( value ),
 						label	: 	_.propertyOf( order_types )( key ),
@@ -124,8 +124,8 @@ var NexoSalesStats	=	new function(){
 						borderColor	:	_.propertyOf( colors )( key ).borderColor,
 						backgroundColor : _.propertyOf( colors )( key ).backgroundColor,
 					});
-					NexoSalesLines.update();		
-					i++;		
+					NexoSalesLines.update();
+					i++;
 				});
 			}
 		});
@@ -135,11 +135,11 @@ var NexoSalesStats	=	new function(){
 $(document).ready(function(e) {
     var ctx = document.getElementById("canvas").getContext("2d");
 	NexoSalesLines = new Chart(ctx, config);
-	
+
 	$( '[data-refresh-widget="nexo_sales_types"]' ).bind( 'click', function(){
-		NexoSalesStats.load( 'refresh' );	
+		NexoSalesStats.load( 'refresh' );
 	});
-	
+
 	NexoSalesStats.load();
 });
 </script>

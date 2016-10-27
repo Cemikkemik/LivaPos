@@ -16,14 +16,14 @@ class Gui extends CI_Model
     {
         parent::__construct();
     }
-    
+
     /**
      * Register page for dashboard
      * @params string Page Slug
      * @params Function
      * @return void
     **/
-    
+
     public function register_page($page_slug, $function)
     {
         $this->created_page[ $page_slug ]    =    array(
@@ -31,28 +31,28 @@ class Gui extends CI_Model
             'function'        =>    $function
         );
     }
-	
+
 	/**
 	 * Regsiter Page Object
 	 * @params string page slug
 	 * @params obj page obj
 	 * return void
 	**/
-	
-	public function register_page_objet($page_slug, $obj)
+
+	public function register_page_object($page_slug, $obj)
     {
         $this->created_page_objet[ $page_slug ]    =    array(
             'page-slug' 	=>    $page_slug,
             'object'       	=>    $obj
         );
     }
-        
-    /** 
+
+    /**
      * Load created page
      * @params String page slug
      * @params Array params
     **/
-    
+
     public function load_page($page_slug, $params)
     {
         // load created pages
@@ -85,13 +85,13 @@ class Gui extends CI_Model
             $this->load_page_objet( $page_slug, $params );
         }
     }
-	
+
 	/**
 	 * Load Page objet
 	 * @params string page slug
 	 * @return void
 	**/
-	
+
 	public function load_page_objet( $page_slug, $params )
 	{
         if ( @$this->created_page_objet[ $page_slug ] != null ) {
@@ -106,58 +106,63 @@ class Gui extends CI_Model
 					Html::set_description(__('Error page'));
 					$this->load->view('dashboard/error/404');
 				}
-                
+
             } else {
                 // page doesn't exists load 404 internal page error
                 Html::set_title(sprintf(__('Error : Output Not Found &mdash; %s'), get('core_signature')));
                 Html::set_description(__('Error page'));
                 $this->load->view('dashboard/error/output-not-found');
             }
+        } else {
+            // page doesn't exists load 404 internal page error
+            Html::set_title(sprintf(__('Error : 404 &mdash; %s'), get('core_signature')));
+            Html::set_description(__('Error page'));
+            $this->load->view('dashboard/error/404');
         }
 	}
-    
+
     /**
      * Page title
      * @string Page Title
     **/
-    
+
     public function set_title($title)
     {
         Html::set_title($title);
     }
-    
+
     /**
      * New Gui
     **/
     /**
      * Set cols width
-     * 
+     *
      * col_id should be between 1 and 4. Every cols are loaded even if they width is not set
      * @access : public
      * @param : int cold id
      * @param : int width
      * @return : void
     **/
-        
+
     public function col_width($col_id, $width)
     {
         if (in_array($col_id, array( 1, 2, 3, 4 ))) {
             $this->cols[ $col_id ][ 'width' ]    =    $width;
         }
     }
-    
+
     /**
      * Get Col
-     * 
+     *
      * @params int Col Id
      * @return bool
     **/
-    
+
     public function get_col($col_id)
     {
         return riake($col_id, $this->cols);
     }
-    
+
     /**
      * Add Meta to gui
      *
@@ -168,7 +173,7 @@ class Gui extends CI_Model
      * @param int col id
      * @return void
     **/
-    
+
     public function add_meta($namespace, $title = 'Unamed', $type = 'box-default', $col_id = 1)
     {
         if (in_array($col_id, array( 1, 2, 3, 4 ))) {
@@ -177,7 +182,7 @@ class Gui extends CI_Model
                 $col_id                =    riake('col_id', $namespace);
                 $title                =    riake('title', $namespace);
                 $type                =    riake('type', $namespace);
-                
+
                 foreach ($namespace as $key => $value) {
                     $this->cols[ $col_id ][ 'metas' ][ $rnamespace ][ $key ]    =    $value;
                 }
@@ -190,30 +195,30 @@ class Gui extends CI_Model
             }
         }
     }
-    
+
     /**
      * Add Item
      * Add item meta box
-     * 
+     *
      * @params Array Config
      * @params String meta namespace
      * @params int Col id
      * @return void
     **/
-    
+
     public function add_item($config, $metanamespace, $col_id)
     {
         if (in_array($col_id, array( 1, 2, 3, 4 )) && riake('type', $config)) {
             $this->cols[ $col_id ][ 'metas' ][ $metanamespace ][ 'items' ][]    =    $config;
         }
     }
-    
+
     /**
      * Output
      * Output GUI content
      * @return void
     **/
-    
+
     public function output()
     {
         $this->load->view('dashboard/header');
@@ -226,18 +231,18 @@ class Gui extends CI_Model
         $this->load->view('dashboard/footer');
         $this->load->view('dashboard/aside-right');
     }
-    
+
     /**
      * 	Get GUI cols
      *	@access		:	Public
      *	@returns	:	Array
     **/
-    
+
     public function get_cols()
     {
         return $this->cols;
     }
-    
+
     /**
      * Allow Gui customization.
      *
@@ -245,7 +250,7 @@ class Gui extends CI_Model
      * @param mixed
      * @return void
     **/
-    
+
     public function config($config)
     {
         $this->config    =    $config;

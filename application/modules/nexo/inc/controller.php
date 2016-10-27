@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Nexo_Controller extends CI_Model
 {
     public function __construct()
@@ -11,7 +11,7 @@ class Nexo_Controller extends CI_Model
     public function frontend()
     {
         global $CurrentScreen, $CurrentMethod;
-        
+
 		if ($CurrentScreen == 'validate_license') {
             echo json_encode(array(
                 'is_valid'            =>    true,
@@ -23,25 +23,25 @@ class Nexo_Controller extends CI_Model
     {
 		// @since 2.7.7
         global $Nexo_Menus, $Options;
-        
+
         $Nexo_Menus    =    array();
-		
+
 		$this->events->do_action('nexo_before_checkout', $Nexo_Menus);
-		
+
 		/***
 		 * Display Store Menu only when multi store is enabled
 		 * @since 2.8
 		**/
-		
+
 		if( @$Options[ 'nexo_store' ] == 'enabled' ) {
-		
+
 			if (
 				User::can('create_shop') ||
 				User::can('edit_shop') ||
 				User::can('delete_shop') ||
 				User::can( 'enter_shop' )
 			) {
-				
+
 				$Nexo_Menus[ 'nexo_shop' ]        =    array(
 					array(
 						'title'		=>        __('Boutiques', 'nexo'), // menu title
@@ -49,48 +49,48 @@ class Nexo_Controller extends CI_Model
 						'disable'	=>    true
 					)
 				);
-			
+
 				if( User::can( 'create_shop' ) || User::can( 'edit_shop' ) || User::can( 'delete_shop' ) ) {
-					
+
 					// Create a new store
 					$Nexo_Menus[ 'nexo_shop' ][]	=	array(
 						'title'		=>        __('Toutes les boutiques', 'nexo'), // menu title
 						'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'lists' ) )
 					);
-					
+
 					$Nexo_Menus[ 'nexo_shop' ][]	=	array(
 						'title'		=>        __('Ajouter une boutique', 'nexo'), // menu title
 						'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'lists', 'add' ) )
 					);
 				} else {
-					
+
 					$Nexo_Menus[ 'nexo_shop' ][]	=	array(
 						'title'		=>        __('Toutes les boutiques', 'nexo'), // menu title
 						'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'all' ) )
 					);
-					
+
 				}
-				
+
 			}
-		
+
 		}
-		
+
 		// @since 2.8
 		// Adjust menu when multistore is enabled
 		$uri			=	$this->uri->segment(2,false);
 		$store_uri		=	'';
-		
+
 		if( $uri == 'stores' || in_array( @$Options[ 'nexo_store' ], array( null, 'disabled' ), true ) ) {
-			
+
 			// Only When Multi Store is enabled
 			// @since 2.8
 
 			if( @$Options[ 'nexo_store' ] == 'enabled' && $this->config->item( 'nexo_multi_store_enabled' ) ) {
 				$store_uri	=	'stores/' . $this->uri->segment( 3, 0 ) . '/';
 			}
-		
+
 			if( @$Options[ store_prefix() . 'nexo_enable_registers' ] == 'oui' ) {
-			
+
 				if (
 					User::can('create_shop_registers') ||
 					User::can('edit_shop_registers') ||
@@ -104,42 +104,42 @@ class Nexo_Controller extends CI_Model
 							'disable'	=>    true
 						)
 					);
-					
+
 					if( User::in_group( 'shop_cashier' ) ):
-					
+
 					$Nexo_Menus[ 'caisse' ][]		=	array(
 						'title'       =>    __('Liste des caisses', 'nexo'), // menu title
 						'icon'        =>    'fa fa-shopping-basket', // menu icon
 						'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/registers/for_cashiers'), // url to the page,
 					);
-					
+
 					else :
-					
+
 					$Nexo_Menus[ 'caisse' ][]		=	array(
 						'title'       =>    __('Liste des caisses', 'nexo'), // menu title
 						'icon'        =>    'fa fa-shopping-basket', // menu icon
 						'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/registers/lists'), // url to the page,
 					);
-					
+
 					endif;
-					
-					if( User::can( 'create_shop_registers' ) ) {	
+
+					if( User::can( 'create_shop_registers' ) ) {
 						$Nexo_Menus[ 'caisse' ][]		=	array(
 							'title'       =>    __('Ajouter une caisse', 'nexo'), // menu title
 							'icon'        =>    'fa fa-shopping-basket', // menu icon
 							'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/registers/lists/add'), // url to the page,
 						);
-					}				
+					}
 				}
-			} 
-			
-			
+			}
+
+
 			if (
 				User::can('create_shop_orders') ||
 				User::can('edit_shop_orders') ||
 				User::can('delete_shop_orders')
 			) {
-				
+
 				if( in_array( @$Options[ store_prefix() . 'nexo_enable_registers' ], array( null, 'non' ) ) ){
 					$Nexo_Menus[ 'caisse' ][]		=	array(
 						'title'       =>    __('Ouvrir le PDV', 'nexo'), // menu title
@@ -147,20 +147,20 @@ class Nexo_Controller extends CI_Model
 						'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/registers/__use/default'), // url to the page,
 					);
 				}
-				
+
 				// @since 2.7.5
-				
+
 				$Nexo_Menus[ 'sales' ]			=	array(
 					array(
 						'title'       =>    __('Ventes', 'nexo'), // menu title
 						'icon'        =>    'fa fa-shopping-basket', // menu icon
 						'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/commandes/lists'), // url to the page,
-					)                
+					)
 				);
 			}
-			
+
 			$this->events->do_action('nexo_before_shipping', $Nexo_Menus);
-			
+
 			if (
 				User::can('create_shop_items') ||
 				User::can('edit_shop_items') ||
@@ -218,7 +218,7 @@ class Nexo_Controller extends CI_Model
 					'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/categories/lists/add'),
 				),
 			));
-			
+
 				$Nexo_Menus[ 'vendors' ]	=	array(
 					array(
 						'title'        =>    __('Fournisseurs', 'nexo'),
@@ -236,9 +236,9 @@ class Nexo_Controller extends CI_Model
 					),
 				);
 			}
-			
+
 			$this->events->do_action('nexo_before_customers', $Nexo_Menus);
-			
+
 			if (
 				User::can('create_shop_customers') ||
 				User::can('edit_shop_customers') ||
@@ -272,9 +272,9 @@ class Nexo_Controller extends CI_Model
 					)
 				));
 			}
-			
+
 			$this->events->do_action('nexo_before_reports', $Nexo_Menus);
-			
+
 			if (User::can('read_shop_reports')) {
 				$Nexo_Menus[ 'rapports' ]    =    $this->events->apply_filters('nexo_reports_menu_array', array(
 					array(
@@ -313,12 +313,12 @@ class Nexo_Controller extends CI_Model
 					),
 				));
 			}
-			
+
 			$this->events->do_action('nexo_before_accounting', $Nexo_Menus);
-					
+
 			$this->events->do_action('nexo_before_history', $Nexo_Menus);
-			
-			/** 
+
+			/**
 			 * Disabled
 				User::can('create_shop_backup') ||
 				User::can('edit_shop_backup') ||
@@ -326,7 +326,7 @@ class Nexo_Controller extends CI_Model
 				User::can('read_shop_user_tracker') ||
 				User::can('delete_shop_user_tracker')
 			**/
-			
+
 			if (
 				true == false
 			) {
@@ -346,9 +346,9 @@ class Nexo_Controller extends CI_Model
 					),
 				));
 			}
-			
+
 			$this->events->do_action('nexo_before_settings', $Nexo_Menus);
-			
+
 			if (
 				User::can('create_options') ||
 				User::can('edit_options') ||
@@ -381,7 +381,7 @@ class Nexo_Controller extends CI_Model
 						'icon'            =>    'fa fa-gear',
 						'href'            =>    site_url(array( 'dashboard', $store_uri . 'nexo', 'settings', 'invoices' ))
 					),
-					array( 
+					array(
 						'title'            =>    __('Clients', 'nexo'),
 						'icon'            =>    'fa fa-gear',
 						'href'            =>    site_url(array( 'dashboard', $store_uri . 'nexo', 'settings', 'customers' ))
@@ -391,45 +391,45 @@ class Nexo_Controller extends CI_Model
 						'icon'            =>    'fa fa-gear',
 						'href'            =>    site_url(array( 'dashboard', $store_uri . 'nexo', 'settings', 'reset' ))
 					)
-					
+
 				));
 			}
-			
+
 		}
-		
+
 		/**
 		 * Store Settings
 		 * @since 2.8
 		**/
-		
+
 		if( @$Options[ 'nexo_store' ] == 'enabled' ) {
-		
+
 			if( User::can( 'create_shop' ) && User::can( 'create_shop' ) && User::can( 'create_shop' ) ) {
 				$Nexo_Menus[ 'nexo_store_settings' ]	=	array(
-					array( 
+					array(
 						'title'			=>	__( 'Réglages des boutiques', 'nexo' ),
 						'href'			=>	site_url( array( 'dashboard', 'nexo', 'stores-settings' ) ),
 						'icon'			=>	'fa fa-wrench'
 					)
 				);
 			}
-			
+
 		} else { // in order to simplify Setting menu, we remove Store setting from admin menu add set it as Nexo Settings Sub menu
-			
+
 			if( User::can( 'create_shop' ) && User::can( 'create_shop' ) && User::can( 'create_shop' ) ) {
-				$Nexo_Menus[ 'nexo_settings' ][]	=	array( 
+				$Nexo_Menus[ 'nexo_settings' ][]	=	array(
 					'title'			=>	__( 'Réglages des boutiques', 'nexo' ),
 					'href'			=>	site_url( array( 'dashboard', 'nexo', 'stores-settings' ) ),
 					'icon'			=>	'fa fa-wrench'
 				);
 			}
-						
+
 		}
-        
+
         $start    	=    array_slice($final, 0, 1);
         $end    	=    array_slice($final, 1);
         $final    	=    array_merge($start, $Nexo_Menus, $end);
-		
+
 		/**
 		 * Hide Main Site Menus
 		 * @since 2.8.0
@@ -441,12 +441,12 @@ class Nexo_Controller extends CI_Model
 					unset( $final[ $key ] );
 				}
 			}
-			
+
 			// Create a dashboard menu for Sub shop
 			// @since 2.8.0
-			
+
 			if( $this->uri->segment( 2 ) == 'stores' ){
-			
+
 				$final		=	array_insert_before( 'caisse', $final, 'store-dashboard', array(
 					array(
 						'title'		=>	__( 'Tableau de bord', 'nexo' ),
@@ -454,35 +454,35 @@ class Nexo_Controller extends CI_Model
 						'icon'		=>	'fa fa-dashboard'
 					)
 				) );
-				
+
 				@$final[ 'nexo_settings' ][0]	=	array(
 					'title'		=>	__( 'Réglages de la boutique', 'nexo' ),
 					'disable'	=>	true,
 					'icon'		=>	'fa fa-cogs',
 					'href'		=>	'javascript:void()'
 				);
-				
+
 			}
 		}
-			
+
         return $final;
     }
-    
+
     public function load_dashboard()
     {
         $this->load->model('Nexo_Misc');
-		
+
         $this->Gui->register_page('nexo', array( $this, 'load_controller' ));
 		$this->Gui->register_page( 'stores', array( $this, 'stores' ) );
 
 		$this->events->add_action( 'display_admin_header_menu', function( $action ) {
-			
+
 			get_instance()->load->model( 'Nexo_Stores' );
-			
+
 			$stores		=	get_instance()->Nexo_Stores->get( 'opened', 'STATUS' );
-			
+
 			global $Options;
-			
+
 			if( @$Options[ 'nexo_store' ] == 'enabled' ) {
 			?>
 <li class="messages-menu">
@@ -493,12 +493,12 @@ if( User::in_group( 'shop_cashier' ) || User::in_group( 'shop_tester' ) ) {
 	$store_url	=	site_url( array( 'dashboard', 'nexo', 'stores', 'lists' ) );
 }
 ?>
-    <a href="<?php echo $store_url;?>" title="<?php _e( 'Gérer les boutiques', 'nexo' );?>"> 
+    <a href="<?php echo $store_url;?>" title="<?php _e( 'Gérer les boutiques', 'nexo' );?>">
     	<i class="fa fa-home"></i>
     </a>
 </li>
 <li class="dropdown messages-menu">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true"> 
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
     	<i class="fa fa-cubes"></i>
     	<?php _e( 'Boutiques', 'nexo' );?>
     </a>
@@ -509,11 +509,11 @@ if( User::in_group( 'shop_cashier' ) || User::in_group( 'shop_tester' ) ) {
             <?php if( $stores ):?>
 			<?php foreach( $stores as $store ): ?>
                 <?php if( $store[ 'STATUS' ] == 'opened' ):?>
-                <li> 
-                	<a href="<?php echo site_url( array( 'dashboard', 'stores', $store[ 'ID' ] ) );?>"> 
-                    	<i class="fa fa-cube text-default"></i> 
+                <li>
+                	<a href="<?php echo site_url( array( 'dashboard', 'stores', $store[ 'ID' ] ) );?>">
+                    	<i class="fa fa-cube text-default"></i>
 						<?php echo xss_clean( $store[ 'NAME' ] );?>
-					</a> 
+					</a>
 				</li>
 				<?php endif;?>
             <?php endforeach;?>
@@ -542,62 +542,72 @@ if( User::in_group( 'shop_cashier' ) || User::in_group( 'shop_tester' ) ) {
             }
         }
     }
-	
+
 	/**
 	 * Store
 	**/
-	
+
 	public function stores()
 	{
 		global	$store_id,
 				$CurrentStore,
 				$Options;
-				
+
 		if( @$Options[ 'nexo_store' ] == 'enabled' ) {
-		
+
 			$urls		=	func_get_args();
 			$store_id	=	$urls[0];
 			$urls		=	array_splice( $urls, 2 );
-			
+
 			if( $CurrentStore ) {
-				
+
 				$this->args    =    $urls;
-	
+
 				if (is_array($this->args) && count($this->args) > 0) {
 					$file_name		=	$this->args[0];
 				} else {
 					$file_name		=	'dashboard';
 				}
-				
-		
+
+
 				$file    =    dirname(__FILE__) . '/../__controllers/' . $file_name . '.php';
-				
+
 				if ( is_file( $file ) ) {
-					
+
 					include_once($file);
-					
+
 				} else {
-					
-					$callback			=	$this->events->apply_filters( 'stores_controller_callback', array() );	
-					
+
+					$callback			=	$this->events->apply_filters( 'stores_controller_callback', array() );
+
 					if( $callback ) {
-						
+
 						/**
 						 * Saved Callback
 						**/
-						
+
 						$slug_namespace	=	@array_slice(func_get_args(), 1, 1);
-						
+
 						if( @$callback[ $slug_namespace[0] ] != null ) {
-							call_user_func_array( $callback[ $slug_namespace[0] ], array_slice(func_get_args(), 2));
+                            if( is_array( $callback[ $slug_namespace[0] ] ) ) {
+                                $method                             =   array_slice(func_get_args(), 2, 1);
+                                $callback[ $slug_namespace[0] ][]   =   str_replace( '-', '_', $method[0] );
+                                if( method_exists( $callback[ $slug_namespace[0] ][0], $callback[ $slug_namespace[0] ][1] ) ) {
+        							call_user_func_array( $callback[ $slug_namespace[0] ], array_slice(func_get_args(), 3));
+                                } else {
+                                    show_404();
+                                }
+                            } else {
+                                call_user_func_array( $callback[ $slug_namespace[0] ], array_slice(func_get_args(), 2));
+                            }
 						} else {
 							show_404();
 						}
-						
+
 					} else {
 						show_404();
 					}
-					
+
 				}
 			} else {
 				redirect( array( 'dashboard', 'unknow-store' ) );
@@ -608,4 +618,3 @@ if( User::in_group( 'shop_cashier' ) || User::in_group( 'shop_tester' ) ) {
 	}
 }
 new Nexo_Controller;
-

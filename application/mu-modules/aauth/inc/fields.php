@@ -79,12 +79,12 @@ class aauth_fields extends CI_model
 			</div>',
             'submit'    =>
             '<div class="row">
-				<div class="col-xs-7">    
+				<div class="col-xs-7">
 				  <div class="checkbox icheck">
 					<label>
 					  <div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false"><input type="checkbox" name="keep_connected"><ins class="iCheck-helper"></ins></div> ' . __('Remember me') . '
 					</label>
-				  </div>                        
+				  </div>
 				</div><!-- /.col -->
 				<div class="col-xs-5">
 				  <button type="submit" class="btn btn-primary btn-block btn-flat">' . __('Sign In') .'</button>
@@ -107,12 +107,14 @@ class aauth_fields extends CI_model
         ?>
       <div class="form-group has-feedback">
          <input type="text" class="form-control" placeholder="<?php _e('User Name');
-        ?>" name="username">
+        ?>" name="username" value="<?php echo set_value('username');
+        ?>">
          <span class="glyphicon glyphicon-user form-control-feedback"></span>
        </div>
        <div class="form-group has-feedback">
          <input type="email" class="form-control" placeholder="<?php _e('Email');
-        ?>" name="email">
+        ?>" name="email" value="<?php echo set_value('email');
+        ?>">
          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
        </div>
        <div class="form-group has-feedback">
@@ -126,9 +128,9 @@ class aauth_fields extends CI_model
          <span class="glyphicon glyphicon-lock  form-control-feedback"></span>
        </div>
        <div class="row">
-         <div class="col-xs-8">    
+         <div class="col-xs-8">
            <div class="checkbox icheck">
-           </div>                        
+           </div>
          </div><!-- /.col -->
          <div class="col-xs-4">
            <button type="submit" class="btn btn-primary btn-block btn-flat"><?php _e('Sign Up');
@@ -138,7 +140,7 @@ class aauth_fields extends CI_model
       <?php
         return $fields .= ob_get_clean();
     }
-    
+
     /**
      * Adds custom fields for user creation and edit
      *
@@ -146,7 +148,7 @@ class aauth_fields extends CI_model
      * @params : Array
      * @return : Array
     **/
-    
+
     public function user_custom_fields($config)
     {
         $this->Gui->add_item(array(
@@ -155,14 +157,14 @@ class aauth_fields extends CI_model
             'label'        =>        __('First Name'),
             'value'        =>        riake('user_id', $config) ? $this->options->get('first-name', riake('user_id', $config)) : false
         ), riake('meta_namespace', $config), riake('col_id', $config));
-        
+
         $this->Gui->add_item(array(
             'type'        =>        'text',
             'name'        =>        'last-name',
             'label'        =>        __('Last Name'),
             'value'        =>        riake('user_id', $config) ? $this->options->get('last-name', riake('user_id', $config)) : false
         ), riake('meta_namespace', $config), riake('col_id', $config));
-        
+
         ob_start();
         $skin    =    riake('user_id', $config) ? $this->options->get('theme-skin', riake('user_id', $config)) : '';
         ?>
@@ -282,7 +284,7 @@ class aauth_fields extends CI_model
                 $( '.theme-selector li a' ).each( function(){
                     $(this).removeClass( 'active' );
                 });
-                
+
                 $(this).toggleClass( 'active' );
                 $('input[name="theme-skin"]').val( $(this).data( 'skin' ) );
                 // console.log( $(this).data( 'skin' ) );
@@ -298,11 +300,11 @@ class aauth_fields extends CI_model
         // Clean
         unset($skin, $config, $dom);
     }
-    
+
     /**
      * Displays Error on Dashboard Page
     **/
-    
+
     public function displays_dashboard_errors()
     {
         $errors    =    $this->users->auth->get_errors_array();
@@ -312,7 +314,7 @@ class aauth_fields extends CI_model
             }
         }
     }
-    
+
     /**
      * Adds custom meta for user
      *
@@ -320,7 +322,7 @@ class aauth_fields extends CI_model
      * @params : Array
      * @return : Array
     **/
-    
+
     public function custom_user_meta($fields)
     {
         $fields[ 'first-name' ]        =    ($fname = $this->input->post('first-name')) ? $fname : '';

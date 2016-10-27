@@ -7,5 +7,6 @@
 		<version>1.0</version>
 		<description>Add support for custom payment gateway on NexoPOS</description>
 		<main>nexo-payments-gateway.php</main>
+		<language>language/</language>
 	</details>
 </application>

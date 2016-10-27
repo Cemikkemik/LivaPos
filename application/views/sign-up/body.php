@@ -6,12 +6,12 @@
 
       <div class="register-box-body">
         <p class="login-box-msg"><?php _e('Sign up to');?></p>
-        <p><?php echo validation_errors();?></p>
+        <p><?php echo validation_errors( '<div class="alert alert-danger">', '</div>');?></p>
         <p><?php echo $this->notice->output_notice();?></p>
         <form  method="post">
         	<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
           <?php echo $this->events->apply_filters('displays_registration_fields', '');?>
-        </form> 
+        </form>
         <?php
         // May checks whether recovery is enabled
         ?>
@@ -20,9 +20,9 @@
         // may checks whether login if login is enabled
         ?>
         <a href="<?php echo site_url(array( 'sign-in' ));?>" class="text-center"><?php _e('I Already Have An Account');?></a><br>
-        
+
       </div><!-- /.form-box -->
     </div><!-- /.register-box -->
-  
+
 </body>
 </html>

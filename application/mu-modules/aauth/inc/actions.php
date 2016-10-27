@@ -23,7 +23,7 @@ class aauth_action extends CI_model
         }
         redirect(array( 'sign-in?notice=unknow-user' ));
     }
-    
+
     public function do_reset_user($user_id, $ver_code)
     {
         $user    =    $this->users->auth->get_user($user_id);
@@ -41,14 +41,12 @@ class aauth_action extends CI_model
             $this->input->post('email'),
             $this->input->post('password'),
             $this->input->post('username'),
-            'subscriber'
+            'user'
         );
-        
+
         if ($exec === 'user-created') {
             redirect(array( 'sign-in?notice=' . $exec ));
         }
-        
-        $this->notice->push_notice($this->lang->line($exec));
     }
     public function recovery_email()
     {
@@ -59,31 +57,31 @@ class aauth_action extends CI_model
         }
         $this->notice->push_notice($this->lang->line('unknow-user'));
     }
-    
+
     /**
      * Change Auth Class Email Settings
      *
      * @return : void
     **/
-    
+
     public function change_auth_settings()
     {
-        $auth                    =    &$this->users->auth->config_vars;
-        $auth[ 'email' ]        =    'cms@tendoo.org';
-        $auth[ 'name' ]            =    get('core_signature');
+        $auth                       =    &$this->users->auth->config_vars;
+        $auth[ 'email' ]            =    'cms@tendoo.org';
+        $auth[ 'name' ]             =    get('core_signature');
     }
-    
+
     /**
      * Log user in
      *
     **/
-    
+
     public function tendoo_login()
     {
         // Apply filter before login
         $fields_namespace        =    $this->Login_Model->get_fields_namespace();
         $exec                =    $this->users->login($fields_namespace);
-        
+
         $this->events->add_filter('tendoo_login_notice', function () use ($exec) {
             return $exec;
         });

@@ -73,6 +73,18 @@ $this->Gui->add_item(array(
     'active'        =>     is_object($user_group) ? $user_group->group_id : null
 ), 'edit_user', 1);
 
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    'user_status',
+    'label'        =>    __('User Status'),
+    'options'    =>    array(
+        'default'   =>  __( 'Default'),
+        '0'         =>  __( 'Active' ),
+        '1'         =>  __( 'Unactive' )
+    ),
+    'active'    =>  $user->banned
+), 'edit_user',1 );
+
 // load custom field for user creatin
 
 $this->events->do_action('load_users_custom_fields', array(

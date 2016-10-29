@@ -37,11 +37,13 @@ class aauth_action extends CI_model
     }
     public function register_user()
     {
+        global $Options;
         $exec    =    $this->users->create(
             $this->input->post('email'),
             $this->input->post('password'),
             $this->input->post('username'),
-            'user'
+            'user',
+            ( @$Options[ 'require_validation' ] == 1 ? 1 : 0 )
         );
 
         if ($exec === 'user-created') {

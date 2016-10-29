@@ -1,4 +1,4 @@
-<?php 
+<?php
 global $Options;
 $this->config->load( 'nexo' );
 

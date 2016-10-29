@@ -54,6 +54,17 @@ $this->Gui->add_item(array(
     'name'            =>    'confirm',
 ), 'create_user', 1);
 
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    'user_status',
+    'label'        =>    __('User Status'),
+    'options'    =>    array(
+        'defualt'   =>  __( 'Default'),
+        'active'    =>  __( 'Active' ),
+        'unactive'  =>  __( 'Unactive' )
+    )
+), 'create_user',1 );
+
 // add to a group
 
 $groups_array    =    array();

@@ -12,9 +12,9 @@ foreach ($users as $user) {
         $user->user_id ,
         '<a href="' . site_url(array( 'dashboard', 'users', 'edit', $user->user_id )) . '">' . $user->user_name . '</a>' ,
         $user->group_name,
-        $user->group_description,
         $user->email ,
         $user->last_login,
+        $user->banned   ==  1 ? __( 'Unactive' ) : __( 'Active' ),
          '<a href="' . site_url(array( 'dashboard', 'users', 'delete', $user->user_id )) . '">' . __('Delete') . '</a>' ,
     );
 }
@@ -31,7 +31,7 @@ $this->Gui->add_meta(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'table',
-    'cols'        =>    array( __('User Id'), __('Username'), __('Role'), __('Role description'), __('Email'),  __('Activity'), __('Actions') ),
+    'cols'        =>    array( __('User Id'), __('Username'), __('Role'), __('Email'),  __('Activity'), __( 'Status' ), __('Actions') ),
     'rows'        =>    $complete_users
 ), 'user-list', 1);
 
@@ -41,7 +41,5 @@ $this->Gui->add_item(array(
     'type'        =>    'dom',
     'content'    =>    $pagination
 ), 'user-list', 1);
-
-
 
 $this->Gui->output();

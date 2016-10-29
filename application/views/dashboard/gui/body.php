@@ -5,7 +5,7 @@
  *	Since		:	1.4
 **/
 ?>
-<!-- 
+<!--
 Library : GUI-V2
 Version : 1.1
 Description : Provide simple UI manager
@@ -13,10 +13,10 @@ Tendoo Version Required : 1.5
 -->
 <div class="content-wrapper" style="min-height: 916px;" <?php echo $this->events->apply_filters('gui_wrapper_attrs', '' );?>>
 <!-- Content Header (Page header) -->
-	<?php 
-    
+	<?php
+
     echo    $this->events->apply_filters('gui_page_title', $page_header);
-    
+
     // echo	notice( 'parse' );
 
 /**
@@ -25,13 +25,13 @@ Tendoo Version Required : 1.5
 **/
 
     echo    $this->events->apply_filters('gui_before_cols', '');
-    
+
     ?>
     <div class="content">
-    <?php 
-    
+    <?php
+
     echo    $this->events->apply_filters('gui_before_rows', '');
-    
+
     if (function_exists('validation_errors')) {
         // validation errors
         echo(validation_errors()) != '' ? tendoo_error(strip_tags(validation_errors())) : '';
@@ -40,18 +40,18 @@ Tendoo Version Required : 1.5
     $this->events->do_action('displays_dashboard_errors');
     // display notice
     echo $this->notice->output_notice();
-    
+
     $col_range    =    (count($this->Gui->cols) > 3) ? 3 : 4;
     ?>
     <div class="row gui-row-tag">
         <?php foreach (force_array($this->Gui->get_cols()) as $col_id =>    $col_data):?>
         	<?php if( $col_data ):?>
         <div class="meta-row col-lg-<?php echo ceil(riake('width', $col_data, 1) * $col_range) ;?> col-md-<?php echo ceil(riake('width', $col_data, 1) * $col_range) ;?>">
-            <?php 
+            <?php
             $config = riake('configs', $col_data);
             // Inner Opening Wrapper
             echo $this->events->apply_filters('gui_opening_wrapper', '');
-            
+
             // looping $col_data[ 'metas' ];
             foreach (force_array(riake('metas', $col_data)) as $meta) {
                 $meta_class            =    riake('meta_class', $meta);
@@ -62,7 +62,7 @@ Tendoo Version Required : 1.5
                  * Attrs String
                 **/
                 $attrs_string    =    '';
-                
+
                 foreach (force_array($attrs) as $key => $attr) {
                     $attrs_string    .=    $key . '="' . $attr . '" ';
                 }
@@ -80,10 +80,10 @@ Tendoo Version Required : 1.5
                     $method            =    riake('method', riake('custom', $meta), 'POST');
                     $enctype        =    riake('enctype', riake('custom', $meta), 'multipart/form-data');
                     $namespace        =    riake('namespace', $meta);
-                    
+
                     if (riake('gui_saver', $meta)) {
                         ?>
-						<form class="form <?php echo $class;
+						<form ng-non-bindable class="form <?php echo $class;
                         ?>" id="<?php echo $id;
                         ?>" action="<?php echo $action;
                         ?>" enctype="<?php echo $enctype;
@@ -104,7 +104,7 @@ Tendoo Version Required : 1.5
 
                     } elseif (in_array($action, array( null, false ), true)) {
                         ?>
-                        <form class="form <?php echo $class;
+                        <form ng-non-bindable class="form <?php echo $class;
                         ?>" id="<?php echo $id;
                         ?>" enctype="<?php echo $enctype;
                         ?>" method="<?php echo $method;
@@ -115,14 +115,14 @@ Tendoo Version Required : 1.5
                         <?php
 
                     }
-                    
-                    
+
+
                     // Meta status
                     $meta_status    =    ''; //$this->options->get( 'meta_status', User::id() );
                     /**
                      * Background-Color will help you set a default background for the meta
                     **/
-                    ?>                    
+                    ?>
                     <div class="box <?php echo $meta_type;
                     ?> <?php echo riake($namespace, $meta_status);
                     ?> <?php echo riake('background-color', $meta);
@@ -165,11 +165,11 @@ Tendoo Version Required : 1.5
                         <?php endif;
                     ?>
                         <!-- /.box-body -->
-                        <?php 
+                        <?php
                         if ($footer    =    riake('footer', $meta)) {
                             ?>
                         <div class="box-footer">
-                        	<?php 
+                        	<?php
                             if ($footer_submit    = riake('submit', $footer)) {
                                 ?>
                             <button type="submit" class="btn btn-primary"><?php echo riake('label', $footer_submit);
@@ -219,10 +219,10 @@ Tendoo Version Required : 1.5
                     $method            =    riake('method', riake('custom', $meta), 'POST');
                     $enctype        =    riake('enctype', riake('custom', $meta), 'multipart/form-data');
                     $namespace        =    riake('namespace', $meta);
-                                        
+
                     if (riake('gui_saver', $meta)) {
                         ?>
-						<form class="form <?php echo $class;
+						<form ng-non-bindable class="form <?php echo $class;
                         ?>" id="<?php echo $id;
                         ?>" action="<?php echo $action;
                         ?>" enctype="<?php echo $enctype;
@@ -243,7 +243,7 @@ Tendoo Version Required : 1.5
 
                     } elseif (in_array($action, array( null, false ), true)) {
                         ?>
-                        <form class="form <?php echo $class;
+                        <form ng-non-bindable class="form <?php echo $class;
                         ?>" id="<?php echo $id;
                         ?>" enctype="<?php echo $enctype;
                         ?>" method="<?php echo $method;
@@ -254,12 +254,12 @@ Tendoo Version Required : 1.5
                         <?php
 
                     }
-                    
+
                     echo $this->load->view('dashboard/gui/gui-items', array(
                         'meta'            =>    $meta,
                         'namespace'        =>    $namespace
                     ), true);
-                    
+
                     if ($footer    =    riake('footer', $meta)) {
                         if ($footer_submit    = riake('submit', $footer)) {
                             ?>
@@ -282,7 +282,7 @@ Tendoo Version Required : 1.5
 
                         }*/
                     }
-                                        
+
                     // enable gui form saver
                     if (riake('gui_saver', $meta)) {
                         ?>
@@ -311,7 +311,7 @@ Tendoo Version Required : 1.5
 *	Details : Output content after cols
 *	Usage : set 'after_cols' key with GUI::config()
 **/
-    
+
     echo $this->events->apply_filters('gui_after_cols', '');
     ?>
 </div>

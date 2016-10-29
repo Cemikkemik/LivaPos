@@ -178,7 +178,7 @@ class Aauth
         } else {
             $query = $this->CI->db->where('name', $email);
         }
-        
+
         $query = $this->CI->db->get($this->config_vars['users']);
         $row = $query->row();
 
@@ -775,9 +775,9 @@ class Aauth
         // limit
         if ($limit) {
             if ($offset == false) {
-                $this->CI->db->limit($offset);
+                $this->CI->db->limit($limit);
             } else {
-                $this->CI->db->limit($offset, $limit);
+                $this->CI->db->limit($limit,$offset);
             }
         }
 

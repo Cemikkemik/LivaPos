@@ -143,7 +143,7 @@ class Users_model extends CI_Model
      * 	@return : bool
     **/
 
-    public function create($email, $password, $username, $group_par, $validate = false)
+    public function create($email, $password, $username, $group_par, $user_status = '1')
     {
         $user_creation_status    =    $this->auth->create_user($email, $password, $username);
         if (! $user_creation_status) {
@@ -159,10 +159,12 @@ class Users_model extends CI_Model
         // refresh group
         $this->auth->add_member($user_id, $group_par);
 
-        // Validate User
-        if ($validate == true) {
+        // User Status
+        if ($user_status == '0') {
             $user            =    $this->auth->get_user($user_id);
-            $this->auth->verify_user($user, $users->verification_code);
+            if( $user ) {
+                $this->auth->verify_user($user_id, $user->verification_code);
+            }
         }
 
         // add custom user fields
@@ -181,12 +183,13 @@ class Users_model extends CI_Model
      * @param
     **/
 
-    public function edit($user_id, $email, $password, $group_id, $user_group, $old_password = null, $mode = 'edit')
+    public function edit($user_id, $email, $password, $group_id, $user_group, $old_password = null, $mode = 'edit', $user_status = '0')
     {
         $return        =    'user-updated';
         // old password has been defined
         if ($old_password != null && $mode == 'profile') {
-            if ($password === $old_password): return 'pass-change-error';
+            if ($password === $old_password):
+                return 'pass-change-error';
             endif;
             // get user using old password
             $query    =    $this->db->where('id', $user_id)->where('pass', $this->auth->hash_password($old_password, $user_id))->get('aauth_users');
@@ -210,6 +213,14 @@ class Users_model extends CI_Model
 
             // Change user password and email
             $this->auth->update_user($user_id, $email, $password);
+
+            // User Status
+            $user            =    $this->auth->get_user($user_id);
+            if ($user_status == '0') {
+                $this->auth->verify_user($user_id, $user->verification_code);
+            } else if( $user_status == '1' ){
+                $this->auth->ban_user($user_id);
+            }
         }
 
         // add custom user fields

@@ -21,7 +21,7 @@ NexoAPI.events.addAction( 'pos_select_payment', function( data ) {
 	
 	if( data[1] == 'stripe' ) {
 		// Disable payment for Stripe
-		data[0].defaultAddPaymentText	=	'<?php echo _s( 'Facturer une carte', 'nexo' );?>';
+		data[0].defaultAddPaymentText	=	'<?php echo _s( 'Facturer une carte', 'nexo-payments-gateway' );?>';
 	} else {
 		data[0].defaultAddPaymentText	=	previous_text;
 	}	
@@ -31,7 +31,7 @@ NexoAPI.events.addAction( 'pos_select_payment', function( data ) {
 // Disable payment edition for Stripe
 NexoAPI.events.addFilter( 'allow_payment_edition', function( data ) {
 	if( data[1] == 'stripe' ) {
-		NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Vous ne pouvez pas modifier un paiement déjà effectué, car une carte a déjà été débitée.', 'nexo' );?>' );
+		NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo-payments-gateway' );?>', '<?php echo _s( 'Vous ne pouvez pas modifier un paiement déjà effectué, car une carte a déjà été débitée.', 'nexo-payments-gateway' );?>' );
 		
 		return [ false, data[1] ];
 	}

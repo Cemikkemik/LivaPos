@@ -35,7 +35,7 @@ if( $groups ) {
 		// ** Let you create fake field
 		$fields				=	get_instance()->events->apply_filters( 'grocery_registered_fields', $fields );
 		$input_fields		=	get_instance()->events->apply_filters( 'grocery_input_fields', $input_fields );
-			
+
 		foreach( $groups as $namespace	=> $group ) {
 					?>
         <div class="tab-pane <?php echo $index == 0 ? 'active': '';?>" id="<?php echo $namespace;?>">
@@ -55,17 +55,17 @@ if( $groups ) {
                 <div class="input-group"> <span class="input-group-addon" id="basic-addon1"> <?php echo $input_fields[$field->field_name]->display_as;
 							?> <?php echo ($input_fields[$field->field_name]->required)? " <span class='required label label-danger'>*</span> " : "";
 							?> </span> <?php echo $input_fields[$field->field_name]->input;
-							?> 
+							?>
                     <!--<input type="text" class="form-control" placeholder="<?php echo $field->display_as;
 							?>" name="<?php echo $field->field_name;
-							?>" aria-describedby="basic-addon1"> --> 
+							?>" aria-describedby="basic-addon1"> -->
                 </div>
                 <?php if( ! empty( $field->description ) ):?>
                 <br />
                 <?php echo $field->description;?>
                 <?php endif;?>
             </div>
-            <?php 
+            <?php
 						} else {
 			?>
             <div class="form-group <?php echo $even_odd?>" id="<?php echo $field->field_name;
@@ -74,22 +74,22 @@ if( $groups ) {
 							?><?php echo ($input_fields[$field->field_name]->required)? " <span class='required label label-danger'>*</span> " : "";
 							?></label>
                 <br />
-                <?php echo $input_fields[$field->field_name]->input;?> 
+                <?php echo $input_fields[$field->field_name]->input;?>
 			</div>
             	<?php echo $field->description;?>
-            <?php	
+            <?php
 								}
 							}
 						}
 					}?>
         </div>
-        <!-- /.tab-pane --> 
+        <!-- /.tab-pane -->
         <?php
 					$index++;
 				}
 				?>
     </div>
-    <!-- /.tab-content --> 
+    <!-- /.tab-content -->
 </div>
 <?php
 	} else {
@@ -100,13 +100,13 @@ if( $groups ) {
 		$counter = 0;
 		$fields				=	get_instance()->events->apply_filters( 'grocery_registered_fields', $fields );
 		$input_fields		=	get_instance()->events->apply_filters( 'grocery_input_fields', $input_fields );
-		
+
 		foreach ($fields as $field) {
 			$even_odd = $counter % 2 == 0 ? 'odd' : 'even';
 			$counter++;
 			if ($input_fields[ $field->field_name ]->crud_type != 'relation_invisible') {
 				if (
-					in_array($input_fields[ $field->field_name ]->type, array( 'double', 'varchar', 'int', 'float' )) &&
+					in_array( @$input_fields[ $field->field_name ]->type, array( 'double', 'varchar', 'int', 'float' )) &&
 					in_array($input_fields[ $field->field_name ]->crud_type, array( false, 'integer' ), true)) {
 					?>
         <div class="form-group <?php echo $even_odd?>" id="<?php echo $field->field_name;
@@ -114,14 +114,14 @@ if( $groups ) {
             <div class="input-group"> <span class="input-group-addon" id="basic-addon1"> <?php echo $input_fields[$field->field_name]->display_as;
 					?> <?php echo ($input_fields[$field->field_name]->required)? " <span class='required label label-danger'>*</span> " : "";
 					?> </span> <?php echo $input_fields[$field->field_name]->input;
-					?> 
+					?>
                 <!--<input type="text" class="form-control" placeholder="<?php echo $field->display_as;
 					?>" name="<?php echo $field->field_name;
-					?>" aria-describedby="basic-addon1"> --> 
+					?>" aria-describedby="basic-addon1"> -->
             </div>
             <?php echo $field->description;?>
         </div>
-        <?php 
+        <?php
 				} else {
 					?>
         <div class="form-group <?php echo $even_odd?>" id="<?php echo $field->field_name;
@@ -153,7 +153,7 @@ if( $groups ) {
 <?php if ($is_ajax) {
     ?>
 <input type="hidden" name="is_ajax" value="true" />
-<?php 
+<?php
     }
     ?>
 <div id='report-error' class='report-div error'></div>
@@ -172,14 +172,14 @@ if( $groups ) {
         <input class="btn btn-danger"  type='button' value='<?php echo $this->l('form_cancel');
     ?>' class="btn btn-large" id="cancel-button" />
     </div>
-    <?php 
+    <?php
 } ?>
     <div class='form-button-box' style="display:none;">
         <div class='small-loading' id='FormLoading'><?php echo $this->l('form_insert_loading'); ?></div>
     </div>
     <div class='clear'></div>
 </div>
-<?php echo form_close(); ?> 
+<?php echo form_close(); ?>
 <script>
 	var validation_url = '<?php echo $validation_url?>';
 	var list_url = '<?php echo $list_url?>';

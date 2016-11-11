@@ -15,14 +15,12 @@ tendooApp.directive( 'payBoxContent', function(){
 
 	var	paymentTypesObject			= 	v2Checkout.paymentTypesObject;
 
-	console.log( HTML );
-
 	HTML.body.add( 'angular-cache' );
 	HTML.query( 'angular-cache' ).add( 'div.row.paybox-row').each( 'style', 'margin-left:0px;' );
 
-	HTML.query( '.paybox-row' ).add( 'div.col-lg-2.col-md-2.col-sm-2.col-xs-2.payment-options.bootstrap-tab-menu' );
-	HTML.query( '.paybox-row' ).add( 'div.col-lg-7.col-md-7.col-sm-7.col-xs-7.payment-options-content' ).each( 'style', 'padding-left:0px' );
-	HTML.query( '.paybox-row' ).add( 'div.col-lg-3.col-md-3.col-sm-3.col-xs-3.cart-details' );
+	HTML.query( '.paybox-row' ).add( 'div.col-lg-2.col-md-2.col-sm-2.col-xs-3.payment-options.bootstrap-tab-menu' );
+	HTML.query( '.paybox-row' ).add( 'div.col-lg-7.col-md-7.col-sm-5.col-xs-9.payment-options-content' ).each( 'style', 'padding-left:0px' );
+	HTML.query( '.paybox-row' ).add( 'div.col-lg-3.col-md-3.col-sm-5.col-xs-5.cart-details.hidden-xs' ).each( 'style', 'padding-left:0px' );
 
 	HTML.query( '.payment-options' ).add( 'div.list-group' );
 
@@ -60,7 +58,6 @@ tendooApp.directive( 'payBoxContent', function(){
 			.each( 'default_selected_payment_namespace'		, 'defaultSelectedPaymentNamespace' )
 			.each( 'show_cancel_edition_button'				, 'showCancelEditionButton' );
 
-
 			HTML.query( '.tab-' + key )
 			.add( 'keyboard' )
 			.each( 'input_name', key + '-field' )
@@ -76,20 +73,56 @@ tendooApp.directive( 'payBoxContent', function(){
 
 		}
 
+		// Display Cart details on payment option content, when screen is Xtra Small
+		HTML.query( 'div.tab-wrapper.tab-' + key )
+		.add( 'div.hidden-sm.hidden-md.hidden-lg.hidden-payment-list.payment-list-' + key )
+		.add( 'h4.text-center' )
+		.each( 'style', 'margin:10px 0;' )
+		.textContent	=	'<?php echo _s( 'Liste des paiements', 'nexo' );?>';
+
+		HTML.query( '.payment-list-' + key )
+		.add( 'ul.list-group>li.list-group-item.item-one' );
+
+		HTML.query( '.payment-list-' + key + ' .item-one' )
+		.textContent	=	'{{ payement.text }}';
+
+		HTML.query( '.payment-list-' + key + ' .item-one' )
+		.add( 'span.pull-right' )
+		.each( 'style', 'margin-right:80px' )
+		.textContent	=	'{{ payement.amount | moneyFormat }}';
+
+		HTML.query( '.payment-list-' + key + ' .item-one' )
+		.each( 'ng-repeat', 'payement in paymentList' )
+		.add( 'span.btn.btn-warning.btn-xs.pull-right' )
+		.each( 'style', 'position: absolute;right: 0;top: -1px;height: 42px;border-radius: 0px;padding: 10px 15px;' )
+		.each( 'ng-click', 'removePayment( $index )' )
+		.add( 'span.fa.fa-remove' );
+
+		HTML.query( '.payment-list-' + key + ' .item-one' )
+		.add( 'span.btn.btn-info.btn-xs.pull-right' )
+		.each( 'style', 'position: absolute;right: 40px;top: -1px;height: 42px;border-radius: 0px;padding: 10px 15px;' )
+		.each( 'ng-click', 'editPayment( $index )' )
+		.add( 'span.fa.fa-edit' );
+
+		// end
+
 		angular.element( '.tab-' + key ).attr( 'style', 'border-left:solid 1px #DEDEDE;height:{{ wrapperHeight }}px;overflow-y:scroll;padding:15px;' );
 
 	});
+
+
 
 	// Creating Cart details
 	var colWidth	=	150;
 
 	HTML.query( '.cart-details' )
-	.add( 'h3.text-center' )
+	.add( 'h4.text-center' )
 	.each( 'style', 'margin:10px 0;' )
 	.textContent	=	'<?php echo _s( 'Détails du panier', 'nexo' );?>';
 
 	HTML.query( '.cart-details' )
-	.add( 'table.table.table-bordered.cart-details-table>tr*<?php echo $rowNbr;?>' );
+	.add( 'table.table.table-bordered.cart-details-table>tr*<?php echo $rowNbr;?>' )
+	.each( 'style', 'font-size:13px' );
 
 	HTML.query( '.cart-details-table tr' ).only(<?php echo $currentRow;?>).add( 'td.text-left' )
 	.each( 'width', colWidth ).add( 'strong' ).textContent	=	'<?php echo _s( 'Sous Total', 'nexo' );?>';
@@ -142,37 +175,37 @@ tendooApp.directive( 'payBoxContent', function(){
 	HTML.query( '.cart-details-table tr' )
 	.only(<?php echo $currentRow;?>)
 	.add( 'td.text-left' )
-	.each( 'width', colWidth ).add( 'h3' ).textContent	=	'<?php echo _s( 'Reste', 'nexo' );?>';
+	.each( 'width', colWidth ).add( 'h5' ).textContent	=	'<?php echo _s( 'Reste', 'nexo' );?>';
 
 	HTML.query( '.cart-details-table tr' )
 	.only(<?php echo $currentRow++;?>)
-	.add( 'td.text-right' ).add( 'h3' ).textContent	=	'{{ cart.balance | moneyFormat }}';
+	.add( 'td.text-right' ).add( 'h5' ).textContent	=	'{{ cart.balance | moneyFormat }}';
 
 	// Split Payment
 	HTML.query( '.cart-details' )
-	.add( 'h3.text-center' )
+	.add( 'h4.text-center' )
 	.each( 'style', 'margin:10px 0;' )
 	.textContent	=	'<?php echo _s( 'Liste des paiements', 'nexo' );?>';
 
 	HTML.query( '.cart-details' )
 	.add( 'ul.list-group>li.list-group-item.item-one' );
 
-	HTML.query( '.item-one' )
+	HTML.query( '.cart-details .item-one' )
 	.textContent	=	'{{ payement.text }}';
 
-	HTML.query( '.item-one' )
+	HTML.query( '.cart-details .item-one' )
 	.add( 'span.pull-right' )
 	.each( 'style', 'margin-right:80px' )
 	.textContent	=	'{{ payement.amount | moneyFormat }}';
 
-	HTML.query( '.item-one' )
+	HTML.query( '.cart-details .item-one' )
 	.each( 'ng-repeat', 'payement in paymentList' )
 	.add( 'span.btn.btn-warning.btn-xs.pull-right' )
 	.each( 'style', 'position: absolute;right: 0;top: -1px;height: 42px;border-radius: 0px;padding: 10px 15px;' )
 	.each( 'ng-click', 'removePayment( $index )' )
 	.add( 'span.fa.fa-remove' );
 
-	HTML.query( '.item-one' )
+	HTML.query( '.cart-details .item-one' )
 	.add( 'span.btn.btn-info.btn-xs.pull-right' )
 	.each( 'style', 'position: absolute;right: 40px;top: -1px;height: 42px;border-radius: 0px;padding: 10px 15px;' )
 	.each( 'ng-click', 'editPayment( $index )' )

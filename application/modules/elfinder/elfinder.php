@@ -24,6 +24,7 @@ class elFinder extends CI_Model{
 
     public function admin_menus( $menus )
     {
+        $backup     =   $menus;
         if( User::can( 'edit_options' ) ) :
             $menus  =   array_insert_before( 'settings', $menus, 'elfinder', array(
                 array(
@@ -33,8 +34,7 @@ class elFinder extends CI_Model{
                 )
             ));
         endif;
-
-        return $menus;
+        return $menus ? $menus : $backup;
     }
 
     /**

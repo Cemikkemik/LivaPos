@@ -506,20 +506,31 @@ if( User::in_group( 'shop_cashier' ) || User::in_group( 'shop_tester' ) ) {
         <li>
             <!-- inner menu: contains the actual data -->
             <ul class="menu">
+
             <?php if( $stores ):?>
 			<?php foreach( $stores as $store ): ?>
                 <?php if( $store[ 'STATUS' ] == 'opened' ):?>
-                <li>
-                	<a href="<?php echo site_url( array( 'dashboard', 'stores', $store[ 'ID' ] ) );?>">
-                    	<i class="fa fa-cube text-default"></i>
-						<?php echo xss_clean( $store[ 'NAME' ] );?>
-					</a>
-				</li>
+                <li><!-- start message -->
+                    <a href="<?php echo site_url( array( 'dashboard', 'stores', $store[ 'ID' ] ) );?>">
+                      <div class="pull-left">
+                          <?php if (  $store[ 'IMAGE' ] != '' ): ?>
+                              <img src="<?php echo upload_url() . '/stores/' . $store[ 'IMAGE' ];?>" class="img-circle" alt="User Image">
+                          <?php else: ?>
+                                <img src="<?php echo module_url( 'nexo' ) . '/images/default.png';?>" class="img-circle" alt="User Image">
+                          <?php endif; ?>
+                      </div>
+                      <h4>
+                        <?php echo xss_clean( $store[ 'NAME' ] );?>
+                        <!-- <small><i class="fa fa-clock-o"></i> 5 mins</small>-->
+                      </h4>
+                      <p><?php echo $store[ 'DESCRIPTION' ] != '' ? xss_clean( $store[ 'DESCRIPTION' ] ) : __( 'Aucune description disponible', 'nexo' );?></p>
+                    </a>
+                  </li>
 				<?php endif;?>
             <?php endforeach;?>
             <?php else:?>
             <li>
-            	<a href="<?php echo site_url( array( 'dashboard', 'nexo', 'stores', 'lists' ) );?>"><?php _e( '+1 Créer une boutique', 'nexo' );?></a>
+            	<a href="<?php echo site_url( array( 'dashboard', 'nexo', 'stores', 'lists', 'add' ) );?>"><?php _e( '+1 Créer une boutique', 'nexo' );?></a>
 			</li>
             <?php endif;?>
             </ul>
@@ -555,9 +566,10 @@ if( User::in_group( 'shop_cashier' ) || User::in_group( 'shop_tester' ) ) {
 
 		if( @$Options[ 'nexo_store' ] == 'enabled' ) {
 
-			$urls		=	func_get_args();
-			$store_id	=	$urls[0];
-			$urls		=	array_splice( $urls, 2 );
+			$urls		      =	func_get_args();
+			$store_id	      =	@$urls[0];
+            $slug_namespace   = @$urls[1];
+			$urls		      =	array_splice( $urls, 2 );
 
 			if( $CurrentStore ) {
 
@@ -569,10 +581,9 @@ if( User::in_group( 'shop_cashier' ) || User::in_group( 'shop_tester' ) ) {
 					$file_name		=	'dashboard';
 				}
 
-
 				$file    =    dirname(__FILE__) . '/../__controllers/' . $file_name . '.php';
 
-				if ( is_file( $file ) ) {
+				if ( is_file( $file ) && in_array( $slug_namespace, array( 'nexo', null ) ) ) {
 
 					include_once($file);
 
@@ -598,7 +609,14 @@ if( User::in_group( 'shop_cashier' ) || User::in_group( 'shop_tester' ) ) {
                                     show_404();
                                 }
                             } else {
-                                call_user_func_array( $callback[ $slug_namespace[0] ], array_slice(func_get_args(), 2));
+                                $method             =   array_slice(func_get_args(), 2, 1);
+                                $finalArray         =   array( $callback[ $slug_namespace[0] ] );
+                                $finalArray[]       =   str_replace( '-', '_', $method[0] );
+                                if( method_exists( @$finalArray[0], @$finalArray[1] ) ) {
+        							call_user_func_array( $finalArray, array_slice(func_get_args(), 3));
+                                } else {
+                                    show_404();
+                                }
                             }
 						} else {
 							show_404();

@@ -100,7 +100,7 @@ $this->Gui->add_item(array(
 $this->Gui->add_item(array(
     'type'        =>    'select',
     'name'        =>    $option_prefix . 'nexo_compact_enabled',
-    'label'        =>    __('Activer le mode comptact', 'nexo'),
+    'label'        =>    __('Activer le mode plein écran', 'nexo'),
     'options'    =>    array(
 		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
         'no'    =>    __('Non', 'nexo'),

@@ -13,7 +13,7 @@ tendooApp.directive( 'defaultPayment', function(){
 	.each( 'ng-show', 'editModeEnabled' )
 
 	HTML.query( 'angular-cache' )
-	.add( 'div.input-group.input-group-lg.payment-field-wrapper>span.input-group-addon.hidden-sm' )
+	.add( 'div.input-group.input-group-lg.payment-field-wrapper>span.input-group-addon.hidden-sm.hidden-xs' )
 	.textContent	=	'<?php echo _s( 'Montant du paiement', 'nexo' );?>';
 
 	HTML.query( '.payment-field-wrapper' )

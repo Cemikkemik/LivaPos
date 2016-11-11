@@ -26,7 +26,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	$scope.addPaymentDisabled		=	false;
 	$scope.cashPaidAmount			=	0;
 	$scope.currentPaymentIndex		=	null;
-	$scope.defaultAddPaymentText	=	'<?php echo _s( 'Ajouter le paiement', 'nexo' );?>';
+	$scope.defaultAddPaymentText	=	'<?php echo _s( 'Ajouter', 'nexo' );?>';
 	$scope.defaultAddPaymentClass	=	'success';
 	$scope.editModeEnabled			=	false;
 	$scope.paymentTypes				=	<?php echo json_encode( $this->events->apply_filters( 'nexo_payments_types', $this->config->item( 'nexo_payments_types' ) ) );?>;
@@ -90,6 +90,8 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 
 		$scope.paidAmount	=	0; // reset paid amount
 		$scope.refreshPaidSoFar();
+		// Trigger Action added on cart
+		NexoAPI.events.doAction( 'cart_add_payment', [ $scope.cart.paidSoFar, $scope.cart.balance ]);
 	};
 
 	/**
@@ -97,7 +99,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	**/
 
 	$scope.bindKeyBoardEvent	=	function( $event ){
-		console.log( $event );
+		// console.log( $event );
 	};
 
 	/**
@@ -107,7 +109,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	$scope.cancelPaymentEdition	=	function( paymentNamespace ){
 		$scope.editModeEnabled			=	false;
 		$scope.showCancelEditionButton	=	false;
-		$scope.defaultAddPaymentText	=	'<?php echo _s( 'Ajouter le paiement', 'nexo' );?>';
+		$scope.defaultAddPaymentText	=	'<?php echo _s( 'Ajouter', 'nexo' );?>';
 		$scope.defaultAddPaymentClass	=	'success';
 		$scope.paidAmount				=	0;
 
@@ -363,7 +365,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 			$scope.selectPayment( $scope.paymentList[ index ].namespace );
 			$scope.editModeEnabled			=	true;
 			$scope.showCancelEditionButton	=	true;
-			$scope.defaultAddPaymentText	=	'<?php echo _s( 'Modifier le paiement', 'nexo' );?>';
+			$scope.defaultAddPaymentText	=	'<?php echo _s( 'Modifier', 'nexo' );?>';
 			$scope.defaultAddPaymentClass	=	'info';
 			$scope.currentPaymentIndex		=	index;
 			$scope.paidAmount				=	$scope.paymentList[ index ].amount;
@@ -425,7 +427,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 			title			:	'<?php echo _s( 'Paiement de la commande', 'nexo' );?>',
 			buttons: {
 				confirm: {
-					label: '<?php echo _s( 'Valider la commande', 'nexo' );?>',
+					label: '<span class="hidden-xs"><?php echo _s( 'Valider la commande', 'nexo' );?></span><span class="fa fa-shopping-cart"></i></span>',
 					className: 'btn-success'
 				},
 				cancel: {
@@ -484,7 +486,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 			$scope.cart.paidSoFar	+=	parseFloat( value.amount );
 		});
 
-		$scope.cart.balance			=	$scope.cart.paidSoFar - ( v2Checkout.CartValue + $scope.cart.VAT );
+		$scope.cart.balance			=	$scope.cart.paidSoFar - ( v2Checkout.CartToPay + $scope.cart.VAT );
 
 	};
 
@@ -499,6 +501,8 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		$scope.paymentList.splice( index, 1 );
 
 		$scope.refreshPaidSoFar();
+
+		NexoAPI.events.doAction( 'cart_remove_payment', [ $scope.cart.paidSoFar, $scope.cart.balance ]);
 	};
 
 	/**

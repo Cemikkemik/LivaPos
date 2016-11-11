@@ -26,7 +26,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
         <div class="well col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="row order-details">
                 <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
-                    <h2 class="text-center"><?php echo $Options[ store_prefix() . 'site_name' ];?></h2>
+                    <h2 class="text-center"><?php echo @$Options[ store_prefix() . 'site_name' ];?></h2>
                 </div>
                 <?php ob_start();?>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -36,7 +36,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                     <?php echo xss_clean( @$Options[ store_prefix() . 'receipt_col_2' ] );?>
                 </div>
             </div>
-            <?php 
+            <?php
             $string_to_parse	=	ob_get_clean();
             echo $this->parser->parse_string( $string_to_parse, $template , true );
             ?>
@@ -58,13 +58,13 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         </tr>
                     </thead>
                     <tbody>
-                    	<?php 
+                    	<?php
                         $total_global    =    0;
                         $total_unitaire    =    0;
                         $total_quantite    =    0;
 						$total_discount		=	0;
-                        
-                        foreach ($order[ 'products' ] as $_produit) {							
+
+                        foreach ($order[ 'products' ] as $_produit) {
                             // $total_global        +=    __floatval($_produit[ 'PRIX_TOTAL' ]);
                             $total_unitaire      	+=    __floatval($_produit[ 'PRIX' ]);
                             $total_quantite   	 	+=    __floatval($_produit[ 'QUANTITE' ]);
@@ -80,37 +80,37 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <td class="" style="text-align: right"> <?php echo $_produit[ 'QUANTITE' ];
                             ?> </td>
                             <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-                            <td  class="" style="text-align: right"> 
-							<?php 
+                            <td  class="" style="text-align: right">
+							<?php
 							$discount_amount			=	0;
 							if( $_produit[ 'DISCOUNT_TYPE' ] == 'percentage' ) {
-								$discount_amount		=	__floatval( ( ( floatval( $_produit[ 'PRIX' ] ) * intval( $_produit[ 'QUANTITE' ] ) ) * floatval( $_produit[ 'DISCOUNT_PERCENT' ] ) ) / 100 );		
+								$discount_amount		=	__floatval( ( ( floatval( $_produit[ 'PRIX' ] ) * intval( $_produit[ 'QUANTITE' ] ) ) * floatval( $_produit[ 'DISCOUNT_PERCENT' ] ) ) / 100 );
 								echo $this->Nexo_Misc->cmoney_format( __floatval( $discount_amount ) );
 							} else if( $_produit[ 'DISCOUNT_TYPE' ] == 'flat' ) {
 								$discount_amount		=	floatval( $_produit[ 'DISCOUNT_AMOUNT' ] );
 								echo $this->Nexo_Misc->cmoney_format( __floatval( $discount_amount ) );
 							}
-							
+
 							$total_discount			+=	$discount_amount;
-							
+
 							?> </td>
                             <?php endif;?>
                             <td class="text-right">
 								<?php echo $this->Nexo_Misc->cmoney_format( __floatval( $_produit[ 'PRIX_TOTAL' ] ) );?>
                             </td>
                         </tr>
-                        <?php 
+                        <?php
                         }
                         ?>
                         <tr>
                             <td class=""><strong><?php _e('Total', 'nexo');?></strong></td>
-                            
+
                             <td class="text-right">
-                            <?php /*echo sprintf( 
-                                __( '%s %s %s', 'nexo' ), 
-                                $this->Nexo_Misc->display_currency( 'before' ), 
+                            <?php /*echo sprintf(
+                                __( '%s %s %s', 'nexo' ),
+                                $this->Nexo_Misc->display_currency( 'before' ),
                                 __floatval( $total_unitaire ),
-                                $this->Nexo_Misc->display_currency( 'after' ) 
+                                $this->Nexo_Misc->display_currency( 'after' )
                             )*/;?>
                             </td>
                             <td class="" style="text-align: right"><?php echo $total_quantite;?></td>
@@ -183,7 +183,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 								(
 									__floatval(@$_produit[ 'RISTOURNE' ]) +
 									__floatval(@$_produit[ 'RABAIS' ]) +
-									__floatval(@$_produit[ 'REMISE' ]) + 
+									__floatval(@$_produit[ 'REMISE' ]) +
 									__floatval(@$_produit[ 'GROUP_DISCOUNT' ])
 								), 2
 							) );?>
@@ -218,7 +218,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                                     (
                                         __floatval(@$_produit[ 'RISTOURNE' ]) +
                                         __floatval(@$_produit[ 'RABAIS' ]) +
-                                        __floatval(@$_produit[ 'REMISE' ]) + 
+                                        __floatval(@$_produit[ 'REMISE' ]) +
 										__floatval(@$_produit[ 'GROUP_DISCOUNT' ])
                                     ), 2
                                 ),
@@ -243,7 +243,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                                     (
                                         __floatval(@$_produit[ 'RISTOURNE' ]) +
                                         __floatval(@$_produit[ 'RABAIS' ]) +
-                                        __floatval(@$_produit[ 'REMISE' ]) + 
+                                        __floatval(@$_produit[ 'REMISE' ]) +
 										__floatval(@$_produit[ 'GROUP_DISCOUNT' ])
                                     ), 2
                                 ),
@@ -252,8 +252,30 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             </td>
                         </tr>
                         <?php endif;?>
+
+                        <?php
+                        $order_payments         =   $this->Nexo_Misc->order_payments( $order[ 'order' ][0][ 'CODE' ] );
+                        $payment_types          =   $this->config->item( 'nexo_payments_types' );
+                        foreach( $order_payments as $payment ) {
+                            ?>
+                            <tr>
+                                <td class="">
+                                    <?php echo @$payment_types[ $payment[ 'PAYMENT_TYPE' ] ] == null ? __( 'Type de paiement inconnu', 'nexo' ) : @$payment_types[ $payment[ 'PAYMENT_TYPE' ] ]; ?></td>
+                                <td class="" style="text-align: right"> </td>
+                                <td class="text-right"></td>
+                                <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                                <td class="text-right"></td>
+                                <?php endif;?>
+                                <td class="text-right">
+                                <?php echo $this->Nexo_Misc->cmoney_format( __floatval( $payment[ 'MONTANT' ] ) );?>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+
                         <tr>
-                            <td class=""><?php _e('Perçu', 'nexo');?></td>
+                            <td class=""><?php _e('Somme Total Perçue', 'nexo');?></td>
                             <td class="" style="text-align: right"> </td>
                             <td class="text-right"></td>
                             <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
@@ -281,7 +303,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         </tr>
                     </tbody>
                 </table>
-				<p class="text-center"><?php echo xss_clean( @$Options[ store_prefix() . 'nexo_bills_notices' ] );?></p>
+				<p class="text-center"><?php echo xss_clean( $this->parser->parse_string( @$Options[ store_prefix() . 'nexo_bills_notices' ], $template , true ) );?></p>
                 <div class="container-fluid hideOnPrint">
                     <div class="row hideOnPrint">
                         <div class="col-lg-12">
@@ -310,7 +332,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 	}
 	.hideOnPrint {
 		display:none !important;
-	}	
+	}
 	td, th {font-size: 3vw;}
 	.order-details, p {
 		font-size: 2.7vw;

@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * NexoPOS helper
  * ---------------
  *
@@ -11,11 +11,11 @@ if (! function_exists('nexo_permission_check')) {
      * Permission Tester
      *
      * Check whether for Ajax action an user can perform requested action
-     * 
+     *
      * @params string permission
      * @return void
     **/
-    
+
     function nexo_permission_check($permission)
     {
         if (! User::can($permission)) {
@@ -97,7 +97,7 @@ if (! function_exists('__floatval')) {
 if( ! function_exists( 'store_title' ) ) {
 	function store_title( $title ) {
 		global $CurrentStore;
-		
+
 		if( $CurrentStore != null ) {
 			return sprintf( __( '%s &rsaquo; %s &mdash; NexoPOS', 'nexo' ), xss_clean( @$CurrentStore[0][ 'NAME' ] ), $title );
 		} else {
@@ -138,7 +138,7 @@ if( ! function_exists( 'store_slug' ) ) {
 if( ! function_exists( 'get_store_id' ) ) {
 	function get_store_id() {
 		global $store_id;
-		
+
 		if( $store_id != null ) {
 			return $store_id;
 		} else if( intval( get_instance()->input->get( 'store_id' ) ) > 0 ) {
@@ -155,19 +155,19 @@ if( ! function_exists( 'get_store_id' ) ) {
 
 if( ! function_exists( 'get_store_upload_path' ) ) {
 	function get_store_upload_path( $id = null ) {
-		
+
 		global $store_id;
-		
+
 		if( $id != null ) {
 			return 'public/upload/store_' . $id;
 		}
-		
+
 		if( $store_id != null ) {
 			return 'public/upload/store_' . $store_id;
 		}
-		
+
 		return 'public/upload';
-		
+
 	}
 }
 
@@ -179,19 +179,19 @@ if( ! function_exists( 'get_store_upload_path' ) ) {
 
 if( ! function_exists( 'get_store_upload_url' ) ) {
 	function get_store_upload_url( $id = null ) {
-		
+
 		global $store_id;
-		
+
 		if( $id != null ) {
 			return base_url() . 'public/upload/store_' . $id . '/';
 		}
-		
+
 		if( $store_id != null ) {
 			return base_url() . 'public/upload/store_' . $store_id . '/';
 		}
-		
+
 		return base_url() . 'public/upload/';
-		
+
 	}
 }
 
@@ -201,7 +201,7 @@ if( ! function_exists( 'get_store_upload_url' ) ) {
 
 if( ! function_exists( 'store_get_param' ) ) {
 	function store_get_param( $prefix = '?' ) {
-		
+
 		if( store_prefix() != '' ) {
 			return $prefix . 'store_id=' . get_store_id();
 		}
@@ -215,7 +215,7 @@ if( ! function_exists( 'store_get_param' ) ) {
 
 if( ! function_exists( 'is_multistore' ) ) {
 	function is_multistore() {
-		
+
 		if( store_prefix() != '' ) {
 			return true;
 		}
@@ -229,13 +229,24 @@ if( ! function_exists( 'is_multistore' ) ) {
 
 if( ! function_exists( 'multistore_enabled' ) ) {
 	function multistore_enabled() {
-		
+
 		global $Options;
-		
+
 		if( @$Options[ 'nexo_store' ] == 'enabled' ) {
 			return true;
 		}
 		return false;
-		
+
 	}
+}
+
+/**
+ * Zero Fill
+**/
+
+if( ! function_exists( 'zero_fill' ) ) {
+    function zero_fill( $int, $zeros = 3 ) {
+        $pr_id = sprintf("%0". $zeros . "d", $int);
+        return $pr_id;
+    }
 }

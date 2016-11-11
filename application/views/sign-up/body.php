@@ -1,9 +1,11 @@
 <body class="register-page">
     <div class="register-box">
-      <div class="register-logo">
-        <a href="<?php echo base_url();?>"><b><?php echo __('Tendoo CMS');?></b> <?php echo get('str_core');?></a>
-      </div>
-
+        <div class="register-logo">
+            <?php
+            $logo   =   '<a href="' . base_url() . '"><b>' . __('Tendoo CMS') . '</b> ' . get('str_core') . '</a>';
+            echo $this->events->apply_filters( 'signin_logo', $logo );
+            ?>
+        </div>
       <div class="register-box-body">
         <p class="login-box-msg"><?php _e('Sign up to');?></p>
         <p><?php echo validation_errors( '<div class="alert alert-danger">', '</div>');?></p>

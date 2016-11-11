@@ -98,8 +98,9 @@ class Gui extends CI_Model
             // loading page content
             if ( $page_objet	=	@$this->created_page_objet[ $page_slug ][ 'object' ] ) {
 				if( method_exists( $page_objet, @$params[0] == null ? 'index' : $params[0] ) ){
-					$method		=	array_splice( $params, 0 );
-					call_user_func_array( array( $page_objet, @$method[0] == null ? 'index' : $method[0] ), $params );
+                    $method     =   @$params[0];
+                    $params		=	array_splice( $params, 1 );
+					call_user_func_array( array( $page_objet, @$method == null ? 'index' : $method ), $params );
 				} else {
 					// page doesn't exists load 404 internal page error
 					Html::set_title(sprintf(__('Error : 404 &mdash; %s'), get('core_signature')));

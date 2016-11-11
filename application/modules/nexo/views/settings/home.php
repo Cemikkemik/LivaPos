@@ -107,6 +107,45 @@ $this->Gui->add_item(array(
     )
 ), 'Nexo_soundfx', 2);
 
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    $option_prefix . 'nexo_logo_type',
+    'label'        =>    __('Type du logo', 'nexo'),
+    'options'    =>    array(
+		'default'	=>	__( 'Valeur par défaut', 'nexo' ),
+		'image_url'	=>	__( 'Lien vers une image', 'nexo' ),
+		'text'		=>	__( 'Texte personnalisé', 'nexo')
+    )
+), 'Nexo_soundfx', 2 );
+
+$this->Gui->add_item(array(
+    'type'        =>    'text',
+    'label'        =>    __('Texte du logo', 'nexo'),
+    'name'        =>    $option_prefix . 'nexo_logo_text',
+    'placeholder'    =>    ''
+), 'Nexo_soundfx', 2 );
+
+$this->Gui->add_item(array(
+    'type'        =>    'text',
+    'label'        =>    __('Lien vers URL une image', 'nexo'),
+    'name'        =>    $option_prefix . 'nexo_logo_url',
+    'placeholder'    =>    ''
+), 'Nexo_soundfx', 2 );
+
+$this->Gui->add_item(array(
+    'type'        =>    'text',
+    'label'        =>    __('Largeur du logo', 'nexo'),
+    'name'        =>    $option_prefix . 'nexo_logo_width',
+    'placeholder'    =>    ''
+), 'Nexo_soundfx', 2 );
+
+$this->Gui->add_item(array(
+    'type'        =>    'text',
+    'label'        =>    __('Hauteur du logo', 'nexo'),
+    'name'        =>    $option_prefix . 'nexo_logo_height',
+    'placeholder'    =>    ''
+), 'Nexo_soundfx', 2 );
+
 $this->events->do_action('load_nexo_general_settings', $this->Gui);
 
 $this->Gui->output();

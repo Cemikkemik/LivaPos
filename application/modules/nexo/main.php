@@ -22,6 +22,7 @@ class Nexo extends CI_Model
 
         parent::__construct();
 
+        $this->load->helper('nexopos');
         $this->events->add_action('load_dashboard_home', array( $this, 'init' ));
         $this->events->add_action('dashboard_header', array( $this, 'header' ));
         $this->events->add_filter('default_js_libraries', function ($libraries) {
@@ -64,6 +65,18 @@ class Nexo extends CI_Model
 			}
 			return $redirection;
 		});
+
+        // @since 2.9.6
+        $this->events->add_filter( 'signin_logo', function( $string ){
+            global $Options;
+
+            if( @$Options[ store_prefix() . 'nexo_logo_type' ] == 'text' ) {
+                return @$Options[ store_prefix() . 'nexo_logo_text' ];
+            } else if( @$Options[ store_prefix() . 'nexo_logo_type' ] == 'image_url' ) {
+                return '<img style="' . ( ! in_array( @$Options[ store_prefix() . 'nexo_logo_width' ], array( null, '' ) ) ? 'width:' . $Options[ store_prefix() . 'nexo_logo_width' ] . 'px;' : '' ) . ( ! in_array( @$Options[ store_prefix() . 'nexo_logo_height' ], array( null, '' ) ) ? 'height:' . $Options[ store_prefix() . 'nexo_logo_height' ] . 'px;' : '' ) . '" src="' . @$Options[ store_prefix() . 'nexo_logo_url' ] . '" alt="' . @$Options[ store_prefix() . 'nexo_logo_text' ] . '"/>';
+            }
+            return $string;
+        });
 
         // For codebar
         if (! is_dir('public/upload/codebar')) {
@@ -128,8 +141,6 @@ class Nexo extends CI_Model
 
     public function dashboard()
     {
-		$this->load->helper('nexopos');
-
 		define('NEXO_CODEBAR_PATH', get_store_upload_path() . '/codebar/');
 
 		/**

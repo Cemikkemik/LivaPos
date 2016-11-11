@@ -10,14 +10,14 @@ class Nexo_Misc extends CI_Model
     {
         parent::__construct();
     }
-    
+
     /**
      * License validation
      *
      * @param string license
      * @return string
     **/
-    
+
     public function validate_license($license)
     {
         $this->load->library('curl');
@@ -32,13 +32,13 @@ class Nexo_Misc extends CI_Model
             return 'unable-to-connect';
         }
     }
-    
+
     /**
      * Check License
      *
      * @return void
     **/
-    
+
     public function check_license()
     {
         global $Options, $CurrentMethod;
@@ -51,7 +51,7 @@ class Nexo_Misc extends CI_Model
         if (riake('nexo_demo_mode_enabled', $Options) != true && strlen(riake('nexo_license_name_to', $Options)) > 0) {
             $license            =    $this->license_key->codeGenerate(riake('nexo_license_name_to', $Options));
             $Nexo_expiration    =    $now + (3600 * 24) * 62;
-            
+
             $this->options->set('nexo_license', $license, true);
             $this->options->set('nexo_old_license', $license, true);
             $this->options->set('nexo_expiration', $Nexo_expiration, true);
@@ -92,44 +92,44 @@ class Nexo_Misc extends CI_Model
                 });
             }
         }
-        
+
         // redirect if license has expired
 
         if ($Nexo_expiration < $now && $CurrentMethod == 'nexo') {
             redirect(array( 'dashboard', 'license-expired' ));
         }
     }
-    
+
     /**
      * License checker
      *
      * @return string
     **/
-    
+
     public function check_license_ajax()
     {
         global $Options;
-        
+
         $license        =    riake('nexo_old_license', $Options);
         $Nexo_license    =    riake('nexo_license', $Options);
         $code            =    $this->validate_license($license);
-        
+
         if (! in_array($code, array( 'unable-to-connect', 'license-has-expired' ))) {
             $this->upgrade_duration_time($code, $Nexo_license);
             return 'license-updated';
         }
         return $code;
     }
-    
+
     /**
      * Duration Upgrate
      *
      * @param string
-     * @param string license 
+     * @param string license
      * @return void
 	 * @deprecated
     **/
-    
+
     private function upgrade_duration_time($code, $Nexo_license)
     {
         global $Options;
@@ -137,15 +137,15 @@ class Nexo_Misc extends CI_Model
         $this->options->set('nexo_expiration', (gmt_to_local(now(), riake('site_timezone', $Options, 'Etc/Greenwich'), true) + $code), true);
         $this->options->set('nexo_old_license', $Nexo_license, true);
     }
-    
-    /** 
+
+    /**
      * Currency Position
      * Affiche la devise selon les réglages défini. Par défaut à droite
-     * 
+     *
      * @param String (before/after)
      * @return String
     **/
-    
+
     public function display_currency($position)
     {
         global $Options;
@@ -153,25 +153,25 @@ class Nexo_Misc extends CI_Model
             return $Options[ store_prefix() . 'nexo_currency' ];
         }
     }
-    
-    /** 
+
+    /**
      * get Currency
      *
      * @return String/Null
     **/
-    
+
     public function currency()
     {
         global $Options;
         return @$Options[ store_prefix() . 'nexo_currency' ];
     }
-    
+
     /**
      * This function empty the shop
      *
      * @return void
     **/
-    
+
     public function empty_shop()
     {
         $this->clear_cache();
@@ -179,56 +179,56 @@ class Nexo_Misc extends CI_Model
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_commandes`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_commandes_produits`;');
 		$this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_commandes_paiements`;');
-        
+
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles`;');
 		$this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_variations`;');
 		$this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_defectueux`;');
-		
+
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_categories`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_fournisseurs`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_arrivages`;');
-        
+
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_rayons`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_clients`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_clients_groups`;');
-		
+
 		// @since 2.7.5
 		$this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_registers`;');
 		$this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_registers_activities`;');
-		
+
     }
-    
+
     /**
      * Clear cache
      *
      * @return void
     **/
-    
+
     public function clear_cache()
     {
         foreach (glob(APPPATH . '/cache/app/nexo_*') as $filename) {
             unlink($filename);
         }
     }
-    
+
     /**
      * Fill Demo Data
      * Empty shop first and create dummy data
      * @return void
     **/
-    
+
     public function enable_demo()
     {
         $this->empty_shop();
         $this->load->view('../modules/nexo/inc/demo');
     }
-    
+
     /**
      * Calculate Checksum digit
      * @return int
      * @source http://www.wordinn.com/solution/130/php-ean8-and-ean13-check-digit-calculation
     **/
-    
+
     public function ean_checkdigit($digits, $type)
     {
         if ($type == 'ean13') {
@@ -255,7 +255,7 @@ class Nexo_Misc extends CI_Model
             // 5. The check character is the smallest number which, when added to the result in step 4,  produces a multiple of 10.
             $next_ten = (ceil($total_sum/10))*10;
             $check_digit = $next_ten - $total_sum;
-            return $check_digit; // $digits . 
+            return $check_digit; // $digits .
         } elseif ($type == 'ean8') {
             $digits = str_pad($digits, 12, "0", STR_PAD_LEFT);
             $sum = 0;
@@ -265,12 +265,12 @@ class Nexo_Misc extends CI_Model
             return (10 - ($sum % 10));
         }
     }
-    
-    /** 
+
+    /**
      * Week of the month
      * @source http://stackoverflow.com/questions/5853380/php-get-number-of-week-for-month
     **/
-    
+
     public function getWeeks($date, $rollover)
     {
         $cut = substr($date, 0, 8);
@@ -295,13 +295,13 @@ class Nexo_Misc extends CI_Model
 
         return $weeks;
     }
-    
+
     /**
      * Get Week
      * @params int timestamp
      * @return string
     **/
-    
+
     public function getWeek($timestamp)
     {
         $week_year = date('W', $timestamp);
@@ -321,10 +321,10 @@ class Nexo_Misc extends CI_Model
                 $week_diff = 1;
             }
             if ($week_year ==1 && $month == 12) {
-                // to handle December's last two days coming in first week of January 
+                // to handle December's last two days coming in first week of January
                 $week_year = 53;
             }
-    
+
             $week = $week_year-$week_year_last_mon + 1 +$week_diff;
         } else {
             // to handle first three days January coming in last week of December.
@@ -341,7 +341,7 @@ class Nexo_Misc extends CI_Model
         }
         return $week;
     }
-    
+
     /**
      * Client Creation
      *
@@ -349,7 +349,7 @@ class Nexo_Misc extends CI_Model
      * @param String customer email
      * @return json
     **/
-    
+
     public function create_customer($name, $email)
     {
         if ($this->db->insert( store_prefix() . 'nexo_clients', array(
@@ -367,14 +367,14 @@ class Nexo_Misc extends CI_Model
             ));
         }
     }
-    
+
     /**
      * Get Money Format
      *
      * @params int/string
      * @return string
     **/
-    
+
     public function money_format($number, $fractional = false)
     {
         if ($fractional) {
@@ -388,16 +388,16 @@ class Nexo_Misc extends CI_Model
                 break;
             }
         }
-        
+
         return $number;
     }
-    
+
     /**
      * Get Money Full format with currency
      * @params int/string
      * @return string
     **/
-    
+
     public function cmoney_format($number, $fractional = true)
     {
         if ($fractional) {
@@ -411,17 +411,17 @@ class Nexo_Misc extends CI_Model
                 break;
             }
         }
-        
+
         return $this->display_currency('before') . ' ' . $number . ' ' . $this->display_currency('after');
     }
-    
+
     /**
      * Get customer
      *
      * @param int/void customer id
      * @return customer
     **/
-    
+
     public function get_customers($id = null)
     {
         if ($id != null) {
@@ -430,7 +430,7 @@ class Nexo_Misc extends CI_Model
         $query        =    $this->db->get( store_prefix() .  'nexo_clients');
         return $query->result_array();
     }
-        
+
     /**
      * Create category hierarchy
      * and create cache
@@ -440,11 +440,11 @@ class Nexo_Misc extends CI_Model
      * @params bool
      * @return array
     **/
-    
+
     public function build_category_hierarchy(array $elements, $parentId = 0)
     {
         $branch = array();
-    
+
         foreach ($elements as $element) {
             if ($element[ 'PARENT_REF_ID' ] == $parentId) {
                 $children = $this->build_category_hierarchy($elements, $element[ 'ID' ]);
@@ -454,22 +454,22 @@ class Nexo_Misc extends CI_Model
                 $branch[] = $element;
             }
         }
-        
+
         return $branch;
     }
-    
+
     /**
      * Get Maximum Array depthness
-     *		
+     *
      * @source : http://stackoverflow.com/questions/262891/is-there-a-way-to-find-out-how-deep-a-php-array-is
      * @params Array
      * @return int
     **/
-    
+
     public function array_depth(array $array, $current_depth = 1)
     {
         global $depth;
-    
+
         if ($array) {
             foreach ($array as $value) {
                 if (is_array(@$value[ 'CHILDRENS' ])) {
@@ -481,10 +481,10 @@ class Nexo_Misc extends CI_Model
                 }
             }
         }
-        
+
         return intval($depth);
     }
-    
+
     /**
      * Build table
      * @params Array
@@ -494,11 +494,11 @@ class Nexo_Misc extends CI_Model
      * @params int colspan
      * @return string
     **/
-    
+
     public function build_table(array $array, $max_depth = 5, $current_depth = 1, $content    =    '', $colspan = 0 )
     {
         global $depth_html;
-        
+
         if ($array) {
             foreach ($array as $key => $value) {
                 if (is_array(@$value[ 'CHILDRENS' ])) {
@@ -509,7 +509,7 @@ class Nexo_Misc extends CI_Model
 
                     if ($current_depth == $max_depth) {
                         $depth_html    .=    $content . '<td data-id="' . $value[ 'ID' ] . '">' . $value[ 'NOM' ] . '</td>';
-                        
+
                         for ($_i = 0; $_i < $colspan; $_i++) {
                             if ($_i == $colspan - 1) {
                                 $depth_html .= '<td col-total class="text-right success"></td>';
@@ -517,7 +517,7 @@ class Nexo_Misc extends CI_Model
                                 $depth_html .= '<td month-id="' . ($_i + 1) . '" class="text-right"></td>';
                             }
                         }
-                        
+
                         $depth_html        .=    '</tr>';
                     } else {
                         for ($i = $current_depth ; $i <= $max_depth ; $i++) {
@@ -527,7 +527,7 @@ class Nexo_Misc extends CI_Model
                                 $depth_html    .= '<td></td>';
                             }
                         }
-                        
+
                         for ($_i = 0; $_i < $colspan; $_i++) {
                             if ($_i == $colspan - 1) {
                                 $depth_html .= '<td col-total class="text-right success"></td>';
@@ -535,7 +535,7 @@ class Nexo_Misc extends CI_Model
                                 $depth_html .= '<td month-id="' . ($_i + 1) . '" class="text-right"></td>';
                             }
                         }
-                        
+
                         $depth_html    .=    '</tr>';
                     }
                 }
@@ -544,18 +544,18 @@ class Nexo_Misc extends CI_Model
                 $depth_html    .=    '';
             }
         }
-        
+
         return $depth_html;
     }
-    
+
     /**
      * History
-     * 
+     *
      * @params string title
      * @params string description
      * @return void
     **/
-    
+
     public function history_add($title, $description)
     {
         $this->db->insert('nexo_historique', array(
@@ -564,14 +564,14 @@ class Nexo_Misc extends CI_Model
             'DATE_CREATION'    =>    date_now()
         ));
     }
-    
+
     /**
      * Delete History
      *
      * @params int history id
      * @return void
     **/
-    
+
     public function history_delete($id = null)
     {
         if ($id != null) {
@@ -581,42 +581,42 @@ class Nexo_Misc extends CI_Model
             $this->db->truncate('nexo_historique');
         }
     }
-    
+
     /**
      * History Get
-     * 
+     *
      * @params int limit
      * @params int offset
      * @return Array
     **/
-    
+
     public function history_get($limit = null, $offset = null)
     {
         $this->db->order_by('DATE_CREATION', 'DESC');
-        
+
         if ($limit != null && $offset != null) {
             $this->db->limit($offset, $limit);
         }
-        
+
         $query        =    $this->db->get('nexo_historique');
         return $query->result_array();
     }
-    
-    /** 
+
+    /**
      * Do Restore
      *
      * @params Array Upload Data
      * @return bool
     **/
-    
+
     public function do_restore($data)
     {
         $this->load->library('Unzip');
         $this->load->library('SimpleFileManager', array(), 'SimpleFileManager');
-        
+
         $file_path            =    $data[ 'full_path' ];
         $temp_folder        =    PUBLICPATH . 'upload/nexo_premium_backups/temp/' . $data[ 'raw_name' ];
-        
+
         if (is_file($file_path)) {
             // Extract
             $this->unzip->extract($file_path, $temp_folder);
@@ -628,16 +628,16 @@ class Nexo_Misc extends CI_Model
             foreach (glob($temp_folder . '/*.sql') as $filename) {
                 $file        =    file($filename);
                 $newLines    =    array();
-                
+
                 foreach ($file as $line) {
                     if (preg_match("/^(\#)/", $line) === 0) {
                         $newLines[] = rtrim(str_replace(array( '\r', '\n' ), '', $line));
                     }
                 }
-                
+
                 $SQL_Joinded        =    implode($newLines);
                 $SingleQueries        =    explode(';', $SQL_Joinded);
-                
+
                 foreach ($SingleQueries as $SingleQuery) {
                     $SingleQuery    =    trim($SingleQuery);
                     if (! empty($SingleQuery)) {
@@ -645,17 +645,17 @@ class Nexo_Misc extends CI_Model
                     }
                 }
             }
-            
+
             $Cache            =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_' . store_prefix() ) );
             $Cache->save('restore_queries', $CleanSQLQueries, 300);
-            
+
             $this->SimpleFileManager->drop($temp_folder);
-            
+
             return count($CleanSQLQueries);
         }
         return false;
     }
-    
+
     /**
      * Dates between two dates
      *
@@ -663,62 +663,77 @@ class Nexo_Misc extends CI_Model
      * @params string second date
      * @return Array
     **/
-    
+
     public function dates_between_borders($start, $end)
     {
         $carbon_start    =    carbon::parse($start);
         $carbon_end        =    carbon::parse($end);
-        
+
         if ($carbon_end->gt($carbon_start)) {
             $dates        =    array();
             while ($carbon_start->toDateString() != $carbon_end->toDateString()) {
                 $dates[]    =    $carbon_start->toDateString();
                 $carbon_start->addDay();
             }
-            
-            // Since it's not included in the loop			
+
+            // Since it's not included in the loop
             $dates[]        =    $carbon_end->toDateString();
-            
+
             return $dates;
         }
         return false;
     }
-	
+
 	/**
 	 * Get initial balance for a specific date
 	 * @params string date
 	 * @return bool
 	**/
-	
+
 	public function get_balance_for_date( $date )
 	{
 		$startOfDay			=	Carbon::parse( $date )->startOfDay();
 		$endOfDay			=	Carbon::parse( $date )->endOfDay();
-		$currentDay			=	Carbon::parse( date_now() );		
+		$currentDay			=	Carbon::parse( date_now() );
 		$cacheDurationTime	=	false;
-		
+
 		if( $currentDay->isSameDay( $endOfDay ) ) {
 			$cacheDurationTime	=	24 - intval( $currentDay->hour );
 		}
-		
+
 		$Cache				=	new CI_Cache( array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' . store_prefix() ) );
-		
+
 		if( ! $Cache->get( 'initial_balance' ) || $cacheDurationTime == false ) {
-			
-			
+
+
 			$query	=	$this->db->where( 'DATE_CREATION >=', $startOfDay->toDateTimeString() )
 			->where( 'DATE_CREATION <=', $endOfDay->toDateTimeString() )
 			->get( 'nexo_checkout_money' );
-			
+
 			$result			=	$query->result_array();
-			
+
 			if( $cacheDurationTime != false ) {
 				$Cache->save( 'initial_balance', ( bool ) $result, $cacheDurationTime * 3600 );
 			} else {
 				return ( bool ) $result;
 			}
 		}
-		
+
 		return $Cache->get( 'initial_balance' );
 	}
+
+    /**
+    *
+    * Get Order Payments
+    *
+    * @param string order code
+    * @return array
+    */
+
+    public function order_payments( $order_code )
+    {
+        return $this->db->where( 'REF_COMMAND_CODE', $order_code )
+        ->get( store_prefix() . 'nexo_commandes_paiements' )
+        ->result_array();
+    }
 }

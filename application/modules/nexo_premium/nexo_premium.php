@@ -81,7 +81,7 @@ class Nexo_Premium_Main extends CI_Model
 
             // Start Object
             $this->UI           	=    new Nexo_Premium_UI;
-            $this->Controller    	=    new Nexo_Premium_Controller;
+            // $this->Controller    	=    new Nexo_Premium_Controller;
             $this->Filters        	=    new Nexo_Premium_Filters;
             $this->Actions        	=    new Nexo_Premium_Actions;
             // Load Nexo Misc
@@ -107,7 +107,8 @@ class Nexo_Premium_Main extends CI_Model
             }
 
             // Register Pages
-            $this->Gui->register_page('nexo_premium', array( $this->Controller, 'index' ));
+            // $this->Gui->register_page('nexo_premium', array( $this->Controller, 'index' ));
+            $this->Gui->register_page_object( 'nexo_premium', new Nexo_Premium_Controller );
 
 			// Registers for Multistore
 			$this->events->add_filter( 'stores_controller_callback', array( $this, 'multistore' ) );
@@ -122,7 +123,7 @@ class Nexo_Premium_Main extends CI_Model
 	{
 		// to match this uri
 		// dashboard/stores/nexo_premium/*
-		$array[ 'nexo_premium' ]	=	array( $this->Controller );
+		$array[ 'nexo_premium' ]	=	new Nexo_Premium_Controller;
 
 		return $array;
 	}

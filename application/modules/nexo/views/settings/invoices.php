@@ -33,7 +33,8 @@ $this->Gui->add_item( array(
 	'options'		=>	$this->config->item( 'nexo_receipts_namespaces' ),
 	'name'			=>	$option_prefix . 'nexo_receipt',
 	'label'			=>	__( 'Veuillez choisir le format du reçu par défaut', 'nexo' )
-), 'invoice1', 1 ); **/
+), 'invoice1', 1 );
+**/
 
 $this->Gui->add_item( array(
 	'type'			=>	'textarea',
@@ -55,17 +56,18 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item( array(
 	'type'			=>	'dom',
-	'content'		=>	
+	'content'		=>
 	__( '<h4>Utilisez les balises suivantes : </h4>', 'nexo' ) .
 	__( '{shop_name} pour afficher le nom de la boutique', 'nexo' ) . '<br>' .
 	__( '{shop_phone} pour afficher le numéro de téléphone de la boutique', 'nexo' ) . '<br>' .
 	__( '{shop_fax} pour afficher le fax de la boutique', 'nexo' ) . '<br>' .
-	__( '{shop_pobox} pour afficher la boite postale de la boutique', 'nexo' ) . '<br>' . 
+	__( '{shop_pobox} pour afficher la boite postale de la boutique', 'nexo' ) . '<br>' .
 	__( '{shop_street} pour afficher la rue de la boutique', 'nexo' ). '<br>' .
-	__( '{shop_email} pour afficher l\'email de la boutique', 'nexo' ). '<br>' . 
+	__( '{shop_email} pour afficher l\'email de la boutique', 'nexo' ). '<br>' .
 	__( '{order_date}, pour afficher la date de la commande.', 'nexo' ) . '<br>' .
 	__( '{order_code}, pour afficher le code de la commande.', 'nexo' ) . '<br>' .
-	__( '{order_cashier}, pour afficher l\'auteur de la commande.', 'nexo' ) . '<br>' 
+	__( '{order_id}, pour afficher l\'identifiant de la commande.', 'nexo' ) . '<br>' .
+	__( '{order_cashier}, pour afficher l\'auteur de la commande.', 'nexo' ) . '<br>'
 ), 'invoice1', 1 );
 
 $this->Gui->output();

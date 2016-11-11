@@ -16,5 +16,5 @@
 <?php include_once( MODULESPATH . '/nexo/inc/angular/cart-tool-box/directives/history-order-list.php' );?>
 <?php include_once( MODULESPATH . '/nexo/inc/angular/cart-tool-box/directives/history-content.php' );?>
 <?php include_once( MODULESPATH . '/nexo/inc/angular/cart-tool-box/controllers/cart-tool-box.php' );?>
-
-
+<!-- Tab feature -->
+<?php include_once( MODULESPATH . '/nexo/inc/angular/pos-tabs/controllers/pos-tabs.php' );?>

@@ -1,12 +1,12 @@
 Filtres:
 ========
 /**
- * nexo_daily_details_link 
+ * nexo_daily_details_link
  * lien vers le rapport détaillé du jour.
 **/
 
-/** 
- * nexo_daily_refresh_link // Deprecated 
+/**
+ * nexo_daily_refresh_link // Deprecated
  * lien pour rafraichir un rapport spécifique
 **/
 
@@ -107,4 +107,14 @@ Filtres:
 /**
  * load_product_crud
  * charge l'objet CRUD a l'initialisation pour les produits
+**/
+
+/**
+ * nexo_commandes_columns
+ * Permet de modifier les colonnes par défaut sur la liste des ventes
+**/
+
+/**
+ * nexo_commandes_loaded
+ * Permet d'appliquer des actions personnalisées sur l'objet CRUD pour l'interface des commandes
 **/

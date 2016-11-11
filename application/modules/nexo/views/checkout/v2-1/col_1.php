@@ -1,16 +1,43 @@
 <?php global $Options;?>
+<ul class="nav nav-tabs tab-cart hidden-lg hidden-md"> <!--  -->
+    <li ng-click="showPart( 'cart' );" class="{{ cartIsActive }}"><a href="#"><?php echo __( 'Panier', 'nexo' );?></a></li>
+    <li ng-click="showPart( 'grid' );" class="{{ gridIsActive }}"><a href="#"><?php echo __( 'Produits', 'nexo' );?></a></a></li>
+</ul>
+<script type="text/javascript">
+function toggleFullScreen() {
+  var doc = window.document;
+  var docEl = doc.documentElement;
 
-<div class="box box-primary direct-chat direct-chat-primary" id="cart-details-wrapper" style="visibility:hidden">
-    <div class="box-header with-border" id="cart-header"> 
-        <!--<h3 class="box-title">
-            <?php _e('Caisse', 'nexo');?>
-        </h3>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-sm btn-primary cart-add-customer"><i class="fa fa-user"></i> <?php _e('Ajouter un client', 'nexo');?></button>
-        </div>-->
+  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+  var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+  if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+    requestFullScreen.call(docEl);
+  }
+  else {
+    cancelFullScreen.call(doc);
+  }
+}
+function isFullScreen() {
+  var doc = window.document;
+  var docEl = doc.documentElement;
+
+  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+  var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+  if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+</script>
+<div class="box box-primary direct-chat direct-chat-primary" id="cart-details-wrapper"> <!-- style="visibility:hidden" -->
+    <div class="box-header with-border" id="cart-header">
         <form action="#" method="post">
             <div class="input-group" ng-controller="cartToolBox">
-            	<span class="input-group-addon" id="sizing-addon1"><?php echo __( 'Choisir un client', 'nexo' );?></span>
+            	<span class="input-group-addon hidden-sm hidden-xs" id="sizing-addon1"><i class="fa fa-users"></i></span>
                 <select data-live-search="true" name="customer_id" title="<?php _e('Veuillez choisir un client', 'nexo' );?>" class="form-control customers-list dropdown-bootstrap">
                     <option value="">
                     <?php _e('Sélectionner un client', 'nexo');?>
@@ -18,7 +45,8 @@
                 </select>
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default cart-add-customer" title="<?php _e( 'Ajouter un client', 'nexo' );?>"><i class="fa fa-user"></i>
-                    <?php _e('Ajouter un client', 'nexo');?>
+                    <span class="hidden-sm hidden-xs"><?php _e('Ajouter un client', 'nexo');?></span>
+                    <span class="hidden-lg hidden-md">+1</span>
                     </button>
                     <!--<button type="button" class="btn btn-default">
                     	<i class="fa fa-truck"></i>
@@ -26,7 +54,9 @@
                     <button type="button" ng-click="openHistoryBox()" class="btn btn-default" title="<?php _e( 'Charger les commandes en attente', 'nexo' );?>">
                     	<i class="fa fa-history"></i>
                     </button>
-                </span> 
+                    <button class="btn btn-default toggleCompactMode" type="button"><i class="fa fa-bars"></i></button>
+                    <button type="button" ng-click="openFullScreen()" class="btn btn-default"><i class="fa fa-window-maximize"></i></button>
+                </span>
 			</div>
         </form>
     </div>
@@ -35,13 +65,13 @@
         <table class="table" id="cart-item-table-header">
             <thead>
                 <tr class="active">
-                    <td width="210" class="text-left"><?php _e('Article', 'nexo');?></td>
-                    <td width="130" class="text-center"><?php _e('Prix Unitaire', 'nexo');?></td>
-                    <td width="145" class="text-center"><?php _e('Quantité', 'nexo');?></td>
+                    <td width="200" class="text-left"><?php _e('Article', 'nexo');?></td>
+                    <td width="150" class="text-center"><?php _e('Prix Unitaire', 'nexo');?></td>
+                    <td width="120" class="text-center"><?php _e('Quantité', 'nexo');?></td>
                     <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
                     <td width="80" class="text-center"><?php _e('Remise', 'nexo');?></td>
                     <?php endif;?>
-                    <td width="110" class="text-right"><?php _e('Prix Total', 'nexo');?></td>
+                    <td width="180" class="text-right"><?php _e('Prix Total', 'nexo');?></td>
                 </tr>
             </thead>
         </table>
@@ -59,7 +89,7 @@
                 <tr class="active">
                     <td width="230" class="text-right"></td>
                     <td width="130" class="text-right"></td>
-                    <td width="130" class="text-right"><?php 
+                    <td width="130" class="text-right"><?php
                         if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui') {
                             _e('Net hors taxe', 'nexo');
                         } else {
@@ -73,7 +103,7 @@
                     <td width="160" class="text-right"><?php _e('Remise sur le panier', 'nexo');?></td>
                     <td width="110" class="text-right"><span id="cart-discount"></span></td>
                 </tr>
-                <?php 
+                <?php
                 if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])) {
                     ?>
                 <tr class="active">
@@ -100,38 +130,38 @@
     </div>
     <!-- /.box-body -->
     <div class="box-footer" id="cart-panel">
-        <div class="btn-group btn-group-justified" role="group" aria-label="..."> 
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
 			<?php echo $this->events->apply_filters( 'before_cart_pay_button', '' );?>
             <div class="btn-group" role="group" ng-controller="payBox">
                 <button type="button" class="btn btn-default btn-lg" ng-click="openPayBox()" style="margin-bottom:0px;"> <i class="fa fa-money"></i>
-                <?php _e('Payer', 'nexo');?>
+                    <span class="hidden-xs"><?php _e('Payer', 'nexo');?></span>
                 </button>
             </div>
             <?php echo $this->events->apply_filters( 'before_cart_save_button', '' );?>
             <div class="btn-group" role="group" ng-controller="saveBox">
                 <button type="button" class="btn btn-default btn-lg" ng-click="openSaveBox()" style="margin-bottom:0px;"> <i class="fa fa-hand-stop-o"></i>
-                <?php _e('En attente', 'nexo');?>
+                    <span class="hidden-xs"><?php _e('En attente', 'nexo');?></span>
                 </button>
             </div>
             <?php echo $this->events->apply_filters( 'before_cart_discount_button', '' );?>
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default btn-lg" id="cart-discount-button"  style="margin-bottom:0px;"> <i class="fa fa-gift"></i>
-                <?php _e('Remise', 'nexo');?>
+                    <span class="hidden-xs"><?php _e('Remise', 'nexo');?></span>
                 </button>
             </div>
             <?php echo $this->events->apply_filters( 'before_cart_cancel_button', '' );?>
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default btn-lg" id="cart-return-to-order"  style="margin-bottom:0px;"> <!-- btn-app  --> 
-                <i class="fa fa-remove"></i>
-                <?php _e('Annuler', 'nexo');?>
+                <button type="button" class="btn btn-default btn-lg" id="cart-return-to-order"  style="margin-bottom:0px;"> <!-- btn-app  -->
+                <i class="fa fa-refresh"></i>
+                    <span class="hidden-xs"><?php _e('Annuler', 'nexo');?></span>
                 </button>
             </div>
         </div>
     </div>
-    <!-- /.box-footer--> 
+    <!-- /.box-footer-->
 </div>
 <?php if (@$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):?>
-<script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script> 
+<script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
 <script type="text/javascript">
 	'use strict';
 	// Close Checkout on page navigation:
@@ -166,8 +196,8 @@
 	transition-duration: 2s;
 }
 .expandable:hover{
-	overflow: visible; 
-    white-space: normal; 
+	overflow: visible;
+    white-space: normal;
     width: auto;
 }
 .shop-items:hover {

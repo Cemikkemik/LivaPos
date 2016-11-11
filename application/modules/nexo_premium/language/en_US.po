@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nexo Premium\n"
-"POT-Creation-Date: 2016-09-02 10:39+0100\n"
-"PO-Revision-Date: 2016-09-02 10:42+0100\n"
+"POT-Creation-Date: 2016-11-10 18:18+0100\n"
+"PO-Revision-Date: 2016-11-10 18:19+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.9\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: __;_e;_s\n"
@@ -91,17 +91,17 @@ msgstr "Yes"
 msgid "Non"
 msgstr "No"
 
-#: inc/Controller.php:43
+#: inc/Controller.php:44
 #, fuzzy
 msgid "Cette page est introuvable"
 msgstr "Oops! That page can&rsquo;t be found."
 
-#: inc/Controller.php:62 inc/Controller.php:105
+#: inc/Controller.php:63 inc/Controller.php:106
 #, fuzzy
 msgid "Erreur"
 msgstr "Error"
 
-#: inc/Controller.php:63 inc/Controller.php:106
+#: inc/Controller.php:64 inc/Controller.php:107
 #, fuzzy
 msgid ""
 "La date mentionnée est invalide. Le rapport sollicité ne peut se faire pour "
@@ -110,157 +110,167 @@ msgstr ""
 "The date specified is invalid. The requested report can be done for the days "
 "to come."
 
-#: inc/Controller.php:74
+#: inc/Controller.php:75
 #, fuzzy
 msgid "Rapport journalier détaillé"
 msgstr "Detailed daily report"
 
-#: inc/Controller.php:78
+#: inc/Controller.php:79
 #, fuzzy
 msgid "Revenir en arrière"
 msgstr "Go back"
 
-#: inc/Controller.php:81 views/flux-de-la-tresorerie.php:7
+#: inc/Controller.php:82 views/flux-de-la-tresorerie.php:7
 #: views/stats-des-ventes.php:14
 #, fuzzy
 msgid "Vider le cache"
 msgstr "Empty cache"
 
-#: inc/Controller.php:119 inc/Filters.php:70
+#: inc/Controller.php:120 inc/Filters.php:77
 #, fuzzy
 msgid "Flux de trésorerie"
 msgstr "Cash flow"
 
-#: inc/Controller.php:169
+#: inc/Controller.php:170
 #, fuzzy
 msgid "Rapport des Ventes Annuelles"
 msgstr "The annual sales report"
 
-#: inc/Controller.php:193
+#: inc/Controller.php:194
 #, fuzzy
 msgid "Fiche de suivi de stock &mdash; Nexo POS"
 msgstr "Inventory Tracker &mdash; Nexo POS"
 
-#: inc/Controller.php:216 views/factures.php:10
+#: inc/Controller.php:217 views/factures.php:10
 #, fuzzy
 msgid "Factures"
 msgstr "Invoices"
 
-#: inc/Controller.php:224
+#: inc/Controller.php:225 views/expenses_listing_dom.php:54
 #, fuzzy
 msgid "Désignation"
 msgstr "Designation"
 
-#: inc/Controller.php:225
+#: inc/Controller.php:226
 #, fuzzy
 msgid "Prix de la facture"
 msgstr "Invoice price"
 
-#: inc/Controller.php:226
+#: inc/Controller.php:227
 #, fuzzy
 msgid "Référence"
 msgstr "Reference"
 
-#: inc/Controller.php:227 views/historique.php:33
+#: inc/Controller.php:228 views/historique.php:33
 #, fuzzy
 msgid "Description"
 msgstr "Description"
 
-#: inc/Controller.php:228
+#: inc/Controller.php:229
 #, fuzzy
 msgid "Image"
 msgstr "Picture"
 
-#: inc/Controller.php:229 inc/Controller.php:496
+#: inc/Controller.php:230 inc/Controller.php:497
 #, fuzzy
 msgid "Auteur"
 msgstr "Author"
 
-#: inc/Controller.php:230 inc/Controller.php:497
+#: inc/Controller.php:231 inc/Controller.php:498
 #, fuzzy
 msgid "Date de création"
 msgstr "Creation date"
 
-#: inc/Controller.php:231 inc/Controller.php:498
+#: inc/Controller.php:232 inc/Controller.php:499
 #, fuzzy
 msgid "Date de modification"
 msgstr "Last modified date"
 
-#: inc/Controller.php:300
+#: inc/Controller.php:301
 #, fuzzy
 msgid "Liste des factures"
 msgstr "Invoices List"
 
-#: inc/Controller.php:308
+#: inc/Controller.php:309
 msgid "Ajouter/modifier une facture"
 msgstr "Add / Edit Invoice"
 
-#: inc/Controller.php:363 inc/Filters.php:80
+#: inc/Controller.php:364 inc/Filters.php:87
 msgid "Performances des caissiers"
 msgstr "Cashiers performance"
 
-#: inc/Controller.php:396
+#: inc/Controller.php:397
 msgid "Statistiques des clients"
 msgstr "Customers Statistics"
 
-#: inc/Controller.php:429
+#: inc/Controller.php:430
 msgid "Supprimer l'historique"
 msgstr "Delete history"
 
-#: inc/Controller.php:434 inc/Filters.php:120
+#: inc/Controller.php:435 inc/Filters.php:127
 msgid "Historique des activités"
 msgstr "User History Report"
 
-#: inc/Controller.php:459
+#: inc/Controller.php:460
 msgid "Réinitialisation de l'historique"
 msgstr "History Reset"
 
-#: inc/Controller.php:460
+#: inc/Controller.php:461
 #, php-format
 msgid ""
 "L'utilisateur <strong>%s</strong> à supprimé le contenu de l'historique des "
 "activités."
 msgstr "User <strong>%s</strong> deleted the content of the activity history."
 
-#: inc/Controller.php:486 inc/Filters.php:132
+#: inc/Controller.php:487 inc/Filters.php:139
 msgid "Sauvegardes"
 msgstr "Backups"
 
-#: inc/Controller.php:494
+#: inc/Controller.php:495
 msgid "Titre de la sauvegarde"
 msgstr "Backup Title"
 
-#: inc/Controller.php:495
+#: inc/Controller.php:496
 msgid "Emplacement du fichier"
 msgstr "File Location"
 
-#: inc/Controller.php:513
+#: inc/Controller.php:514
 msgid "Télécharger la sauvegarde"
 msgstr "Download Backup"
 
-#: inc/Controller.php:540
+#: inc/Controller.php:541
 msgid "Liste des sauvegardes"
 msgstr "Backup list"
 
-#: inc/Controller.php:545
+#: inc/Controller.php:546
 msgid "Ajouter une sauvegarde"
 msgstr "Add a backup"
 
-#: inc/Controller.php:552
+#: inc/Controller.php:553
 msgid "Edition une sauvegarde"
 msgstr "Backup Edition"
 
-#: inc/Controller.php:567 inc/Controller.php:590
+#: inc/Controller.php:568 inc/Controller.php:591
 msgid "Sauvegarde Base de donnée Nexo POS"
 msgstr "Backup Database Nexo POS"
 
-#: inc/Controller.php:703 inc/Filters.php:136
+#: inc/Controller.php:704 inc/Filters.php:143
 msgid "Restauration"
 msgstr "Restoring"
 
-#: inc/Controller.php:736
+#: inc/Controller.php:737
 msgid "Les Meilleurs"
 msgstr "Best Sales"
+
+#: inc/Controller.php:829
+#, php-format
+msgid "Ventes et Pertes &mdash; %s"
+msgstr "Sales and Profit &mdash; %s"
+
+#: inc/Controller.php:836
+#, php-format
+msgid "Liste des dépenses &mdash; %s"
+msgstr "Expenses Listings &mdash; %s"
 
 #: inc/Filters.php:55
 msgid "Rapports"
@@ -274,21 +284,29 @@ msgstr "Best Sales"
 msgid "Journalier"
 msgstr "Daily Sales"
 
-#: inc/Filters.php:75
+#: inc/Filters.php:69
+msgid "Ventes et pertes"
+msgstr "Sales and Lost"
+
+#: inc/Filters.php:73
+msgid "Listing des dépenses"
+msgstr "Expenses Listings"
+
+#: inc/Filters.php:82
 #, fuzzy
 msgid "Ventes Annuelles"
 msgstr "Annual Sales"
 
-#: inc/Filters.php:85
+#: inc/Filters.php:92
 msgid "Statistique des clients"
 msgstr "Customers Statistics"
 
-#: inc/Filters.php:90
+#: inc/Filters.php:97
 #, fuzzy
 msgid "Fiche de Suivi de Stocks"
 msgstr "Inventory tracking sheet"
 
-#: inc/Filters.php:115
+#: inc/Filters.php:122
 msgid "Maintenance & Historique"
 msgstr "Maintenance & History"
 
@@ -315,12 +333,14 @@ msgid "Nexo doit être activé pour que ce module fonctionne correctement."
 msgstr "Nexo must be enabled for this module working properly."
 
 #: views/best_of/content.php:3 views/cashier-performances.php:35
-#: views/customers-statistics.php:35
+#: views/customers-statistics.php:35 views/expenses_listing_dom.php:9
+#: views/profit_and_lost_dom.php:9
 msgid "Date de départ"
 msgstr "Start date"
 
 #: views/best_of/content.php:8 views/cashier-performances.php:40
-#: views/customers-statistics.php:40
+#: views/customers-statistics.php:40 views/expenses_listing_dom.php:16
+#: views/profit_and_lost_dom.php:16
 msgid "Date de fin"
 msgstr "End date"
 
@@ -422,7 +442,7 @@ msgstr "Yesterday"
 #: views/dashboard-content.php:22 views/dashboard-content.php:56
 #: views/dashboard-content.php:88 views/dashboard-content.php:119
 #: views/fiche-de-suivi/by-categories.php:41
-#: views/flux-de-la-tresorerie.php:136
+#: views/flux-de-la-tresorerie.php:136 views/profit_and_lost_dom.php:115
 #: views/rapport-journalier-detaille.php:125 views/stats-des-ventes.php:123
 #: views/stats-des-ventes.php:136
 #, fuzzy
@@ -446,6 +466,42 @@ msgstr "Customers"
 #: views/dashboard-content.php:107
 msgid "Créances"
 msgstr "Receivables"
+
+#: views/expenses_listing_dom.php:24 views/profit_and_lost_dom.php:24
+msgid "Charger"
+msgstr "Load"
+
+#: views/expenses_listing_dom.php:28 views/flux-de-la-tresorerie.php:7
+#: views/profit_and_lost_dom.php:28 views/stats-des-ventes.php:14
+#, fuzzy
+msgid "Imprimer"
+msgstr "Print"
+
+#: views/expenses_listing_dom.php:48
+msgid "Dates"
+msgstr "Date"
+
+#: views/expenses_listing_dom.php:51
+msgid "Références"
+msgstr "References"
+
+#: views/expenses_listing_dom.php:57
+msgid "Montant"
+msgstr "Amount"
+
+#: views/expenses_listing_dom.php:78
+msgid ""
+"Aucun résultat disponible. Veuillez choisir un intervalle de temps différent."
+msgstr "There are no results. Please choose a different time interval."
+
+#: views/expenses_listing_dom.php:122 views/profit_and_lost_dom.php:234
+msgid "Attention"
+msgstr "Warning"
+
+#: views/expenses_listing_dom.php:122
+msgid ""
+"Vous devez définir un intervalle de temps précis pour avoir des résultats"
+msgstr "You must set a specific time interval for results"
 
 #: views/fiche-de-suivi-dom.php:6
 msgid "Par catégorie"
@@ -508,11 +564,6 @@ msgstr "Outings"
 #: views/fiche-de-suivi/by-categories.php:33
 msgid "Stock Final"
 msgstr "Final Stock"
-
-#: views/flux-de-la-tresorerie.php:7 views/stats-des-ventes.php:14
-#, fuzzy
-msgid "Imprimer"
-msgstr "Print"
 
 #: views/flux-de-la-tresorerie.php:30 views/stats-des-ventes.php:30
 #, fuzzy
@@ -658,6 +709,52 @@ msgstr "Title"
 msgid "Effectué le"
 msgstr "Performed on"
 
+#: views/profit_and_lost_dom.php:48
+msgid "Date"
+msgstr "Date"
+
+#: views/profit_and_lost_dom.php:51
+msgid "Détails du produit"
+msgstr "Product Details"
+
+#: views/profit_and_lost_dom.php:55 views/rapport-journalier-detaille.php:69
+#, fuzzy
+msgid "Quantité"
+msgstr "Quantity"
+
+#: views/profit_and_lost_dom.php:58
+msgid "Prix de vente Brut"
+msgstr "Gross Sale Price"
+
+#: views/profit_and_lost_dom.php:61
+msgid "Remise (%)"
+msgstr "Discount (%)"
+
+#: views/profit_and_lost_dom.php:64
+msgid "Remise"
+msgstr "Discount"
+
+#: views/profit_and_lost_dom.php:67
+msgid "Prix de vente Net"
+msgstr "Net selling price"
+
+#: views/profit_and_lost_dom.php:70
+msgid "Prix d'achat"
+msgstr "Buying price"
+
+#: views/profit_and_lost_dom.php:73
+msgid "Bénéfice"
+msgstr "Profit"
+
+#: views/profit_and_lost_dom.php:110
+msgid ""
+"Aucun résultat à afficher. Veuillez choisir un interval de temps différent."
+msgstr "No results to display. Please choose a different time interval."
+
+#: views/profit_and_lost_dom.php:234
+msgid "Vous devez sélectionner une date valide"
+msgstr "You must select a valid date"
+
 #: views/rapport-journalier-detaille.php:28
 #, fuzzy, php-format
 msgid "Rapport journalier détaillé <br> pour le %s"
@@ -687,11 +784,6 @@ msgstr "Summary of revenue"
 #, fuzzy
 msgid "Type de documents"
 msgstr "Document type"
-
-#: views/rapport-journalier-detaille.php:69
-#, fuzzy
-msgid "Quantité"
-msgstr "Quantity"
 
 #: views/rapport-journalier-detaille.php:71
 #, fuzzy, php-format
@@ -842,6 +934,21 @@ msgstr "Sales Statistics"
 #, fuzzy, php-format
 msgid "Level %s"
 msgstr "Level %s"
+
+#~ msgid "Ventes"
+#~ msgstr "Sales"
+
+#~ msgid "Coûts"
+#~ msgstr "Costs"
+
+#~ msgid "Ventes et Pertes &mdash; NexoPOS"
+#~ msgstr "Sales and Profit &mdash; NexoPOS"
+
+#~ msgid "Listing des dépenses &mdash; NexoPOS"
+#~ msgstr "Expenses Listings &mdash; NexoPOS"
+
+#~ msgid "You must select a valid date"
+#~ msgstr "You must select the date was valid"
 
 #, fuzzy
 #~ msgid "Nouvelle facture"

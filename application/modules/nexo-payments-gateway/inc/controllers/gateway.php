@@ -7,12 +7,12 @@ class Gateway_Controller
 		$core->Gui->set_title( 'Settings' );
 		$core->load->module_view( 'nexo-payments-gateway', 'stripe-settings' );
 	}
-	
+
 	/**
 	 * Gateway Settings
 	**/
-	
-	public static function gateway_settings()
+
+	public static function settings()
 	{
 		$core	=	get_instance();
 		$core->Gui->set_title( 'Settings' );

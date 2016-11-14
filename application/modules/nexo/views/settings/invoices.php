@@ -67,7 +67,8 @@ $this->Gui->add_item( array(
 	__( '{order_date}, pour afficher la date de la commande.', 'nexo' ) . '<br>' .
 	__( '{order_code}, pour afficher le code de la commande.', 'nexo' ) . '<br>' .
 	__( '{order_id}, pour afficher l\'identifiant de la commande.', 'nexo' ) . '<br>' .
-	__( '{order_cashier}, pour afficher l\'auteur de la commande.', 'nexo' ) . '<br>'
+	__( '{order_cashier}, pour afficher l\'auteur de la commande.', 'nexo' ) . '<br>' .
+	__( '{order_note}, pour afficher les notes de la commande.', 'nexo' ) . '<br>'
 ), 'invoice1', 1 );
 
 $this->Gui->output();

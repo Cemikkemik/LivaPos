@@ -5,6 +5,7 @@ global $Options;
 <script src="https://checkout.stripe.com/checkout.js"></script>
 
 <script type="text/javascript">
+
 var StripeHandler 	= 	StripeCheckout.configure({
 	key: '<?php echo @$Options[ store_prefix() . 'nexo_stripe_publishable_key' ];?>',
 	image: '<?php echo img_url('nexo') . '/nexopos-logo.png';?>',
@@ -24,4 +25,4 @@ window.addEventListener( 'popstate', function() {
 });
 </script>
 
-<?php endif;?> 
+<?php endif;?>

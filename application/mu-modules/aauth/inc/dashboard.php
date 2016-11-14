@@ -231,6 +231,7 @@ class aauth_dashboard extends CI_model
                     $mode   =   'edit',
                     $this->input->post( 'user_status' )
                 );
+
                 $this->notice->push_notice($this->lang->line('user-updated'));
             }
 
@@ -350,6 +351,8 @@ class aauth_dashboard extends CI_model
                     $this->input->post('old_pass'),
                     'profile'
                 );
+
+                // var_dump( $exec );die;
 
                 $this->notice->push_notice_array($exec);
             }

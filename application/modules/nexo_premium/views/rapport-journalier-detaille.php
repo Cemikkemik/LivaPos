@@ -22,12 +22,12 @@ if (! $Cache->get($report_slug) || @$_GET[ 'refresh' ] == 'true') {
     ?>
 
 <div class="well well-sm">
-    <h2 class="text-center"><?php echo @$Options[ 'site_name' ] ? $Options[ 'site_name' ] : __('Nom indisponible', 'nexo');
+    <h2 class="text-center"><?php echo @$Options[ 'site_name' ] ? $Options[ 'site_name' ] : __('Nom indisponible', 'nexo_premium');
     ?></h2>
     <h4 class="text-center"><?php echo sprintf(
         __('Rapport journalier détaillé <br> pour le %s', 'nexo_premium'),
         $CarbonReportDate->formatLocalized('%A %d %B %Y')
-    );	
+    );
     ?></h4>
     <?php
     $by            =    sprintf(__('Document imprimé par : %s', 'nexo_premium'), User::pseudo());
@@ -45,7 +45,7 @@ if (! $Cache->get($report_slug) || @$_GET[ 'refresh' ] == 'true') {
 
 if( ! in_array( @$Options[ 'nexo_enable_registers' ], array( null, 'non' ) ) ){
 ?>
-<div class="input-group"> <span class="input-group-addon" id="basic-addon1"><?php echo _s( 'Selectionnez la caisse dont vous souhaitez afficher le rapport journalier', 'nexo' );?></span>
+<div class="input-group"> <span class="input-group-addon" id="basic-addon1"><?php echo _s( 'Selectionnez la caisse dont vous souhaitez afficher le rapport journalier', 'nexo_premium' );?></span>
     <select type="text" class="form-control" name="register_id">
         <option value="">
         <?php _e( 'Faites un choix', 'nexo_premium' );?>
@@ -151,7 +151,7 @@ if( ! in_array( @$Options[ 'nexo_enable_registers' ], array( null, 'non' ) ) ){
     ?></td>
             <td id="rrr_total_amount" class="text-right"></td>
         </tr>
-        <!-- Looper les fctures en dépenses --> 
+        <!-- Looper les fctures en dépenses -->
         <!-- Fin loop -->
         <tr id="before_total">
             <td><?php _e('Total dépense', 'nexo_premium');
@@ -177,12 +177,12 @@ if( ! in_array( @$Options[ 'nexo_enable_registers' ], array( null, 'non' ) ) ){
     </thead>
     <tbody>
     	<?php
-		
+
 		/**
 		 * If register option is enabled, initial balance row is shown
 		 * @since 2.7.7
 		**/
-		
+
 		if( @$Options[ 'nexo_enable_registers' ] == 'oui' ){
 		?>
         <tr>
@@ -202,12 +202,12 @@ if( ! in_array( @$Options[ 'nexo_enable_registers' ], array( null, 'non' ) ) ){
             <td id="depenses_total" class="text-right"></td>
         </tr>
         <?php
-		
+
 		/**
 		 * If register option is enabled, initial balance row is shown
 		 * @since 2.7.7
 		**/
-		
+
 		if( @$Options[ 'nexo_enable_registers' ] == 'oui' ){
 		?>
         <tr>
@@ -230,51 +230,51 @@ if( ! in_array( @$Options[ 'nexo_enable_registers' ], array( null, 'non' ) ) ){
 "use strict";
 
 var Nexo_Daily_Report	=	new function(){
-	
+
 	this.Orders			=	new Array();
-		
+
 	this.Reset			=	function(){
 		this.ComptantNbr	=	0;
 		this.AvanceNbr		=	0;
 		this.DevisNbr		=	0;
 		this.CashAvanceNbr	=	0;
-		
+
 		this.ComptantTotal	=	0;
 		this.AvanceTotal	=	0;
 		this.DevisTotal		=	0;
 		this.CashAvanceTotal=	0;
 		this.AvanceLeftTotal=	0;
-		
+
 		this.RRR_Total		=	0;
 		this.Bills_Total	=	0;
 		this.Global_Charges	=	0;
-		
+
 		this.RecettesTotales=	0;
 		this.Depense_Totales=	0;
-		
+
 		// @since 2.7.5
 		this.VAT_Total			=	0;
 		this.ShadowPrice_Total	=	0;
 		this.RealPrice_Total	=	0;
 		this.Register_ID		=	null;
-		
+
 		this.CashAvanceTotal	=	0;
-		this.CashAvanceNbr		=	0;		
+		this.CashAvanceNbr		=	0;
 		this.AvanceLeftTotal	=	0;
 		this.AvanceTotal		=	0;
 		this.AvanceNbr			=	0;
-		
+
 		this.ComptantNbr		=	0;
 		this.ComptantTotal		=	0;
-		
+
 		this.DevisNbr			=	0;
 		this.DevisTotal			=	0;
-		
+
 		this.InitialBalance		=	0;
 		this.ClosingBalance		=	0;
-		
+
 	}
-	
+
 	// @since 2.7.5
 	this.LoadRegisters		=	function(){
 		$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'registers', store_get_param( '?' ) ) );?>', {
@@ -283,7 +283,7 @@ var Nexo_Daily_Report	=	new function(){
 					_.each( data, function( register, key ){
 						$( '[name="register_id"]' ).append( '<option value="' + register.ID + '">' + register.NAME + '</option>' );
 					})
-					
+
 					$( '[name="register_id"]' ).bind( 'change', function(){
 						Nexo_Daily_Report.Reset();
 						if( $( this ).val() != '' ) {
@@ -294,17 +294,17 @@ var Nexo_Daily_Report	=	new function(){
 				}
 			},
 			error			:	function(){
-				bootbox.alert( '<?php echo _s( 'Une erreur s\'est produite durant la récupération des caisses', 'nexo' );?>' );
+				bootbox.alert( '<?php echo _s( 'Une erreur s\'est produite durant la récupération des caisses', 'nexo_premium' );?>' );
 			}
 		});
 	}
-	
+
 	this.Init			=	function(){
 		<?php
 		/**
 		 * When register is disabled, let load daily report directly
 		 * @since 2.7.7
-		**/		
+		**/
 		if( in_array( @$Options[ 'nexo_enable_registers' ], array( null, 'non' ) ) ){
 			?>
 			this.Reset();
@@ -320,144 +320,144 @@ var Nexo_Daily_Report	=	new function(){
 	}
 	this.OrderReport	=	function(){
 
-		$.post( 
+		$.post(
 			'<?php echo site_url(array( 'rest', 'nexo', 'order_by_dates' ));?>/all/' + this.Register_ID + '<?php echo store_get_param( '?' );?>',
-			_.object( 
-				[ 'start', 'end' ], 
-				[ '<?php echo $CarbonReportDate->copy()->startOfDay();?>', '<?php echo $CarbonReportDate->copy()->endOfDay();?>' ] 
+			_.object(
+				[ 'start', 'end' ],
+				[ '<?php echo $CarbonReportDate->copy()->startOfDay();?>', '<?php echo $CarbonReportDate->copy()->endOfDay();?>' ]
 			),
 			function( orders ) {
-				
+
 				Nexo_Daily_Report.Orders	=	orders;
 				var CashOrderCode			=	new Array;
-				
+
 				_.map( orders, function( value, key ) {
-					
+
 					Nexo_Daily_Report.RRR_Total			+=	( NexoAPI.ParseFloat( value.RABAIS ) + NexoAPI.ParseFloat( value.REMISE ) + NexoAPI.ParseFloat( value.RISTOURNE ) )
-					
+
 					if( value.TYPE == '<?php echo 'nexo_order_comptant';
     ?>' ) {
-						
+
 						Nexo_Daily_Report.ComptantNbr++
 						Nexo_Daily_Report.CashAvanceNbr++;
-						Nexo_Daily_Report.ComptantTotal		+=	NexoAPI.ParseFloat( value.TOTAL );	
-						Nexo_Daily_Report.CashAvanceTotal 	+= 	NexoAPI.ParseFloat( value.TOTAL );	
+						Nexo_Daily_Report.ComptantTotal		+=	NexoAPI.ParseFloat( value.TOTAL );
+						Nexo_Daily_Report.CashAvanceTotal 	+= 	NexoAPI.ParseFloat( value.TOTAL );
 						CashOrderCode.push( value.CODE );
-						
-						
-						
+
+
+
 					} else if( value.TYPE == '<?php echo 'nexo_order_advance';
     ?>' ) {
-						
+
 						Nexo_Daily_Report.AvanceNbr++
 						Nexo_Daily_Report.CashAvanceNbr++;
-						Nexo_Daily_Report.AvanceTotal		+=	NexoAPI.ParseFloat( value.SOMME_PERCU );	
-						Nexo_Daily_Report.CashAvanceTotal 	+= 	NexoAPI.ParseFloat( value.SOMME_PERCU );	
+						Nexo_Daily_Report.AvanceTotal		+=	NexoAPI.ParseFloat( value.SOMME_PERCU );
+						Nexo_Daily_Report.CashAvanceTotal 	+= 	NexoAPI.ParseFloat( value.SOMME_PERCU );
 						Nexo_Daily_Report.AvanceLeftTotal	+=	( NexoAPI.ParseFloat( value.TOTAL ) - NexoAPI.ParseFloat( value.SOMME_PERCU ) );
-						
+
 					} else if( value.TYPE == '<?php echo 'nexo_order_devis';
     ?>' ) {
-						
+
 						Nexo_Daily_Report.DevisNbr++
-						Nexo_Daily_Report.DevisTotal	+=	NexoAPI.ParseFloat( value.TOTAL );	
-						
+						Nexo_Daily_Report.DevisTotal	+=	NexoAPI.ParseFloat( value.TOTAL );
+
 					}
-					
+
 					// Sum VAT
 					Nexo_Daily_Report.VAT_Total			+=	NexoAPI.ParseFloat( value.TVA );
 				});
-				
+
 				// <!-- MARK -->
 				$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'order_items_dual_item', store_get_param( '?' ) ) );?>', {
 					dataType	:	'json',
 					data		:	_.object( [ 'orders_code' ], [ CashOrderCode ] ),
 					type		:	'POST',
 					success		:	function( data ){
-						
+
 						_.each( data.order_items, function( _item, _key ){
 							Nexo_Daily_Report.ShadowPrice_Total	+=	( NexoAPI.ParseFloat( _item.PRIX ) ); //  * parseInt( _item.QUANTITE )
 						});
-						
+
 						_.each( data.items, function( _item, _key ){
 							Nexo_Daily_Report.RealPrice_Total	+=	( NexoAPI.ParseFloat( _item.PRIX_DE_VENTE ) ); //  * parseInt( _item.QUANTITE )
 						});
-												
-						Nexo_Daily_Report.BuildOutput();		
+
+						Nexo_Daily_Report.BuildOutput();
 					}
 				});
-				// <!-- MARK -->				
+				// <!-- MARK -->
 			},
 			'json'
 		);
 	}
-	
+
 	this.BuildOutput	=	function(){
 		$( '#cash_nbr' ).html( this.ComptantNbr );
 		$( '#avance_nbr' ).html( this.AvanceNbr );
 		$( '#devis_nbr' ).html( this.DevisNbr );
-		
+
 		$( '#cash_amount' ).html( NexoAPI.DisplayMoney( this.ComptantTotal ) );
 		$( '#avance_amount' ).html( NexoAPI.DisplayMoney( this.AvanceTotal ) );
 		$( '#devis_amount' ).html( NexoAPI.DisplayMoney( this.DevisTotal ) );
-		
+
 		$( '#cash_avance_amount_total' ).html( NexoAPI.DisplayMoney( this.CashAvanceTotal ) );
 		$( '#avance_amount_left_total' ).html( NexoAPI.DisplayMoney( this.AvanceLeftTotal ) );
 		$( '#daily_order_total_expected' ).html( NexoAPI.DisplayMoney( this.AvanceLeftTotal + this.CashAvanceTotal ) );
-		
-		$( '#shadow_price' ).html( NexoAPI.DisplayMoney( Math.abs( 
-			NexoAPI.ParseFloat( Nexo_Daily_Report.ShadowPrice_Total - Nexo_Daily_Report.RealPrice_Total ) 
+
+		$( '#shadow_price' ).html( NexoAPI.DisplayMoney( Math.abs(
+			NexoAPI.ParseFloat( Nexo_Daily_Report.ShadowPrice_Total - Nexo_Daily_Report.RealPrice_Total )
 		) ) );
-		
+
 		this.GetCharges();
 	}
-	
+
 	/**
 	 * Get Charge
 	 *
 	**/
-	
+
 	this.GetCharges		=	function(){
-		
+
 		$( '#rrr_total_amount' ).html( NexoAPI.DisplayMoney( this.RRR_Total ) );
 		// Temporarily
 		$( '#charge_total_amount' ).html( NexoAPI.DisplayMoney( this.RRR_Total ) );
-		
-		$.post( 
+
+		$.post(
 			'<?php echo site_url(array( 'nexo_bills', 'bills_by_date', store_get_param( '?' ) ));
-    ?>', 
+    ?>',
 			_.object( [ 'start', 'end' ], [ '<?php echo $CarbonReportDate->copy()->startOfDay();
     ?>', '<?php echo $CarbonReportDate->copy()->endOfDay();
     ?>' ] ),
 			function( bills ) {
 				_.map( bills, function( value, key ) {
-					
+
 					Nexo_Daily_Report.Bills_Total	+=	NexoAPI.ParseFloat( value.MONTANT );
-					
+
 					$( '#before_total' ).before( '<tr><td>' + value.INTITULE  + '</td><td class="text-right">' +  NexoAPI.DisplayMoney( NexoAPI.ParseFloat( value.MONTANT ) ) + '</td></tr>' );
-					
+
 				});
-				
+
 				Nexo_Daily_Report.Global_Charges	=	Nexo_Daily_Report.Bills_Total + Nexo_Daily_Report.RRR_Total;
 				// Set global Charge
 				$( '#charge_total_amount' ).html( NexoAPI.DisplayMoney( Nexo_Daily_Report.Global_Charges ) );
-				
-				<?php 
-				
+
+				<?php
+
 				/**
 				 * If register option is disabled, fetch activities is not required
 				 * @since 2.7.7
-				**/				
-				
+				**/
+
 				if( @$Options[ 'nexo_enable_registers' ] == 'oui' ):
-				
+
 				?>
 				$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'register_activities_by_timerange' ) );?>/' + Nexo_Daily_Report.Register_ID + '<?php echo store_get_param( '?' );?>', {
 					success		:	function( data ){
 						console.log( data );
-						
+
 						var firstOpening	=	null;
 						var lastClosing		=	null;
-						
+
 						if( ! _.isEmpty( data ) ) {
 							_.each( data, function( activity, key ) {
 								// First inital opening
@@ -468,7 +468,7 @@ var Nexo_Daily_Report	=	new function(){
 									lastClosing		=	activity;
 								}
 							});
-							
+
 							if( firstOpening != null ) {
 								Nexo_Daily_Report.InitialBalance		=	NexoAPI.ParseFloat( firstOpening.BALANCE );
 							}
@@ -476,11 +476,11 @@ var Nexo_Daily_Report	=	new function(){
 								Nexo_Daily_Report.ClosingBalance		=	NexoAPI.ParseFloat( lastClosing.BALANCE );
 							} else {
 								$( '.register_notice' ).remove();
-								$( '<div class="register_notice"><?php echo tendoo_warning( _s( 'Cette caisse n\'a pas été fermée en ce jour.', 'nexo' ) );?></div>' ).insertAfter( '.before_final_table' );
+								$( '<div class="register_notice"><?php echo tendoo_warning( _s( 'Cette caisse n\'a pas été fermée en ce jour.', 'nexo_premium' ) );?></div>' ).insertAfter( '.before_final_table' );
 							}
-							
+
 						} else {
-							bootbox.alert( '<?php echo _s( 'Cette caisse n\'a pas été ouverte en ce jour', 'nexo' );?>' );
+							bootbox.alert( '<?php echo _s( 'Cette caisse n\'a pas été ouverte en ce jour', 'nexo_premium' );?>' );
 						}
 						Nexo_Daily_Report.Final_Results();
 					},
@@ -488,10 +488,10 @@ var Nexo_Daily_Report	=	new function(){
 					dataType	:	'json',
 					data		:	_.object( [ 'start', 'end' ], [ '<?php echo $CarbonReportDate->copy()->startOfDay();?>', '<?php echo $CarbonReportDate->copy()->endOfDay();?>' ] )
 				});
-				<?php 
+				<?php
 				// End register activities
 				else :
-				
+
 				/**
 				 * If register is disabled, fetch directly Results
 				 * @since 2.7.7
@@ -507,18 +507,18 @@ var Nexo_Daily_Report	=	new function(){
 			}
 		);
 	}
-	
+
 	/**
 	 * Final Result
 	 *
 	 * @return void
 	**/
-	
+
 	this.Final_Results	=	function(){
-		
+
 		this.Recettes_Totales	=	( this.ComptantTotal + this.AvanceTotal ) + this.RRR_Total; // we add this.RRR_Total since it's has been excluded on order.TOTAL
 		this.Depense_Totales	=	this.Bills_Total + this.RRR_Total;
-		
+
 		<?php
 		/**
 		 * If Resgister option is enabled
@@ -526,20 +526,20 @@ var Nexo_Daily_Report	=	new function(){
 		**/
 		if( @$Options[ 'nexo_enable_registers' ] == 'oui' ):
 		?>
-		
+
 		$( '#solde_initiale' ).html( NexoAPI.DisplayMoney( this.InitialBalance ) );
 		$( '#solde_finale' ).html( NexoAPI.DisplayMoney( this.ClosingBalance ) );
-		
-		<?php 
+
+		<?php
 		// End Register Options
 		endif;
 		?>
-		
+
 		$( '#recettes_total' ).html( NexoAPI.DisplayMoney( this.Recettes_Totales ) );
 		$( '#depenses_total' ).html( NexoAPI.DisplayMoney( this.Depense_Totales ) );
-		
+
 		$( '#collected_tax' ).html( NexoAPI.DisplayMoney( this.VAT_Total ) );
-		$( '#ca_net' ).html( NexoAPI.DisplayMoney( this.Recettes_Totales - this.Depense_Totales ) ); 
+		$( '#ca_net' ).html( NexoAPI.DisplayMoney( this.Recettes_Totales - this.Depense_Totales ) );
 	};
 };
 
@@ -565,4 +565,3 @@ $this->Gui->add_item(array(
 ), 'daily_advanced_report', 1);
 
 $this->Gui->output();
-

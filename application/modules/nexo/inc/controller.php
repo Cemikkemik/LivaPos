@@ -604,6 +604,7 @@ if( User::in_group( 'shop_cashier' ) || User::in_group( 'shop_tester' ) ) {
                                 $method                             =   array_slice(func_get_args(), 2, 1);
                                 $callback[ $slug_namespace[0] ][]   =   str_replace( '-', '_', $method[0] );
                                 if( method_exists( $callback[ $slug_namespace[0] ][0], $callback[ $slug_namespace[0] ][1] ) ) {
+                                    // var_dump( $callback );die;
         							call_user_func_array( $callback[ $slug_namespace[0] ], array_slice(func_get_args(), 3));
                                 } else {
                                     show_404();

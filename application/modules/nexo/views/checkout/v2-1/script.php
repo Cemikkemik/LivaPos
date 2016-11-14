@@ -85,7 +85,7 @@ var v2Checkout					=	new function(){
 		var cartTableFooter				=	parseInt( $( '#cart-details' ).outerHeight(true) );
 		var cartPanel					=	parseInt( $( '#cart-panel' ).outerHeight(true) );
 
-	//	alert( $( '#cart-item-table-header' ).html() );
+		//	alert( $( '#cart-item-table-header' ).html() );
 
 		// alert( $( '#cart-header' ).css( 'height' ) );
 		// alert( col1_paddingWrapper + ' ' +  cartHeader + ' ' + cartTableHeader + ' ' + cartTableFooter + ' ' + cartPanel + ' ' + tabHeight );
@@ -408,9 +408,9 @@ var v2Checkout					=	new function(){
 					NexoAPI.Bootbox().confirm( '<?php echo addslashes(__('Souhaitez-vous annuler cette remise ?', 'nexo'));?>', function( action ) {
 						if( action == true ) {
 							v2Checkout.CartRemise			=	0;
-							v2Checkout.CartRemiseType		=	null;
+							v2Checkout.CartRemiseType		=	'';
 							v2Checkout.CartRemiseEnabled	=	false;
-							v2Checkout.CartRemisePercent	=	null;
+							v2Checkout.CartRemisePercent	=	0;
 							v2Checkout.refreshCartValues();
 						}
 					})
@@ -1022,7 +1022,7 @@ var v2Checkout					=	new function(){
 
 	/**
 	 * Submit order
-	 * @params payment mean
+	 * @param object payment mean
 	**/
 
 	this.cartSubmitOrder			=	function( payment_means ){
@@ -1075,7 +1075,19 @@ var v2Checkout					=	new function(){
 
 		var order_details					=	new Object;
 			order_details.TOTAL				=	NexoAPI.ParseFloat( this.CartToPay );
-			order_details.REMISE			=	NexoAPI.ParseFloat( this.CartRemise );
+			order_details.REMISE_TYPE		=	this.CartRemiseType;
+			// @since 2.9.6
+			if( this.CartRemiseType == 'percentage' ) {
+				order_details.REMISE_PERCENT	=	NexoAPI.ParseFloat( this.CartRemisePercent );
+				order_details.REMISE			=	0;
+			} else if( this.CartRemiseType == 'flat' ) {
+				order_details.REMISE_PERCENT	=	0;
+				order_details.REMISE			=	NexoAPI.ParseFloat( this.CartRemise );
+			} else {
+				order_details.REMISE_PERCENT	=	0;
+				order_details.REMISE			=	0;
+			}
+			// @endSince
 			order_details.RABAIS			=	NexoAPI.ParseFloat( this.CartRabais );
 			order_details.RISTOURNE			=	NexoAPI.ParseFloat( this.CartRistourne );
 			order_details.TVA				=	NexoAPI.ParseFloat( this.CartVAT );
@@ -2243,6 +2255,10 @@ var v2Checkout					=	new function(){
 		this.CartPerceivedSum		=	0;
 		this.CartCreance			=	0;
 		this.CartToPayBack			=	0;
+		// @since 2.9.6
+		this.CartRabaisPercent		=	0;
+		this.CartRistournePercent	=	0;
+		this.CartRemisePercent		=	0;
 
 
 		<?php if (isset($order[ 'order' ])):?>
@@ -2253,9 +2269,9 @@ var v2Checkout					=	new function(){
 		this.ProcessType			=	'POST';
 		<?php endif;?>
 
-		this.CartRemiseType			=	null;
+		this.CartRemiseType			=	'';
 		this.CartRemiseEnabled		=	false;
-		this.CartRemisePercent		=	null;
+		this.CartRemisePercent		=	0;
 		this.CartPaymentType		=	null;
 		this.CartShadowPriceEnabled	=	<?php echo @$Options[ store_prefix() . 'nexo_enable_shadow_price' ] == 'yes' ? 'true' : 'false';?>;
 		this.CartCustomerID			=	<?php echo @$Options[ store_prefix() . 'default_compte_client' ] != null ? $Options[ store_prefix() . 'default_compte_client' ] : 'null';?>;
@@ -2298,9 +2314,10 @@ var v2Checkout					=	new function(){
 			this.CartItems.push( <?php echo json_encode($product);?> );
 			<?php endforeach;?>
 
-			<?php if (floatval($order[ 'order' ][0][ 'REMISE' ]) > 0):?>
-			this.CartRemiseType			=	'flat';
+			<?php if ( ! empty( $order[ 'order' ][0][ 'REMISE_TYPE' ] ) ):?>
+			this.CartRemiseType			=	'<?php echo $order[ 'order' ][0][ 'REMISE_TYPE' ];?>';
 			this.CartRemise				=	NexoAPI.ParseFloat( <?php echo $order[ 'order' ][0][ 'REMISE' ];?> );
+			this.CartRemisePercent		=	<?php echo $order[ 'order' ][0][ 'REMISE_PERCENT' ];?>;
 			this.CartRemiseEnabled		=	true;
 			<?php endif;?>
 

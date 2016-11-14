@@ -138,7 +138,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             </td>
                         </tr>
                         <?php endif;?>
-                        <?php if (__floatval($_produit[ 'REMISE' ])):?>
+                        <?php if ( $_produit[ 'REMISE_TYPE' ] == 'flat' ):?>
                         <tr>
                             <td class=""><?php _e('Remise expresse', 'nexo');?></td>
                             <td class="" style="text-align: right"> </td>
@@ -149,6 +149,21 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <td class="text-right">
                             <?php echo $this->Nexo_Misc->cmoney_format(
                                 __floatval($_produit[ 'REMISE' ])
+                            );?>
+                            </td>
+                        </tr>
+                        <?php endif;?>
+                        <?php if ( $_produit[ 'REMISE_TYPE' ] == 'percentage' ):?>
+                        <tr>
+                            <td class=""><?php _e('Remise (%)', 'nexo');?></td>
+                            <td class="" style="text-align: right"> </td>
+                            <td class="text-right">(-)</td>
+                            <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                            <td class="text-right"></td>
+                            <?php endif;?>
+                            <td class="text-right">
+                            <?php echo $this->Nexo_Misc->cmoney_format(
+                                __floatval( ( __floatval($_produit[ 'REMISE_PERCENT' ]) * __floatval( $_produit[ 'PRIX' ] ) ) / 100 )
                             );?>
                             </td>
                         </tr>

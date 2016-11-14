@@ -34,12 +34,12 @@ echo tendoo_info(__('Ne récupère que les caissiers et non tous les utilisateur
     <div class='input-group date' id='datetimepicker6'>
     	<span class="input-group-addon"><?php _e('Date de départ', 'nexo_premium');?></span>
         <input type='text' class="form-control" name="start" value="<?php echo $start_date;?>" />
-        <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span> 
+        <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span>
 	</div>
     <div class='input-group date' id='datetimepicker7'>
     	<span class="input-group-addon"><?php _e('Date de fin', 'nexo_premium');?></span>
         <input type='text' class="form-control" name="end" value="<?php echo $end_date;?>" />
-        <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span> 
+        <span class="input-group-addon"> <span class="glyphicon glyphicon-calendar"></span> </span>
 	</div>
     <input type="button" class="btn btn-primary trigger_fetch" value="<?php _e('Afficher les résultats', 'nexo_premium');?>" />
 </form>
@@ -76,39 +76,39 @@ $(function () {
 });
 
 var NexoCashierPerformance	=	new function(){
-	
+
 	this.Nexo_Order_Avance	=	'<?php echo 'nexo_order_advance';?>';
 	this.Nexo_Order_Cash	=	'<?php echo 'nexo_order_comptant';?>';
 	this.Nexo_Order_Devis	=	'<?php echo 'nexo_order_devis';?>';
-	
+
 	/**
 	 * launch function
 	**/
-	
+
 	this.GetStats			=	function( cashier_id, start_date, end_date ){
 		if( cashier_id == '' ) {
 			bootbox.alert( '<?php echo addslashes(__('Impossible d\'afficher les données pour cette sélection.', 'nexo_premium'));?>' );
 			return;
 		}
-		
+
 		$.ajax( '<?php echo site_url(array( 'nexo', 'cashier_performance' ));?>/by-days/' + start_date + '/' + end_date + '<?php echo store_get_param( '?' );?>', {
-			data	:	_.object( [ 'cashier_id' ], [ cashier_id ] ), 
+			data	:	_.object( [ 'cashier_id' ], [ cashier_id ] ),
 			type	:	'POST',
 			dataType:	"json",
 			success: function( data ){
-				NexoCashierPerformance.ShowChart( data );		
+				NexoCashierPerformance.ShowChart( data );
 			},
 			error 	:	function(){
-				bootbox.alert( '<?php echo addslashes(__('Une erreur s\'est produite durant l\'affichage du rapport', 'nexo'));?>' );
+				bootbox.alert( '<?php echo addslashes(__('Une erreur s\'est produite durant l\'affichage du rapport', 'nexo_premium'));?>' );
 			}
 		});
 	};
-	
+
 	/**
 	 * Random Hex Color
 	 *
 	**/
-	
+
 	this.RandHex			=	function(){
 		var colors		=	[ '#346b90', '#57aefc', '#001c32', '#939c5b', '#9c5b93', '#5b939c', '#9c645b', '#645b9c', '#5b9c64', '#a2cc61', '#f49ac2', '#bc8dbf', '#8882be', '#7ea7d8', '#6ecff6', '#7bcdc8', '#82ca9d', '#c4df9b', '#fff79a', '#fdc68a', '#f7977a', '#f6989d', '#c6b7b7', '#4f4f4f', '#636363', '#213380', '#384474', '#4f5568', '#66655c', '#7d7650', '#948644', '#ab9638', '#c2a72c', '#d9b720', '#0a238c', '#f0c814', '#b92f1c', '#22e0e0', '#404040', '#480a0d', '#e7e009', '#d5eb7' ];
 		var i= Math.floor(Math.random()*colors.length);
@@ -117,22 +117,22 @@ var NexoCashierPerformance	=	new function(){
 		}
 		return colors[i];
 	};
-	
+
 	/**
 	 * show Chart
 	 * @param json
 	 * @return void
 	**/
-	
+
 	this.ShowChart			=	function( data ) {
-		
+
 		var chartLabels		=	_.mapObject( _.keys( data ), function( val, key ){
 			return moment( val ).format("MMMM Do YYYY");
 		});
-		
+
 		// Unexpected shake bug fix
 		$( '.box' ).html('<canvas id="chartjs" width="500"></canvas>');
-		
+
 		var ChartSet			=	new Array;
 		_.each( data, function( value, key ) {
 			_.each( value.cashiers, function( __value, __cashier_id ) {
@@ -145,7 +145,7 @@ var NexoCashierPerformance	=	new function(){
 				if( typeof ChartSet[ __cashier_id ].data == 'undefined' ) {
 					ChartSet[ __cashier_id ].data	=	new Array;
 				}
-				
+
 				// Count Cash
 				if( _.isArray( __value ) ) {
 					_.each( __value, function( order, order_key ) {
@@ -155,7 +155,7 @@ var NexoCashierPerformance	=	new function(){
 						}
 					});
 				}
-				
+
 				ChartSet[ __cashier_id ].label				=	cashiers_names[ __cashier_id ];
 				ChartSet[ __cashier_id ].borderColor		=	NexoCashierPerformance.RandHex();
 				ChartSet[ __cashier_id ].data.push( amount );
@@ -180,15 +180,15 @@ var NexoCashierPerformance	=	new function(){
 
 $( document ).ready(function(e) {
    $( '[name="cashier_id"]' ).bind( 'change', function(){
-		NexoCashierPerformance.GetStats( 
+		NexoCashierPerformance.GetStats(
 			$( this ).val(),
 			$( '[name="start"]' ).val(),
 			$( '[name="end"]' ).val()
 		);
    });
-   
+
    $( '.trigger_fetch' ).bind( 'click', function(){
-	   NexoCashierPerformance.GetStats( 
+	   NexoCashierPerformance.GetStats(
 			$( '[name="cashier_id"]' ).val(),
 			$( '[name="start"]' ).val(),
 			$( '[name="end"]' ).val()

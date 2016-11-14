@@ -12,10 +12,10 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * License validation
-     *
-     * @param string license
-     * @return string
+    * License validation
+    *
+    * @param string license
+    * @return string
     **/
 
     public function validate_license($license)
@@ -34,9 +34,9 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Check License
-     *
-     * @return void
+    * Check License
+    *
+    * @return void
     **/
 
     public function check_license()
@@ -79,11 +79,11 @@ class Nexo_Misc extends CI_Model
         // reminder before one week
         if ($Nexo_expiration > $now) {
             if ($Nexo_expiration - $now  < (3600 * 24) * 7) {
-                $this->notice->push_notice(tendoo_info(mdate(__('Votre licence expire le %d-%m-%Y à %h:%i', 'nexo'), $Nexo_expiration)));
+                $this->notice->push_notice(tendoo_info(mdate(__('Votre licence expire le %d-%m-%Y à %h:%i', 'nexo_premium'), $Nexo_expiration)));
             } else {
                 $this->events->add_filter('ui_notices', function ($notices) use ($Nexo_expiration) {
                     $notices[]    =    array(
-                        'msg'       =>    mdate(__('Votre licence expire le %d-%m-%Y à %h:%i', 'nexo'), $Nexo_expiration),
+                        'msg'       =>    mdate(__('Votre licence expire le %d-%m-%Y à %h:%i', 'nexo_premium'), $Nexo_expiration),
                         'type'    =>  'warning',
                         'icon'        =>  'fa fa-times',
                         'href'        =>    site_url(array( 'dashboard', 'settings' ))
@@ -101,9 +101,9 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * License checker
-     *
-     * @return string
+    * License checker
+    *
+    * @return string
     **/
 
     public function check_license_ajax()
@@ -122,12 +122,12 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Duration Upgrate
-     *
-     * @param string
-     * @param string license
-     * @return void
-	 * @deprecated
+    * Duration Upgrate
+    *
+    * @param string
+    * @param string license
+    * @return void
+    * @deprecated
     **/
 
     private function upgrade_duration_time($code, $Nexo_license)
@@ -139,11 +139,11 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Currency Position
-     * Affiche la devise selon les réglages défini. Par défaut à droite
-     *
-     * @param String (before/after)
-     * @return String
+    * Currency Position
+    * Affiche la devise selon les réglages défini. Par défaut à droite
+    *
+    * @param String (before/after)
+    * @return String
     **/
 
     public function display_currency($position)
@@ -155,9 +155,9 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * get Currency
-     *
-     * @return String/Null
+    * get Currency
+    *
+    * @return String/Null
     **/
 
     public function currency()
@@ -167,9 +167,9 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * This function empty the shop
-     *
-     * @return void
+    * This function empty the shop
+    *
+    * @return void
     **/
 
     public function empty_shop()
@@ -178,11 +178,11 @@ class Nexo_Misc extends CI_Model
         // $this->db->query( 'TRUNCATE `'.$this->db->dbprefix.'nexo_bon_davoir`;' );
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_commandes`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_commandes_produits`;');
-		$this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_commandes_paiements`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_commandes_paiements`;');
 
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles`;');
-		$this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_variations`;');
-		$this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_defectueux`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_variations`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_defectueux`;');
 
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_categories`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_fournisseurs`;');
@@ -192,16 +192,16 @@ class Nexo_Misc extends CI_Model
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_clients`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_clients_groups`;');
 
-		// @since 2.7.5
-		$this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_registers`;');
-		$this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_registers_activities`;');
+        // @since 2.7.5
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_registers`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_registers_activities`;');
 
     }
 
     /**
-     * Clear cache
-     *
-     * @return void
+    * Clear cache
+    *
+    * @return void
     **/
 
     public function clear_cache()
@@ -212,9 +212,9 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Fill Demo Data
-     * Empty shop first and create dummy data
-     * @return void
+    * Fill Demo Data
+    * Empty shop first and create dummy data
+    * @return void
     **/
 
     public function enable_demo()
@@ -224,9 +224,9 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Calculate Checksum digit
-     * @return int
-     * @source http://www.wordinn.com/solution/130/php-ean8-and-ean13-check-digit-calculation
+    * Calculate Checksum digit
+    * @return int
+    * @source http://www.wordinn.com/solution/130/php-ean8-and-ean13-check-digit-calculation
     **/
 
     public function ean_checkdigit($digits, $type)
@@ -267,8 +267,8 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Week of the month
-     * @source http://stackoverflow.com/questions/5853380/php-get-number-of-week-for-month
+    * Week of the month
+    * @source http://stackoverflow.com/questions/5853380/php-get-number-of-week-for-month
     **/
 
     public function getWeeks($date, $rollover)
@@ -297,9 +297,9 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Get Week
-     * @params int timestamp
-     * @return string
+    * Get Week
+    * @params int timestamp
+    * @return string
     **/
 
     public function getWeek($timestamp)
@@ -343,11 +343,11 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Client Creation
-     *
-     * @param String customer name
-     * @param String customer email
-     * @return json
+    * Client Creation
+    *
+    * @param String customer name
+    * @param String customer email
+    * @return json
     **/
 
     public function create_customer($name, $email)
@@ -357,22 +357,22 @@ class Nexo_Misc extends CI_Model
             'NOM'        =>    $name
         ))) {
             return json_encode(array(
-                'msg'        =>    __('Le client a été correctement crée.', 'nexo'),
+                'msg'        =>    __('Le client a été correctement crée.', 'nexo_premium'),
                 'type'        =>    'success'
             ));
         } else {
             return json_encode(array(
-                'msg'        =>    __('Une erreur s\'est produite.', 'nexo'),
+                'msg'        =>    __('Une erreur s\'est produite.', 'nexo_premium'),
                 'type'        =>    'warning'
             ));
         }
     }
 
     /**
-     * Get Money Format
-     *
-     * @params int/string
-     * @return string
+    * Get Money Format
+    *
+    * @params int/string
+    * @return string
     **/
 
     public function money_format($number, $fractional = false)
@@ -393,9 +393,9 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Get Money Full format with currency
-     * @params int/string
-     * @return string
+    * Get Money Full format with currency
+    * @params int/string
+    * @return string
     **/
 
     public function cmoney_format($number, $fractional = true)
@@ -416,10 +416,10 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Get customer
-     *
-     * @param int/void customer id
-     * @return customer
+    * Get customer
+    *
+    * @param int/void customer id
+    * @return customer
     **/
 
     public function get_customers($id = null)
@@ -432,13 +432,13 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Create category hierarchy
-     * and create cache
-     *
-     * @params array
-     * @params int
-     * @params bool
-     * @return array
+    * Create category hierarchy
+    * and create cache
+    *
+    * @params array
+    * @params int
+    * @params bool
+    * @return array
     **/
 
     public function build_category_hierarchy(array $elements, $parentId = 0)
@@ -459,11 +459,11 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Get Maximum Array depthness
-     *
-     * @source : http://stackoverflow.com/questions/262891/is-there-a-way-to-find-out-how-deep-a-php-array-is
-     * @params Array
-     * @return int
+    * Get Maximum Array depthness
+    *
+    * @source : http://stackoverflow.com/questions/262891/is-there-a-way-to-find-out-how-deep-a-php-array-is
+    * @params Array
+    * @return int
     **/
 
     public function array_depth(array $array, $current_depth = 1)
@@ -486,13 +486,13 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Build table
-     * @params Array
-     * @params int max depth
-     * @params int current depth
-     * @params string content
-     * @params int colspan
-     * @return string
+    * Build table
+    * @params Array
+    * @params int max depth
+    * @params int current depth
+    * @params string content
+    * @params int colspan
+    * @return string
     **/
 
     public function build_table(array $array, $max_depth = 5, $current_depth = 1, $content    =    '', $colspan = 0 )
@@ -549,11 +549,11 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * History
-     *
-     * @params string title
-     * @params string description
-     * @return void
+    * History
+    *
+    * @params string title
+    * @params string description
+    * @return void
     **/
 
     public function history_add($title, $description)
@@ -566,10 +566,10 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Delete History
-     *
-     * @params int history id
-     * @return void
+    * Delete History
+    *
+    * @params int history id
+    * @return void
     **/
 
     public function history_delete($id = null)
@@ -583,11 +583,11 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * History Get
-     *
-     * @params int limit
-     * @params int offset
-     * @return Array
+    * History Get
+    *
+    * @params int limit
+    * @params int offset
+    * @return Array
     **/
 
     public function history_get($limit = null, $offset = null)
@@ -603,10 +603,10 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Do Restore
-     *
-     * @params Array Upload Data
-     * @return bool
+    * Do Restore
+    *
+    * @params Array Upload Data
+    * @return bool
     **/
 
     public function do_restore($data)
@@ -657,11 +657,11 @@ class Nexo_Misc extends CI_Model
     }
 
     /**
-     * Dates between two dates
-     *
-     * @params string first date
-     * @params string second date
-     * @return Array
+    * Dates between two dates
+    *
+    * @params string first date
+    * @params string second date
+    * @return Array
     **/
 
     public function dates_between_borders($start, $end)
@@ -684,43 +684,43 @@ class Nexo_Misc extends CI_Model
         return false;
     }
 
-	/**
-	 * Get initial balance for a specific date
-	 * @params string date
-	 * @return bool
-	**/
+    /**
+    * Get initial balance for a specific date
+    * @params string date
+    * @return bool
+    **/
 
-	public function get_balance_for_date( $date )
-	{
-		$startOfDay			=	Carbon::parse( $date )->startOfDay();
-		$endOfDay			=	Carbon::parse( $date )->endOfDay();
-		$currentDay			=	Carbon::parse( date_now() );
-		$cacheDurationTime	=	false;
+    public function get_balance_for_date( $date )
+    {
+        $startOfDay			=	Carbon::parse( $date )->startOfDay();
+        $endOfDay			=	Carbon::parse( $date )->endOfDay();
+        $currentDay			=	Carbon::parse( date_now() );
+        $cacheDurationTime	=	false;
 
-		if( $currentDay->isSameDay( $endOfDay ) ) {
-			$cacheDurationTime	=	24 - intval( $currentDay->hour );
-		}
+        if( $currentDay->isSameDay( $endOfDay ) ) {
+            $cacheDurationTime	=	24 - intval( $currentDay->hour );
+        }
 
-		$Cache				=	new CI_Cache( array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' . store_prefix() ) );
+        $Cache				=	new CI_Cache( array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' . store_prefix() ) );
 
-		if( ! $Cache->get( 'initial_balance' ) || $cacheDurationTime == false ) {
+        if( ! $Cache->get( 'initial_balance' ) || $cacheDurationTime == false ) {
 
 
-			$query	=	$this->db->where( 'DATE_CREATION >=', $startOfDay->toDateTimeString() )
-			->where( 'DATE_CREATION <=', $endOfDay->toDateTimeString() )
-			->get( 'nexo_checkout_money' );
+            $query	=	$this->db->where( 'DATE_CREATION >=', $startOfDay->toDateTimeString() )
+            ->where( 'DATE_CREATION <=', $endOfDay->toDateTimeString() )
+            ->get( 'nexo_checkout_money' );
 
-			$result			=	$query->result_array();
+            $result			=	$query->result_array();
 
-			if( $cacheDurationTime != false ) {
-				$Cache->save( 'initial_balance', ( bool ) $result, $cacheDurationTime * 3600 );
-			} else {
-				return ( bool ) $result;
-			}
-		}
+            if( $cacheDurationTime != false ) {
+                $Cache->save( 'initial_balance', ( bool ) $result, $cacheDurationTime * 3600 );
+            } else {
+                return ( bool ) $result;
+            }
+        }
 
-		return $Cache->get( 'initial_balance' );
-	}
+        return $Cache->get( 'initial_balance' );
+    }
 
     /**
     *

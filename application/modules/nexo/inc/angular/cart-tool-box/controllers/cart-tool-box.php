@@ -146,9 +146,13 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 				value.QTE_ADDED		=	value.QUANTITE;
 			});
 
-			if( parseFloat( $scope.orderDetails.order.REMISE ) > 0 ) {
-				v2Checkout.CartRemiseType			=	'flat';
+			// @added CartRemisePercent
+			// @since 2.9.6
+
+			if( $scope.orderDetails.order.REMISE_TYPE != '' ) {
+				v2Checkout.CartRemiseType			=	$scope.orderDetails.order.REMISE_TYPE;
 				v2Checkout.CartRemise				=	NexoAPI.ParseFloat( $scope.orderDetails.order.REMISE );
+				v2Checkout.CartRemisePercent		=	NexoAPI.ParseFloat( $scope.orderDetails.order.REMISE_PERCENT );
 				v2Checkout.CartRemiseEnabled		=	true;
 			}
 

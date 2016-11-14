@@ -156,14 +156,14 @@ class aauth_fields extends CI_model
             'name'        =>        'first-name',
             'label'        =>        __('First Name'),
             'value'        =>        riake('user_id', $config) ? $this->options->get('first-name', riake('user_id', $config)) : false
-        ), riake('meta_namespace', $config), riake('col_id', $config));
+        ), $config[ 'meta_namespace' ], $config[ 'col_id' ]);
 
         $this->Gui->add_item(array(
             'type'        =>        'text',
             'name'        =>        'last-name',
             'label'        =>        __('Last Name'),
             'value'        =>        riake('user_id', $config) ? $this->options->get('last-name', riake('user_id', $config)) : false
-        ), riake('meta_namespace', $config), riake('col_id', $config));
+        ), $config[ 'meta_namespace' ], $config[ 'col_id' ]);
 
         ob_start();
         $skin    =    riake('user_id', $config) ? $this->options->get('theme-skin', riake('user_id', $config)) : '';
@@ -296,7 +296,7 @@ class aauth_fields extends CI_model
         riake('gui', $config)->add_item(array(
             'type'        =>    'dom',
             'content'    =>    $dom
-        ), riake('meta_namespace', $config), riake('col_id', $config));
+        ), $config[ 'meta_namespace' ], $config[ 'col_id' ]);
         // Clean
         unset($skin, $config, $dom);
     }

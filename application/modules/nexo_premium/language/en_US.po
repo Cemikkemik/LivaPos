@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nexo Premium\n"
-"POT-Creation-Date: 2016-11-10 18:18+0100\n"
-"PO-Revision-Date: 2016-11-10 18:19+0100\n"
+"POT-Creation-Date: 2016-11-12 16:17+0100\n"
+"PO-Revision-Date: 2016-11-12 16:18+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en_US\n"
@@ -442,7 +442,7 @@ msgstr "Yesterday"
 #: views/dashboard-content.php:22 views/dashboard-content.php:56
 #: views/dashboard-content.php:88 views/dashboard-content.php:119
 #: views/fiche-de-suivi/by-categories.php:41
-#: views/flux-de-la-tresorerie.php:136 views/profit_and_lost_dom.php:115
+#: views/flux-de-la-tresorerie.php:136 views/profit_and_lost_dom.php:119
 #: views/rapport-journalier-detaille.php:125 views/stats-des-ventes.php:123
 #: views/stats-des-ventes.php:136
 #, fuzzy
@@ -494,7 +494,8 @@ msgid ""
 "Aucun résultat disponible. Veuillez choisir un intervalle de temps différent."
 msgstr "There are no results. Please choose a different time interval."
 
-#: views/expenses_listing_dom.php:122 views/profit_and_lost_dom.php:234
+#: views/expenses_listing_dom.php:122 views/profit_and_lost_dom.php:331
+#: views/profit_and_lost_dom.php:442
 msgid "Attention"
 msgstr "Warning"
 
@@ -709,49 +710,88 @@ msgstr "Title"
 msgid "Effectué le"
 msgstr "Performed on"
 
-#: views/profit_and_lost_dom.php:48
+#: views/profit_and_lost_dom.php:32
+msgid "Exporter CSV"
+msgstr ""
+
+#: views/profit_and_lost_dom.php:52 views/profit_and_lost_dom.php:297
 msgid "Date"
 msgstr "Date"
 
-#: views/profit_and_lost_dom.php:51
+#: views/profit_and_lost_dom.php:55
 msgid "Détails du produit"
 msgstr "Product Details"
 
-#: views/profit_and_lost_dom.php:55 views/rapport-journalier-detaille.php:69
+#: views/profit_and_lost_dom.php:59 views/profit_and_lost_dom.php:303
+#: views/rapport-journalier-detaille.php:69
 #, fuzzy
 msgid "Quantité"
 msgstr "Quantity"
 
-#: views/profit_and_lost_dom.php:58
+#: views/profit_and_lost_dom.php:62
 msgid "Prix de vente Brut"
 msgstr "Gross Sale Price"
 
-#: views/profit_and_lost_dom.php:61
+#: views/profit_and_lost_dom.php:65
 msgid "Remise (%)"
 msgstr "Discount (%)"
 
-#: views/profit_and_lost_dom.php:64
+#: views/profit_and_lost_dom.php:68
 msgid "Remise"
 msgstr "Discount"
 
-#: views/profit_and_lost_dom.php:67
+#: views/profit_and_lost_dom.php:71
 msgid "Prix de vente Net"
 msgstr "Net selling price"
 
-#: views/profit_and_lost_dom.php:70
+#: views/profit_and_lost_dom.php:74 views/profit_and_lost_dom.php:318
 msgid "Prix d'achat"
 msgstr "Buying price"
 
-#: views/profit_and_lost_dom.php:73
+#: views/profit_and_lost_dom.php:77
 msgid "Bénéfice"
 msgstr "Profit"
 
-#: views/profit_and_lost_dom.php:110
+#: views/profit_and_lost_dom.php:114
 msgid ""
 "Aucun résultat à afficher. Veuillez choisir un interval de temps différent."
 msgstr "No results to display. Please choose a different time interval."
 
-#: views/profit_and_lost_dom.php:234
+#: views/profit_and_lost_dom.php:300
+msgid "Nom du produit"
+msgstr "Item Name"
+
+#: views/profit_and_lost_dom.php:306
+msgid "Ventes Brutes"
+msgstr "Gross Sales"
+
+#: views/profit_and_lost_dom.php:309
+msgid "Remises (%)"
+msgstr "Discounts (%)"
+
+#: views/profit_and_lost_dom.php:312
+msgid "Remises Fixes"
+msgstr "Fixed discounts"
+
+#: views/profit_and_lost_dom.php:315
+msgid "Ventes Nettes"
+msgstr "Net sales"
+
+#: views/profit_and_lost_dom.php:321
+msgid "Revenus"
+msgstr "Incomes"
+
+#: views/profit_and_lost_dom.php:326
+msgid "Rapport des revenus et des pertes"
+msgstr "Incomes and Losses Report"
+
+#: views/profit_and_lost_dom.php:331
+msgid ""
+"Aucune données disponible pour l'impression. Veuillez afficher des résultats "
+"en premier"
+msgstr "No data available for printing. Please load data first."
+
+#: views/profit_and_lost_dom.php:442
 msgid "Vous devez sélectionner une date valide"
 msgstr "You must select a valid date"
 

@@ -31,21 +31,25 @@ trait Nexo_orders
     {
         $this->load->model('Nexo_Checkout');
 
-        $order_details            =    array();
+        $order_details              =    array();
 
-        $order_details            =    array(
-            'RISTOURNE'            =>    $this->post('RISTOURNE'),
-            'REMISE'            =>    $this->post('REMISE'),
-            'RABAIS'            =>    $this->post('RABAIS'),
-            'GROUP_DISCOUNT'    =>    $this->post('GROUP_DISCOUNT'),
-            'TOTAL'                =>    $this->post('TOTAL'),
-            'AUTHOR'            =>    $author_id,
-            'PAYMENT_TYPE'        =>    $this->post('PAYMENT_TYPE'),
-            'REF_CLIENT'        =>    $this->post('REF_CLIENT'),
-            'TVA'                =>    $this->post('TVA'),
-            'SOMME_PERCU'        =>    $this->post('SOMME_PERCU'),
-            'CODE'                =>    $this->Nexo_Checkout->shuffle_code(),
-            'DATE_CREATION'        =>    $this->post('DATE_CREATION'),
+        $order_details              =    array(
+            'RISTOURNE'             =>    $this->post('RISTOURNE'),
+            'REMISE'                =>    $this->post('REMISE'),
+            // @since 2.9.6
+            'REMISE_PERCENT'        =>    $this->post( 'REMISE_PERCENT' ),
+            'REMISE_TYPE'           =>    $this->post( 'REMISE_TYPE' ),
+            // @endSince
+            'RABAIS'                =>    $this->post('RABAIS'),
+            'GROUP_DISCOUNT'        =>    $this->post('GROUP_DISCOUNT'),
+            'TOTAL'                 =>    $this->post('TOTAL'),
+            'AUTHOR'                =>    $author_id,
+            'PAYMENT_TYPE'          =>    $this->post('PAYMENT_TYPE'),
+            'REF_CLIENT'            =>    $this->post('REF_CLIENT'),
+            'TVA'                   =>    $this->post('TVA'),
+            'SOMME_PERCU'           =>    $this->post('SOMME_PERCU'),
+            'CODE'                  =>    $this->Nexo_Checkout->shuffle_code(),
+            'DATE_CREATION'         =>    $this->post('DATE_CREATION'),
 			'DESCRIPTION'			=>	$this->post( 'DESCRIPTION' ),
 			'REF_REGISTER'		=>	$this->post( 'REGISTER_ID' ),
 			// @since 2.7.10
@@ -226,6 +230,10 @@ trait Nexo_orders
         $order_details            =    array(
             'RISTOURNE'            =>    $this->put('RISTOURNE'),
             'REMISE'            =>    $this->put('REMISE'),
+            // @since 2.9.6
+            'REMISE_PERCENT'        =>    $this->put( 'REMISE_PERCENT' ),
+            'REMISE_TYPE'           =>    $this->put( 'REMISE_TYPE' ),
+            // @endSince
             'RABAIS'            =>    $this->put('RABAIS'),
             'GROUP_DISCOUNT'    =>    $this->put('GROUP_DISCOUNT'),
             'TOTAL'                =>    $this->put('TOTAL'),

@@ -16,7 +16,7 @@ class Nexo_Gateway_Filters
 	{
 		$menus[]		=	array(
 			'title'		=>		__( 'Payment Gateway', 'nexo-payments-gateway' ),
-			'href'		=>		site_url( array( 'dashboard', store_slug(), 'nexo_gateway_settings' ) )
+			'href'		=>		site_url( array( 'dashboard', store_slug(), 'nexo_gateway', 'settings' ) )
 		);
 
 		return $menus;

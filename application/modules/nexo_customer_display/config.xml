@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+    <details>
+      <name>NexoPOS C.Display</name>
+      <namespace>nexo_customer_display</namespace>
+      <main>nexo_customer_display.php</main>
+      <author>Blair Jesyer</author>
+      <description>Provide a screen where customer can see the current cart details</description>
+      <version>1.9.9</version>
+    </details>
+</application>

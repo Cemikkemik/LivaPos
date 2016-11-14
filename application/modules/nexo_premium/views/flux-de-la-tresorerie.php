@@ -4,7 +4,7 @@
 global $Options;
 
 $this->events->add_filter('gui_page_title', function ($title) {
-    return '<section class="content-header"><h1>' . strip_tags($title) . ' <span class="pull-right"><a class="btn btn-primary btn-sm" href="' . current_url() . '?refresh=true">' . __('Vider le cache', 'nexo') . '</a> <a class="btn btn-default btn-sm" href="javascript:void(0)" print-item="#nexo-global-wrapper">' . __('Imprimer', 'nexo') . '</a></span></h1></section>';
+    return '<section class="content-header"><h1>' . strip_tags($title) . ' <span class="pull-right"><a class="btn btn-primary btn-sm" href="' . current_url() . '?refresh=true">' . __('Vider le cache', 'nexo_premium') . '</a> <a class="btn btn-default btn-sm" href="javascript:void(0)" print-item="#nexo-global-wrapper">' . __('Imprimer', 'nexo_premium') . '</a></span></h1></section>';
 });
 
 $this->events->add_action('dashboard_header', function () {
@@ -12,7 +12,7 @@ $this->events->add_action('dashboard_header', function () {
 <script type="text/javascript" src="<?php echo module_url('nexo');?>/bower_components/moment/min/moment.min.js"></script>
 <script type="text/javascript" src="<?php echo module_url('nexo');?>/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<?php echo module_url('nexo');?>/bower_components/underscore/underscore-min.js"></script>
-<link rel="stylesheet" href="<?php echo module_url('nexo');?>/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />  
+<link rel="stylesheet" href="<?php echo module_url('nexo');?>/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
 	<?php
 });
 
@@ -53,7 +53,7 @@ if (! $Cache->get($report_slug) || @$_GET[ 'refresh' ] == 'true') {
 
 /**
  * Daily Advanced Report
- * 
+ *
  *
 **/
 ?>
@@ -91,9 +91,9 @@ $( document ).ready(function(e) {
 </script>
 <div id="nexo-global-wrapper">
     	<div class="well well-sm">
-            <h2 class="text-center"><?php echo @$Options[ 'site_name' ] ? $Options[ 'site_name' ] : __('Nom indisponible', 'nexo');
+            <h2 class="text-center"><?php echo @$Options[ 'site_name' ] ? $Options[ 'site_name' ] : __('Nom indisponible', 'nexo_premium');
     ?></h2>
-            
+
             <h4 class="text-center"><?php echo sprintf(
                 __('Flux de trésorerie pour %s', 'nexo_premium'),
                 $CarbonReportDate->formatLocalized('%Y')
@@ -119,11 +119,11 @@ $( document ).ready(function(e) {
                 <tr>
                 	<td width="80"><?php _e('Libellé / Mois', 'nexo_premium');
     ?></td>
-                    
+
 					<?php foreach ($Months as $key    =>    $Month):?>
                     	<?php $CarbonReportDate->month    =    $key + 1;
     ?>
-	                    <td width="90" class="month_thead" 
+	                    <td width="90" class="month_thead"
                         	data-start-date="<?php echo $CarbonReportDate->copy()->startOfMonth();
     ?>"
                             data-end-date="<?php echo $CarbonReportDate->copy()->endOfMonth();
@@ -139,7 +139,7 @@ $( document ).ready(function(e) {
             </thead>
             <tbody id="tbody-wrapper">
             	<?php foreach ($rows as $class_name    =>    $row):?>
-                <?php 
+                <?php
                 if ($class_name == "solde-finale-item solde-finale") {
                     $class = "success";
                 } elseif ($class_name == "table-recettes-item table-recettes") {
@@ -178,7 +178,7 @@ $( document ).ready(function(e) {
 "use strict";
 
 var NexoCashFlow	=	new function(){
-	
+
 	this.Index				=	0;
 	this.__TimeCalled		=	0;
 	this.Nexo_Order_Avance	=	'<?php echo 'nexo_order_advance';
@@ -190,43 +190,43 @@ var NexoCashFlow	=	new function(){
 	this.CurrencyBefore		=	'<?php echo $this->Nexo_Misc->display_currency('before');
     ?>';
 	this.CurrencyAfter		=	'<?php echo $this->Nexo_Misc->display_currency('after');
-    ?>'; 
-	
+    ?>';
+
 	/**
 	 * Init class
 	 *
 	**/
-	
+
 	this.Init		=	function(){
 		this.ShowStats();
 	}
-	
+
 	/**
 	 * Show Stats
 	 *
 	**/
-	
+
 	this.ShowStats	=	function(){
-		
+
 		this.EntryLength	=	$( '.month_thead' ).length;
 		this.Reset();
 		this.GetReport();
-		
+
 	};
-	
+
 	/**
 	 * get report
 	 *
 	**/
-	
+
 	this.GetReport	=	function() {
 		if( this.Index < this.EntryLength ) {
 			this.DisplayModal();
 			var	data	=	_.object( [ 'start', 'end' ], [ $( '.month_thead' ).eq( this.Index ).data( 'start-date' ), $( '.month_thead' ).eq( this.Index ).data( 'end-date' ) ] );
-			
-			$.post( 
+
+			$.post(
 				'<?php echo site_url(array( 'nexo_premium', 'flux', store_get_param( '?' ) ));
-    ?>', 
+    ?>',
 				data,
 				function( content ) {
 					NexoCashFlow.Index++;
@@ -242,83 +242,83 @@ var NexoCashFlow	=	new function(){
 			this.CloseModal();
 		}
 	}
-	
+
 	/**
 	 * Calcul des lignes
 	 *
 	**/
-	
+
 	this.CalculLignes		=	function(){
 		// Calcul des depenses
 		var TotalDepenses	=	0;
 		$( '.table-depenses-item' ).each( function(){
 			TotalDepenses	+=	NexoAPI.ParseFloat( $( this ).attr( 'table-amount' ) );
 		});
-		
-		$( '.total-table-depenses-item' ).attr( 'table-amount', TotalDepenses ).html( 
-			NexoCashFlow.CurrencyBefore + ' ' + 
+
+		$( '.total-table-depenses-item' ).attr( 'table-amount', TotalDepenses ).html(
+			NexoCashFlow.CurrencyBefore + ' ' +
 			'<span class="amount" amount="' + ( TotalDepenses ) + '">' + NexoAPI.Format( TotalDepenses ) + '</span>' +
 			NexoCashFlow.CurrencyAfter + ' '
 		);
-		
-		// Calcul des recettes	
+
+		// Calcul des recettes
 		var TotalRecettes		=	0;
 		var TotalRecetteIndex	=	0;
 		$( '.table-recettes-item' ).each( function(){
-			
-			TotalRecettes	+=	( 
+
+			TotalRecettes	+=	(
 				NexoAPI.ParseFloat( $( this ).attr( 'table-amount' ) )
 			);
-			
+
 			TotalRecetteIndex++;
 		});
-		
-		$( '.total-table-recettes-item' ).attr( 'table-amount', TotalRecettes ).html( 
-			NexoCashFlow.CurrencyBefore + ' ' + 
+
+		$( '.total-table-recettes-item' ).attr( 'table-amount', TotalRecettes ).html(
+			NexoCashFlow.CurrencyBefore + ' ' +
 			'<span class="amount" amount="' + ( TotalRecettes ) + '">' + NexoAPI.Format( TotalRecettes ) + '</span>' +
 			NexoCashFlow.CurrencyAfter + ' '
 		);
-		
+
 		/*// Calcul des recettes ac
 		var TotalRecettesAc	=	0;
 		$( '.table-recettes-ac-item' ).each( function(){
 			TotalRecettesAc	+=	NexoAPI.ParseFloat( $( this ).attr( 'table-amount' ) );
 		});
-		$( '.total-table-recettes-ac-item' ).attr( 'table-amount', TotalRecettesAc ).html( 
-			NexoCashFlow.CurrencyBefore + ' ' + 
+		$( '.total-table-recettes-ac-item' ).attr( 'table-amount', TotalRecettesAc ).html(
+			NexoCashFlow.CurrencyBefore + ' ' +
 			'<span class="amount" amount="' + ( TotalRecettesAc ) + '">' + NexoAPI.Format( TotalRecettesAc ) + '</span>' +
 			NexoCashFlow.CurrencyAfter + ' '
 		);*/
-		
+
 		// Calcul des depenses ac
 		/*var TotalDepensesAc	=	0;
 		$( '.table-depenses-ac-item' ).each( function(){
 			TotalDepensesAc	+=	NexoAPI.ParseFloat( $( this ).attr( 'table-amount' ) );
 		});
-		$( '.total-table-depenses-ac-item' ).attr( 'table-amount', TotalDepensesAc ).html( 
-			NexoCashFlow.CurrencyBefore + ' ' + 
+		$( '.total-table-depenses-ac-item' ).attr( 'table-amount', TotalDepensesAc ).html(
+			NexoCashFlow.CurrencyBefore + ' ' +
 			'<span class="amount" amount="' + ( TotalDepensesAc ) + '">' + NexoAPI.Format( TotalDepensesAc ) + '</span>' +
 			NexoCashFlow.CurrencyAfter + ' '
 		);*/
-		
+
 		// Calcul des soldes finales
 		var TotalSoldeFinale	=	0;
 		$( '.solde-finale-item' ).each( function(){
 			TotalSoldeFinale	+=	NexoAPI.ParseFloat( $( this ).attr( 'table-amount' ) );
 		});
-		$( '.total-solde-finale-item' ).attr( 'table-amount', TotalSoldeFinale ).html( 
-			NexoCashFlow.CurrencyBefore + ' ' + 
+		$( '.total-solde-finale-item' ).attr( 'table-amount', TotalSoldeFinale ).html(
+			NexoCashFlow.CurrencyBefore + ' ' +
 			'<span class="amount" amount="' + ( TotalSoldeFinale ) + '">' + NexoAPI.Format( TotalSoldeFinale ) + '</span>' +
 			NexoCashFlow.CurrencyAfter + ' '
 		);
-		
+
 	};
-	
+
 	/**
 	 * Calcul solde final
 	 *
 	**/
-	
+
 	this.CalculSoldeFinal			=	function(){
 		var NbrInput				=	$( '.table-recettes-item' ).length;
 		var Index					=	0;
@@ -330,55 +330,35 @@ var NexoCashFlow	=	new function(){
 					Actifs		+=	NexoAPI.ParseFloat( $( this ).attr( 'table-amount' ) )
 				}
 			});
-			
+
 			var Passifs	=			0;
 			$( '.table-input-' + i ).each( function(){
 				if( $( this ).hasClass( 'table-depenses-item' ) ) {
 					Passifs		+=	NexoAPI.ParseFloat( $( this ).attr( 'table-amount' ) )
 				}
 			});
-			
-			$( '.solde-finale-' + i ).attr( 'table-amount', NexoAPI.ParseFloat( Actifs - Passifs ) ).html( 
-				NexoCashFlow.CurrencyBefore + ' ' + 
+
+			$( '.solde-finale-' + i ).attr( 'table-amount', NexoAPI.ParseFloat( Actifs - Passifs ) ).html(
+				NexoCashFlow.CurrencyBefore + ' ' +
 				'<span class="amount" amount="' + ( Actifs - Passifs ) + '">' + NexoAPI.Format( Actifs - Passifs ) + '</span>' +
-				NexoCashFlow.CurrencyAfter + ' '  
+				NexoCashFlow.CurrencyAfter + ' '
 			);
-			
+
 		}
 	};
-	
+
 	/**
 	 * Calcul solde initial
 	 *
 	**/
-	
+
 	this.CalculRecettesAccumulees	=	function(){
 		var index			=	1;
 		var currentAmount	=	0;
-		
+
 		$( '.table-recettes-ac-item' ).each( function(){
 			currentAmount	+=	NexoAPI.ParseFloat( $( '.table-recettes-' + index ).attr( 'table-amount' ) );
 			$( this ).attr( 'table-amount', currentAmount ).html(
-				NexoCashFlow.CurrencyBefore + ' ' + 
-				'<span class="amount" amount="' + currentAmount + '">' + NexoAPI.Format( currentAmount ) + '</span>' +
-				NexoCashFlow.CurrencyAfter + ' '
-			);
-			index++;
-		});
-	}
-	
-	/**
-	 * Calcul Depense accumulés
-	 *
-	**/
-	
-	this.CalculDepenseAccumulees	=	function(){
-		var index			=	1;
-		var currentAmount	=	0;
-		
-		$( '.table-depenses-ac-item' ).each( function(){
-			currentAmount	+=	NexoAPI.ParseFloat( $( '.table-depenses-' + index ).attr( 'table-amount' ) );
-			$( this ).attr( 'table-amount', currentAmount ).html( 
 				NexoCashFlow.CurrencyBefore + ' ' +
 				'<span class="amount" amount="' + currentAmount + '">' + NexoAPI.Format( currentAmount ) + '</span>' +
 				NexoCashFlow.CurrencyAfter + ' '
@@ -386,71 +366,91 @@ var NexoCashFlow	=	new function(){
 			index++;
 		});
 	}
-	
-	/** 
-	 * Reset the calendar 
+
+	/**
+	 * Calcul Depense accumulés
+	 *
 	**/
-	
+
+	this.CalculDepenseAccumulees	=	function(){
+		var index			=	1;
+		var currentAmount	=	0;
+
+		$( '.table-depenses-ac-item' ).each( function(){
+			currentAmount	+=	NexoAPI.ParseFloat( $( '.table-depenses-' + index ).attr( 'table-amount' ) );
+			$( this ).attr( 'table-amount', currentAmount ).html(
+				NexoCashFlow.CurrencyBefore + ' ' +
+				'<span class="amount" amount="' + currentAmount + '">' + NexoAPI.Format( currentAmount ) + '</span>' +
+				NexoCashFlow.CurrencyAfter + ' '
+			);
+			index++;
+		});
+	}
+
+	/**
+	 * Reset the calendar
+	**/
+
 	this.Reset			=	function(){
 		this.__TimeCalled	=	1;
 		$( '.progress_level' ).html( 1 );
 		$( '.progress-bar' ).css( 'width', '1%' ).data( 'aria-valuenow', 1 );
 	}
-	
+
 	/**
 	 * Treat Report
 	 *
 	**/
-	
+
 	this.RRR_Total		=	0;
 	this.AvanceTotal	=	0;
 	this.CashTotal		=	0;
 	this.BillsTotal		=	0;
-	
+
 	this.TreatReport	=	function( content, index ) {
 		_.map( content.orders, function( value, index ) {
-			
+
 			var CurrentOrderRRR				=	( NexoAPI.ParseFloat( value.RISTOURNE ) + NexoAPI.ParseFloat( value.RABAIS ) + NexoAPI.ParseFloat( value.REMISE ) );
 				NexoCashFlow.RRR_Total		+=	CurrentOrderRRR;
-			
+
 			if( value.TYPE == NexoCashFlow.Nexo_Order_Cash ) {
 				NexoCashFlow.CashTotal		+=	( NexoAPI.ParseFloat( value.TOTAL ) + NexoAPI.ParseFloat( CurrentOrderRRR ) );
 			} else if( value.TYPE == NexoCashFlow.Nexo_Order_Avance ) {
 				NexoCashFlow.AvanceTotal	+=	NexoAPI.ParseFloat( value.SOMME_PERCU );
 			}
 		});
-		
+
 		_.map( content.bills, function( value, index ) {
 			NexoCashFlow.BillsTotal		+=	NexoAPI.ParseFloat( value.MONTANT );
 		});
-		
+
 		$( '.table-recettes-' + index )
 			.attr( 'table-amount', NexoAPI.ParseFloat( this.CashTotal + this.AvanceTotal ) )
-			.html( 
+			.html(
 				this.CurrencyBefore + ' ' +
 				'<span class="amount" amount="' + this.CashTotal + this.AvanceTotal + '">' + NexoAPI.Format( this.CashTotal + this.AvanceTotal ) + '</span>' +
 				this.CurrencyAfter + ' '
 			);
-			
+
 		$( '.table-depenses-' + index )
 			.attr( 'table-amount', NexoAPI.ParseFloat( this.BillsTotal + this.RRR_Total ) )
-			.html( 
+			.html(
 				this.CurrencyBefore + ' ' +
 				'<span class="amount" amount="' + ( this.BillsTotal + this.RRR_Total ) +  '">' + NexoAPI.Format( this.BillsTotal + this.RRR_Total ) + '</span>' +
 				this.CurrencyAfter + ' '
 			);
-		
-		// Reset Totals		
+
+		// Reset Totals
 		this.RRR_Total		=	0;
 		this.AvanceTotal	=	0;
 		this.CashTotal		=	0;
 		this.BillsTotal		=	0;
 	}
-	
+
 	/**
 	 * Display Modal
 	**/
-	
+
 	this.DisplayModal	=	function(){
 		if( ! $( '.launch_loading' ).data( 'clicked' ) ) {
 			$( '.launch_loading' ).trigger( 'click' );
@@ -461,27 +461,27 @@ var NexoCashFlow	=	new function(){
 		}
 		this.__TimeCalled++;
 	};
-	
+
 	/**
 	 * Progress Bar
 	**/
-	
+
 	this.SetPercent		=	function( percent ) {
 		$( '.progress_level' ).html( percent );
 		$( '.progress-bar' ).css( 'width', percent + '%' ).data( 'aria-valuenow', percent );
 	}
-	
+
 	/**
 	 * Close modal
 	**/
-	
+
 	this.CloseModal		=	function(){
 		$( '[data-dismiss="modal"]' ).trigger( 'click' );
 	}
 };
 
 $( document ).ready(function(e) {
-	NexoCashFlow.Init(); 
+	NexoCashFlow.Init();
 });
 
 </script>
@@ -494,7 +494,7 @@ $( document ).ready(function(e) {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><?php _e('Chargement en cours...', 'nexo');
+        <h4 class="modal-title" id="myModalLabel"><?php _e('Chargement en cours...', 'nexo_premium');
     ?></h4>
       </div>
       <div class="modal-body">
@@ -505,7 +505,7 @@ $( document ).ready(function(e) {
         </div>
       </div>
       <div class="modal-footer">
-        
+
       </div>
     </div>
   </div>

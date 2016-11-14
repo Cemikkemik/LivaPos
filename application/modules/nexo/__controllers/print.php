@@ -54,14 +54,17 @@ class Nexo_Print extends CI_Model
 			$data[ 'template' ][ 'order_code' ]		=	$data[ 'order' ][ 'order' ][0][ 'CODE' ];
             $data[ 'template' ][ 'order_id' ]       =   $data[ 'order' ][ 'order' ][0][ 'ID' ];
 			$data[ 'template' ][ 'order_status' ]	=	$this->Nexo_Checkout->get_order_type($data[ 'order' ][ 'order' ][0][ 'TYPE' ]);
+            $data[ 'template' ][ 'order_note' ]     =   $data[ 'order' ][ 'order' ][0][ 'DESCRIPTION' ];
+
 			$data[ 'template' ][ 'order_cashier' ]	=	User::pseudo($data[ 'order' ][ 'order' ][0][ 'AUTHOR' ]);
 			$data[ 'template' ][ 'shop_name' ]		=	@$Options[ store_prefix() . 'site_name' ];
 			$data[ 'template' ][ 'shop_pobox' ]		=	@$Options[ store_prefix() . 'nexo_shop_pobox' ];
 			$data[ 'template' ][ 'shop_fax' ]		=	@$Options[ store_prefix() . 'nexo_shop_fax' ];
-			$data[ 'template' ][ 'shop_email' ]		=	@$Options[ store_prefix() . 'nexo_shop_email' ];
-			$data[ 'template' ][ 'shop_street' ]	=	@$Options[ store_prefix() . 'nexo_shop_street' ];
-			$data[ 'template' ][ 'shop_phone' ]		=	@$Options[ store_prefix() . 'nexo_shop_phone' ];            
-            $theme                					=	@$Options[ store_prefix() . 'nexo_receipt_theme' ] ? @$Options[ store_prefix() . 'nexo_receipt_theme' ] : 'default';
+			$data[ 'template' ][ 'shop_email' ]		        =	@$Options[ store_prefix() . 'nexo_shop_email' ];
+			$data[ 'template' ][ 'shop_street' ]	        =	@$Options[ store_prefix() . 'nexo_shop_street' ];
+			$data[ 'template' ][ 'shop_phone' ]		        =	@$Options[ store_prefix() . 'nexo_shop_phone' ];
+
+            $theme                                          =	@$Options[ store_prefix() . 'nexo_receipt_theme' ] ? @$Options[ store_prefix() . 'nexo_receipt_theme' ] : 'default';
 
             $this->load->view('../modules/nexo/views/receipts/' . $theme . '.php', $data);
         } else {

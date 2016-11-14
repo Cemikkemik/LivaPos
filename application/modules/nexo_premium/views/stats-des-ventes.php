@@ -11,7 +11,7 @@ $this->Gui->add_meta(array(
 ));
 
 $this->events->add_filter('gui_page_title', function ($title) {
-    return '<section class="content-header"><h1>' . strip_tags($title) . ' <span class="pull-right"><a class="btn btn-primary btn-sm" href="' . current_url() . '?refresh=true">' . __('Vider le cache', 'nexo') . '</a> <a class="btn btn-default btn-sm" href="javascript:void(0)" print-item="#nexo-global-wrapper">' . __('Imprimer', 'nexo') . '</a></span></h1></section>';
+    return '<section class="content-header"><h1>' . strip_tags($title) . ' <span class="pull-right"><a class="btn btn-primary btn-sm" href="' . current_url() . '?refresh=true">' . __('Vider le cache', 'nexo_premium') . '</a> <a class="btn btn-default btn-sm" href="javascript:void(0)" print-item="#nexo-global-wrapper">' . __('Imprimer', 'nexo_premium') . '</a></span></h1></section>';
 });
 
 $this->events->add_action('dashboard_header', function () { ?>
@@ -19,13 +19,13 @@ $this->events->add_action('dashboard_header', function () { ?>
 <script type="text/javascript" src="<?php echo module_url('nexo');?>/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<?php echo module_url('nexo');?>/bower_components/underscore/underscore-min.js"></script>
 <link rel="stylesheet" href="<?php echo module_url('nexo');?>/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
-<?php 
+<?php
 });
 
 if ($Cache->get($report_slug) == false || @$_GET[ 'refresh' ] == 'true') {
     // Start OB
     ob_start();
-    
+
     $Months        =    array(
         __('Janvier', 'nexo_premium'),
         __('Février', 'nexo_premium'),
@@ -43,7 +43,7 @@ if ($Cache->get($report_slug) == false || @$_GET[ 'refresh' ] == 'true') {
 
 /**
  * Daily Advanced Report
- * 
+ *
  *
 **/
 ?>
@@ -81,7 +81,7 @@ $( document ).ready(function(e) {
 </script>
 <div id="nexo-global-wrapper">
   <div class="well well-sm">
-    <h2 class="text-center"><?php echo @$Options[ 'site_name' ] ? $Options[ 'site_name' ] : __('Nom indisponible', 'nexo');
+    <h2 class="text-center"><?php echo @$Options[ 'site_name' ] ? $Options[ 'site_name' ] : __('Nom indisponible', 'nexo_premium');
     ?></h2>
     <h4 class="text-center"><?php echo sprintf(
             __('Statistiques des ventes <br> pour %s', 'nexo_premium'),
@@ -110,7 +110,7 @@ $( document ).ready(function(e) {
                 for ($i = 1; $i <= intval($Categories_Depth); $i++) {
                     echo '<td width="100">' . sprintf(__('Level %s', 'nexo_premium'), $i) . '</td>';
                 }
-                
+
     foreach ($Months as $Month) {
         ?>
         <td width="80" class="text-right"><?php echo $Month;
@@ -133,7 +133,7 @@ $( document ).ready(function(e) {
         <?php for ($i = 0; $i < $Categories_Depth + count($Months) + 1; $i++):?>
         <?php if ($i == 0):?>
         <td><strong>
-          <?php _e('Total', 'nexo');
+          <?php _e('Total', 'nexo_premium');
     ?>
           </strong></td>
         <?php else :?>
@@ -158,11 +158,11 @@ $( document ).ready(function(e) {
     ?></p>
   <br />
   <script type="text/javascript">
-	
+
 	"use strict";
-	
+
 	var NexoPremium_Sales_Statistics	=	new function(){
-		
+
 		this.CurrentDate				=	'<?php echo $CarbonReportDate->formatLocalized('%Y');
     ?>';
 		this.LatestIds					=	new Array();
@@ -177,50 +177,50 @@ $( document ).ready(function(e) {
 		this.CurrencyBefore				=	'<?php echo $this->Nexo_Misc->display_currency('before');
     ?>';
 		this.CurrencyAfter				=	'<?php echo $this->Nexo_Misc->display_currency('after');
-    ?>'; 
+    ?>';
 
-		
+
 		/**
 		 * Get Latest category Ids
 		 *
 		**/
-		
+
 		this.FetchLatestIds				=	function(){
 			$( 'table tbody tr' ).each( function(){
 				NexoPremium_Sales_Statistics.LatestIds.push( $( this ).find( '[data-id]' ).last().attr( 'data-id' ) );
 			});
-			
+
 			// Fill table
-			
+
 			this.FillValue();
 		};
-		
+
 		/**
 		 * Init
 		**/
-		
+
 		this.Init						=	function(){
 			// FetchLatestIds
 			this.FetchLatestIds();
 		};
-		
+
 		/**
 		 * Fill Value
 		**/
-		
+
 		this.FillValue					=	function(){
-		
+
 			this.EntryLength	=	12; // 12 for the number of month in a year
 			this.Reset();
 			this.__FillTableValue();
-			
+
 		};
-		
+
 		/**
 		 * __FillTableValue()
 		 * Fetch ccontent from db
 		**/
-		
+
 		this.__FillTableValue			=	function( depth ) {
 			if( this.Index < this.EntryLength ) {
 				// Looping IDS
@@ -245,35 +245,78 @@ $( document ).ready(function(e) {
 				this.CloseModal();
 			}
 		}
-		
+
+        /**
+        *
+        * cartValue
+        *
+        * @param
+        * @return
+        */
+
+        this.cartValue          =   function( item, inlineDiscount ){
+            var cartValue                       =   ( parseFloat( item.TOTAL )
+            // Valeur réelle du panier
+            + ( parseFloat( item.REMISE ) ) ) // + parseFloat( item.RABAIS ) + parseFloat( item.RISTOURNE )
+            // Restauration de la TVA
+            - parseFloat( item.TVA );
+
+            if( inlineDiscount === true ) {
+                // Exclure aussi les remises effectués sur les produits
+                if( item.DISCOUNT_TYPE == 'percentage' && item.DISCOUNT_PERCENT != '0' ) {
+                    cartValue       +=  ( parseInt( item.PRIX_DE_VENTE ) * parseInt( item.DISCOUNT_PERCENT ) ) / 100;
+                } else  { // in this case for fixed discount on item
+                    cartValue       +=  parseInt( item.DISCOUNT_AMOUNT );
+                }
+            }
+
+            return cartValue;
+        };
+
 		/**
 		 * Treat Product
 		 * @param object
 		**/
-		
+
 		this.TreatProducts		=	function( data ) {
 			_.each( data, function( value, key ){
 				var TotalCommandeCash	=	0;
 				_.each( value, function( _value, _key ) {
-					if( _.contains( [ 
-						NexoPremium_Sales_Statistics.Nexo_Order_Cash, 
-						NexoPremium_Sales_Statistics.Nexo_Order_Avance 
+					if( _.contains( [
+						NexoPremium_Sales_Statistics.Nexo_Order_Cash,
+						NexoPremium_Sales_Statistics.Nexo_Order_Avance
 					], _value.TYPE_COMMANDE ) ) {
-						TotalCommandeCash	+=	NexoAPI.ParseFloat( _value.PRIX_TOTAL );
-					} 
+                        // Exclure la TVA du Rapport
+                        // @since 2.9.6
+                        var $total   =   ( NexoAPI.ParseFloat( _value.PRIX_TOTAL ) );
+                        if( _value.REMISE_TYPE == 'percentage' ) {
+                            var $percentage =   (
+                                parseFloat( _value.REMISE_PERCENT ) *
+                                parseFloat( _value.PRIX_TOTAL )
+                            ) / 100;
+                            $total      =   NexoAPI.ParseFloat( _value.PRIX_TOTAL ) - $percentage;
+                        } else if( _value.REMISE_TYPE == 'flat' ) {
+                            var     $representative_percent     =   ( NexoAPI.ParseFloat( _value.REMISE ) * 100 ) / NexoPremium_Sales_Statistics.cartValue();
+
+                            var     $valueOff      =   ( NexoAPI.ParseFloat( _value.PRIX_DE_VENTE ) * representative_percent ) / 100;
+
+                            $total      =   NexoAPI.ParseFloat( _value.PRIX_TOTAL ) - $valueOff;
+                        }
+						TotalCommandeCash	+=	$total;
+					}
 				});
-				$( 'table tbody tr' ).eq( key - 1 ).find( '[month-id="' + NexoPremium_Sales_Statistics.Index + '"]' ).html( 
+				$( 'table tbody tr' ).eq( key - 1 ).find( '[month-id="' + NexoPremium_Sales_Statistics.Index + '"]' ).html(
 					NexoPremium_Sales_Statistics.CurrencyBefore + ' ' +
-					'<span class="amount">' + NexoAPI.Format( TotalCommandeCash ) + '</span>' + 
+					'<span class="amount">' + NexoAPI.Format( TotalCommandeCash ) + '</span>' +
 					NexoPremium_Sales_Statistics.CurrencyAfter + ' '
 				);
 			});
 		}
-		
+
 		/**
 		 * Do Calculate Sub Total
 		**/
-		
+
 		this.RowSubTotal		=	function(){
 			// Cal Sub total
 			$( '[total-id]' ).each( function(){
@@ -281,18 +324,18 @@ $( document ).ready(function(e) {
 				$( '[month-id="' + $( this ).attr( 'total-id' ) + '"]' ).each( function(){
 					StatVenteRowTotal +=	NexoAPI.ParseFloat( $( this ).find( '.amount' ).html() );
 				});
-				$( this ).html( 
+				$( this ).html(
 					NexoPremium_Sales_Statistics.CurrencyBefore + ' ' +
 					'<span class="amount">' + NexoAPI.Format( StatVenteRowTotal ) + '</span>' +
 					NexoPremium_Sales_Statistics.CurrencyAfter + ' '
 				);
 			});
 		}
-		
+
 		/**
 		 * Col Total
 		**/
-		
+
 		this.ColSubTotal		=	function(){
 			// Cal Sub total
 			$( '[col-total]' ).each( function(){
@@ -300,52 +343,52 @@ $( document ).ready(function(e) {
 				$( this ).siblings( '[month-id]' ).each( function(){
 					StatVenteColTotal +=	NexoAPI.ParseFloat( $( this ).find( '.amount' ).html() );
 				});
-				$( this ).html( 
+				$( this ).html(
 					NexoPremium_Sales_Statistics.CurrencyBefore + ' ' +
 					'<span class="amount">' + StatVenteColTotal + '</span>' +
 					NexoPremium_Sales_Statistics.CurrencyAfter + ' '
 				);
 			});
 		}
-		
-		/** 
+
+		/**
 		 * Global Total
 		**/
-		
+
 		this.GlobalTotal		=	function(){
 			var SalesStatsGlobal	=	0;
 			$( '[global-total]' ).closest( 'tr' ).find('[total-id]' ).each( function(){
 				SalesStatsGlobal +=	NexoAPI.ParseFloat( $( this ).find( '.amount' ).html() );
 			});
-			$( '[global-total]' ).html( 
+			$( '[global-total]' ).html(
 				NexoPremium_Sales_Statistics.CurrencyBefore + ' ' +
 				'<span class="amount">' + SalesStatsGlobal + '</span>' +
 				NexoPremium_Sales_Statistics.CurrencyAfter + ' '
 			);
 		};
-		
-		/** 
+
+		/**
 		 * Cols Row Total
 		**/
-		
+
 		this.SaleStatsRow		=	function(){
-			
+
 		};
-		
-		/** 
-		 * Reset the calendar 
+
+		/**
+		 * Reset the calendar
 		**/
-		
+
 		this.Reset			=	function(){
 			this.__TimeCalled	=	1;
 			$( '.progress_level' ).html( 1 );
 			$( '.progress-bar' ).css( 'width', '1%' ).data( 'aria-valuenow', 1 );
 		}
-		
+
 		/**
 		 * Display Modal
 		**/
-		
+
 		this.DisplayModal	=	function(){
 			if( ! $( '.launch_loading' ).data( 'clicked' ) ) {
 				$( '.launch_loading' ).trigger( 'click' );
@@ -356,31 +399,31 @@ $( document ).ready(function(e) {
 			}
 			this.__TimeCalled++;
 		};
-		
+
 		/**
 		 * Progress Bar
 		**/
-		
+
 		this.SetPercent		=	function( percent ) {
 			$( '.progress_level' ).html( percent );
 			$( '.progress-bar' ).css( 'width', percent + '%' ).data( 'aria-valuenow', percent );
 		}
-		
+
 		/**
 		 * Close modal
 		**/
-		
+
 		this.CloseModal		=	function(){
 			$( '[data-dismiss="modal"]' ).trigger( 'click' );
 		}
 	};
-	
+
 	$( document ).ready(function(e) {
         NexoPremium_Sales_Statistics.Init();
     });
-	
-	</script> 
-  
+
+	</script>
+
   <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary btn-lg launch_loading" data-toggle="modal" data-target="#myModal" style="display:none;"></button>
   <div class="modal fade hidden-print" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -389,7 +432,7 @@ $( document ).ready(function(e) {
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel">
-            <?php _e('Chargement en cours...', 'nexo');
+            <?php _e('Chargement en cours...', 'nexo_premium');
     ?>
           </h4>
         </div>

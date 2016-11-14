@@ -1,12 +1,12 @@
 <?php
 global 	$Options,
-		$PageNow,
-		$register_id;
+$PageNow,
+$register_id;
 ?>
 <script>
 
 /**
- * Load PHP dependency
+* Load PHP dependency
 **/
 
 var dependency						=
@@ -18,7 +18,7 @@ var dependency						=
 );?>;
 
 /**
- * Create closure
+* Create closure
 **/
 
 var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
@@ -52,7 +52,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	v2Checkout.paymentTypesObject					=	$scope.paymentTypesObject;
 
 	/**
-	 * Add Payment
+	* Add Payment
 	**/
 
 	$scope.addPayment								=	function( payment_namespace, payment_amount ) {
@@ -95,7 +95,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	};
 
 	/**
-	 * bind Keyboard Events
+	* bind Keyboard Events
 	**/
 
 	$scope.bindKeyBoardEvent	=	function( $event ){
@@ -103,7 +103,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	};
 
 	/**
-	 * Cancel Payment Edition
+	* Cancel Payment Edition
 	**/
 
 	$scope.cancelPaymentEdition	=	function( paymentNamespace ){
@@ -122,8 +122,8 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 
 
 	/**
-	 * Confirm Order
-	 * @params bool action
+	* Confirm Order
+	* @params bool action
 	**/
 
 	$scope.confirmOrder			=	function( action ) {
@@ -179,34 +179,48 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 				});
 
 				var order_details					=	new Object;
-					order_details.TOTAL				=	NexoAPI.ParseFloat( v2Checkout.CartToPay );
+				order_details.TOTAL				=	NexoAPI.ParseFloat( v2Checkout.CartToPay );
+				order_details.REMISE			=	NexoAPI.ParseFloat( v2Checkout.CartRemise );
+				// @since 2.9.6
+				if( v2Checkout.CartRemiseType == 'percentage' ) {
+					order_details.REMISE_PERCENT	=	NexoAPI.ParseFloat( v2Checkout.CartRemisePercent );
+					order_details.REMISE			=	0;
+				} else if( v2Checkout.CartRemiseType == 'flat' ) {
+					order_details.REMISE_PERCENT	=	0;
 					order_details.REMISE			=	NexoAPI.ParseFloat( v2Checkout.CartRemise );
-					order_details.RABAIS			=	NexoAPI.ParseFloat( v2Checkout.CartRabais );
-					order_details.RISTOURNE			=	NexoAPI.ParseFloat( v2Checkout.CartRistourne );
-					order_details.TVA				=	NexoAPI.ParseFloat( v2Checkout.CartVAT );
-					order_details.REF_CLIENT		=	v2Checkout.CartCustomerID == null ? v2Checkout.customers.DefaultCustomerID : v2Checkout.CartCustomerID;
-					order_details.PAYMENT_TYPE		=	$scope.paymentList.length == 1 ? $scope.paymentList[0].namespace : 'multi'; // v2Checkout.CartPaymentType;
-					order_details.GROUP_DISCOUNT	=	NexoAPI.ParseFloat( v2Checkout.CartGroupDiscount );
-					order_details.DATE_CREATION		=	v2Checkout.CartDateTime.format( 'YYYY-MM-DD HH:mm:ss' )
-					order_details.ITEMS				=	order_items;
-					order_details.DEFAULT_CUSTOMER	=	v2Checkout.DefaultCustomerID;
-					order_details.DISCOUNT_TYPE		=	'<?php echo @$Options[ store_prefix() . 'discount_type' ];?>';
-					order_details.HMB_DISCOUNT		=	'<?php echo @$Options[ store_prefix() . 'how_many_before_discount' ];?>';
-					// @since 2.7.5
-					order_details.REGISTER_ID		=	'<?php echo $register_id;?>';
+				} else {
+					order_details.REMISE_PERCENT	=	0;
+					order_details.REMISE			=	0;
+				}
 
-					// @since 2.7.1, send editable order to Rest Server
-					order_details.EDITABLE_ORDERS	=	<?php echo json_encode( $this->events->apply_filters( 'order_editable', array( 'nexo_order_devis' ) ) );?>;
+				order_details.REMISE_TYPE			=	v2Checkout.CartRemiseType;
+				// @endSince
+				order_details.RABAIS			=	NexoAPI.ParseFloat( v2Checkout.CartRabais );
+				order_details.RISTOURNE			=	NexoAPI.ParseFloat( v2Checkout.CartRistourne );
+				order_details.TVA				=	NexoAPI.ParseFloat( v2Checkout.CartVAT );
+				order_details.REF_CLIENT		=	v2Checkout.CartCustomerID == null ? v2Checkout.customers.DefaultCustomerID : v2Checkout.CartCustomerID;
+				order_details.PAYMENT_TYPE		=	$scope.paymentList.length == 1 ? $scope.paymentList[0].namespace : 'multi'; // v2Checkout.CartPaymentType;
+				order_details.GROUP_DISCOUNT	=	NexoAPI.ParseFloat( v2Checkout.CartGroupDiscount );
+				order_details.DATE_CREATION		=	v2Checkout.CartDateTime.format( 'YYYY-MM-DD HH:mm:ss' )
+				order_details.ITEMS				=	order_items;
+				order_details.DEFAULT_CUSTOMER	=	v2Checkout.DefaultCustomerID;
+				order_details.DISCOUNT_TYPE		=	'<?php echo @$Options[ store_prefix() . 'discount_type' ];?>';
+				order_details.HMB_DISCOUNT		=	'<?php echo @$Options[ store_prefix() . 'how_many_before_discount' ];?>';
+				// @since 2.7.5
+				order_details.REGISTER_ID		=	'<?php echo $register_id;?>';
 
-					// @since 2.7.3 add Order note
-					order_details.DESCRIPTION		=	v2Checkout.CartNote;
+				// @since 2.7.1, send editable order to Rest Server
+				order_details.EDITABLE_ORDERS	=	<?php echo json_encode( $this->events->apply_filters( 'order_editable', array( 'nexo_order_devis' ) ) );?>;
 
-					// @since 2.9.0
-					order_details.TITRE				=	v2Checkout.CartTitle;
+				// @since 2.7.3 add Order note
+				order_details.DESCRIPTION		=	v2Checkout.CartNote;
 
-					// @since 2.8.2 add order meta
-					this.CartMetas					=	NexoAPI.events.applyFilters( 'order_metas', v2Checkout.CartMetas );
-					order_details.METAS				=	JSON.stringify( v2Checkout.CartMetas );
+				// @since 2.9.0
+				order_details.TITRE				=	v2Checkout.CartTitle;
+
+				// @since 2.8.2 add order meta
+				this.CartMetas					=	NexoAPI.events.applyFilters( 'order_metas', v2Checkout.CartMetas );
+				order_details.METAS				=	JSON.stringify( v2Checkout.CartMetas );
 
 				if( _.indexOf( _.keys( $scope.paymentTypes ), payment_means ) != -1 ) {
 
@@ -218,7 +232,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 					if( NexoAPI.events.applyFilters( 'check_payment_mean', [ false, payment_means ] )[0] == true ) {
 
 						/**
-						 * Make sure to return order_details
+						* Make sure to return order_details
 						**/
 
 						order_details		=	NexoAPI.events.applyFilters( 'payment_mean_checked', [ order_details, payment_means ] )[0];
@@ -269,18 +283,18 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 
 								if( NexoAPI.events.applyFilters( 'cart_enable_print', true ) ) {
 
-								MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
-								MessageObject.msg	=	'<?php echo _s('La commande est en cours d\'impression.', 'nexo');?>';
-								MessageObject.type	=	'success';
+									MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
+									MessageObject.msg	=	'<?php echo _s('La commande est en cours d\'impression.', 'nexo');?>';
+									MessageObject.type	=	'success';
 
-								$( 'body' ).append( '<iframe style="display:none;" id="CurrentReceipt" name="CurrentReceipt" src="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true"></iframe>' );
+									$( 'body' ).append( '<iframe style="display:none;" id="CurrentReceipt" name="CurrentReceipt" src="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true"></iframe>' );
 
-								window.frames["CurrentReceipt"].focus();
-								window.frames["CurrentReceipt"].print();
+									window.frames["CurrentReceipt"].focus();
+									window.frames["CurrentReceipt"].print();
 
-								setTimeout( function(){
-									$( '#CurrentReceipt' ).remove();
-								}, 5000 );
+									setTimeout( function(){
+										$( '#CurrentReceipt' ).remove();
+									}, 5000 );
 
 								}
 								// Remove filter after it's done
@@ -296,34 +310,34 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 
 								<?php if (@$Options[ store_prefix() . 'nexo_enable_smsinvoice' ] == 'yes'):?>
 								/**
-								 * Send SMS
+								* Send SMS
 								**/
 								// Do Action when order is complete and submited
 								NexoAPI.events.doAction( 'is_cash_order', [ v2Checkout, returned ] );
 								<?php endif;?>
 							} else {
 								<?php if (@$Options[ store_prefix() . 'nexo_enable_autoprint' ] == 'yes'):?>
-									MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
-									MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée, mais ne peut pas être imprimée tant qu\'elle n\'est pas complète.', 'nexo');?>';
-									MessageObject.type	=	'info';
+								MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
+								MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée, mais ne peut pas être imprimée tant qu\'elle n\'est pas complète.', 'nexo');?>';
+								MessageObject.type	=	'info';
 
 								<?php else:?>
-									MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
-									MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée', 'nexo');?>';
-									MessageObject.type	=	'info';
+								MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
+								MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée', 'nexo');?>';
+								MessageObject.type	=	'info';
 								<?php endif;?>
 							}
 
 							// Filter Message Callback
 							var data				=	NexoAPI.events.applyFilters( 'callback_message', [ MessageObject, returned ] );
-								MessageObject		=	data[0];
+							MessageObject		=	data[0];
 
 							// For Success
 							if( MessageObject.type == 'success' ) {
 
 								NexoAPI.Notify().success( MessageObject.title, MessageObject.msg );
 
-							// For Info
+								// For Info
 							} else if( MessageObject.type == 'info' ) {
 
 								NexoAPI.Notify().info( MessageObject.title, MessageObject.msg );
@@ -354,7 +368,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	};
 
 	/**
-	 * Edit Payment
+	* Edit Payment
 	**/
 
 	$scope.editPayment			=	function( index ){
@@ -373,7 +387,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	};
 
 	/**
-	 * Keyboard Input
+	* Keyboard Input
 	**/
 
 	$scope.keyboardInput		=	function( char, field ) {
@@ -398,8 +412,8 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	};
 
 	/**
-	 * Open Box Main Function
-	 *
+	* Open Box Main Function
+	*
 	**/
 
 	$scope.openPayBox		=	function() {
@@ -467,7 +481,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	};
 
 	/**
-	 * Refresh Box
+	* Refresh Box
 	**/
 
 	$scope.refreshBox		=	function(){
@@ -475,7 +489,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	};
 
 	/**
-	 * Refresh Paid So Far
+	* Refresh Paid So Far
 	**/
 
 	$scope.refreshPaidSoFar		=	function(){
@@ -491,7 +505,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	};
 
 	/**
-	 * Remove Payment
+	* Remove Payment
 	**/
 
 	$scope.removePayment	=	function( index ){
@@ -506,7 +520,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	};
 
 	/**
-	 * Select Payment
+	* Select Payment
 	**/
 
 	$scope.selectPayment		=	function( namespace ) {
@@ -535,7 +549,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		}
 
 		/**
-		 * Add event when payment is selected
+		* Add event when payment is selected
 		**/
 
 		NexoAPI.events.doAction( 'pos_select_payment', [ $scope, namespace ] );
@@ -545,15 +559,15 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	<?php $this->events->do_action( 'angular_paybox_footer' );?>};
 
 	/**
-	 * Add closure to dependency
+	* Add closure to dependency
 	**/
 
 	dependency.push( controller );
 
 	/**
-	 * Load PayBox Controller
+	* Load PayBox Controller
 	**/
 
 	tendooApp.controller( 'payBox', dependency );
 
-</script>
+	</script>

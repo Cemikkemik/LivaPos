@@ -1359,11 +1359,11 @@ var v2Checkout					=	new function(){
 		/**
 		 * Create Customer
 		 *
-		 * @params string user name
-		 * @params string user surname
-		 * @params string user email
-		 * @params string user phone
-		 * @params int user group
+		 * @param string user name
+		 * @param string user surname
+		 * @param string user email
+		 * @param string user phone
+		 * @param int user group
 		 * @return bool
 		**/
 
@@ -1429,7 +1429,7 @@ var v2Checkout					=	new function(){
 
 		/**
 		 * Check discount for the customer
-		 * @params object customer data
+		 * @param object customer data
 		 * @return void
 		**/
 
@@ -1456,7 +1456,7 @@ var v2Checkout					=	new function(){
 
 		/**
 		 * Check discount for user group
-		 * @params object customer data
+		 * @param object customer data
 		 * @return void
 		**/
 
@@ -1575,7 +1575,7 @@ var v2Checkout					=	new function(){
 
 	/**
 	 * Display Items on the grid
-	 * @params Array
+	 * @param Array
 	 * @return void
 	**/
 
@@ -1789,7 +1789,7 @@ var v2Checkout					=	new function(){
 	/**
 	 * Filter Item
 	 *
-	 * @params string
+	 * @param string
 	 * @return void
 	**/
 
@@ -2075,7 +2075,7 @@ var v2Checkout					=	new function(){
 
 	/**
 	 * Quick Search Items
-	 * @params
+	 * @param
 	**/
 
 	this.quickItemSearch			=	function( value ) {

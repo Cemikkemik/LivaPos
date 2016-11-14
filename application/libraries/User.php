@@ -94,8 +94,8 @@ class User
     /**
      * Create User Permission
      * 
-     * @params string permission
-     * @params string definition
+     * @param string permission
+     * @param string definition
      * @return bool
     **/
     
@@ -107,7 +107,7 @@ class User
     /**
      * Delete User Permission
      * 
-     * @params int user id,
+     * @param int user id,
      * @return bool
     **/
     
@@ -119,9 +119,9 @@ class User
     /**
      * Update User Permission
      * 
-     * @params int user id,
-     * @params string name
-     * @params string definition
+     * @param int user id,
+     * @param string name
+     * @param string definition
      * @return bool
     **/
     
@@ -158,12 +158,12 @@ class User
     
     /**
      * Get use avatar
-     * @params string email
-     * @params int width
-     * @params string
-     * @params string
-     * @params bool
-     * @params array atts
+     * @param string email
+     * @param int width
+     * @param string
+     * @param string
+     * @param bool
+     * @param array atts
      * @return string avatar src/image tag
     **/
     

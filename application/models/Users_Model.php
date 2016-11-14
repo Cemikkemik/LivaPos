@@ -106,9 +106,9 @@ class Users_model extends CI_Model
 
     /**
      * Creae Master User
-     * @params string Email
-     * @params string password
-     * @params string user name
+     * @param string Email
+     * @param string password
+     * @param string user name
      * @return string
     **/
 
@@ -239,7 +239,7 @@ class Users_model extends CI_Model
      * Delete specified user with his meta
      *
      * @access : public
-     * @params : array
+     * @param : array
      * @return : bool
     **/
 
@@ -262,7 +262,7 @@ class Users_model extends CI_Model
 
     /**
      * Login
-     * @params string
+     * @param string
      * @return string
     **/
 

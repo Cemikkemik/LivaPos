@@ -121,7 +121,7 @@ trait Nexo_items
 	/** 
 	 * Item by collection
 	 *
-	 * @params int collection id
+	 * @param int collection id
 	 * @return json
 	**/
 	

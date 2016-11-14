@@ -83,8 +83,8 @@ class Sign_in extends Tendoo_Controller
      *	Checks a verification code an send a new password to user email
      *
      * 	@access : public
-     *	@params : int user_id
-     * 	@params : string verfication code
+     *	@param : int user_id
+     * 	@param : string verfication code
      * 	@return : void
      * 
     **/
@@ -100,8 +100,8 @@ class Sign_in extends Tendoo_Controller
      * 	Verify actvaton code for specifc user
      *
      *	@access : public
-     *	@params : int user_id
-     *	@params : string verification code
+     *	@param : int user_id
+     *	@param : string verification code
      *	@status	: untested
     **/
     

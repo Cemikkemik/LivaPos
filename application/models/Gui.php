@@ -19,8 +19,8 @@ class Gui extends CI_Model
 
     /**
      * Register page for dashboard
-     * @params string Page Slug
-     * @params Function
+     * @param string Page Slug
+     * @param Function
      * @return void
     **/
 
@@ -34,8 +34,8 @@ class Gui extends CI_Model
 
 	/**
 	 * Regsiter Page Object
-	 * @params string page slug
-	 * @params obj page obj
+	 * @param string page slug
+	 * @param obj page obj
 	 * return void
 	**/
 
@@ -49,8 +49,8 @@ class Gui extends CI_Model
 
     /**
      * Load created page
-     * @params String page slug
-     * @params Array params
+     * @param String page slug
+     * @param Array params
     **/
 
     public function load_page($page_slug, $params)
@@ -88,7 +88,7 @@ class Gui extends CI_Model
 
 	/**
 	 * Load Page objet
-	 * @params string page slug
+	 * @param string page slug
 	 * @return void
 	**/
 
@@ -155,7 +155,7 @@ class Gui extends CI_Model
     /**
      * Get Col
      *
-     * @params int Col Id
+     * @param int Col Id
      * @return bool
     **/
 
@@ -201,9 +201,9 @@ class Gui extends CI_Model
      * Add Item
      * Add item meta box
      *
-     * @params Array Config
-     * @params String meta namespace
-     * @params int Col id
+     * @param Array Config
+     * @param String meta namespace
+     * @param int Col id
      * @return void
     **/
 

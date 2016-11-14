@@ -99,7 +99,7 @@ class aauth_dashboard extends CI_model
      * Perform Change over Auth emails config
      *
      * @access : public
-     * @params : string user names
+     * @param : string user names
      * @return : string
     **/
 
@@ -115,7 +115,7 @@ class aauth_dashboard extends CI_model
      * Perform Change over Auth emails config
      *
      * @access : public
-     * @params : string user names
+     * @param : string user names
      * @return : string
     **/
 
@@ -133,7 +133,7 @@ class aauth_dashboard extends CI_model
      * Get dashboard skin for current user
      *
      * @access : public
-     * @params : string
+     * @param : string
      * @return : string
     **/
 

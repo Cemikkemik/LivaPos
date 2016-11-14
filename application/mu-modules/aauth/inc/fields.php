@@ -145,7 +145,7 @@ class aauth_fields extends CI_model
      * Adds custom fields for user creation and edit
      *
      * @access : public
-     * @params : Array
+     * @param : Array
      * @return : Array
     **/
 
@@ -319,7 +319,7 @@ class aauth_fields extends CI_model
      * Adds custom meta for user
      *
      * @access : public
-     * @params : Array
+     * @param : Array
      * @return : Array
     **/
 

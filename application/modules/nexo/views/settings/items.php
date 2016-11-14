@@ -17,7 +17,7 @@ $this->Gui->col_width(1, 2);
 /**
  * ToUpper
  *
- * @params string
+ * @param string
  * @return string
 **/
 

@@ -215,7 +215,7 @@ class Nexo_Commandes extends CI_Model
 
     /**
      * Proceed order
-     * @params int order int
+     * @param int order int
      * @return void
     **/
 
@@ -233,8 +233,8 @@ class Nexo_Commandes extends CI_Model
     /**
      * filter_grocery_list_item_class
      *
-     * @params string
-     * @params object Row Item
+     * @param string
+     * @param object Row Item
      * @return string
     **/
 
@@ -301,7 +301,7 @@ class Nexo_Commandes extends CI_Model
     /**
      * Filter Grocery Actions
      * Allow printing only on Complete orders
-     * @params Array grocery actions
+     * @param Array grocery actions
      * @return Array
     **/
 

@@ -8,7 +8,7 @@ class Nexo_Restaurant extends CI_Model
 	
 	/** 
 	 * Get Kitchens
-	 * @params int/void kitchen id
+	 * @param int/void kitchen id
 	 * @return array
 	**/
 	

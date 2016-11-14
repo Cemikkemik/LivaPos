@@ -98,8 +98,8 @@ class Dashboard_Widgets_Model extends CI_Model
     /**
      * Save Widget posistions
      * 
-     * @params string namespace
-     * @params int Col Id
+     * @param string namespace
+     * @param int Col Id
      * @return void
     **/
     
@@ -128,7 +128,7 @@ class Dashboard_Widgets_Model extends CI_Model
 	/**
 	 * Remove Widget
 	 *
-	 * @params string widget namespace
+	 * @param string widget namespace
 	**/
 	
 	public function remove( $namespace ) 

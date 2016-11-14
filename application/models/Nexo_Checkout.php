@@ -814,7 +814,7 @@ class Nexo_Checkout extends CI_Model
     /**
      * Proceed order
      * complete an order
-     * @params int order id 
+     * @param int order id 
      * @return bool
     **/
     
@@ -840,7 +840,7 @@ class Nexo_Checkout extends CI_Model
 	/**
 	 * Check Registers
 	 * @since 2.7.5
-	 * @params int register int
+	 * @param int register int
 	 * @return string (open, closed, disabled, not_found)
 	**/
 	
@@ -856,7 +856,7 @@ class Nexo_Checkout extends CI_Model
 	
 	/**
 	 * Get Register
-	 * @params int register id
+	 * @param int register id
 	 * @return array
 	**/
 	
@@ -895,7 +895,7 @@ class Nexo_Checkout extends CI_Model
 	/**
 	 * Disconnect User
 	 *
-	 * @params int register id
+	 * @param int register id
 	 * @return void
 	**/
 	

@@ -31,7 +31,7 @@ class Nexo_Premium_Controller extends CI_Model
 
     /**
      * Index Page
-     * @params string
+     * @param string
      * @deprecated
      * @return void
     **/
@@ -47,7 +47,7 @@ class Nexo_Premium_Controller extends CI_Model
 
     /**
      * Rapport Journalier Detaillé
-     * @params string date
+     * @param string date
     **/
 
     public function Controller_Rapport_Journalier_Detaille($report_date)
@@ -87,7 +87,7 @@ class Nexo_Premium_Controller extends CI_Model
 
     /**
      * Mouvement Annuel de la trésorerie
-     * @params string/NULL year
+     * @param string/NULL year
     **/
 
     public function Controller_Mouvement_Annuel_Tresorerie($year = null)
@@ -126,7 +126,7 @@ class Nexo_Premium_Controller extends CI_Model
      * Sales statistics
      *
      * @author  Blair Jersyer
-     * @params string/NULL year
+     * @param string/NULL year
     **/
 
     public function Controller_Stats_Des_Ventes($year = null)
@@ -175,8 +175,8 @@ class Nexo_Premium_Controller extends CI_Model
     /**
      * Fiche de suivi
      *
-     * @params int Shipping Int
-     * @params int Shipping Int
+     * @param int Shipping Int
+     * @param int Shipping Int
      * @return void
     **/
 
@@ -261,7 +261,7 @@ class Nexo_Premium_Controller extends CI_Model
     /**
      * Bill creation
      *
-     * @params Array content array
+     * @param Array content array
      * @return Array
     **/
 
@@ -276,7 +276,7 @@ class Nexo_Premium_Controller extends CI_Model
     /**
      * Callback when creating Bills
      *
-     * @params Array content
+     * @param Array content
      * @return Array
     **/
 
@@ -291,7 +291,7 @@ class Nexo_Premium_Controller extends CI_Model
     /**
      * Bill controller
      *
-     * @params string page string
+     * @param string page string
      * @return void
     **/
 
@@ -315,7 +315,7 @@ class Nexo_Premium_Controller extends CI_Model
 
     /**
      * Clear cache
-     * @params string cache id
+     * @param string cache id
      * @return void
     **/
 
@@ -369,8 +369,8 @@ class Nexo_Premium_Controller extends CI_Model
     /**
      * Statistique des clients
      *
-     * @params string start date
-     * @params end date
+     * @param string start date
+     * @param end date
      * @return void
     **/
 
@@ -559,7 +559,7 @@ class Nexo_Premium_Controller extends CI_Model
     /**
      * Callback for Backup creation
      *
-     * @params Array post data
+     * @param Array post data
      * @return Array
     **/
 
@@ -578,7 +578,7 @@ class Nexo_Premium_Controller extends CI_Model
     /**
      * Callback for Backup update
      *
-     * @params Array post data
+     * @param Array post data
      * @return Array
     **/
 
@@ -603,7 +603,7 @@ class Nexo_Premium_Controller extends CI_Model
     /**
      * Callback for Backup deletion
      *
-     * @params Array post data
+     * @param Array post data
      * @return Array
     **/
 

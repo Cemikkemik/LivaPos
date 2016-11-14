@@ -82,7 +82,7 @@ class OauthLibrary
      * Check scope
      * Checks whether a request can access a scope
      *
-     * @params string end point scope (unique scope)
+     * @param string end point scope (unique scope)
      * @return bool
     **/
     

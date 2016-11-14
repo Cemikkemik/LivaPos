@@ -18,10 +18,10 @@ trait Nexo_customers
     /**
      * Customer Insert
      *
-     * @params POST string name
-     * @params POST string email
-     * @params POST string tel
-     * @params POST string prenom
+     * @param POST string name
+     * @param POST string email
+     * @param POST string tel
+     * @param POST string prenom
     **/
 
     public function customer_post()
@@ -49,7 +49,7 @@ trait Nexo_customers
 	
 	/**
      * Customer Groups
-     * @params int/string group par
+     * @param int/string group par
      * @return json
     **/
 

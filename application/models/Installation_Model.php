@@ -86,7 +86,7 @@ class Installation_Model extends CI_Model
     /**
      * Create a config file
      * 
-     * @params Array config data
+     * @param Array config data
      * @return Void
     **/
     
@@ -134,7 +134,7 @@ if(!defined('DB_PREFIX'))
     /**
      * Final Configuration
      * 
-     * @params string Site Name
+     * @param string Site Name
      * @return mixed
     **/
     

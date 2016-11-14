@@ -6,7 +6,7 @@ trait Nexo_Registers
 {
 	/**
 	 * Get Register Status
-	 * @params int register id
+	 * @param int register id
 	 * @return json
 	**/
 	
@@ -17,7 +17,7 @@ trait Nexo_Registers
 	
 	/**
 	 * Put register status
-	 * @params int register_id
+	 * @param int register_id
 	 * @return json
 	**/
 	
@@ -45,7 +45,7 @@ trait Nexo_Registers
 	
 	/**
 	 * Close register
-	 * @params int register_id
+	 * @param int register_id
 	 * @return json
 	**/
 	
@@ -73,7 +73,7 @@ trait Nexo_Registers
 	
 	/**
 	 * Get Register
-	 * @params int register id
+	 * @param int register id
 	 * @return json
 	**/
 	
@@ -88,7 +88,7 @@ trait Nexo_Registers
 	
 	/**
 	 * Register Activity
-	 * @params int register id
+	 * @param int register id
 	**/
 	
 	public function register_activities_get( $id )

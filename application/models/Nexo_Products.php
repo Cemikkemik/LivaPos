@@ -320,7 +320,7 @@ class Nexo_Products extends CI_Model
     
     /**
      * Get product
-     * @params int product id
+     * @param int product id
      * @returns Array
     **/
     

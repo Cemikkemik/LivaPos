@@ -5,8 +5,8 @@ trait Nexo_cashiers
 {
     /**
      * Get Cashier sales numbers
-     * @params string start date
-     * @params string end date
+     * @param string start date
+     * @param string end date
      * @return json
     **/
     

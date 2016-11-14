@@ -40,7 +40,7 @@ tendooApp.service( '__stripeCheckout', [ '__windowSplash', function( __windowSpl
 
 	/**
 	 * Proceed Payment
-	 * @params object
+	 * @param object
 	 * @return void
 	**/
 

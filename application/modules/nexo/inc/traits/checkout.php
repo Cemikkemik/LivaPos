@@ -44,8 +44,8 @@ trait Nexo_checkout_money
 	
 	/**
 	 * Get balance entry
-	 * @params string/int 
-	 * @params string/int
+	 * @param string/int 
+	 * @param string/int
 	 * @return json
 	**/
 	

@@ -12,7 +12,7 @@ if (! function_exists('nexo_permission_check')) {
      *
      * Check whether for Ajax action an user can perform requested action
      *
-     * @params string permission
+     * @param string permission
      * @return void
     **/
 
@@ -34,8 +34,8 @@ if (! function_exists('nexo_availability_check')) {
      * Check Availability of item
      * Item in use can't be deleted
      *
-     * @params string/int item filter
-     * @params Array table where to check availability with this for array( array( 'col'=> 'id', 'table'	=> 'users' ) );
+     * @param string/int item filter
+     * @param Array table where to check availability with this for array( array( 'col'=> 'id', 'table'	=> 'users' ) );
     **/
 
     function nexo_availability_check($item, $tables)
@@ -58,9 +58,9 @@ if (! function_exists('nexo_availability_check')) {
 /**
  * Compare Two value and print arrow
  *
- * @params int
- * @params int
- * @params bool invert ?
+ * @param int
+ * @param int
+ * @param bool invert ?
  * @return string
 **/
 
@@ -77,7 +77,7 @@ if (! function_exists('nexo_compare_card_values')) {
 
 /**
  * Float val for NexoPOS numeric values
- * @params float/int
+ * @param float/int
  * @return float/int
 **/
 
@@ -90,7 +90,7 @@ if (! function_exists('__floatval')) {
 
 /**
  * Store Name helper
- * @params string page title
+ * @param string page title
  * @return string
 **/
 

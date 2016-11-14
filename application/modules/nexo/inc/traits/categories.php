@@ -6,8 +6,8 @@ trait Nexo_categories
 	/**
 	 * Get Categories
 	 *
-	 * @params int/string item 
-	 * @params string filter
+	 * @param int/string item 
+	 * @param string filter
 	 * @return json
 	**/
 	

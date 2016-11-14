@@ -123,7 +123,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 
 	/**
 	* Confirm Order
-	* @params bool action
+	* @param bool action
 	**/
 
 	$scope.confirmOrder			=	function( action ) {

@@ -4,8 +4,8 @@ class GroceryCrudCleaner
     /**
      * XSS Clean for Grocery Crud
      *
-     * @params Array post
-     * @params String Primary key
+     * @param Array post
+     * @param String Primary key
      * @return Array
      **/
      

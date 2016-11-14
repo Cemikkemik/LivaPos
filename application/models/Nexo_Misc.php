@@ -298,7 +298,7 @@ class Nexo_Misc extends CI_Model
 
     /**
     * Get Week
-    * @params int timestamp
+    * @param int timestamp
     * @return string
     **/
 
@@ -371,7 +371,7 @@ class Nexo_Misc extends CI_Model
     /**
     * Get Money Format
     *
-    * @params int/string
+    * @param int/string
     * @return string
     **/
 
@@ -394,7 +394,7 @@ class Nexo_Misc extends CI_Model
 
     /**
     * Get Money Full format with currency
-    * @params int/string
+    * @param int/string
     * @return string
     **/
 
@@ -435,9 +435,9 @@ class Nexo_Misc extends CI_Model
     * Create category hierarchy
     * and create cache
     *
-    * @params array
-    * @params int
-    * @params bool
+    * @param array
+    * @param int
+    * @param bool
     * @return array
     **/
 
@@ -462,7 +462,7 @@ class Nexo_Misc extends CI_Model
     * Get Maximum Array depthness
     *
     * @source : http://stackoverflow.com/questions/262891/is-there-a-way-to-find-out-how-deep-a-php-array-is
-    * @params Array
+    * @param Array
     * @return int
     **/
 
@@ -487,11 +487,11 @@ class Nexo_Misc extends CI_Model
 
     /**
     * Build table
-    * @params Array
-    * @params int max depth
-    * @params int current depth
-    * @params string content
-    * @params int colspan
+    * @param Array
+    * @param int max depth
+    * @param int current depth
+    * @param string content
+    * @param int colspan
     * @return string
     **/
 
@@ -551,8 +551,8 @@ class Nexo_Misc extends CI_Model
     /**
     * History
     *
-    * @params string title
-    * @params string description
+    * @param string title
+    * @param string description
     * @return void
     **/
 
@@ -568,7 +568,7 @@ class Nexo_Misc extends CI_Model
     /**
     * Delete History
     *
-    * @params int history id
+    * @param int history id
     * @return void
     **/
 
@@ -585,8 +585,8 @@ class Nexo_Misc extends CI_Model
     /**
     * History Get
     *
-    * @params int limit
-    * @params int offset
+    * @param int limit
+    * @param int offset
     * @return Array
     **/
 
@@ -605,7 +605,7 @@ class Nexo_Misc extends CI_Model
     /**
     * Do Restore
     *
-    * @params Array Upload Data
+    * @param Array Upload Data
     * @return bool
     **/
 
@@ -659,8 +659,8 @@ class Nexo_Misc extends CI_Model
     /**
     * Dates between two dates
     *
-    * @params string first date
-    * @params string second date
+    * @param string first date
+    * @param string second date
     * @return Array
     **/
 
@@ -686,7 +686,7 @@ class Nexo_Misc extends CI_Model
 
     /**
     * Get initial balance for a specific date
-    * @params string date
+    * @param string date
     * @return bool
     **/
 

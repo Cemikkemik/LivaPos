@@ -29,10 +29,17 @@ class NexoPlayGroundMain extends CI_Model
 
 			$fields[]	=	$field_enabled;
 
+			$field_hours	=	new stdClass;
+			$field_hours->field_name		=	'NP_HOURS';
+			$field_hours->display_as		=	__( 'Hours', 'nexo-playground-manager' );
+			$field_hours->description		=	tendoo_info( __( 'You can set how many hours you would like to add to the order.', 'nexo-playground-manager' ) );
+
+			$fields[]	=	$field_hours;
+
 			$field_time	=	new stdClass;
-			$field_time->field_name		=	'NP_TIME';
-			$field_time->display_as		=	__( 'Time in minutes', 'nexo-playground-manager' );
-			$field_time->description	=	tendoo_info( __( 'You can set how many time this item will add to the order.', 'nexo-playground-manager' ) );
+			$field_time->field_name		=	'NP_MINUTES';
+			$field_time->display_as		=	__( 'Minutes', 'nexo-playground-manager' );
+			$field_time->description	=	tendoo_info( __( 'You can set how many minutes you would like to add to the order.', 'nexo-playground-manager' ) );
 
 			$fields[]	=	$field_time;
 		}
@@ -49,12 +56,8 @@ class NexoPlayGroundMain extends CI_Model
 		$array	=	array_insert_before( 'arrivages', $menus, 'np_menus', array(
 			array(
 				'title'		=>	__( 'Nexo PlayGround', 'nexo-playground-manager' ),
-				'disable'	=>	true,
+				'href'		=>	site_url( array( 'dashboard', store_slug(), 'nexo-playground-manager', 'manager' ) ),
 				'icon'		=>	'fa fa-paw'
-			),
-			array(
-				'title'		=>	__( 'Manage Package', 'nexo-playground-manager' ),
-				'href'		=>	site_url( array( 'dashboard', store_slug(), 'nexo-playground-manager', 'manager' ) )
 			)
 		) );
 
@@ -77,7 +80,7 @@ class NexoPlayGroundMain extends CI_Model
 
 	public function crud_load( $crud )
 	{
-		$crud->add_group( 'np_options', __( 'PlayGround Options', 'nexo-playground-manager' ), array( 'NP_TIME', 'NP_ENABLED' ), 'fa-star' );
+		$crud->add_group( 'np_options', __( 'PlayGround Options', 'nexo-playground-manager' ), array( 'NP_MINUTES', 'NP_ENABLED', 'NP_HOURS' ), 'fa-star' );
 		return $crud;
 	}
 
@@ -124,30 +127,82 @@ class NexoPlayGroundMain extends CI_Model
 			$input_fields[ 'NP_ENABLED' ]->input			=	'
   <select id="field-NP_ENABLED"  name="NP_ENABLED" class="form-control"><option value="2" ' . ( $NP_ENABLED == '2' ? 'selected="selected"' : '' ) . '>' . __( 'No', 'nexo' ) . '</option><option value="1" ' . ( $NP_ENABLED == '1' ? 'selected="selected"' : '' ) . '>' . __( 'Yes', 'nexo' ) . '</option></select>';
 
-			$NP_TIME		=		null;
+			  /**
+			   * Hours
+			  **/
+
+			  $NP_HOURS		=		null;
+			  if( $id ) {
+				  $data		=		$this->db->where( 'REF_ARTICLE', $id )
+				  ->where( 'KEY', 'NP_HOURS' )
+				  ->get( store_prefix() . 'nexo_articles_meta' )
+				  ->result_array();
+
+				  $NP_HOURS	=		@$data[0][ 'VALUE' ];
+			  }
+
+			  ob_start();
+			  ?>
+			  <select type="text" class="form-control" id="" placeholder="" id="field-NP_HOURS"  name="NP_HOURS">
+				  <?php for( $i = 0; $i <= 24; $i++ ):?>
+					  <option value="<?php echo $i;?>" <?php echo $NP_HOURS == $i ? 'selected="selected"' : '';?>><?php echo $i;?></option>
+				  <?php endfor;?>
+			  </select>
+			  <?php
+
+			  $dom			=	ob_get_clean();
+
+			  $input_fields[ 'NP_HOURS' ]						=	new stdClass;
+			  $input_fields[ 'NP_HOURS' ]->name				=	'NP_HOURS';
+			  $input_fields[ 'NP_HOURS' ]->type				=	'varchar';
+			  $input_fields[ 'NP_HOURS' ]->max_length			=	200;
+			  $input_fields[ 'NP_HOURS' ]->primary_key		=	0;
+			  $input_fields[ 'NP_HOURS' ]->default			=	null;
+			  $input_fields[ 'NP_HOURS' ]->db_max_length		=	11;
+			  $input_fields[ 'NP_HOURS' ]->db_type			=	'varchar';
+			  $input_fields[ 'NP_HOURS' ]->db_null			=	false;
+			  $input_fields[ 'NP_HOURS' ]->required			=	true;
+			  $input_fields[ 'NP_HOURS' ]->display_as			=	__( 'Hours', 'nexo-playground-manager' );
+			  $input_fields[ 'NP_HOURS' ]->crud_type			=	false;
+			  $input_fields[ 'NP_HOURS' ]->extras				=	false;
+			  $input_fields[ 'NP_HOURS' ]->input				=	$dom;
+
+			// Minutes
+
+			$NP_MINUTES		=		null;
 			if( $id ) {
 				$data		=		$this->db->where( 'REF_ARTICLE', $id )
-				->where( 'KEY', 'NP_TIME' )
+				->where( 'KEY', 'NP_MINUTES' )
 				->get( store_prefix() . 'nexo_articles_meta' )
 				->result_array();
 
-				$NP_TIME	=		@$data[0][ 'VALUE' ];
+				$NP_MINUTES	=		@$data[0][ 'VALUE' ];
 			}
 
-			$input_fields[ 'NP_TIME' ]					=	new stdClass;
-			$input_fields[ 'NP_TIME' ]->name			=	'NP_TIME';
-			$input_fields[ 'NP_TIME' ]->type			=	'varchar';
-			$input_fields[ 'NP_TIME' ]->max_length		=	200;
-			$input_fields[ 'NP_TIME' ]->primary_key		=	0;
-			$input_fields[ 'NP_TIME' ]->default			=	null;
-			$input_fields[ 'NP_TIME' ]->db_max_length	=	11;
-			$input_fields[ 'NP_TIME' ]->db_type			=	'varchar';
-			$input_fields[ 'NP_TIME' ]->db_null			=	false;
-			$input_fields[ 'NP_TIME' ]->required		=	true;
-			$input_fields[ 'NP_TIME' ]->display_as		=	__( 'Time in minutes', 'nexo-playground-manager' );
-			$input_fields[ 'NP_TIME' ]->crud_type		=	false;
-			$input_fields[ 'NP_TIME' ]->extras			=	false;
-			$input_fields[ 'NP_TIME' ]->input			=	'<select id="field-NP_TIME"  name="NP_TIME" class="form-control"><option value="900" ' . ( $NP_TIME == '900' ? 'selected="selected"' : '' ) . '>' . __( '15 Minutes', 'nexo' ) . '</option><option value="1800" ' . ( $NP_TIME == '1800' ? 'selected="selected"' : '' ) . '>' . __( '30 Minutes', 'nexo' ) . '</option><option value="3600" ' . ( $NP_TIME == '3600' ? 'selected="selected"' : '' ) . '>' . __( '1 Hour', 'nexo' ) . '</option><option value="7200" ' . ( $NP_TIME == '7200' ? 'selected="selected"' : '' ) . '>' . __( '2 Hours', 'nexo' ) . '</option><option value="10800" ' . ( $NP_TIME == '10800' ? 'selected="selected"' : '' ) . '>' . __( '3 Hours', 'nexo' ) . '</option><option value="18000" ' . ( $NP_TIME == '18000' ? 'selected="selected"' : '' ) . '>' . __( '5 Hours', 'nexo' ) . '</option><option value="43200" ' . ( $NP_TIME == '43200' ? 'selected="selected"' : '' ) . '>' . __( '12 Hours', 'nexo' ) . '</option><option value="86400" ' . ( $NP_TIME == '86400' ? 'selected="selected"' : '' ) . '>' . __( '24 Hours', 'nexo' ) . '</option></select>';
+			ob_start();
+			?>
+			<select type="text" class="form-control" id="" placeholder="" id="field-NP_MINUTES"  name="NP_MINUTES">
+				<?php for( $i = 0; $i <= 59; $i++ ):?>
+					<option value="<?php echo $i;?>" <?php echo $NP_MINUTES == $i ? 'selected="selected"' : '';?>><?php echo $i;?></option>
+				<?php endfor;?>
+			</select>
+			<?php
+			$np_minutes			=	ob_get_clean();
+
+			$input_fields[ 'NP_MINUTES' ]					=	new stdClass;
+			$input_fields[ 'NP_MINUTES' ]->name				=	'NP_MINUTES';
+			$input_fields[ 'NP_MINUTES' ]->type				=	'varchar';
+			$input_fields[ 'NP_MINUTES' ]->max_length		=	200;
+			$input_fields[ 'NP_MINUTES' ]->primary_key		=	0;
+			$input_fields[ 'NP_MINUTES' ]->default			=	null;
+			$input_fields[ 'NP_MINUTES' ]->db_max_length	=	11;
+			$input_fields[ 'NP_MINUTES' ]->db_type			=	'varchar';
+			$input_fields[ 'NP_MINUTES' ]->db_null			=	false;
+			$input_fields[ 'NP_MINUTES' ]->required			=	true;
+			$input_fields[ 'NP_MINUTES' ]->display_as		=	__( 'Minutes', 'nexo-playground-manager' );
+			$input_fields[ 'NP_MINUTES' ]->crud_type		=	false;
+			$input_fields[ 'NP_MINUTES' ]->extras			=	false;
+			$input_fields[ 'NP_MINUTES' ]->input			=	$np_minutes;
 		}
 
 		return $input_fields;
@@ -199,7 +254,8 @@ class NexoPlayGroundMain extends CI_Model
 
 	public function required_fields( $fields )
 	{
-		$fields[]	=	'NP_TIME';
+		$fields[]	=	'NP_MINUTES';
+		$fields[]	=	'NP_HOURS';
 		$fields[]	=	'NP_ENABLED';
 		return $fields;
 	}
@@ -211,11 +267,20 @@ class NexoPlayGroundMain extends CI_Model
 	public function save_item( $array, $id )
 	{
 		$this->db->where( 'REF_ARTICLE', $id )
-		->where( 'KEY', 'NP_TIME' )
+		->where( 'KEY', 'NP_MINUTES' )
 		->insert( store_prefix() . 'nexo_articles_meta', array(
 			'DATE_CREATION'		=>	date_now(),
-			'KEY'				=>	'NP_TIME',
-			'VALUE'				=>	$array[ 'NP_TIME' ],
+			'KEY'				=>	'NP_MINUTES',
+			'VALUE'				=>	$array[ 'NP_MINUTES' ],
+			'REF_ARTICLE'		=>	$id
+		) );
+
+		$this->db->where( 'REF_ARTICLE', $id )
+		->where( 'KEY', 'NP_HOURS' )
+		->insert( store_prefix() . 'nexo_articles_meta', array(
+			'DATE_CREATION'		=>	date_now(),
+			'KEY'				=>	'NP_HOURS',
+			'VALUE'				=>	$array[ 'NP_HOURS' ],
 			'REF_ARTICLE'		=>	$id
 		) );
 
@@ -239,26 +304,55 @@ class NexoPlayGroundMain extends CI_Model
 	public function update_item( $array, $id )
 	{
 		$query		=	$this->db->where( 'REF_ARTICLE', $id )
-		->where( 'KEY', 'NP_TIME' )
+		->where( 'KEY', 'NP_MINUTES' )
 		->get( store_prefix() . 'nexo_articles_meta' );
 
 		if( ! $query->result_array() ) {
 			$this->db->where( 'REF_ARTICLE', $id )
-			->where( 'KEY', 'NP_TIME' )
+			->where( 'KEY', 'NP_MINUTES' )
 			->insert( store_prefix() . 'nexo_articles_meta', array(
 				'DATE_CREATION'		=>	date_now(),
-				'KEY'				=>	'NP_TIME',
-				'VALUE'				=>	$array[ 'NP_TIME' ],
+				'KEY'				=>	'NP_MINUTES',
+				'VALUE'				=>	$array[ 'NP_MINUTES' ],
 				'REF_ARTICLE'		=>	$id
 			) );
 		} else {
 			$this->db->where( 'REF_ARTICLE', $id )
-			->where( 'KEY', 'NP_TIME' )
+			->where( 'KEY', 'NP_MINUTES' )
 			->update( store_prefix() . 'nexo_articles_meta', array(
 				'DATE_MOD'		=>	date_now(),
-				'VALUE'			=>	$array[ 'NP_TIME' ]
+				'VALUE'			=>	$array[ 'NP_MINUTES' ]
 			) );
 		}
+
+		$query		=	$this->db->where( 'REF_ARTICLE', $id )
+		->where( 'KEY', 'NP_ENABLED' )
+		->get( store_prefix() . 'nexo_articles_meta' );
+
+		// Hours
+		$query		=	$this->db->where( 'REF_ARTICLE', $id )
+		->where( 'KEY', 'NP_HOURS' )
+		->get( store_prefix() . 'nexo_articles_meta' );
+
+		if( ! $query->result_array() ) {
+			$this->db->where( 'REF_ARTICLE', $id )
+			->where( 'KEY', 'NP_HOURS' )
+			->insert( store_prefix() . 'nexo_articles_meta', array(
+				'DATE_CREATION'		=>	date_now(),
+				'KEY'				=>	'NP_HOURS',
+				'VALUE'				=>	$array[ 'NP_HOURS' ],
+				'REF_ARTICLE'		=>	$id
+			) );
+		} else {
+			$this->db->where( 'REF_ARTICLE', $id )
+			->where( 'KEY', 'NP_HOURS' )
+			->update( store_prefix() . 'nexo_articles_meta', array(
+				'DATE_MOD'		=>	date_now(),
+				'VALUE'			=>	$array[ 'NP_HOURS' ]
+			) );
+		}
+
+		// Enabled
 
 		$query		=	$this->db->where( 'REF_ARTICLE', $id )
 		->where( 'KEY', 'NP_ENABLED' )

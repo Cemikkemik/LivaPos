@@ -94,7 +94,7 @@ class Nexo_premium extends REST_Controller
 
     /**
      * Sale Stats
-	 * @params string Year
+	 * @param string Year
 	 * @response json
 	 * @return void
     **/
@@ -158,7 +158,7 @@ class Nexo_premium extends REST_Controller
     /**
      * Get Shipping Current Stock
      *
-     * @params Int shipping id
+     * @param Int shipping id
      * @return void
     **/
 

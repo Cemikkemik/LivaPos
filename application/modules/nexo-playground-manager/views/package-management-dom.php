@@ -1,4 +1,4 @@
-<?php 
+<?php
 global $Options;
 $this->load->config( 'rest' );
 ?>
@@ -13,8 +13,8 @@ $this->load->config( 'rest' );
                 <button class="btn btn-default" ng-click="reset()" type="button"><i class="fa fa-times"></i></button>
                 </span> </div>
             <br />
-            <div class="list-group" > 
-            	<a ng-repeat="order in orders" href="#" class="list-group-item" ng-click="editOrder( order.CODE )" ng-class="{ active : order.active }">{{ order.CODE }}</a> 
+            <div class="list-group" >
+            	<a ng-repeat="order in orders" href="#" class="list-group-item" ng-click="editOrder( order.CODE )" ng-class="{ active : order.active }">{{ order.ID | fillZero: 4 }}</a> 
 			</div>
         </div>
         <div class="col-lg-5"><h4 class="text-center"><?php _e( 'Package Details', 'nexo-playground-manager' );?></h4>
@@ -22,7 +22,7 @@ $this->load->config( 'rest' );
             	<div class="col-lg-6">
                 	<p><strong><?php echo __( 'Total Time:', 'nexo-playground-manager' );?></strong> {{ orders[ selectedOrderIndex ].overallTime | secondsToDateTime | date : 'HH:mm:ss' }}</p>
                     <p><strong><?php echo __( 'Bought Date:', 'nexo-playground-manager' );?></strong> {{ orders[ selectedOrderIndex ].DATE_CREATION }}</p>
-                    
+
                 </div>
                 <div class="col-lg-6">
                 	<p><strong><?php echo __( 'Customer :', 'nexo-playground-manager' );?></strong> {{ orders[ selectedOrderIndex ].NOM }}</p>
@@ -33,21 +33,21 @@ $this->load->config( 'rest' );
                     <p class="text-center">
                         <small><?php echo __( 'Remaining Time', 'nexo-playground-manager' );?></small><br />
                     </p>
-                </div> 
+                </div>
                 <div class="col-lg-12">
                 	<button ng-disabled="buttonDisabled" class="btn btn-{{ buttonClass }} btn-block" ng-click="runTimer()">{{ buttonText }}</button>
-                </div> 
-               
-                
+                </div>
+
+
             </div>
         </div>
         <div class="col-lg-4" style="height:{{ contentHeight }}px;overflow-y:scroll;">
         	<h4 class="text-center"><?php _e( 'Package Time', 'nexo-playground-manager' );?></h4>
-            <div class="list-group" > 
-            	<a ng-repeat="item in orderDetails" href="#" class="list-group-item">{{ item.DESIGN }} &mdash; {{ item.NP_TIME | secondsToDateTime | date : 'HH:mm:ss' }} ( {{ item.QUANTITE }} <?php echo __( 'Time(s)', 'nexo-playground-manager' );?> )</a> 
+            <div class="list-group" >
+            	<a ng-repeat="item in orderDetails" href="#" class="list-group-item">{{ item.DESIGN }} &mdash; {{ item.NP_TIME | secondsToDateTime | date : 'HH:mm:ss' }} ( {{ item.QUANTITE }} <?php echo __( 'Time(s)', 'nexo-playground-manager' );?> )</a>
 			</div>
         	<the-spinner spinner-obj="spinner" namespace="order_details"></the-spinner>
         </div>
-        
+
     </div>
 </div>

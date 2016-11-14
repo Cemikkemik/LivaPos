@@ -7,8 +7,8 @@ trait Nexo_orders
 {
     /**
      * Get Order
-     * @params string/int
-     * @params string
+     * @param string/int
+     * @param string
      * @return json
     **/
 
@@ -23,7 +23,7 @@ trait Nexo_orders
 
     /**
      * Post Order
-     * @params int Author id
+     * @param int Author id
      * @return json
     **/
 
@@ -204,8 +204,8 @@ trait Nexo_orders
 
     /**
      * Update Order
-     * @params int Author id
-     * @params int order id
+     * @param int Author id
+     * @param int order id
      * @return json
     **/
 
@@ -428,8 +428,8 @@ trait Nexo_orders
     /**
      * Get order using dates
      *
-	 * @params string order type
-	 * @params int register id
+	 * @param string order type
+	 * @param int register id
      * @return json
     **/
 
@@ -453,7 +453,7 @@ trait Nexo_orders
 
 	/**
 	 * Get Order with his item
-	 * @params int order id
+	 * @param int order id
 	 * @return json
 	**/
 
@@ -576,7 +576,7 @@ trait Nexo_orders
 
 	/**
 	 * Order With Status
-	 * @params string order status
+	 * @param string order status
 	 * @return json
 	**/
 
@@ -614,7 +614,7 @@ trait Nexo_orders
 
 	/**
 	 * Order Products
-	 * @params string order code
+	 * @param string order code
 	 * @return json
 	**/
 
@@ -640,7 +640,7 @@ trait Nexo_orders
 
 	/**
 	 * Proceed Payment
-	 * @params int order id
+	 * @param int order id
 	 * @return json
 	**/
 

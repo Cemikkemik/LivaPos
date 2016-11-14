@@ -248,8 +248,8 @@ class grocery_CRUD_Field_Types
     /**
      * Change List value
      * 
-     * @params string field info
-     * @params mixed value
+     * @param string field info
+     * @param mixed value
      * @return mixed
     **/
 

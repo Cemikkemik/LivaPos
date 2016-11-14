@@ -175,10 +175,10 @@ class Nexo extends REST_Controller
     /**
      * Customer Insert
      *
-     * @params POST string name
-     * @params POST string email
-     * @params POST string tel
-     * @params POST string prenom
+     * @param POST string name
+     * @param POST string email
+     * @param POST string tel
+     * @param POST string prenom
 	 * @deprecated
     **/
 
@@ -292,7 +292,7 @@ class Nexo extends REST_Controller
 
     /**
      * Customer Groups
-     * @params int/string group par
+     * @param int/string group par
      * @return json
     **/
 
@@ -364,10 +364,10 @@ class Nexo extends REST_Controller
 
     /**
      * Cashier Performance
-     * @params string filter
-     * @params int cashier id
-     * @params string start date
-     * @params string end date
+     * @param string filter
+     * @param int cashier id
+     * @param string start date
+     * @param string end date
      * @return json
     **/
 

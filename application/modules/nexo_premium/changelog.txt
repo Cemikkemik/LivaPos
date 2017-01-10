@@ -1,3 +1,6 @@
+v2.1.6
+=====
+- Make Profit and Sale report customizable.
 v2.0
 ====
 - Enable module by default when installing Tendoo CMS.

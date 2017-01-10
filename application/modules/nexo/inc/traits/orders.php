@@ -750,11 +750,12 @@ trait Nexo_orders
 
 				// Increase defective item in stock
 				$this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )->update( store_prefix() . 'nexo_articles', array(
-					'DEFECTUEUX'				=>	intval( $item[ 'DEFECTUEUX' ] ) + intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] )
+					'DEFECTUEUX'				=>	intval( $item[ 'DEFECTUEUX' ] ) + intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ),
 				) );
+
+                // a defective item can't be considered as sold item
+                $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )->set( 'QUANTITE_VENDUE', 'QUANTITE_VENDUE - ' . intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ) );
 			}
-
-
 
 			$total					=	floatval( $item[ 'PRIX' ] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] );
 
@@ -774,7 +775,8 @@ trait Nexo_orders
 			'REF_COMMAND_CODE'		=>	$order_code,
 			'MONTANT'				=>	- intval( $toRefund ),
 			'AUTHOR'				=>	$this->post( 'author' ),
-			'DATE_CREATION'			=> 	$this->post( 'date' )
+			'DATE_CREATION'			=> 	$this->post( 'date' ),
+            'PAYMENT_TYPE'          =>  'cash' // cash payment is set as default refund payment
 		) );
 
 		// Edit order status
@@ -800,5 +802,52 @@ trait Nexo_orders
 
 		$this->__success();
 	}
+
+    /**
+     *  Sales Details
+     *  @param
+     *  @return
+    **/
+
+    public function sales_detailed_post()
+    {
+        $startOfDay         =   Carbon::parse( $this->post( 'start_date' ) )->startOfDay()->toDateTimeString();
+        $endOfDay           =   Carbon::parse( $this->post( 'end_date' ) )->endOfDay()->toDateTimeString();
+        $query              =   $this->db->select( '
+            ' . store_prefix() . 'nexo_commandes.TOTAL as TOTAL,
+            ' . store_prefix() . 'nexo_commandes.DATE_CREATION as DATE,
+            ' . store_prefix() . 'nexo_commandes.CODE as CODE,
+            ' . store_prefix() . 'nexo_commandes_produits.QUANTITE,
+            ' . store_prefix() . 'nexo_articles.DESIGN as DESIGN,
+            ' . store_prefix() . 'nexo_commandes_produits.PRIX as PRIX,
+            ' . store_prefix() . 'nexo_commandes.TYPE as TYPE,
+            ' . store_prefix() . 'nexo_commandes.ID as ID,
+            ' . store_prefix() . 'nexo_commandes.REMISE_TYPE as REMISE_TYPE,
+            ' . store_prefix() . 'nexo_commandes.REMISE,
+            ' . store_prefix() . 'nexo_commandes.REMISE_PERCENT,
+            ' . store_prefix() . 'nexo_commandes.PAYMENT_TYPE,
+            ' . store_prefix() . 'aauth_users.name as AUTHOR_NAME,
+            ' . store_prefix() . 'aauth_users.id as AUTHOR_ID,
+        ' )
+        ->from( 'nexo_commandes' )
+        ->join(
+            store_prefix() . 'nexo_commandes_produits',
+            store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE = ' . store_prefix() . 'nexo_commandes.CODE'
+        )
+        ->join(
+            store_prefix() . 'aauth_users',
+            store_prefix() . 'aauth_users.id = ' . store_prefix() . 'nexo_commandes.AUTHOR'
+        )
+        ->join(
+            store_prefix() . 'nexo_articles',
+            store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR'
+        )
+        ->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', $startOfDay )
+        ->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', $endOfDay )
+        ->get();
+
+        $this->response( $query->result(), 200 );
+
+    }
 
 }

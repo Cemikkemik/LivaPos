@@ -244,10 +244,10 @@ class grocery_CRUD_Field_Types
 
         return $field_info;
     }
-    
+
     /**
      * Change List value
-     * 
+     *
      * @param string field info
      * @param mixed value
      * @return mixed
@@ -601,14 +601,14 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
 
                 //Get the list of actual columns and then before adding it to search ..
                 //compare it with the field ... does it exists? .. if yes.. great ..
-                //go ahead and add it to search list.. if not.. just ignore it                
+                //go ahead and add it to search list.. if not.. just ignore it
                 $field_types = $this->get_field_types();
                 $actual_columns = array();
                 foreach($field_types as $field) {
                     if( !isset($field->db_extra) || $field->db_extra != 'auto_increment' )
                         $actual_columns[] = $field->name;
                 }
-                                
+
                 foreach($columns as $column)
                 {
                     if(isset($temp_relation[$column->field_name]))
@@ -683,7 +683,7 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
         $required_fields 	= 	$this->required_fields;
         $unique_fields 		=	$this->_unique_fields;
         $add_fields 		=  	get_instance()->events->apply_filters( 'grocery_registered_fields', $this->get_add_fields() );
-		
+
         if (!empty($required_fields)) {
             foreach ($add_fields as $add_field) {
                 $field_name = $add_field->field_name;
@@ -696,7 +696,7 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
         /** Checking for unique fields. If the field value is not unique then
          * return a validation error straight away, if not continue... */
         if (!empty($unique_fields)) {
-            
+
 			$form_validation = $this->form_validation();
 
             foreach ($add_fields as $add_field) {
@@ -709,7 +709,7 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
             }
 
             if (!$form_validation->run()) {
-                
+
 				$validation_result->error_message = $form_validation->error_string();
                 $validation_result->error_fields = $form_validation->_error_array;
 
@@ -757,12 +757,12 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
     protected function db_update_validation()
     {
         $validation_result = (object)array('success'=>false);
-		
+
 		$field_types 		= 	get_instance()->events->apply_filters( 'grocery_input_fields', $this->get_field_types() );
         $required_fields 	= 	$this->required_fields;
         $unique_fields 		=	$this->_unique_fields;
 		$edit_fields 		= 	get_instance()->events->apply_filters( 'grocery_edit_fields', $this->get_edit_fields() );
-		
+
         if (!empty($required_fields)) {
             foreach ($edit_fields as $edit_field) {
                 $field_name = $edit_field->field_name;
@@ -850,7 +850,7 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
             $post_data = $state_info->unwrapped_data;
 
             $add_fields = $this->get_add_fields();
-            
+
             // We're not more using grocerycrud callback
             $post_data    =    get_instance()->events->apply_filters('grocery_callback_insert', $post_data);
 
@@ -1268,7 +1268,7 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
                 header('Access-Control-Allow-Headers: X-File-Name, X-File-Type, X-File-Size');
 
                 $allowed_files = $this->config->file_upload_allow_file_types;
-                
+
                 $reg_exp = '';
                 if (!empty($upload_info->allowed_file_types)) {
                     $reg_exp = '/(\\.|\\/)('.$upload_info->allowed_file_types.')$/i';
@@ -1495,33 +1495,36 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 
     protected function _export_to_excel($data)
     {
+        include_once( LIBPATH . '/Excel.php' );
         /**
          * No need to use an external library here. The only bad thing without using external library is that Microsoft Excel is complaining
          * that the file is in a different format than specified by the file extension. If you press "Yes" everything will be just fine.
          * */
 
-        $string_to_export = "";
-        foreach ($data->columns as $column) {
-            $string_to_export .= $column->display_as."\t";
-        }
-        $string_to_export .= "\n";
+         $filename  =    "export-".date("Y-m-d_H:i:s");
 
-        foreach ($data->list as $num_row => $row) {
-            foreach ($data->columns as $column) {
-                $string_to_export .= $this->_trim_export_string($row->{$column->field_name})."\t";
-            }
-            $string_to_export .= "\n";
-        }
+         $Excel     =   new Excel( $filename );
 
-        // Convert to UTF-16LE and Prepend BOM
-        $string_to_export = "\xFF\xFE" .mb_convert_encoding($string_to_export, 'UTF-16LE', 'UTF-8');
+         $Excel->home();
 
-        $filename = "export-".date("Y-m-d_H:i:s").".xls";
+         foreach ($data->columns as $column) {
+             $Excel->label( $column->display_as );
+             $Excel->right();
+         }
 
-        header('Content-type: application/vnd.ms-excel;charset=UTF-16LE');
-        header('Content-Disposition: attachment; filename='.$filename);
-        header("Cache-Control: no-cache");
-        echo xss_clean($string_to_export);
+         $Excel->down();
+
+         foreach ($data->list as $num_row => $row) {
+             $Excel->home();
+             foreach ($data->columns as $key => $column) {
+                  $Excel->label( $this->_trim_export_string($row->{$column->field_name}) );
+                  $Excel->right();
+             }
+             $Excel->down();
+         }
+
+         $Excel->send();
+
         die();
     }
 
@@ -1675,14 +1678,14 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
         $data->input_fields    = $this->get_add_input_fields();
 
         $data->fields            = $this->get_add_fields();
-		
+
 		// var_dump( $data->fields );die;
-		
+
         $data->hidden_fields    = $this->get_add_hidden_fields();
         $data->unset_back_to_list    = $this->unset_back_to_list;
         $data->unique_hash            = $this->get_method_hash();
         $data->is_ajax            = $this->_is_ajax();
-		
+
 		// groups
 		$data->groups			=	$this->get_group();
 
@@ -1716,7 +1719,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 
         $data->validation_url    = $this->getValidationUpdateUrl($state_info->primary_key);
         $data->is_ajax            = $this->_is_ajax();
-		
+
 		// groups
 		$data->groups			=	$this->get_group();
 
@@ -2741,7 +2744,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
             return null;
         }
     }
-	
+
 	/**
 	 * Group Fields
 	 * @param string group namespace
@@ -2750,9 +2753,9 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 	 * @parma string group icon
 	 * @return void
 	**/
-	
+
 	private $groups	=	array();
-	
+
 	public function add_group( $group_namespace, $group_title, $group_fields, $group_icon = '' )
 	{
 		$this->groups[ $group_namespace ]	=	array(
@@ -2761,14 +2764,14 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 			'icon'		=>		$group_icon
 		);
 	}
-	
+
 	/**
 	 * Get Group
 	 * @param string group namespace
 	 *
 	**/
-	
-	public function get_group( $group_namespace = null ) 
+
+	public function get_group( $group_namespace = null )
 	{
 		if( $group_namespace != null ) {
 			return @$this->groups[ $group_namespace ];
@@ -3550,10 +3553,10 @@ class Grocery_CRUD extends grocery_CRUD_States
 
         return $this;
     }
-    
+
     /**
      * Just an alias to unset_read
-     * 
+     *
      * @return	void
      * */
     public function unset_view()
@@ -3783,12 +3786,12 @@ class Grocery_CRUD extends grocery_CRUD_States
         }
         return $this;
     }
-	
+
 	/**
 	 * Field Description
 	**/
-	
-	public function field_description( $field_name, $description = null ) 
+
+	public function field_description( $field_name, $description = null )
 	{
 		if (is_array($field_name)) {
             foreach ($field_name as $field => $description) {
@@ -3987,13 +3990,13 @@ class Grocery_CRUD extends grocery_CRUD_States
 						);
                     } elseif (isset($field_types[$field]->display_as)) {
                         $this->add_fields[$field_num] = (object)array(
-							'field_name' => $field, 
+							'field_name' => $field,
 							'display_as' => $field_types[$field]->display_as,
 							'description' => @$this->description[$field]
 						);
                     } else {
                         $this->add_fields[$field_num] = (object)array(
-							'field_name' => $field, 
+							'field_name' => $field,
 							'display_as' => ucfirst(str_replace('_', ' ', $field)),
 							'description' => @$this->description[$field]
 						);
@@ -4001,8 +4004,8 @@ class Grocery_CRUD extends grocery_CRUD_States
                 }
             } else {
                 $this->add_fields = array();
-				
-				
+
+
                 foreach ($field_types as $field) {
                     //Check if an unset_add_field is initialize for this field name
                     if ($this->unset_add_fields !== null && is_array($this->unset_add_fields) && in_array($field->name, $this->unset_add_fields)) {
@@ -4012,13 +4015,13 @@ class Grocery_CRUD extends grocery_CRUD_States
                     if ((!isset($field->db_extra) || $field->db_extra != 'auto_increment')) {
                         if (isset($this->display_as[$field->name])) {
                             $this->add_fields[] = (object)array(
-								'field_name' => $field->name, 
+								'field_name' => $field->name,
 								'display_as' => $this->display_as[$field->name],
 								'description'	=>	@$this->description[$field->name]
 							);
                         } else {
                             $this->add_fields[] = (object)array(
-								'field_name' => $field->name, 
+								'field_name' => $field->name,
 								'display_as' => $field->display_as,
 								'description'	=>	@$this->description[$field->name]
 							);
@@ -4044,13 +4047,13 @@ class Grocery_CRUD extends grocery_CRUD_States
                 foreach ($this->edit_fields as $field_num => $field) {
                     if (isset($this->display_as[$field])) {
                         $this->edit_fields[$field_num] = (object)array(
-							'field_name' => $field, 
+							'field_name' => $field,
 							'display_as' => $this->display_as[$field],
 							'description'	=>	@$this->description[$field]
 						);
                     } else {
                         $this->edit_fields[$field_num] = (object)array(
-							'field_name' => $field, 
+							'field_name' => $field,
 							'display_as' => $field_types[$field]->display_as,
 							'description'	=>	@$this->description[$field]
 						);
@@ -4067,13 +4070,13 @@ class Grocery_CRUD extends grocery_CRUD_States
                     if (!isset($field->db_extra) || $field->db_extra != 'auto_increment') {
                         if (isset($this->display_as[$field->name])) {
                             $this->edit_fields[] = (object)array(
-								'field_name' => $field->name, 
+								'field_name' => $field->name,
 								'display_as' => $this->display_as[$field->name],
 								'description'	=>	@$this->description[$field->name]
 							);
                         } else {
                             $this->edit_fields[] = (object)array(
-								'field_name' => $field->name, 
+								'field_name' => $field->name,
 								'display_as' => $field->display_as,
 								'description'	=>	@$this->description[$field->name]
 							);
@@ -4779,7 +4782,7 @@ class Grocery_CRUD extends grocery_CRUD_States
         if (isset($args[0]) && is_array($args[0])) {
             $args = $args[0];
         }
-		
+
         $this->required_fields = $args;
 
         return $this;

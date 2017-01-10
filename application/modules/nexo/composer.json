@@ -4,6 +4,8 @@
         "nesbot/carbon": "^1.21",
 		"stripe/stripe-php": "3.*",
         "php-curl-class/php-curl-class": "^4.11",
-        "dompdf/dompdf": "^0.7.0"
+        "dompdf/dompdf": "^0.7.0",
+        "PHPOffice/PHPExcel": "^1.8",
+        "faisalman/simple-excel-php": "^0.3.15"
     }
 }

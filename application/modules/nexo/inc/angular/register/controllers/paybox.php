@@ -13,7 +13,7 @@ var dependency						=
 <?php echo json_encode(
 	$dependencies	=	$this->events->apply_filters(
 		'paybox_dependencies',
-		array( '$scope', '$compile', '$filter', 'serviceKeyboardHandler', 'serviceNumber' )
+		array( '$scope', '$compile', '$filter', '$http', 'serviceKeyboardHandler', 'serviceNumber' )
 	)
 );?>;
 
@@ -412,6 +412,16 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	};
 
 	/**
+	 *  Open Coupon Box
+	 *  @param
+	 *  @return
+	**/
+
+	$scope.openCouponBox		=	function(){
+		alert( 'ok' );
+	}
+
+	/**
 	* Open Box Main Function
 	*
 	**/
@@ -455,6 +465,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		});
 
 		$( '.payboxwrapper' ).html( $compile( $( '.payboxwrapper' ).html() )($scope) );
+		$( '.modal-content > .modal-footer' ).html( $compile( $( '.modal-content > .modal-footer' ).html() )($scope) );
 
 		angular.element( '.modal-dialog' ).css( 'width', '90%' );
 		angular.element( '.modal-body' ).css( 'padding-top', '0px' );
@@ -500,7 +511,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 			$scope.cart.paidSoFar	+=	parseFloat( value.amount );
 		});
 
-		$scope.cart.balance			=	$scope.cart.paidSoFar - ( v2Checkout.CartToPay + $scope.cart.VAT );
+		$scope.cart.balance			=	$scope.cart.paidSoFar - ( v2Checkout.CartValueRRR + $scope.cart.VAT );
 
 	};
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+    <name>NFC Parser</name>
+    <namespace>nfc-parser</namespace>
+    <description>Add NFC parsing feature on NexoPOS</description>
+    <author>Blair Jersyer</author>
+    <version>1.0</version>
+    <main>nfc-parser.php</main>
+</application>

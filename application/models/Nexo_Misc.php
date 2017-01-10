@@ -179,6 +179,7 @@ class Nexo_Misc extends CI_Model
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_commandes`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_commandes_produits`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_commandes_paiements`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_commandes_coupons`;');
 
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_variations`;');
@@ -217,10 +218,15 @@ class Nexo_Misc extends CI_Model
     * @return void
     **/
 
-    public function enable_demo()
+    public function enable_demo( $demo = 'default' )
     {
         $this->empty_shop();
-        $this->load->view('../modules/nexo/inc/demo');
+        if( $demo == 'default' ) {
+            $this->load->view('../modules/nexo/inc/demo');
+        } else if( $demo == 'clothes' ) {
+            $this->load->view('../modules/nexo/inc/clothes-demo');
+        }
+
     }
 
     /**

@@ -120,3 +120,8 @@ Regroupe toutes les actions de la boutique
  * angular_paybox_footer
  * Injecte un code dans le contrôler de la fenêtre de paiement
 **/
+
+/**
+ * after_main_store_card
+ * Injecte du contenu dans la balise parent des informations des boutiques, lorsque le mode multi boutique est activé.
+**/

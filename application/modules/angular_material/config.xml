@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+    <name>Angular Material</name>
+    <namespace>angular_material</namespace>
+    <version>1.1</version>
+    <author>Blair Jersyer</author>
+    <description>Add Material Design feature on NexoPOS</description>
+    <language>/language</language>
+    <main>angular_material.php</main>
+</application>

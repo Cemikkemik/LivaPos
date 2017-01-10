@@ -50,7 +50,7 @@ class Nexo_Print extends CI_Model
 
 			// @since 2.7.9
 			$data[ 'template' ]						=	array();
-			$data[ 'template' ][ 'order_date' ]		=	mdate( '%d/%m/%Y %h:%i:%s', strtotime($data[ 'order' ][ 'order' ][0][ 'DATE_CREATION' ]));
+			$data[ 'template' ][ 'order_date' ]		=	mdate( '%d/%m/%Y %g:%i %a', strtotime($data[ 'order' ][ 'order' ][0][ 'DATE_CREATION' ]));
 			$data[ 'template' ][ 'order_code' ]		=	$data[ 'order' ][ 'order' ][0][ 'CODE' ];
             $data[ 'template' ][ 'order_id' ]       =   $data[ 'order' ][ 'order' ][0][ 'ID' ];
 			$data[ 'template' ][ 'order_status' ]	=	$this->Nexo_Checkout->get_order_type($data[ 'order' ][ 'order' ][0][ 'TYPE' ]);

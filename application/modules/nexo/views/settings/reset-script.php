@@ -4,6 +4,7 @@
   	<option value=""><?php _e('Sélectionner une valeur', 'nexo');?></option>
     <option value="empty_shop"><?php _e('Vider complètement la boutique', 'nexo');?></option>
     <option value="empty_with_demo"><?php _e('Vide la boutique et restaure les données démos', 'nexo');?></option>
+    <option value="empty_with_clothes_shop"><?php _e('Activer la démo pour boutique de vêtements', 'nexo');?></option>
   </select>
   <span class="input-group-btn">
     <button class="btn btn-default" type="button" id="Nexo_restaure"><?php _e('Reinitialiser', 'nexo');?></button>
@@ -17,19 +18,19 @@
 
 <script type="text/javascript">
 var	NexoRestaure	=	new function(){
-	
+
 	this.AllowEnterPress	=	false;
-	
+
 	this.__get		=	function( option ){
 		if( option == 'restaure_value' ) {
 			return $( '#Nexo_restaure_value' ).val();
 		}
 	}
-	// 
+	//
 	this.prompt		=	function(){
 		if( NexoRestaure.__get( 'restaure_value' ) == '' ) {
 			tendoo.notify.warning(
-				'<?php echo addslashes(__('Attention !', 'nexo'));?><br>', 
+				'<?php echo addslashes(__('Attention !', 'nexo'));?><br>',
 				'<?php echo addslashes(__('Une option de réinitialisation doit être choisie.', 'nexo'));?>'
 			);
 			return true; // abord the process
@@ -38,8 +39,8 @@ var	NexoRestaure	=	new function(){
 			title: '<?php echo addslashes(__('Veuillez entrer votre mot de passe', 'nexo'));?>',
 			callback: function(result) {
 				if( result == '' ){
-					tendoo.notify.warning( 
-						'<?php echo addslashes(__('Mot de passe réquis', 'nexo'));?><br>', 
+					tendoo.notify.warning(
+						'<?php echo addslashes(__('Mot de passe réquis', 'nexo'));?><br>',
 						'<?php echo addslashes(__('Vous devez spécifier un mot de passe.', 'nexo'));?>'
 					);
 				} else if( result != null ){

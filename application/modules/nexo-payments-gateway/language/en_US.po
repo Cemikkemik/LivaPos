@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nexo Payment Gateway\n"
-"POT-Creation-Date: 2016-10-27 08:57+0100\n"
-"PO-Revision-Date: 2016-10-27 08:58+0100\n"
+"POT-Creation-Date: 2016-12-23 11:00+0100\n"
+"PO-Revision-Date: 2016-12-23 11:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: Nexo Team\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 1.8.11\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: _s;__;_e\n"
@@ -35,7 +35,8 @@ msgid ""
 "Vous devez facturer une carte avec Stripe, avant de l'ajouter comme paiement"
 msgstr "You have to charge a card with Stripe, before adding as payment"
 
-#: inc/filters.php:6 views/dashboard-footer.php:5
+#: inc/filters.php:6 nexo-payments-gateway.php:24 nexo-payments-gateway.php:28
+#: views/dashboard-footer.php:5
 #, fuzzy
 msgid "Stripe"
 msgstr "Stripe"

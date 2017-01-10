@@ -122,7 +122,7 @@ class Nexo_Premium_Main extends CI_Model
 	public function multistore( $array )
 	{
 		// to match this uri
-		// dashboard/stores/nexo_premium/*
+		// dashboard/stores/../nexo_premium/*
 		$array[ 'nexo_premium' ]	=	new Nexo_Premium_Controller;
 
 		return $array;

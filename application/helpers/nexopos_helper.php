@@ -101,7 +101,8 @@ if( ! function_exists( 'store_title' ) ) {
 		if( $CurrentStore != null ) {
 			return sprintf( __( '%s &rsaquo; %s &mdash; NexoPOS', 'nexo' ), xss_clean( @$CurrentStore[0][ 'NAME' ] ), $title );
 		} else {
-			return sprintf( __( 'NexoPOS &rsaquo; %s', 'nexo' ), $title );
+            global $Options;
+			return sprintf( __( '%s &rsaquo; %s', 'nexo' ), @$Options[ 'site_name' ] != null ? $Options[ 'site_name' ] : 'NexoPOS', $title );
 		}
 	}
 }
@@ -112,8 +113,10 @@ if( ! function_exists( 'store_title' ) ) {
 **/
 
 if( ! function_exists( 'store_prefix' ) ) {
-	function store_prefix() {
-		global $store_id;
+	function store_prefix( $store_id = null ) {
+        if( $store_id == null ) {
+            global $store_id;
+        }
 		$prefix		=	$store_id != null ? 'store_' . $store_id . '_' : '';
 		$prefix		=	( $prefix == '' && intval( get_instance()->input->get( 'store_id' ) ) > 0 ) ? 'store_' . get_instance()->input->get( 'store_id' ) . '_' : $prefix;
 		return $prefix;
@@ -125,8 +128,10 @@ if( ! function_exists( 'store_prefix' ) ) {
 **/
 
 if( ! function_exists( 'store_slug' ) ) {
-	function store_slug() {
-		global $store_id;
+	function store_slug( $store_id = null ) {
+        if( $store_id == null ) {
+            global $store_id;
+        }
 		return	$store_id != null ? 'stores/' . $store_id : '';
 	}
 }
@@ -137,7 +142,7 @@ if( ! function_exists( 'store_slug' ) ) {
 
 if( ! function_exists( 'get_store_id' ) ) {
 	function get_store_id() {
-		global $store_id;
+        global $store_id;
 
 		if( $store_id != null ) {
 			return $store_id;
@@ -248,5 +253,44 @@ if( ! function_exists( 'zero_fill' ) ) {
     function zero_fill( $int, $zeros = 3 ) {
         $pr_id = sprintf("%0". $zeros . "d", $int);
         return $pr_id;
+    }
+}
+
+/**
+ *  Cart Gross Value.
+ *
+ *  @param  object order
+ *  @param  object order items
+ *  @return float/int
+**/
+
+if( ! function_exists( 'nexoCartValue' ) ) {
+    function nexoCartGrossValue( $items ) {
+        $value      =      0;
+        foreach( $items as $item ) {
+            if( $item[ 'DISCOUNT_TYPE' ] == 'percentage' ) {
+                $percent    =   floatval( $item[ 'DISCOUNT_PERCENT' ] ) * floatval( $item[ 'PRIX' ] ) / 100;
+                $discount   =   floatval( $item[ 'PRIX' ] ) - $percent;
+                $value      +=  $discount;
+            } else if( $item[ 'DISCOUNT_TYPE' ] == 'flat' ) {
+                $discount   =   floatval( $item[ 'PRIX' ] ) -  floatval( $item[ 'DISCOUNT_AMOUNT' ] ) ;
+                $value      +=  $discount;
+            } else {
+                $value      +=  floatval( $item[ 'PRIX' ] );
+            }
+        }
+        return $value;
+    }
+}
+
+/**
+ *  Percentage Discount
+ *  @param  array  order
+ *  @return int/float
+**/
+
+if( ! function_exists( 'nexoCartPercentageDiscount' ) ) {
+    function nexoCartPercentageDiscount( $items, $order ) {
+        return ( nexoCartGrossValue( $items ) * floatval( $order[ 'REMISE_PERCENT' ] ) ) / 100;
     }
 }

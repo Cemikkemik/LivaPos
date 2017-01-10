@@ -21,7 +21,7 @@ class Reset_Shop extends CI_Model
             User::can('edit_options') &&
             User::can('delete_options')
         ) {
-            
+
             // Vérification de l'identifiacation du requérant
 
             if (get_instance()->auth->test_credentials(User::id(), @$_POST[ '_nexo_uz_pwd' ])) {
@@ -29,7 +29,7 @@ class Reset_Shop extends CI_Model
 
                     $this->load->model('Nexo_Misc');
                     $this->Nexo_Misc->empty_shop();
-                    
+
                     echo json_encode(array(
                         'type'        =>    'success',
                         'msg'        =>    __('La boutique a correctement été vidée.', 'nexo')
@@ -38,11 +38,21 @@ class Reset_Shop extends CI_Model
 
                     $this->load->model('Nexo_Misc');
                     $this->Nexo_Misc->enable_demo();
-                    
+
                     echo json_encode(array(
                         'type'        =>    'success',
                         'msg'        =>    __('La boutique a correctement été vidée, et les données "démo" ont été ajoutées.', 'nexo')
                     ));
+                } else if( @$_POST[ 'reset_type' ] ==  'empty_with_clothes_shop' ) {
+
+                    $this->load->model('Nexo_Misc');
+                    $this->Nexo_Misc->enable_demo( 'clothes' );
+
+                    echo json_encode(array(
+                        'type'        =>    'success',
+                        'msg'        =>    __('La démonstration d\'une boutique de vêtement à été crée.', 'nexo')
+                    ) );
+
                 } else {
                     echo json_encode(array(
                         'type'        =>    'warning',

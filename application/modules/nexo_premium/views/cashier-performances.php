@@ -55,8 +55,10 @@ var cashiers_names	=	new Array;
 	cashiers_names[ <?php echo $cashier->user_id;?> ]	=	'<?php echo $cashier->user_name;?>';
 <?php endforeach;?>
 
-// Chosen Select
-$( '.chosen-select' ).chosen();
+$( document ).ready( function(){
+    // Chosen Select
+    $( '.chosen-select' ).chosen();
+});
 
 // Date Picker
 $(function () {

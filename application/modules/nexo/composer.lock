@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e3ad20ce88024520b00c0e8b9d0a3546",
-    "content-hash": "a59cd67236ce8de6309d77d3e898dc70",
+    "hash": "86303d11ccb58628f5a581526ec3d7b1",
+    "content-hash": "20ef4afecbc54c569779ecbc99f4417b",
     "packages": [
         {
             "name": "dompdf/dompdf",
@@ -67,6 +67,61 @@
             "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
             "homepage": "https://github.com/dompdf/dompdf",
             "time": "2016-05-11 00:36:29"
+        },
+        {
+            "name": "faisalman/simple-excel-php",
+            "version": "v0.3.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/faisalman/simple-excel-php.git",
+                "reference": "c392d9ee34cce210f034c9a9ef814f635320351c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/faisalman/simple-excel-php/zipball/c392d9ee34cce210f034c9a9ef814f635320351c",
+                "reference": "c392d9ee34cce210f034c9a9ef814f635320351c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "SimpleExcel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Faisal Salman",
+                    "email": "fyzlman@gmail.com",
+                    "homepage": "http://faisalman.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easily parse / convert / write between Microsoft Excel XML / CSV / TSV / HTML / JSON / etc formats",
+            "homepage": "http://faisalman.github.com/simple-excel-php",
+            "keywords": [
+                "converter",
+                "csv",
+                "document",
+                "excel",
+                "html",
+                "json",
+                "parser",
+                "spreadsheet",
+                "tsv",
+                "writer",
+                "xml"
+            ],
+            "time": "2013-03-21 19:48:38"
         },
         {
             "name": "nesbot/carbon",
@@ -238,6 +293,63 @@
                 "xml"
             ],
             "time": "2016-03-09 00:50:07"
+        },
+        {
+            "name": "phpoffice/phpexcel",
+            "version": "1.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPExcel.git",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+                "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "http://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "http://blog.rootslabs.net"
+                },
+                {
+                    "name": "Erik Tilt"
+                }
+            ],
+            "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+            "homepage": "http://phpexcel.codeplex.com",
+            "keywords": [
+                "OpenXML",
+                "excel",
+                "php",
+                "spreadsheet",
+                "xls",
+                "xlsx"
+            ],
+            "time": "2015-05-01 07:00:55"
         },
         {
             "name": "picqer/php-barcode-generator",

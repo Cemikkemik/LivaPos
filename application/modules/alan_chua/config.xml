@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+    <name>A.C modules</name>
+    <namespace>alan_chua</namespace>
+    <version>1.3</version>
+    <author>Blair Jersyer</author>
+    <description>All changes required by Alan Chua</description>
+    <language>/language</language>
+    <main>alan_chua.php</main>
+    <dependencies>
+		<module namespace="nexo">Nexo</module>
+	</dependencies>
+</application>

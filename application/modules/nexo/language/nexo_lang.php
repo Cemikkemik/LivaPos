@@ -94,3 +94,12 @@ $lang[ 'default' ]							=	__( 'Par défaut', 'nexo' );
 $lang[ 'nexo_order_partialy_refunded' ]		=	__( 'Partiellement Remboursé', 'nexo' );
 $lang[ 'creditcard' ]						=	__( 'Carte de crédit', 'nexo' );
 $lang[ 'multi' ]							=	__( 'Paiement multiple', 'nexo' );
+
+// @since 3.0.1
+$lang[ 'create_coupons_details' ]           =   __( 'Donne les droits pour créer des coupons', 'nexo' );
+$lang[ 'create_coupons' ]                   =   __( 'Création des coupon', 'nexo' );
+$lang[ 'edit_coupons_details' ]             =   __( 'Donne les droits pour modifier des coupons', 'nexo' );
+$lang[ 'edit_coupons' ]                     =   __( 'Modifier les coupons', 'nexo' );
+$lang[ 'delete_coupons_details' ]           =   __( 'Donne les droits pour supprimer des coupons', 'nexo' );
+$lang[ 'delete_coupons' ]                   =   __( 'Suppressions des coupons', 'nexo' );
+$lang[ 'coupon' ]                           =   __( 'Coupon', 'nexo' );

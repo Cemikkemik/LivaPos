@@ -103,7 +103,7 @@ class Nexo_Commandes extends CI_Model
 		// $crud->order_by('DATE_CREATION', 'desc');
 
         $crud->field_type('TYPE', 'dropdown', $this->config->item('nexo_order_types'));
-        $crud->field_type('PAYMENT_TYPE', 'dropdown', $this->config->item('nexo_payments_types'));
+        $crud->field_type('PAYMENT_TYPE', 'dropdown', $this->config->item('nexo_all_payment_types'));
 
 		$crud->set_relation('REF_CLIENT', store_prefix() . 'nexo_clients', 'NOM');
 		$crud->set_relation('REF_REGISTER', store_prefix() . 'nexo_registers', 'NAME');

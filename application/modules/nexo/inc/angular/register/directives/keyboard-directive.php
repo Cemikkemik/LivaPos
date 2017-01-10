@@ -32,13 +32,13 @@ tendooApp.directive( 'keyboard', function(){
 	}
 
 	HTML.query( '.keyboard-wrapper' )
-	.add( 'div.col-lg-2.col-sm-2.col-xs-4>button.btn.btn-default.btn-block.input-clear' )
+	.add( 'div.col-lg-2.col-sm-4.col-xs-4>button.btn.btn-default.btn-block.input-clear' )
 	.each( 'style', 'margin-bottom:15px;line-height:30px;font-size:24px;font-weight:800' )
 	.each( 'ng-click', 'keyinput( "clear", inputName )' )
 	.textContent	=	'C';
 
 	HTML.query( '.keyboard-wrapper' )
-	.add( 'div.col-lg-2.col-sm-2.col-xs-4>button.btn.btn-default.btn-block.input-dot' )
+	.add( 'div.col-lg-2.col-sm-4.col-xs-4>button.btn.btn-default.btn-block.input-dot' )
 	.each( 'style', 'margin-bottom:15px;line-height:30px;font-size:24px;font-weight:800' )
 	.each( 'ng-click', 'keyinput( ".", inputName )' )
 	.textContent	=	'.';
@@ -50,7 +50,7 @@ tendooApp.directive( 'keyboard', function(){
 	.textContent	=	'0';
 
 	HTML.query( '.keyboard-wrapper' )
-	.add( 'div.col-lg-4.col-sm-4.col-xs-12>button.btn.btn-default.btn-block.input-back' )
+	.add( 'div.col-lg-4.col-sm-12.col-xs-12>button.btn.btn-default.btn-block.input-back' )
 	.each( 'style', 'margin-bottom:15px;line-height:30px;font-size:24px;font-weight:800' )
 	.each( 'ng-click', 'keyinput( "back", inputName )' )
 	.textContent	=	'←';

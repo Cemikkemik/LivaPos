@@ -46,20 +46,20 @@
         <td class="text-right" width="100"></td>
         <td money-format class="text-right" width="150"></td>
       </tr>
-		</tfoot>      
+		</tfoot>
   </table>
 </div>
 <script>
 'use strict';
 
 var NexoFicheSuivi		=	new function(){
-	
+
 	/**
 	 * Build Category List
 	 *
 	 * @return void
 	**/
-	
+
 	this.BuildCategoryList	=	function( e ) {
 		var i, object	=	e;
 		for( i = 0; i < e.length ; i++ ){
@@ -70,9 +70,9 @@ var NexoFicheSuivi		=	new function(){
 				}
 			}
 		}
-		
+
 		var s		=	0, FinalArray	=	new Array, _s;
-		
+
 		function getParent( i ){
 			var Parents		=	new Array;
 			do {
@@ -81,42 +81,42 @@ var NexoFicheSuivi		=	new function(){
 						Parents.unshift( value );
 						i	=	value.PARENT_REF_ID;
 					};
-				}) 
+				})
 			} while( i != '0' );
 			return Parents;
 		}
-		
+
 		this.ParentsHierarchy	=	new Array;
 		this.LatestCategories	=	object;
-		
+
 		_.each( object, function( value, key ) {
 			var CurrentParent	=	getParent( value.PARENT_REF_ID );
 				CurrentParent.push( value );
 				NexoFicheSuivi.ParentsHierarchy.push( CurrentParent );
 		});
-		
+
 		_.each( this.ParentsHierarchy, function( value, key ){
 			var RowContent		=	'<tr>';
-				RowContent		+=		'<td>' + _.last( value ).NOM + '</td>' + 
-										//'<td data-previous-stock cat-id="' + _.last( value ).ID + '"></td>' + 
-										'<td class="text-right" data-new-stock cat-id="' + _.last( value ).ID + '"></td>' + 
+				RowContent		+=		'<td>' + _.last( value ).NOM + '</td>' +
+										//'<td data-previous-stock cat-id="' + _.last( value ).ID + '"></td>' +
+										'<td class="text-right" data-new-stock cat-id="' + _.last( value ).ID + '"></td>' +
 										'<td class="text-right" data-new-value money-format cat-id="' + _.last( value ).ID + '"></td>' +
-										'<td class="text-right" data-sold-stock cat-id="' + _.last( value ).ID + '"></td>' + 
+										'<td class="text-right" data-sold-stock cat-id="' + _.last( value ).ID + '"></td>' +
 										'<td class="text-right" data-sold-value money-format cat-id="' + _.last( value ).ID + '"></td>' +
 										'<td class="text-right" data-left-stock cat-id="' + _.last( value ).ID + '"></td>' +
 										'<td class="text-right" data-left-value money-format cat-id="' + _.last( value ).ID + '"></td>';
 				RowContent		+=	'</tr>';
 			$( '.fiche-suivi-table' ).append( RowContent );
-		});				
+		});
 	}
-	
+
 	/**
 	 * Get Previous Stock content
 	 *
 	 * @param int collection id
 	 * @return void
 	**/
-	
+
 	this.LoadPreviousStock		=	function( shipping_id ){
 		if( _.isObject( this.LatestCategories ) ) {
 			$.ajax( '<?php echo site_url(array( 'nexo_premium', 'previous_stock' ));?>' + '/' + shipping_id + '<?php echo store_get_param( '?' );?>', {
@@ -132,27 +132,27 @@ var NexoFicheSuivi		=	new function(){
 			alert( 'An error occured. Latest categories can\'t be retreived' );
 		}
 	};
-	
-	/** 
+
+	/**
 	 * Fill stock col on table
-	 * 
+	 *
 	 * @param object
 	 * @return void
 	**/
-	
+
 	this.FillColStock			=	function( stock, products, shipping_id ) {
-		
+
 		var	ProductsStocks			=	new Array;
 		var ProductsValues			=	new Array;
-		
+
 		//  Loop product and add it to an array with latest category id as key
-		
+
 		_.each( products, function( value, key ) {
 			if( _.isUndefined( ProductsStocks[ value.REF_CATEGORIE ] ) ) {
 				ProductsStocks[ value.REF_CATEGORIE ]	=	0;
 				ProductsValues[ value.REF_CATEGORIE ]	=	0;
-			} 
-			// according to case, we select old quantity, the new quantity, the sold quantity and the left one		
+			}
+			// according to case, we select old quantity, the new quantity, the sold quantity and the left one
 			if( stock == 'previous' ) {
 				ProductsStocks[ value.REF_CATEGORIE ]	+=	parseInt( value.QUANTITE_RESTANTE );
 				ProductsValues[ value.REF_CATEGORIE ]	+=	( parseInt( value.QUANTITE_RESTANTE ) * parseFloat( value.PRIX_DE_VENTE ) );
@@ -164,40 +164,40 @@ var NexoFicheSuivi		=	new function(){
 				ProductsValues[ value.REF_CATEGORIE ]	+=	( parseInt( value.QUANTITE_VENDU ) * parseFloat( value.PRIX_DE_VENTE ) )
 			}
 		});
-		
-		// If nothing is returned		
-		
+
+		// If nothing is returned
+
 		if( _.isEmpty( ProductsStocks ) ) {
-		
+
 			_.each( this.LatestCategories, function( value, key ) {
 				ProductsStocks[ value.ID ]	 =	0;
 			});
-			
+
 		}
-		
+
 		// Fills Row
-		
+
 		_.each( this.LatestCategories, function( value, key ) {
 
-			$( '[data-' + stock + '-stock][cat-id="' + value.ID + '"]' ).html( 
+			$( '[data-' + stock + '-stock][cat-id="' + value.ID + '"]' ).html(
 				_.isUndefined( ProductsStocks[ value.ID ] ) ? 0 : ProductsStocks[ value.ID ]
 			);
-			
-			$( '[data-' + stock + '-value][cat-id="' + value.ID + '"]' ).html( 
+
+			$( '[data-' + stock + '-value][cat-id="' + value.ID + '"]' ).html(
 				_.isUndefined( ProductsValues[ value.ID ] ) ? 0 : ProductsValues[ value.ID ]
 			);
-			
-		});				
+
+		});
 	}
-	
+
 	/**
 	 * Load Current Stock
 	 * @param Int shipping ID
 	 * @return void
 	**/
-	
+
 	this.LoadCurrentStock			=	function( shipping_id ){
-		$.post( '<?php echo site_url(array( 'nexo_premium', 'current_stock' ));?>' + '/' + shipping_id + '<?php echo store_get_param( '?' );?>', 
+		$.post( '<?php echo site_url(array( 'nexo_premium', 'current_stock' ));?>' + '/' + shipping_id + '<?php echo store_get_param( '?' );?>',
 		_.object( [ 'categories_id' ], [ this.LatestCategories ] ),
 		function( current_stock ){
 			NexoFicheSuivi.FillColStock( 'new', current_stock, shipping_id );
@@ -205,13 +205,13 @@ var NexoFicheSuivi		=	new function(){
 			NexoFicheSuivi.TotalRow();
 			NexoFicheSuivi.TotalCols();
 		});
-	};	
-	
+	};
+
 	/**
 	 * Total on Row
 	 * @return void
 	**/
-	
+
 	this.TotalRow			=	function(){
 		$( '[data-left-stock]' ).each(function(){
 			// var PreviousTotal	=	parseInt( $( this ).siblings( '[data-previous-stock]' ).html() );
@@ -220,7 +220,7 @@ var NexoFicheSuivi		=	new function(){
 			// ( PreviousTotal );
 			$( this ).html( CurrentEntry - CurrentSold );
 		});
-		
+
 		$( '[data-left-value]' ).each(function(){
 			// var PreviousTotal	=	parseInt( $( this ).siblings( '[data-previous-stock]' ).html() );
 			var CurrentValueEntry	=	parseInt( $( this ).siblings( '[data-new-value]' ).html() );
@@ -229,12 +229,12 @@ var NexoFicheSuivi		=	new function(){
 			$( this ).html( CurrentValueEntry - CurrentValueSold );
 		});
 	};
-	
+
 	/**
 	 * Total Cols
 	 * @return void
 	**/
-	
+
 	this.TotalCols			=	function(){
 		var i;
 		for( i = 1; i <= 6; i++ ) { // Seconds Cols
@@ -242,16 +242,16 @@ var NexoFicheSuivi		=	new function(){
 			$( '.fiche-suivi-table tr' ).each( function(){
 				ColTotal		+=	parseInt( $(this).find( 'td' ).eq(i).html() );
 			} );
-			
+
 			if( typeof $( '.FicheDeSuiviParCategory tfoot tr td' ).eq(i).attr( 'money-format' ) == 'undefined' ) {
-				$( '.FicheDeSuiviParCategory tfoot tr td' ).eq(i).html( ColTotal );		
+				$( '.FicheDeSuiviParCategory tfoot tr td' ).eq(i).html( ColTotal );
 			} else {
-				$( '.FicheDeSuiviParCategory tfoot tr td' ).eq(i).html( NexoAPI.DisplayMoney( ColTotal ) );		
+				$( '.FicheDeSuiviParCategory tfoot tr td' ).eq(i).html( NexoAPI.DisplayMoney( ColTotal ) );
 			}
 		}
-		
+
 		// Add Price format everywhere
-		
+
 		for( i = 0; i <= 2; i++ ) { // Seconds Cols
 			var ColTotal		=	0;
 			$( '.fiche-suivi-table tr' ).each( function(){
@@ -259,7 +259,7 @@ var NexoFicheSuivi		=	new function(){
 			} );
 		}
 	};
-	
+
 };
 
 $( document ).ready(function(e) {

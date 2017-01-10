@@ -57,6 +57,12 @@ class Nexo_Premium_Filters extends CI_Model
 					'disable'    =>    true,
 					'icon'        =>    'fa fa-bar-chart'
 				),
+
+                array(
+                    'title'         =>      __( 'Rapport Détaillés', 'nexo_premium' ),
+                    'href'          =>      site_url( 'dashboard/' . $store_uri . 'nexo_premium/detailed_sales' )
+                ),
+
 				array(
 					'title'            =>    __('Les meilleurs', 'nexo_premium'),
 					'href'            =>    site_url('dashboard/' . $store_uri . 'nexo_premium/Controller_Best_of'),
@@ -66,8 +72,8 @@ class Nexo_Premium_Filters extends CI_Model
 					'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/rapports/journalier'), // url to the page,
 				),
                 array(
-                    'title'       =>    __('Ventes et pertes', 'nexo_premium'), // menu title
-                    'href'        =>    site_url('dashboard/' . $store_uri . 'nexo_premium/rapports/profit_and_lost'), // url to the page,
+                    'title'       =>    __('Bénéfices et Pertes', 'nexo_premium'), // menu title
+                    'href'        =>    site_url('dashboard/' . $store_uri . 'nexo_premium/rapports/profits_and_losses'), // url to the page,
                 ),
                 array(
                     'title'       =>    __('Listing des dépenses', 'nexo_premium'), // menu title

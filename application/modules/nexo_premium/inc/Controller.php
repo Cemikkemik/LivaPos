@@ -267,8 +267,8 @@ class Nexo_Premium_Controller extends CI_Model
 
     public function __Facture_Create($data)
     {
-        $data[ 'AUTHOR'    ]            =    User::id();
-        $data[ 'DATE_CREATION' ]    =    date_now();
+        $data[ 'AUTHOR' ]               =    User::id();
+        $data[ 'DATE_CREATION' ]        =    date_now();
 
         return $data;
     }
@@ -282,8 +282,8 @@ class Nexo_Premium_Controller extends CI_Model
 
     public function __Facture_Update($data)
     {
-        $data[ 'AUTHOR'    ]                =    User::id();
-        $data[ 'DATE_MODIFICATION' ]    =    date_now();
+        $data[ 'AUTHOR' ]                   =    User::id();
+        $data[ 'DATE_MODIFICATION' ]        =    date_now();
 
         return $data;
     }
@@ -419,9 +419,9 @@ class Nexo_Premium_Controller extends CI_Model
             $config['full_tag_open']    =    '<ul class="pagination">';
             $config['full_tag_close']    =    '</ul>';
             $config['next_tag_open']    =    $config['prev_tag_open']    =    $config['num_tag_open']        =    $config['first_tag_open']    =    $config['last_tag_open']    =    '<li>';
-            $config['next_tag_close']    =    $config['prev_tag_close']    =    $config['num_tag_close']    =    $config['first_tag_close']    =    $config['last_tag_close']    =    '</li>';
-            $config['cur_tag_open']        =    '<li class="active"><a href="#">';
-            $config['cur_tag_close']    =    '</a></li>';
+            $config['next_tag_close']    =    $config['prev_tag_close']    =    $config['num_tag_close']    =    $config['first_tag_close']      =    $config['last_tag_close']    =    '</li>';
+            $config['cur_tag_open']         =    '<li class="active"><a href="#">';
+        $config['cur_tag_close']            =    '</a></li>';
 
 
             $this->pagination->initialize($config);
@@ -821,21 +821,65 @@ class Nexo_Premium_Controller extends CI_Model
     public function rapports( $rapport_namespace = '', $start = null, $end = null )
     {
         global $Options;
-        if( $rapport_namespace == 'profit_and_lost' ){
+        if( $rapport_namespace == 'profits_and_losses' ){
 
             $this->enqueue->css( 'datepicker3', base_url() . 'public/plugins/datepicker/' );
             $this->enqueue->js( 'bootstrap-datepicker', base_url() . 'public/plugins/datepicker/' );
 
-            $this->Gui->set_title( sprintf( __( 'Ventes et Pertes &mdash; %s', 'nexo_premium' ), @$Options[ store_prefix() . 'site_name' ] ) );
+            $this->Gui->set_title( sprintf( __( 'Bénéfices et Pertes &mdash; %s', 'nexo_premium' ), @$Options[ store_prefix() . 'site_name' ] ) );
+
+            $this->events->add_action( 'dashboard_footer', function(){
+                get_instance()->load->module_view( 'nexo_premium', 'profit_and_lost_script' );
+            });
 
             $this->load->module_view( 'nexo_premium', 'profit_and_lost' );
+
         } else if( $rapport_namespace == 'expenses_listing' ) {
             $this->enqueue->css( 'datepicker3', base_url() . 'public/plugins/datepicker/' );
             $this->enqueue->js( 'bootstrap-datepicker', base_url() . 'public/plugins/datepicker/' );
 
             $this->Gui->set_title( sprintf( __( 'Liste des dépenses &mdash; %s', 'nexo_premium' ), @$Options[ store_prefix() . 'site_name' ] ) );
 
+            $this->events->add_action( 'dashboard_footer', function(){
+                get_instance()->load->module_view( 'nexo_premium', 'expenses_listing_script' );
+            });
+
             $this->load->module_view( 'nexo_premium', 'expenses_listing' );
         }
     }
+
+    /**
+     *  Detailed Sales Report Controller
+     *  @param
+     *  @return
+    **/
+
+    public function detailed_sales( $start = null, $end = null )
+    {
+        global $Options;
+        $today          =   date_now();
+        $start          =   $start == null ? $startOfDate   =   Carbon::parse( $today )->startOfDay() : $start;
+        $end            =   $end == null ? $endOfToday      =   Carbon::parse( $today )->endOfDay() : $end;
+
+        $this->enqueue->js('../modules/nexo/bower_components/moment/min/moment.min');
+        $this->enqueue->js('../modules/nexo/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min');
+        $this->enqueue->js('../modules/nexo/bower_components/chosen/chosen.jquery');
+
+        $this->enqueue->css('../modules/nexo/bower_components/chosen/chosen');
+        $this->enqueue->css('../modules/nexo/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min');
+
+        $this->Gui->set_title( sprintf( __( 'Rapport des ventes détaillés &mdash; %s', 'nexo_premium' ), @$Options[ store_prefix() . 'site_name' ] ) );
+
+        // Load JS
+        $this->events->add_action( 'dashboard_footer', function(){
+            get_instance()->load->module_view( 'nexo_premium', 'sales_detailed_script' );
+        });
+
+        $this->load->module_view( 'nexo_premium', 'sales_detailed', array(
+            'start_date'     =>      $start->toDateTimeString(),
+            'end_date'       =>      $end->toDateTimeString()
+        ) );
+    }
+
+
 }

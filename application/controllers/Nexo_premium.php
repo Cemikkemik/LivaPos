@@ -266,16 +266,18 @@ class Nexo_premium extends REST_Controller
             $this->config->load('nexo_premium');
 
             $Dates                =    $this->Nexo_Misc->dates_between_borders($this->post('start'), $this->post('end'));
-            $Options            =    $this->Options->get();
-            $CashOrder        =    'nexo_order_comptant';
-            $Response            =    array();
+
+            $Options                =    $this->Options->get();
+            $CashOrder              =    'nexo_order_comptant';
+            $Response               =    array();
 
             if (! empty($Dates)) {
+
                 $items_sales    =    array();
 
                 foreach ($Dates as $Date) {
-                    $StartDay            =        Carbon::parse($Date)->startOfDay()->toDateTimeString();
-                    $EndDay                =        Carbon::parse($Date)->endOfDay()->toDateTimeString();
+                    $StartDay       =       Carbon::parse($Date)->startOfDay()->toDateTimeString();
+                    $EndDay         =       Carbon::parse($Date)->endOfDay()->toDateTimeString();
 
                     $this->db->select('
 					' . store_prefix() . 'nexo_articles.DESIGN as DESIGN,
@@ -285,9 +287,9 @@ class Nexo_premium extends REST_Controller
 					' . store_prefix() . 'nexo_articles.ID as ITEM_ID,
 					' . store_prefix() . 'nexo_commandes.DATE_CREATION as SOLD_DATE,
                     ' . store_prefix() . 'nexo_commandes_produits.PRIX as PRIX,
-                    ' . store_prefix() . 'nexo_commandes_produits.REMISE_TYPE as REMISE_TYPE,
-                    ' . store_prefix() . 'nexo_commandes_produits.REMISE as REMISE,
-                    ' . store_prefix() . 'nexo_commandes_produits.REMISE_PERCENT as REMISE_PERCENT
+                    ' . store_prefix() . 'nexo_commandes.REMISE_TYPE as REMISE_TYPE,
+                    ' . store_prefix() . 'nexo_commandes.REMISE as REMISE,
+                    ' . store_prefix() . 'nexo_commandes.REMISE_PERCENT as REMISE_PERCENT
                     ')
                     ->from( store_prefix() . 'nexo_commandes_produits')
                     ->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = ' . store_prefix() . 'nexo_articles.CODEBAR')
@@ -298,11 +300,10 @@ class Nexo_premium extends REST_Controller
                     $this->db->order_by( store_prefix() . 'nexo_articles.QUANTITE_VENDU', 'DESC');
 
                     $this->db->where( store_prefix() . 'nexo_commandes.TYPE', $CashOrder);
-
                     $this->db->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', $StartDay);
                     $this->db->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', $EndDay);
 
-                    $this->db->limit($this->config->item('best_of_items_limit'));
+                    $this->db->limit( $this->config->item('best_of_items_limit') );
 
                     $query                    =    $this->db->get();
                     $items_sales[ $Date ]    =    $query->result();
@@ -313,7 +314,7 @@ class Nexo_premium extends REST_Controller
                     'items_sales'               =>    $items_sales
                 );
 
-                $Cache->save('best_items_post_' . $this->post('start') . '_' . $this->post('end'), $Response, $this->config->item('best_of_cache_lifetime'));
+                $Cache->save( 'best_items_post_' . $this->post('start') . '_' . $this->post('end'), $Response, $this->config->item('best_of_cache_lifetime'));
 
                 $this->response($Response, 200);
             }

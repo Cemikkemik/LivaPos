@@ -1,7 +1,9 @@
 <?php
 global $Options;
+
+if (@$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):
 ?>
-/**som
+/**
  * Load Stripe Payment
 **/
 
@@ -44,7 +46,7 @@ NexoAPI.events.addAction( 'stripe_charged', function( token ) {
     token.apiKey		=	'<?php echo @$Options[ store_prefix() . 'nexo_stripe_secret_key' ];?>';
     token				=	_.extend( token, $scope.stripeDetails );
 
-	$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'stripe', store_get_param( '?' ) ) );?>', {    	
+	$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'stripe', store_get_param( '?' ) ) );?>', {
         beforeSend : 	function(){
 
             __windowSplash.showSplash();
@@ -81,3 +83,4 @@ NexoAPI.events.addAction( 'stripe_charged', function( token ) {
         }
     });
 });
+<?php endif; ?>

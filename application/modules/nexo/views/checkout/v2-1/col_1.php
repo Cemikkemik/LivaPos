@@ -66,12 +66,12 @@ function isFullScreen() {
             <thead>
                 <tr class="active">
                     <td width="200" class="text-left"><?php _e('Article', 'nexo');?></td>
-                    <td width="150" class="text-center"><?php _e('Prix Unitaire', 'nexo');?></td>
-                    <td width="120" class="text-center"><?php _e('Quantité', 'nexo');?></td>
+                    <td width="130" class="text-center"><?php _e('Prix Unitaire', 'nexo');?></td>
+                    <td width="100" class="text-center"><?php _e('Quantité', 'nexo');?></td>
                     <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-                    <td width="80" class="text-center"><?php _e('Remise', 'nexo');?></td>
+                    <td width="90" class="text-center"><?php _e('Remise', 'nexo');?></td>
                     <?php endif;?>
-                    <td width="180" class="text-right"><?php _e('Prix Total', 'nexo');?></td>
+                    <td width="100" class="text-right"><?php _e('Prix Total', 'nexo');?></td>
                 </tr>
             </thead>
         </table>
@@ -87,43 +87,43 @@ function isFullScreen() {
         <table class="table" id="cart-details">
             <tfoot>
                 <tr class="active">
-                    <td width="230" class="text-right"></td>
-                    <td width="130" class="text-right"></td>
-                    <td width="130" class="text-right"><?php
+                    <td width="200" class="text-right"></td>
+                    <td width="150" class="text-right"></td>
+                    <td width="120" class="text-right"><?php
                         if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui') {
                             _e('Net hors taxe', 'nexo');
                         } else {
                             _e('Sous Total', 'nexo');
                         }
                         ?></td>
-                    <td width="110" class="text-right"><span id="cart-value"></span></td>
+                    <td width="90" class="text-right"><span id="cart-value"></span></td>
                 </tr>
                 <tr class="active">
-                    <td colspan="2" width="380" class="text-right cart-discount-notice-area"></td>
-                    <td width="160" class="text-right"><?php _e('Remise sur le panier', 'nexo');?></td>
-                    <td width="110" class="text-right"><span id="cart-discount"></span></td>
+                    <td colspan="2" class="text-right cart-discount-notice-area"></td>
+                    <td class="text-right"><?php _e('Remise sur le panier', 'nexo');?></td>
+                    <td class="text-right"><span id="cart-discount"></span></td>
                 </tr>
                 <?php
                 if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])) {
                     ?>
                 <tr class="active">
-                    <td width="230" class="text-right"></td>
-                    <td width="130" class="text-right"></td>
-                    <td width="130" class="text-right"><?php echo sprintf(__('TVA (%s%%)', 'nexo'), $Options[ store_prefix() . 'nexo_vat_percent' ]);
+                    <td class="text-right"></td>
+                    <td class="text-right"></td>
+                    <td class="text-right"><?php echo sprintf(__('TVA (%s%%)', 'nexo'), $Options[ store_prefix() . 'nexo_vat_percent' ]);
                     ?></td>
-                    <td width="110" class="text-right"><span id="cart-vat"></span></td>
+                    <td class="text-right"><span id="cart-vat"></span></td>
                 </tr>
                 <?php
 
                 }
                 ?>
                 <tr class="success">
-                    <td width="230" class="text-right"></td>
-                    <td width="130" class="text-right"></td>
-                    <td width="130" class="text-right"><strong>
+                    <td class="text-right"></td>
+                    <td class="text-right"></td>
+                    <td class="text-right"><strong>
                         <?php _e('Net à payer', 'nexo');?>
                         </strong></td>
-                    <td width="110" class="text-right"><span id="cart-topay"></span></td>
+                    <td class="text-right"><span id="cart-topay"></span></td>
                 </tr>
             </tfoot>
         </table>

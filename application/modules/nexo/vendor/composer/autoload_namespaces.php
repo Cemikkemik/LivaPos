@@ -7,5 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Svg\\' => array($vendorDir . '/phenx/php-svg-lib/src'),
+    'SimpleExcel\\' => array($vendorDir . '/faisalman/simple-excel-php/src'),
+    'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
     'FontLib\\' => array($vendorDir . '/phenx/php-font-lib/src'),
 );

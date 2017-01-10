@@ -154,7 +154,8 @@ class Nexo_Install extends CI_Model
 		  `DISCOUNT_TYPE` varchar(200) NOT NULL,
 		  `TVA` float NOT NULL,
 		  `GROUP_DISCOUNT` float,
-		  PRIMARY KEY (`ID`)
+		  PRIMARY KEY (`ID`),
+          UNIQUE( `CODE` )
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
         $this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_commandes_produits` (
@@ -195,6 +196,16 @@ class Nexo_Install extends CI_Model
 		  `DATE_CREATION` datetime NOT NULL,
 		  `DATE_MOD` datetime NOT NULL,
 		  `AUTHOR` int(11) NOT NULL,
+		  PRIMARY KEY (`ID`)
+		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+
+        // @since 3.0.1
+
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_commandes_coupons` (
+		  `ID` int(11) NOT NULL AUTO_INCREMENT,
+		  `REF_COMMAND_CODE` varchar(250) NOT NULL,
+		  `REF_COUPON` int(11) NOT NULL,
+		  `DATE_CREATION` datetime NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
@@ -243,7 +254,9 @@ class Nexo_Install extends CI_Model
           `AUTO_BARCODE` INT NOT NULL,
 		  `BARCODE_TYPE` VARCHAR(200) NOT NULL,
 		  `USE_VARIATION` INT NOT NULL,
-		  PRIMARY KEY (`ID`)
+		  PRIMARY KEY (`ID`),
+          UNIQUE( `SKU` ),
+          UNIQUE( `CODEBAR` )
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
 		// @since 2.9.1
@@ -382,6 +395,7 @@ class Nexo_Install extends CI_Model
 		  `MINIMUM_AMOUNT` float NOT NULL,
 		  `MAXIMUM_AMOUNT` float NOT NULL,
 		  `USED_BY` text NOT NULL,
+          `REWARDED_CASHIER` int(11) NOT NULL,
 		  `EMAIL_RESTRICTIONS` text NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
@@ -463,37 +477,51 @@ class Nexo_Install extends CI_Model
 
         // retrait des tables Nexo
         if ($namespace === 'nexo') {
-            // $this->db->query( 'DROP TABLE IF EXISTS `'.$table_prefix.'bon_davoir`;' );
-            $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_commandes`;');
-            $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_commandes_produits`;');
-			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_commandes_meta`;');
-			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_commandes_paiements`;');
 
-            $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_articles`;');
-			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_articles_variations`;');
-			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_articles_defectueux`;');
-			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_articles_meta`;');
+            $this->load->model( 'Nexo_Stores' );
 
-            $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_categories`;');
-            $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_fournisseurs`;');
-            $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_historique`;');
-            $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_arrivages`;');
+            $stores         =   $this->Nexo_Stores->get();
 
-            $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_rayons`;');
-            $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_clients`;');
-			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_clients_groups`;');
-            $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_paiements`;');
+            array_unshift( $stores, [
+                'ID'        =>  0
+            ]);
 
-			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_coupons`;');
-			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_checkout_money`;');
+            foreach( $stores as $store ) {
 
-			// @since 2.7.5
-			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_registers`;');
-			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix.'nexo_registers_activities`;');
+                $store_prefix       =   $store[ 'ID' ] == 0 ? '' : 'store_' . $store[ 'ID' ] . '_';
 
-            $this->options->delete( $prefix . 'nexo_installed');
-            $this->options->delete( $prefix . 'nexo_saved_barcode');
-            $this->options->delete( $prefix . 'order_code');
+                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes`;');
+                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_produits`;');
+    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_meta`;');
+    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_paiements`;');
+                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_coupons`;');
+
+                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles`;');
+    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles_variations`;');
+    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles_defectueux`;');
+    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles_meta`;');
+
+                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_categories`;');
+                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_fournisseurs`;');
+                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_historique`;');
+                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_arrivages`;');
+
+                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_rayons`;');
+                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_clients`;');
+    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_clients_groups`;');
+                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_paiements`;');
+
+    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_coupons`;');
+    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_checkout_money`;');
+
+    			// @since 2.7.5
+    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_registers`;');
+    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_registers_activities`;');
+
+                $this->options->delete( $prefix . $store_prefix . 'nexo_installed');
+                $this->options->delete( $prefix . $store_prefix . 'nexo_saved_barcode');
+                $this->options->delete( $prefix . $store_prefix . 'order_code');
+            }
 
 			if( $scope == 'default' ) {
 				// @since 2.8

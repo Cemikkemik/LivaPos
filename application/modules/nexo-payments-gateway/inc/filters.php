@@ -3,7 +3,10 @@ class Nexo_Gateway_Filters
 {
 	public static function payment_gateway( $gateway )
 	{
-		$gateway[ 'stripe' ]	=	__( 'Stripe', 'nexo-payments-gateway' );
+		global $Options;
+		if (@$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):
+			$gateway[ 'stripe' ]	=	__( 'Stripe', 'nexo-payments-gateway' );
+		endif;
 
 		return $gateway;
 	}

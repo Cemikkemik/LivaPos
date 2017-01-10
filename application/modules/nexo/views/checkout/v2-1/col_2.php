@@ -12,7 +12,7 @@
                 <input type="text" name="item_sku_barcode" placeholder="<?php _e('Codebarre, UGS, nom du produit ou de la catégorie...', 'nexo');?>" class="form-control">
                 <span class="input-group-btn">
 					<?php echo $this->events->apply_filters( 'pos_search_input_after', '' );?>
-                	
+
 
                 	<button class="btn btn-default" onclick="document.location= '<?php echo site_url( array( 'dashboard', store_slug(), 'nexo', 'commandes', 'lists' ) );?>';" type="button"><i class="fa fa-home"></i></button>
                 </span>
@@ -49,7 +49,7 @@
 	</style>
     <div class="box-body">
         <div class="direct-chat-messages item-list-container" style="padding:0px;">
-            <div class="row" id="filter-list" style="padding-left:0px;padding-right:0px;margin-left:0px;margin-right:0px;">
+            <div class="row" id="filter-list" style="padding-left:0px;padding-right:0px;margin-left:0px;margin-right:0px;padding-bottom:10px;">
             </div>
         </div>
     </div>

@@ -47,6 +47,7 @@ $this->Gui->add_item(array(
     'name'        =>    $option_prefix . 'nexo_enable_registers',
     'label'        =>    __('Utiliser les caisses enregistreuses', 'nexo'),
     'options'    =>    array(
+		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
         'oui'        =>    __('Oui', 'nexo'),
         'non'        =>    __('Non', 'nexo')
     )
@@ -58,6 +59,7 @@ $this->Gui->add_item(array(
     'name'        =>    $option_prefix . 'nexo_enable_vat',
     'label'        =>    __('Activer la TVA', 'nexo'),
     'options'    =>    array(
+		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
         'oui'        =>    __('Oui', 'nexo'),
         'non'        =>    __('Non', 'nexo')
     )
@@ -115,6 +117,48 @@ $this->Gui->add_item(array(
     'label'        =>    __('Activer la remise par article ?', 'nexo'),
 	'description'	=>	__( 'Permet d\'appliquer une remise sur un produit unique. Ce type de remise est différent à la remise du panier, qui s\'applique sur tout les produits du panier.', 'nexo' ),
     'options'    =>    array(
+		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
+        'no'        =>    __('Non', 'nexo'),
+		'yes'        =>    __('Oui', 'nexo')
+    )
+), 'Nexo_checkout', 1);
+
+$this->Gui->add_item(array(
+    'type'        =>    'dom',
+    'content'    =>    '<h4>' . __('Visibilité des bouttons', 'nexo') . '</h4>'
+), 'Nexo_checkout', 1);
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    $option_prefix . 'hide_discount_button',
+    'label'        =>    __('Masquer le bouton des remises ?', 'nexo'),
+	'description'	=>	__( 'Cette fonctionnalité vous permet de restreindre l\'utilisation du bouton des remises sur le point de vente. Si la fonctionnalité des coupons est active, les remises de ces dernières peuvent toujours s\'appliquer à une commande.', 'nexo' ),
+    'options'    =>    array(
+		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
+        'no'        =>    __('Non', 'nexo'),
+		'yes'        =>    __('Oui', 'nexo')
+    )
+), 'Nexo_checkout', 1);
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    $option_prefix . 'disable_coupon',
+    'label'        =>    __('Désactiver les coupons ?', 'nexo'),
+	'description'	=>	__( 'Désactiver l\'option des coupons empêcheront à ces dernièrs de s\'appliquer aux commandes. La désactivation des coupons n\'empêchera pas au délais des coupons déjà émis de s\'écouler.', 'nexo' ),
+    'options'    =>    array(
+		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
+        'no'        =>    __('Non', 'nexo'),
+		'yes'        =>    __('Oui', 'nexo')
+    )
+), 'Nexo_checkout', 1);
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    $option_prefix . 'disable_customer_creation',
+    'label'        =>    __('Désactiver la création des clients ?', 'nexo'),
+	'description'	=>	__( 'Permet de désactiver la création des clients. Ces dernièrs pourront toujours être créés depuis l\'interface classique.', 'nexo' ),
+    'options'    =>    array(
+		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
         'no'        =>    __('Non', 'nexo'),
 		'yes'        =>    __('Oui', 'nexo')
     )
@@ -126,6 +170,7 @@ $this->Gui->add_item(array(
     'label'        =>    __('Thème des tickets de caisse', 'nexo'),
     'options'    =>    array(
         'default'    =>    __('Par défaut', 'nexo'),
+		'simple'		=>	__( 'Simple', 'nexo' )
     )
 ), 'Nexo_checkout2', 2);
 
@@ -178,6 +223,7 @@ $this->Gui->add_item(array(
     'label'        =>    __('Prix unitaire modifiable ?', 'nexo'),
 	'description'	=>	__( 'Permet au prix d\'être modifié. La modification du prix unitaire s\'applique uniquement à la vente en cours. Cette modification portera sur le prix de vente, le prix promotionnel et sur le prix fictif.', 'nexo' ),
     'options'    =>    array(
+		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
         'no'        =>    __('Non', 'nexo'),
 		'yes'        =>    __('Oui', 'nexo')
     )
@@ -188,6 +234,7 @@ $this->Gui->add_item(array(
     'name'        =>    $option_prefix . 'nexo_enable_numpad',
     'label'        =>    __('Activer le clavier numérique', 'nexo'),
     'options'    =>    array(
+		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
         'oui'        =>    __('Oui', 'nexo'),
         'non'        =>    __('Non', 'nexo')
     )

@@ -70,6 +70,17 @@ class ComposerStaticInit54edb9b31ab1cd4bd63a507380e820af
             array (
                 0 => __DIR__ . '/..' . '/phenx/php-svg-lib/src',
             ),
+            'SimpleExcel\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/faisalman/simple-excel-php/src',
+            ),
+        ),
+        'P' => 
+        array (
+            'PHPExcel' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
+            ),
         ),
         'F' => 
         array (

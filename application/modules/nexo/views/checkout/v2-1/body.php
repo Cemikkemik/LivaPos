@@ -17,7 +17,7 @@ $this->Gui->add_meta(array(
 
 $data                =    array();
 if (isset($order)) {
-    $data           	=    array( 
+    $data           	=    array(
 		'order' 		=> 	$order,
 		'register_id'	=>	$register_id
 	);
@@ -35,7 +35,7 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'    =>    'dom',
-    'content' => $this->load->module_view('nexo', 'checkout/v2-1/script', $data, true)
+    'content' =>    $this->load->module_view('nexo', 'checkout/v2-1/script', $data, true)
 ), 'checkout_v2_col2', 2);
 
 $this->Gui->output();

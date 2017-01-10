@@ -1,12 +1,10 @@
 <?xml version="1.0"?>
 <application>
-	<details>
-		<name>Nexo Premium</name>
-		<namespace>nexo_premium</namespace>
-		<author>Blair Jersyer</author>
-		<description>Bring premium feature to nexo, check out http://nexo.tendoo.org/get-premium</description>
-		<version>2.1.5</version>
-		<main>nexo_premium.php</main>
-		<language>/language</language>
-	</details>
+	<name>Nexo Premium</name>
+	<namespace>nexo_premium</namespace>
+	<author>Blair Jersyer</author>
+	<description>Bring premium feature to nexo, check out http://nexo.tendoo.org/get-premium</description>
+	<version>2.6.1</version>
+	<main>nexo_premium.php</main>
+	<language>/language</language>
 </application>

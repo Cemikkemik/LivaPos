@@ -1,2 +1,6 @@
 nexo_detailled_daily_report  :  retourne le chaine comportant l'auteur de l'impression du document du rapport journalier detaillé
 nexo_stats_des_ventes_report:  retourne le chaine comportant l'auteur de l'impression du document des stats des ventes
+np_profit_lost_report_thead_row : renvoi les éléments thead du tableau du rapport pertes et profits
+np_profit_lost_report_tbody_row : renvoi les élément du tableau du rapport pertes et profits
+np_profit_lost_report_tfoot_row : renvoi les éléments du pied du tableau du rapport pertes et profits
+detailed_sale_report_entry_code :  enrevoi le code d'une vente dans le rapport détaillé

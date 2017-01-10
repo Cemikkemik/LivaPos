@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nexo Premium\n"
-"POT-Creation-Date: 2016-11-12 16:17+0100\n"
-"PO-Revision-Date: 2016-11-12 16:18+0100\n"
+"POT-Creation-Date: 2016-12-23 10:59+0100\n"
+"PO-Revision-Date: 2016-12-23 10:59+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 1.8.11\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: __;_e;_s\n"
@@ -126,7 +126,7 @@ msgstr "Go back"
 msgid "Vider le cache"
 msgstr "Empty cache"
 
-#: inc/Controller.php:120 inc/Filters.php:77
+#: inc/Controller.php:120 inc/Filters.php:83
 #, fuzzy
 msgid "Flux de trésorerie"
 msgstr "Cash flow"
@@ -147,6 +147,7 @@ msgid "Factures"
 msgstr "Invoices"
 
 #: inc/Controller.php:225 views/expenses_listing_dom.php:54
+#: views/profit_and_lost_dom.php:64
 #, fuzzy
 msgid "Désignation"
 msgstr "Designation"
@@ -195,7 +196,7 @@ msgstr "Invoices List"
 msgid "Ajouter/modifier une facture"
 msgstr "Add / Edit Invoice"
 
-#: inc/Controller.php:364 inc/Filters.php:87
+#: inc/Controller.php:364 inc/Filters.php:93
 msgid "Performances des caissiers"
 msgstr "Cashiers performance"
 
@@ -207,7 +208,7 @@ msgstr "Customers Statistics"
 msgid "Supprimer l'historique"
 msgstr "Delete history"
 
-#: inc/Controller.php:435 inc/Filters.php:127
+#: inc/Controller.php:435 inc/Filters.php:133
 msgid "Historique des activités"
 msgstr "User History Report"
 
@@ -222,7 +223,7 @@ msgid ""
 "activités."
 msgstr "User <strong>%s</strong> deleted the content of the activity history."
 
-#: inc/Controller.php:487 inc/Filters.php:139
+#: inc/Controller.php:487 inc/Filters.php:145
 msgid "Sauvegardes"
 msgstr "Backups"
 
@@ -254,7 +255,7 @@ msgstr "Backup Edition"
 msgid "Sauvegarde Base de donnée Nexo POS"
 msgstr "Backup Database Nexo POS"
 
-#: inc/Controller.php:704 inc/Filters.php:143
+#: inc/Controller.php:704 inc/Filters.php:149
 msgid "Restauration"
 msgstr "Restoring"
 
@@ -264,49 +265,58 @@ msgstr "Best Sales"
 
 #: inc/Controller.php:829
 #, php-format
-msgid "Ventes et Pertes &mdash; %s"
-msgstr "Sales and Profit &mdash; %s"
+msgid "Bénéfices et Pertes &mdash; %s"
+msgstr "Incomes and Losses &mdash; %s"
 
 #: inc/Controller.php:836
 #, php-format
 msgid "Liste des dépenses &mdash; %s"
 msgstr "Expenses Listings &mdash; %s"
 
+#: inc/Controller.php:862
+#, php-format
+msgid "Rapport des ventes détaillés &mdash; %s"
+msgstr "Detailed Sales Report &mdash; %s"
+
 #: inc/Filters.php:55
 msgid "Rapports"
 msgstr "Reports"
 
-#: inc/Filters.php:61
+#: inc/Filters.php:62
+msgid "Rapport Détaillés"
+msgstr "Detailed Report"
+
+#: inc/Filters.php:67
 msgid "Les meilleurs"
 msgstr "Best Sales"
 
-#: inc/Filters.php:65
+#: inc/Filters.php:71
 msgid "Journalier"
 msgstr "Daily Sales"
 
-#: inc/Filters.php:69
-msgid "Ventes et pertes"
-msgstr "Sales and Lost"
+#: inc/Filters.php:75
+msgid "Bénéfices et Pertes"
+msgstr "Incomes and Losses"
 
-#: inc/Filters.php:73
+#: inc/Filters.php:79
 msgid "Listing des dépenses"
 msgstr "Expenses Listings"
 
-#: inc/Filters.php:82
+#: inc/Filters.php:88
 #, fuzzy
 msgid "Ventes Annuelles"
 msgstr "Annual Sales"
 
-#: inc/Filters.php:92
+#: inc/Filters.php:98
 msgid "Statistique des clients"
 msgstr "Customers Statistics"
 
-#: inc/Filters.php:97
+#: inc/Filters.php:103
 #, fuzzy
 msgid "Fiche de Suivi de Stocks"
 msgstr "Inventory tracking sheet"
 
-#: inc/Filters.php:122
+#: inc/Filters.php:128
 msgid "Maintenance & Historique"
 msgstr "Maintenance & History"
 
@@ -334,18 +344,18 @@ msgstr "Nexo must be enabled for this module working properly."
 
 #: views/best_of/content.php:3 views/cashier-performances.php:35
 #: views/customers-statistics.php:35 views/expenses_listing_dom.php:9
-#: views/profit_and_lost_dom.php:9
+#: views/profit_and_lost_dom.php:167 views/sales_detailed_dom.php:9
 msgid "Date de départ"
 msgstr "Start date"
 
 #: views/best_of/content.php:8 views/cashier-performances.php:40
 #: views/customers-statistics.php:40 views/expenses_listing_dom.php:16
-#: views/profit_and_lost_dom.php:16
+#: views/profit_and_lost_dom.php:174 views/sales_detailed_dom.php:14
 msgid "Date de fin"
 msgstr "End date"
 
 #: views/best_of/content.php:12 views/cashier-performances.php:44
-#: views/customers-statistics.php:44
+#: views/customers-statistics.php:44 views/sales_detailed_dom.php:25
 msgid "Afficher les résultats"
 msgstr "Display Results"
 
@@ -442,8 +452,9 @@ msgstr "Yesterday"
 #: views/dashboard-content.php:22 views/dashboard-content.php:56
 #: views/dashboard-content.php:88 views/dashboard-content.php:119
 #: views/fiche-de-suivi/by-categories.php:41
-#: views/flux-de-la-tresorerie.php:136 views/profit_and_lost_dom.php:119
-#: views/rapport-journalier-detaille.php:125 views/stats-des-ventes.php:123
+#: views/flux-de-la-tresorerie.php:136 views/profit_and_lost_dom.php:8
+#: views/rapport-journalier-detaille.php:125 views/sales_detailed_dom.php:116
+#: views/sales_detailed_dom.php:126 views/stats-des-ventes.php:123
 #: views/stats-des-ventes.php:136
 #, fuzzy
 msgid "Total"
@@ -467,12 +478,13 @@ msgstr "Customers"
 msgid "Créances"
 msgstr "Receivables"
 
-#: views/expenses_listing_dom.php:24 views/profit_and_lost_dom.php:24
+#: views/expenses_listing_dom.php:24 views/profit_and_lost_dom.php:182
 msgid "Charger"
 msgstr "Load"
 
 #: views/expenses_listing_dom.php:28 views/flux-de-la-tresorerie.php:7
-#: views/profit_and_lost_dom.php:28 views/stats-des-ventes.php:14
+#: views/profit_and_lost_dom.php:186 views/sales_detailed_dom.php:28
+#: views/stats-des-ventes.php:14
 #, fuzzy
 msgid "Imprimer"
 msgstr "Print"
@@ -485,7 +497,8 @@ msgstr "Date"
 msgid "Références"
 msgstr "References"
 
-#: views/expenses_listing_dom.php:57
+#: views/expenses_listing_dom.php:57 views/sales_detailed_dom.php:44
+#: views/sales_detailed_dom.php:127
 msgid "Montant"
 msgstr "Amount"
 
@@ -494,8 +507,8 @@ msgid ""
 "Aucun résultat disponible. Veuillez choisir un intervalle de temps différent."
 msgstr "There are no results. Please choose a different time interval."
 
-#: views/expenses_listing_dom.php:122 views/profit_and_lost_dom.php:331
-#: views/profit_and_lost_dom.php:442
+#: views/expenses_listing_dom.php:122 views/profit_and_lost_dom.php:469
+#: views/profit_and_lost_dom.php:580
 msgid "Attention"
 msgstr "Warning"
 
@@ -688,7 +701,7 @@ msgstr "Annual movement of cash"
 msgid "Libellé / Mois"
 msgstr "Wording / month"
 
-#: views/flux-de-la-tresorerie.php:497 views/stats-des-ventes.php:392
+#: views/flux-de-la-tresorerie.php:497 views/stats-des-ventes.php:435
 #, fuzzy
 msgid "Chargement en cours..."
 msgstr "Loading in progress…"
@@ -710,88 +723,59 @@ msgstr "Title"
 msgid "Effectué le"
 msgstr "Performed on"
 
-#: views/profit_and_lost_dom.php:32
-msgid "Exporter CSV"
-msgstr ""
-
-#: views/profit_and_lost_dom.php:52 views/profit_and_lost_dom.php:297
+#: views/profit_and_lost_dom.php:59
 msgid "Date"
 msgstr "Date"
 
-#: views/profit_and_lost_dom.php:55
-msgid "Détails du produit"
-msgstr "Product Details"
-
-#: views/profit_and_lost_dom.php:59 views/profit_and_lost_dom.php:303
-#: views/rapport-journalier-detaille.php:69
+#: views/profit_and_lost_dom.php:69 views/rapport-journalier-detaille.php:69
 #, fuzzy
 msgid "Quantité"
 msgstr "Quantity"
 
-#: views/profit_and_lost_dom.php:62
-msgid "Prix de vente Brut"
+#: views/profit_and_lost_dom.php:74
+msgid "Prix de vente brut"
 msgstr "Gross Sale Price"
 
-#: views/profit_and_lost_dom.php:65
+#: views/profit_and_lost_dom.php:79
 msgid "Remise (%)"
 msgstr "Discount (%)"
 
-#: views/profit_and_lost_dom.php:68
+#: views/profit_and_lost_dom.php:84
 msgid "Remise"
 msgstr "Discount"
 
-#: views/profit_and_lost_dom.php:71
-msgid "Prix de vente Net"
-msgstr "Net selling price"
+#: views/profit_and_lost_dom.php:89
+msgid "Prix de vente net"
+msgstr "Net Sales Price"
 
-#: views/profit_and_lost_dom.php:74 views/profit_and_lost_dom.php:318
+#: views/profit_and_lost_dom.php:94
 msgid "Prix d'achat"
 msgstr "Buying price"
 
-#: views/profit_and_lost_dom.php:77
+#: views/profit_and_lost_dom.php:99
 msgid "Bénéfice"
 msgstr "Profit"
 
-#: views/profit_and_lost_dom.php:114
+#: views/profit_and_lost_dom.php:190
+msgid "Exporter CSV"
+msgstr "Export CSV"
+
+#: views/profit_and_lost_dom.php:227
 msgid ""
 "Aucun résultat à afficher. Veuillez choisir un interval de temps différent."
 msgstr "No results to display. Please choose a different time interval."
 
-#: views/profit_and_lost_dom.php:300
-msgid "Nom du produit"
-msgstr "Item Name"
+#: views/profit_and_lost_dom.php:464
+msgid "Rapport des bénéfices et des pertes"
+msgstr "Incomes and Losses Reports"
 
-#: views/profit_and_lost_dom.php:306
-msgid "Ventes Brutes"
-msgstr "Gross Sales"
-
-#: views/profit_and_lost_dom.php:309
-msgid "Remises (%)"
-msgstr "Discounts (%)"
-
-#: views/profit_and_lost_dom.php:312
-msgid "Remises Fixes"
-msgstr "Fixed discounts"
-
-#: views/profit_and_lost_dom.php:315
-msgid "Ventes Nettes"
-msgstr "Net sales"
-
-#: views/profit_and_lost_dom.php:321
-msgid "Revenus"
-msgstr "Incomes"
-
-#: views/profit_and_lost_dom.php:326
-msgid "Rapport des revenus et des pertes"
-msgstr "Incomes and Losses Report"
-
-#: views/profit_and_lost_dom.php:331
+#: views/profit_and_lost_dom.php:469
 msgid ""
 "Aucune données disponible pour l'impression. Veuillez afficher des résultats "
 "en premier"
 msgstr "No data available for printing. Please load data first."
 
-#: views/profit_and_lost_dom.php:442
+#: views/profit_and_lost_dom.php:580
 msgid "Vous devez sélectionner une date valide"
 msgstr "You must select a valid date"
 
@@ -951,6 +935,79 @@ msgstr "Please send the restore file"
 msgid "Restaurer"
 msgstr "Restore"
 
+#: views/sales_detailed_dom.php:19
+msgid "Choisir le format"
+msgstr "Choose Format"
+
+#: views/sales_detailed_dom.php:21
+msgid "Détaillé"
+msgstr "Detailed"
+
+#: views/sales_detailed_dom.php:22
+msgid "Condensé"
+msgstr "Condensed"
+
+#: views/sales_detailed_dom.php:37
+msgid "Rapport des ventes détaillées"
+msgstr "Detailed Sales Report"
+
+#: views/sales_detailed_dom.php:43
+msgid "Entrée"
+msgstr "Entries"
+
+#: views/sales_detailed_dom.php:58
+msgid "Remise au pourcentage"
+msgstr "Percentage Discount"
+
+#: views/sales_detailed_dom.php:67
+msgid "Remise fixe"
+msgstr "Fixed Discount"
+
+#: views/sales_detailed_dom.php:81
+msgid ""
+"Il n'y a rien à afficher aujourd'hui, veuillez choisir un interval de temps "
+"différent."
+msgstr ""
+"There is nothing to show today, please choose a different time interval."
+
+#: views/sales_detailed_dom.php:89
+#, fuzzy
+msgid "Statistiques des ventes"
+msgstr "Sales Analysis"
+
+#: views/sales_detailed_dom.php:95
+msgid "Commandes Comptant"
+msgstr "Cash Orders"
+
+#: views/sales_detailed_dom.php:104
+msgid "Analyse des ventes"
+msgstr "Sales Analysis"
+
+#: views/sales_detailed_dom.php:125
+msgid "Autres Statistiques"
+msgstr "Other Stats"
+
+#: views/sales_detailed_dom.php:132
+msgid "Moyenne des commandes"
+msgstr "Average Orders"
+
+#: views/sales_detailed_dom.php:137
+msgid "Articles par commandes"
+msgstr "Items per orders"
+
+#: views/sales_detailed_dom.php:142
+msgid "Moyenne des prix par articles"
+msgstr "Average price per items"
+
+#: views/sales_detailed_dom.php:148 views/sales_detailed_dom.php:166
+msgid ""
+"Aucune information à afficher. Veuillez choisir un interval de date correcte."
+msgstr "No information to display. Please select a proper date interval."
+
+#: views/sales_detailed_dom.php:156
+msgid "Ventes par Staff"
+msgstr "Sales by Staff"
+
 #: views/stats-des-ventes.php:87
 #, fuzzy, php-format
 msgid "Statistiques des ventes <br> pour %s"
@@ -974,6 +1031,45 @@ msgstr "Sales Statistics"
 #, fuzzy, php-format
 msgid "Level %s"
 msgstr "Level %s"
+
+#~ msgid "Moyenne des pris par articles"
+#~ msgstr "Average taken by Articles"
+
+#~ msgid "Nom du produit"
+#~ msgstr "Item Name"
+
+#~ msgid "Ventes Brutes"
+#~ msgstr "Gross Sales"
+
+#~ msgid "Remises (%)"
+#~ msgstr "Discounts (%)"
+
+#~ msgid "Remises Fixes"
+#~ msgstr "Fixed discounts"
+
+#~ msgid "Ventes Nettes"
+#~ msgstr "Net sales"
+
+#~ msgid "Revenus"
+#~ msgstr "Incomes"
+
+#~ msgid "Ventes et Pertes &mdash; %s"
+#~ msgstr "Sales and Profit &mdash; %s"
+
+#~ msgid "Ventes et pertes"
+#~ msgstr "Sales and Lost"
+
+#~ msgid "Rapport des revenus et des pertes"
+#~ msgstr "Incomes and Losses Report"
+
+#~ msgid "Détails du produit"
+#~ msgstr "Product Details"
+
+#~ msgid "Prix de vente Brut"
+#~ msgstr "Gross Sale Price"
+
+#~ msgid "Prix de vente Net"
+#~ msgstr "Net selling price"
 
 #~ msgid "Ventes"
 #~ msgstr "Sales"
@@ -1050,10 +1146,6 @@ msgstr "Level %s"
 #, fuzzy
 #~ msgid "Rapport Journalier"
 #~ msgstr "Daily report"
-
-#, fuzzy
-#~ msgid "Statistiques des ventes"
-#~ msgstr "Sales Analysis"
 
 #, fuzzy
 #~ msgid "Fiche de suivi de stocks général"

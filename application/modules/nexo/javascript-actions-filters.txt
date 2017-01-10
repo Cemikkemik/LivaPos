@@ -121,3 +121,18 @@ process_data	:	{
 	desc		:	let you filter process data (url and type). You'll be able to customize post url for order and post method
 	params		:	object { url : string, type : string }
 }
+
+refresh_cart_values : {
+	type 		:	filter
+	desc 		:	return cart items
+}
+
+add_to_cart  	:	{
+	type 		:	action
+	desc 		:	trigger action
+}
+
+reduce_from_cart	:	{
+	type 		:	action
+	desc 		:	trigger reduce from cart
+}

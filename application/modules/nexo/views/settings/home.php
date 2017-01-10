@@ -146,6 +146,13 @@ $this->Gui->add_item(array(
     'placeholder'    =>    ''
 ), 'Nexo_soundfx', 2 );
 
+$this->Gui->add_item(array(
+    'type'        =>    'text',
+    'label'        =>    __('Texte du pied de page', 'nexo'),
+    'name'        =>    $option_prefix . 'nexo_footer_text',
+    'placeholder'    =>    ''
+), 'Nexo_soundfx', 2 );
+
 $this->events->do_action('load_nexo_general_settings', $this->Gui);
 
 $this->Gui->output();

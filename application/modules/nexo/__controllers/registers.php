@@ -428,9 +428,32 @@ class Nexo_Settings_Controller extends CI_Model
 		$this->events->add_action( 'dashboard_footer', function(){
 			?>
             <?php include_once( MODULESPATH . '/nexo/inc/angular/register/include.php' );?>
-            <div class="nexo-overlay" style="width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); z-index: 5000; position: absolute; top: 0px; left: 0px;"><i class="fa fa-refresh fa-spin nexo-refresh-icon" style="color: rgb(0, 0, 0); font-size: 50px; position: absolute; top: 50%; left: 50%; margin-top: -25px; margin-left: -25px; width: 44px; height: 50px;"></i></div>
 			<?php
 		});
+
+        $this->events->add_action( 'before_body_content', function(){
+			?>
+            <div class="nexo-overlay" style="width: 100%; height: 100%; background: rgba(255, 255, 255, 1); z-index: 5000; position: fixed; top: 0px; left: 0px;"><i class="fa fa-refresh fa-spin nexo-refresh-icon" style="color: rgb(0, 0, 0); font-size: 50px; position: absolute; top: 50%; left: 50%; margin-top: -25px; margin-left: -25px; width: 44px; height: 50px;"></i></div>
+			<?php
+		});
+
+        /**
+         * @since 3.0.1
+         * Coupon Feature
+        **/
+
+        $this->events->add_action( 'dashboard_footer', function(){
+            get_instance()->load->module_view( 'nexo', 'coupon-script' );
+        });
+
+        $this->events->add_action( 'angular_paybox_footer', function(){
+            get_instance()->load->module_view( 'nexo', 'coupon-footer' );
+        });
+
+        $this->events->add_action( 'load_register_content', function(){
+            include_once( MODULESPATH . '/nexo/inc/angular/register/directives/coupon-payment.php' );
+        });
+
 		/**
 		 * If Register Option is disabled, then we hide "close register" menu
 		 * Order proceeded when register option is disabled will be bound to default register which is "0"

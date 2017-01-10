@@ -44,10 +44,19 @@ $config[ 'nexo_true_false' ]    =    array(
 
 $config[ 'nexo_payments_types' ]    =    array(
     'cash'            	=>    	get_instance()->lang->line('cash'),
-	   'creditcard'		=>		get_instance()->lang->line( 'creditcard' ),
+	'creditcard'		=>		get_instance()->lang->line( 'creditcard' ),
     'cheque'			=>		get_instance()->lang->line( 'cheque' ),
     'bank'            	=>    	get_instance()->lang->line('bank_transfert'),
-	// 'multi'				=>		get_instance()->lang->line( 'multi' )
+    'coupon'            =>      get_instance()->lang->line('coupon'),
+);
+
+$config[ 'nexo_all_payment_types' ] =   array(
+    'cash'            	=>    	get_instance()->lang->line('cash'),
+	'creditcard'		=>		get_instance()->lang->line( 'creditcard' ),
+    'cheque'			=>		get_instance()->lang->line( 'cheque' ),
+    'bank'            	=>    	get_instance()->lang->line('bank_transfert'),
+    'multi'				=>		get_instance()->lang->line( 'multi' ),
+    'coupon'            =>      get_instance()->lang->line( 'coupon' ),
 );
 
 /**

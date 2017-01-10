@@ -1,4 +1,12 @@
+<?php
+global $Options;
+?>
 <script>
+
+<?php
+if (@$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):
+?>
+
 NexoAPI.events.addFilter( 'nexo_payments_types_object', function( object ) {
 
 	object		=	_.extend( object, _.object( [ 'stripe' ], [{
@@ -10,6 +18,10 @@ NexoAPI.events.addFilter( 'nexo_payments_types_object', function( object ) {
 	return object;
 
 });
+
+<?php
+endif;
+?>
 
 var	previous_text	=	null;
 

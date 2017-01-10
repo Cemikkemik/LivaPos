@@ -159,6 +159,38 @@ class Nexo_Controller extends CI_Model
 				);
 			}
 
+            // Coupon Features
+            // @since 3.0.1
+            $this->events->do_action('nexo_before_coupons', $Nexo_Menus);
+
+            if( @$Options[ store_prefix() . 'disable_coupon' ] != 'yes' ) {
+                if (
+    				User::can('create_coupons') ||
+    				User::can('edit_coupons') ||
+    				User::can('delete_coupons')
+    			) {
+
+                    $Nexo_Menus[ 'coupons' ]    =    $this->events->apply_filters('nexo_coupons_menu_array',[
+                        array(
+    						'title'            =>    __('Coupons', 'nexo'),
+    						'icon'            =>    'fa fa-ticket',
+                            'disable'           =>  true
+    					),
+                        array(
+                            'title'            =>    __('Liste des coupons', 'nexo'),
+    						'href'            =>    site_url( array( 'dashboard', $store_uri . 'nexo_coupons', 'index' ))
+                        ),
+                        array(
+                            'title'            =>    __('Ajouter un coupon', 'nexo'),
+    						'href'            =>    site_url( array( 'dashboard', $store_uri . 'nexo_coupons', 'index', 'add_new' ))
+                        )
+                    ]);
+
+                }
+            }
+
+            $this->events->do_action('nexo_after_coupons', $Nexo_Menus);
+
 			$this->events->do_action('nexo_before_shipping', $Nexo_Menus);
 
 			if (
@@ -217,6 +249,10 @@ class Nexo_Controller extends CI_Model
 					'title'        =>    __('Ajouter une catégorie', 'nexo'),
 					'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/categories/lists/add'),
 				),
+                array(
+                    'title'         =>  __( 'Importer les articles', 'nexo' ),
+                    'href'          =>  site_url( array( 'dashboard', store_slug(), 'nexo_import', 'items' ) )
+                )
 			));
 
 				$Nexo_Menus[ 'vendors' ]	=	array(
@@ -356,7 +392,7 @@ class Nexo_Controller extends CI_Model
 			) {
 				$Nexo_Menus[ 'nexo_settings' ]    =    $this->events->apply_filters('nexo_settings_menu_array', array(
 					array(
-						'title'            =>    __('Réglages Nexo', 'nexo'),
+						'title'            =>    sprintf( __('Réglages %s', 'nexo'), @$Options[ 'site_name' ] == null ? 'Nexo' : @$Options[ 'site_name' ] ),
 						'icon'            =>    'fa fa-gear',
 						'href'            =>    '#',
 						'disable'        =>    true
@@ -437,7 +473,7 @@ class Nexo_Controller extends CI_Model
 
 		if( $uri === 'stores' ) {
 			foreach( $final as $key => $menu ) {
-				if( ! in_array( $key, array( 'activite', 'rapports', 'clients', 'vendors', 'arrivages', 'factures', 'nexo_settings', 'sales', 'caisse' ) ) ) {
+				if( ! in_array( $key, array( 'activite', 'rapports', 'clients', 'vendors', 'arrivages', 'factures', 'nexo_settings', 'sales', 'caisse', 'coupons' ) ) ) {
 					unset( $final[ $key ] );
 				}
 			}
@@ -472,8 +508,19 @@ class Nexo_Controller extends CI_Model
     {
         $this->load->model('Nexo_Misc');
 
+        include_once( dirname( __FILE__ ) . '/../__controllers/import.php' );
+        include_once( dirname( __FILE__ ) . '/../__controllers/coupons.php' );
+
         $this->Gui->register_page('nexo', array( $this, 'load_controller' ));
 		$this->Gui->register_page( 'stores', array( $this, 'stores' ) );
+        $this->Gui->register_page_object( 'nexo_import', new Import );
+        $this->Gui->register_page_object( 'nexo_coupons', new NexoCouponController );
+
+        // @since 2.10.1
+        $this->events->add_filter( 'stores_controller_callback', function( $action ) {
+            $action[ 'nexo_import' ]    =   new Import;
+            return $action;
+        });
 
 		$this->events->add_action( 'display_admin_header_menu', function( $action ) {
 

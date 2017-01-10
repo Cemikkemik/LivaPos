@@ -17,10 +17,18 @@ class Nexo_Payment_Gateway extends CI_Model
 
 	public function dashboard()
 	{
-		if( ! Modules::is_active( 'nexo' ) ) {
-            $this->notice->push_notice(tendoo_warning(__('Nexo Module needs to be installed for "Payment Gateway" to work.', 'nexo_customer_display')));
-            return false;
-        }
+		global $Options;
+		// Set default options for Stripe
+		if (@$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):
+			$this->load->config( 'nexo' );
+			$payments	=	$this->config->item( 'nexo_payments_types' );
+			$payments[ 'stripe' ]	=	__( 'Stripe' , 'nexo-payments-gateway' );
+			$this->config->set_item( 'nexo_payments_types', $payments );
+
+			$payments_all	=	$this->config->item( 'nexo_all_payment_types' );
+			$payments_all[ 'stripe' ]	=	__( 'Stripe' , 'nexo-payments-gateway' );
+			$this->config->set_item( 'nexo_all_payment_types', $payments_all );
+		endif;
 
 		$this->events->add_action( 'dashboard_footer', array( $this, 'dashboard_footer' ) );
 		$this->events->add_action( 'dashboard_header', array( $this, 'dashboard_header' ) );

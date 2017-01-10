@@ -24,7 +24,8 @@ class Nexo extends CI_Model
 
         $this->load->helper('nexopos');
         $this->events->add_action('load_dashboard_home', array( $this, 'init' ));
-        $this->events->add_action('dashboard_header', array( $this, 'header' ));
+        $this->events->add_action('dashboard_footer', array( $this, 'dashboard_footer' ) );
+        $this->events->add_filter( 'ui_notices', array( $this, 'ui_notices' ) );
         $this->events->add_filter('default_js_libraries', function ($libraries) {
 
             foreach ($libraries as $key => $lib) {
@@ -33,28 +34,51 @@ class Nexo extends CI_Model
                 }
             }
 
-            $libraries		  =    array_values($libraries);
-            $bower_path     =    '../modules/nexo/bower_components/';
-
-            // Add Numeral @since 2.6.3
-            $libraries[]    =    $bower_path . 'numeral/min/numeral.min';
-            $libraries[]    =    $bower_path . 'Chart.js/Chart.min';
-            $libraries[]    =    $bower_path . 'jquery_lazyload/jquery.lazyload';
-            $libraries[]    =    $bower_path . 'bootstrap-toggle/js/bootstrap2-toggle.min';
-            $libraries[]    =    '../modules/nexo/js/nexo-api';
-            $libraries[]    =    '../plugins/knob/jquery.knob';
-
             return $libraries;
 
         });
 
+        $segments    = $this->uri->segment_array();
+        if( @$segments[ 2 ] == 'stores' && @$segments[ 4 ] == null ) {
+
+            $this->enqueue->js_namespace( 'dashboard_footer' );
+            $this->enqueue->js( 'tendoo.widget.dragging' );
+
+        }
+
+        $this->enqueue->js_namespace( 'dashboard_header' );
+        $bower_path     =    '../modules/nexo/bower_components/';
+        $libraries[]    =    $bower_path . 'numeral/min/numeral.min';
+        $libraries[]    =    $bower_path . 'Chart.js/Chart.min';
+        $libraries[]    =    $bower_path . 'jquery_lazyload/jquery.lazyload';
+        $libraries[]    =    $bower_path . 'bootstrap-toggle/js/bootstrap2-toggle.min';
+        $libraries[]    =    '../modules/nexo/js/nexo-api';
+        $libraries[]    =    '../plugins/knob/jquery.knob';
+
+        foreach( $libraries as $lib ) {
+            $this->enqueue->js( $lib );
+        }
+
+        $this->enqueue->js( '../modules/nexo/js/jquery-ui.min' );
+        $this->enqueue->js( '../modules/nexo/js/html5-audio-library' );
+        $this->enqueue->js( '../modules/nexo/js/HTML.min' );
+        $this->enqueue->js( '../modules/nexo/js/piecharts/piecharts' );
+        $this->enqueue->js( '../modules/nexo/js/jquery-ui.min' );
+
+        $this->enqueue->js_namespace( 'dashboard_footer' );
+        $this->enqueue->js( '../modules/nexo/bower_components/angular-numeraljs/dist/angular-numeraljs.min' );
+
+        $this->enqueue->css_namespace( 'dashboard_header' );
         $this->enqueue->css( 'css/nexo-arrow', module_url( 'nexo' ) );
+        $this->enqueue->css( '../modules/nexo/css/jquery-ui' );
+        $this->enqueue->css( '../modules/nexo/bower_components/bootstrap-toggle/css/bootstrap2-toggle.min' );
+        $this->enqueue->css( '../modules/nexo/css/piecharts/piecharts' );
 
         $this->events->add_action('load_dashboard', array( $this, 'dashboard' ));
-        $this->events->add_action('dashboard_footer', array( $this, 'footer' ));
         $this->events->add_action('after_app_init', array( $this, 'after_app_init' ));
         $this->events->add_filter('nexo_daily_details_link', array( $this, 'remove_link' ), 10, 2);
         $this->events->add_action('load_frontend', array( $this, 'load_frontend' ));
+
 		// POS note button
 		$this->events->add_filter( 'pos_search_input_after', array( $this, 'pos_note_button' ) );
 
@@ -65,6 +89,11 @@ class Nexo extends CI_Model
 			}
 			return $redirection;
 		});
+
+        $this->events->add_filter( 'dashboard_dependencies', function( $deps ){
+            $deps[]     =   'ngNumeraljs';
+            return $deps;
+        });
 
         // @since 2.9.6
         $this->events->add_filter( 'signin_logo', function( $string ){
@@ -77,6 +106,52 @@ class Nexo extends CI_Model
             }
             return $string;
         });
+
+        // @since 2.9.11
+        $this->events->add_filter( 'dashboard_footer_right', function( $text ) {
+            global $Options;
+            if( ! is_multistore() ) {
+                return xss_clean( @$Options[ 'nexo_footer_text' ] );
+            }
+            return $text;
+        });
+
+        // @since 2.9.10
+        $this->events->add_filter( 'dashboard_logo_long', function( $text ) {
+            global $Options;
+            if( ! is_multistore() ) {
+                if( ! in_array( @$Options[ 'nexo_logo_type' ], array( 'default', null ) ) ){
+                    return @$Options[ 'nexo_logo_text' ];
+                }
+            }
+            return $text;
+        });
+
+        //
+        $this->events->add_filter( 'dashboard_logo_small', function( $text ) {
+            global $Options;
+            if( ! is_multistore() ) {
+                if( ! in_array( @$Options[ 'nexo_logo_type' ], array( 'default', null ) ) ){
+                    return '<img src="' . @$Options[ 'nexo_logo_url' ] . '" alt="logo" style="width:50px;"/>';
+                }
+            }
+            return $text;
+        });
+
+        //
+        $this->events->add_filter( 'dashboard_footer_text', function( $text ){
+            global $Options;
+            if( ! is_multistore() ) {
+                if( ! in_array( @$Options[ 'nexo_logo_type' ], array( 'default', null ) ) ){
+                    return @$Options[ 'nexo_logo_text' ];
+                }
+            }
+            return $text;
+        });
+
+        $this->events->add_action( 'dashboard_header', function(){
+            echo '<meta name="mobile-web-app-capable" content="yes">';
+        }, 1 );
 
         // For codebar
         if (! is_dir('public/upload/codebar')) {
@@ -93,6 +168,36 @@ class Nexo extends CI_Model
             mkdir('public/upload/categories');
         }
     }
+
+    /**
+     *  Ui notice
+     *
+     *  @param  array notice array
+     *  @return array
+    **/
+
+    public function ui_notices( $notices )
+    {
+        global $Options;
+        if( @$Options[ store_prefix() . 'nexo_enable_stock_warning' ] == 'yes' ) {
+            $cache  =   new CI_Cache( array( 'adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' ) );
+            if( $itemsOutOfStock    =   $cache->get( store_prefix() . 'items_out_of_stock' ) ) {
+                foreach( $itemsOutOfStock as $item ) {
+                    $notices[]  =   array(
+                        'namespace'     =>  'items_out_of_stock',
+                        'type'          =>  'info',
+                        'message'       =>  sprintf( __( 'Le stock du produit <strong>%s</strong> est faible. Cliquez-ici pour accéder au produit.', 'nexo' ), @$item[ 'design' ] ),
+                        'icon'          =>  'fa fa-warning',
+                        'href'          =>  site_url( array( 'dashboard', store_prefix(), 'nexo', 'produits', 'lists', 'edit', $item[ 'id' ] ) ),
+                    );
+                }
+                $cache->delete( store_prefix() . 'items_out_of_stock' );
+            }
+        }
+        return $notices;
+    }
+
+
 
     /**
      * Front End
@@ -117,20 +222,16 @@ class Nexo extends CI_Model
 
     public function after_app_init()
     {
+        global $Options;
         $this->lang->load_lines(dirname(__FILE__) . '/language/nexo_lang.php');
-
         $this->load->config('nexo');
-    }
 
-    /**
-     * Display text on footer
-     *
-     * @return void
-    **/
-
-    public function footer()
-    {
-
+        // If coupon is disabled, we remove it as payment
+        if( @$Options[ store_prefix() . 'disable_coupon' ] == 'yes' ) {
+            $payments   = $this->config->item( 'nexo_payments_types' );
+            unset( $payments[ 'coupon' ] );
+            $this->config->set_item( 'nexo_payments_types', $payments );
+        }
     }
 
     /**
@@ -160,13 +261,6 @@ class Nexo extends CI_Model
 				$store_id = null;
 			}
 		}
-
-        $escapeAds    =    $this->events->apply_filters('nexo_escape_nexoadds', Modules::is_active('nexo_ads') );
-
-		if ( ( ! Modules::is_active('grocerycrud') || $escapeAds == false ) && ! page_is( 'migrate' ) ) {
-            Modules::disable('nexo');
-            redirect(array( 'dashboard', 'modules?highlight=Nexo&notice=error-occured' ));
-        }
     }
 
     /**
@@ -175,32 +269,13 @@ class Nexo extends CI_Model
      * @return void
     **/
 
-    public function header()
+    public function dashboard_footer()
     {
         global $Options;
         /**
          * <script type="text/javascript" src="<?php echo js_url( 'nexo' ) . 'jsapi.js';?>"></script>
         **/
         ?>
-        <meta name="mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="<?php echo css_url('nexo') . 'jquery-ui.css';
-        ?>">
-        <script src="<?php echo js_url('nexo') . 'jquery-ui.min.js';
-        ?>"></script>
-        <script src="<?php echo module_url('nexo') . 'js/html5-audio-library.js';
-        ?>"></script>
-        <script src="<?php echo module_url('nexo') . 'js/HTML.min.js';
-        ?>"></script>
-        <link rel="stylesheet" href="<?php echo module_url('nexo') . '/bower_components/bootstrap-toggle/css/bootstrap2-toggle.min.css';
-        ?>">
-		<script src="<?php echo module_url('nexo') . 'bower_components/angular/angular.min.js';?>"></script>
-
-
-        <!-- Include PIE CHARTS -->
-        <link rel="stylesheet" href="<?php echo css_url('nexo') . '/piecharts/piecharts.css';
-        ?>">
-        <script type="text/javascript" src="<?php echo js_url('nexo') . 'piecharts/piecharts.js';
-        ?>"></script>
         <script type="text/javascript">
 
 		      "use strict";
@@ -363,32 +438,6 @@ class Nexo extends CI_Model
 
     public function init()
     {
-        /*$this->dashboard_widgets->add('ventes_annuelles', array(
-            'title'    => __('Nombres de commandes journalières', 'nexo'),
-            'type'    => 'box-primary',
-            // 'background-color'	=>	'',
-            'position'    => 1,
-            'content'    =>    $this->load->view('../modules/nexo/inc/widgets/sales.php', array(), true)
-        ));*/
-
-        /*$this->dashboard_widgets->add('chiffre_daffaire_net', array(
-            'title'    => __('Chiffre d\'affaire journalier', 'nexo'),
-            'type'    => 'box-primary',
-            // 'background-color'	=>	'',
-            'position'    => 1,
-            'content'    =>    $this->load->view('../modules/nexo/inc/widgets/chiffre-daffaire-net.php', array(), true)
-        ));*/
-
-        /** $this->dashboard_widgets->add('nexo_guides', array(
-            'title'                    => __('Guides du débutant', 'nexo'),
-            'type'                    => 'box-primary',
-            'hide_body_wrapper'        =>    true,
-            // 'background-color'	=>	'',
-            'position'                => 3,
-            'content'                =>    $this->load->view('../modules/nexo/inc/widgets/guides.php', array(), true)
-        ));
-        **/
-
 		/**
 		 * When MultiStore is enabled, we disable default widget on main site,
 		 * and use custom multistore widget instead
@@ -412,13 +461,13 @@ class Nexo extends CI_Model
 
 			if( User::in_group( 'master' ) || User::in_group( 'shop_manager' ) ) {
 
-				$this->dashboard_widgets->add( store_prefix() . 'nexo_sales_new', array(
-					'title'                    =>    __('Meilleurs articles', 'nexo'),
-					'type'                    =>    'unwrapped',
-					'hide_body_wrapper'        =>    true,
-					'position'                =>    1,
-					'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sales-new', array(), true)
-				));
+				// $this->dashboard_widgets->add( store_prefix() . 'nexo_sales_new', array(
+				// 	'title'                    =>    __('Meilleurs articles', 'nexo'),
+				// 	'type'                    =>    'unwrapped',
+				// 	'hide_body_wrapper'        =>    true,
+				// 	'position'                =>    1,
+				// 	'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sales-new', array(), true)
+				// ));
 
 				$this->dashboard_widgets->add( store_prefix() . 'nexo_sales_income', array(
 					'title'                    =>    __('Chiffre d\'affaire', 'nexo'),
@@ -438,26 +487,6 @@ class Nexo extends CI_Model
 
 			}
 		}
-
-        /**
-        $this->dashboard_widgets->add('nexo_tutorials', array(
-            'title'                    => __('Tutoriels NexoPOS', 'nexo'),
-            'type'                    => 'box-primary',
-            'hide_body_wrapper'        =>    true,
-            // 'background-color'	=>	'',
-            'position'                => 3,
-            'content'                =>    $this->load->view('../modules/nexo/inc/widgets/tutorials.php', array(), true)
-        ));
-
-        $this->dashboard_widgets->add('nexo_news', array(
-            'title'                    => __('Actualités NexoPOS', 'nexo'),
-            'type'                    => 'box-primary',
-            'hide_body_wrapper'        =>    true,
-            // 'background-color'	=>	'',
-            'position'                => 2,
-            'content'                =>    $this->load->view('../modules/nexo/inc/widgets/news.php', array(), true)
-        ));
-        **/
     }
 
     /**

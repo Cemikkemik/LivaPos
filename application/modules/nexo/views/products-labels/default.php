@@ -52,16 +52,16 @@ if (! $products_labels = $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'tr
                 </tr>
             </thead>
             <tbody>
-            <?php 
+            <?php
             if (count($products) > 0) {
-				
+
 				$this->load->model( 'Nexo_Categories' );
-				
+
                 $start        =    1;
                 foreach ($products as $product) {
                     $shipping        =    $this->Nexo_Shipping->get_shipping($shipping_id, 'as_id');
-					$category		=	get_instance()->Nexo_Categories->get( $product[ 'REF_CATEGORIE' ], 'as_id' );		
-                    
+					$category		=	get_instance()->Nexo_Categories->get( $product[ 'REF_CATEGORIE' ], 'as_id' );
+
                     // Parcours des produits restants
                     for ($i = 0; $i < intval( $this->input->get( 'per_item' ) ? $this->input->get( 'per_item' ) : $product[ 'QUANTITE_RESTANTE' ] ) ; $i++) { // $product[ 'QUANTITE_RESTANTE' ]
                         // Balise d'ouverture
@@ -75,28 +75,28 @@ if (! $products_labels = $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'tr
                     	<h4 class="text-center" style="margin:10px;padding:0px;"><?php echo $product[ 'DESIGN' ];?></h4>
                         <img style="width:94%;height:50px;margin:2%" src="<?php echo upload_url() . '/codebar/' . $product[ 'CODEBAR' ] . '.jpg';
                         ?>">
-                        
+
                         <p class="text-center" style="margin:0px;font-size:12px;"><?php echo $product[ 'CODEBAR' ];?></p>
-                        
+
                         <p style="border:solid 1px #CCC;margin-top:0px;padding:5px 10px;position:relative;right:0px;float:right;margin-bottom:0px;border-right:0px;border-bottom:0px;font-size:12px;">
                         <?php echo
 						$this->Nexo_Misc->display_currency('before') . ' ' .
 						$product[ 'PRIX_DE_VENTE' ] . ' ' .
-						// $this->Nexo_Misc->cmoney_format( $product[ 'PRIX_DE_VENTE' ] )	
+						// $this->Nexo_Misc->cmoney_format( $product[ 'PRIX_DE_VENTE' ] )
 						$this->Nexo_Misc->display_currency('after');
                         ?>
 						</p>
                         <?php
-						
+
 						$ship_title	=	$shipping[0][ 'TITRE' ];
-						$exploded	=	explode( ' ', $ship_title );
-						
+						$exploded	=	explode( ' ', trim( $ship_title ) );
+
 						foreach( $exploded as $key => $string ) {
 							if( $key < count( $exploded ) - 1 ) {
 								$exploded[ $key ]	=	substr( $string, 0, 1 );
 							}
 						}
-						
+
 						$array_string		=	explode( ' ', $ship_title );
 						$final_string		=	'';
 						foreach( $array_string as $final ) {

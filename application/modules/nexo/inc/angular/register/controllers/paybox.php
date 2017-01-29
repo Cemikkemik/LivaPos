@@ -55,7 +55,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	* Add Payment
 	**/
 
-	$scope.addPayment								=	function( payment_namespace, payment_amount ) {
+	$scope.addPayment								=	function( payment_namespace, payment_amount, meta ) {
 
 		if( payment_amount <= 0 || ( isNaN( parseFloat( payment_amount ) ) && isNaN( parseInt( payment_amount ) ) ) ) {
 			NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Le montant spécifié est incorrecte', 'nexo' );?>' );
@@ -83,7 +83,8 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 			$scope.paymentList.push({
 				namespace		:	payment_namespace,
 				text			:	_.propertyOf( $scope.paymentTypes )( payment_namespace ),
-				amount			:	payment_amount
+				amount			:	payment_amount,
+				meta 			:	meta
 			});
 
 		}
@@ -418,7 +419,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	**/
 
 	$scope.openCouponBox		=	function(){
-		alert( 'ok' );
+		// alert( 'ok' );
 	}
 
 	/**
@@ -488,7 +489,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		// Add Filter
 		angular.element( '.modal-footer' ).prepend( '<div class="pay_box_footer pull-left">' + NexoAPI.events.applyFilters( 'pay_box_footer', '' ) + '</div>' );
 
-		NexoAPI.events.doAction( 'pay_box_loaded' );
+		NexoAPI.events.doAction( 'pay_box_loaded', $scope );
 	};
 
 	/**
@@ -523,11 +524,13 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 
 		$scope.cancelPaymentEdition();
 
+		var removed 		=	$scope.paymentList[ index ];
+
 		$scope.paymentList.splice( index, 1 );
 
 		$scope.refreshPaidSoFar();
 
-		NexoAPI.events.doAction( 'cart_remove_payment', [ $scope.cart.paidSoFar, $scope.cart.balance ]);
+		NexoAPI.events.doAction( 'cart_remove_payment', [ $scope.cart.paidSoFar, $scope.cart.balance, $scope, removed ]);
 	};
 
 	/**

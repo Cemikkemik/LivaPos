@@ -56,4 +56,5 @@ class AlanChuaMain extends CI_Model{
     }
 
 }
+
 new AlanChuaMain;

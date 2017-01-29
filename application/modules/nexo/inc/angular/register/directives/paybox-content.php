@@ -30,7 +30,7 @@ tendooApp.directive( 'payBoxContent', function(){
 		.add( 'a.text-left.list-group-item.' + key + '{' + value.text + '}' )
 		.each( 'href', 'javascript:void(0)' )
 		.each( 'ng-click', 'selectPayment("' + key + '")' )
-		.each( 'style', 'margin:0px;border-radius:0px;border:solid 1px #DEDEDE;border-top:solid 0px;border-right:solid 0px;' )
+		.each( 'style', 'margin:0px;border-radius:0px;border:solid 1px #DEDEDE;border-top:solid 0px;border-right:solid 0px;line-height:30px;' )
 		.each( 'ng-class', '{ "active" : paymentTypesObject.' + key + '.active }' );
 	});
 

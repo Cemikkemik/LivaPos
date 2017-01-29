@@ -15,9 +15,8 @@ foreach( $stores as $store ) {
 
     $this->db->query('CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $store_prefix .'nexo_commandes_coupons` (
       `ID` int(11) NOT NULL AUTO_INCREMENT,
-      `REF_COMMAND_CODE` varchar(250) NOT NULL,
+      `REF_COMMAND` int(11) NOT NULL,
       `REF_COUPON` int(11) NOT NULL,
-      `DATE_CREATION` datetime NOT NULL,
       PRIMARY KEY (`ID`)
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
@@ -25,38 +24,38 @@ foreach( $stores as $store ) {
 
     //
 
-    $this->db->query('CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $store_prefix .'nexo_articles_taxes` (
-      `ID` int(11) NOT NULL AUTO_INCREMENT,
-      `REF_COMMAND_CODE` varchar(250) NOT NULL,
-      `REF_COUPON` int(11) NOT NULL,
-      `DATE_CREATION` datetime NOT NULL,
-      PRIMARY KEY (`ID`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
-
-    $this->db->query('CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $store_prefix .'nexo_shipping_class` (
-      `ID` int(11) NOT NULL AUTO_INCREMENT,
-      `REF_COMMAND_CODE` varchar(250) NOT NULL,
-      `REF_COUPON` int(11) NOT NULL,
-      `DATE_CREATION` datetime NOT NULL,
-      PRIMARY KEY (`ID`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
-
-    $this->db->query('CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $store_prefix .'nexo_commandes_shippings` (
-      `ID` int(11) NOT NULL AUTO_INCREMENT,
-      `REF_COMMAND_CODE` varchar(250) NOT NULL,
-      `REF_SHIPPING` int(11) NOT NULL,
-      `DATE_CREATION` datetime NOT NULL,
-      PRIMARY KEY (`ID`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
-
-    $this->db->query('CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $store_prefix .'nexo_expenses_categories` (
-      `ID` int(11) NOT NULL AUTO_INCREMENT,
-      `NAME` varchar(250) NOT NULL,
-      `DESCRIPTION` int(11) NOT NULL,
-      `DATE_CREATION` datetime NOT NULL,
-      `AUTHOR` int(11) NOT NULL,
-      PRIMARY KEY (`ID`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+    // $this->db->query('CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $store_prefix .'nexo_articles_taxes` (
+    //   `ID` int(11) NOT NULL AUTO_INCREMENT,
+    //   `REF_COMMAND_CODE` varchar(250) NOT NULL,
+    //   `REF_COUPON` int(11) NOT NULL,
+    //   `DATE_CREATION` datetime NOT NULL,
+    //   PRIMARY KEY (`ID`)
+    // ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+    //
+    // $this->db->query('CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $store_prefix .'nexo_shipping_class` (
+    //   `ID` int(11) NOT NULL AUTO_INCREMENT,
+    //   `REF_COMMAND_CODE` varchar(250) NOT NULL,
+    //   `REF_COUPON` int(11) NOT NULL,
+    //   `DATE_CREATION` datetime NOT NULL,
+    //   PRIMARY KEY (`ID`)
+    // ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+    //
+    // $this->db->query('CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $store_prefix .'nexo_commandes_shippings` (
+    //   `ID` int(11) NOT NULL AUTO_INCREMENT,
+    //   `REF_COMMAND_CODE` varchar(250) NOT NULL,
+    //   `REF_SHIPPING` int(11) NOT NULL,
+    //   `DATE_CREATION` datetime NOT NULL,
+    //   PRIMARY KEY (`ID`)
+    // ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+    //
+    // $this->db->query('CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $store_prefix .'nexo_expenses_categories` (
+    //   `ID` int(11) NOT NULL AUTO_INCREMENT,
+    //   `NAME` varchar(250) NOT NULL,
+    //   `DESCRIPTION` int(11) NOT NULL,
+    //   `DATE_CREATION` datetime NOT NULL,
+    //   `AUTHOR` int(11) NOT NULL,
+    //   PRIMARY KEY (`ID`)
+    // ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
 
 }

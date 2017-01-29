@@ -5,10 +5,10 @@ class Nexo_shipping extends CI_Model
     {
         parent::__construct();
     }
-    
+
     /**
      * Create Shipping
-     * 
+     *
      * @param string name
      * @param string provider
      * @param string description
@@ -16,7 +16,7 @@ class Nexo_shipping extends CI_Model
      * @param int id
      * @return string
     **/
-    
+
     public function set_shipping($name, $provider, $description, $mode = 'create', $id = 0) // Ok
     {
         if ($mode == 'create') {
@@ -46,16 +46,16 @@ class Nexo_shipping extends CI_Model
             return 'shipping-already-exists-or-unknow-provider';
         }
     }
-    
+
     /**
      * Test whether a shipping exists
-     * 
+     *
      * @param string name
      * @param string filter
      * @param int exclude
      * @return bool
     **/
-    
+
     public function shipping_exists($name, $filter = 'as_name', $exclude = 0)
     {
         if ($exclude != null) {
@@ -65,15 +65,15 @@ class Nexo_shipping extends CI_Model
             return $this->get_shipping($name, $filter) ? true : false;
         }
     }
-    
+
     /**
      * Get shipping
-     * 
+     *
      * @param string name
      * @param string filter
      * @return array
     **/
-    
+
     public function get_shipping($name = null, $end = 'as_name')
     {
         if (is_numeric($name) && is_numeric($end)) {
@@ -87,7 +87,18 @@ class Nexo_shipping extends CI_Model
                 $this->db->where('ID !=', $name);
             }
         }
+
         $query    =    $this->db->get( store_prefix() . 'nexo_arrivages');
         return $query->result_array();
+    }
+
+    /**
+     *  Get Providers
+     *  @return array
+    **/
+
+    public function get_providers()
+    {
+        return $this->db->get( store_prefix() . 'nexo_fournisseurs' )->result_array();
     }
 }

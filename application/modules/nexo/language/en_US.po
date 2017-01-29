@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nexo\n"
-"POT-Creation-Date: 2017-01-06 09:42+0100\n"
-"PO-Revision-Date: 2017-01-06 10:16+0100\n"
+"POT-Creation-Date: 2017-01-11 15:23+0100\n"
+"PO-Revision-Date: 2017-01-11 15:24+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en\n"
@@ -255,6 +255,8 @@ msgid "Modifier la commande"
 msgstr "Edit Order"
 
 #: __controllers/commandes.php:90 __controllers/coupons.php:21
+#: inc/angular/register/directives/coupon-payment.php:13
+#: inc/angular/register/directives/coupon-payment.php:73
 #, fuzzy
 msgid "Code"
 msgstr "Code"
@@ -354,24 +356,101 @@ msgid "Id"
 msgstr "Id"
 
 #: __controllers/coupons.php:22
-msgid "Valeur"
-msgstr "Value"
+#: inc/angular/register/directives/coupon-payment.php:79
+msgid "Type"
+msgstr "Type"
 
 #: __controllers/coupons.php:23
+msgid "Valeur / Pourcentage"
+msgstr "Value / percentage"
+
+#: __controllers/coupons.php:24
+msgid "Date D'expiration"
+msgstr "Expiration date"
+
+#: __controllers/coupons.php:25
+msgid "Produits ciblés"
+msgstr "Products targeted"
+
+#: __controllers/coupons.php:26
+msgid "Catégorie ciblées"
+msgstr "Category targeted"
+
+#: __controllers/coupons.php:27
 msgid "Limite d'utilisation"
 msgstr "Usage Limit"
 
-#: __controllers/coupons.php:24
+#: __controllers/coupons.php:28
 msgid "Montant minimal"
 msgstr "Minimum amount"
 
-#: __controllers/coupons.php:25
-msgid "Montant maximal"
-msgstr "Maximum amount"
+#: __controllers/coupons.php:29
+msgid "Caissier Récompensé"
+msgstr "Cashier rewarded"
 
-#: __controllers/coupons.php:31 inc/controller.php:175
+#: __controllers/coupons.php:56 inc/controller.php:175
 msgid "Coupons"
 msgstr "Coupons"
+
+#: __controllers/coupons.php:74 views/checkout/v2-1/script.php:392
+#: views/checkout/v2/script.php:438
+msgid "Pourcentage"
+msgstr "Percentage"
+
+#: __controllers/coupons.php:75
+msgid "Montant Fixe"
+msgstr "Fixed amount"
+
+#: __controllers/coupons.php:79
+msgid "Définissez la valeur du coupon, en pourcentage ou montant fixe."
+msgstr "Set the value of the coupon, in percentage or amount."
+
+#: __controllers/coupons.php:80
+msgid ""
+"Ce champ représente l'identifiant du coupon. Il ne peut être utilisé qu'une "
+"seul fois."
+msgstr ""
+"This field represents the identifier of the coupon. It can be used only once."
+
+#: __controllers/coupons.php:81
+msgid ""
+"Ce coupon ne s'appliquera au panier que si un des produits sélectionné n'est "
+"ajouté au panier."
+msgstr ""
+"This coupon will apply to the cart, if one of the selected products is added "
+"to the basket."
+
+#: __controllers/coupons.php:82
+msgid "Type du coupon : Pourcentage ou Montant Fixe."
+msgstr "Type of coupon: percentage or fixed amount."
+
+#: __controllers/coupons.php:83
+msgid "Après un nombre définit d'utilisation, ce coupon ne sera plus valable"
+msgstr "After usage number, this coupon will expire."
+
+#: __controllers/coupons.php:84
+msgid "Montant minimal du panier afin que le coupon ne puisse s'appliquer"
+msgstr "Minimum amount of the cart so that the coupon can be applied"
+
+#: __controllers/coupons.php:85
+msgid ""
+"Ce coupon ne s'appliquera au panier que si une produit du panier appartient "
+"à une des catégories sélectionnée."
+msgstr ""
+"This coupon apply to cart if a product in the cart belongs to one of the "
+"categories selected."
+
+#: __controllers/coupons.php:86
+msgid ""
+"Lorsque les récompenses des caissiers est activée, à chaque utilisation du "
+"coupon, le caissier sélectionné recevra des points."
+msgstr ""
+"The cashiers reward turned on, after each use of the coupon, the cashier "
+"selected will receive points."
+
+#: __controllers/coupons.php:87
+msgid "Ce coupon ne sera plus utilisable après cette date."
+msgstr "This coupon will be more usable after this date."
 
 #: __controllers/dashboard.php:27 inc/controller.php:488
 msgid "Tableau de bord"
@@ -1014,9 +1093,10 @@ msgstr "Edit the Order"
 #: inc/angular/saveorder/controllers/saveorder.php:15
 #: inc/angular/saveorder/controllers/saveorder.php:36
 #: views/checkout/v2-1/script.php:677 views/checkout/v2-1/script.php:1069
-#: views/checkout/v2-1/script.php:2442 views/checkout/v2/script.php:723
+#: views/checkout/v2-1/script.php:2448 views/checkout/v2/script.php:723
 #: views/checkout/v2/script.php:1104 views/checkout/v2/script.php:2739
-#: views/coupon-footer.php:24 views/coupon-script.php:39
+#: views/coupon-footer.php:73 views/coupon-footer.php:79
+#: views/coupon-footer.php:85 views/coupon-script.php:49
 #: views/import/script.php:34 views/product-script.php:61
 #: views/settings/reset-script.php:75
 msgid "Attention"
@@ -1311,7 +1391,7 @@ msgstr ": item (s) purchased (s)"
 #: inc/angular/order-list/services/stripe-checkout.php:36
 #: inc/angular/order-list/services/stripe-checkout.php:87
 #: inc/angular/register/controllers/paybox.php:360
-#: views/checkout/v2-1/script.php:1198 views/checkout/v2-1/script.php:1761
+#: views/checkout/v2-1/script.php:1198 views/checkout/v2-1/script.php:1766
 #: views/checkout/v2/script.php:1236 views/checkout/v2/script.php:1803
 #: views/checkout/v2/script.php:2387 views/checkout/v2/script.php:2402
 #: views/checkout/v2/script.php:2448 views/import/script.php:123
@@ -1466,13 +1546,30 @@ msgstr "Do you really want to cancel ?"
 msgid "Appliquer un coupon"
 msgstr "Apply Coupon"
 
-#: inc/angular/register/directives/coupon-payment.php:13
-msgid "Code du coupon"
-msgstr "Coupon code"
-
 #: inc/angular/register/directives/coupon-payment.php:19
-msgid "Spécifier le code du coupon"
-msgstr "Specify the coupon code"
+msgid "Spécifier le code"
+msgstr "Specify the code"
+
+#: inc/angular/register/directives/coupon-payment.php:40
+#: views/registers/for_cashiers_dom.php:149
+msgid "Utiliser"
+msgstr "Use it"
+
+#: inc/angular/register/directives/coupon-payment.php:85
+msgid "Valeur"
+msgstr "Value"
+
+#: inc/angular/register/directives/coupon-payment.php:94
+msgid "Validité"
+msgstr "Validity"
+
+#: inc/angular/register/directives/coupon-payment.php:103
+msgid "Produits concernés"
+msgstr "Products targeted"
+
+#: inc/angular/register/directives/coupon-payment.php:112
+msgid "Catégories concernées"
+msgstr "Categories Targeted"
 
 #: inc/angular/register/directives/default-payment.php:17
 msgid "Montant du paiement"
@@ -2145,18 +2242,18 @@ msgstr "Micheal Jackson - Bad"
 msgid "Bad Cover"
 msgstr "Bad Cover"
 
-#: inc/tours.php:30
+#: inc/tours.php:36
 msgid "<h4 class=\"text-center\">Bienvenue sur NexoPOS</h4>"
 msgstr "<h4 class=\"text-center\">Welcome on NexoPOS</h4>"
 
-#: inc/tours.php:31
+#: inc/tours.php:37
 msgid ""
 "Merci d'avoir choisi d'utiliser <strong>NexoPOS</strong> pour votre gérer "
 "votre boutique."
 msgstr ""
 "Thank you for having choosed to use <strong>NexoPOS</strong> for your Store."
 
-#: inc/tours.php:33
+#: inc/tours.php:39
 msgid ""
 "C'est la première fois que <strong>NexoPOS</strong> est exécuté. Souhaitez-"
 "vous créer un exemple de boutique en activité, pour tester toutes les "
@@ -2168,16 +2265,16 @@ msgstr ""
 "<br><br><em>By clicking \"Cancel\", you'll have the capacity to reset the "
 "store from settings.</em>"
 
-#: inc/tours.php:36
+#: inc/tours.php:42
 msgid "<h4 class=\"text-center\">Comment ça marche ?</h4>"
 msgstr "<h4 class=\"text-center\">How does it works ?</h4>"
 
-#: inc/tours.php:70
+#: inc/tours.php:72
 #, fuzzy
 msgid "Choisissez une option de reinitialisation"
 msgstr "Choose an option of reset"
 
-#: inc/tours.php:72
+#: inc/tours.php:74
 #, fuzzy
 msgid "Veuillez choisir une option dans la liste de réinitialisation"
 msgstr "Please choose an option from the list of reset"
@@ -2194,7 +2291,7 @@ msgstr "Add a collection"
 msgid "Effectuer une commande"
 msgstr "Place an Order"
 
-#: inc/widgets/income.php:9 inc/widgets/income.php:39 main.php:468
+#: inc/widgets/income.php:9 inc/widgets/income.php:39 main.php:473
 #: views/dashboard/main-store-card.php:33
 msgid "Chiffre d'affaire"
 msgstr "Turnover"
@@ -2252,7 +2349,7 @@ msgid "Chargement..."
 msgstr "Loading..."
 
 #: inc/widgets/news.php:11 inc/widgets/tutorials.php:11
-#: views/checkout/v2-1/script.php:2113 views/checkout/v2/script.php:2084
+#: views/checkout/v2-1/script.php:2118 views/checkout/v2/script.php:2084
 msgid "Une erreur s'est produite durant la récupération des données"
 msgstr "An error occurred during the data recovery"
 
@@ -2684,11 +2781,11 @@ msgstr "Give the rights to delete coupons"
 msgid "Suppressions des coupons"
 msgstr "Deletions coupons"
 
-#: language/nexo_lang.php:105 views/coupon-script.php:12
+#: language/nexo_lang.php:105 views/coupon-script.php:18
 msgid "Coupon"
 msgstr "Coupon"
 
-#: main.php:169
+#: main.php:189
 #, php-format
 msgid ""
 "Le stock du produit <strong>%s</strong> est faible. Cliquez-ici pour accéder "
@@ -2697,19 +2794,19 @@ msgstr ""
 "The product <strong>%s</strong> stock is low. Click here to access the "
 "product."
 
-#: main.php:450
+#: main.php:455
 msgid "Profil"
 msgstr "Profile"
 
-#: main.php:476
+#: main.php:481
 msgid "Types de commades"
 msgstr "Order type"
 
-#: main.php:504
+#: main.php:509
 msgid "Note"
 msgstr "Note"
 
-#: main.php:504
+#: main.php:509
 #, php-format
 msgid "%s Note"
 msgstr "%s Note"
@@ -2834,10 +2931,6 @@ msgstr "Do you want to cancel this refund ?"
 msgid "Appliquer une remise"
 msgstr "Apply Discount"
 
-#: views/checkout/v2-1/script.php:392 views/checkout/v2/script.php:438
-msgid "Pourcentage"
-msgstr "Percentage"
-
 #: views/checkout/v2-1/script.php:394 views/checkout/v2/script.php:440
 msgid "Définir le montant ou le pourcentage ici..."
 msgstr "Define the amount or percentage here..."
@@ -2847,19 +2940,19 @@ msgstr "Define the amount or percentage here..."
 msgid "Espèces"
 msgstr "Cash"
 
-#: views/checkout/v2-1/script.php:404 views/checkout/v2-1/script.php:1985
+#: views/checkout/v2-1/script.php:404 views/checkout/v2-1/script.php:1990
 #: views/checkout/v2/script.php:450 views/checkout/v2/script.php:1960
 #, fuzzy
 msgid "7"
 msgstr "Turnover these last 7 days"
 
-#: views/checkout/v2-1/script.php:407 views/checkout/v2-1/script.php:1988
+#: views/checkout/v2-1/script.php:407 views/checkout/v2-1/script.php:1993
 #: views/checkout/v2/script.php:453 views/checkout/v2/script.php:1963
 #, fuzzy
 msgid "8"
 msgstr "8"
 
-#: views/checkout/v2-1/script.php:410 views/checkout/v2-1/script.php:1991
+#: views/checkout/v2-1/script.php:410 views/checkout/v2-1/script.php:1996
 #: views/checkout/v2/script.php:456 views/checkout/v2/script.php:1966
 #, fuzzy
 msgid "9"
@@ -2869,19 +2962,19 @@ msgstr "9"
 msgid "Retour arrière"
 msgstr "Go Back"
 
-#: views/checkout/v2-1/script.php:419 views/checkout/v2-1/script.php:2000
+#: views/checkout/v2-1/script.php:419 views/checkout/v2-1/script.php:2005
 #: views/checkout/v2/script.php:465 views/checkout/v2/script.php:1975
 #, fuzzy
 msgid "4"
 msgstr "4"
 
-#: views/checkout/v2-1/script.php:422 views/checkout/v2-1/script.php:2003
+#: views/checkout/v2-1/script.php:422 views/checkout/v2-1/script.php:2008
 #: views/checkout/v2/script.php:468 views/checkout/v2/script.php:1978
 #, fuzzy
 msgid "5"
 msgstr "5"
 
-#: views/checkout/v2-1/script.php:425 views/checkout/v2-1/script.php:2006
+#: views/checkout/v2-1/script.php:425 views/checkout/v2-1/script.php:2011
 #: views/checkout/v2/script.php:471 views/checkout/v2/script.php:1981
 #, fuzzy
 msgid "6"
@@ -2891,19 +2984,19 @@ msgstr "6"
 msgid "Vider"
 msgstr "Clear"
 
-#: views/checkout/v2-1/script.php:434 views/checkout/v2-1/script.php:2015
+#: views/checkout/v2-1/script.php:434 views/checkout/v2-1/script.php:2020
 #: views/checkout/v2/script.php:480 views/checkout/v2/script.php:1990
 #, fuzzy
 msgid "1"
 msgstr "1"
 
-#: views/checkout/v2-1/script.php:437 views/checkout/v2-1/script.php:2018
+#: views/checkout/v2-1/script.php:437 views/checkout/v2-1/script.php:2023
 #: views/checkout/v2/script.php:483 views/checkout/v2/script.php:1993
 #, fuzzy
 msgid "2"
 msgstr "2"
 
-#: views/checkout/v2-1/script.php:440 views/checkout/v2-1/script.php:2021
+#: views/checkout/v2-1/script.php:440 views/checkout/v2-1/script.php:2026
 #: views/checkout/v2/script.php:486 views/checkout/v2/script.php:1996
 #, fuzzy
 msgid "3"
@@ -2914,7 +3007,7 @@ msgstr "3"
 msgid "00"
 msgstr "00"
 
-#: views/checkout/v2-1/script.php:449 views/checkout/v2-1/script.php:2030
+#: views/checkout/v2-1/script.php:449 views/checkout/v2-1/script.php:2035
 #: views/checkout/v2/script.php:495 views/checkout/v2/script.php:2005
 #, fuzzy
 msgid "0"
@@ -2948,7 +3041,7 @@ msgstr "Product not found"
 msgid "Le nouveau prix ne peut pas être inférieur au prix minimal (seuil)"
 msgstr "The new price can not be lower than the minimum price (threshold)"
 
-#: views/checkout/v2-1/script.php:677 views/checkout/v2-1/script.php:2442
+#: views/checkout/v2-1/script.php:677 views/checkout/v2-1/script.php:2448
 #: views/checkout/v2/script.php:723 views/checkout/v2/script.php:2739
 msgid ""
 "La remise fixe ne peut pas excéder la valeur actuelle du panier. Le montant "
@@ -3027,18 +3120,18 @@ msgid ""
 "Une erreur s'est produite durant la récupération des groupes des clients"
 msgstr "An error occurred during recovery of the client groups data"
 
-#: views/checkout/v2-1/script.php:1635 views/checkout/v2/script.php:1681
+#: views/checkout/v2-1/script.php:1640 views/checkout/v2/script.php:1681
 msgid ""
 "Vous ne pouvez pas procéder à une vente, car aucun article n'est disponible "
 "pour la vente."
 msgstr "You cannot proceed with a sale, because no item is available for sale."
 
-#: views/checkout/v2-1/script.php:1697 views/checkout/v2-1/script.php:1723
+#: views/checkout/v2-1/script.php:1702 views/checkout/v2-1/script.php:1728
 #: views/checkout/v2/script.php:1742 views/checkout/v2/script.php:1768
 msgid "Stock épuisé"
 msgstr "Out of Stock"
 
-#: views/checkout/v2-1/script.php:1698 views/checkout/v2/script.php:1743
+#: views/checkout/v2-1/script.php:1703 views/checkout/v2/script.php:1743
 msgid ""
 "Impossible d'ajouter ce produit. La quantité restante du produit n'est pas "
 "suffisante."
@@ -3046,7 +3139,7 @@ msgstr ""
 "Cannot add this product. The remaining quantity of the product is not "
 "sufficient."
 
-#: views/checkout/v2-1/script.php:1709 views/checkout/v2/script.php:1754
+#: views/checkout/v2-1/script.php:1714 views/checkout/v2/script.php:1754
 msgid ""
 "Défininr \"0\" comme quantité, retirera le produit du panier. Voulez-vous "
 "continuer ?"
@@ -3054,15 +3147,15 @@ msgstr ""
 "Defininr \"0\" as the quantity, remove the product from the cart. Do you "
 "want to continue?"
 
-#: views/checkout/v2-1/script.php:1724 views/checkout/v2/script.php:1769
+#: views/checkout/v2-1/script.php:1729 views/checkout/v2/script.php:1769
 msgid "Impossible d'ajouter ce produit, car son stock est épuisé."
 msgstr "Cannot add to the cart since it's out of Stock!"
 
-#: views/checkout/v2-1/script.php:1756 views/checkout/v2/script.php:1798
+#: views/checkout/v2-1/script.php:1761 views/checkout/v2/script.php:1798
 msgid "Impossible d'ajouter l'article"
 msgstr "Cannot add the item to shopping cart"
 
-#: views/checkout/v2-1/script.php:1756 views/checkout/v2/script.php:1798
+#: views/checkout/v2-1/script.php:1761 views/checkout/v2/script.php:1798
 msgid ""
 "Impossible de récupérer l'article, ce dernier est introuvable, indisponible "
 "ou le code envoyé est incorrecte."
@@ -3070,34 +3163,34 @@ msgstr ""
 "Unable to retrieve the article, it is not found, the code sent unavailable "
 "or incorrect."
 
-#: views/checkout/v2-1/script.php:1761 views/checkout/v2/script.php:1803
+#: views/checkout/v2-1/script.php:1766 views/checkout/v2/script.php:1803
 msgid ""
 "Impossible de récupérer les données. L'article recherché est introuvable."
 msgstr "Unable to retrieve the data. The item you are looking is not found."
 
-#: views/checkout/v2-1/script.php:1865 views/checkout/v2/script.php:1840
+#: views/checkout/v2-1/script.php:1870 views/checkout/v2/script.php:1840
 msgid "Une erreur s'est produite durant la récupération des produits"
 msgstr "An error occurred during the data recovery"
 
-#: views/checkout/v2-1/script.php:1994 views/checkout/v2/script.php:1969
+#: views/checkout/v2-1/script.php:1999 views/checkout/v2/script.php:1969
 #, fuzzy
 msgid "+"
 msgstr "+"
 
-#: views/checkout/v2-1/script.php:2009 views/checkout/v2/script.php:1984
+#: views/checkout/v2-1/script.php:2014 views/checkout/v2/script.php:1984
 #, fuzzy
 msgid "-"
 msgstr "-"
 
-#: views/checkout/v2-1/script.php:2033 views/checkout/v2/script.php:2008
+#: views/checkout/v2-1/script.php:2038 views/checkout/v2/script.php:2008
 msgid "."
 msgstr "."
 
-#: views/checkout/v2-1/script.php:2450 views/checkout/v2/script.php:2747
+#: views/checkout/v2-1/script.php:2456 views/checkout/v2/script.php:2747
 msgid "Vous devez définir un pourcentage ou une somme."
 msgstr "You set a percentage or an amount."
 
-#: views/checkout/v2-1/script.php:2505 views/checkout/v2/script.php:2811
+#: views/checkout/v2-1/script.php:2511 views/checkout/v2/script.php:2811
 msgid ""
 "Le processus de commande a commencé. Si vous continuez, vous perdrez toutes "
 "les informations non enregistrées"
@@ -3441,15 +3534,48 @@ msgstr "Assign to a group"
 msgid "Vous devez affecter le client à un groupe"
 msgstr "You must assign the customer to a group"
 
-#: views/coupon-footer.php:24
+#: views/coupon-footer.php:73
 msgid "Ce coupon n'existe pas"
 msgstr "Coupon does not exist!"
 
-#: views/coupon-script.php:29
-msgid "Utiliser un coupon"
-msgstr "Use coupon"
+#: views/coupon-footer.php:79
+msgid "Le montant de ce coupon n'est pas valide."
+msgstr "The amount of this coupon is not valid."
 
-#: views/coupon-script.php:39
+#: views/coupon-footer.php:85
+msgid "Ce coupon est déjà en cours d'utilisation."
+msgstr "This coupon is already in use."
+
+#: views/coupon-footer.php:126
+msgid ""
+"Ce coupon requiert qu'un ou plusieurs produits du panier appartiennent à une "
+"categorie suivante : "
+msgstr ""
+"This coupon requires that one or more products in the cart belong to the "
+"following categories :"
+
+#: views/coupon-footer.php:132 views/coupon-footer.php:155
+#: views/coupon-footer.php:190
+msgid "Aucune restriction"
+msgstr "No restriction"
+
+#: views/coupon-footer.php:148
+msgid "Ce coupon a expiré et ne peut pas être utilisé"
+msgstr "This coupon has expired and cannot be used"
+
+#: views/coupon-footer.php:182
+msgid ""
+"Ce coupon nécessite l'utilisation d'un ou plusieurs produits qui n'existent "
+"pas dans le panier."
+msgstr ""
+"This coupon requires the use of one or more products that do not exist in "
+"the cart."
+
+#: views/coupon-script.php:34
+msgid "Charger un coupon"
+msgstr "Load a coupon"
+
+#: views/coupon-script.php:49
 msgid "Vous ne pouvez pas modifier la valeur d'un coupon."
 msgstr "You can not change the value of a coupon."
 
@@ -3880,10 +4006,6 @@ msgstr "Discount (%)"
 #: views/registers.php:8
 msgid "Caisses Enregistreuse"
 msgstr "Registers"
-
-#: views/registers/for_cashiers_dom.php:149
-msgid "Utiliser"
-msgstr "Use it"
 
 #: views/registers/for_cashiers_dom.php:156
 msgid "Caisse Fermée"
@@ -4703,6 +4825,18 @@ msgstr "To use the Multi Store on NexoPOS features."
 #: views/user-groups.php:7
 msgid "Liste des groupes de clients"
 msgstr "Customers groups lists"
+
+#~ msgid "Montant maximal"
+#~ msgstr "Maximum amount"
+
+#~ msgid "Code du coupon"
+#~ msgstr "Coupon code"
+
+#~ msgid "Spécifier le code du coupon"
+#~ msgstr "Specify the coupon code"
+
+#~ msgid "Utiliser un coupon"
+#~ msgstr "Use coupon"
 
 #~ msgid "Création des collectoins et catégories..."
 #~ msgstr "Creating and collectoins categories ..."

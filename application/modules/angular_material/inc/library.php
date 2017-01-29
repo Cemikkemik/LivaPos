@@ -13,6 +13,8 @@ class AngularCrudLibrary
     private $matching           =   [];
     private $validations         =   [];
     private $fieldDescription   =   [];
+    private $defaultButtons      =   [];
+    private $selectingButtons   =   [];
 
     /**
      *  Definition
@@ -40,8 +42,30 @@ class AngularCrudLibrary
         $this->deleteSingleTextLabel        =   __( 'Would you delete this ?', 'angular_material' );
         $this->deleteBulkTextLabel          =   __( 'Would you delete these entries', 'angular_material' );
         $this->deleteSingleTitleLabel       =   __( 'Confirm your action', 'angular_material' );
-        $this->exportToCSV      =   __( 'Export', 'angular_material' );
-        $this->searchSelectLabel    =   __( 'Search', 'angular_material' );
+        $this->exportToCSV                  =   __( 'Export', 'angular_material' );
+        $this->searchSelectLabel            =   __( 'Search', 'angular_material' );
+    }
+
+    /**
+     *  Add Default button
+     *  @param array button config
+     *  @return void
+    **/
+
+    function addDefaultButton( $config )
+    {
+        $this->defaultButtons[]    =   $config;
+    }
+
+    /**
+     *  Add button while selecting
+     *  @param array boutton config
+     *  @return void
+    **/
+
+    function addSelectingButton( $config )
+    {
+        $this->selectingButtons[]   =   $config;
     }
 
     /**
@@ -56,6 +80,28 @@ class AngularCrudLibrary
             $this->$key =   $conf;
         }
         return $this;
+    }
+
+    /**
+     *  Get Default Buttons
+     *  @param void
+     *  @return void
+    **/
+
+    public function getDefaultButtons()
+    {
+        return $this->defaultButtons;
+    }
+
+    /**
+     *  Get Selecting Buttons
+     *  @param void
+     *  @return void
+    **/
+
+    public function getSelectingButtons()
+    {
+        return $this->selectingButtons;
     }
 
     /**

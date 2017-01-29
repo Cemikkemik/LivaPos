@@ -1,0 +1,9 @@
+<application>
+    <name>Header And Footer</name>
+    <namespace>header_footer</namespace>
+    <version>1.2</version>
+    <author>Blair Jersyer</author>
+    <description>Add an header and a footer to the dashboard</description>
+    <language>/language</language>
+    <main>header_footer.php</main>
+</application>

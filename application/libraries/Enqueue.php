@@ -69,7 +69,7 @@ class Enqueue
      */
     public function js($script, $path = null)
     {
-        $this->scripts[ $this->_js_namespace ][] = ($path === null) ? base_url() . $this->path_js . $script : $path . $script;
+        $this->scripts[ $this->_js_namespace ][ basename( $script ) ] = ($path === null) ? base_url() . $this->path_js . $script : $path . $script;
     }
 
     /**
@@ -96,7 +96,7 @@ class Enqueue
      */
     public function css($style, $path    = null)
     {
-        $this->styles[ $this->_css_namespace ][] = ($path === null) ? base_url() . $this->path_css . $style : $path . $style;
+        $this->styles[ $this->_css_namespace ][ basename( $style ) ] = ($path === null) ? base_url() . $this->path_css . $style : $path . $style;
     }
 
     /**

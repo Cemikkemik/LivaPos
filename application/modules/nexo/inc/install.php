@@ -76,6 +76,7 @@ class Nexo_Install extends CI_Model
 			// let's set this module active
 			Modules::enable('grocerycrud');
 			Modules::enable('nexo');
+            Modules::enable( 'angular_material' ); // @since 3.0.1
 		}
 
 		// @since 2.8 added REF_STORE
@@ -202,11 +203,10 @@ class Nexo_Install extends CI_Model
         // @since 3.0.1
 
         $this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_commandes_coupons` (
-		  `ID` int(11) NOT NULL AUTO_INCREMENT,
-		  `REF_COMMAND_CODE` varchar(250) NOT NULL,
-		  `REF_COUPON` int(11) NOT NULL,
-		  `DATE_CREATION` datetime NOT NULL,
-		  PRIMARY KEY (`ID`)
+            `ID` int(11) NOT NULL AUTO_INCREMENT,
+            `REF_COMMAND` int(11) NOT NULL,
+            `REF_COUPON` int(11) NOT NULL,
+            PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
         // Articles tables

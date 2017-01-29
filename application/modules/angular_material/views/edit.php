@@ -9,6 +9,7 @@
                 <h2 class="md-title"><?php echo sprintf( __( '%s &mdash; %s', 'angular_material' ), $AnguCrud->crudTitle, $AnguCrud->editLabel );?></h2>
                 <div flex></div>
                 <md-button href="<?php echo $AnguCrud->baseUrl;?>" aria-label="<?php echo $AnguCrud->showListLabel;?>"class="md-raised"><?php echo $AnguCrud->showListLabel;?></md-button>
+                <md-button href="<?php echo $AnguCrud->baseUrl;?>/add_new" aria-label="<?php echo $AnguCrud->addNewLabel;?>"class="md-raised"><?php echo $AnguCrud->addNewLabel;?></md-button>
               </div>
             </md-toolbar>
             <md-divider></md-divider>

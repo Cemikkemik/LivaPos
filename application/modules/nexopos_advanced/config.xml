@@ -1,0 +1,9 @@
+<application>
+    <name>NexoPOS 3</name>
+    <namespace>nexopos_advanced</namespace>
+    <version>3.0</version>
+    <author>Blair Jersyer</author>
+    <description></description>
+    <language>/language</language>
+    <main>nexopos_advanced.php</main>
+</application>

@@ -214,7 +214,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/produit-1.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/produit-1.jpg',
     'CODEBAR'            =>    147852,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -245,7 +245,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    1, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/produit-2.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/produit-2.jpg',
     'CODEBAR'            =>    258741,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -275,7 +275,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    1, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/produit-3.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/produit-3.jpg',
     'CODEBAR'            =>    258963,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -306,7 +306,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    1, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/produit-4.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/produit-4.jpg',
     'CODEBAR'            =>    369852,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -335,7 +335,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    1, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/produit-5.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/produit-5.jpg',
     'CODEBAR'            =>    987456,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -364,7 +364,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    1, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/produit-6.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/produit-6.jpg',
     'CODEBAR'            =>    781124,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -393,7 +393,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    1, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/produit-7.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/produit-7.jpg',
     'CODEBAR'            =>    789654,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -422,7 +422,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    1, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/produit-8.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/produit-8.jpg',
     'CODEBAR'            =>    456987,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -451,7 +451,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    1, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/produit-9.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/produit-9.jpg',
     'CODEBAR'            =>    874569,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -480,7 +480,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    1, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/produit-10.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/produit-10.jpg',
     'CODEBAR'            =>    896547
 ));
 
@@ -506,7 +506,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    1, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/earl.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/earl.jpg',
     'CODEBAR'            =>    877774,
 	'STOCK_ENABLED'		=>	2,
 	'TYPE'				=>	2,
@@ -535,7 +535,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    1, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/tugofwar.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/tugofwar.jpg',
     'CODEBAR'            =>    877775,
 	'STOCK_ENABLED'		=>	2,
 	'TYPE'				=>	2,
@@ -564,7 +564,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    1, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/bad.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/bad.jpg',
     'CODEBAR'            =>    877779,
 	'STOCK_ENABLED'		=>	2,
 	'TYPE'				=>	2,

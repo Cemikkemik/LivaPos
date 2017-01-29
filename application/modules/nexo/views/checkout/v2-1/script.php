@@ -1591,9 +1591,12 @@ var v2Checkout					=	new function(){
 					// alert( value.DESIGN.length );
 					var design	=	value.DESIGN.length > 15 ? '<span class="marquee_me">' + value.DESIGN + '</span>' : value.DESIGN;
 
+					// Reshresh JSon data
+					value.MAINPRICE 		=	MainPrice;
+
 					$( '#filter-list' ).append(
 						'<div class="col-lg-2 col-md-3 col-xs-6 shop-items filter-add-product noselect text-center" data-codebar="' + value.CODEBAR + '" style="' + CustomBackground + ';padding:5px; border-right: solid 1px #DEDEDE;border-bottom: solid 1px #DEDEDE;" data-design="' + value.DESIGN.toLowerCase() + '" data-category="' + value.REF_CATEGORIE + '" data-sku="' + value.SKU.toLowerCase() + '">' +
-						'<img data-original="<?php echo get_store_upload_url();?>' + ImagePath + '" width="100" style="max-height:64px;" class="img-responsive img-rounded lazy">' +
+						'<img data-original="<?php echo get_store_upload_url() . '/items-images/';?>' + ImagePath + '" width="100" style="max-height:64px;" class="img-responsive img-rounded lazy">' +
 						'<div class="caption text-center" style="padding:2px;overflow:hidden;"><strong class="item-grid-title">' + design + '</strong><br>' +
 						'<span class="align-center">' + NexoAPI.DisplayMoney( MainPrice ) + '</span>' + Discounted +
 						'</div>' +
@@ -1602,6 +1605,8 @@ var v2Checkout					=	new function(){
 						v2Checkout.ItemsCategories	=	_.extend( v2Checkout.ItemsCategories, _.object( [ value.REF_CATEGORIE ], [ value.NOM ] ) );
 					}
 				});
+
+				this.POSItems 		=	json;
 
 				$( '.filter-add-product' ).each( function(){
 					$(this).bind( 'mouseenter', function(){
@@ -2310,6 +2315,7 @@ var v2Checkout					=	new function(){
 			this.CartRabaisPercent		=	0;
 			this.CartRistournePercent	=	0;
 			this.CartRemisePercent		=	0;
+			this.POSItems				=	[];
 
 
 			<?php if (isset($order[ 'order' ])):?>

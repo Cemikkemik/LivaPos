@@ -522,6 +522,12 @@ class Nexo_Controller extends CI_Model
             return $action;
         });
 
+        // @since 3.0
+        $this->events->add_filter( 'stores_controller_callback', function( $action ){
+            $action[ 'nexo_coupons' ]    =   new NexoCouponController;
+            return $action;
+        });
+
 		$this->events->add_action( 'display_admin_header_menu', function( $action ) {
 
 			get_instance()->load->model( 'Nexo_Stores' );

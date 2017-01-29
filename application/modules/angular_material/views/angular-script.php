@@ -97,6 +97,21 @@ $this->config->load( 'rest' );
       };
     });
 
+    // To fix String to number on input
+    tendooApp.directive('stringToNumber', function() {
+      return {
+        require: 'ngModel',
+        link: function(scope, element, attrs, ngModel) {
+          ngModel.$parsers.push(function(value) {
+            return '' + value;
+          });
+          ngModel.$formatters.push(function(value) {
+            return parseFloat(value, 10);
+          });
+        }
+      };
+    });
+
     tendooApp.controller('anguCrud', ['$nutrition', '$scope', '$timeout', '$mdDialog', '$location', function ($nutrition, $scope, $timeout, $mdDialog, $location ) {
         'use strict';
 
@@ -195,6 +210,27 @@ $this->config->load( 'rest' );
             $scope.closeSelected();
             $scope.promise = $nutrition.entries.get($scope.query, success).$promise;
         };
+
+        /**
+         *  Go To selected
+         *  @param
+         *  @return
+        **/
+
+        $scope.goToSelected         =   function( url ) {
+            var string              =   '';
+            var i                   =   0;
+            _.each( $scope.selected, function( value ){
+                if( i == 0 ) {
+                    string      +=  'selected[]=' + value.<?php echo $AnguCrud->getPrimaryCol();?>;
+                    i++;
+                } else {
+                    string      +=  '&selected[]=' + value.<?php echo $AnguCrud->getPrimaryCol();?>;
+                }
+            });
+
+            document.location   =   url + '?' + string;
+        }
 
         /**
          *  turn for ngRepeat
@@ -299,7 +335,7 @@ $this->config->load( 'rest' );
                 document.location           =   '<?php echo $AnguCrud->baseUrl . '?notice=entries_has_been_created';?>';
             },function(){
                 alert( '<?php echo _s( 'An error occured', 'angular_material' );?>');
-                console.log( $scope.fields );
+                // console.log( $scope.fields );
             })
         }
 
@@ -447,7 +483,7 @@ $this->config->load( 'rest' );
         <?php foreach( ( Array ) $AnguCrud->getColumns() as $key => $title ):?>
         $scope.hideColumn[ '<?php echo $key;?>' ]       =   {
             hide        :   false,
-            title       :   '<?php echo $title;?>'
+            title       :   '<?php echo addslashes( $title );?>'
         }
         <?php endforeach;?>
     }]);

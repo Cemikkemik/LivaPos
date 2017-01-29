@@ -449,6 +449,18 @@ class Tendoo_Loader
     }
 
     /**
+     *  Module Include
+     *  @param
+     *  @return
+    **/
+
+    public function module_include($module_namespace, $view, $vars = array(), $return = false)
+    {
+        $view       =   str_replace( '.', '/', $view );
+        return $this->_ci_load(array( '_ci_view' => '../modules/' . $module_namespace . '/inc/' . $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return));
+    }
+
+    /**
      * Module View
      *
      * @param string module namespace

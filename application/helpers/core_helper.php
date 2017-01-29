@@ -551,4 +551,18 @@ function unique_multidim_array($array, $key) {
     }
     return $temp_array;
 }
+
+/**
+ *  Get Options
+ *  @param string option key
+ *  @return string/int/array
+**/
+
+function get_option( $key = null ) {
+    global $Options;
+    if( $key != null ) {
+        return @$Options[ 'key' ];
+    }
+    return $Options;
+}
 /* End of file core_helper.php */

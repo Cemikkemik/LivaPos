@@ -17,13 +17,13 @@
                     <form name="entriesForm" method="POST">
                         <?php foreach( ( Array ) $AnguCrud->getColumns() as $key => $title ):?>
                             <?php if( ! in_array( $key, $AnguCrud->getShowOnListOnly() ) ):?>
+
                                 <?php if( ! in_array( $key, array_keys( $AnguCrud->fieldsType ) ) ):?>
                                     <?php include( dirname( __FILE__ ) . '/default-field.php' );?>
                                 <?php else:?>
                                     <?php include( dirname( __FILE__ ) . '/custom-fields.php' );?>
                                 <?php endif;?>
                             <?php endif;?>
-
                         <?php endforeach;?>
                     </form>
                 </md-content>

@@ -39,3 +39,4 @@ dashboard_body_attrs		:	filter content output on gui body tag as attribute
 dashboard_footer_text		:	filtre le texte au peid de page sur le tableau de bord
 dashboard_dependencies     :   filtre les dépendances pour l'application angular tendooApp
 tendoo_spinner              :   filtre l'animation de chargement de tendoo
+load_tendoo_app             :   control app loading

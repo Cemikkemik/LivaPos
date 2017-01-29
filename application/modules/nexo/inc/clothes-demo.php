@@ -169,7 +169,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/velvetvneckbodysuit.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/velvetvneckbodysuit.jpg',
     'CODEBAR'            =>    0000001,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -199,7 +199,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/quidluciteheeldressbooties.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/quidluciteheeldressbooties.jpg',
     'CODEBAR'            =>    0000002,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -229,7 +229,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/twistedhighlowtop.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/twistedhighlowtop.jpg',
     'CODEBAR'            =>    0000003,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -259,7 +259,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/floralnotchedofftheshoulder.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/floralnotchedofftheshoulder.jpg',
     'CODEBAR'            =>    0000004,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -289,7 +289,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/sequincroppedbomberjacket.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/sequincroppedbomberjacket.jpg',
     'CODEBAR'            =>    0000005,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -319,7 +319,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/pushuplowriseleggings.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/pushuplowriseleggings.jpg',
     'CODEBAR'            =>    0000006,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -349,7 +349,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/varsitystripejoggerpants.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/varsitystripejoggerpants.jpg',
     'CODEBAR'            =>    0000007,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -379,7 +379,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/ribberlaceupbody.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/ribberlaceupbody.jpg',
     'CODEBAR'            =>    0000008,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -409,7 +409,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/marledfrenchterryjoggerpants.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/marledfrenchterryjoggerpants.jpg',
     'CODEBAR'            =>    '0000009',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -439,7 +439,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/floatingmocknectstraplessdress.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/floatingmocknectstraplessdress.jpg',
     'CODEBAR'            =>    '0000010',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -469,7 +469,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/shimmeropenbackbodycondress.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/shimmeropenbackbodycondress.jpg',
     'CODEBAR'            =>    '0000011',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -499,7 +499,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/crochettrimcoldshoulder.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/crochettrimcoldshoulder.jpg',
     'CODEBAR'            =>    '0000012',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -529,7 +529,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/mirrorsequinvneck.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/mirrorsequinvneck.jpg',
     'CODEBAR'            =>    '0000013',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -559,7 +559,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/velvetmocknectcutoutjumpsuit.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/velvetmocknectcutoutjumpsuit.jpg',
     'CODEBAR'            =>    '0000014',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -589,7 +589,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/lacefauxleatherchokernecklaces.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/lacefauxleatherchokernecklaces.jpg',
     'CODEBAR'            =>    '0000015',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -619,7 +619,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/haccicoldshoulderreglantee.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/haccicoldshoulderreglantee.jpg',
     'CODEBAR'            =>    '0000016',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -649,7 +649,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/marledstrappycaedbodysuit.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/marledstrappycaedbodysuit.jpg',
     'CODEBAR'            =>    '0000017',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -679,7 +679,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/embroideredmeshmocknectcrop.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/embroideredmeshmocknectcrop.jpg',
     'CODEBAR'            =>    '0000018',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -709,7 +709,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/qupidmetatrimplateformpumps.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/qupidmetatrimplateformpumps.jpg',
     'CODEBAR'            =>    '0000019',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
@@ -739,7 +739,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'LARGEUR'            =>    8, // cm
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
-    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../modules/nexo/images/charlotterusse/floralfloatingmocknecktop.jpg',
+    'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/floralfloatingmocknecktop.jpg',
     'CODEBAR'            =>    '0000020',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,

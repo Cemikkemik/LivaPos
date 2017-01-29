@@ -2,9 +2,19 @@
     md-toolbar .label {
         color : #333;
     }
+
     body {
-    top: 0px !important;
+        position: initial !important;
+        top: initial !important;
+        overflow: initial !important;
     }
+    html {
+        overflow: initial !important;
+    }
+
+    /*body {
+        top: 0px !important;
+    }*/
     .content-wrapper .content {
         padding: 0px !important;
     }
@@ -19,6 +29,10 @@
         animation-delay: 2s;
     }
 
+    .hint {
+        font-size: 12px;
+        color : #999 !important;
+    }
 
     .selectdemoSelectHeader {
   /* Please note: All these selectors are only applied to children of elements with the 'selectdemoSelectHeader' class */ }

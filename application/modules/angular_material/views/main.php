@@ -13,6 +13,9 @@
                         <md-button aria-label="<?php echo __( 'Search', 'angular_material' );?>" class="md-icon-button" ng-click="filter.show = true">
                           <i class="fa fa-search"></i>
                         </md-button>
+                        <?php foreach( $AnguCrud->getDefaultButtons() as $button ):?>
+                            <md-button href="<?php echo $button[ 'url' ];?>" aria-label="<?php echo $button[ 'text' ];?>"class="md-raised"><?php echo $button[ 'text' ];?></md-button>
+                        <?php endforeach;?>
                         <md-button href="<?php echo $AnguCrud->baseUrl;?>/add_new" aria-label="<?php echo $AnguCrud->addNewLabel;?>"class="md-raised"><?php echo $AnguCrud->addNewLabel;?></md-button>
                         <md-button ng-json-export-excel data="entries" report-fields="exportFields" filename =" 'export-excel' " separator="," aria-label="<?php echo $AnguCrud->exportToCSV;?>"class="md-raised css-class"><i class="fa fa-archive"></i> <?php echo $AnguCrud->exportToCSV;?></md-button><!-- href="<?php echo $AnguCrud->baseUrl;?>/export_xls" -->
                         <md-button class="md-raised md-icon-button" aria-label="<?php echo __( 'Options', 'angular_material' );?>" ng-click="toggleOptions()">
@@ -37,6 +40,11 @@
                       <div class="md-toolbar-tools" layout-align="space-between center" layout="row">
                         <div>{{selected.length}} {{ selected.length > 1 ? '<?php echo $AnguCrud->itemsLabel;?>' : '<?php echo $AnguCrud->itemLabel;?>'}} selected</div>
                         <div flex></div>
+                        <?php foreach( $AnguCrud->getSelectingButtons() as $button ):?>
+                            <md-button <?php echo @$button[ 'allow_multiple' ] == true ? 'ng-show="selected.length >= 1"' : '';?> <?php echo @$button[ 'only_multiple' ] == true ? 'ng-show="selected.length > 1"' : '';?> <?php echo @$button[ 'only_unique' ] == true ? 'ng-show="selected.length == 1"' : '';?> aria-label="<?php echo __( 'Edit', 'angular_material' );?>" class="md-icon-button" ng-click="goToSelected( '<?php echo @$button[ 'url' ];?>' )">
+                              <i class="fa fa-<?php echo @$button[ 'icon' ];?>"></i>
+                            </md-button>
+                        <?php endforeach;?>
                         <md-button ng-show="selected.length == 1" aria-label="<?php echo __( 'Edit', 'angular_material' );?>" class="md-icon-button" ng-click="editSelected( $event )">
                           <i class="fa fa-pencil"></i>
                         </md-button>

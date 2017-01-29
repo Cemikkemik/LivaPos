@@ -23,10 +23,10 @@ class Nexo extends CI_Model
         parent::__construct();
 
         $this->load->helper('nexopos');
-        $this->events->add_action('load_dashboard_home', array( $this, 'init' ));
-        $this->events->add_action('dashboard_footer', array( $this, 'dashboard_footer' ) );
+        $this->events->add_action( 'load_dashboard_home', array( $this, 'init' ));
+        $this->events->add_action( 'dashboard_footer', array( $this, 'dashboard_footer' ) );
         $this->events->add_filter( 'ui_notices', array( $this, 'ui_notices' ) );
-        $this->events->add_filter('default_js_libraries', function ($libraries) {
+        $this->events->add_filter( 'default_js_libraries', function ($libraries) {
 
             foreach ($libraries as $key => $lib) {
                 if (in_array($lib, array( '../plugins/jQueryUI/jquery-ui-1.10.3.min' ))) { // '../plugins/jQuery/jQuery-2.1.4.min',
@@ -66,11 +66,15 @@ class Nexo extends CI_Model
         $this->enqueue->js( '../modules/nexo/js/jquery-ui.min' );
 
         $this->enqueue->js_namespace( 'dashboard_footer' );
+        $this->enqueue->js( '../modules/nexo/bower_components/moment/min/moment.min' );
         $this->enqueue->js( '../modules/nexo/bower_components/angular-numeraljs/dist/angular-numeraljs.min' );
+        $this->enqueue->js( '../bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker' );
+        $this->enqueue->js( '../bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates' );
 
         $this->enqueue->css_namespace( 'dashboard_header' );
         $this->enqueue->css( 'css/nexo-arrow', module_url( 'nexo' ) );
         $this->enqueue->css( '../modules/nexo/css/jquery-ui' );
+        $this->enqueue->css( '../bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker' );
         $this->enqueue->css( '../modules/nexo/bower_components/bootstrap-toggle/css/bootstrap2-toggle.min' );
         $this->enqueue->css( '../modules/nexo/css/piecharts/piecharts' );
 
@@ -92,6 +96,7 @@ class Nexo extends CI_Model
 
         $this->events->add_filter( 'dashboard_dependencies', function( $deps ){
             $deps[]     =   'ngNumeraljs';
+            $deps[]     =   'ui.bootstrap.datetimepicker';
             return $deps;
         });
 

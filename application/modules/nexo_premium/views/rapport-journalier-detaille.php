@@ -13,7 +13,7 @@ global $Options;
 if (! $Cache->get($report_slug) || @$_GET[ 'refresh' ] == 'true') {
     ob_start();
 
-    $this->events->add_action('dashboard_header', function () { ?>
+$this->events->add_action('dashboard_header', function () { ?>
 <script type="text/javascript" src="<?php echo module_url('nexo');?>/bower_components/moment/min/moment.min.js"></script>
 <script type="text/javascript" src="<?php echo module_url('nexo');?>/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="<?php echo module_url('nexo');?>/bower_components/underscore/underscore-min.js"></script>

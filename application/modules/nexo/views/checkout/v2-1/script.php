@@ -28,6 +28,107 @@ var v2Checkout					=	new function(){
 	}
 
 	/**
+	 *  Add on cart
+	 *  @param object item to fetch
+	 *  @return void
+	**/
+
+	this.addOnCart 				=	function( _item, codebar, qte_to_add, allow_increase, filter ) {
+
+		/**
+		* If Item is "On Sale"
+		**/
+
+		if( _item.length > 0 && _item[0].STATUS == '1' ) {
+
+			var InCart			=	false;
+			var InCartIndex		=	null;
+
+			// Let's check whether an item is already added to cart
+			_.each( v2Checkout.CartItems, function( value, _index ) {
+				if( value.CODEBAR == _item[0].CODEBAR ) {
+					InCartIndex	=	_index;
+					InCart		=	true;
+				}
+			});
+
+			if( InCart ) {
+
+				// if increase is disabled, we set value
+				var comparison_qte	=	allow_increase == true ? parseInt( v2Checkout.CartItems[ InCartIndex ].QTE_ADDED ) + parseInt( qte_to_add ) : qte_to_add;
+
+				/**
+				* For "Out of Stock" notice to work, item must be physical
+				* and Stock management must be enabled
+				**/
+
+				if(
+					parseInt( _item[0].QUANTITE_RESTANTE ) - ( comparison_qte ) < 0
+					&& _item[0].TYPE == '1'
+					&& _item[0].STOCK_ENABLED == '1'
+				) {
+					NexoAPI.SnackBar()( '<?php echo addslashes(__( 'La quantité restante du produit n\'est pas suffisante.', 'nexo'));?>' );
+				} else {
+					if( allow_increase ) {
+						// Fix concatenation when order was edited
+						v2Checkout.CartItems[ InCartIndex ].QTE_ADDED	=	parseInt( v2Checkout.CartItems[ InCartIndex ].QTE_ADDED );
+						v2Checkout.CartItems[ InCartIndex ].QTE_ADDED	+=	parseInt( qte_to_add );
+					} else {
+						if( qte_to_add > 0 ){
+							v2Checkout.CartItems[ InCartIndex ].QTE_ADDED	=	parseInt( qte_to_add );
+						} else {
+							NexoAPI.Bootbox().confirm( '<?php echo addslashes(__('Défininr "0" comme quantité, retirera le produit du panier. Voulez-vous continuer ?', 'nexo'));?>', function( response ) {
+								// Delete item from cart when confirmed
+								if( response ) {
+									v2Checkout.CartItems.splice( InCartIndex, 1 );
+									v2Checkout.buildCartItemTable();
+								}
+
+							});
+						}
+					}
+				}
+			} else {
+				if( parseInt( _item[0].QUANTITE_RESTANTE ) - qte_to_add < 0 ) {
+					NexoAPI.Notify().error(
+						'<?php echo addslashes(__('Stock épuisé', 'nexo'));?>',
+						'<?php echo addslashes(__('Impossible d\'ajouter ce produit, car son stock est épuisé.', 'nexo'));?>'
+					);
+				} else {
+					// improved @since 2.7.3
+					// add meta by default
+					var ItemMeta	=	NexoAPI.events.applyFilters( 'items_metas', [] );
+
+					var FinalMeta	=	[ [ 'QTE_ADDED' ], [ qte_to_add ] ] ;
+
+					_.each( ItemMeta, function( value, key ) {
+						FinalMeta[0].push( _.keys( value )[0] );
+						FinalMeta[1].push( _.values( value )[0] );
+					});
+
+					// @since 2.9.0
+					// add unit item discount
+					_item[0].DISCOUNT_TYPE		=	'percentage'; // has two type, "percent" and "flat";
+					_item[0].DISCOUNT_AMOUNT	=	0;
+					_item[0].DISCOUNT_PERCENT	=	0;
+
+					v2Checkout.CartItems.unshift( _.extend( _item[0], _.object( FinalMeta[0], FinalMeta[1] ) ) );
+				}
+			}
+
+			// Add Item To Cart
+			NexoAPI.events.doAction( 'add_to_cart', v2Checkout );
+
+			// Build Cart Table Items
+			v2Checkout.refreshCart();
+			v2Checkout.buildCartItemTable();
+
+		} else {
+			NexoAPI.Notify().error( '<?php echo addslashes(__('Impossible d\'ajouter l\'article', 'nexo'));?>', '<?php echo addslashes(__('Impossible de récupérer l\'article, ce dernier est introuvable, indisponible ou le code envoyé est incorrecte.', 'nexo'));?>' );
+		}
+	}
+
+	/**
 	* Show Product List Splash
 	**/
 
@@ -1658,108 +1759,42 @@ var v2Checkout					=	new function(){
 
 		this.fetchItem				=	function( codebar, qte_to_add, allow_increase, filter ) {
 
-			var allow_increase			=	typeof allow_increase	==	'undefined' ? true : allow_increase
-			var qte_to_add				=	typeof qte_to_add == 'undefined' ? 1 : qte_to_add;
-			var filter					=	typeof filter == 'undefined' ? 'sku-barcode' : filter;
+			var filters 				=	NexoAPI.events.applyFilters( 'fetch_item', [
+				codebar,
+				qte_to_add,
+				allow_increase,
+				filter
+			]);
+
+			var codebar					=	filters[0];
+			var qte_to_add				=	filters[1];
+			var allow_increase			=	filters[2];
+			var filter					=	filters[3];
+
+			allow_increase				=	typeof allow_increase	==	'undefined' ? true : allow_increase
+			qte_to_add					=	typeof qte_to_add == 'undefined' ? 1 : qte_to_add;
+			filter						=	typeof filter == 'undefined' ? 'sku-barcode' : filter;
 			// For Store Feature
 			var store_id				=	'<?php echo $store_id == null ? 0 : $store_id;?>';
-
 
 			$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'item' ));?>/' + codebar + '/' + filter + '?store_id=' + store_id, {
 				success				:	function( _item ){
 
 					/**
-					* If Item is "On Sale"
+					 * Filter item when is loaded
 					**/
 
-					if( _item.length > 0 && _item[0].STATUS == '1' ) {
-						var InCart			=	false;
-						var InCartIndex		=	null;
+					_item 			=	NexoAPI.events.applyFilters( 'item_loaded', _item );
 
-						// Let's check whether an item is already added to cart
-						_.each( v2Checkout.CartItems, function( value, _index ) {
-							if( value.CODEBAR == _item[0].CODEBAR ) {
-								InCartIndex	=	_index;
-								InCart		=	true;
-							}
-						});
+					/**
+					 * Override Add Item default Feature
+					**/
 
-						if( InCart ) {
-							// if increase is disabled, we set value
-							var comparison_qte	=	allow_increase == true ? parseInt( v2Checkout.CartItems[ InCartIndex ].QTE_ADDED ) + parseInt( qte_to_add ) : qte_to_add;
-
-							/**
-							* For "Out of Stock" notice to work, item must be physical
-							* and Stock management must be enabled
-							**/
-
-							if(
-								parseInt( _item[0].QUANTITE_RESTANTE ) - ( comparison_qte ) < 0
-								&& _item[0].TYPE == '1'
-								&& _item[0].STOCK_ENABLED == '1'
-							) {
-								NexoAPI.Notify().error(
-									'<?php echo addslashes(__('Stock épuisé', 'nexo'));?>',
-									'<?php echo addslashes(__('Impossible d\'ajouter ce produit. La quantité restante du produit n\'est pas suffisante.', 'nexo'));?>'
-								);
-							} else {
-								if( allow_increase ) {
-									// Fix concatenation when order was edited
-									v2Checkout.CartItems[ InCartIndex ].QTE_ADDED	=	parseInt( v2Checkout.CartItems[ InCartIndex ].QTE_ADDED );
-									v2Checkout.CartItems[ InCartIndex ].QTE_ADDED	+=	parseInt( qte_to_add );
-								} else {
-									if( qte_to_add > 0 ){
-										v2Checkout.CartItems[ InCartIndex ].QTE_ADDED	=	parseInt( qte_to_add );
-									} else {
-										NexoAPI.Bootbox().confirm( '<?php echo addslashes(__('Défininr "0" comme quantité, retirera le produit du panier. Voulez-vous continuer ?', 'nexo'));?>', function( response ) {
-											// Delete item from cart when confirmed
-											if( response ) {
-												v2Checkout.CartItems.splice( InCartIndex, 1 );
-												v2Checkout.buildCartItemTable();
-											}
-
-										});
-									}
-								}
-							}
-						} else {
-							if( parseInt( _item[0].QUANTITE_RESTANTE ) - qte_to_add < 0 ) {
-								NexoAPI.Notify().error(
-									'<?php echo addslashes(__('Stock épuisé', 'nexo'));?>',
-									'<?php echo addslashes(__('Impossible d\'ajouter ce produit, car son stock est épuisé.', 'nexo'));?>'
-								);
-							} else {
-								// improved @since 2.7.3
-								// add meta by default
-								var ItemMeta	=	NexoAPI.events.applyFilters( 'items_metas', [] );
-
-								var FinalMeta	=	[ [ 'QTE_ADDED' ], [ qte_to_add ] ] ;
-
-								_.each( ItemMeta, function( value, key ) {
-									FinalMeta[0].push( _.keys( value )[0] );
-									FinalMeta[1].push( _.values( value )[0] );
-								});
-
-								// @since 2.9.0
-								// add unit item discount
-								_item[0].DISCOUNT_TYPE		=	'percentage'; // has two type, "percent" and "flat";
-								_item[0].DISCOUNT_AMOUNT	=	0;
-								_item[0].DISCOUNT_PERCENT	=	0;
-
-								v2Checkout.CartItems.unshift( _.extend( _item[0], _.object( FinalMeta[0], FinalMeta[1] ) ) );
-							}
-						}
-
-						// Add Item To Cart
-						NexoAPI.events.doAction( 'add_to_cart', v2Checkout );
-
-						// Build Cart Table Items
-						v2Checkout.refreshCart();
-						v2Checkout.buildCartItemTable();
-
-					} else {
-						NexoAPI.Notify().error( '<?php echo addslashes(__('Impossible d\'ajouter l\'article', 'nexo'));?>', '<?php echo addslashes(__('Impossible de récupérer l\'article, ce dernier est introuvable, indisponible ou le code envoyé est incorrecte.', 'nexo'));?>' );
+					if( NexoAPI.events.applyFilters( 'override_add_item' , false ) == true ) {
+						return;
 					}
+
+					v2Checkout.addOnCart( _item, codebar, qte_to_add, allow_increase, filter );
 				},
 				dataType			:	'json',
 				error				:	function(){
@@ -2317,6 +2352,9 @@ var v2Checkout					=	new function(){
 			this.CartRemisePercent		=	0;
 			this.POSItems				=	[];
 
+			// @since 3.x
+			this.enableBarcodeSearch	=	false;
+
 
 			<?php if (isset($order[ 'order' ])):?>
 			this.ProcessURL				=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id(), $order[ 'order' ][0][ 'ID' ] ));?>?store_id=<?php echo get_store_id();?>";
@@ -2486,12 +2524,24 @@ var v2Checkout					=	new function(){
 			return false;
 		});
 
+		$( '.enable_barcode_search' ).bind( 'click', function(){
+			if( $( this ).hasClass( 'active' ) ) {
+				$( this ).removeClass( 'active' );
+				v2Checkout.enableBarcodeSearch 	=	false;
+			} else {
+				$( this ).addClass( 'active' );
+				v2Checkout.enableBarcodeSearch 	=	true;
+			}
+		});
+
 		/**
 		* Filter Item
 		**/
 
 		$( this.ItemSearchForm ).bind( 'keyup', function(){
-			v2Checkout.quickItemSearch( $( '[name="item_sku_barcode"]' ).val() );
+			if( v2Checkout.enableBarcodeSearch == false ) {
+				v2Checkout.quickItemSearch( $( '[name="item_sku_barcode"]' ).val() );
+			}
 		});
 
 		/**

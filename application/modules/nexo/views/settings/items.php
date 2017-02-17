@@ -42,8 +42,6 @@ $this->Gui->add_meta(array(
 
 $codebar            =    get_instance()->events->apply_filters('nexo_barcode_type', $this->config->item( 'nexo_barcode_supported' ) ); // 'codabar', 'code11', 'code39',
 
-$codebar            =    array_combine($codebar, array_map('___toUpper', $codebar, $codebar));
-
 $this->Gui->add_item(array(
     'type'        =>    'select',
     'name'        =>    $option_prefix . 'nexo_product_codebar',

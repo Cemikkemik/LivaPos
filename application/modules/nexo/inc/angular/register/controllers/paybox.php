@@ -265,7 +265,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 					data			:	order_details,
 					beforeSend		: function(){
 						v2Checkout.paymentWindow.showSplash();
-						NexoAPI.Notify().info( '<?php echo _s('Veuillez patienter', 'nexo');?>', '<?php echo _s('Paiement en cours...', 'nexo');?>' );
+						NexoAPI.Toast()( '<?php echo _s('Paiement en cours...', 'nexo');?>' );
 					},
 					success			:	function( returned ) {
 						v2Checkout.paymentWindow.hideSplash();
@@ -336,13 +336,11 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 							// For Success
 							if( MessageObject.type == 'success' ) {
 
-								NexoAPI.Notify().success( MessageObject.title, MessageObject.msg );
+								NexoAPI.Toast()( MessageObject.msg );
 
 								// For Info
 							} else if( MessageObject.type == 'info' ) {
-
-								NexoAPI.Notify().info( MessageObject.title, MessageObject.msg );
-
+								NexoAPI.Toast()( MessageObject.msg );
 							}
 						}
 
@@ -362,7 +360,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 					}
 				});
 			} else {
-				NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Vous ne pouvez pas valider une commande qui n\'a pas reçu de paiement. Si vous souhaitez enregistrer cette commande, fermer la fenêtre de paiement et cliquez sur le bouton "En attente".', 'nexo' );?>' );
+				NexoAPI.Notify().warning( '<?php echo _s('Une erreur s\'est produite', 'nexo');?>', '<?php echo _s( 'Vous ne pouvez pas valider une commande qui n\'a pas reçu de paiement. Si vous souhaitez enregistrer cette commande, fermer la fenêtre de paiement et cliquez sur le bouton "En attente".', 'nexo' );?>' );
 				return false;
 			}
 		}
@@ -391,7 +389,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	* Keyboard Input
 	**/
 
-	$scope.keyboardInput		=	function( char, field ) {
+	$scope.keyboardInput		=	function( char, field, add ) {
 
 		if( typeof $scope.paidAmount	==	'undefined' ) {
 			$scope.paidAmount	=	''; // reset paid amount
@@ -408,7 +406,12 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		} else if( char == 'back' ) {
 			$scope.paidAmount	=	$scope.paidAmount.substr( 0, $scope.paidAmount.length - 1 );
 		} else if( typeof char == 'number' ) {
-			$scope.paidAmount	=	$scope.paidAmount + '' + char;
+			if( add ) {
+				$scope.paidAmount	=	$scope.paidAmount == '' ? 0 : $scope.paidAmount;
+				$scope.paidAmount	=	parseFloat( $scope.paidAmount ) + parseFloat( char );
+			} else {
+				$scope.paidAmount	=	$scope.paidAmount + '' + char;
+			}
 		}
 	};
 
@@ -443,7 +446,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		$scope.refreshPaidSoFar();
 
 		if( v2Checkout.isCartEmpty() ) {
-			NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Vous ne pouvez pas payer une commande sans article. Veuillez ajouter au moins un article', 'nexo' );?>' );
+			NexoAPI.Toast()( '<?php echo _s( 'Vous ne pouvez pas payer une commande sans article. Veuillez ajouter au moins un article', 'nexo' );?>' );
 			return false;
 		}
 

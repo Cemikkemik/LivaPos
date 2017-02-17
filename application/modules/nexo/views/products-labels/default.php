@@ -100,7 +100,9 @@ if (! $products_labels = $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'tr
 						$array_string		=	explode( ' ', $ship_title );
 						$final_string		=	'';
 						foreach( $array_string as $final ) {
-							$final_string	.=	ucwords( $final[0] );
+                            if( ! empty( $final ) ) {
+                                $final_string	.=	ucwords( $final[0] );
+                            }
 						}
 						?>
                         <p style="padding:3px 10px;margin:0px;float:left;">

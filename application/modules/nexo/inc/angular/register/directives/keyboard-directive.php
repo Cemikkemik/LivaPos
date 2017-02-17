@@ -1,9 +1,15 @@
+<?php
+global $Options;
+ ?>
 <script>
 tendooApp.directive( 'keyboard', function(){
 
 	HTML.body.add( 'angular-cache' );
 
+
+
 	HTML.query( 'angular-cache' )
+	.add( 'div.row.keyboard-separator-wrapper>div.col-md-9' )
 	.add( 'div.keyboard-wrapper.row' )
 	.each( 'style', 'padding:15px 0;' );
 
@@ -14,6 +20,8 @@ tendooApp.directive( 'keyboard', function(){
 		.each( 'ng-click', 'keyinput( ' + i + ', inputName )' )
 		.textContent	=	i;
 	}
+
+
 
 	for( var i = 4; i <= 6; i++ ) {
 		HTML.query( '.keyboard-wrapper' )
@@ -55,7 +63,27 @@ tendooApp.directive( 'keyboard', function(){
 	.each( 'ng-click', 'keyinput( "back", inputName )' )
 	.textContent	=	'←';
 
+	HTML.query( '.keyboard-separator-wrapper' )
+	.add( 'div.col-md-3.right-side-keyboard>div.row' )
+	.each( 'style', 'padding:15px 0;' );
 
+	<?php
+	$keyShortcuts 		=	@$Options[ store_prefix() . 'keyshortcuts' ];
+	$allKeys 			=	explode( '|', $keyShortcuts );
+	if( $allKeys ) {
+        if( ! empty( $allKeys[0] ) ) {
+            foreach( $allKeys as $key ) {
+    			?>
+    			HTML.query( '.right-side-keyboard .row' )
+    			.add( 'div.col-lg-12.col-sm-12.col-xs-12>button.btn.btn-info.btn-block.input-' + <?php echo $key;?> )
+    			.each( 'style', 'margin-bottom:15px;line-height:30px;font-size:24px;font-weight:800' )
+    			.each( 'ng-click', 'keyinput( ' + <?php echo  $key;?> + ', inputName, true )' )
+    			.textContent	=	<?php echo  $key;?>;
+    			<?php
+    		}
+        }
+	}
+	 ?>
 
 	var payBoxHTML		=	angular.element( 'angular-cache' ).html();
 

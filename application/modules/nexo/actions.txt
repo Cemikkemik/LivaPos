@@ -3,11 +3,6 @@ Actions:
 Regroupe toutes les actions de la boutique
 
 /**
- *	nexo_checkout_footer
- *  Exécute une action au pied de page de la boutique
-**/
-
-/**
  * nexo_daily_report_footer
  * Execute une action au peid de page du rapport journalier
 **/
@@ -80,7 +75,7 @@ Regroupe toutes les actions de la boutique
 
 /**
  * load_nexo_checkout_settings
- * S'exécute durant le chargement de la page de la caisse
+ * S'exécute durant le chargement de la page des réglages de la caisse
 **/
 
 /**

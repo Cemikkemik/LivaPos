@@ -88,17 +88,18 @@ class NexoCouponController extends Tendoo_Module
             ]
         ]);
 
-        $AnguCrud->addDefaultButton([
-            'text'  =>  __( 'Imprimer', 'nexo' ),
-            'url'   =>  site_url( array( 'dashboard', 'nexo_coupons', 'print_all' ) )
-        ]);
 
-        $AnguCrud->addSelectingButton([
-            'icon'  =>  'print',
-            'allow_multiple'    =>  true, // only_multiple, only_unique
-            'label' =>  __( 'Imprimer', 'nexo' ),
-            'url'   =>  site_url( array( 'dashboard', 'nexo_coupons', 'print_selected' ) )
-        ]);
+        // $AnguCrud->addDefaultButton([
+        //     'text'  =>  __( 'Imprimer', 'nexo' ),
+        //     'url'   =>  site_url( array( 'dashboard', 'nexo_coupons', 'print_all' ) )
+        // ]);
+
+        // $AnguCrud->addSelectingButton([
+        //     'icon'  =>  'print',
+        //     'allow_multiple'    =>  true, // only_multiple, only_unique
+        //     'label' =>  __( 'Imprimer', 'nexo' ),
+        //     'url'   =>  site_url( array( 'dashboard', 'nexo_coupons', 'print_selected' ) )
+        // ]);
 
         return $AnguCrud->LoadView();
     }

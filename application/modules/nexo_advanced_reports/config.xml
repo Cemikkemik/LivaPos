@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application>
+		<name>Nexo Advanced Reports</name>
+		<namespace>nexo_advanced_reports</namespace>
+		<version>1.2</version>
+		<author>Blair Jersyer</author>
+		<description>Add More advanced reports to NexoPOS</description>
+		<language>/language</language>
+		<main>nexo_advanced_reports.php</main>
+</application>

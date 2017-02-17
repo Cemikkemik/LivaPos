@@ -118,3 +118,18 @@ Filtres:
  * nexo_commandes_loaded
  * Permet d'appliquer des actions personnalisées sur l'objet CRUD pour l'interface des commandes
 **/
+
+/**
+ * fetch_item
+ * Permet de filtre des données lorsqu'elles sont envoyée pour récupérer un produit
+**/
+
+/**
+ * nexo_receipt_theme_path
+ * Permet de filtrer le chemin vers un template de facture
+**/
+
+/**
+ * nexo_receipt_theme
+ * Permet de filtrer la liste des options de template au choix
+**/

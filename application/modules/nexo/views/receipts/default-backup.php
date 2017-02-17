@@ -60,11 +60,11 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         </tr>
                     </thead>
                     <tbody>
-                    	<?php 
+                    	<?php
                         $total_global    =    0;
                         $total_unitaire    =    0;
                         $total_quantite    =    0;
-                        
+
                         foreach ($order[ 'products' ] as $_produit) {
                             $total_global        +=    __floatval($_produit[ 'PRIX_TOTAL' ]);
                             $total_unitaire        +=    __floatval($_produit[ 'PRIX' ]);
@@ -92,19 +92,19 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             ?>
                             </td>
                         </tr>
-                        <?php 
+                        <?php
                         }
                         ?>
                         <?php if (in_array(@$Options[ 'nexo_enable_vat' ], array( null, 'non' ))):?>
                         <tr>
                             <td class=""><em><?php _e('Total', 'nexo');?></em></td>
-                            
+
                             <td class="text-right">
-                            <?php /*echo sprintf( 
-                                __( '%s %s %s', 'nexo' ), 
-                                $this->Nexo_Misc->display_currency( 'before' ), 
+                            <?php /*echo sprintf(
+                                __( '%s %s %s', 'nexo' ),
+                                $this->Nexo_Misc->display_currency( 'before' ),
                                 __floatval( $total_unitaire ),
-                                $this->Nexo_Misc->display_currency( 'after' ) 
+                                $this->Nexo_Misc->display_currency( 'after' )
                             )*/;?>
                             </td>
                             <td class="" style="text-align: right"><?php echo $total_quantite;?></td>
@@ -120,13 +120,13 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         <?php else :?>
                         <tr>
                             <td class=""><em><?php _e('Hors Taxe (HT)', 'nexo');?></em></td>
-                            
+
                             <td class="text-right">
-                            <?php /*echo sprintf( 
-                                __( '%s %s %s', 'nexo' ), 
-                                $this->Nexo_Misc->display_currency( 'before' ), 
+                            <?php /*echo sprintf(
+                                __( '%s %s %s', 'nexo' ),
+                                $this->Nexo_Misc->display_currency( 'before' ),
                                 __floatval( $total_unitaire ),
-                                $this->Nexo_Misc->display_currency( 'after' ) 
+                                $this->Nexo_Misc->display_currency( 'after' )
                             )*/;?>
                             </td>
                             <td class="" style="text-align: right"><?php echo $total_quantite;?></td>
@@ -245,7 +245,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <td class="text-right" colspan="3"><h4><strong><?php echo $terme;?></strong></h4></td>
                             <td class="text-right text-danger"><h4><strong>
                             <?php echo $this->Nexo_Misc->display_currency('before');?>
-                            
+
 								<?php
 
                                 echo abs(bcsub(

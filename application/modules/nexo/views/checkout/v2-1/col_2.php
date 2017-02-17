@@ -6,9 +6,10 @@
     <div class="box-header with-border search-field-wrapper">
         <form action="#" method="post" id="search-item-form">
             <div class="input-group">
-                <span class="input-group-btn">
-                    <button type="submit" class="btn btn-large btn-default"><?php _e('Rechercher', 'nexo');?></button>
-                </span>
+                <div class="input-group-btn">
+                    <button type="submit" class="btn btn-large btn-default"><i class="fa fa-search"></i></button>
+                    <button type="button" class="enable_barcode_search btn btn-large btn-default"><i class="fa fa-barcode"></i></button>
+                </div>
                 <input type="text" name="item_sku_barcode" placeholder="<?php _e('Codebarre, UGS, nom du produit ou de la catégorie...', 'nexo');?>" class="form-control">
                 <span class="input-group-btn">
 					<?php echo $this->events->apply_filters( 'pos_search_input_after', '' );?>

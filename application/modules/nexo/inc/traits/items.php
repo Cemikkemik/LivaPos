@@ -110,6 +110,94 @@ trait Nexo_items
     }
 
     /**
+     *  item get with meta
+     *  @param int id
+     *  @return json
+    **/
+
+    public function item_with_meta_get( $id = null, $using = 'ID' )
+    {
+        // return $this->item_get($id, $using );
+        if( $using == 'ID' ) {
+
+            if( $id != null ) {
+                $this->db
+                ->where( store_prefix() . 'nexo_articles.ID', $id );
+            }
+
+            $query_meta     =   $this->db
+            ->get( store_prefix() . 'nexo_articles_meta' )->result();
+
+        } else if( $using == 'sku-barcode' ) {
+
+            $this->db->select( '*' )
+            ->from( 'nexo_articles' )
+            ->join( store_prefix() . 'nexo_articles_meta',
+                store_prefix() . 'nexo_articles_meta.REF_ARTICLE = ' .
+                store_prefix() . 'nexo_articles.ID'
+            );
+
+            if( $id != null ) {
+                $this->db
+                ->where( store_prefix() . 'nexo_articles.CODEBAR', $id )
+                ->or_where( store_prefix() . 'nexo_articles.SKU', $id );
+            }
+
+            $query_meta     =   $this->db
+            ->get()->result();
+
+        } else {
+            $this->__failed();
+        }
+
+        $query_select   =   [];
+        $table_select   =   [];
+        $join_select    =   [];
+        $where_select   =   [];
+
+        foreach( $query_meta as $key => $meta ) {
+            $single_select      =   '_' . $key . 'meta';
+            $query_select[]     =   $single_select . '.VALUE as ' . $meta->KEY;
+            $table_select[]     =   $single_select;
+            $join_select[]      =   "LEFT JOIN {$this->db->dbprefix}nexo_articles_meta as {$single_select} ON articles_meta.REF_ARTICLE = {$single_select}.REF_ARTICLE";
+            $where_select[]     =   $single_select . '.KEY = "' . $meta->KEY . '"';
+        }
+
+        $SQL    =   "SELECT *, nexo_articles.ID as ID, nexo_categories.ID as CAT_ID " . (
+
+        count( $query_select ) > 0 ? ',' : '' ) .
+
+        implode(',', $query_select) .
+        " FROM      {$this->db->dbprefix}nexo_articles_meta articles_meta " .
+
+        implode( ' ', $join_select ) .
+
+        " RIGHT JOIN {$this->db->dbprefix}nexo_articles as nexo_articles ON nexo_articles.ID = articles_meta.REF_ARTICLE " .
+
+        " RIGHT JOIN {$this->db->dbprefix}nexo_categories as nexo_categories ON nexo_categories.ID = nexo_articles.REF_CATEGORIE " .
+
+        ( $id != null ? "WHERE nexo_articles.CODEBAR = " . $this->db->escape( $id ) : '' ) .
+
+        ( $id != null ?
+        " OR nexo_articles.SKU = " . $this->db->escape( $id ) : '' ) .
+
+        (
+            $id != null ?
+                ( count( $query_select ) > 0 ? ' OR ' : '' ) .
+                implode(' OR ', $where_select)
+            : ''
+        ) .
+
+        " GROUP BY nexo_articles.ID";
+
+        $query  =   $this->db->query(
+            $SQL
+        )->result();
+
+        $this->response( $query, 200 );
+    }
+
+    /**
      * Delete Item from Shop
      *
     **/

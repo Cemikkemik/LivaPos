@@ -164,14 +164,16 @@ $this->Gui->add_item(array(
     )
 ), 'Nexo_checkout', 1);
 
+$receipt_themes 	=	$this->events->apply_filters( 'nexo_receipt_theme', array(
+	'default'    =>    __('Par défaut', 'nexo'),
+	'simple'		=>	__( 'Simple', 'nexo' )
+) );
+
 $this->Gui->add_item(array(
     'type'        =>    'select',
     'name'        =>    $option_prefix . 'nexo_receipt_theme',
     'label'        =>    __('Thème des tickets de caisse', 'nexo'),
-    'options'    =>    array(
-        'default'    =>    __('Par défaut', 'nexo'),
-		'simple'		=>	__( 'Simple', 'nexo' )
-    )
+    'options'    =>    $receipt_themes
 ), 'Nexo_checkout2', 2);
 
 /**
@@ -245,6 +247,13 @@ $this->Gui->add_item(array(
     'label'        =>    __('Validité des commandes devis (en jours)', 'nexo'),
     'name'        =>    $option_prefix . 'nexo_devis_expiration',
     'placeholder'    =>    __('Par défaut: Illimité', 'nexo')
+), 'Nexo_checkout2', 2);
+
+$this->Gui->add_item(array(
+    'type'        =>    'text',
+    'label'        =>    __('Touches Raccourcis', 'nexo'),
+    'name'        =>    $option_prefix . 'keyshortcuts',
+    'description'    =>    __('Définissez des valeurs numériques séparée par des tirets verticaux. Exemple : 50|75|99.5|200.', 'nexo')
 ), 'Nexo_checkout2', 2);
 
 $this->events->do_action('load_nexo_checkout_settings', $this->Gui);

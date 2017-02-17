@@ -1,4 +1,6 @@
 <?php
+use Dompdf\Dompdf;
+
 class Nexo_Print extends CI_Model
 {
     public function __construct($args)
@@ -66,7 +68,14 @@ class Nexo_Print extends CI_Model
 
             $theme                                          =	@$Options[ store_prefix() . 'nexo_receipt_theme' ] ? @$Options[ store_prefix() . 'nexo_receipt_theme' ] : 'default';
 
-            $this->load->view('../modules/nexo/views/receipts/' . $theme . '.php', $data);
+            $path   =   '../modules/nexo/views/receipts/' . $theme . '.php';
+
+            $this->load->view(
+                $this->events->apply_filters( 'nexo_receipt_theme_path', $path ),
+                $data,
+                $theme
+            );
+
         } else {
             die(__('Cette commande est introuvable.', 'nexo'));
         }
@@ -118,6 +127,32 @@ class Nexo_Print extends CI_Model
         }
 
         $this->load->view('../modules/nexo/views/products-labels/default.php', $data);
+    }
+
+    /**
+     *  Return a PDF document with current order receipt
+     *  @param int order id
+     *  @return PDF document
+    **/
+
+    public function order_pdf( $order_id )
+    {
+        ob_start();
+        $this->order_receipt( $order_id );
+        $content    =   ob_get_clean();
+        // instantiate and use the dompdf class
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml( $content );
+
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        $dompdf->stream();
+
     }
 }
 new Nexo_Print($this->args);

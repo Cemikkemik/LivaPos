@@ -136,3 +136,13 @@ reduce_from_cart	:	{
 	type 		:	action
 	desc 		:	trigger reduce from cart
 }
+
+override_add_item : {
+	type 		:	filter
+	desc 		:	permet de surcharger la fonctionnalité d'ajout de produite avec la méthode "fetchItem"
+}
+
+item_loaded 		:	{
+	type 		:	filter
+	desc 		:	permet de filtre chaque produit récupéré de la boutique 
+}

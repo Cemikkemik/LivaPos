@@ -1,5 +1,10 @@
-filter	:	grocery_crud_list_item_class, 
+filter	:	grocery_crud_list_item_class,
 During items listing, send current row class and current row array
+
+grocery_filter_row {
+	type :	filtet
+	desc 	:	filtre les lignes des entrées
+}
 
 grocery_callback_update	{
 	type : action
@@ -75,4 +80,3 @@ grocery_required_fields	:	{
 	desc	:	return required field for form validation
 	params 	:	array( 'FIELD_NAME', ... )
 }
-

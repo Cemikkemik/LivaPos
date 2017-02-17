@@ -11,7 +11,6 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 }
 ?>
 <?php if( @$_GET[ 'ignore_header' ] != 'true' ):?>
-
 <!doctype html>
 <html>
 <head>
@@ -40,6 +39,10 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                     <?php echo xss_clean( @$Options[ store_prefix() . 'receipt_col_2' ] );?>
                 </div>
             </div>
+            <?php if( @_GET[ 'is-pdf' ] ):?>
+            <br>
+            <br>
+            <?php endif;?>
             <?php
             $string_to_parse	=	ob_get_clean();
             echo $this->parser->parse_string( $string_to_parse, $template , true );
@@ -48,7 +51,6 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                 <div class="text-center">
                     <h3><?php _e('Ticket de caisse', 'nexo');?></h3>
                 </div>
-                </span>
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -327,6 +329,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                     </tbody>
                 </table>
 				<p class="text-center"><?php echo xss_clean( $this->parser->parse_string( @$Options[ store_prefix() . 'nexo_bills_notices' ], $template , true ) );?></p>
+                <?php if( @_GET[ 'is-pdf' ] == null ):?>
                 <div class="container-fluid hideOnPrint">
                     <div class="row hideOnPrint">
                         <div class="col-lg-12">
@@ -334,6 +337,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         </div>
                     </div>
                 </div>
+                <?php endif;?>
             </div>
         </div>
     </div>

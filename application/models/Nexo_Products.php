@@ -24,8 +24,9 @@ class Nexo_Products extends CI_Model
         $barwidth    =    empty($Options[ store_prefix() . 'nexo_bar_width' ]) ? 3 : intval(@$Options[ store_prefix() . 'nexo_bar_width' ]);
 
         $generator =    new Picqer\Barcode\BarcodeGeneratorJPG();
+        $code_type      =   strtolower( $code_type );
 
-        if ($code_type == 'ean8') {
+        if ( $code_type == 'ean8') {
             $generator_type    =    $generator::TYPE_EAN_8;
         } elseif ($code_type == 'ean13') {
             $generator_type    =    $generator::TYPE_EAN_13;
@@ -44,71 +45,82 @@ class Nexo_Products extends CI_Model
      * @return void
     **/
 
-    public function generate_barcode()
+    public function generate_barcode( $code = null, $barcode_type = null )
     {
         $this->load->model('Nexo_Misc');
         global $Options;
 
-        function random($start = true)
-        {
-            $start_int    =    $start ? 1 : 0;
-            return rand($start_int, 9);
-        }
+        if( $code == null ) {
+            function random($start = true)
+            {
+                $start_int    =    $start ? 1 : 0;
+                return rand($start_int, 9);
+            }
 
-        $saved_barcode    =    $this->options->get( store_prefix() . 'nexo_saved_barcode');
-        $code            =    '';
-        $limit            =    ! empty($Options[ store_prefix() . 'nexo_codebar_limit_nbr' ]) ? intval(@$Options[ store_prefix() . 'nexo_codebar_limit_nbr' ]) : 6;
+            $saved_barcode    =    $this->options->get( store_prefix() . 'nexo_saved_barcode');
+            $code            =    '';
+            $limit            =    ! empty($Options[ store_prefix() . 'nexo_codebar_limit_nbr' ]) ? intval(@$Options[ store_prefix() . 'nexo_codebar_limit_nbr' ]) : 6;
 
-        if ($saved_barcode) {
-            do {
-                if (@$Options[ store_prefix() . 'nexo_product_codebar' ] == 'ean8') {
-                    for ($i = 0; $i < 7; $i++) {
-                        $start = ($i == 0) ? true : false;
-                        $code .= random($start);
+            $barcode_type        =   $barcode_type == null ? @$Options[ store_prefix() . 'nexo_product_codebar' ] : $barcode_type;
+
+            if ($saved_barcode) {
+                do {
+                    if ( $barcode_type == 'ean8') {
+                        for ($i = 0; $i < 7; $i++) {
+                            $start = ($i == 0) ? true : false;
+                            $code .= random($start);
+                        }
+                        $code        =    $code . $this->Nexo_Misc->ean_checkdigit( $code,  $barcode_type );
+                    } elseif ( $barcode_type == 'ean13') {
+                        for ($i = 0; $i < 12; $i++) {
+                            $start    = ($i == 0) ? true : false;
+                            $code    .= random($start);
+                        }
+                        $code        .=    $this->Nexo_Misc->ean_checkdigit($code, $barcode_type );
+                    } else {
+                        for ($i = 0; $i < $limit ; $i++) {
+                            $start = ($i == 0) ? true : false;
+                            $code .= random($start);
+                        }
                     }
-                    $code        =    $code . $this->Nexo_Misc->ean_checkdigit($code, @$Options[ store_prefix() . 'nexo_product_codebar' ]);
-                } elseif (@$Options[ store_prefix() . 'nexo_product_codebar' ] == 'ean13') {
-                    for ($i = 0; $i < 12; $i++) {
+                } while (in_array($code, $saved_barcode));
+            } else {
+                if ( $barcode_type == 'ean8') {
+                    for ($i = 0; $i < 7; $i++) {
                         $start    = ($i == 0) ? true : false;
                         $code    .= random($start);
                     }
-                    $code        .=    $this->Nexo_Misc->ean_checkdigit($code, @$Options[ store_prefix() . 'nexo_product_codebar' ]);
+                    $code        .=    $this->Nexo_Misc->ean_checkdigit($code, $barcode_type );
+                } elseif ( $barcode_type == 'ean13') {
+                    for ($i = 0; $i < 12; $i++) {
+                        $start = ($i == 0) ? true : false;
+                        $code .= random($start);
+                    }
+                    $code        .= $this->Nexo_Misc->ean_checkdigit($code, $barcode_type );
                 } else {
                     for ($i = 0; $i < $limit ; $i++) {
                         $start = ($i == 0) ? true : false;
                         $code .= random($start);
                     }
                 }
-            } while (in_array($code, $saved_barcode));
-        } else {
-            if (@$Options[ store_prefix() . 'nexo_product_codebar' ] == 'ean8') {
-                for ($i = 0; $i < 7; $i++) {
-                    $start    = ($i == 0) ? true : false;
-                    $code    .= random($start);
-                }
-                $code        .=    $this->Nexo_Misc->ean_checkdigit($code, @$Options[ store_prefix() . 'nexo_product_codebar' ]);
-            } elseif (@$Options[ store_prefix() . 'nexo_product_codebar' ] == 'ean13') {
-                for ($i = 0; $i < 12; $i++) {
-                    $start = ($i == 0) ? true : false;
-                    $code .= random($start);
-                }
-                $code        .= $this->Nexo_Misc->ean_checkdigit($code, @$Options[ store_prefix() . 'nexo_product_codebar' ]);
-            } else {
-                for ($i = 0; $i < $limit ; $i++) {
-                    $start = ($i == 0) ? true : false;
-                    $code .= random($start);
-                }
             }
-        }
 
-        $saved_barcode[]    =    $code;
+            $saved_barcode[]    =    $code;
 
-        $this->options->set( store_prefix() . 'nexo_saved_barcode', $saved_barcode, true);
+            $this->options->set( store_prefix() . 'nexo_saved_barcode', $saved_barcode, true);
 
-        if (in_array(@$Options[ store_prefix() . 'nexo_product_codebar' ], array( 'ean8', 'ean13' ))) {
-            $this->create_codebar(substr($code, 0, -1));
+            if (in_array( $barcode_type, array( 'ean8', 'ean13' ))) {
+                $this->create_codebar(substr($code, 0, -1));
+            } else {
+                $this->create_codebar($code);
+            }
         } else {
-            $this->create_codebar($code);
+
+            if( empty( $barcode_type ) ) {
+                $barcode_type       =   @$Options[ store_prefix() . 'nexo_product_codebar' ];
+            }
+
+            $this->create_codebar( $code, $barcode_type );
         }
 
         return $code;
@@ -154,10 +166,10 @@ class Nexo_Products extends CI_Model
      * @return string json
     **/
 
-    public function resample_codebar($product_id, $old_barcode)
+    public function resample_codebar($product_id, $old_barcode, $barcode_type = null )
     {
         // Get a new barcode based on current settings
-        $barcode        =    $this->generate_barcode();
+        $barcode        =    $this->generate_barcode( null, $barcode_type );
 
         // Update Order Barcodes
         $this->db->where('REF_PRODUCT_CODEBAR', $old_barcode)->update( store_prefix() . 'nexo_commandes_produits', array(

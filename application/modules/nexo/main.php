@@ -362,6 +362,16 @@ class Nexo extends CI_Model
 				return tendoo.notify;
 			}
 
+            NexoAPI.Toast    =   function(){
+                NexoAPI.Sound(1);
+                var showtoast = new ToastBuilder({
+                    defaultText: 'Toast, yo!',
+                    displayTime: 2000,
+                    target: 'body'
+                })
+				return showtoast;
+            }
+
 			NexoAPI.Sound	=	function( sound_index ){
 				var SoundEnabled				=	'<?php echo @$Options[ store_prefix() . 'nexo_soundfx' ];
         ?>';

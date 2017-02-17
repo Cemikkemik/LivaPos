@@ -472,6 +472,7 @@ class Tendoo_Loader
 
     public function module_view($module_namespace, $view, $vars = array(), $return = false)
     {
+        $view       =   str_replace( '.', '/', $view );
         return $this->_ci_load(array( '_ci_view' => '../modules/' . $module_namespace . '/views/' . $view, '_ci_vars' => $this->_ci_object_to_array($vars), '_ci_return' => $return));
     }
 

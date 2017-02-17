@@ -1,0 +1,12 @@
+<application>
+    <name>Ocom Barcode Support</name>
+    <namespace>ocombarcode</namespace>
+    <version>1.0</version>
+    <author>Blair Jersyer</author>
+    <description>Add support to NexoPOS to oCom barcode reader.</description>
+    <language>/language</language>
+    <main>ocombarcode.php</main>
+    <dependencies>
+        <module namespace="nexo">Nexo</module>
+    </dependencies>
+</application>

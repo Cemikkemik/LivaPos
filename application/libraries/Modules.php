@@ -176,7 +176,7 @@ class Modules
                     include_once($init_file);
                 } elseif (is_file($init_file = $module[ 'application' ][ 'main' ]) && $filter === 'actives') {
                     if (!isset($actives_modules)) {
-                        $actives_modules    =    ( array ) $Options[ 'actives_modules' ];
+                        $actives_modules    =    ( array ) @$Options[ 'actives_modules' ];
                     }
                     if (in_array(strtolower($module[ 'application' ][ 'namespace' ]), $actives_modules)) {
                         self::$actives[]    =    $module[ 'application' ][ 'namespace' ];
@@ -297,7 +297,7 @@ class Modules
          global $Options;
          $modules   =   self::get();
          foreach( $modules as $module ) {
-             if( in_array( $module[ 'application' ][ 'namespace' ], ( array ) $Options[ 'actives_modules' ] ) ) {
+             if( in_array( $module[ 'application' ][ 'namespace' ], ( array ) @$Options[ 'actives_modules' ] ) ) {
                  self::checkDependency( $module[ 'application' ][ 'namespace' ] );
              }
          }
@@ -768,15 +768,16 @@ class Modules
                         }
                     }
                 }
-                $assets_path = PUBLICPATH . 'modules' . '/' . $module_namespace;
-                // Copy Assets to
-                if (is_dir($assets_path)) {
-                    // create assets folder
-                    if (!is_dir($temp_folder . '/' . 'assets')) {
-                        mkdir($temp_folder . '/' . 'assets');
-                    }
-                    SimpleFileManager::copy($assets_path, $temp_folder . '/' . 'assets');
+            }
+
+            $assets_path = PUBLICPATH . 'modules' . '/' . $module_namespace;
+            // Copy Assets to
+            if (is_dir($assets_path)) {
+                // create assets folder
+                if (!is_dir($temp_folder . '/' . 'assets')) {
+                    mkdir($temp_folder . '/' . 'assets');
                 }
+                SimpleFileManager::copy($assets_path, $temp_folder . '/' . 'assets');
             }
 
             // move module file to temp folder

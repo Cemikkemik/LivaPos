@@ -236,7 +236,7 @@ $config[ 'nexo_item_details_group' ]=	array(
 // Barcode Type
 $config[ 'nexo_barcode_supported' ]	=	array(
 	// 'default'	=>	get_instance()->lang->line( 'default' ),
-	'ean8'		=>	'EAN8',
+	'ean8'		=>	'EAN 8',
 	'ean13'		=>	'EAN 13',
 	'code_128'	=>	'Code 128',
 	'type_msi'	=>	'TYPE MSI',

@@ -36,26 +36,40 @@ function isFullScreen() {
 <div class="box box-primary direct-chat direct-chat-primary" id="cart-details-wrapper"> <!-- style="visibility:hidden" -->
     <div class="box-header with-border" id="cart-header">
         <form action="#" method="post">
+
             <div class="input-group" ng-controller="cartToolBox">
-            	<span class="input-group-addon hidden-sm hidden-xs" id="sizing-addon1"><i class="fa fa-users"></i></span>
                 <select data-live-search="true" name="customer_id" title="<?php _e('Veuillez choisir un client', 'nexo' );?>" class="form-control customers-list dropdown-bootstrap">
                     <option value="">
-                    <?php _e('Sélectionner un client', 'nexo');?>
+                        <?php _e('Sélectionner un client', 'nexo');?>
                     </option>
                 </select>
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default cart-add-customer" title="<?php _e( 'Ajouter un client', 'nexo' );?>"><i class="fa fa-user"></i>
-                    <span class="hidden-sm hidden-xs"><?php _e('Ajouter un client', 'nexo');?></span>
-                    <span class="hidden-lg hidden-md">+1</span>
+                    <?php if( @$Options[ store_prefix() . 'disable_customer_creation' ] != 'yes' ):?>
+
+                    <button type="button" class="btn btn-default cart-add-customer" title="<?php _e( 'Ajouter un client', 'nexo' );?>">
+                        <i class="fa fa-user"></i>
+                        <span class="hidden-sm hidden-xs"><?php _e('Ajouter un client', 'nexo');?></span>
+                        <span class="hidden-lg hidden-md">+1</span>
                     </button>
-                    <!--<button type="button" class="btn btn-default">
-                    	<i class="fa fa-truck"></i>
-                    </button>-->
-                    <button type="button" ng-click="openHistoryBox()" class="btn btn-default" title="<?php _e( 'Charger les commandes en attente', 'nexo' );?>">
-                    	<i class="fa fa-history"></i>
-                    </button>
-                    <button class="btn btn-default toggleCompactMode" type="button"><i class="fa fa-bars"></i></button>
-                    <button type="button" ng-click="openFullScreen()" class="btn btn-default"><i class="fa fa-window-maximize"></i></button>
+
+                    <?php endif;?>
+                    <?php foreach( $this->events->apply_filters( 'nexo_cart_buttons', [
+                        // 'delivery'      =>
+                        // '<button type="button" class="btn btn-default">
+                        // 	<i class="fa fa-truck"></i>
+                        // </button>',
+
+                        'history'       =>
+                        '<button type="button" ng-click="openHistoryBox()" class="btn btn-default" title="' . _e( 'Charger les commandes en attente', 'nexo' ) . '">
+                        	<i class="fa fa-history"></i>
+                        </button>'
+
+                    ])  as $button ):;?>
+                        <?php echo $button;?>
+                    <?php endforeach;?>
+
+                    <?php echo $this->events->apply_filters( 'pos_search_input_after', '' );?>
+
                 </span>
 			</div>
         </form>
@@ -144,11 +158,13 @@ function isFullScreen() {
                 </button>
             </div>
             <?php echo $this->events->apply_filters( 'before_cart_discount_button', '' );?>
+            <?php if( @$Options[ store_prefix() . 'hide_discount_button' ] != 'yes' ):?>
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default btn-lg" id="cart-discount-button"  style="margin-bottom:0px;"> <i class="fa fa-gift"></i>
                     <span class="hidden-xs"><?php _e('Remise', 'nexo');?></span>
                 </button>
             </div>
+            <?php endif;?>
             <?php echo $this->events->apply_filters( 'before_cart_cancel_button', '' );?>
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default btn-lg" id="cart-return-to-order"  style="margin-bottom:0px;"> <!-- btn-app  -->

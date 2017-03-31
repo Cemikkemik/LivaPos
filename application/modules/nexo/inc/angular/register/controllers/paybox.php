@@ -136,46 +136,26 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 
 				_.each( v2Checkout.CartItems, function( value, key ){
 
-					var ArrayToPush			=	[
-						value.ID,
-						value.QTE_ADDED,
-						value.CODEBAR,
-						value.PROMO_ENABLED ? value.PRIX_PROMOTIONEL : ( v2Checkout.CartShadowPriceEnabled ? value.SHADOW_PRICE : value.PRIX_DE_VENTE ),
-						value.QUANTITE_VENDU,
-						value.QUANTITE_RESTANTE,
+					var ArrayToPush			=	{
+						id 					:	value.ID,
+						qte_added 			:	value.QTE_ADDED,
+						codebar 			:	value.CODEBAR,
+						sale_price 			:	value.PROMO_ENABLED ? value.PRIX_PROMOTIONEL : ( v2Checkout.CartShadowPriceEnabled ? value.SHADOW_PRICE : value.PRIX_DE_VENTE ),
+						qte_sold 			:	value.QUANTITE_VENDU,
+						qte_remaining 		:	value.QUANTITE_RESTANTE,
 						// @since 2.8.2
-						value.STOCK_ENABLED,
+						stock_enabled 		:	value.STOCK_ENABLED,
 						// @since 2.9.0
-						value.DISCOUNT_TYPE,
-						value.DISCOUNT_AMOUNT,
-						value.DISCOUNT_PERCENT
-					];
+						discount_type 		:	value.DISCOUNT_TYPE,
+						discount_amount		:	value.DISCOUNT_AMOUNT,
+						discount_percent 	:	value.DISCOUNT_PERCENT,
+						metas 				:	typeof value.metas == 'undefined' ? {} : value.metas
+					};
 
 					// improved @since 2.7.3
 					// add meta by default
-					var ItemMeta	=	NexoAPI.events.applyFilters( 'items_metas', [] );
+					ArrayToPush.metas	=	NexoAPI.events.applyFilters( 'items_metas', ArrayToPush.metas );
 
-					var MetaKeys	=	new Array;
-
-					_.each( ItemMeta, function( _value, key ) {
-						var unZiped	=	_.keys( _value );
-						MetaKeys.push( unZiped[0] );
-					});
-
-					var AllMetas	=	new Object;
-
-					// console.log( value );
-
-					_.each( MetaKeys, function( MetaKey ) {
-						AllMetas	=	_.extend( AllMetas, _.object( [ MetaKey ], [ _.propertyOf( value )( MetaKey ) ] ) );
-					});
-
-					// console.log( AllMetas );
-
-					//
-					ArrayToPush.push( JSON.stringify( AllMetas ) );
-
-					// Add Meta JSON stringified to order_item
 					order_items.push( ArrayToPush );
 				});
 

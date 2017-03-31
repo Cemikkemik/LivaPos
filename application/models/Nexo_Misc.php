@@ -183,7 +183,7 @@ class Nexo_Misc extends CI_Model
 
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_variations`;');
-        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_defectueux`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_stock_flow`;');
 
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_categories`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_fournisseurs`;');

@@ -178,11 +178,11 @@ class Nexo_Controller extends CI_Model
     					),
                         array(
                             'title'            =>    __('Liste des coupons', 'nexo'),
-    						'href'            =>    site_url( array( 'dashboard', $store_uri . 'nexo_coupons', 'index' ))
+    						'href'            =>    site_url( array( 'dashboard', $store_uri . 'nexo_coupons', 'lists' ))
                         ),
                         array(
                             'title'            =>    __('Ajouter un coupon', 'nexo'),
-    						'href'            =>    site_url( array( 'dashboard', $store_uri . 'nexo_coupons', 'index', 'add_new' ))
+    						'href'            =>    site_url( array( 'dashboard', $store_uri . 'nexo_coupons', 'lists', 'add' ))
                         )
                     ]);
 

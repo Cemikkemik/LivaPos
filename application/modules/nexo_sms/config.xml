@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application>
+	<name>Nexo SMS Services</name>
+	<namespace>nexo_sms</namespace>
+	<language>/language</language>
+	<author>Blair Jersyer</author>
+	<description>Add SMS support for NexoPOS</description>
+	<version>1.5.1</version>
+	<main>main.php</main>
+	<dependencies>
+		<module namespace="nexo">Nexo</module>
+	</dependencies>
+</application>

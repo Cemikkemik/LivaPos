@@ -1,3 +1,7 @@
+<?php
+// Creating Index Cards
+if( User::in_group( 'shop_manager' ) || User::in_group( 'master' ) || User::in_group( 'shop_tester' ) ) {
+    ?>
 <div class="content">
     <div class="row">
         <div class="col-md-3 global_stores_card">
@@ -187,3 +191,4 @@ $(document).ready(function(e) {
 
 
 </script>
+<?php }

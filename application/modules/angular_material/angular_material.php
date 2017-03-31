@@ -10,7 +10,7 @@ class AngularMaterialModule extends Tendoo_Module
     public function __construct()
     {
         parent::__construct();
-        $this->events->add_action( 'load_dashboard', array( $this, 'load_assets' ), 999 );
+        $this->events->add_action( 'load_dashboard', array( $this, 'load_assets' ), 50 );
         $this->events->add_action( 'load_dashboard', array( $this, 'load_controller' ) );
     }
 
@@ -27,6 +27,7 @@ class AngularMaterialModule extends Tendoo_Module
         $this->enqueue->css_namespace( 'dashboard_header' );
         $this->enqueue->css( $module_url . 'css/angular-material.min', '' );
         $this->enqueue->css( $module_url . 'bower_components/angular-material-data-table/dist/md-data-table.min', '' );
+
 
         $this->enqueue->js_namespace( 'dashboard_footer' );
         $this->enqueue->js( $module_url . 'bower_components/file-saver/FileSaver.min', '' );
@@ -73,8 +74,8 @@ class AngularMaterialModule extends Tendoo_Module
 
 }
 
-include_once( dirname( __FILE__ ) . '/inc/library.php' );
-include_once( dirname( __FILE__ ) . '/inc/controller.php' );
-include_once( dirname( __FILE__ ) . '/inc/filters.php' );
+// include_once( dirname( __FILE__ ) . '/inc/library.php' );
+// include_once( dirname( __FILE__ ) . '/inc/controller.php' );
+// include_once( dirname( __FILE__ ) . '/inc/filters.php' );
 
-new AngularMaterialModule;
+// new AngularMaterialModule;

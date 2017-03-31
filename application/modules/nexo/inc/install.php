@@ -108,6 +108,14 @@ class Nexo_Install extends CI_Model
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_clients_meta` (
+            `ID` int(11) NOT NULL AUTO_INCREMENT,
+            `KEY` varchar(200) NOT NULL,
+            `VALUE` text NOT NULL,
+            `REF_CLIENT` int(11) NOT NULL,
+            PRIMARY KEY (`ID`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+
 		// Ref STORE
         $this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_clients_groups` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -169,6 +177,19 @@ class Nexo_Install extends CI_Model
 		  `DISCOUNT_TYPE` varchar(200) NOT NULL,
 		  `DISCOUNT_AMOUNT` float NOT NULL,
 		  `DISCOUNT_PERCENT` float NOT NULL,
+		  PRIMARY KEY (`ID`)
+		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+
+        // @ 3.0.16
+
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_commandes_produits_meta` (
+		  `ID` int(11) NOT NULL AUTO_INCREMENT,
+		  `REF_COMMAND_PRODUCT` int(11) NOT NULL,
+          `REF_COMMAND_CODE` varchar(200) NOT NULL,
+		  `KEY` varchar(250) NOT NULL,
+		  `VALUE` text NOT NULL,
+		  `DATE_CREATION` datetime NOT NULL,
+          `DATE_MODIFICATION` datetime NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
@@ -293,13 +314,14 @@ class Nexo_Install extends CI_Model
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_articles_defectueux` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_articles_stock_flow` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `REF_ARTICLE_BARCODE` varchar(250) NOT NULL,
 		  `QUANTITE` int(11) NOT NULL,
 		  `DATE_CREATION` datetime NOT NULL,
 		  `AUTHOR` int(11) NOT NULL,
 		  `REF_COMMAND_CODE` varchar(250) NOT NULL,
+          `TYPE` varchar(200) NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
@@ -495,10 +517,12 @@ class Nexo_Install extends CI_Model
     			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_meta`;');
     			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_paiements`;');
                 $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_coupons`;');
+                // @since 3.0.16
+                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_produits_meta`;');
 
                 $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles`;');
     			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles_variations`;');
-    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles_defectueux`;');
+    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles_stock_flow`;');
     			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles_meta`;');
 
                 $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_categories`;');
@@ -509,6 +533,7 @@ class Nexo_Install extends CI_Model
                 $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_rayons`;');
                 $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_clients`;');
     			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_clients_groups`;');
+                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_clients_meta`;');
                 $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_paiements`;');
 
     			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_coupons`;');

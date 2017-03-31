@@ -334,9 +334,13 @@ class Nexo_Products extends CI_Model
      * @returns Array
     **/
 
-    public function get_product($product_id)
+    public function get_product($product_id = null )
     {
-        $query    =    $this->db->where('ID', $product_id)->get( store_prefix() . 'nexo_articles');
+        if( $product_id != null ) {
+            $this->db->where('ID', $product_id);
+        }
+
+        $query    =    $this->db->get( store_prefix() . 'nexo_articles');
         return $query->result_array();
     }
 }

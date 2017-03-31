@@ -51,9 +51,9 @@ trait Nexo_orders
             'CODE'                  =>    $this->Nexo_Checkout->shuffle_code(),
             'DATE_CREATION'         =>    $this->post('DATE_CREATION'),
 			'DESCRIPTION'			=>	$this->post( 'DESCRIPTION' ),
-			'REF_REGISTER'		=>	$this->post( 'REGISTER_ID' ),
+			'REF_REGISTER'		     =>	$this->post( 'REGISTER_ID' ),
 			// @since 2.7.10
-			'TITRE'				=>	$this->post( 'TITRE' ) != null ? $this->post( 'TITRE' ) : ''
+			'TITRE'				      =>	$this->post( 'TITRE' ) != null ? $this->post( 'TITRE' ) : ''
         );
 
         // Order Type
@@ -110,44 +110,64 @@ trait Nexo_orders
 			 * If Stock Enabled is active
 			**/
 
-			if( intval( $item[6] ) == 1 ) {
+			if( intval( $item[ 'stock_enabled' ] ) == 1 ) {
 
-				$this->db->where('CODEBAR', $item[2])->update( store_prefix() . 'nexo_articles', array(
-					'QUANTITE_RESTANTE'        	=>    intval($item[5]) - intval($item[1]),
-					'QUANTITE_VENDU'        	=>    intval($item[4]) + intval($item[1])
-				));
+				$this->db->where('CODEBAR', $item[ 'id' ])->update( store_prefix() . 'nexo_articles', array(
+					'QUANTITE_RESTANTE'        	=>    intval($item[ 'qte_remaining' ]) - intval($item[ 'qte_added' ]),
+					'QUANTITE_VENDU'        	=>    intval($item[ 'qte_sold' ]) + intval($item[ 'qte_added' ])
+				) );
 
 			}
 
 			// Adding to order product
-			if( $item[7] == 'percentage' && $item[9] != '0' ) {
-				$discount_amount		=	__floatval( ( __floatval($item[1]) * __floatval($item[3]) ) * floatval( $item[9] ) / 100 );
-			} elseif( $item[7] == 'flat' ) {
-				$discount_amount		=	__floatval( $item[8] );
+			if( $item[ 'discount_type' ] == 'percentage' && $item[ 'discount_percent' ] != '0' ) {
+				$discount_amount		=	__floatval( ( __floatval($item[ 'qte_added' ]) * __floatval($item['sale_price']) ) * floatval( $item[ 'discount_percent' ] ) / 100 );
+			} elseif( $item[ 'discount_type' ] == 'flat' ) {
+				$discount_amount		=	__floatval( $item[ 'discount_amount' ] );
 			} else {
 				$discount_amount		=	0;
 			}
 
 			$item_data		=	array(
-				'REF_PRODUCT_CODEBAR'  =>    $item[2],
+				'REF_PRODUCT_CODEBAR'  =>    $item[ 'codebar' ],
 				'REF_COMMAND_CODE'     =>    $order_details[ 'CODE' ],
-				'QUANTITE'             =>    $item[1],
-				'PRIX'                 =>    $item[3],
-				'PRIX_TOTAL'           =>    ( __floatval($item[1]) * __floatval($item[3]) ) - $discount_amount,
+				'QUANTITE'             =>    $item[ 'qte_added' ],
+				'PRIX'                 =>    $item[ 'sale_price' ],
+				'PRIX_TOTAL'           =>    ( __floatval($item[ 'qte_added' ]) * __floatval($item[ 'sale_price' ]) ) - $discount_amount,
 				// @since 2.9.0
-				'DISCOUNT_TYPE'			=>	$item[7],
-				'DISCOUNT_AMOUNT'		=>	$item[8],
-				'DISCOUNT_PERCENT'		=>	$item[9]
+				'DISCOUNT_TYPE'			=>	$item['discount_type'],
+				'DISCOUNT_AMOUNT'		=>	$item['discount_amount'],
+				'DISCOUNT_PERCENT'		=>	$item['discount_percent']
 			);
 
 			$this->db->insert( store_prefix() . 'nexo_commandes_produits', $item_data );
+
+            // getcommande product id
+            $insert_id = $this->db->insert_id();
+
+            // Saving item metas
+            $meta_array         =   array();
+            foreach( ( array ) @$item[ 'metas' ] as $key => $value ) {
+                $meta_array[]     =   [
+                    'REF_COMMAND_PRODUCT'   =>  $insert_id,
+                    'REF_COMMAND_CODE'      =>  $order_details[ 'CODE' ],
+                    'KEY'                   =>  $key,
+                    'VALUE'                 =>  $value,
+                    'DATE_CREATION'         =>  $this->post('DATE_CREATION')
+                ];
+            }
+
+            // If item has metas, we just save it
+            if( $meta_array ) {
+                $this->db->insert_batch( store_prefix() . 'nexo_commandes_produits_meta', $meta_array );
+            }
         }
 
         $this->db->insert( store_prefix() . 'nexo_commandes', $order_details);
 
         $current_order    =    $this->db->where('CODE', $order_details[ 'CODE' ])
-                            ->get( store_prefix() . 'nexo_commandes')
-                            ->result_array();
+        ->get( store_prefix() . 'nexo_commandes')
+        ->result_array();
 
 		// @since 2.8.2
 		/**
@@ -191,7 +211,6 @@ trait Nexo_orders
 					'amount'		=>	$payment[ 'amount' ],
 					'order_code'	=>	$current_order[0][ 'CODE' ]
 				) );
-
 			}
 		}
 
@@ -214,11 +233,10 @@ trait Nexo_orders
         $this->load->model('Nexo_Checkout');
         $this->load->model('Options');
         // Get old order details with his items
-        $old_order                =    $this->Nexo_Checkout->get_order_products($order_id, true);
-
-        $current_order    =    $this->db->where('ID', $order_id)
-                            ->get( store_prefix() . 'nexo_commandes')
-                            ->result_array();
+        $old_order              =    $this->Nexo_Checkout->get_order_products($order_id, true);
+        $current_order          =    $this->db->where('ID', $order_id)
+        ->get( store_prefix() . 'nexo_commandes')
+        ->result_array();
 
         // Only incomplete order can be edited
         if ( ! in_array( $current_order[0][ 'TYPE' ], $this->put( 'EDITABLE_ORDERS' ) ) ) {
@@ -226,27 +244,26 @@ trait Nexo_orders
         }
 
         $order_details            =    array();
-
         $order_details            =    array(
-            'RISTOURNE'            =>    $this->put('RISTOURNE'),
+            'RISTOURNE'         =>    $this->put('RISTOURNE'),
             'REMISE'            =>    $this->put('REMISE'),
             // @since 2.9.6
-            'REMISE_PERCENT'        =>    $this->put( 'REMISE_PERCENT' ),
-            'REMISE_TYPE'           =>    $this->put( 'REMISE_TYPE' ),
+            'REMISE_PERCENT'    =>    $this->put( 'REMISE_PERCENT' ),
+            'REMISE_TYPE'       =>    $this->put( 'REMISE_TYPE' ),
             // @endSince
             'RABAIS'            =>    $this->put('RABAIS'),
             'GROUP_DISCOUNT'    =>    $this->put('GROUP_DISCOUNT'),
-            'TOTAL'                =>    $this->put('TOTAL'),
+            'TOTAL'             =>    $this->put('TOTAL'),
             'AUTHOR'            =>    $author_id,
-            'PAYMENT_TYPE'        =>    $this->put('PAYMENT_TYPE'),
+            'PAYMENT_TYPE'      =>    $this->put('PAYMENT_TYPE'),
             'REF_CLIENT'        =>    $this->put('REF_CLIENT'),
-            'TVA'                =>    $this->put('TVA'),
-            'SOMME_PERCU'        =>    $this->put('SOMME_PERCU'),
+            'TVA'               =>    $this->put('TVA'),
+            'SOMME_PERCU'       =>    $this->put('SOMME_PERCU'),
             //'CODE'			=>	$this->Nexo_Checkout->shuffle_code(),
-            'DATE_MOD'            =>    $this->put('DATE_CREATION'),
-			'DESCRIPTION'			=>	$this->put( 'DESCRIPTION' ),
-			'REF_REGISTER'		=>	$this->put( 'REGISTER_ID' ),
-			'TITRE'				=>	$this->put( 'TITRE' ) != null ? $this->put( 'TITRE' ) : ''
+            'DATE_MOD'          =>    $this->put('DATE_CREATION'),
+            'DESCRIPTION'       =>	  $this->put( 'DESCRIPTION' ),
+            'REF_REGISTER'      =>	  $this->put( 'REGISTER_ID' ),
+            'TITRE'             =>	  $this->put( 'TITRE' ) != null ? $this->put( 'TITRE' ) : ''
         );
 
         // Order Type
@@ -267,11 +284,11 @@ trait Nexo_orders
         if ($this->put('REF_CLIENT') != $old_order['order'][0][ 'REF_CLIENT' ]) {
 
             // Increase customers purchases
-            $query                        =    $this->db->where('ID', $this->put('REF_CLIENT'))->get( store_prefix() . 'nexo_clients');
-            $client                        =    $query->result_array();
+            $query                  =    $this->db->where('ID', $this->put('REF_CLIENT'))->get( store_prefix() . 'nexo_clients');
+            $client                 =    $query->result_array();
 
             $total_commands         =    intval($client[0][ 'NBR_COMMANDES' ]) + 1;
-            $overal_commands           =    intval($client[0][ 'OVERALL_COMMANDES' ]) + 1;
+            $overal_commands        =    intval($client[0][ 'OVERALL_COMMANDES' ]) + 1;
 
             $this->db->set('NBR_COMMANDES', $total_commands);
             $this->db->set('OVERALL_COMMANDES', $overal_commands);
@@ -307,7 +324,7 @@ trait Nexo_orders
         }
 
         // Restore Bought items
-        foreach ($old_order[ 'products' ] as $product) {
+        foreach ( $old_order[ 'products' ] as $product ) {
             $this->db
             ->set('QUANTITE_RESTANTE', '`QUANTITE_RESTANTE` + ' . intval($product[ 'QUANTITE' ]), false)
             ->set('QUANTITE_VENDU', '`QUANTITE_VENDU` - ' . intval($product[ 'QUANTITE' ]), false)
@@ -316,7 +333,10 @@ trait Nexo_orders
         }
 
         // Delete item from order
-        $this->db->where('REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ])->delete( store_prefix() . 'nexo_commandes_produits');
+        $this->db->where( 'REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ] )->delete( store_prefix() . 'nexo_commandes_produits');
+
+        // Delete item metas
+        $this->db->where( 'REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ] )->delete( store_prefix() . 'nexo_commandes_produits_meta');
 
         // Save Order items
         /**
@@ -324,51 +344,71 @@ trait Nexo_orders
          * array( ID, QUANTITY_ADDED, BARCODE, PRICE, QTE_SOLD, LEFT_QTE, STOCK_ENABLED );
         **/
 
-        foreach ($this->put('ITEMS') as $item) {
+        foreach ( $this->put('ITEMS') as $item ) {
 
             // Get Items
-            $fresh_items    =    $this->db->where('CODEBAR', $item[2])->get( store_prefix() . 'nexo_articles')->result_array();
+            $fresh_items    =    $this->db->where('CODEBAR', $item[ 'codebar' ])
+            ->get( store_prefix() . 'nexo_articles')
+            ->result_array();
 
 			/**
 			 * If Stock Enabled is active
 			**/
 
-			if( intval( $item[6] ) == 1 ) {
-
-				$this->db->where('CODEBAR', $item[2])->update( store_prefix() . 'nexo_articles', array(
-					'QUANTITE_RESTANTE'        =>    intval($fresh_items[0][ 'QUANTITE_RESTANTE' ]) - intval($item[1]),
-					'QUANTITE_VENDU'        =>    intval($fresh_items[0][ 'QUANTITE_VENDU' ]) + intval($item[1])
-				));
-
+			if( intval( $item['stock_enabled'] ) == 1 ) {
+				$this->db->where('CODEBAR', $item['codebar'])->update( store_prefix() . 'nexo_articles', array(
+					'QUANTITE_RESTANTE'        =>    intval($fresh_items[0][ 'QUANTITE_RESTANTE' ]) - intval($item['qte_added']),
+					'QUANTITE_VENDU'        =>    intval($fresh_items[0][ 'QUANTITE_VENDU' ]) + intval($item['qte_added'])
+				) );
 			}
 
 			// Adding to order product
-			if( $item[7] == 'percentage' && $item[9] != '0' ) {
-				$discount_amount		=	__floatval( ( __floatval($item[1]) * __floatval($item[3]) ) * floatval( $item[9] ) / 100 );
-			} elseif( $item[7] == 'flat' ) {
-				$discount_amount		=	__floatval( $item[8] );
+			if( $item[ 'discount_type' ] == 'percentage' && $item[ 'discount_percent' ] != '0' ) {
+				$discount_amount		=	__floatval( ( __floatval($item[ 'qte_added' ]) * __floatval($item[ 'sale_price' ]) ) * floatval( $item[ 'discount_percent' ] ) / 100 );
+			} elseif( $item[ 'discount_type' ] == 'flat' ) {
+				$discount_amount		=	__floatval( $item[ 'discount_amount' ] );
 			} else {
 				$discount_amount		=	0;
 			}
 
             // Adding to order product
 			$item_data			=	array(
-                'REF_PRODUCT_CODEBAR'        =>    $item[2],
-                'REF_COMMAND_CODE'            =>    $old_order[ 'order' ][0][ 'CODE' ],
-                'QUANTITE'                    =>    $item[1],
-                'PRIX'                        =>    $item[3],
-                'PRIX_TOTAL'                =>    ( __floatval($item[1]) * __floatval($item[3]) ) - $discount_amount,
+                'REF_PRODUCT_CODEBAR'       =>    $item[ 'codebar' ],
+                'REF_COMMAND_CODE'          =>    $old_order[ 'order' ][0][ 'CODE' ],
+                'QUANTITE'                  =>    $item[ 'qte_added' ],
+                'PRIX'                      =>    $item[ 'sale_price' ],
+                'PRIX_TOTAL'                =>    ( __floatval($item[ 'qte_added' ]) * __floatval($item[ 'sale_price' ]) ) - $discount_amount,
 				// @since 2.9.0
-				'DISCOUNT_TYPE'			=>	$item[7],
-				'DISCOUNT_AMOUNT'		=>	$item[8],
-				'DISCOUNT_PERCENT'		=>	$item[9]
+				'DISCOUNT_TYPE'             =>    $item[ 'discount_type' ],
+				'DISCOUNT_AMOUNT'           =>    $item[ 'discount_amount' ],
+                'DISCOUNT_PERCENT'          =>    $item[ 'discount_percent' ]
             );
 
-
             $this->db->insert( store_prefix() . 'nexo_commandes_produits', $item_data );
+
+            // getcommande product id
+            $insert_id = $this->db->insert_id();
+
+            // Saving item metas
+            $meta_array         =   array();
+            foreach( ( array ) @$item[ 'metas' ] as $key => $value ) {
+                $meta_array[]     =   [
+                    'REF_COMMAND_PRODUCT'   =>  $insert_id,
+                    'REF_COMMAND_CODE'      =>  $old_order[ 'order' ][0][ 'CODE' ],
+                    'KEY'                   =>  $key,
+                    'VALUE'                 =>  $value,
+                    'DATE_CREATION'         =>  $this->put('DATE_CREATION')
+                ];
+            }
+
+            // If item has metas, we just save it
+            if( $meta_array ) {
+                $this->db->insert_batch( store_prefix() . 'nexo_commandes_produits_meta', $meta_array );
+            }
         }
 
-        $this->db->where('ID', $order_id)->update( store_prefix() . 'nexo_commandes', $order_details);
+        $this->db->where( 'ID', $order_id )
+        ->update( store_prefix() . 'nexo_commandes', $order_details);
 
 		// @since 2.8.2
 		/**
@@ -376,9 +416,10 @@ trait Nexo_orders
 		**/
 
 		// Delete first all meta
-		$this->db->where( 'REF_ORDER_ID', $order_id )->delete( store_prefix() . 'nexo_commandes_meta' );
+		$this->db->where( 'REF_ORDER_ID', $order_id )
+        ->delete( store_prefix() . 'nexo_commandes_meta' );
 
-		$metas					=	json_decode( $this->post( 'METAS' ) );
+		$metas        =	      json_decode( $this->put( 'METAS' ) );
 
 		if( $metas ) {
 
@@ -389,12 +430,11 @@ trait Nexo_orders
 					'KEY'			=>	$key,
 					'VALUE'			=>	$value,
 					'AUTHOR'		=>	$author_id,
-					'DATE_CREATION'	=>	$this->post('DATE_CREATION')
+					'DATE_CREATION'	=>	$this->put('DATE_CREATION')
 				);
 
 				$this->db->insert( store_prefix() . 'nexo_commandes_meta', $meta_data );
 			}
-
 		}
 
 		// @since 2.9
@@ -419,9 +459,9 @@ trait Nexo_orders
 		}
 
         $this->response(array(
-            'order_id'        =>    $order_id,
-            'order_type'    =>    $order_details[ 'TYPE' ],
-            'order_code'    =>    $current_order[0][ 'CODE' ]
+            'order_id'          =>    $order_id,
+            'order_type'        =>    $order_details[ 'TYPE' ],
+            'order_code'        =>    $current_order[0][ 'CODE' ]
         ), 200);
     }
 
@@ -612,6 +652,54 @@ trait Nexo_orders
 		$this->__empty();
 	}
 
+    /**
+     *  Order with all stock defective and usable
+     *  @param int order id
+     *  @return json
+    **/
+
+    public function order_with_stock_get( $order_code )
+    {
+        $this->db->select(
+            store_prefix() . 'nexo_articles.DESIGN, ' .
+            store_prefix() . 'nexo_commandes_produits.PRIX, ' .
+            store_prefix() . 'nexo_articles_stock_flow.QUANTITE as QUANTITE, ' .
+            store_prefix() . 'nexo_articles_stock_flow.TYPE as TYPE'
+        );
+
+        $this->db->from( store_prefix() . 'nexo_commandes' );
+
+        $this->db->join(
+            store_prefix() . 'nexo_commandes_produits',
+            store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE = ' .
+            store_prefix() . 'nexo_commandes.CODE', 'left'
+        );
+
+        $this->db->join(
+            store_prefix() . 'nexo_articles',
+            store_prefix() . 'nexo_articles.CODEBAR = ' .
+            store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR', 'left'
+        );
+
+        $this->db->join(
+            store_prefix() . 'nexo_articles_stock_flow',
+            store_prefix() . 'nexo_articles_stock_flow.REF_ARTICLE_BARCODE = ' .
+            store_prefix() . 'nexo_articles.CODEBAR', 'left'
+        );
+
+        $this->db->where( store_prefix() . 'nexo_commandes.CODE', $order_code );
+
+        $this->db->or_where(
+            store_prefix() . 'nexo_articles_stock_flow.REF_COMMAND_CODE',
+            $order_code
+        );
+
+        return $this->response(
+            $this->db->get()->result(),
+            200
+        );
+    }
+
 	/**
 	 * Order Products
 	 * @param string order code
@@ -709,11 +797,9 @@ trait Nexo_orders
 
 	public function order_items_defectives_get( $order_code )
 	{
-		$this->db->select( '*,' .
-		store_prefix() . 'nexo_articles_defectueux.QUANTITE as CURRENT_DEFECTIVE_QTE' )
+		$this->db->select( '*' )
 		->from( store_prefix() . 'nexo_articles' )
-		->join( store_prefix() . 'nexo_articles_defectueux', store_prefix() . 'nexo_articles_defectueux.REF_ARTICLE_BARCODE = ' . store_prefix() . 'nexo_articles.CODEBAR', 'left' )
-		->join( store_prefix() . 'nexo_commandes_produits', store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = ' . store_prefix() . 'nexo_articles.CODEBAR', 'inner' )
+		->join( store_prefix() . 'nexo_commandes_produits', store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = ' . store_prefix() . 'nexo_articles.CODEBAR', 'left' )
 		->join( store_prefix() . 'nexo_commandes', store_prefix() . 'nexo_commandes.CODE = ' . store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE', 'inner' )
 		->where( store_prefix() . 'nexo_commandes.CODE', $order_code );
 		// ->where( store_prefix() . 'nexo_articles_defectueux.REF_COMMAND_CODE', $order_code );
@@ -733,31 +819,54 @@ trait Nexo_orders
 
 		foreach( $this->post( 'items' ) as $item ) {
 
-			$this->db->where( 'REF_PRODUCT_CODEBAR', $item[ 'REF_PRODUCT_CODEBAR' ] )->update( store_prefix() . 'nexo_commandes_produits', array(
+			$this->db->where( 'REF_PRODUCT_CODEBAR', $item[ 'CODEBAR' ] )
+            ->update( store_prefix() . 'nexo_commandes_produits', array(
 				'QUANTITE'	=>	$item[ 'QUANTITE' ],
-			) );
+			) ); // Correcte
+
+            $total                          =   0;
 
 			// If a defective stock exists
-			if( intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ) ) {
+			if( $item[ 'CURRENT_DEFECTIVE_QTE' ] > 0 ) {
 
-				$this->db->insert( store_prefix() . 'nexo_articles_defectueux', array(
+				$this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
 					'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
 					'QUANTITE'				=>	$item[ 'CURRENT_DEFECTIVE_QTE' ],
 					'AUTHOR'				=>	$this->post( 'author' ),
 					'DATE_CREATION'			=>	$this->post( 'date' ),
-					'REF_COMMAND_CODE'		=>	$order_code
+					'REF_COMMAND_CODE'		=>	$order_code,
+                    'TYPE'                  =>  'defective'
 				) );
 
-				// Increase defective item in stock
-				$this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )->update( store_prefix() . 'nexo_articles', array(
-					'DEFECTUEUX'				=>	intval( $item[ 'DEFECTUEUX' ] ) + intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ),
-				) );
-
+                $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )
                 // a defective item can't be considered as sold item
-                $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )->set( 'QUANTITE_VENDUE', 'QUANTITE_VENDUE - ' . intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ) );
+                ->set( 'QUANTITE_VENDU', 'QUANTITE_VENDU - ' . intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ), false )
+                // Increase defective item in stock
+                ->set( 'DEFECTUEUX', 'DEFECTUEUX+' . intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ), false )
+                ->update( store_prefix() . 'nexo_articles' );
+
+                $total					+=	floatval( $item[ 'PRIX' ] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] );
 			}
 
-			$total					=	floatval( $item[ 'PRIX' ] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] );
+            if( $item[ 'CURRENT_USABLE_QTE' ] > 0 ) {
+
+                $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
+					'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
+					'QUANTITE'				=>	$item[ 'CURRENT_USABLE_QTE' ],
+					'AUTHOR'				=>	$this->post( 'author' ),
+					'DATE_CREATION'			=>	$this->post( 'date' ),
+					'REF_COMMAND_CODE'		=>	$order_code,
+                    'TYPE'                  =>  'usable'
+				) );
+
+                // Increase defective item in stock
+				$this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )
+                ->set( 'QUANTITE_RESTANTE', 'QUANTITE_RESTANTE+' . intval( $item[ 'CURRENT_USABLE_QTE' ] ), false )
+                ->set( 'QUANTITE_VENDU', 'QUANTITE_VENDU-' . intval( $item[ 'CURRENT_USABLE_QTE' ] ), false )
+                ->update( store_prefix() . 'nexo_articles' );
+
+                $total					+=	floatval( $item[ 'PRIX' ] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] );
+            }
 
 			// get discount
 			if( $item[ 'DISCOUNT_TYPE' ] == 'percent' ) {
@@ -773,7 +882,7 @@ trait Nexo_orders
 		// add to order payment
 		$this->db->insert( store_prefix() . 'nexo_commandes_paiements', array(
 			'REF_COMMAND_CODE'		=>	$order_code,
-			'MONTANT'				=>	- intval( $toRefund ),
+			'MONTANT'				=>	- floatval( $toRefund ),
 			'AUTHOR'				=>	$this->post( 'author' ),
 			'DATE_CREATION'			=> 	$this->post( 'date' ),
             'PAYMENT_TYPE'          =>  'cash' // cash payment is set as default refund payment

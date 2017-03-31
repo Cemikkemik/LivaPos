@@ -82,25 +82,27 @@ class Nexo_Checkout extends CI_Model
             }
         }
 
-
         // Remove product from this cart
         $query    =    $this->db
-                    ->where('ID', $post)
-                    ->get( store_prefix() . 'nexo_commandes');
+        ->where('ID', $post)
+        ->get( store_prefix() . 'nexo_commandes');
 
         $command=    $query->result_array();
 
         // Récupère les produits vendu
         $query    =    $this->db
-                    ->where('REF_COMMAND_CODE', $command[0][ 'CODE' ])
-                    ->get( store_prefix() . 'nexo_commandes_produits');
+        ->where('REF_COMMAND_CODE', $command[0][ 'CODE' ])
+        ->get( store_prefix() . 'nexo_commandes_produits');
 
         $produits        =    $query->result_array();
 
         $products_data    =    array();
         // parcours les produits disponibles pour les regrouper
         foreach ($produits as $product) {
-            $products_data[ $product[ 'REF_PRODUCT_CODEBAR' ] ] =    floatval($product[ 'QUANTITE' ]);
+            $products_data[ $product[ 'REF_PRODUCT_CODEBAR' ] ] =    [
+                'QUANTITY'              =>  floatval($product[ 'QUANTITE' ]),
+                'COMMAND_PRODUCT_ID'    =>  $product[ 'ID' ]
+            ];
         }
 
         // retirer le décompte des commandes passées par le client
@@ -113,7 +115,7 @@ class Nexo_Checkout extends CI_Model
         ));
 
         // Parcours des produits pour restaurer les quantités vendues
-        foreach ($products_data as $codebar => $quantity) {
+        foreach ( $products_data as $codebar => $data ) {
             // Quantité actuelle
             $query    =    $this->db->where('CODEBAR', $codebar)->get( store_prefix() . 'nexo_articles');
             $article    =    $query->result_array();
@@ -121,9 +123,13 @@ class Nexo_Checkout extends CI_Model
             // Cumul et restauration des quantités
             $this->db->where('CODEBAR', $codebar)->update( store_prefix() . 'nexo_articles', array(
                 'QUANTITE_VENDU'        =>        floatval($article[0][ 'QUANTITE_VENDU' ]) - $quantity,
-                'QUANTITE_RESTANTE'        =>        floatval($article[0][ 'QUANTITE_RESTANTE' ]) + $quantity,
+                'QUANTITE_RESTANTE'        =>        floatval($article[0][ 'QUANTITE_RESTANTE' ]) + $data[ 'QUANTITY' ],
             ));
+
+            // Suppresison des meta des produits
+            $this->db->where( 'ID', $data[ 'COMMAND_PRODUCT_ID' ] )->delete( store_prefix() . 'nexo_commandes_produits_meta' );
         }
+
         // retire les produits vendu du panier de cette commande et les renvoies au stock
         $this->db->where('REF_COMMAND_CODE', $command[0][ 'CODE' ])->delete( store_prefix() . 'nexo_commandes_produits');
 
@@ -788,8 +794,16 @@ class Nexo_Checkout extends CI_Model
     public function get_order_products($order_id, $return_all = false)
     {
         $query    =    $this->db
-        ->where('ID', $order_id)
-        ->get( store_prefix() . 'nexo_commandes' );
+        ->where( store_prefix() . 'nexo_commandes.ID', $order_id)
+        ->select( '*,
+        ' . store_prefix() . 'nexo_commandes.DATE_CREATION as DATE_CREATION,
+        ' . store_prefix() . 'nexo_commandes.DATE_MOD as DATE_MOD,
+        ' . store_prefix() . 'nexo_clients.NOM as customer_name,
+        aauth_users.name as author_name' )
+        ->from( store_prefix() . 'nexo_commandes' )
+        ->join( store_prefix() . 'nexo_clients', store_prefix() . 'nexo_commandes.REF_CLIENT = ' . store_prefix() . 'nexo_clients.ID' )
+        ->join( 'aauth_users', 'aauth_users.id = ' . store_prefix() . 'nexo_commandes.AUTHOR' )
+        ->get();
 
         if ($query->result_array()) {
             $data            =    $query->result_array();
@@ -801,7 +815,7 @@ class Nexo_Checkout extends CI_Model
             ->from( store_prefix() . 'nexo_commandes')
             ->join( store_prefix() . 'nexo_commandes_produits', store_prefix() . 'nexo_commandes.CODE = ' . store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE', 'inner')
             ->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR', 'inner')
-            ->where('REF_COMMAND_CODE', $data[0][ 'CODE' ])
+            ->where( 'REF_COMMAND_CODE', $data[0][ 'CODE' ])
             ->get();
 
             $sub_data    = $sub_query->result_array();
@@ -927,4 +941,51 @@ class Nexo_Checkout extends CI_Model
 			'USED_BY'		=>		0
 		) );
 	}
+
+    /**
+     *  Get Order with item stock
+     *  @param int order id
+     *  @return array
+    **/
+
+    public function get_order_with_item_stock( $order_id )
+    {
+        $data           =   $this->db->where( 'ID', $order_id )->get( store_prefix() . 'nexo_commandes' )->result_array();
+
+        $order_code     =   $data[0][ 'CODE' ];
+
+        $this->db->select(
+            store_prefix() . 'nexo_articles.DESIGN, ' .
+            store_prefix() . 'nexo_commandes_produits.PRIX, ' .
+            store_prefix() . 'nexo_commandes.CODE, ' .
+            store_prefix() . 'nexo_articles_stock_flow.QUANTITE as QUANTITE, ' .
+            store_prefix() . 'nexo_articles_stock_flow.TYPE as TYPE'
+        );
+
+        $this->db->from( store_prefix() . 'nexo_articles_stock_flow' );
+
+        $this->db->join(
+            store_prefix() . 'nexo_commandes_produits',
+            store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE = ' .
+            store_prefix() . 'nexo_articles_stock_flow.REF_COMMAND_CODE', 'left'
+        );
+
+        $this->db->join(
+            store_prefix() . 'nexo_articles',
+            store_prefix() . 'nexo_articles.CODEBAR = ' .
+            store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR', 'left'
+        );
+
+        $this->db->join(
+            store_prefix() . 'nexo_commandes',
+            store_prefix() . 'nexo_commandes.CODE = ' .
+            store_prefix() . 'nexo_articles_stock_flow.REF_COMMAND_CODE', 'left'
+        );
+
+        $this->db->where( store_prefix() . 'nexo_articles_stock_flow.REF_COMMAND_CODE', $order_code );
+
+        return $this->db->get()->result_array();
+    }
+
+
 }

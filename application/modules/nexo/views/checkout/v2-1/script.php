@@ -19,6 +19,8 @@ var v2Checkout					=	new function(){
 	this.ItemSearchForm			=	'#search-item-form';
 	this.CartPayButton			=	'#cart-pay-button';
 	this.CartCancelButton		=	'#cart-return-to-order';
+	// @since 3.x
+	this.enableBarcodeSearch	=	false;
 
 	this.CartVATEnabled			=	<?php echo @$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' ? 'true' : 'false';?>;
 	this.CartVATPercent			=	<?php echo in_array(@$Options[ store_prefix() . 'nexo_vat_percent' ], array( null, '' )) ? 0 : @$Options[ store_prefix() . 'nexo_vat_percent' ];?>;
@@ -41,14 +43,14 @@ var v2Checkout					=	new function(){
 
 		if( _item.length > 0 && _item[0].STATUS == '1' ) {
 
-			var InCart			=	false;
-			var InCartIndex		=	null;
+			var InCart				=	false;
+			var InCartIndex			=	null;
 
 			// Let's check whether an item is already added to cart
 			_.each( v2Checkout.CartItems, function( value, _index ) {
 				if( value.CODEBAR == _item[0].CODEBAR ) {
-					InCartIndex	=	_index;
-					InCart		=	true;
+					InCartIndex		=	_index;
+					InCart			=	true;
 				}
 			});
 
@@ -58,8 +60,8 @@ var v2Checkout					=	new function(){
 				var comparison_qte	=	allow_increase == true ? parseInt( v2Checkout.CartItems[ InCartIndex ].QTE_ADDED ) + parseInt( qte_to_add ) : qte_to_add;
 
 				/**
-				* For "Out of Stock" notice to work, item must be physical
-				* and Stock management must be enabled
+				* 	For "Out of Stock" notice to work, item must be physical
+				* 	and Stock management must be enabled
 				**/
 
 				if(
@@ -67,7 +69,10 @@ var v2Checkout					=	new function(){
 					&& _item[0].TYPE == '1'
 					&& _item[0].STOCK_ENABLED == '1'
 				) {
-					NexoAPI.SnackBar()( '<?php echo addslashes(__( 'La quantité restante du produit n\'est pas suffisante.', 'nexo'));?>' );
+					NexoAPI.Notify().warning(
+						'<?php echo _s( 'Une erreur s\'est produite', 'nexo' );?>',
+						'<?php echo addslashes(__( 'La quantité restante du produit n\'est pas suffisante.', 'nexo' ) );?>'
+					);
 				} else {
 					if( allow_increase ) {
 						// Fix concatenation when order was edited
@@ -90,7 +95,7 @@ var v2Checkout					=	new function(){
 				}
 			} else {
 				if( parseInt( _item[0].QUANTITE_RESTANTE ) - qte_to_add < 0 ) {
-					NexoAPI.Notify().error(
+					NexoAPI.Notify().warning(
 						'<?php echo addslashes(__('Stock épuisé', 'nexo'));?>',
 						'<?php echo addslashes(__('Impossible d\'ajouter ce produit, car son stock est épuisé.', 'nexo'));?>'
 					);
@@ -850,8 +855,6 @@ var v2Checkout					=	new function(){
 				// <?php echo site_url('dashboard/nexo/produits/lists/edit');?>
 				// /' + value.ID + '
 
-				var	cartTableBeforeItemName		=	NexoAPI.events.applyFilters( 'cart_before_item_name', '<a class="btn btn-sm btn-default quick_edit_item" href="javascript:void(0)" style="vertical-align:inherit;margin-right:10px;"><i class="fa fa-edit"></i></a>' );
-
 				// :: alert( value.DESIGN.length );
 				var item_design		=	value.DESIGN.length > 20 ? '<span style="text-overflow:hidden">' + value.DESIGN.substr( 0, 20 ) + '</span>' : value.DESIGN ;
 
@@ -869,8 +872,7 @@ var v2Checkout					=	new function(){
 
 				$( '#cart-table-body' ).find( 'table' ).append(
 					'<tr cart-item data-line-weight="' + ( MainPrice * parseInt( value.QTE_ADDED ) ) + '" data-item-barcode="' + value.CODEBAR + '">' +
-					// ' + cartTableBeforeItemName + '  has been disabled
-					'<td width="200" class="text-left" style="line-height:30px;"><span style="text-transform: uppercase;">' + item_design + '</span></td>' +
+					'<td width="200" class="text-left" style="line-height:30px;"><span style="text-transform: uppercase;">' + NexoAPI.events.applyFilters( 'cart_item_name', item_design ) + '</span></td>' +
 					'<td width="130" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice ) + ' ' + Discounted + '</td>' +
 					'<td width="100" class="text-center">' +
 					'<div class="input-group input-group-sm">' +
@@ -1060,6 +1062,7 @@ var v2Checkout					=	new function(){
 	/**
 	* Submit order
 	* @param object payment mean
+	* @deprecated
 	**/
 
 	this.cartSubmitOrder			=	function( payment_means ){
@@ -1067,46 +1070,26 @@ var v2Checkout					=	new function(){
 
 		_.each( this.CartItems, function( value, key ){
 
-			var ArrayToPush			=	[
-				value.ID,
-				value.QTE_ADDED,
-				value.CODEBAR,
-				value.PROMO_ENABLED ? value.PRIX_PROMOTIONEL : ( v2Checkout.CartShadowPriceEnabled ? value.SHADOW_PRICE : value.PRIX_DE_VENTE ),
-				value.QUANTITE_VENDU,
-				value.QUANTITE_RESTANTE,
+			var ArrayToPush			=	{
+				id 					:	value.ID,
+				qte_added 			:	value.QTE_ADDED,
+				codebar 			:	value.CODEBAR,
+				sale_price 			:	value.PROMO_ENABLED ? value.PRIX_PROMOTIONEL : ( v2Checkout.CartShadowPriceEnabled ? value.SHADOW_PRICE : value.PRIX_DE_VENTE ),
+				qte_sold 			:	value.QUANTITE_VENDU,
+				qte_remaining 		:	value.QUANTITE_RESTANTE,
 				// @since 2.8.2
-				value.STOCK_ENABLED,
+				stock_enabled 		:	value.STOCK_ENABLED,
 				// @since 2.9.0
-				value.DISCOUNT_TYPE,
-				value.DISCOUNT_AMOUNT,
-				value.DISCOUNT_PERCENT
-			];
+				discount_type 		:	value.DISCOUNT_TYPE,
+				discount_amount		:	value.DISCOUNT_AMOUNT,
+				discount_percent 	:	value.DISCOUNT_PERCENT,
+				metas 				:	typeof value.metas == 'undefined' ? {} : value.metas
+			};
 
 			// improved @since 2.7.3
 			// add meta by default
-			var ItemMeta	=	NexoAPI.events.applyFilters( 'items_metas', [] );
+			ArrayToPush.metas	=	NexoAPI.events.applyFilters( 'items_metas', ArrayToPush.metas );
 
-			var MetaKeys	=	new Array;
-
-			_.each( ItemMeta, function( _value, key ) {
-				var unZiped	=	_.keys( _value );
-				MetaKeys.push( unZiped[0] );
-			});
-
-			var AllMetas	=	new Object;
-
-			// console.log( value );
-
-			_.each( MetaKeys, function( MetaKey ) {
-				AllMetas	=	_.extend( AllMetas, _.object( [ MetaKey ], [ _.propertyOf( value )( MetaKey ) ] ) );
-			});
-
-			// console.log( AllMetas );
-
-			//
-			ArrayToPush.push( JSON.stringify( AllMetas ) );
-
-			// Add Meta JSON stringified to order_item
 			order_items.push( ArrayToPush );
 		});
 
@@ -1726,7 +1709,8 @@ var v2Checkout					=	new function(){
 
 				// Add Lazy @since 2.6.1
 				$("img.lazy").lazyload({
-					failure_limit : 10,
+					failure_limit : 200,
+					effect : "fadeIn",
 					load : function( e ){
 						$( this ).removeAttr( 'width' );
 					},
@@ -1777,7 +1761,7 @@ var v2Checkout					=	new function(){
 			// For Store Feature
 			var store_id				=	'<?php echo $store_id == null ? 0 : $store_id;?>';
 
-			$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'item' ));?>/' + codebar + '/' + filter + '?store_id=' + store_id, {
+			$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'item' ));?>/' + codebar + '/' + filter + '?store_id=' + store_id, { // _with_meta
 				success				:	function( _item ){
 
 					/**
@@ -1895,7 +1879,7 @@ var v2Checkout					=	new function(){
 		**/
 
 		this.getItems				=	function( beforeCallback, afterCallback){
-			$.ajax('<?php echo site_url(array( 'rest', 'nexo', 'item' )) . '?store_id=' . $store_id;?>', {
+			$.ajax('<?php echo site_url(array( 'rest', 'nexo', 'item' )) . '?store_id=' . $store_id;?>', { // _with_meta
 				beforeSend	:	function(){
 					if( typeof beforeCallback == 'function' ) {
 						beforeCallback();
@@ -2352,9 +2336,6 @@ var v2Checkout					=	new function(){
 			this.CartRemisePercent		=	0;
 			this.POSItems				=	[];
 
-			// @since 3.x
-			this.enableBarcodeSearch	=	false;
-
 
 			<?php if (isset($order[ 'order' ])):?>
 			this.ProcessURL				=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id(), $order[ 'order' ][0][ 'ID' ] ));?>?store_id=<?php echo get_store_id();?>";
@@ -2676,5 +2657,10 @@ NexoAPI.events.addFilter( 'test_order_type', function( data ) {
 NexoAPI.events.addFilter( 'callback_message', function( data ) {
 	// console.log( data );
 	return data;
+});
+
+// Filter for edit item
+NexoAPI.events.addFilter( 'cart_item_name', function( item_name ) {
+	return '<a class="btn btn-sm btn-default quick_edit_item" href="javascript:void(0)" style="vertical-align:inherit;margin-right:10px;"><i class="fa fa-edit"></i></a> ' + item_name;
 });
 </script>

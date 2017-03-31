@@ -454,6 +454,25 @@ class Nexo_Settings_Controller extends CI_Model
             include_once( MODULESPATH . '/nexo/inc/angular/register/directives/coupon-payment.php' );
         });
 
+        /**
+         * @since 3.0.13
+         * Add coupon filter
+        **/
+
+        $this->events->add_action( 'nexo_payments_types', function( $payment_types ) {
+            global $Options;
+
+            if( @$Options[ store_prefix() . 'disable_coupon' ] == 'yes' ) {
+                foreach( $payment_types as $index => $payment ) {
+                    if( $index == 'coupon' ) {
+                        unset( $payment_types[ $index ] );
+                    }
+                }
+            }
+            
+            return $payment_types;
+        });
+
 		/**
 		 * If Register Option is disabled, then we hide "close register" menu
 		 * Order proceeded when register option is disabled will be bound to default register which is "0"
@@ -466,12 +485,12 @@ class Nexo_Settings_Controller extends CI_Model
 			$item_id	=	store_prefix() == '' ? $this->uri->segment( 5 ) : $this->uri->segment( 7 );
 			?>
             <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle close_register" data-item-id="<?php echo $item_id;?>" data-toggle="dropdown" aria-expanded="true">
-            	<i class="fa fa-sign-out"></i>
-              <?php _e( 'Fermer la caisse', 'nexo' );?>
-              <!-- <span class="label label-warning">30</span> -->
-            </a>
-          </li>
+                <a href="#" class="dropdown-toggle close_register" data-item-id="<?php echo $item_id;?>" data-toggle="dropdown" aria-expanded="true">
+                    <i class="fa fa-sign-out"></i>
+                    <?php _e( 'Fermer la caisse', 'nexo' );?>
+                <!-- <span class="label label-warning">30</span> -->
+                </a>
+            </li>
           <script type="text/javascript">
 		  "use strict";
 		  $( document ).ready(function(e) {

@@ -39,7 +39,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                     <?php echo xss_clean( @$Options[ store_prefix() . 'receipt_col_2' ] );?>
                 </div>
             </div>
-            <?php if( @_GET[ 'is-pdf' ] ):?>
+            <?php if( @$_GET[ 'is-pdf' ] ):?>
             <br>
             <br>
             <?php endif;?>

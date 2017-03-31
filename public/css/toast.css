@@ -1,31 +1,3 @@
-* {
-  box-sizing: border-box;
-}
-
-input {
-  outline: none;
-}
-
-body {
-  font-family: "BentonSans", "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
-  background-color: #3B2F63;
-  background-image: -webkit-radial-gradient(50% top, rgba(84,90,182,0.6) 0%,rgba(84,90,182,0) 75%),-webkit-radial-gradient(right top, #794aa2 0%,rgba(121,74,162,0) 57%);
-  background-image: radial-gradient( at 50% top, rgba(84,90,182,0.6) 0%,rgba(84,90,182,0) 75%),radial-gradient( at right top, #794aa2 0%,rgba(121,74,162,0) 57%);
-  background-repeat: no-repeat;
-  background-size: 100% 1000px;
-  margin: 0;
-  padding: 0;
-}
-
-.container {
-  width: 500px;
-  margin: 100px auto;
-  background: transparent;
-  overflow: hidden;
-  border: 2px solid #fff;
-  display: flex;
-}
-
 #toast-btn {
   display: inline-block;
   float: left;

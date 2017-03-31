@@ -83,8 +83,8 @@ class Nexo extends CI_Model
         $this->events->add_filter('nexo_daily_details_link', array( $this, 'remove_link' ), 10, 2);
         $this->events->add_action('load_frontend', array( $this, 'load_frontend' ));
 
-		// POS note button
-		$this->events->add_filter( 'pos_search_input_after', array( $this, 'pos_note_button' ) );
+		// POS note button (depreacated)
+		$this->events->add_filter( 'nexo_cart_buttons', array( $this, 'nexo_cart_buttons' ) );
 
 		// Redirection filter
 		$this->events->add_filter( 'login_redirection', function( $redirection ) {
@@ -517,13 +517,10 @@ class Nexo extends CI_Model
 	 * POS Note Button
 	**/
 
-	public function pos_note_button( $data )
+	public function nexo_cart_buttons( $data )
 	{
-		ob_start();
-		?>
-<button class="btn btn-default" type="button" alt="<?php _e( 'Note', 'nexo' );?>" data-set-note><?php echo sprintf( __( '%s Note', 'nexo' ), '<i class="fa fa-pencil"></i>' );?></button>
-<?php
-		$data	.=	ob_get_clean();
+		$data[ 'order_note' ]     =   '<button class="btn btn-default" type="button" alt=" ' . __( 'Note', 'nexo' ) . '" data-set-note> ' . sprintf( __( '%s', 'nexo' ), '<i class="fa fa-pencil"></i>' ) . '</button>';
+
 		return $data;
 	}
 }

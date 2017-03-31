@@ -1,0 +1,432 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-03-23 09:59+0100\n"
+"PO-Revision-Date: 2017-03-23 10:00+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-KeywordsList: __;_e;_s\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: alvaro.php:43 alvaro.php:194
+msgid "Commission"
+msgstr "Comisiones"
+
+#: alvaro.php:44
+msgid "Let you define a percentage of commission for this item"
+msgstr "Permite definir un porcentaje de comisión para este elemento"
+
+#: alvaro.php:50 alvaro.php:220
+msgid "Time"
+msgstr "Tiempo"
+
+#: alvaro.php:51
+msgid "Let you define how many time last a service in minutes."
+msgstr "Permite definir cuánto tiempo dura un servicio en minutos."
+
+#: alvaro.php:72
+msgid "Calendario Settings"
+msgstr "Ajustes de calendario"
+
+#: alvaro.php:79 inc/controller.php:31 inc/controller.php:84
+msgid "Commissions"
+msgstr "Comisiones"
+
+#: alvaro.php:89
+msgid "Place an Appoinment"
+msgstr "Agenda de Citas"
+
+#: alvaro.php:99
+msgid "Delete Log"
+msgstr "Relación de supresión"
+
+#: alvaro.php:126
+msgid "Services Setup"
+msgstr "Servicios de instalación"
+
+#: inc/controller.php:44
+msgid "Order"
+msgstr "Pedido"
+
+#: inc/controller.php:45 views/appointment_footer.php:58
+#: views/appointment_footer.php:147
+msgid "Beautican"
+msgstr "Esteticista"
+
+#: inc/controller.php:46
+msgid "Commission Percentage"
+msgstr "Porcentaje Comision"
+
+#: inc/controller.php:47
+msgid "Commission Amount"
+msgstr "Cantidad de Comision"
+
+#: inc/controller.php:48 inc/controller.php:145
+msgid "Created on"
+msgstr "Creado el"
+
+#: inc/controller.php:90 views/settings.php:9
+msgid "Alvaro Settings"
+msgstr "Ajustes modulo"
+
+#: inc/controller.php:107
+msgid "Calendar"
+msgstr "Calendario"
+
+#: inc/controller.php:130
+msgid "Deleting Log"
+msgstr "Relación de supresión"
+
+#: inc/controller.php:142
+msgid "Reason"
+msgstr "Motivo"
+
+#: inc/controller.php:143
+msgid "Author"
+msgstr "Autor"
+
+#: inc/controller.php:144
+msgid "Reason details"
+msgstr "Detalles de la razón"
+
+#: inc/controller.php:175
+#, fuzzy
+msgid "Log"
+msgstr "Log"
+
+#: views/appointment_footer.php:54
+msgid "Services"
+msgstr "Servicios"
+
+#: views/appointment_footer.php:57
+msgid "Customer"
+msgstr "Clientes"
+
+#: views/appointment_footer.php:137
+msgid "Create an appointment"
+msgstr "Crear una Cita"
+
+#: views/appointment_footer.php:140
+msgid "Starts At"
+msgstr "Empieza el"
+
+#: views/appointment_footer.php:205 views/appointment_footer.php:427
+msgid "Would you like to delete this ?"
+msgstr "¿Desea eliminar esto ?"
+
+#: views/appointment_footer.php:205 views/appointment_footer.php:427
+msgid "Please enter the reason why you're deleting this."
+msgstr "Introduce la razón por qué estás borrando esto."
+
+#: views/appointment_footer.php:208 views/appointment_footer.php:430
+msgid "You must mention a reason. That reason must be consistent."
+msgstr "Debe mencionar una razón. Ello debe ser coherente."
+
+#: views/appointment_footer.php:222 views/appointment_footer.php:444
+msgid "Appointment deletion"
+msgstr "Cancelación de nombramiento"
+
+#: views/appointment_footer.php:359 views/appointment_footer.php:393
+msgid "Unamed Appointment"
+msgstr "Cita no Aceptada"
+
+#: views/appointment_footer.php:377
+msgid "Please provide a correct name"
+msgstr "Proporcione un nombre correcto"
+
+#: views/appointment_footer.php:382
+msgid "Please select a beautican"
+msgstr "Selecciona Esteticista"
+
+#: views/appointment_footer.php:468
+msgid ""
+"You can't create an appointment, since you already have one at the same "
+"moment."
+msgstr "Se puede crear una cita, puesto que ya tiene una en el mismo momento."
+
+#: views/appointment_footer.php:524 views/appointment_footer.php:552
+#: views/appointment_footer.php:578 views/appointment_footer.php:604
+#: views/appointment_footer.php:619 views/appointment_footer.php:1215
+msgid "Warning"
+msgstr "Advertencia"
+
+#: views/appointment_footer.php:524
+msgid "You cannot remove quantity"
+msgstr "No se puede quitar cantidad"
+
+#: views/appointment_footer.php:552 views/appointment_footer.php:578
+#: views/appointment_footer.php:604
+msgid "You cannot restore quantity"
+msgstr "No puede restaurar cantidad"
+
+#: views/appointment_footer.php:619
+msgid "The payment cannot exceed the amount to pay."
+msgstr "El pago no puede exceder la cantidad a pagar."
+
+#: views/appointment_footer.php:633
+msgid "Details"
+msgstr "Details"
+
+#: views/appointment_footer.php:640
+msgid "Payment"
+msgstr "Pago"
+
+#: views/appointment_footer.php:647
+msgid "Remboursement"
+msgstr "Reembolso"
+
+#: views/appointment_footer.php:654 views/calendar_dom.php:66
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: views/appointment_footer.php:661
+#, fuzzy
+msgid "Print"
+msgstr "Imprimer"
+
+#: views/appointment_footer.php:727
+msgid "Items List"
+msgstr "Lista de artículos"
+
+#: views/appointment_footer.php:731
+msgid "Item Name"
+msgstr "Nombre de artículo"
+
+#: views/appointment_footer.php:732
+#, fuzzy
+msgid "SKU"
+msgstr "SKU"
+
+#: views/appointment_footer.php:733
+msgid "Unit Price"
+msgstr "Precio Unitario"
+
+#: views/appointment_footer.php:734
+msgid "Quantity"
+msgstr "Cantidad"
+
+#: views/appointment_footer.php:735
+msgid "Sub-Total"
+msgstr "s/Total"
+
+#: views/appointment_footer.php:747
+msgid "Sub-total"
+msgstr "s/Total"
+
+#: views/appointment_footer.php:751
+msgid "Discount (-)"
+msgstr "Descuento"
+
+#: views/appointment_footer.php:755
+msgid "VAT (+)"
+msgstr "IVA"
+
+#: views/appointment_footer.php:759
+msgid "Total"
+msgstr "Total"
+
+#: views/appointment_footer.php:763
+msgid "Paid (+)"
+msgstr "Pago"
+
+#: views/appointment_footer.php:767
+msgid "Balance (=)"
+msgstr "Saldo"
+
+#: views/appointment_footer.php:774
+msgid "Order Details"
+msgstr "Detalles del pedido"
+
+#: views/appointment_footer.php:776
+msgid "Author :"
+msgstr "Autor:"
+
+#: views/appointment_footer.php:777
+msgid "Done At :"
+msgstr "Hecho :"
+
+#: views/appointment_footer.php:778
+#, fuzzy
+msgid "Customer :"
+msgstr "Client :"
+
+#: views/appointment_footer.php:779
+msgid "Status :"
+msgstr "Estado"
+
+#: views/appointment_footer.php:800
+msgid "Make a Payment"
+msgstr "Realizar un pago"
+
+#: views/appointment_footer.php:803
+#, fuzzy
+msgid "Choose a payment"
+msgstr "Choisissez une date de paiement"
+
+#: views/appointment_footer.php:812
+msgid "Left to pay"
+msgstr "a pagar"
+
+#: views/appointment_footer.php:824
+msgid "Payment History"
+msgstr "Historial de Pago"
+
+#: views/appointment_footer.php:841
+msgid "Amount"
+msgstr "Monto"
+
+#: views/appointment_footer.php:842
+msgid "Cashier"
+msgstr "Cajero"
+
+#: views/appointment_footer.php:843
+msgid "Payment Mode"
+msgstr "Modo de pago"
+
+#: views/appointment_footer.php:844
+msgid "Date"
+msgstr "Fecha"
+
+#: views/appointment_footer.php:881
+#, fuzzy
+msgid "This order doesn't require further payement."
+msgstr "Cet ordre ne nécessite aucun payement."
+
+#: views/appointment_footer.php:885
+msgid ""
+"This order can accept payment. Please choose payment type you would like to "
+"apply to this order."
+msgstr ""
+"Esta orden puede aceptar el pago. Elija el tipo de pago que desea aplicar a "
+"este pedido."
+
+#: views/appointment_footer.php:888
+#, fuzzy
+msgid "Choose the payment type you would like to apply to this order"
+msgstr ""
+"Choisissez le type de paiement que vous souhaitez appliquer à la présente "
+"ordonnance"
+
+#: views/appointment_footer.php:935
+msgid "Refund"
+msgstr "Reembolso"
+
+#: views/appointment_footer.php:938
+#, fuzzy
+msgid "Name"
+msgstr "Introduce Nombre del Sitio"
+
+#: views/appointment_footer.php:939
+msgid "Quantity défectueuse"
+msgstr "Cantidad defectuoso"
+
+#: views/appointment_footer.php:942
+msgid "Quantity Sold"
+msgstr ""
+
+#: views/appointment_footer.php:945
+msgid "Quantity in good condition"
+msgstr "Cantidad en buen estado"
+
+#: views/appointment_footer.php:948
+msgid "Refund State"
+msgstr "Estado de reembolso"
+
+#: views/appointment_footer.php:949
+msgid "Value :"
+msgstr "Valor:"
+
+#: views/appointment_footer.php:950
+msgid "Refund :"
+msgstr "Reembolso:"
+
+#: views/appointment_footer.php:951
+msgid "Confirm the refund"
+msgstr "Confirmar la restitución"
+
+#: views/appointment_footer.php:1065
+msgid "Complete the order payment : "
+msgstr "Complete el pago de la orden:"
+
+#: views/appointment_footer.php:1099
+msgid "Order Options"
+msgstr "Opciones del pedido"
+
+#: views/appointment_footer.php:1144
+msgid "Would you confirm the payment ?"
+msgstr "¿Podría usted confirmar el pago?"
+
+#: views/appointment_footer.php:1193
+msgid "Would you like to confirm the refund ?"
+msgstr "¿Desea confirmar esto ?"
+
+#: views/appointment_footer.php:1210
+msgid "An error occured"
+msgstr "Se ha producido un error"
+
+#: views/appointment_footer.php:1215
+msgid "You need to adjust stock before proceeding to the refund."
+msgstr "Necesitará ajustar stock antes de proceder a la restitución."
+
+#: views/calendar_dom.php:4
+msgid "Place an appointment"
+msgstr "Agenda una Cita"
+
+#: views/calendar_dom.php:47
+msgid "Year"
+msgstr "Año"
+
+#: views/calendar_dom.php:48
+msgid "Month"
+msgstr "Mes"
+
+#: views/calendar_dom.php:49
+msgid "Week"
+msgstr "Semana"
+
+#: views/calendar_dom.php:50
+msgid "Day"
+msgstr "Dia"
+
+#: views/calendar_dom.php:60
+msgid "Create Event"
+msgstr "Crear Cita"
+
+#: views/settings.php:14
+msgid "Save Settings"
+msgstr "Guardar Ajustes"
+
+#: views/settings.php:21
+msgid "Opening Time"
+msgstr "Hora Apertura"
+
+#: views/settings.php:24
+msgid "Define when the calendar should start."
+msgstr "Definir cuando Empieza el Calendario"
+
+#: views/settings.php:29
+msgid "Closing Time"
+msgstr "Hora de Cierre"
+
+#: views/settings.php:32
+msgid "Define when the calendar should end."
+msgstr "Definir cuando Finaliza el Calendario"
+
+#: views/settings.php:37
+msgid "Interval between day times"
+msgstr "Intervalo entre Horas"
+
+#: views/settings.php:39
+msgid "Let you define the time interval between minutes."
+msgstr "Intervalo entre minutos"
+
+#~ msgid "QUantity Sold"
+#~ msgstr "Cantidad Vendida"

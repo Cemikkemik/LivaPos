@@ -61,9 +61,9 @@ test_order_type	:	{
 	screen		:	dashboard/nexo/commandes/lists/v2_checkout
 }
 
-cart_before_item_name  : {
+cart_item_name  : {
 	type		:	filter
-	desc		:	let you customize what is displayed before item name
+	desc		:	Let you filter item name on cart
 	params		:	default value. A button provided to edit item price
 	screen		:	dashboard/nexo/commandes/lists/v2_checkout
 }
@@ -144,5 +144,5 @@ override_add_item : {
 
 item_loaded 		:	{
 	type 		:	filter
-	desc 		:	permet de filtre chaque produit récupéré de la boutique 
+	desc 		:	permet de filtre chaque produit récupéré de la boutique
 }

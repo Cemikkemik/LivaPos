@@ -1,0 +1,227 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: NexoPOS SMS\n"
+"POT-Creation-Date: 2016-06-30 01:06+0100\n"
+"PO-Revision-Date: 2016-06-30 01:07+0100\n"
+"Last-Translator: \n"
+"Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;_s\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: vendor\n"
+
+#: language/lines.php:6
+#, fuzzy
+msgid "Service SMS Twilio"
+msgstr "Twilio SMS service"
+
+#: language/lines.php:7
+msgid "Service SMS Plivo"
+msgstr "Plivo SMS service"
+
+#: language/lines.php:8
+msgid "Service SMS BulkSMS"
+msgstr "BulkSMS SMS service"
+
+#: language/lines.php:10
+#, fuzzy
+msgid "Désactiver"
+msgstr "Disable"
+
+#: language/lines.php:12
+msgid ""
+"{{ site_name }} \\n \n"
+"Bonjour {{ name }}, votre commande {{ order_code }} est prête. \\n\n"
+"Total {{ order_topay }} \\n \n"
+"Merci pour votre confiance"
+msgstr ""
+"{{site_name}} \\n Hello {{name}}, {{order_code}} order is ready. \\n total "
+"{{order_topay}} \\n thank you for your confidence."
+
+#: main.php:56
+#, fuzzy
+msgid "SMS"
+msgstr "SMS"
+
+#: main.php:70
+msgid "Réglages SMS &mdash; NexoPOS"
+msgstr "SMS Settings &mdash; NexoPOS"
+
+#: views/home.php:10
+msgid "Réglages SMS"
+msgstr "SMS Settings"
+
+#: views/home.php:17 views/home.php:38 views/home.php:62 views/home.php:97
+#: views/home.php:125
+#, fuzzy
+msgid "Sauvegarder les réglages"
+msgstr "Save settings"
+
+#: views/home.php:26
+#, fuzzy
+msgid "Veuillez choisir votre fournisseurs SMS"
+msgstr "Please choose your SMS providers"
+
+#: views/home.php:31
+msgid "Template SMS"
+msgstr "SMS template"
+
+#: views/home.php:46
+msgid "Facture par SMS"
+msgstr "Send invoice by SMS"
+
+#: views/home.php:47
+msgid ""
+"<br><h4>Utilisez les variables suivante pour afficher des données "
+"personnalisée : </H4><br><strong>{{ site_name }}</strong> : Affichera le nom "
+"de la boutique.<br><strong>{{ name }}</strong> : Affichera le nom du client."
+"<br><strong>{{ order_topay }}</strong> : Affichera la valeur de la commande."
+"<br><strong>{{ order_code }}</strong> : Affichera le code de la commande"
+msgstr ""
+"<br><h4>Use the following variables to display custom data:</h4><br>\n"
+"\t<strong>{{site_name}}</strong> : displays the name of the shop.<br>\n"
+"\t<strong>{{name}}</strong> : displays the name of the client.<br>\n"
+"\t<strong>{{order_topay}}</strong> : displays the value of the order.<br>\n"
+"\t<strong>{{order_code}}</strong> : displays the code of the command"
+
+#: views/home.php:55
+msgid "Réglages Twilio"
+msgstr "Twilio Settings"
+
+#: views/home.php:70
+#, fuzzy
+msgid "SID du compte"
+msgstr "The account SID"
+
+#: views/home.php:71 views/home.php:78 views/home.php:85
+#, php-format
+msgid ""
+"Récupérer les informations relatives aux clés sur votre <a href=\"%s"
+"\">compte Twilio</a>."
+msgstr ""
+"Retrieve information about keys on your <a href=\"%s\">Twilio account </a>."
+
+#: views/home.php:77 views/home.php:112
+msgid "Jeton d'accès"
+msgstr "Access Token"
+
+#: views/home.php:84
+msgid "Numéro d'envoi"
+msgstr "Sending Number"
+
+#: views/home.php:90
+msgid "Réglages Plivo"
+msgstr "Plivo Settings"
+
+#: views/home.php:105
+msgid "ID d'accès"
+msgstr "Access ID"
+
+#: views/home.php:118
+msgid "Réglages BulkSMS"
+msgstr "BulkSMS Settings"
+
+#: views/home.php:133
+msgid "Nom d'utilisateur"
+msgstr "Username"
+
+#: views/home.php:140
+msgid "Mot de passe"
+msgstr "Password"
+
+#: views/home.php:147
+msgid "Url d'accès"
+msgstr "Access URL"
+
+#: views/home.php:148
+msgid ""
+"Généralement cette adresse est : \"https://bulksms.vsms.net/eapi/submission/"
+"send_sms/2/2.0\". Consultez la FAQ BulkSMS pour en savoir plus"
+msgstr ""
+"Usually this address is: \"https://bulksms.vsms.net/eapi/submission/"
+"send_sms/2/2.0\". See the BulkSMS FAQ to learn more"
+
+#: views/home.php:154
+msgid "Port d'accès"
+msgstr "Access port"
+
+#: views/home.php:155
+msgid "Le port <strong>443</strong> est celui utilisé par défaut."
+msgstr "Port <strong>443</strong> is used by default."
+
+#: views/script.php:31 views/script.php:83
+msgid ": produit(s) acheté(s)"
+msgstr ": item(s) purchased"
+
+#: views/script.php:58 views/script.php:122
+msgid "La facture par SMS a été envoyée"
+msgstr "The SMS bill has been sent"
+
+#: views/script.php:58 views/script.php:122
+msgid "Un exemplaire de la facture a été envoyée au numéro spécifié."
+msgstr "A copy of the invoice has been sent to the specified number."
+
+#: views/script.php:64 views/script.php:70 views/script.php:128
+#: views/script.php:134
+#, fuzzy
+msgid "Une erreur s'est produite."
+msgstr "An error has occurred."
+
+#: views/script.php:64 views/script.php:128
+msgid "Le serveur à renvoyé une erreur durant l'envoi du SMS :"
+msgstr "The server at returned an error while sending the SMS:"
+
+#: views/script.php:70 views/script.php:134
+#, fuzzy
+msgid ""
+"Vous devez specifier un numéro de téléphone. La facture par SMS n'a pas pu "
+"être envoyée."
+msgstr "You must specify a phone number. The Bill by SMS could not be sent."
+
+#: views/script.php:166
+#, fuzzy
+msgid "Activer les SMS"
+msgstr "Activate SMS"
+
+#: views/script.php:167
+msgid "Désactiver les SMS"
+msgstr "Disable SMS"
+
+#: views/script.php:175
+#, fuzzy
+msgid "Veuillez définir le numéro à utiliser pour la facture par SMS"
+msgstr "Please set the number to use for bills by SMS"
+
+#~ msgid ""
+#~ "<br><h4>Utilisez les variables suivante pour afficher des données "
+#~ "personnalisée : </H4><br>\n"
+#~ "\t<strong>{{ site_name }}</strong> : Affichera le nom de la boutique."
+#~ "<br>\n"
+#~ "\t<strong>{{ name }}</strong> : Affichera le nom du client.<br>\n"
+#~ "\t<strong>{{ order_topay }}</strong> : Affichera la valeur de la commande."
+#~ "<br>\n"
+#~ "\t<strong>{{ order_code }}</strong> : Affichera le code de la commande"
+#~ msgstr ""
+#~ "<br><h4>Use the following variables to display custom data:</h4><br>\n"
+#~ "\t<strong>{{site_name}}</strong> : displays the name of the shop.<br>\n"
+#~ "\t<strong>{{name}}</strong> : displays the name of the client.<br>\n"
+#~ "\t<strong>{{order_topay}}</strong> : displays the value of the order."
+#~ "<br>\n"
+#~ "\t<strong>{{order_code}}</strong> : displays the code of the command"
+
+#, fuzzy
+#~ msgid "Total : "
+#~ msgstr "Total:"
+
+#~ msgid "Ref : "
+#~ msgstr "Reference:"
+
+#~ msgid "Jeton de connexion"
+#~ msgstr "Login Token"

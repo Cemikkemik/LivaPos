@@ -7,12 +7,115 @@ class NexoCouponController extends Tendoo_Module
     }
 
     /**
+     *  Crud Header
+     *  @param void
+     *  @return object crud
+    **/
+
+    public function crud_header()
+    {
+        if (
+            ! User::can('create_coupons') &&
+            ! User::can('edit_coupons') &&
+            ! User::can('delete_coupons')
+        ) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+
+		/**
+		 * This feature is not more accessible on main site when
+		 * multistore is enabled
+		**/
+
+		if( multistore_enabled() && ! is_multistore() ) {
+			redirect( array( 'dashboard', 'feature-disabled' ) );
+		}
+
+        $crud = new grocery_CRUD();
+        $crud->set_theme('bootstrap');
+        $crud->set_subject(__('Coupons', 'nexo'));
+        $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_coupons'));
+
+		$fields				=	array( 'CODE', 'AMOUNT', 'DISCOUNT_TYPE', 'PRODUCTS_IDS', 'PRODUCT_CATEGORIES', 'EXPIRY_DATE', 'REWARDED_CASHIER', 'DESCRIPTION' );
+		$crud->columns( 'CODE', 'AMOUNT', 'PRODUCTS_IDS', 'DISCOUNT_TYPE', 'EXPIRY_DATE', 'REWARDED_CASHIER' );
+
+        $this->load->model( 'Nexo_Products' );
+        $items              =   $this->Nexo_Products->get_product();
+        $data_array         =   [];
+        foreach( ( $items ) as $item ) {
+            $data_array[ $item[ 'ID' ] ]    =   $item[ 'DESIGN' ];
+        }
+
+        $this->load->model( 'Nexo_Categories' );
+        $categories         =   $this->Nexo_Categories->get();
+        $data_categories    =   [];
+        foreach( $categories as $category ) {
+            $data_categories[ $category[ 'ID' ] ]   =   $category[ 'NOM' ];
+        }
+
+        $crud->fields( $fields );
+
+        $crud->field_type( 'PRODUCTS_IDS', 'multiselect', $data_array );
+        $crud->field_type( 'PRODUCT_CATEGORIES', 'multiselect', $data_categories );
+        $crud->field_type( 'DISCOUNT_TYPE', 'dropdown', $this->config->item( 'coupon_type' ));
+
+        $crud->display_as('CODE', __('Code', 'nexo'));
+        $crud->display_as('AMOUNT', __('Valeur', 'nexo'));
+        $crud->display_as('DISCOUNT_TYPE', __('Type du coupon', 'nexo'));
+        $crud->display_as('PRODUCTS_IDS', __('Produit requis', 'nexo'));
+        $crud->display_as('PRODUCT_CATEGORIES', __('Catégories requises', 'nexo'));
+        $crud->display_as('EXPIRY_DATE', __('Date d\'expiration', 'nexo'));
+        $crud->display_as('DESCRIPTION', __('Description', 'nexo'));
+        $crud->display_as('REWARDED_CASHIER', __('Caissier récompensé', 'nexo'));
+
+        $crud->set_relation('REWARDED_CASHIER', 'aauth_users', 'name');
+
+        // XSS Cleaner
+        $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
+        $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
+
+        $crud->required_fields( 'CODE', 'AMOUNT', 'DISCOUNT_TYPE' );
+
+        $crud->unset_jquery();
+        $output = $crud->render();
+
+        foreach ($output->js_files as $files) {
+            $this->enqueue->js(substr($files, 0, -3), '');
+        }
+        foreach ($output->css_files as $files) {
+            $this->enqueue->css(substr($files, 0, -4), '');
+        }
+
+        return $output;
+    }
+
+    /**
      *  index
      *  @param
      *  @return
     **/
 
-    public function index( $page = 'list' )
+    public function lists( $page = 'index', $id = null )
+    {
+        global $PageNow;
+		$PageNow			=	'nexo/coupons/list';
+
+        if( $page == 'index' ) {
+            $this->Gui->set_title( store_title( __('Liste des coupons', 'nexo') ) );
+        } else if( $page == 'delete' ) {
+            nexo_permission_check('delete_coupons');
+            nexo_availability_check( $id, array(
+                array( 'col'    =>    'REF_COUPON', 'table'    =>   store_prefix() . 'nexo_commandes_coupons' )
+            ));
+        } else {
+            $this->Gui->set_title( store_title( __( 'Ajouter un coupon', 'nexo' ) ) );
+        }
+
+        $data[ 'crud_content' ]    =    $this->crud_header();
+        $this->load->module_view( 'nexo', 'coupons/crud', $data );
+    }
+
+    public function old()
     {
         $AnguCrud       =   new AngularCrudLibrary( store_prefix() . 'nexo_coupons' );
 

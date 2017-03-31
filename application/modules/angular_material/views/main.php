@@ -1,5 +1,16 @@
 <!-- exact table from live demo -->
 <div layout="row" ng-controller="anguCrud" ng-cloak style="min-height:{{ crudHeight }}px">
+    <div layout="row">
+      <div flex>First item in row</div>
+      <div flex>Second item in row</div>
+    </div>
+    <div layout="column">
+      <div flex>First item in column</div>
+      <div flex>Second item in column</div>
+    </div>
+</div>
+<?php return;?>
+<div layout="row" ng-controller="anguCrud" ng-cloak style="min-height:{{ crudHeight }}px">
     <div layout="column" flex="{{ mainContainerWidth }}">
         <div style="height:150px;background:url(<?php echo module_url( 'angular_material' ) . 'images/mb-bg-fb-0' . rand(1,4) . '.jpg';?>)">
         </div>
@@ -119,9 +130,9 @@
     <div layout="column" class="option-sidebar md-whiteframe-1dp" flex="{{ sidePanelWidth }}">
         <md-toolbar flex="5">
 
-        <div class="md-toolbar-tools">
-            <?php echo __( 'Options', 'angular_material' );?>
-        </div>
+            <div class="md-toolbar-tools">
+                <?php echo __( 'Options', 'angular_material' );?>
+            </div>
 
         </md-toolbar>
         <md-content flex="95">

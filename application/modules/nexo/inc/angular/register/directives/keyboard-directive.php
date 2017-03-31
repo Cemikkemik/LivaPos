@@ -39,17 +39,34 @@ tendooApp.directive( 'keyboard', function(){
 		.textContent	=	i;
 	}
 
-	HTML.query( '.keyboard-wrapper' )
-	.add( 'div.col-lg-2.col-sm-4.col-xs-4>button.btn.btn-default.btn-block.input-clear' )
+    HTML.query( '.keyboard-wrapper' )
+	.add( 'div.col-lg-4.col-sm-4.col-xs-4.clear-long>button.btn.btn-default.btn-block.input-clear' )
 	.each( 'style', 'margin-bottom:15px;line-height:30px;font-size:24px;font-weight:800' )
 	.each( 'ng-click', 'keyinput( "clear", inputName )' )
 	.textContent	=	'C';
 
+    HTML.query( '.keyboard-wrapper .clear-long' )
+    .each( 'ng-show', 'hideButton[ "dot" ]' );
+
 	HTML.query( '.keyboard-wrapper' )
-	.add( 'div.col-lg-2.col-sm-4.col-xs-4>button.btn.btn-default.btn-block.input-dot' )
+	.add( 'div.col-lg-2.col-sm-4.col-xs-4.clear-small>button.btn.btn-default.btn-block.input-clear' )
+	.each( 'style', 'margin-bottom:15px;line-height:30px;font-size:24px;font-weight:800' )
+	.each( 'ng-click', 'keyinput( "clear", inputName )' )
+    .each( 'ng-hide', 'hideButton[ "dot" ]' )
+	.textContent	=	'C';
+
+    HTML.query( '.keyboard-wrapper .clear-small' )
+    .each( 'ng-hide', 'hideButton[ "dot" ]' );
+
+	HTML.query( '.keyboard-wrapper' )
+	.add( 'div.col-lg-2.col-sm-4.col-xs-4.dot-button>button.btn.btn-default.btn-block.input-dot' )
 	.each( 'style', 'margin-bottom:15px;line-height:30px;font-size:24px;font-weight:800' )
 	.each( 'ng-click', 'keyinput( ".", inputName )' )
 	.textContent	=	'.';
+
+    HTML.query( '.keyboard-wrapper .dot-button' )
+    .each( 'ng-hide', 'hideButton[ "dot" ]' )
+    .each( 'ng-hide', 'hideButton[ "dot" ]' );
 
 	HTML.query( '.keyboard-wrapper' )
 	.add( 'div.col-lg-4.col-sm-4.col-xs-4>button.btn.btn-default.btn-block.input-dot' )
@@ -65,7 +82,8 @@ tendooApp.directive( 'keyboard', function(){
 
 	HTML.query( '.keyboard-separator-wrapper' )
 	.add( 'div.col-md-3.right-side-keyboard>div.row' )
-	.each( 'style', 'padding:15px 0;' );
+	.each( 'style', 'padding:15px 0;' )
+    .each( 'ng-hide', 'hideSideKeys' )
 
 	<?php
 	$keyShortcuts 		=	@$Options[ store_prefix() . 'keyshortcuts' ];
@@ -92,7 +110,9 @@ tendooApp.directive( 'keyboard', function(){
 	return {
 		restrict	:	'E',
 		scope		:	{
-			keyinput	:	'='
+			keyinput	:	'=',
+            hideSideKeys    :   '=',
+            hideButton      :   '='
 		},
 		link		:	function( scope, element, attrs ) {
 			scope.inputName					=	attrs.inputName

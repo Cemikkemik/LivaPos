@@ -55,6 +55,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 						NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Vous ne pouvez plus retirer de quantité', 'nexo' );?>' );
 					}
 				} else if( place == 'def_to_stock' ) {
+
 					if( $scope.orderItems[ key ].CURRENT_DEFECTIVE_QTE > 0 ) {
 
 						var salePrice	=	parseFloat( $scope.orderItems[ key ].PRIX ); // * $scope.orderItems[ key ].CURRENT_DEFECTIVE_QTE
@@ -66,7 +67,9 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 								salePrice		-=	parseFloat( $scope.orderItems[ key ].DISCOUNT_AMOUNT );
 						}
 
-						$scope.toRefund			-=	salePrice;
+						$scope.toRefund	=
+							$scope.toRefund > 0 ? $scope.toRefund -	salePrice : 0;
+
 						$scope.order.TOTAL		+=	salePrice;
 
 						$scope.orderItems[ key ].QUANTITE 				=	parseInt( $scope.orderItems[ key ].QUANTITE ) + 1;
@@ -74,10 +77,8 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 
 						if( $scope.orderItems[key].STOCK_ENABLED == '1' ) {
 							$scope.orderItems[ key ].QUANTITE_VENDU			=	parseInt( $scope.orderItems[ key ].QUANTITE_VENDU ) + 1;
-							$scope.orderItems[ key ].DEFECTUEUX				=	parseInt( $scope.orderItems[ key ].DEFECTUEUX ) - 1;
+							$scope.orderItems[ key ].DEFECTUEUX				=	parseInt( $scope.orderItems[ key ].DEFECTUEUX ) - 1
 						}
-
-
 
 					} else {
 						NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Vous ne pouvez plus restaurer une quantité', 'nexo' );?>' );
@@ -137,6 +138,22 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 				}
 			}
 		});
+	}
+
+	/**
+	 *  Check Refund Availability
+	 *  @param object returned item
+	 *  @return boolean
+	**/
+
+	$scope.checkRefundAvailability		=	function( returnedItems ) {
+		var show 	=	true;
+		_.each( returnedItems, function( value ) {
+			if( parseFloat( value.USABLE_QTE ) > 0 || parseFloat( value.DEFECTIVE_QTE ) > 0 ) {
+				show =	false;
+			}
+		});
+		return show;
 	}
 
 	/**
@@ -482,6 +499,8 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 			HTML.query( '.cart' ).only(0).add( 'h4{<?php echo _s( 'Remboursement:', 'nexo' );?>}>span.current-order-value.pull-right' ).textContent	=	'{{ toRefund | moneyFormat }}';
 			HTML.query( '.cart' ).only(0).add( 'button.btn.btn-primary{<?php echo _s( 'Confirmer le remboursement', 'nexo' );?>}' ).each( 'ng-click', 'proceedRefund()' );
 
+			HTML.query( '.cart' ).only(0).add( 'button.pull-right.btn.btn-primary{<?php echo _s( 'Imprimer le reçu', 'nexo' );?>}' ).each( 'ng-click', 'printRefundReceipt()' );
+
 			HTML.query( '[data-namespace="' + option.namespace + '"]' ).only(0).add( 'my-spinner' ).each( 'namespace', 'spinner' );
 
 			$( '.refund-row' ).attr( 'style', 'height:{{ wrapperHeight }}px;overflow-y: scroll;' );
@@ -496,6 +515,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 				$scope.orderItems		=	response.data;
 
 				_.each( $scope.orderItems, function( value, key ) {
+
 					if( $scope.orderItems[key].CURRENT_DEFECTIVE_QTE == null ) {
 						$scope.orderItems[key].CURRENT_DEFECTIVE_QTE = 0;
 					}
@@ -515,7 +535,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 				HTML.query( '.refund-table tbody tr' ).only(0).add( 'td.text-center*8' );
 
 				HTML.query( '.refund-table tbody tr td' ).only(0).textContent = '{{ item.DESIGN }}';
-				HTML.query( '.refund-table tbody tr td' ).only(1).textContent = '{{ item.CURRENT_DEFECTIVE_QTE }}/{{ item.DEFECTUEUX - item.CURRENT_DEFECTIVE_QTE }}';
+				HTML.query( '.refund-table tbody tr td' ).only(1).textContent = '{{ item.CURRENT_DEFECTIVE_QTE }}/{{ item.DEFECTUEUX }}';
 				HTML.query( '.refund-table tbody tr td' ).only(2).each( 'ng-click', 'addTo( "def_to_stock", item.CODEBAR )' ).add( 'i.fa.fa-arrow-right' );
 				HTML.query( '.refund-table tbody tr td' ).only(3).each( 'ng-click', 'addTo( "defective", item.CODEBAR )' ).add( 'i.fa.fa-arrow-left' );
 				HTML.query( '.refund-table tbody tr td' ).only(4).textContent = '{{item.QUANTITE}}/{{item.QUANTITE_VENDU}}';
@@ -568,6 +588,18 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 			$scope.paymentDisabled	=	true;
 
 			$( '.payment-option-box' ).html( $compile( '<stripe-payment/>' )($scope) );
+
+		} else if( $scope.paymentSelected == 'creditcard' ) {
+
+			$scope.paymentDisabled	=	true;
+
+			$( '.payment-option-box' ).html( $compile( '<creditcard-payment/>' )($scope) );
+
+		} else if( $scope.paymentSelected == 'cheque' ) {
+
+			$scope.paymentDisabled	=	true;
+
+			$( '.payment-option-box' ).html( $compile( '<cheque-payment/>' )($scope) );
 
 		} else {
 			$( '.payment-option-box' ).html('');
@@ -737,6 +769,8 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 
 					}).then(function( data ) {
 						$scope.closeSpinner( 'grand' );
+						NexoAPI.Bootbox().alert( '<?php echo _s( 'Le remboursement a correctement été effectué.', 'nexo' );?>' );
+						$scope.loadContent( $scope.createOptions().refund );
 					}, function( data ) {
 						$scope.closeSpinner( 'grand' );
 					  	NexoAPI.Bootbox().alert( '<?php echo _s( 'Le remboursement n\'a pas pu avoir lieu. Une erreur s\'est produite durant l\'opération', 'nexo' );?>' );
@@ -747,6 +781,74 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 			NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Veuillez envoyer un produit dans le stock défectueux ou actif avant de valider le remboursement.', 'nexo' );?>' );
 		}
 	}
+
+	/**
+	 *  Total Returned item quantity
+	 *  @param object returned items
+	 *  @return int/float
+	**/
+
+	$scope.totalQuantity			=	function( obj ) {
+		var total 	=	0;
+		_.each( obj, function( value ){
+			total 	+=	parseInt( value.QUANTITE );
+		});
+
+		return total;
+	}
+
+	/**
+	 *  Total Amount for retunred items
+	 *  @param object returned item object
+	 *  @return amounts
+	**/
+
+	$scope.totalAmount 				=	function( obj ) {
+		var total 		=	0;
+		_.each( obj, function( value ){
+			total 		+=	( parseFloat( value.PRIX ) * parseInt( value.QUANTITE ) );
+		});
+
+		return total;
+	}
+
+	/**
+	 *  Print Refund Receipt
+	 *  @param
+	 *  @return
+	**/
+
+	$scope.printRefundReceipt		=	function( $order_id ){
+		$scope.openSpinner( 'grand' );
+		$http({
+			headers		:	$scope.ajaxHeader,
+			method		:	'GET',
+			url			:	'<?php echo site_url( array( 'rest', 'nexo', 'order_with_stock' ) );?>' + '/' + $scope.order.CODE + '?<?php echo store_get_param( null );?>',
+			data		:	{
+				items	:	$scope.orderItems,
+				author	:	<?php echo User::id();?>,
+				date		:	tendoo.now()
+			}
+
+		}).then(function( returned ) {
+			$scope.closeSpinner( 'grand' );
+			$scope.returnedItems 	=	returned.data;
+
+			$( 'body' ).append( '<iframe style="display:none;" id="CurrentReceipt" name="CurrentReceipt" src="<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'print', 'order_refund' ] );?>/' + $scope.order.ID + '?refresh=true"></iframe>' );
+			window.frames["CurrentReceipt"].focus();
+			window.frames["CurrentReceipt"].print();
+
+			setTimeout( function(){
+				$( '#CurrentReceipt' ).remove();
+			}, 5000 );
+
+
+		}, function( data ) {
+			$scope.closeSpinner( 'grand' );
+			NexoAPI.Bootbox().alert( '<?php echo _s( 'Une erreur s\'est produite durant l\'opération', 'nexo' );?>' );
+		});
+	}
+
 
 	/**
 	 * Show Spinner
@@ -776,7 +878,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 	   // $( '.modal-content' ).html( $compile( $( '.modal-content' ).html() )( $scope ) );
 	});
 	$( document ).ajaxComplete(function(){
-		$( '.tools' ).html( $compile( $( '.tools' ).html() )( $scope ) );
+		$( '.table.table-striped' ).html( $compile( $( '.table.table-striped' ).html() )( $scope ) );
 	});
 }]);
 </script>

@@ -65,7 +65,7 @@ class Nexo_Produits extends CI_Model
 			'QUANTITE_RESTANTE',
 			'QUANTITE_VENDU',
 			'PRIX_DE_VENTE',
-			'SHADOW_PRICE',
+			'PRIX_DACHAT',
 			'PRIX_PROMOTIONEL',
 			'TYPE',
 			'STATUS',
@@ -105,7 +105,7 @@ class Nexo_Produits extends CI_Model
         $crud->display_as( 'PRIX_PROMOTIONEL', __('Prix promotionnel', 'nexo'));
         $crud->display_as( 'SPECIAL_PRICE_START_DATE', __('Début de la promotion', 'nexo'));
         $crud->display_as( 'SPECIAL_PRICE_END_DATE', __('Fin de la promotion', 'nexo'));
-		$crud->display_as( 'SHADOW_PRICE', __( 'Prix de vente fictif', 'nexo' ) );
+		$crud->display_as( 'PRIX_DACHAT', __( 'Prix d\'achat', 'nexo' ) );
 		$crud->display_as( 'TYPE', __( 'Type d\'article', 'nexo' ) );
 		$crud->display_as( 'STATUS', __( 'Etat de l\'article', 'nexo' ) );
 		$crud->display_as( 'STOCK_ENABLED', __( 'Gestion de stock', 'nexo' ) );
@@ -206,7 +206,6 @@ class Nexo_Produits extends CI_Model
                 nexo_availability_check($product[0][ 'CODEBAR' ], array(
                     array( 'col'    =>    'REF_PRODUCT_CODEBAR', 'table'    =>   store_prefix() . 'nexo_commandes_produits' )
                 ));
-
 
             }
         } else {

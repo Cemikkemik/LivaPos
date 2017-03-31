@@ -3,7 +3,7 @@
 	<namespace>nexo</namespace>
 	<name>Nexo</name>
 	<description>Nexo by Tendoo team</description>
-	<version>3.0.4</version>
+	<version>3.0.15</version>
 	<main>main.php</main>
 	<language>language/</language>
 	<dependencies>

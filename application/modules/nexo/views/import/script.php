@@ -79,9 +79,10 @@ $columns                    =   array(
             _.each( data.items, function( item, key ) {
                 var category_id     =   false;
 
-                if( parseInt( item.REF_CATEGORIE ) == NaN ) {
-                    category_id     =   _.propertyOf( collection_categories_ids.categories )( textHelper.toUrl( item.REF_CATEGORIE, '_' ) );
+                if( isNaN( item.REF_CATEGORIE ) ) {
+                    category_id     =   _.propertyOf( collection_categories_ids.categories )( textHelper.toUrl( item.REF_CATEGORIE, '-', true ) );
                 }
+
                 data.items[key].REF_CATEGORIE   =  category_id ? category_id : 1 ;
                 // Use defined category or
 

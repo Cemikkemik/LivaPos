@@ -90,9 +90,10 @@ class Nexo_Premium_Main extends CI_Model
             $this->events->add_filter('admin_menus', array( $this->Filters, 'admin_menus' ), 15 );
             $this->events->add_filter('nexo_daily_details_link', array( $this->Filters, 'nexo_daily_details_link' ), 11, 2);
 
-            // Creating Index Cards
+
             $this->events->add_action('load_dashboard_home', array( $this->Actions, 'dashboard_home' ));
             $this->events->add_action('nexo_before_accounting', array( $this->Actions, 'Menu_Accounting' ));
+            
             // $this->events->add_action( 'nexo_checkout_footer', array( $this->UI, 'Checkout_Script' ) );
             $this->events->add_action('dashboard_footer', array( $this->Actions, 'Clean_Quote_Orders' ));
 

@@ -39,21 +39,6 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 	};
 
 	/**
-	 * Open FullScreen
-	**/
-
-	$scope.openFullScreen		=	function(){
-		toggleFullScreen();
-		setTimeout( function(){
-			if( v2Checkout.CompactMode == true ) {
-				v2Checkout.fixHeight(true);
-			} else {
-				v2Checkout.toggleCompactMode(true);
-			}
-		}, 200 );
-	}
-
-	/**
 	 * Open History Box
 	**/
 
@@ -199,5 +184,22 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 	}
 
 
+}]);
+
+tendooApp.controller( 'fullScreenCTRL', [ '$scope', function( $scope ) {
+	/**
+	 * Open FullScreen
+	**/
+
+	$scope.openFullScreen		=	function(){
+		toggleFullScreen();
+		setTimeout( function(){
+			if( v2Checkout.CompactMode == true ) {
+				v2Checkout.fixHeight(true);
+			} else {
+				v2Checkout.toggleCompactMode(true);
+			}
+		}, 200 );
+	}
 }]);
 </script>

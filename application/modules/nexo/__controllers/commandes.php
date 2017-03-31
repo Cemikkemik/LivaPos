@@ -121,7 +121,6 @@ class Nexo_Commandes extends CI_Model
 
 		$crud->unset_add();
 
-
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
@@ -186,13 +185,14 @@ class Nexo_Commandes extends CI_Model
 
         if ($page == 'delete') {
 
+            /**
+             * @since 3.0.13
+            **/
+
             nexo_permission_check('delete_shop_orders');
-
+            $this->events->do_action( 'nexo_delete_order', $id );
             $data[ 'crud_content' ]    	=    $this->crud_header();
-            $_var1                    	=    'commandes';
 
-            $this->Gui->set_title( store_title( __('Modifier une commande', 'nexo') ) );
-            $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
         } else {
 
             // Change add url
@@ -345,8 +345,6 @@ var BindAction		=	function(){
 					success	:	function( data ){
 
 						var register_lists	=	'';
-
-						console.log( data );
 
 						_.each( data, function( value, key ) {
 							if( value.STATUS == 'opened' ) {

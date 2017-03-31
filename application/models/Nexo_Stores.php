@@ -86,7 +86,7 @@ class Nexo_Stores extends CI_Model
 		// $this->load->library( 'SimpleFileManager' );
 		SimpleFileManager::drop( PUBLICPATH . '/upload/store_' . $store_id );
 
-		$this->events->do_action( 'delete_nexo_store', array( $store_id, $store ) );
+		$this->events->do_action( 'delete_nexo_store', array( $store_id, $store, $prefix ) );
 
 		// Delete all tables
 		$Install	=	new Nexo_Install;

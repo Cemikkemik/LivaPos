@@ -55,6 +55,7 @@ class AngularMaterialController extends Tendoo_Module
             ]
         ]);
 
+        return $this->load->module_view( 'angular_material', 'demo' );
         return $Crud->LoadView();
     }
 }

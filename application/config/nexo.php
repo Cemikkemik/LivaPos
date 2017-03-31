@@ -34,9 +34,18 @@ $config[ 'nexo_discount_type' ]    =    array(
 **/
 
 $config[ 'nexo_true_false' ]    =    array(
-    'false'                =>    get_instance()->lang->line('no'),
-    'true'                =>    get_instance()->lang->line('yes')
+    'false'                 =>    get_instance()->lang->line('no'),
+    'true'                  =>    get_instance()->lang->line('yes')
 );
+
+/**
+ * Coupons Type
+**/
+
+$config[ 'coupon_type' ]    =   [
+    'percentage'        =>  __( 'Pourcentage', 'nexo' ),
+    'fixed'             =>  __( 'Montant Fixe', 'nexo' ),
+];
 
 /**
  * Payment Type
@@ -63,7 +72,7 @@ $config[ 'nexo_all_payment_types' ] =   array(
  * Cart Animation
 **/
 
-$config[ 'nexo_cart_animation' ]    =    false; // was 'animated zoomIn';
+$config[ 'nexo_cart_animation' ]            =    false; // was 'animated zoomIn';
 
 /**
  * Supported Currency

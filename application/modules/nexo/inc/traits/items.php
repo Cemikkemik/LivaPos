@@ -125,6 +125,8 @@ trait Nexo_items
                 ->where( store_prefix() . 'nexo_articles.ID', $id );
             }
 
+            $this->db->group_by( 'KEY' );
+
             $query_meta     =   $this->db
             ->get( store_prefix() . 'nexo_articles_meta' )->result();
 
@@ -142,6 +144,8 @@ trait Nexo_items
                 ->where( store_prefix() . 'nexo_articles.CODEBAR', $id )
                 ->or_where( store_prefix() . 'nexo_articles.SKU', $id );
             }
+
+            $this->db->group_by( 'KEY' );
 
             $query_meta     =   $this->db
             ->get()->result();
@@ -163,6 +167,18 @@ trait Nexo_items
             $where_select[]     =   $single_select . '.KEY = "' . $meta->KEY . '"';
         }
 
+        $key_code   =   $id != null ? "AND ( " .
+
+        (
+            $id != null ?
+                implode(' OR ', $where_select)
+            : ''
+        ) .
+
+        ")"
+
+        : '';
+
         $SQL    =   "SELECT *, nexo_articles.ID as ID, nexo_categories.ID as CAT_ID " . (
 
         count( $query_select ) > 0 ? ',' : '' ) .
@@ -176,19 +192,14 @@ trait Nexo_items
 
         " RIGHT JOIN {$this->db->dbprefix}nexo_categories as nexo_categories ON nexo_categories.ID = nexo_articles.REF_CATEGORIE " .
 
-        ( $id != null ? "WHERE nexo_articles.CODEBAR = " . $this->db->escape( $id ) : '' ) .
-
         ( $id != null ?
-        " OR nexo_articles.SKU = " . $this->db->escape( $id ) : '' ) .
+            "WHERE ( " . ( $id != null ? " nexo_articles.CODEBAR = " . $this->db->escape( $id ) : '' ) .
+            ( $id != null ?
+                " OR nexo_articles.SKU = " . $this->db->escape( $id ) : '' ) . " ) " . $key_code . " "
 
-        (
-            $id != null ?
-                ( count( $query_select ) > 0 ? ' OR ' : '' ) .
-                implode(' OR ', $where_select)
-            : ''
-        ) .
+        : "" ) . " GROUP BY nexo_articles.ID";
 
-        " GROUP BY nexo_articles.ID";
+        var_dump( $SQL );die;
 
         $query  =   $this->db->query(
             $SQL

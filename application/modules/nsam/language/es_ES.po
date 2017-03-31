@@ -1,0 +1,188 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-03-12 09:10+0100\n"
+"PO-Revision-Date: 2017-03-12 09:12+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_s;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: inc/NsamController.php:14
+#, fuzzy
+msgid "This feature is only available for multistore."
+msgstr "Esta función sólo está disponible para multistore."
+
+#: inc/NsamController.php:19
+#, fuzzy
+msgid "Content Management &mdash; NexoPOS"
+msgstr "Content Management - NexoPOS"
+
+#: inc/NsamController.php:53
+#, fuzzy
+msgid "Users Access Management"
+msgstr "Gestión de acceso a los usuarios"
+
+#: language/lang.php:2
+#, fuzzy
+msgid "You're not allowed to access to that store"
+msgstr "Usted no tiene permiso para acceder a esa tienda"
+
+#: nsam.php:54
+#, fuzzy
+msgid "Content Copy"
+msgstr "Copiar contenido"
+
+#: nsam.php:66
+#, fuzzy
+msgid "Access Manager"
+msgstr "Access Manager"
+
+#: nsam.php:109
+msgid ""
+"<strong>Nexo Store Advanced Manager</strong>, is not active, since NexoPOS "
+"multi Store feature is not active."
+msgstr ""
+"<strong>Nexo Tienda Manager Advanced,</strong> no está activo, ya que "
+"NexoPOS función de múltiples tienda no está activo."
+
+#: views/content_management.php:6
+#, fuzzy
+msgid "Import From Store"
+msgstr "Importar desde la tienda"
+
+#: views/content_management.php:13
+#, fuzzy
+msgid "Copy Content"
+msgstr "Copiar contenido"
+
+#: views/content_management.php:27
+#, fuzzy
+msgid "Select Store"
+msgstr "Seleccionar Tienda"
+
+#: views/content_management.php:34
+msgid "Content to Copy"
+msgstr "Copiar el contenido"
+
+#: views/content_management.php:36
+#, fuzzy
+msgid "Customers"
+msgstr "Clientes"
+
+#: views/content_management.php:37
+#, fuzzy
+msgid "Customers Groups"
+msgstr "Grupos clientes"
+
+#: views/content_management.php:38
+#, fuzzy
+msgid "Products"
+msgstr "Productos"
+
+#: views/content_management.php:39
+#, fuzzy
+msgid "Categories"
+msgstr "Categorías"
+
+#: views/content_management.php:40
+#, fuzzy
+msgid "Suppliers"
+msgstr "Proveedores"
+
+#: views/content_management.php:41
+msgid "Radius"
+msgstr "Departamentos"
+
+#: views/content_management.php:42
+#, fuzzy
+msgid "Deliveries"
+msgstr "Salida de artículos"
+
+#: views/copy_content_script.php:13
+#, fuzzy
+msgid "Warning"
+msgstr "Advertencia"
+
+#: views/copy_content_script.php:13
+#, fuzzy
+msgid "You must select a store and/or select a content to copy."
+msgstr ""
+"Debe seleccionar una tienda y / o seleccione un contenido que desea copiar."
+
+#: views/copy_content_script.php:17
+#, fuzzy
+msgid ""
+"Copying content from other store, will erase all content from this store (to "
+"avoid conflict). Would you confirm your action ?"
+msgstr ""
+"Copiar contenido de otra tienda, se borrará todo el contenido de esta tienda "
+"(para evitar conflictos). ¿Le confirme la acción?"
+
+#: views/copy_content_script.php:27
+#, fuzzy
+msgid "Success"
+msgstr "Éxito"
+
+#: views/copy_content_script.php:27
+#, fuzzy
+msgid "The selected item has been copied."
+msgstr "El elemento seleccionado se ha copiado."
+
+#: views/copy_content_script.php:30
+#, fuzzy
+msgid "An error occured"
+msgstr "Ocorreu un erro"
+
+#: views/copy_content_script.php:30
+#, fuzzy
+msgid "An error occured."
+msgstr "Se ha producido un error."
+
+#: views/users_management.php:27 views/users_management.php:64
+#, fuzzy
+msgid "Save Settings"
+msgstr "Guardar ajustes"
+
+#: views/users_management.php:37
+#, fuzzy, php-format
+msgid "Access to %s"
+msgstr "El acceso a%s"
+
+#: views/users_management.php:39
+#, fuzzy
+msgid "Select an options"
+msgstr "Seleccione una opciones"
+
+#: views/users_management.php:40
+#, fuzzy
+msgid "No"
+msgstr "No"
+
+#: views/users_management.php:41
+#, fuzzy
+msgid "Yes"
+msgstr "Sí"
+
+#: views/users_management.php:49
+#, fuzzy
+msgid "Create a store"
+msgstr "Crear una tienda"
+
+#: views/users_management.php:61
+#, fuzzy
+msgid "No cashier available"
+msgstr "No se dispone de cajero"
+
+#: views/users_management.php:72
+#, fuzzy
+msgid "Create a cashier"
+msgstr "Crear un cajero"

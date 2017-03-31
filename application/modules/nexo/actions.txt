@@ -120,3 +120,13 @@ Regroupe toutes les actions de la boutique
  * after_main_store_card
  * Injecte du contenu dans la balise parent des informations des boutiques, lorsque le mode multi boutique est activé.
 **/
+
+/**
+ * nexo_delete_store
+ * Execute des actions durant la suppresions d'une boutique
+**/
+
+/**
+ * nexo_delete_order
+ * Delete an order. Send one parameter as int which represent an order id
+**/

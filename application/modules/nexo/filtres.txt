@@ -73,8 +73,13 @@ Filtres:
 **/
 
 /**
- * pos_search_input_after
+ * pos_search_input_after (deprecated) use nexo_cart_buttons instead
  * Permet d'ajouter un code aprèsle champ de recherche des produits sur la caisse
+**/
+
+/**
+ * nexo_cart_buttons
+ * Renvoi un tableau avec des clés des boutons situés sur le Panier
 **/
 
 /**
@@ -132,4 +137,24 @@ Filtres:
 /**
  * nexo_receipt_theme
  * Permet de filtrer la liste des options de template au choix
+**/
+
+/**
+ * saveorder_title_field
+ * Permet de modifier le titre dune commande durant la sauvegarder
+**/
+
+/**
+ * saveorder_confirm_condition
+ * Modifie les conditions de validation du titre d'une commande
+ **/
+
+/**
+ * order_history_title
+ * Modifie le template du titre dans le tableau de l'historique des commandes en attentes
+**/
+
+/**
+ * stores_controller_callback
+ * permet d'enregistrer un controller pour le multistore
 **/

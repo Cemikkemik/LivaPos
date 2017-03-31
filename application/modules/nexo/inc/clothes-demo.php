@@ -380,7 +380,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/ribberlaceupbody.jpg',
-    'CODEBAR'            =>    0000008,
+    'CODEBAR'            =>    68478945,
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
 	'STATUS'			=>	1

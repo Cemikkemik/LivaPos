@@ -70,8 +70,8 @@
             </div>
             <div class="col-md-12"> <!-- ng-controller="nexo_order_list" -->
                 <hr>
-                <div ng-repeat="event in events" ng-style="{ left : event.left + 75, height : event.getDayViewHeight() + 30 }" ng-if="calendarView == 'day'" class="beautican-group bg-{{ event.getColor( event.beautican ) }}">
-                    {{ event.beautican_name }}
+                <div ng-repeat="event in events" ng-style="{ left : event.left + 75, height : event.getDayViewHeight() + 30 }" ng-if="calendarView == 'day'" class="beautican-group bg-event-{{ event.getColor( event.beautican ) }}">
+                    <strong>{{ event.beautican_name }}</strong>
                 </div>
                 <mwl-calendar
                 view="calendarView"

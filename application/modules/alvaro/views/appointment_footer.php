@@ -68,7 +68,7 @@ $this->load->config( 'rest' );
         <div class="cal-day-panel clearfix" ng-style="{height: vm.dayViewHeight + 'px', minWidth: vm.viewWidth + 'px'}" >
             <mwl-calendar-hour-list      day-view-start="vm.dayViewStart"      day-view-end="vm.dayViewEnd"      day-view-split="vm.dayViewSplit"      on-timespan-click="vm.onTimespanClick"      on-date-range-select="vm.onDateRangeSelect"      on-event-times-changed="vm.onEventTimesChanged"      view-date="vm.viewDate"      custom-template-urls="vm.customTemplateUrls"      template-scope="vm.templateScope"      cell-modifier="vm.cellModifier">    </mwl-calendar-hour-list>
             <div
-                class="pull-left day-event bg-{{ dayEvent.event.getColor( dayEvent.event.beautican ) }}"
+                class="pull-left day-event bg-event-{{ dayEvent.event.getColor( dayEvent.event.beautican ) }}"
                 ng-repeat="dayEvent in vm.nonAllDayEvents track by dayEvent.event.calendarEventId"
                 ng-class="{
                     'is-complete' : dayEvent.event.ref_order != '0' && isDefined( dayEvent.event.ref_order ),
@@ -475,10 +475,26 @@ tendooApp.controller( 'alvaroAppointment', [ '$scope', 'moment', '$compile', 'ca
                         '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
                     }
                 }).then(function( returned ){
+
+                    var value   =   {};
+
+                    if( typeof $scope.usedCol[ $scope.appointmentBeautican.user_id ] == 'undefined' ) {
+                        $scope.usedCol[ $scope.appointmentBeautican.user_id ]       =   $scope.lastPosition;
+                        value.left                              =   $scope.usedCol[ $scope.appointmentBeautican.user_id ];
+                        $scope.lastPosition                     +=  200;
+                    } else {
+                        value.left                              =   $scope.usedCol[ $scope.appointmentBeautican.user_id ];
+                    }
+
                     var event       =   {
                         title           :   $scope.appointmentName, // The title of the event
                         beautican       :   $scope.appointmentBeautican,
                         startsAt        :   $scope.appointmentStartsAt, // A javascript date object for when the event starts
+                        left            :   value.left,
+                        getColor        :   function( beautican ) {
+                            code    =    typeof $scope.colors[ parseInt( beautican ) ] != 'undefined' ? $scope.colors[ parseInt( beautican ) ] : $scope.colors[0];
+                            return code;
+                        },
                         endsAt          :   $scope.appointmentEndsAt, // Optional - a javascript date object for when the event ends
                         color           :   '#666',
                         id              :    returned.data.id,
@@ -1343,34 +1359,50 @@ tendooApp.controller( 'alvaroAppointment', [ '$scope', 'moment', '$compile', 'ca
         background: #a9d1fb;
         border: 1px solid #60a9cc;
         opacity: 0.5;
+
     }
     .is-not-complete {
         background: #EEE !important;
-        border: 1px solid #EEE !important;
+        border: 1px solid #AAA !important;
     }
     .day-event {
         border: solid 1px #AAA;
     }
-    .bg- {
+    .bg-event- {
         background:#DDD;
     }
 
-    .bg-red {
+    .bg-event-red {
         background: #f57e7e ;
     }
-    .bg-blue {
+    .bg-event-blue {
         background: #7ea7f5 ;
     }
-    .bg-green {
+    .bg-event-green {
         background: #7ef5a3 ;
     }
-    .bg-indigo {
+    .bg-event-indigo {
         background: #7ee4f5 ;
     }
-    .bg-purple {
+    .bg-event-purple {
         background: #d97ef5 ;
     }
-    .bg-pink {
+    .bg-event-pink {
         background: #f57ed5;
+    }
+    .bg-event-primary {
+        background: #9596d1;
+    }
+    .bg-event-warning {
+        background: #ecf88b;
+    }
+    .bg-event-info {
+        background: #8fc8cb;
+    }
+    .bg-event-danger {
+        background: #b85c8e;
+    }
+    .label-red {
+        background: #f57e7e;
     }
 </style>

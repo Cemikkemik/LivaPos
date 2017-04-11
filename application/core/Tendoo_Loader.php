@@ -415,6 +415,7 @@ class Tendoo_Loader
         //       to cache them for later use and that prevents
         //       MY_Model from being an abstract class and is
         //       sub-optimal otherwise anyway.
+
         if (! class_exists('CI_Model', false)) {
             $app_path = APPPATH.'core'.DIRECTORY_SEPARATOR;
             if (file_exists($app_path.'Model.php')) {
@@ -436,15 +437,19 @@ class Tendoo_Loader
         }
 
         $model = ucfirst($model);
+
         if (! class_exists($model, false)) {
+
             foreach ($this->_ci_model_paths as $mod_path) {
-                if (! file_exists($mod_path.'models/../modules/' . $module_namespace . '/inc/models/'.$path.$model.'.php')) {
+
+                if (! file_exists($mod_path.'/modules/' . $module_namespace . '/inc/models/'.$path.$model.'.php')) {
                     continue;
                 }
 
-                require_once($mod_path.'models/../modules/' . $module_namespace . '/inc/models/'.$path.$model.'.php');
+                require_once($mod_path.'modules/' . $module_namespace . '/inc/models/'.$path.$model.'.php');
+
                 if (! class_exists($model, false)) {
-                    throw new RuntimeException($mod_path."models/../modules/' . $module_namespace . '/inc/models/".$path.$model.".php exists, but doesn't declare class ".$model);
+                    throw new RuntimeException($mod_path."modules/' . $module_namespace . '/inc/models/".$path.$model.".php exists, but doesn't declare class ".$model);
                 }
 
                 break;
@@ -453,6 +458,7 @@ class Tendoo_Loader
             if (! class_exists($model, false)) {
                 throw new RuntimeException('Unable to locate the model for the module : ' . $module_namespace . ' you have specified: '.$model);
             }
+
         } elseif (! is_subclass_of($model, 'CI_Model')) {
             throw new RuntimeException("Class ".$model." already exists and doesn't extend CI_Model");
         }

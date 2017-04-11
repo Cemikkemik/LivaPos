@@ -119,6 +119,7 @@ if( ! function_exists( 'store_prefix' ) ) {
         }
 		$prefix		=	$store_id != null ? 'store_' . $store_id . '_' : '';
 		$prefix		=	( $prefix == '' && intval( get_instance()->input->get( 'store_id' ) ) > 0 ) ? 'store_' . get_instance()->input->get( 'store_id' ) . '_' : $prefix;
+        $prefix     =   get_instance()->uri->segment( 2 ) == 'stores' && get_instance()->uri->segment( 3 ) != null ? 'store_' . get_instance()->uri->segment( 3 ) . '_' : $prefix;
 		return $prefix;
 	}
 }

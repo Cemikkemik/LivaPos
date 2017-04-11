@@ -1592,6 +1592,9 @@ var v2Checkout					=	new function(){
 						}
 					});
 
+					// @since 3.0.16
+					v2Checkout.customers.list 	=	customers;
+
 					$( '.customers-list' ).selectpicker( 'refresh' );
 				},
 				error			:	function(){

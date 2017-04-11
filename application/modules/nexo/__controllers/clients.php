@@ -59,8 +59,12 @@ class Nexo_Clients extends CI_Model
             'DATE_MOD'
 		);
 
+        $fields         =   $this->events->apply_filters( 'nexo_clients_fields', $fields );
+
+        $customer_columns   =   $this->events->apply_filters( 'nexo_clients_columns', [ 'NOM', 'EMAIL', 'TEL', 'OVERALL_COMMANDES', 'REF_GROUP', 'AUTHOR', 'DATE_CREATION', 'DATE_MOD' ] );
+
 		$crud->set_theme('bootstrap');
-        $crud->columns('NOM', 'EMAIL', 'TEL', 'OVERALL_COMMANDES', 'REF_GROUP', 'AUTHOR', 'DATE_CREATION', 'DATE_MOD');
+        $crud->columns( $customer_columns );
         $crud->fields( $fields );
 
         $crud->display_as('NOM', __('Nom du client', 'nexo'));
@@ -94,8 +98,6 @@ class Nexo_Clients extends CI_Model
 
         $crud->set_field_upload('AVATAR', get_store_upload_path() . '/customers/');
 
-        $crud   =   $this->events->apply_filters( 'customers_crud_loaded', $crud );
-
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
@@ -106,6 +108,10 @@ class Nexo_Clients extends CI_Model
         $crud->set_rules('EMAIL', __('Email', 'nexo'), 'valid_email');
 
         $crud->unset_jquery();
+
+        // Load Nexo Customer Clients Crud
+        $crud   =   $this->events->apply_filters( 'customers_crud_loaded', $crud );
+
         $output = $crud->render();
 
         foreach ($output->js_files as $files) {

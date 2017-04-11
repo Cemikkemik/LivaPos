@@ -49,6 +49,7 @@ tendooApp.directive( 'defaultPayment', function(){
 			bindKeyBoardEvent				:	'=',
 			cancelPaymentEdition			:	'=',
 			defaultAddPaymentText			:	'=',
+			data 							:	'=',
 			defaultAddPaymentClass			:	'=',
 			defaultSelectedPaymentText		:	'=',
 			defaultSelectedPaymentNamespace	:	'=',

@@ -41,6 +41,8 @@ tendooApp.directive( 'payBoxContent', function(){
 		 * Only default payment type support keyboard
 		**/
 
+		console.log( value );
+
 		if( ! angular.isDefined( value.isCustom ) ) {
 
 			HTML.query( '.payment-options-content' )
@@ -56,7 +58,8 @@ tendooApp.directive( 'payBoxContent', function(){
 			.each( 'default_add_payment_class'				, 'defaultAddPaymentClass' )
 			.each( 'default_selected_payment_text'			, 'defaultSelectedPaymentText' )
 			.each( 'default_selected_payment_namespace'		, 'defaultSelectedPaymentNamespace' )
-			.each( 'show_cancel_edition_button'				, 'showCancelEditionButton' );
+			.each( 'show_cancel_edition_button'				, 'showCancelEditionButton' )
+			.each( 'data'									, 'data' );
 
 			HTML.query( '.tab-' + key )
 			.add( 'keyboard' )
@@ -69,7 +72,18 @@ tendooApp.directive( 'payBoxContent', function(){
 			.add( 'div.tab-wrapper.tab-' + key )
 			.each( 'ng-show', 'paymentTypesObject.' + key + '.active' )
 			.add( key + '-payment' )
-			.each( 'payment-name', value.text );
+			.each( 'payment-name', value.text )
+			.each( 'payment'								, 'paymentTypesObject.' + key )
+			.each( 'paid_amount'							, 'paidAmount' )
+			.each( 'add_payment'							, 'addPayment' )
+			.each( 'bind_key_board_event'					, 'bindKeyBoardEvent' )
+			.each( 'cancel_payment_edition'					, 'cancelPaymentEdition' )
+			.each( 'default_add_payment_text'				, 'defaultAddPaymentText' )
+			.each( 'default_add_payment_class'				, 'defaultAddPaymentClass' )
+			.each( 'default_selected_payment_text'			, 'defaultSelectedPaymentText' )
+			.each( 'default_selected_payment_namespace'		, 'defaultSelectedPaymentNamespace' )
+			.each( 'show_cancel_edition_button'				, 'showCancelEditionButton' )
+			.each( 'data'									, 'data' );
 
 		}
 

@@ -244,7 +244,7 @@ class Nexo_Commandes extends CI_Model
         $Cash            =   'nexo_order_comptant';
         $Estimate        =   'nexo_order_devis';
 
-        $nexo_order_types    =    array_flip($this->config->item('nexo_order_types'));
+        $nexo_order_types    =    array_flip( $this->config->item('nexo_order_types') );
 
         if (@$nexo_order_types[ $row->TYPE ]    == $Advance) {
             return 'info';

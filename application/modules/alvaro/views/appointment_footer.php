@@ -333,7 +333,7 @@ tendooApp.controller( 'alvaroAppointment', [ '$scope', 'moment', '$compile', 'ca
     $scope.viewDate         =   moment().startOf('month').toDate();
     $scope.timesClicked     =   0;
     $scope.createEvent      =   false;
-    $scope.beauticans       =   <?php echo json_encode( $this->auth->list_users() );?>;
+    $scope.beauticans       =   <?php echo json_encode( $Alvaro_Library->get_cashiers( $this->auth->list_users( 'shop_cashier' ) );?>;
     var originalFormat      =   calendarConfig.dateFormats.hour;
     calendarConfig.dateFormats.hour = 'HH:mm';
     $scope.cellIsOpen       =   false ;

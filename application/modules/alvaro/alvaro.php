@@ -241,6 +241,52 @@ class Alvaro_Module extends Tendoo_Module
             return $controller;
         });
         $this->assets->load();
+
+        if( ! User::in_group( 'master' ) ) {
+            // Access checker
+            if( in_array( $this->uri->segment(3), [ 'users_control', 'store-settings' ] ) ) {
+                redirect([ 'dashboard', 'access-denied' ] );
+            }
+
+            if( $this->uri->uri_string() == 'dashboard/nexo/stores/lists' ) {
+                redirect([ 'dashboard', 'access-denied' ] );
+            }
+
+            $this->events->add_filter( 'nexo_store_menus', '__return_false' );
+
+            if( ! is_multistore() && multistore_enabled() && $this->uri->uri_string() != 'dashboard/users/profile' ) {
+                global $Options;
+                // Control store access
+                $this->load->model( 'Nexo_Stores' );
+                $stores		=	$this->Nexo_Stores->get( 'opened', 'STATUS' );
+                foreach( $stores as $store ) {
+                    $access     =   @$Options[ 'store_access_' . User::id() . '_' . $store[ 'ID' ] ];
+                    if( ! in_array( $access, [ null, 'no' ] ) ) {
+                        return redirect([ 'dashboard', 'stores', $store[ 'ID' ] ] );
+                        exit;
+                    }
+                }
+                return redirect([ 'dashboard', 'users', 'profile' ]);
+            }
+
+            $this->events->add_filter( 'admin_menus', function( $menus ) {
+                unset( $menus[ 'nexo_store_settings' ] );
+                unset( $menus[ 'settings' ] );
+                unset( $menus[ 'users' ][0] );
+                unset( $menus[ 'elfinder' ] );
+
+                $menus[ 'nexo_shop' ]   =   [
+                    [
+                        'title'     =>  __( 'Open Store', 'alvaro' ),
+                        'icon'      =>  'fa fa-cubes',
+                        'href'      =>  site_url([ 'dashboard' ] )
+                    ]
+                ];
+
+                return $menus;
+            }, 99 );
+        }
+
     }
 
     /**

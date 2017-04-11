@@ -279,7 +279,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 
                         <?php
                         $order_payments         =   $this->Nexo_Misc->order_payments( $order[ 'order' ][0][ 'CODE' ] );
-                        $payment_types          =   $this->config->item( 'nexo_payments_types' );
+                        $payment_types          =   $this->events->apply_filters( 'nexo_payments_types', $this->config->item( 'nexo_payments_types' ) );
 
                         foreach( $order_payments as $payment ) {
                             ?>
@@ -311,7 +311,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             </td>
                         </tr>
                         <?php
-                        $terme        =    'nexo_order_comptant'    == $order[ 'order' ][0][ 'TYPE' ] ? __('Solde :', 'nexo') : __('&Agrave; percevoir :', 'nexo');
+                        $terme        =    __floatval( $_produit[ 'SOMME_PERCU' ] ) > floatval( $order[ 'order' ][0][ 'TOTAL' ] ) ? __('Solde :', 'nexo') : __('&Agrave; percevoir :', 'nexo');
                         ?>
                         <tr>
                             <td class="text-right" colspan="<?php echo @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ? 4 : 3;?>"><h4><strong><?php echo $terme;?></strong></h4></td>

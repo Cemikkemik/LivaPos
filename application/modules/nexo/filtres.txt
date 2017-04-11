@@ -158,3 +158,23 @@ Filtres:
  * stores_controller_callback
  * permet d'enregistrer un controller pour le multistore
 **/
+
+/**
+ * nexo_clients_fields
+ * Permet de modifier les champs des clients
+**/
+
+/**
+ * customers_crud_loaded
+ * permet de filtrer l'objet CRUD
+**/
+
+/**
+ * nexo_clients_columns
+ * permet de filtrer les colonnes des clients
+**/
+
+/**
+ * nexo_store_menus
+ * permet de modifier la vue du menu des boutiques
+**/

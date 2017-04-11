@@ -130,3 +130,13 @@ Regroupe toutes les actions de la boutique
  * nexo_delete_order
  * Delete an order. Send one parameter as int which represent an order id
 **/
+
+/**
+ * nexo_empty_shop
+ * Permet d'exécuter un action durant la reinitialisation d'une boutique
+**/
+
+/**
+ * nexo_enable_demo
+ * Permet d'activer la démonstration
+**/

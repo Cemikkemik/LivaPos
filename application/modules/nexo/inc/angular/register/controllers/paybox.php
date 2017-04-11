@@ -35,8 +35,9 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	$scope.showCancelEditionButton	=	false;
 	$scope.windowHeight				=	window.innerHeight;
 	$scope.wrapperHeight			=	$scope.windowHeight - ( ( 56 * 2 ) + 30 );
-
-
+	$scope.data 					=	{
+		'foo'	:	'bar'
+	};
 
 	_.each( $scope.paymentTypes, function( value, key ) {
 		$scope.paymentTypesObject	=	_.extend( $scope.paymentTypesObject, _.object( [ key ], [{

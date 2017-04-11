@@ -23,7 +23,7 @@ class Alvaro_Library extends Tendoo_Module
 
         $query          =   $this->db
         ->select( '*,'
-        . store_prefix() . 'alvaro_appointments.id as id,        
+        . store_prefix() . 'alvaro_appointments.id as id,
         aauth_users.name as beautican_name')
         ->from(  store_prefix() . 'alvaro_appointments' )
         ->join( 'aauth_users', store_prefix() . 'alvaro_appointments.beautican = aauth_users.id' )
@@ -44,4 +44,26 @@ class Alvaro_Library extends Tendoo_Module
 
         return $appointments;
     }
+
+    /**
+     *  get Cashier from a unique store
+     *  @param object cashiers
+     *  @return
+    **/
+
+    public function get_cashiers( $cashiers )
+    {
+        global $Options;
+        $store_id   =   get_store_id();
+        if( $cashiers ) {
+            foreach( ( Array ) $cashiers as $key => $cashier ) {
+                $access     =   @$Options[ 'store_access_' . $cashier[ 'id' ] . '_' . $store_id ];
+                if( $access == null ) {
+                    unset( $cashiers[ $key ] );
+                }
+            }
+            return $cashiers;
+        }
+    }
+
 }

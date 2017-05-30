@@ -138,10 +138,11 @@ if(!defined('DB_PREFIX'))
      * @return mixed
     **/
 
-    public function final_configuration($site_name)
+    public function final_configuration()
     {
         // Saving Site name
         $this->options->set('site_name', $this->input->post('site_name'), true);
+        $this->options->set('site_language', $this->input->post('lang'), true);
 
         // Do actions
         $this->events->do_action('tendoo_settings_final_config');

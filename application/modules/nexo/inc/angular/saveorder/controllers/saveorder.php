@@ -3,7 +3,7 @@
  * Save Order NexoPOS
 **/
 
-tendooApp.controller( 'saveBox', [ '$compile', '$http', '$scope', function( $compile, $http, $scope ) {
+tendooApp.controller( 'saveBox', [ '$compile', '$http', '$scope', 'hotkeys', function( $compile, $http, $scope, hotkeys ) {
 
 	/**
 	 * confirmSaveOrder
@@ -65,6 +65,13 @@ tendooApp.controller( 'saveBox', [ '$compile', '$http', '$scope', function( $com
 		angular.element( '.modal-body' ).css( 'height', $scope.wrapperHeight );
 		angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );
 	}
-
+	
+	hotkeys.add({
+		combo: 'shift+h',
+		description: 'Hold Order',
+		callback: function() {
+			$scope.openSaveBox();
+		}
+	});
 }]);
 </script>

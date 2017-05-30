@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application>
+	<name>Permission Manager</name>
+	<namespace>perm_manager</namespace>
+	<main>manager.php</main>
+	<version>1.3</version>
+	<author>Tiny Skillz</author>
+	<description>Use this module for the management of groups Permission</description>
+</application>

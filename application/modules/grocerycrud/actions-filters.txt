@@ -80,3 +80,12 @@ grocery_required_fields	:	{
 	desc	:	return required field for form validation
 	params 	:	array( 'FIELD_NAME', ... )
 }
+
+grocery_header_buttons : {
+	type 	:	filter,
+	desc 	:	let you add more button on table head 
+	params 	:	[
+		text 	:	'foo',
+		url 	:	'http://bar.com'
+	]
+}

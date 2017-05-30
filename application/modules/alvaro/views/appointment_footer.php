@@ -7,7 +7,19 @@ $this->load->config( 'rest' );
 
 <script id="groupedMonthEvents.html" type="text/ng-template">
 
-  <div class="cal-month-day">
+  <div 
+    class="cal-month-day"
+    ng-class="{
+        'cal-day-outmonth': !day.inMonth,
+        'cal-day-inmonth': day.inMonth,
+        'cal-day-weekend': day.isWeekend,
+        'cal-day-past': day.isPast,
+        'cal-day-today': day.isToday,
+        'cal-day-future': day.isFuture,
+        'cal-day-selected': vm.dateRangeSelect && vm.dateRangeSelect.startDate <= day.date && day.date <= vm.dateRangeSelect.endDate,
+        'cal-day-open': dayIndex === vm.openDayIndex
+    }"
+        >
 
     <span
       class="pull-right"
@@ -28,7 +40,7 @@ $this->load->config( 'rest' );
 
     <div style="position: relative; top: 60px; left: 5px">
       <span ng-repeat="(beautican, events) in day.groups track by beautican">
-        <span class="label label-{{ events[0].getColor( beautican ) }}">
+        <span class="label bg-{{ events[0].getColor( beautican ) }}">
           {{ events.length }}
         </span>&nbsp;
       </span>
@@ -42,6 +54,59 @@ $this->load->config( 'rest' );
     </div>
 
   </div>
+</script>
+
+<script type="text/ng-template" id="calendarHourList.html">
+    <div class="cal-day-panel-hour">
+        <div class="cal-day-hour" ng-repeat="hour in vm.hourGrid track by $index">
+
+            <div
+            class="cal-day-hour-part"
+            ng-repeat="segment in hour.segments track by $index"
+            ng-class="[{ 'cal-day-hour-part-selected': vm.dateRangeSelect &&
+                        vm.dateRangeSelect.startDate <= segment.date &&
+                        segment.date < vm.dateRangeSelect.endDate }, segment.cssClass]"
+            ng-click="vm.onTimespanClick({calendarDate: segment.date})"
+            mwl-droppable
+            on-drop="vm.eventDropped(dropData.event, segment.date)"
+            mwl-drag-select="!!vm.onDateRangeSelect"
+            on-drag-select-start="vm.onDragSelectStart(segment.date)"
+            on-drag-select-move="vm.onDragSelectMove(segment.nextSegmentDate)"
+            on-drag-select-end="vm.onDragSelectEnd(segment.nextSegmentDate)"
+            ng-if="!vm.dayWidth">
+            <div class="cal-day-hour-part-time">
+                <strong ng-bind="segment.date | calendarDate:'hour':true" ng-show="segment.isStart"></strong>
+            </div>
+            </div>
+
+            <div
+            class="cal-day-hour-part"
+            ng-repeat="segment in hour.segments track by $index"
+            ng-if="vm.dayWidth">
+                <div class="cal-day-hour-part-time">
+                    <strong ng-bind="segment.date | calendarDate:'hour':true" ng-show="segment.isStart"></strong>
+                    &nbsp;
+                </div>
+                <div
+                    class="cal-day-hour-part-spacer"
+                    ng-repeat="day in segment.days track by $index"
+                    ng-style="{width: (vm.dayWidth - ($last ? vm.scrollBarWidth : 0)) + 'px'}"
+                    ng-class="[{ 'cal-day-hour-part-selected': vm.dateRangeSelect &&
+                            vm.dateRangeSelect.startDate <= day.date &&
+                            day.date < vm.dateRangeSelect.endDate }, day.cssClass]"
+                    ng-click="vm.onTimespanClick({calendarDate: day.date})"
+                    mwl-droppable
+                    on-drop="vm.eventDropped(dropData.event, day.date)"
+                    mwl-drag-select="!!vm.onDateRangeSelect"
+                    on-drag-select-start="vm.onDragSelectStart(day.date)"
+                    on-drag-select-move="vm.onDragSelectMove(day.nextSegmentDate)"
+                    on-drag-select-end="vm.onDragSelectEnd(day.nextSegmentDate)">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </script>
 
 <script type="text/ng-template" id="calendarDayView.html">
@@ -64,9 +129,22 @@ $this->load->config( 'rest' );
             </div>
         </div>
     </div>
-    <div class="cal-day-box">
-        <div class="cal-day-panel clearfix" ng-style="{height: vm.dayViewHeight + 'px', minWidth: vm.viewWidth + 'px'}" >
-            <mwl-calendar-hour-list      day-view-start="vm.dayViewStart"      day-view-end="vm.dayViewEnd"      day-view-split="vm.dayViewSplit"      on-timespan-click="vm.onTimespanClick"      on-date-range-select="vm.onDateRangeSelect"      on-event-times-changed="vm.onEventTimesChanged"      view-date="vm.viewDate"      custom-template-urls="vm.customTemplateUrls"      template-scope="vm.templateScope"      cell-modifier="vm.cellModifier">    </mwl-calendar-hour-list>
+    <div class="cal-day-box" style="padding-top:30px">
+        <div class="cal-day-panel clearfix" 
+            ng-style="{height: vm.dayViewHeight + 'px', minWidth: ( ( vm.dayViewEventWidth * vm.events.length ) + 60 )  + 'px'}" 
+            >
+            <mwl-calendar-hour-list      
+                day-view-start="vm.dayViewStart"      
+                day-view-end="vm.dayViewEnd"      
+                day-view-split="vm.dayViewSplit"      
+                on-timespan-click="vm.onTimespanClick"      
+                on-date-range-select="vm.onDateRangeSelect"      
+                on-event-times-changed="vm.onEventTimesChanged"      
+                view-date="vm.viewDate"      
+                custom-template-urls="vm.customTemplateUrls"      
+                template-scope="vm.templateScope"      
+                cell-modifier="vm.cellModifier">    
+            </mwl-calendar-hour-list>
             <div
                 class="pull-left day-event bg-event-{{ dayEvent.event.getColor( dayEvent.event.beautican ) }}"
                 ng-repeat="dayEvent in vm.nonAllDayEvents track by dayEvent.event.calendarEventId"
@@ -92,11 +170,12 @@ $this->load->config( 'rest' );
                 <a  href="javascript:;"   style="margin-right:5px;"      class="event-item-action text-center btn btn-primary btn-xs"        ng-repeat="action in dayEvent.event.actions track by $index"        ng-class="action.cssClass"        ng-bind-html="action.label | calendarTrustAsHtml"        ng-click="action.onClick({calendarEvent: dayEvent.event})"></a><br ng-show="dayEvent.event.actions.length > 0">
 
                 <div>
-                    <ul class="list-group">
+                    <ul class="list-group" style="margin-bottom:5px;margin-top:5px;">
                         <!-- <li class="list-group-item"><?php echo __( 'Services', 'alvaro' );?></li> -->
-                        <li style="padding:5px;" ng-repeat="product in dayEvent.event.products" class="list-group-item">{{ product.DESIGN }} (x{{ product.QUANTITE }})</li>
+                        <li style="padding:2px 5px;" ng-repeat="product in dayEvent.event.products" class="list-group-item">{{ product.DESIGN }} (x{{ product.QUANTITE }})</li>
                     </ul>
                     <span><strong><?php echo __( 'Customer', 'alvaro' );?></strong> : {{ dayEvent.event.order[0].customer_name }}</span><br>
+                    <span><strong><?php echo __( 'Customer Phone', 'alvaro' );?></strong> : {{ dayEvent.event.order[0].customer_phone }}</span><br>
                     <span><strong><?php echo __( 'Beautican', 'alvaro' );?></strong> : {{ dayEvent.event.beautican_name }}</span>
 
                 </div>
@@ -199,12 +278,12 @@ tendooApp.directive( 'appointment', function(){
     }
 });
 
-tendooApp.controller( 'alvaroAppointment', [ '$scope', 'moment', '$compile', 'calendarConfig', '$http', '$timeout', '__orderStatus', '__paymentName', '__windowSplash', '__stripeCheckout', function( $scope, moment, $compile, calendarConfig, $http, $timeout, __orderStatus, __paymentName, __windowSplash, __stripeCheckout ) {
+tendooApp.controller( 'alvaroAppointment', [ '$scope', 'moment', '$compile', 'calendarConfig', '$http', '$timeout', '$interval', '__orderStatus', '__paymentName', '__windowSplash', '__stripeCheckout', function( $scope, moment, $compile, calendarConfig, $http, $timeout, $interval, __orderStatus, __paymentName, __windowSplash, __stripeCheckout ) {
 
     calendarConfig.templates.calendarMonthCell = 'groupedMonthEvents.html';
 
     $scope.$on('$destroy', function() {
-      calendarConfig.templates.calendarMonthCell = 'mwl/calendarMonthCell.html';
+        calendarConfig.templates.calendarMonthCell = 'mwl/calendarMonthCell.html';
     });
 
     $scope.isOpen               =   [];
@@ -327,13 +406,71 @@ tendooApp.controller( 'alvaroAppointment', [ '$scope', 'moment', '$compile', 'ca
                     document.location   = "<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'registers', '__use', 'default' ]);?>/?appointment_id=" + value.id;
                 }
             });
+        } else if( value.order[0].TYPE == 'nexo_order_devis' ) {
+
+            value.actions.push({
+                label       :   '<i class="fa fa-money"></i>',
+                cssClass    :   'pay-action',
+                onClick     :   function( args ) {
+                    document.location   =   "<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'registers', '__use', 'default' ]);?>/?load-order=" + value.order[0].ORDER_ID;
+                }
+            });
+
+            //@since 1.8.1
+            value.actions.push({
+                label       :   '<i class="fa fa-envelope"></i>',
+                cssClass    :   'sms-reminder',
+                onClick     :   function( args ) {
+
+                    _.templateSettings = {
+                        interpolate: /\{\{(.+?)\}\}/g
+                    };
+
+                    let message             =   _.template( '<?php echo @$Options[ store_prefix() . 'calendario_sms_template' ];?>' );
+                    let params               =   {
+                        customer_name       :   value.order[0].NOM,
+                        customer_phone      :   value.order[0].TEL,
+                        order_total         :   value.order[0].TOTAL,
+                        store_name          :   '<?php echo @$Options[ store_prefix() . 'site_name' ];?>',
+                        store_phone         :   '<?php echo @$Options[ store_prefix() . 'nexo_shop_phone' ];?>',
+                        start_date          :   moment( tendoo.now() ).to( value.startsAt )
+                    }
+
+                    let sms                 =  message( params );
+
+                    $http.post( '<?php echo site_url([ 'rest', 'alvaro_rest', 'sms_reminder' ]);?>/' + value.order[0].ORDER_ID + '<?php echo store_get_param( null );?>', {
+                        nexo_sms_service        :   '<?php echo @$Options[ store_prefix() . 'nexo_sms_service' ];?>',
+                        nexo_bulksms_username   :   '<?php echo @$Options[ store_prefix() . 'nexo_bulksms_username' ];?>',
+                        nexo_bulksms_password   :   '<?php echo @$Options[ store_prefix() . 'nexo_bulksms_password' ];?>',
+                        nexo_bulksms_url        :   '<?php echo @$Options[ store_prefix() . 'nexo_bulksms_url' ];?>',
+                        nexo_bulksms_port       :   '<?php echo @$Options[ store_prefix() . 'nexo_bulksms_port' ];?>',
+                        twilio_account_sid      :   '<?php echo @$Options[ store_prefix() . 'twilio_account_sid' ];?>',
+                        twilio_account_token    :   '<?php echo @$Options[ store_prefix() . 'twilio_account_token' ];?>',
+                        twilio_from_number      :   '<?php echo @$Options[ store_prefix() . 'twilio_from_number' ];?>',
+                        sms                     :   sms,
+                        phone                   :   params.customer_phone
+                    }, {
+                        headers	:	{
+                            '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
+                        }
+                    }).then(function( returned ) {
+                        NexoAPI.Toast()( '<?php echo __( 'The reminder message has been send', 'alvaro' );?>' );
+                    }, function( returned ) {
+                        if( returned.data.status == 'success' ) {
+                            NexoAPI.Toast()( '<?php echo __( 'The reminder message has been send', 'alvaro' );?>' );
+                        } else {
+                            NexoAPI.Bootbox().alert( returned.data.error.message );
+                        }
+                    });
+                }
+            });
         }
     })
     $scope.calendarView     =   'month';
     $scope.viewDate         =   moment().startOf('month').toDate();
     $scope.timesClicked     =   0;
     $scope.createEvent      =   false;
-    $scope.beauticans       =   <?php echo json_encode( $Alvaro_Library->get_cashiers( $this->auth->list_users( 'shop_cashier' ) );?>;
+    $scope.beauticans       =   <?php echo json_encode( ( Array ) $Alvaro_Library->get_cashiers( $this->auth->list_users( 'shop_cashier' ) ) );?>;
     var originalFormat      =   calendarConfig.dateFormats.hour;
     calendarConfig.dateFormats.hour = 'HH:mm';
     $scope.cellIsOpen       =   false ;
@@ -1351,6 +1488,21 @@ tendooApp.controller( 'alvaroAppointment', [ '$scope', 'moment', '$compile', 'ca
       }
     };
 
+    $interval( () => {
+        if( angular.element( '.cal-day-panel-hour' ).length == 1 ) {
+            if( angular.element( '.beautican-group' ).length == 0 ) {
+                let dom     =   
+                '<div class="beautican-container"><div ng-repeat="event in events" ng-style="{ left : event.left + 60, top : -30, height : event.getDayViewHeight() + 30 }" ng-if="calendarView == \'day\'" class="beautican-group bg-event-{{ event.getColor( event.beautican ) }}">' +
+                    '<strong>{{ event.beautican_name }}</strong>' +
+                '</div></div>';
+
+                angular.element( '.cal-day-panel-hour' ).before( dom );
+                $( '.beautican-container' ).html( $compile( $( '.beautican-container' ).html() )($scope) );
+            }            
+        }
+        
+    }, 1000 );
+
 
 }]);
 </script>
@@ -1366,43 +1518,48 @@ tendooApp.controller( 'alvaroAppointment', [ '$scope', 'moment', '$compile', 'ca
         border: 1px solid #AAA !important;
     }
     .day-event {
-        border: solid 1px #AAA;
+        border: solid 1px #333;
     }
     .bg-event- {
         background:#DDD;
     }
 
     .bg-event-red {
-        background: #f57e7e ;
+        background: rgba(245, 126, 126, 0.70);
     }
     .bg-event-blue {
-        background: #7ea7f5 ;
+        background: rgba(126, 167, 245, 0.70);
     }
     .bg-event-green {
-        background: #7ef5a3 ;
+        background: rgba(126, 245, 163, 0.70);
     }
     .bg-event-indigo {
-        background: #7ee4f5 ;
+        background: rgba(126, 228, 245, 0.70);
     }
     .bg-event-purple {
-        background: #d97ef5 ;
+        background: rgba(217, 126, 245, 0.70);
     }
     .bg-event-pink {
-        background: #f57ed5;
+        background: rgba(245, 126, 213, 0.70);;
     }
     .bg-event-primary {
-        background: #9596d1;
+        background: rgba(149, 150, 209, 0.70);
     }
     .bg-event-warning {
-        background: #ecf88b;
+        background: rgba(236, 248, 139, 0.70);
     }
     .bg-event-info {
-        background: #8fc8cb;
+        background: rgba(143, 200, 203, 0.70);
     }
     .bg-event-danger {
-        background: #b85c8e;
+        background: rgba(184, 92, 142, 0.70);
+        color : #000;
     }
     .label-red {
-        background: #f57e7e;
+        background: rgba(245, 126, 126, 0.40);
+    }
+    .label {
+        color : #333;
+        border: solid 1px #333;
     }
 </style>

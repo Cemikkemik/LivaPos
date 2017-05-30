@@ -86,6 +86,11 @@ if ($success_message !== null) {
                             <div> <span class="print"><?php echo $this->l('list_print');?></span> </div>
                         </div>
                         </a>
+                        <?php foreach( get_instance()->events->apply_filters( 'grocery_header_buttons', [] ) as $button ):?>
+                            <a class="btn btn-default" href="<?php echo @$button[ 'url' ];?>">
+                                <?php echo @$button[ 'text' ];?>
+                            </a>
+                        <?php endforeach;?>
                         <?php endif;?>
                     </div>
                     <?php endif;?>
@@ -96,7 +101,7 @@ if ($success_message !== null) {
                         <input type="text" class="form-control qsbsearch_fieldox search_text" id="search_text" name="search_text" placeholder="<?php echo $this->l('list_search');
     ?>">
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-primary crud_search" id='crud_search'><?php echo $this->l('list_search');?></button>
+                            <button type="submit" class="btn btn-primary crud_search" id='crud_search'><?php echo $this->l('list_search');?></button>
                         </div>
                     </div>
                 </div>

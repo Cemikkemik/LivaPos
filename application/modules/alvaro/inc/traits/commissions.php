@@ -47,40 +47,58 @@ Trait Commissions {
         }
 
         // Customer Name
-        $customer       =   $this->db->where( 'ID', $this->post( 'REF_CLIENT' ) )->get( store_prefix() . 'nexo_clients' )->result_array();
+        $customer       =   $this->db->where( 'ID', $this->post( 'ref_client' ) )->get( store_prefix() . 'nexo_clients' )->result_array();
+        $beautican      =   $this->db->where( 'id', $this->post( 'ref_author' ) )->get( 'aauth_users' )->result_array();
+
         // Update POST Title
         $this->db->where( 'CODE', $this->post( 'order_code' ) )->update( store_prefix() . 'nexo_commandes', [
-            'TITRE'     =>      $customer[0][ 'NOM' ] . ' — ' . implode( ',', $item_names )
+            'TITRE'     =>      $customer[0][ 'NOM' ] . ' — ' . implode( ',', $item_names ) . ' — ' . $beautican[0][ 'name' ]
         ]);
 
-        $this->db->insert( store_prefix() . 'alvaro_commissions', [
-            'commission_amount'         =>  $commission_amount,
-            'commission_percentage'     =>  $commission,
-            'date_creation'             =>  $this->post( 'date_creation' ),
-            'ref_author'                =>  $this->post( 'ref_author' ),
-            'ref_order'                 =>  $this->post( 'ref_order' )
-        ]);
+        if( $this->post( 'is_appointment' ) == 'yes' || $this->post( 'loaded_order' ) ) {
 
-        if( $this->post( 'is_appointment' ) == 'yes' ) {
+            // when we're loading an order
+            if( $this->post( 'loaded_order' ) != '' ) {
+                $data                   =   
+                $this->db->select( '*' )
+                ->from( store_prefix() . 'nexo_commandes' )
+                ->join( store_prefix() . 'alvaro_appointments', store_prefix() . 'alvaro_appointments.ref_order = ' . store_prefix() . 'nexo_commandes.ID' )
+                ->where( store_prefix() . 'nexo_commandes.ID', $this->post( 'loaded_order' ) )
+                ->get()->result();
+            } else {
+                $data                   =   $this->db->where( 'id', $this->post( 'appointment_id' ) )
+                ->get( store_prefix() . 'alvaro_appointments' )->result();
+            }
 
-            $data                   =   $this->db->where( 'id', $this->post( 'appointment_id' ) )
-            ->get( store_prefix() . 'alvaro_appointments' )->result();
+            $endsAt                 =   Carbon::parse( $data[0]->startsAt )
+            ->addMinutes( $total_time == 0 ? 60 : $total_time )->toDateTimeString();
 
             $this->db
             ->where( store_prefix() . 'alvaro_appointments.id', $this->post( 'appointment_id' ) )
             ->where( 'ref_order', 0 )
             ->update( store_prefix() . 'alvaro_appointments', [
                 'startsAt'          =>  $data[0]->startsAt,
-                'endsAt'            =>  Carbon::parse( $data[0]->startsAt )
-                ->addMinutes( $total_time == 0 ? 60 : $total_time )->toDateTimeString(),
+                'endsAt'            =>  $endsAt,
                 'ref_order'         =>  $this->post( 'ref_order' ),
                 'title'             =>  $this->post( 'title' ),
                 'date_creation'     =>  $this->post( 'date_creation' ),
             ]);
 
-            $this->db->where( 'ref_order', $this->post( 'ref_order' ) )->update( store_prefix() . 'alvaro_commissions', [
-                'ref_author'        =>  $data[0]->beautican
-            ]);
+            // Commission only for complete order
+            if( $this->post( 'order_type' ) == 'nexo_order_comptant' ) {
+                $this->db->insert( store_prefix() . 'alvaro_commissions', [
+                    'commission_amount'         =>  $commission_amount,
+                    'commission_percentage'     =>  $commission,
+                    'date_creation'             =>  $this->post( 'date_creation' ),
+                    'ref_author'                =>  $data[0]->beautican,
+                    'ref_order'                 =>  $this->post( 'ref_order' )
+                ]);
+
+                // Update the order date to the date of payment
+                $this->db->where( 'CODE', $this->post( 'order_code' ) )->update( store_prefix() . 'nexo_commandes', [
+                    'DATE_CREATION'     =>  $endsAt
+                ]);
+            }
         }
 
         $this->__success();

@@ -13,7 +13,7 @@ use Carbon\Carbon;
 
 class Alvaro_Rest extends REST_Controller
 {
-    use Commissions;
+    use Commissions, Reports, SMS_Reminder;
 
     public function __construct()
     {

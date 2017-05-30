@@ -17,7 +17,7 @@
                         date="viewDate"
                         decrement="calendarView"
                         ng-click="cellIsOpen = false">
-                        Previous
+                        <?php echo __( 'Previous', 'alvaro' );?>
                         </button>
                     </div>
                     <div class="btn-group">
@@ -27,7 +27,7 @@
                         date="viewDate"
                         set-to-today
                         ng-click="cellIsOpen = false">
-                        Today
+                        <?php echo __( 'Today', 'alvaro' );?>
                         </button>
                     </div>
                     <div class="btn-group">
@@ -37,7 +37,7 @@
                         date="viewDate"
                         increment="calendarView"
                         ng-click="cellIsOpen = false">
-                        Next
+                        <?php echo __( 'Next', 'alvaro' );?>
                         </button>
                     </div>
                 </div>
@@ -69,10 +69,8 @@
                 </div>
             </div>
             <div class="col-md-12"> <!-- ng-controller="nexo_order_list" -->
-                <hr>
-                <div ng-repeat="event in events" ng-style="{ left : event.left + 75, height : event.getDayViewHeight() + 30 }" ng-if="calendarView == 'day'" class="beautican-group bg-event-{{ event.getColor( event.beautican ) }}">
-                    <strong>{{ event.beautican_name }}</strong>
-                </div>
+                <hr style="margin:10px 0">
+
                 <mwl-calendar
                 view="calendarView"
                 view-date="viewDate"
@@ -88,7 +86,10 @@
                 on-timespan-click="timespanClicked(calendarDate, calendarCell)"
                 on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd; eventTimesChanged(calendarEvent)"
                 day-view-event-width="200"
-                custom-template-urls="{ calendarDayView : 'calendarDayView.html' }"
+                custom-template-urls="{ 
+                    calendarDayView : 'calendarDayView.html',
+                    calendarHourList    : 'calendarHourList'
+                }"
                 >
                 </mwl-calendar>
             </div>
@@ -123,6 +124,39 @@
 
         .cal-day-box .cal-day-hour-part:hover {
             background-color: rgba(160, 179, 243, 0.5);
+        }
+        @media (max-width: 768px){
+            mwl-calendar .cal-row-fluid .cal-cell1 {
+                width   :   100%;
+            }
+
+            mwl-calendar-month > div > div.cal-row-fluid.cal-row-head.ng-scope {
+                display     :   none;   
+            }
+
+            .cal-month-day {
+                border: solid 1px #e0e0e0;
+            }
+
+            mwl-calendar-week div.cal-row-fluid.cal-row-head > div > small > span {
+                display: inline-block;
+                width: 50%;
+            }
+
+            mwl-calendar mwl-calendar-week > div > div > div.cal-row-fluid.cal-row-head > div {
+                border : solid 1px #e0e0e0;
+            }
+
+            mwl-calendar .cal-row-head [class*=cal-cell], mwl-calendar .cal-row-head [class*=cal-cell]:first-child {
+                font-weight: bolder;
+                text-align: center;
+                border: 0 solid;
+                padding: 10px 0 20px 0;
+            }
+        }
+
+        @media screen {
+            
         }
         </style>
     </div>

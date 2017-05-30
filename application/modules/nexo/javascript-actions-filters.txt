@@ -61,10 +61,17 @@ test_order_type	:	{
 	screen		:	dashboard/nexo/commandes/lists/v2_checkout
 }
 
-cart_item_name  : {
+cart_before_item_name  : {
 	type		:	filter
-	desc		:	Let you filter item name on cart
+	desc		:	Let you filter content before item name
 	params		:	default value. A button provided to edit item price
+	screen		:	dashboard/nexo/commandes/lists/v2_checkout
+}
+
+cart_item_name : {
+	type		:	filter
+	desc		:	Let you filter item name
+	params		:	object { orignal : name, displayed : name }
 	screen		:	dashboard/nexo/commandes/lists/v2_checkout
 }
 
@@ -145,4 +152,18 @@ override_add_item : {
 item_loaded 		:	{
 	type 		:	filter
 	desc 		:	permet de filtre chaque produit récupéré de la boutique
+}
+
+reduce_form_cart : {
+	type 		:	filter,
+	des 		:	permet de filtrer le produit qui est en cours de réduction dans le panier, le paramètre est un object 
+	{
+		barcode : 	int/char
+		proceed : 	boolean // permet de déterminer si la procedure de suppression doit suivre sont cours.
+	}
+}
+
+customers_dropdown :  {
+	type 		:	filter,
+	desc 			:	vous permet de filter la liste des clients.
 }

@@ -22,8 +22,8 @@ $columns                    =   array(
     'TAILLE'                =>  __( 'Taille', 'nexo' ),
     'DESCRIPTION'           =>  __( 'Description', 'nexo' ),
 );?>
-<div class="row">
-    <div class="col-md-3" ng-repeat="( csvKey, csvVal ) in csvArray[0]" ng-show="csvArray[0].length > 0">
+<div class="row" ng-if="csvArray[0].length > 0">
+    <div class="col-md-3" ng-repeat="( csvKey, csvVal ) in csvArray[0]">
         <div class="input-group">
             <span class="input-group-addon">{{ csvVal }} - {{ csvKey }}</span>
             <select type="text" class="form-control" ng-model="columns_data[ csvKey ]" placeholder="" ng-options="k as v for (k, v) in columns" ng-change="checkOptions( csvKey )">
@@ -31,8 +31,8 @@ $columns                    =   array(
             </select>
         </div>
     </div>
+    <br>
 </div>
-<br>
 <div class="row">
     <div class="col-md-6">
         <h3><?php _e( 'Valeurs Par défaut', 'nexo' );?></h3>
@@ -61,6 +61,24 @@ $columns                    =   array(
           </label>
         </div>
 
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="addToCurrentItems">
+            <?php echo __( 'Ajouter les fichiers importés au stock actuel.', 'nexo' );?>
+          </label>
+        </div>
+        <div class="checkbox" ng-if="addToCurrentItems">
+          <label>
+            <input type="radio" ng-model="overwrite" name="treat_duplicate" value="false">
+            <?php echo __( 'Ne pas écraser les produits avec le même SKU/Code barre.', 'nexo' );?>
+          </label>
+        </div>
+        <div class="checkbox" ng-if="addToCurrentItems">
+          <label>
+            <input type="radio" ng-model="overwrite" name="treat_duplicate" value="true">
+            <?php echo __( 'Mettre à jour les produits avec le même SKU/Code barre.', 'nexo' );?>
+          </label>
+        </div>
     </div>
     <div class="col-md-6">
         <h3><?php echo __( 'Fichier à importer', 'nexo' );?></h3>

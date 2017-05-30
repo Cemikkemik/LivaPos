@@ -61,8 +61,7 @@ if( $groups ) {
 							?>" aria-describedby="basic-addon1"> -->
                 </div>
                 <?php if( ! empty( $field->description ) ):?>
-                <br />
-                <?php echo $field->description;?>
+				<span class="help-block"><?php echo strip_tags( $field->description );?></span>
                 <?php endif;?>
             </div>
             <?php
@@ -76,7 +75,10 @@ if( $groups ) {
                 <br />
                 <?php echo $input_fields[$field->field_name]->input;?>
 			</div>
-            	<?php echo $field->description;?>
+            	<?php if( ! empty( $field->description ) ):?>
+				<span class="help-block"><?php echo strip_tags( $field->description );?></span>
+                <?php endif;?>
+            </div>
             <?php
 								}
 							}

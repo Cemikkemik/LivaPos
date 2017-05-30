@@ -13,7 +13,7 @@ var dependency						=
 <?php echo json_encode(
 	$dependencies	=	$this->events->apply_filters(
 		'paybox_dependencies',
-		array( '$scope', '$compile', '$filter', '$http', 'serviceKeyboardHandler', 'serviceNumber' )
+		array( '$scope', '$compile', '$filter', '$http', '$rootScope', 'serviceKeyboardHandler', 'serviceNumber', 'hotkeys' )
 	)
 );?>;
 
@@ -101,8 +101,192 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	**/
 
 	$scope.bindKeyBoardEvent	=	function( $event ){
-		// console.log( $event );
+
+		for(let i = 0; i<10; i++ ) {
+			hotkeys.add({
+				combo: '' + i + '',
+				description: 'This one goes to 11',
+				callback: function() {
+					if( angular.element( '.payboxwrapper' ).length > 0 ) {
+						$scope.keyboardInput( i );
+					} else if( angular.element( '[name="item_sku_barcode"]' ).val() != '' ){
+						if( i != 0 ) {
+							angular.element( '#filter-list .item-visible' ).eq( i - 1 ).trigger( 'click' );
+						}						
+					}
+				}
+			});
+		}
+
+		hotkeys.add({
+			combo: '.',
+			description: 'This one goes to 11',
+			callback: function() {
+				if( angular.element( '.payboxwrapper' ).length > 0 ) {
+					$scope.keyboardInput( '.' );
+				}
+			}
+		});
+
+		hotkeys.add({
+			combo: 'backspace',
+			description: 'This one goes to 11',
+			callback: function() {
+				if( angular.element( '.payboxwrapper' ).length > 0 ) {
+					$scope.keyboardInput( "back" )
+				}
+			}
+		});
+
+		hotkeys.add({
+			combo: '+',
+			description: 'This one goes to 11',
+			callback: function() {
+				setTimeout(() => {
+					angular.element( '.enable_barcode_search' ).trigger( 'click' );
+				},100);
+			}
+		});
+
+		hotkeys.add({
+			combo: '<?php echo @$Options[ 'search_item' ] == null ? "shift+f" : @$Options[ 'search_item' ];?>',
+			description: 'This one goes to 11',
+			callback: function() {
+				setTimeout(() => {
+					angular.element( '[name="item_sku_barcode"]' ).val('');
+					angular.element( '[name="item_sku_barcode"]' ).focus();
+				},100)
+			}
+		});
+
+		hotkeys.add({
+			combo: 'escape',
+			description: 'This one goes to 11',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function( event ) {
+				angular.element( event.target ).blur();
+
+				if( angular.element( '.modal-dialog' ).length > 0 ) {
+					angular.element( 'div.bootbox div.modal-footer button[data-bb-handler="cancel" ]' ).trigger( 'click' );
+				}
+			}
+		});
+
+		hotkeys.add({
+			combo: 'enter',
+			description: 'This one goes to 11',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function() {
+
+				if( angular.element( '.payboxwrapper' ).length > 0 ) {
+					if( parseInt( $scope.paidAmount ) > 0 ) {
+						if( $scope.defaultSelectedPaymentNamespace != 'coupon' ) {
+							$scope.addPayment( $scope.defaultSelectedPaymentNamespace, $scope.paidAmount );
+						}						
+					} else {
+						angular.element( '[data-bb-handler="confirm"]' ).trigger( 'click' );
+					}
+				} else {
+					if( angular.element( '.modal-dialog' ).length > 0 ) {
+						angular.element( 'div.bootbox div.modal-footer button[data-bb-handler="confirm" ]' ).trigger( 'click' );
+					}
+				}
+				angular.element( event.target ).blur();
+			}
+		});
+
+		hotkeys.add({
+			combo: '<?php echo @$Options[ 'open_paywindow' ] == null ? "shift+p" : @$Options[ 'open_paywindow' ];?>',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			description: 'Launch Payment',
+			callback: function() {
+				if( angular.element( '.payboxwrapper' ).length == 0 ) {
+					$scope.openPayBox();
+				}
+			}
+		});		
+
+		hotkeys.add({
+			combo: '<?php echo @$Options[ 'sales_list' ] == null ? "home" : @$Options[ 'sales_list' ];?>',
+			description: 'This one goes to 11',
+			callback: function() {
+				$( '.home_btn' ).trigger( 'click' );
+			}
+		});
+
+		hotkeys.add({
+			combo: '<?php echo @$Options[ 'order_note' ] == null ? "shift+n" : @$Options[ 'order_note' ];?>',
+			description: 'Open order Note',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function() {
+				$( '[data-set-note]' ).trigger( 'click' );
+
+				setTimeout( () => {
+					$( '[order_note]' ).select();
+				}, 500 )
+			}
+		});
+
+		hotkeys.add({
+			combo: '<?php echo @$Options[ 'add_customer' ] == null ? "shift+c" : @$Options[ 'add_customer' ];?>',
+			description: 'To add a customer',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function() {
+				$( '.cart-add-customer' ).trigger( 'click' );
+
+				setTimeout( () => {
+					$( '[name="customer_name"]' ).select();
+				}, 500 )
+			}
+		});
+
+		hotkeys.add({
+			combo: '<?php echo @$Options[ 'void_order' ] == null ? "del" : @$Options[ 'void_order' ];?>',
+			description: 'To void an order',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function() {
+				$( '#cart-return-to-order' ).trigger( 'click' );
+			}
+		});
+
+		hotkeys.add({
+			combo: '<?php echo @$Options[ 'close_register' ] == null ? "shift+4" : @$Options[ 'close_register' ];?>',
+			description: 'To close a register',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function() {
+				$( '.close_register' ).trigger( 'click' );
+
+				setTimeout( () => {
+					$( '.open_balance' ).select();
+				}, 800 )
+			}
+		});
+
+		hotkeys.add({
+			combo: '<?php echo @$Options[ 'close_register' ] == null ? "shift+d" : @$Options[ 'close_register' ];?>',
+			description: 'To add discount',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function() {
+				$( '#cart-discount-button' ).trigger( 'click' );
+
+				setTimeout( () => {
+					$( '.percentage_discount' ).click();
+					$( '[name="discount_value]').select();
+				}, 800 )
+			}
+		});
+
+		hotkeys.add({
+			combo: '<?php echo @$Options[ 'cancel_discount' ] == null ? "shift+del" : @$Options[ 'cancel_discount' ];?>',
+			description: 'To void an order',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function() {
+				$( '.cart-discount' ).trigger( 'click' );
+			}
+		});
 	};
+
+	$scope.bindKeyBoardEvent();
 
 	/**
 	* Cancel Payment Edition
@@ -202,7 +386,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 
 				// @since 2.8.2 add order meta
 				this.CartMetas					=	NexoAPI.events.applyFilters( 'order_metas', v2Checkout.CartMetas );
-				order_details.METAS				=	JSON.stringify( v2Checkout.CartMetas );
+				order_details.METAS				=	v2Checkout.CartMetas;
 
 				if( _.indexOf( _.keys( $scope.paymentTypes ), payment_means ) != -1 ) {
 

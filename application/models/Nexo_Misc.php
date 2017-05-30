@@ -227,7 +227,9 @@ class Nexo_Misc extends CI_Model
     public function enable_demo( $demo = 'default' )
     {
         $this->empty_shop();
+        
         $this->events->do_action( 'nexo_enable_demo', $demo );
+
         if( $demo == 'default' ) {
             $this->load->view('../modules/nexo/inc/demo');
         } else if( $demo == 'clothes' ) {

@@ -54,10 +54,9 @@ class Reset_Shop extends CI_Model
                     ) );
 
                 } else {
-                    echo json_encode(array(
-                        'type'        =>    'warning',
-                        'msg'        =>    __('Impossible de déterminer l\'action à effectuer pour la restauration.', 'nexo')
-                    ));
+
+                    $this->Nexo_Misc->enable_demo( $this->input->post( 'reset_type' ) );
+
                 }
             } else {
                 echo json_encode(array(

@@ -84,7 +84,7 @@ class Do_setup extends Tendoo_Controller
     {
         // checks if tendoo is not installed
         if (! $this->setup->is_installed()):
-            redirect(array( 'do-setup' . (riake('lang', $_GET) ? '?lang=' . $_GET[ 'lang' ] : '') ));
+            redirect(array( 'do-setup' . ( $_GET[ 'lang' ] ? '?lang=' . $_GET[ 'lang' ] : '') ));
         endif;
 
         // load database
@@ -100,7 +100,7 @@ class Do_setup extends Tendoo_Controller
             );
 
             if ($exec == 'tendoo-installed') {
-                redirect(array( 'sign-in?redirect=dashboard/index&notice=' . $exec . (riake('lang', $_GET) ? '&lang=' . $_GET[ 'lang' ] : '') ));
+                redirect(array( 'sign-in?redirect=dashboard/index&notice=' . $exec . ( $_GET[ 'lang' ] ? '&lang=' . $_GET[ 'lang' ] : '') ));
             }
 
             $this->notice->push_notice($this->lang->line($exec));

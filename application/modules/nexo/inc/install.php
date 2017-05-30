@@ -244,6 +244,7 @@ class Nexo_Install extends CI_Model
 		  `REF_RAYON` INT NOT NULL,
 		  `REF_SHIPPING` INT NOT NULL,
 		  `REF_CATEGORIE` INT NOT NULL,
+		  `REF_PROVIDER` int NOT NULL,
 		  `QUANTITY` INT NOT NULL,
 		  `SKU` VARCHAR(220) NOT NULL,
 		  `QUANTITE_RESTANTE` INT NOT NULL,
@@ -315,13 +316,18 @@ class Nexo_Install extends CI_Model
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
 		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_articles_stock_flow` (
-		  `ID` int(11) NOT NULL AUTO_INCREMENT,
-		  `REF_ARTICLE_BARCODE` varchar(250) NOT NULL,
-		  `QUANTITE` int(11) NOT NULL,
-		  `DATE_CREATION` datetime NOT NULL,
-		  `AUTHOR` int(11) NOT NULL,
-		  `REF_COMMAND_CODE` varchar(250) NOT NULL,
-          `TYPE` varchar(200) NOT NULL,
+			`ID` int(11) NOT NULL AUTO_INCREMENT,
+			`REF_ARTICLE_BARCODE` varchar(250) NOT NULL,
+			`QUANTITE` int(11) NOT NULL,
+			`DATE_CREATION` datetime NOT NULL,
+			`AUTHOR` int(11) NOT NULL,
+			`REF_COMMAND_CODE` int(11) NOT NULL,
+			`REF_SHIPPING` int(11) NOT NULL,
+			`TYPE` varchar(200) NOT NULL,
+			`UNIT_PRICE` float(11) NOT NULL,
+			`TOTAL_PRICE` float(11) NOT NULL,
+			`REF_PROVIDER` int(11) NOT NULL,
+			`DESCRIPTION` text NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application>
+	<namespace>nexo-payments-gateway</namespace>
+	<name>Nexo Payment Gateway</name>
+	<author>Blair Jersyer</author>
+	<version>1.4</version>
+	<description>Add support for custom payment gateway on NexoPOS</description>
+	<main>nexo-payments-gateway.php</main>
+	<language>language/</language>
+	<dependencies>
+		<module namespace="nexo">Nexo</module>
+	</dependencies>
+</application>

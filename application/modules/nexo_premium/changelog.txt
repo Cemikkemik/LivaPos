@@ -1,3 +1,6 @@
+v2.6.4
+=====
+- Detailed report only support cash order
 v2.1.6
 =====
 - Make Profit and Sale report customizable.

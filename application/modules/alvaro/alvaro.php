@@ -12,7 +12,7 @@ class Alvaro_Module extends Tendoo_Module
         parent::__construct();
         $this->setup    =   new Alvaro_Install;
         $this->assets   =   new Alvaro_Assets;
-        $this->events->add_action( 'load_dashboard', [ $this, 'load_dashboard' ] );
+        $this->events->add_action( 'load_dashboard', [ $this, 'load_dashboard' ], 9 );
         $this->events->add_filter( 'admin_menus', [ $this, 'admin_menus' ], 99 );
         $this->events->add_action( 'do_enable_module', [ $this->setup, 'install' ] );
         $this->events->add_action( 'do_remove_module', [ $this->setup, 'uninstall' ] );
@@ -30,6 +30,21 @@ class Alvaro_Module extends Tendoo_Module
         $this->events->add_filter( 'saveorder_title_field', '__return_false' );
         $this->events->add_filter( 'saveorder_confirm_condition', [ $this, 'saveorder_conditions' ] );
         $this->events->add_filter( 'order_history_title', [ $this, 'order_history_title' ] );
+        $this->events->add_action( 'nexo_empty_shop', [ $this->setup, 'empty_tables' ]);
+        $this->events->add_action( 'angular_paybox_footer', [ $this, 'angular_paybox_footer' ] );
+        $this->events->add_filter( 'checkout_header_menus_1', [ $this, 'checkout_header_menus_1' ] );
+    }
+
+    /**
+     * Filter Checkout Menus
+     * @param array 
+     * @return array
+    **/
+    
+    public function checkout_header_menus_1( $menus )
+    {
+        $menus[0][ 'attrs' ][ 'ng-click' ]  =   'goTo(\'' . site_url([ 'dashboard', store_slug(), 'calendario', 'appointment' ]) . '\')';
+        return $menus;
     }
 
     public function add_fields( $fields )
@@ -57,6 +72,17 @@ class Alvaro_Module extends Tendoo_Module
 	}
 
     /**
+     * Angular PayBox Footer
+     * @param void
+     * @return void
+    **/
+    
+    public function angular_paybox_footer()
+    {
+        $this->load->module_view( 'alvaro', 'paybox_content' );
+    }
+
+    /**
      *  Admin Menus
      *  @param array admin menu
      *  @return array
@@ -72,6 +98,7 @@ class Alvaro_Module extends Tendoo_Module
             'title'     =>      __( 'Calendario Settings', 'alvaro' ),
             'href'      =>      site_url( [ 'dashboard', store_slug(), 'calendario/settings' ] )
         ];
+
 
         if( @$menus[ 'sales' ] ) {
             $menus  =   array_insert_after( 'sales', $menus, 'alvaro-commissions', array(
@@ -94,6 +121,11 @@ class Alvaro_Module extends Tendoo_Module
         }
 
         if( @$menus[ 'rapports' ] ) {
+            $menus[ 'rapports' ][]  =   [
+                'title'         =>  __( 'Commissions Report', 'alvaro' ),
+                'href'          =>  site_url([ 'dashboard', store_slug(), 'calendario', 'commission_report' ] )
+            ];
+
             $menus  =   array_insert_after( 'rapports', $menus, 'alvaro-log', array(
                 [
                     'title'     =>  __( 'Delete Log', 'alvaro' ),
@@ -101,6 +133,19 @@ class Alvaro_Module extends Tendoo_Module
                     'href'      =>  site_url([ 'dashboard', store_slug(), 'calendario/log' ] )
                 ]
             ) );
+
+            // remove cashier report
+            foreach( $menus[ 'rapports' ] as $key => $rapport ) {
+                if( preg_match( '#Controller_Stats_Caissier#', $rapport[ 'href' ] ) ) {
+                    unset( $menus[ 'rapports' ][ $key ] );
+                }
+            }
+        }
+
+        foreach( ( array )  @$menus[ 'nexo_settings' ] as $key => $menu ) {
+            if( preg_match( '#reset#', $menu[ 'href' ] ) ) {
+                unset( $menus[ 'nexo_settings' ][ $key ] );
+            }
         }
 
         return $menus;
@@ -123,7 +168,7 @@ class Alvaro_Module extends Tendoo_Module
 
 	public function crud_load( $crud )
 	{
-		$crud->add_group( 'np_options', __( 'Services Setup', 'nexo-playground-manager' ), array( 'COMMISSION', 'TIME' ), 'fa-star' );
+		$crud->add_group( 'np_options', __( 'Services Setup', 'alvaro' ), array( 'COMMISSION', 'TIME' ), 'fa-star' );
 		return $crud;
 	}
 
@@ -235,6 +280,20 @@ class Alvaro_Module extends Tendoo_Module
 
     public function load_dashboard()
     {
+        // edit stock fields
+        $this->load->config( 'nexo' );
+        $fields     =   $this->config->item( 'nexo_item_stock_group' );
+        $fields[]   =   'STOCK_ALERT';
+        $this->config->set_item( 'nexo_item_stock_group', $fields );
+
+        // filter product fields
+        $this->events->add_filter( 'load_product_crud', function( $crud ) {
+            // Ajouter une alerte
+            $crud->display_as( 'STOCK_ALERT', __( 'Alerte du stock', 'alvaro' ) );
+            $crud->field_description( 'STOCK_ALERT', __( 'When a product stock reach this treshold, an alert is shown. To disable, input "0".', 'alvaro' ) );
+            return $crud;
+        });
+
         $this->Gui->register_page_object( 'calendario', new Alvaro_Controller );
         $this->events->add_filter( 'stores_controller_callback', function( $controller ) {
             $controller[ 'calendario' ]     =  new Alvaro_Controller;
@@ -252,9 +311,9 @@ class Alvaro_Module extends Tendoo_Module
                 redirect([ 'dashboard', 'access-denied' ] );
             }
 
-            $this->events->add_filter( 'nexo_store_menus', '__return_false' );
+            $this->events->add_filter( 'nexo_store_menus', '__return_false', 20 );
 
-            if( ! is_multistore() && multistore_enabled() && $this->uri->uri_string() != 'dashboard/users/profile' ) {
+            if( ! is_multistore() && multistore_enabled() && ! in_array( $this->uri->uri_string(), [ 'dashboard/users/profile', 'dashboard/options/save' ] ) ) {
                 global $Options;
                 // Control store access
                 $this->load->model( 'Nexo_Stores' );
@@ -282,6 +341,33 @@ class Alvaro_Module extends Tendoo_Module
                         'href'      =>  site_url([ 'dashboard' ] )
                     ]
                 ];
+
+                return $menus;
+            }, 99 );
+        }
+
+        if( User::in_group( 'shop_cashier' ) ) {
+            if( is_multistore() ) {
+                if( $this->uri->segment( 2 ) == 'stores' && $this->uri->segment( 4 ) == null ) {
+                    redirect([ 'dashboard', store_slug(), 'calendario', 'cashier_dashboard' ] );
+                }
+            } else {
+                if( $this->uri->segment( 1 ) == 'dashboard' && $this->uri->segment( 2 ) == null ) {
+                    redirect([ 'dashboard', 'users', 'profile' ] );
+                }
+            }
+
+            $this->events->add_filter( 'admin_menus', function( $menus ) {
+                unset( $menus[ 'sales' ] );
+                unset( $menus[ 'alvaro-commissions' ] );
+                unset( $menus[ 'nexo_settings' ] );
+                unset( $menus[ 'nexo_shop' ] );
+
+                if( @$menus[ 'dashboard' ] != null ) {
+                    $menus[ 'dashboard' ][0][ 'href' ]    =   site_url([ 'dashboard', store_slug(), 'calendario', 'cashier_dashboard' ] );
+                } else {
+                    $menus[ 'store-dashboard' ][0][ 'href' ]    =   site_url([ 'dashboard', store_slug(), 'calendario', 'cashier_dashboard' ] );
+                }
 
                 return $menus;
             }, 99 );

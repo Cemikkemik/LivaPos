@@ -96,7 +96,8 @@ $( document ).ready(function(e) {
   </div>
   <div class="hidden-print"> <?php echo tendoo_info(__('Aperçu mensuel de l\'etat des ventes d\'articles selon la hierarchie des catégories. Tous les montants affichés sont brut.', 'nexo_premium'));
     ?> </div>
-  <table class="table table-bordered table-striped box">
+ <div class="table-responsive">
+ 		 <table class="table table-bordered table-striped box">
     <thead>
       <tr id="table_name">
         <td colspan="<?php echo count($Months) + 1 + intval($Categories_Depth);
@@ -153,6 +154,7 @@ $( document ).ready(function(e) {
       </tr>
     </tbody>
   </table>
+ </div>
   <hr />
   <p><?php echo @$Options[ 'nexo_other_details' ];
     ?></p>
@@ -307,7 +309,7 @@ $( document ).ready(function(e) {
 				});
 				$( 'table tbody tr' ).eq( key - 1 ).find( '[month-id="' + NexoPremium_Sales_Statistics.Index + '"]' ).html(
 					NexoPremium_Sales_Statistics.CurrencyBefore + ' ' +
-					'<span class="amount">' + NexoAPI.Format( TotalCommandeCash ) + '</span>' +
+					'<span class="amount" amount="' + TotalCommandeCash + '">' + NexoAPI.Format( TotalCommandeCash ) + '</span>' +
 					NexoPremium_Sales_Statistics.CurrencyAfter + ' '
 				);
 			});
@@ -322,11 +324,11 @@ $( document ).ready(function(e) {
 			$( '[total-id]' ).each( function(){
 				var StatVenteRowTotal	=	0;
 				$( '[month-id="' + $( this ).attr( 'total-id' ) + '"]' ).each( function(){
-					StatVenteRowTotal +=	NexoAPI.ParseFloat( $( this ).find( '.amount' ).html() );
+					StatVenteRowTotal +=	NexoAPI.ParseFloat( $( this ).find( '.amount' ).attr( 'amount' ) );
 				});
 				$( this ).html(
 					NexoPremium_Sales_Statistics.CurrencyBefore + ' ' +
-					'<span class="amount">' + NexoAPI.Format( StatVenteRowTotal ) + '</span>' +
+					'<span class="amount" amount="' + StatVenteRowTotal + '">' + NexoAPI.Format( StatVenteRowTotal ) + '</span>' +
 					NexoPremium_Sales_Statistics.CurrencyAfter + ' '
 				);
 			});
@@ -341,11 +343,11 @@ $( document ).ready(function(e) {
 			$( '[col-total]' ).each( function(){
 				var StatVenteColTotal	=	0;
 				$( this ).siblings( '[month-id]' ).each( function(){
-					StatVenteColTotal +=	NexoAPI.ParseFloat( $( this ).find( '.amount' ).html() );
+					StatVenteColTotal +=	NexoAPI.ParseFloat( $( this ).find( '.amount' ).attr( 'amount' ) );
 				});
 				$( this ).html(
 					NexoPremium_Sales_Statistics.CurrencyBefore + ' ' +
-					'<span class="amount">' + StatVenteColTotal + '</span>' +
+					'<span class="amount" amount="' + StatVenteColTotal + '">' + NexoAPI.Format( StatVenteColTotal ) + '</span>' +
 					NexoPremium_Sales_Statistics.CurrencyAfter + ' '
 				);
 			});
@@ -358,11 +360,11 @@ $( document ).ready(function(e) {
 		this.GlobalTotal		=	function(){
 			var SalesStatsGlobal	=	0;
 			$( '[global-total]' ).closest( 'tr' ).find('[total-id]' ).each( function(){
-				SalesStatsGlobal +=	NexoAPI.ParseFloat( $( this ).find( '.amount' ).html() );
+				SalesStatsGlobal +=	NexoAPI.ParseFloat( $( this ).find( '.amount' ).attr( 'amount' ) );
 			});
 			$( '[global-total]' ).html(
 				NexoPremium_Sales_Statistics.CurrencyBefore + ' ' +
-				'<span class="amount">' + SalesStatsGlobal + '</span>' +
+				'<span class="amount" amount="' + SalesStatsGlobal + '">' + NexoAPI.Format( SalesStatsGlobal ) + '</span>' +
 				NexoPremium_Sales_Statistics.CurrencyAfter + ' '
 			);
 		};

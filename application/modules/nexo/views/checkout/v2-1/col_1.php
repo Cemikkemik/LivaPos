@@ -3,36 +3,6 @@
     <li ng-click="showPart( 'cart' );" class="{{ cartIsActive }}"><a href="#"><?php echo __( 'Panier', 'nexo' );?></a></li>
     <li ng-click="showPart( 'grid' );" class="{{ gridIsActive }}"><a href="#"><?php echo __( 'Produits', 'nexo' );?></a></a></li>
 </ul>
-<script type="text/javascript">
-function toggleFullScreen() {
-  var doc = window.document;
-  var docEl = doc.documentElement;
-
-  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-  var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-
-  if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-    requestFullScreen.call(docEl);
-  }
-  else {
-    cancelFullScreen.call(doc);
-  }
-}
-function isFullScreen() {
-  var doc = window.document;
-  var docEl = doc.documentElement;
-
-  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-  var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-
-  if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-    return false;
-  }
-  else {
-    return true;
-  }
-}
-</script>
 <div class="box box-primary direct-chat direct-chat-primary" id="cart-details-wrapper"> <!-- style="visibility:hidden" -->
     <div class="box-header with-border" id="cart-header">
         <form action="#" method="post">
@@ -80,7 +50,7 @@ function isFullScreen() {
             <thead>
                 <tr class="active">
                     <td width="200" class="text-left"><?php _e('Article', 'nexo');?></td>
-                    <td width="130" class="text-center"><?php _e('Prix Unitaire', 'nexo');?></td>
+                    <td width="120" class="text-center"><?php _e('Prix Unitaire', 'nexo');?></td>
                     <td width="100" class="text-center"><?php _e('Quantité', 'nexo');?></td>
                     <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
                     <td width="90" class="text-center"><?php _e('Remise', 'nexo');?></td>
@@ -101,7 +71,7 @@ function isFullScreen() {
         <table class="table" id="cart-details">
             <tfoot>
                 <tr class="active">
-                    <td width="200" class="text-right"></td>
+                    <td width="200" class="text-left"><?php echo __( 'Nombre de produits', 'nexo' );?> ( <span class="items-number">0</span> )</td>
                     <td width="150" class="text-right"></td>
                     <td width="120" class="text-right"><?php
                         if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui') {
@@ -153,7 +123,7 @@ function isFullScreen() {
             </div>
             <?php echo $this->events->apply_filters( 'before_cart_save_button', '' );?>
             <div class="btn-group" role="group" ng-controller="saveBox">
-                <button type="button" class="btn btn-default btn-lg" ng-click="openSaveBox()" style="margin-bottom:0px;"> <i class="fa fa-hand-stop-o"></i>
+                <button type="button" class="hold_btn btn btn-default btn-lg" ng-click="openSaveBox()" style="margin-bottom:0px;"> <i class="fa fa-hand-stop-o"></i>
                     <span class="hidden-xs"><?php _e('En attente', 'nexo');?></span>
                 </button>
             </div>

@@ -215,6 +215,20 @@ class Nexo_Products extends CI_Model
 			$param[ 'CODEBAR' ]               	=    $this->generate_barcode();
 		}
 
+        //@snice 3.0.20
+        // insert as a stock flow
+        $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
+            'REF_PROVIDER'          =>  $param[ 'REF_PROVIDER' ],
+            'UNIT_PRICE'            =>  $param[ 'PRIX_DACHAT' ],
+            'TOTAL_PRICE'           =>  floatval( $param[ 'PRIX_DACHAT' ] )    *  intval( $param[ 'QUANTITY' ] ),
+            'AUTHOR'                =>  User::id(),
+            'TYPE'                  =>  'supply',
+            'REF_ARTICLE_BARCODE'   =>  $param[ 'CODEBAR' ],
+            'DATE_CREATION'         =>  $param[ 'DATE_CREATION' ],
+            'QUANTITE'              =>  $param[ 'QUANTITY' ],
+            'REF_SHIPPING'          =>  $param[ 'REF_SHIPPING' ]
+        ]);
+
 		// If Multi store is enabled
 		// @since 2.8
 		global $store_id;
@@ -244,13 +258,7 @@ class Nexo_Products extends CI_Model
         global $Options;
         $segments                			=    $this->uri->segment_array();
         $item_id                    		=    end($segments) ;
-        $article                        	=    $this->get_product( $item_id );
 
-        $quantite                        	=    intval($article[0][ 'QUANTITY' ]);
-        $old_defectueux                    	=    intval($article[0][ 'DEFECTUEUX' ]);
-
-		// $param[ 'QUANTITE_RESTANTE' ]    =    ((intval($param[ 'QUANTITY' ]) - intval($param[ 'DEFECTUEUX' ])) - intval($article[0][ 'QUANTITE_VENDU' ]));
-        $param[ 'QUANTITE_RESTANTE' ]    	=    ( intval($param[ 'QUANTITY' ] ) - intval( $article[0][ 'QUANTITE_VENDU' ] ) );
         $param[ 'DATE_MOD' ]            	=    date_now();
         $param[ 'AUTHOR' ]                	=    intval(User::id());
         // $param[ 'COUT_DACHAT' ]           	=    intval($param[ 'PRIX_DACHAT' ]) + intval($param[ 'FRAIS_ACCESSOIRE' ]);
@@ -283,10 +291,11 @@ class Nexo_Products extends CI_Model
 	 * @return void
 	**/
 
-	public function product_delete_related_component( $item_id )
+	public function product_delete_related_component( $item_id, $barcode )
 	{
 		$this->where( 'REF_ARTICLE', $item_id )->delete( store_prefix() . 'nexo_articles_meta' );
 		$this->where( 'REF_ARTICLE', $item_id )->delete( store_prefix() . 'nexo_articles_variations' );
+        $this->where( 'REF_ARTICLE_BARCODE', $barcode )->delete( store_prefix() . 'nexo_articles_stock_flow' );
 	}
 
 	/**
@@ -342,5 +351,52 @@ class Nexo_Products extends CI_Model
 
         $query    =    $this->db->get( store_prefix() . 'nexo_articles');
         return $query->result_array();
+    }
+
+    /**
+     * Stock Flow
+     * @param int
+     * @return array
+    **/
+
+    public function delete_stock_flow( $int ) 
+    {
+        $stock      =   $this->db->where( 'ID', $int )->get( store_prefix() . 'nexo_articles_stock_flow' )->result_array();
+        if( $stock ) {
+            $item       =   $this->db->where( 'CODEBAR', $stock[0][ 'REF_ARTICLE_BARCODE'] )
+            ->get( store_prefix() . 'nexo_articles' )->result_array();
+
+            if( in_array( $stock[0][ 'TYPE' ], [ 'supply', 'usable' ] ) ) {
+                // can only delete if the stock allow it
+                $result         =   intval( $item[0][ 'QUANTITE_RESTANTE' ] ) - ( intval( $stock[0][ 'QUANTITE' ] ) + 100000000 );
+                if( $result >= 0 ) {
+
+                    // update the current quantity
+                    $this->db->where( 'CODEBAR', $stock[0][ 'REF_ARTICLE_BARCODE' ] )->update( store_prefix() . 'nexo_articles', [
+                        'QUANTITE_RESTANTE' =>  $result
+                    ]);
+
+                    return $int;
+                }
+
+                echo json_encode([
+                    'success'               =>      false,
+                    'error_message'         =>      $this->lang->line( 'cant_delete_stock_flow' )
+                ]);
+                die;                
+            } else if( in_array( $stock[0][ 'TYPE' ], [ 'defective', 'adjustment'] ) ) {
+                // can only delete if the stock allow it
+                $result         =   intval( $item[0][ 'QUANTITE_RESTANTE' ] ) + intval( $stock[0][ 'QUANTITE' ] );
+                // update the current quantity
+                $this->db->where( 'CODEBAR', $stock[0][ 'REF_ARTICLE_BARCODE' ] )->update( store_prefix() . 'nexo_articles', [
+                    'QUANTITE_RESTANTE' =>  $result
+                ]);
+                
+                return $int;
+            }            
+            
+        }
+
+
     }
 }

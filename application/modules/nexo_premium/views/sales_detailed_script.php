@@ -58,8 +58,17 @@ tendooApp.controller( 'advancedSalesReportController', [ '$scope', '$http', func
         });
 
         _.each( $scope.entries, function( value ) {
-            _.propertyOf( $scope.paymentTypeDetails )( value.PAYMENT_TYPE ).nbr++
-            _.propertyOf( $scope.paymentTypeDetails )( value.PAYMENT_TYPE ).total   +=  parseFloat( value.TOTAL );
+            // if payment_type is empty, just skip it.
+            if( typeof $scope.paymentTypeDetails[ value.PAYMENT_TYPE ].nbr == 'undefined' ) {
+                $scope.paymentTypeDetails[ value.PAYMENT_TYPE ].nbr     =   0;
+            }
+
+            if( typeof $scope.paymentTypeDetails[ value.PAYMENT_TYPE ].total == 'undefined' ) {
+                $scope.paymentTypeDetails[ value.PAYMENT_TYPETYPE ].total     =   0;
+            }
+
+            $scope.paymentTypeDetails[ value.PAYMENT_TYPE ].nbr++;
+            $scope.paymentTypeDetails[ value.PAYMENT_TYPE ].total   +=  parseFloat( value.TOTAL );
 
             if( angular.isUndefined( _.propertyOf( $scope.authors )( value.AUTHOR_ID ) ) ) {
                 $scope.authors[ value.AUTHOR_ID ]   =   {

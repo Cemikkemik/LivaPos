@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use Carbon\Carbon;
+
 include_once( dirname( __FILE__ ) . '/alvaro_library.php' );
 
 class Alvaro_Controller extends Tendoo_Module
@@ -35,7 +37,7 @@ class Alvaro_Controller extends Tendoo_Module
         $crud->unset_delete();
 
 		// $fields				=	array( 'TITRE', 'DESCRIPTION' );
-		$crud->columns( 'ref_order', 'ref_author', 'commission_percentage', 'commission_amount', 'date_creation' );
+		$crud->columns( 'ref_order', 'ref_author', 'commission_amount', 'date_creation' );
         // $crud->fields( $fields );
         $crud->set_relation( 'ref_author', 'aauth_users', 'name' );
         $crud->set_relation( 'ref_order', store_prefix() . 'nexo_commandes', 'CODE' );
@@ -174,6 +176,50 @@ class Alvaro_Controller extends Tendoo_Module
         $data[ 'crud_content' ]    =    $this->delete_log_crud();
         $this->Gui->set_title( store_title( __( 'Log', 'alvaro' ) ) );
         $this->load->module_view( 'alvaro', 'alvaro_log', $data );
+    }
+
+    /**
+     *  Cashier Dashboard
+     *  @param void
+     *  @return vdoi
+    **/
+
+    public function cashier_dashboard()
+    {
+        $this->events->add_action( 'dashboard_footer', function(){
+            get_instance()->load->module_view( 'alvaro', 'sales_detailed_script', [
+                'start_date'    =>      Carbon::parse( date_now() )->startOfDay()->toDateTimeString(),
+                'end_date'      =>      Carbon::parse( date_now() )->endOfDay()->toDateTimeString()
+            ]);
+        });
+
+        $this->Gui->set_title( store_title( __( 'Cashier Dashboard', 'alvaro' ) ) );
+        $this->load->module_view( 'alvaro', 'cashier_dashboard' );
+    }
+
+    /**
+     *  Commission report
+     *  @param
+     *  @return
+    **/
+
+    public function commission_report()
+    {
+        $this->enqueue->js('../modules/nexo/bower_components/moment/min/moment.min');
+        $this->enqueue->js('../modules/nexo/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min');
+        $this->enqueue->js('../modules/nexo/bower_components/chosen/chosen.jquery');
+
+        $this->enqueue->css('../modules/nexo/bower_components/chosen/chosen');
+        $this->enqueue->css('../modules/nexo/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min');
+
+        $this->events->add_action( 'dashboard_footer', function(){
+            get_instance()->load->module_view( 'alvaro', 'commission_report_script', [
+                'Alvaro_Library'    =>  new Alvaro_Library
+            ]);
+        });
+
+        $this->Gui->set_title( store_title( __( 'Commission Report', 'alvaro' ) ) );
+        $this->load->module_view( 'alvaro', 'commission_report' );
     }
 
 }

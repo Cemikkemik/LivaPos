@@ -48,6 +48,9 @@ class Nexo_Settings_Controller extends CI_Model
 			} elseif ($page == 'invoices') { // @since 2.7.9
                 $this->Gui->set_title( store_title( __('Réglages des factures/reçu de caisse', 'nexo')));
                 $this->load->view("../modules/nexo/views/settings/{$page}.php");
+            } elseif ($page == 'keyboard') { // @since 2.7.9
+                $this->Gui->set_title( store_title( __('Réglages Clavier', 'nexo')));
+                $this->load->view("../modules/nexo/views/settings/{$page}.php");
             }
 			// Settings are now handled by another module
 			 elseif ($page == 'stripe') {

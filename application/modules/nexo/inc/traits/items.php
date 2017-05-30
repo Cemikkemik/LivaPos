@@ -4,7 +4,6 @@ use SimpleExcel\SimpleExcel;
 
 trait Nexo_items
 {
-
     /**
      *  Create Bulk Items
      *  @param
@@ -13,11 +12,51 @@ trait Nexo_items
 
     public function create_bulk_items_post()
     {
-        $this->db->query( 'TRUNCATE `' . $this->db->dbprefix . store_prefix() . 'nexo_articles`' );
-        $items      =   $this->post( 'items' );
-        $items      =   unique_multidim_array( $items, 'SKU' );
-        $items      =   unique_multidim_array( $items, 'CODEBAR' );
-        $this->db->insert_batch( store_prefix() . 'nexo_articles', $items );
+        // get all sku as in an array
+        $old_items      =   $this->db->get( store_prefix() . 'nexo_articles' )->result_array();
+        $skus           =   [];
+        $barcodes        =   [];
+
+        foreach( $old_items as $old_item ) {
+            $skus[ $old_item[ 'ID' ] ]      =   $old_item[ 'SKU' ];
+            $barcodes[ $old_item[ 'ID' ] ]   =   $old_item[ 'CODEBAR' ];
+        }
+
+        if( $this->post( 'refresh' ) == 'false' ) {
+            $this->db->query( 'TRUNCATE `' . $this->db->dbprefix . store_prefix() . 'nexo_articles`' );
+            $this->db->query( 'TRUNCATE `' . $this->db->dbprefix . store_prefix() . 'nexo_articles_metas`' );
+        }
+
+        foreach( $this->post( 'items' ) as $index => $item ) {
+            $randBarcode            =       $index . date( 'y' ) . date( 'i' ) . rand( 0, 999 );
+            if( empty( $item[ 'CODEBAR' ] ) ) {
+                $item[ 'CODEBAR' ]      =   $randBarcode;
+            }
+
+            if( empty( $item[ 'SKU' ] ) ) {
+                $item[ 'SKU' ]      =   $randBarcode;
+            }
+
+            if( empty( $item[ 'DESIGN' ] ) ) {
+                $item[ 'DESIGN' ]   =   'Unamed Item (' . $index . ')';
+            }
+            // if overwrite is enabeld
+            if( $this->post( 'overwrite' ) == 'true' ) {
+                if( in_array( $item[ 'SKU' ], $skus ) || in_array( $item[ 'CODEBAR' ], $barcodes ) ) {
+                    $this->db->where( 'ID', $item[ 'ID' ] )->update( store_prefix() . 'nexo_articles', $item );
+                } else {     
+                    $this->db->insert( store_prefix() . 'nexo_articles', $item );               
+                }
+            } else {
+                // otherwise, just save product which doesn't yet exists
+                if( ! in_array( $item[ 'SKU' ], $skus ) ) {
+                    $this->db->insert( store_prefix() . 'nexo_articles', $item );
+                }
+            }
+            
+        }
+
+        $this->__success();
     }
 
     /**
@@ -29,50 +68,71 @@ trait Nexo_items
 
     public function create_shipping_categories_post()
     {
-        $shippings  =   [];
+        if( $this->post( 'refresh' ) != 'true' ) {
+            $this->db->query( 'TRUNCATE `' . $this->db->dbprefix . store_prefix() . 'nexo_arrivages`' );
+            $this->db->query( 'TRUNCATE `' . $this->db->dbprefix . store_prefix() . 'nexo_categories`' );
+        }
 
-        $this->db->query( 'TRUNCATE `' . $this->db->dbprefix . store_prefix() . 'nexo_arrivages`' );
+        $shippings  =   [];  
+        $old_shippings      =   $this->db->get( store_prefix() . 'nexo_arrivages' )->result_array();
+        $old_shippings_ids  =   [];
+        foreach( $old_shippings as $shipping ) {
+            $old_shippings_ids[ $shipping[ 'ID' ] ]     =   $shipping[ 'TITRE' ];
+        }      
 
         if( $this->post( 'shippings' ) ) {
-
             // Create All available Shippings
             foreach( $this->post( 'shippings' ) as $shipping ) {
-                $this->db->insert( store_prefix() . 'nexo_arrivages', [
-                    'TITRE'     =>  ucwords( $shipping ),
-                    'AUTHOR'    =>      $this->post( 'author' ),
-                    'DATE_CREATION' =>  $this->post( 'date' )
-                ]);
-                $shippings[ url_title( $shipping, '_' ) ]   =   $this->db->insert_id();
+                // only insert if the shipping doesn't exists
+                if( ! in_array( ucwords( $shipping ), $old_shippings_ids ) ) {
+                    $this->db->insert( store_prefix() . 'nexo_arrivages', [
+                        'TITRE'     =>  ucwords( $shipping ),
+                        'AUTHOR'    =>      $this->post( 'author' ),
+                        'DATE_CREATION' =>  $this->post( 'date' )
+                    ]);
+                    $shippings[ url_title( $shipping, '_' ) ]   =   $this->db->insert_id();
+                }
             }
         } else {
-
-            // Create default shipping
-            $this->db->insert( store_prefix() . 'nexo_arrivages', [
-                'TITRE'     =>      $this->post( 'default_shipping_title' ),
-                'AUTHOR'    =>      $this->post( 'author' ),
-                'DATE_CREATION' =>  $this->post( 'date' ),
-                'ID'        =>      1
-            ]);
+            if( ! in_array( $this->post( 'default_shipping_title' ), $old_shippings_ids ) ) {
+                // Create default shipping
+                $this->db->insert( store_prefix() . 'nexo_arrivages', [
+                    'TITRE'     =>      $this->post( 'default_shipping_title' ),
+                    'AUTHOR'    =>      $this->post( 'author' ),
+                    'DATE_CREATION' =>  $this->post( 'date' ),
+                    'ID'        =>      1
+                ]);
+            }
         }
 
         $categories         =   array();
-        $this->db->query( 'TRUNCATE `' . $this->db->dbprefix . store_prefix() . 'nexo_categories`' );
+        $old_categories      =   $this->db->get( store_prefix() . 'nexo_categories' )->result_array();
+        $old_categories_ids  =   [];
+        foreach( $old_categories as $category ) {
+            $old_categories_ids[ $category[ 'ID' ] ]     =   $category[ 'NOM' ];
+        }
 
         if( $this->post( 'cats' ) ) {
-            foreach( $this->post( 'cats' ) as $cat ) {
-                $this->db->insert( store_prefix() . 'nexo_categories', [
-                    'NOM'           =>  ucwords( $cat ),
-                    'AUTHOR'        =>  $this->post( 'author' ),
-                    'DATE_CREATION' =>  $this->post( 'date' )
-                ]);
-                $categories[ url_title( $cat, '_' ) ]   =   $this->db->insert_id();
+            // only insert if the category doesn't exists
+            if( ! in_array( ucwords( $category ), $old_categories_ids ) ) {
+                foreach( $this->post( 'cats' ) as $cat ) {
+                    $this->db->insert( store_prefix() . 'nexo_categories', [
+                        'NOM'           =>  ucwords( $cat ),
+                        'AUTHOR'        =>  $this->post( 'author' ),
+                        'DATE_CREATION' =>  $this->post( 'date' )
+                    ]);
+                    $categories[ url_title( $cat, '_' ) ]   =   $this->db->insert_id();
+                }
             }
         } else {
-            $this->db->insert( store_prefix() . 'nexo_categories', [
-                'NOM'           =>      $this->post( 'default_cat_title' ),
-                'AUTHOR'        =>      $this->post( 'author' ),
-                'DATE_CREATION' =>  $this->post( 'date' )
-            ]);
+            // only insert if the category doesn't exists
+            if( ! in_array( $this->post( 'default_cat_title' ), $old_categories_ids ) ) {
+                $this->db->insert( store_prefix() . 'nexo_categories', [
+                    'NOM'           =>      $this->post( 'default_cat_title' ),
+                    'AUTHOR'        =>      $this->post( 'author' ),
+                    'DATE_CREATION' =>  $this->post( 'date' )
+                ]);
+            }
         }
 
         return $this->response( [
@@ -88,15 +148,23 @@ trait Nexo_items
 
     public function item_get($id = null, $filter = 'ID' )
     {
-        if ($id != null && $filter != 'sku-barcode') {
+        if ($id != null && ! in_array( $filter, [ 'sku-barcode', 'search' ] ) ) {
             $result        =    $this->db->where($filter, $id)->get( store_prefix() . 'nexo_articles')->result();
             $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
         } elseif ($filter == 'sku-barcode') {
             $result        =    $this->db
-                                ->where('CODEBAR', $id)
-                                ->or_where('SKU', $id)
-                                ->get( store_prefix() . 'nexo_articles')
-                                ->result();
+            ->where('CODEBAR', $id)
+            ->or_where('SKU', $id)
+            ->get( store_prefix() . 'nexo_articles')
+            ->result();
+            $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
+        } elseif( $filter == 'search' ) {
+            $result        =    $this->db
+            ->where('CODEBAR', $id)
+            ->or_where('SKU', $id)
+            ->or_like( 'DESIGN', $id )
+            ->get( store_prefix() . 'nexo_articles')
+            ->result();
             $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
         } else {
             $this->db->select('*,
@@ -107,6 +175,21 @@ trait Nexo_items
             ->join( store_prefix() . 'nexo_categories', store_prefix() . 'nexo_articles.REF_CATEGORIE = ' . store_prefix() . 'nexo_categories.ID');
             $this->response($this->db->get()->result());
         }
+    }
+
+    /** 
+     * Search Item
+    **/
+
+    public function item_search_post() 
+    {
+        $result        =    $this->db
+        ->where('CODEBAR', $this->post( 'fetch' ) )
+        ->or_where('SKU', $this->post( 'fetch' ) )
+        ->or_like( 'DESIGN', $this->post( 'fetch' ) )
+        ->get( store_prefix() . 'nexo_articles')
+        ->result();
+        $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
     }
 
     /**
@@ -383,7 +466,68 @@ trait Nexo_items
         }
     }
 
+    /**
+     * Stock Adjustment
+     * @return json
+    **/
 
+    public function item_stock_post()
+    {
+        // get current item stock
+        $item       =   $this->db->where( 'CODEBAR', $this->post( 'item_barcode' ) )->get( store_prefix() . 'nexo_articles' )->result_array();
+        // required
+        if( $this->post( 'item_barcode' ) != null && $this->post( 'item_qte' ) != null && $this->post( 'type' ) != null && $item ) {
+            $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
+                'REF_ARTICLE_BARCODE'   =>  $this->post( 'item_barcode' ),
+                'QUANTITE'              =>  $this->post( 'item_qte' ),
+                'DATE_CREATION'         =>  $this->post( 'date_creation' ),
+                'AUTHOR'                =>  $this->post( 'author' ),
+                'TYPE'                  =>  $this->post( 'type' ), // defective, usable, supply, ajustment
+                'UNIT_PRICE'            =>  ( float ) $this->post( 'unit_price' ),
+                'TOTAL_PRICE'           =>  ( float ) $this->post( 'unit_price' ) * ( int ) $this->post( 'item_qte' ),
+                'DESCRIPTION'           =>  $this->post( 'description' ) == null ? '' : $this->post( 'description' ),
+                'REF_PROVIDER'          =>  $this->post( 'ref_provider' ) == null ? '' : $this->post( 'ref_provider' ),
+                'REF_SHIPPING'          =>  $this->post( 'ref_shipping' ) == null ? '' : $this->post( 'ref_shipping' ),
+            ]);
 
+            // Now increase the current stock of the item
+            if( in_array( $this->post( 'type' ), [ 'defective', 'adjustment' ] ) ) {
+                $remaining_qte      =   intval( $item[0][ 'QUANTITE_RESTANTE' ] ) - intval( $this->post( 'item_qte' ) );
+            } else if( in_array( $this->post( 'type' ), [ 'supply' ] )) { // 'usable' is only used by the refund feature
+                $remaining_qte      =   intval( $item[0][ 'QUANTITE_RESTANTE' ] ) + intval( $this->post( 'item_qte' ) );
+            }
 
+            $this->db->where( 'CODEBAR', $this->post( 'item_barcode' ) )->update( store_prefix() . 'nexo_articles', [
+                'QUANTITE_RESTANTE'     =>  $remaining_qte
+            ]);
+
+            return $this->__success();
+        }
+        return $this->__failed();
+    }
+
+    /**
+     * Get Item Stock
+    **/
+
+    public function item_stock_get( $barcode )
+    {
+        $stock_query    =   $this->db->select( '
+        ' . store_prefix() . 'nexo_articles_stock_flow.DATE_CREATION as date,
+        ' . store_prefix() . 'nexo_articles_stock_flow.ID as id,
+        ' . store_prefix() . 'nexo_articles_stock_flow.QUANTITE as quantity,
+        ' . store_prefix() . 'nexo_articles_stock_flow.TYPE as type,
+        ' . store_prefix() . 'nexo_articles.CODEBAR as codebar,
+        ' . store_prefix() . 'nexo_articles_stock_flow.DESCRIPTION as description,
+        aauth_users.name as author' )
+        ->from( store_prefix() . 'nexo_articles_stock_flow' )
+        ->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_articles_stock_flow.REF_ARTICLE_BARCODE' )
+        ->join( 'aauth_users', 'aauth_users.id = ' . store_prefix() . 'nexo_articles_stock_flow.AUTHOR' )
+        ->where( store_prefix() . 'nexo_articles.CODEBAR', $barcode )
+        ->order_by( store_prefix() . 'nexo_articles_stock_flow.ID', 'desc' )
+        ->limit( '10' )
+        ->get()->result();
+
+        return $this->response( $stock_query, 200 );
+    }
 }

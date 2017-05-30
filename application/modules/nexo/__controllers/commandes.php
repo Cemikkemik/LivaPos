@@ -240,11 +240,11 @@ class Nexo_Commandes extends CI_Model
 
     public function filter_grocery_list_item_class($class, $row)
     {
-        $Advance        =    'nexo_order_advance';
-        $Cash            =   'nexo_order_comptant';
-        $Estimate        =   'nexo_order_devis';
+        $Advance            =    'nexo_order_advance';
+        $Cash               =   'nexo_order_comptant';
+        $Estimate           =   'nexo_order_devis';
 
-        $nexo_order_types    =    array_flip( $this->config->item('nexo_order_types') );
+        $nexo_order_types   =    array_flip( $this->config->item('nexo_order_types') );
 
         if (@$nexo_order_types[ $row->TYPE ]    == $Advance) {
             return 'info';
@@ -311,11 +311,11 @@ class Nexo_Commandes extends CI_Model
         foreach ($actions as $key => $action) {
             $order_type        =    array_flip($this->config->item('nexo_order_types'));
 
-            if ($order_type[ $row->TYPE ] != 'nexo_order_comptant' && $action->css_class == 'btn btn-info fa fa-file') {
+            if ( @$order_type[ $row->TYPE ] != 'nexo_order_comptant' && $action->css_class == 'btn btn-info fa fa-file') {
                 unset($grocery_actions_obj[ $key ]);
             }
 			// Hide edit for complete order
-			if ($order_type[ $row->TYPE ] == 'nexo_order_comptant' && trim( $action->css_class ) == 'btn btn-default fa fa-edit' ) {
+			if ( @$order_type[ $row->TYPE ] == 'nexo_order_comptant' && trim( $action->css_class ) == 'btn btn-default fa fa-edit' ) {
                 unset($grocery_actions_obj[ $key ]);
             }
         }

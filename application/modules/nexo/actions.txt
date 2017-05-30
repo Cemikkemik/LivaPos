@@ -140,3 +140,8 @@ Regroupe toutes les actions de la boutique
  * nexo_enable_demo
  * Permet d'activer la démonstration
 **/
+
+/**
+ * nexo_loaded
+ * When nexo is loaded 
+**/

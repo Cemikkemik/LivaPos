@@ -24,6 +24,7 @@ class Bulksms extends REST_Controller
     
     public function send_sms_post($AccountSid = null, $AuthToken = null)
     {
+        return;
         $this->load->helper('nexo_sms');
         
         /*
@@ -39,8 +40,8 @@ class Bulksms extends REST_Controller
         /*
         * Please see the FAQ regarding HTTPS (port 443) and HTTP (port 80/5567)
         */
-        $url = $this->post('http_url'); //'https://bulksms.vsms.net/eapi/submission/send_sms/2/2.0';
-        $port = $this->post('port'); //443;
+        $url        = $this->post('http_url'); //'https://bulksms.vsms.net/eapi/submission/send_sms/2/2.0';
+        $port       = $this->post('port'); //443;
 
         /*
         * A 7-bit GSM SMS message can contain up to 160 characters (longer messages can be

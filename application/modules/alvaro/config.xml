@@ -1,7 +1,7 @@
 <application>
     <name>Calendario</name>
     <namespace>alvaro</namespace>
-    <version>1.5.12</version>
+    <version>1.8.5</version>
     <author>Blair Jersyer</author>
     <description>Agregar al calendario NexoPOS de características para el software de cita.</description>
     <language>/language</language>

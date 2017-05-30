@@ -302,7 +302,7 @@ class grocery_CRUD_Field_Types
             case 'multiselect':
                 $value_as_array = array();
                 foreach (explode(",", $value) as $row_value) {
-                    $value_as_array[] = array_key_exists($row_value, $field_info->extras) ? $field_info->extras[$row_value] : $row_value;
+                    $value_as_array[] = array_key_exists($row_value, ( array ) $field_info->extras) ? $field_info->extras[$row_value] : $row_value;
                 }
                 $value = implode(",", $value_as_array);
             break;
@@ -1550,16 +1550,21 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 
     protected function _print_webpage($data)
     {
-        $string_to_print = "<meta charset=\"utf-8\" /><style type=\"text/css\" >
-		#print-table{ color: #000; background: #fff; font-family: Verdana,Tahoma,Helvetica,sans-serif; font-size: 13px;}
-		#print-table table tr td, #print-table table tr th{ border: 1px solid black; border-bottom: none; border-right: none; padding: 4px 8px 4px 4px}
-		#print-table table{ border-bottom: 1px solid black; border-right: 1px solid black}
-		#print-table table tr th{text-align: left;background: #ddd}
-		#print-table table tr:nth-child(odd){background: #eee}
-		</style>";
-        $string_to_print .= "<div id='print-table'>";
-
-        $string_to_print .= '<table width="100%" cellpadding="0" cellspacing="0" ><tr>';
+        ob_start();
+        ?>
+        <style>
+        @media print {
+            table {
+                font-size:0.8em;
+            }
+        }
+        
+        </style>
+        <?php
+        $css        =   ob_get_clean();
+        $string_to_print =  '<style type="text/css">' . get_instance()->load->module_view( 'grocerycrud', 'bootstrap-style', null, true ) . '</style>';
+        $string_to_print .= "<br><h3 class=\"text-center\">" . $data->subject . "</h3><br><div id='print-table'>";
+        $string_to_print .= '<table width="100%" cellpadding="0" cellspacing="0" class="table table-striped table-bordered"><tr>';
         foreach ($data->columns as $column) {
             $string_to_print .= "<th>".$column->display_as."</th>";
         }
@@ -1573,9 +1578,9 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
             $string_to_print .= "</tr>";
         }
 
-        $string_to_print .= "</table></div>";
+        $string_to_print .= "</table></div>" . $css;
 
-        echo xss_clean($string_to_print);
+        echo $string_to_print;
         die();
     }
 
@@ -2275,10 +2280,14 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
         $select_title = str_replace('{field_display_as}', $field_info->display_as, $this->l('set_relation_title'));
         $input = "<select id='field-{$field_info->name}' name='{$field_info->name}[]' multiple='multiple' size='8' class='chosen-multiple-select' data-placeholder='$select_title' style='width:510px;' >";
 
-        foreach ($options_array as $option_value => $option_label) {
-            $selected = !empty($value) && in_array($option_value, $selected_values) ? "selected='selected'" : '';
-            $input .= "<option value='$option_value' $selected >$option_label</option>";
+        // @since 1.7.8
+        if( $options_array ) {
+            foreach ($options_array as $option_value => $option_label) {
+                $selected = !empty($value) && in_array($option_value, $selected_values) ? "selected='selected'" : '';
+                $input .= "<option value='$option_value' $selected >$option_label</option>";
+            }
         }
+
 
         $input .= "</select>";
 

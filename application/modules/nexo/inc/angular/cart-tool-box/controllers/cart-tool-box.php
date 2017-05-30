@@ -1,5 +1,7 @@
+<?php global $Options;?>
 <script>
-tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout', function( $http, $compile, $scope, $timeout ) {
+tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout', 'hotkeys', 
+	function( $http, $compile, $scope, $timeout, hotkeys ) {
 
 	$scope.loadedOrders				=	new Object;
 	$scope.orderDetails				=	null;
@@ -183,23 +185,13 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 		$scope.orderDetails						=	null;
 	}
 
-
-}]);
-
-tendooApp.controller( 'fullScreenCTRL', [ '$scope', function( $scope ) {
-	/**
-	 * Open FullScreen
-	**/
-
-	$scope.openFullScreen		=	function(){
-		toggleFullScreen();
-		setTimeout( function(){
-			if( v2Checkout.CompactMode == true ) {
-				v2Checkout.fixHeight(true);
-			} else {
-				v2Checkout.toggleCompactMode(true);
-			}
-		}, 200 );
-	}
+	hotkeys.add({
+		combo: '<?php echo @$Options[ 'pending_order' ] == null ? "shift+s" : @$Options[ 'pending_order' ];?>',
+		description: 'This one goes to 11',
+		allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+		callback: function() {
+			$scope.openHistoryBox()
+		}
+	});
 }]);
 </script>

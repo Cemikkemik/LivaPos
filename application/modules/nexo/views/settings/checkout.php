@@ -218,6 +218,18 @@ $this->Gui->add_item(array(
     )
 ), 'Nexo_checkout2', 2);
 
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    $option_prefix . 'enable_quick_search',
+    'label'        =>    __('Activer la recherche rapide ?', 'nexo'),
+	'description'	=>	__( 'Si votre boutique contient beaucoup de produits, l\'utilisation de la recherche rapide est indispensable.', 'nexo' ),
+    'options'    =>    array(
+		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
+        'no'        =>    __('Non', 'nexo'),
+		'yes'        =>    __('Oui', 'nexo')
+    )
+), 'Nexo_checkout2', 2 );
+
 
 $this->Gui->add_item(array(
     'type'        =>    'select',

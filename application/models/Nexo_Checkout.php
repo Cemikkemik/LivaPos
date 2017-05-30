@@ -249,6 +249,11 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->create_perm('edit_coupons',    $this->lang->line( 'edit_coupons' ),        $this->lang->line( 'edit_coupons_details' ));
         $this->aauth->create_perm('delete_coupons',    $this->lang->line( 'delete_coupons' ),        $this->lang->line( 'delete_coupons_details' ));
 
+        // Item Stock
+        $this->aauth->create_perm('create_item_stock',    $this->lang->line( 'create_item_stock' ),        $this->lang->line( 'create_item_stock_details' ));
+        $this->aauth->create_perm('edit_item_stock',    $this->lang->line( 'edit_item_stock' ),        $this->lang->line( 'edit_item_stock_details' ));
+        $this->aauth->create_perm('delete_item_stock',    $this->lang->line( 'delete_item_stock' ),        $this->lang->line( 'delete_item_stock_details' ));
+
         /**
          * Permission for Cashier
         **/
@@ -339,6 +344,11 @@ class Nexo_Checkout extends CI_Model
         // Shop Track User Activity
         $this->aauth->allow_group('shop_manager', 'read_shop_user_tracker');
         $this->aauth->allow_group('shop_manager', 'delete_shop_user_tracker');
+
+        // Stock Entry
+        $this->aauth->allow_group('shop_manager', 'create_item_stock');
+        $this->aauth->allow_group('shop_manager', 'edit_item_stock');
+        $this->aauth->allow_group('shop_manager', 'delete_item_stock');
 
         // Read Reports
         $this->aauth->allow_group('shop_manager', 'read_shop_reports');
@@ -433,6 +443,12 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->allow_group('master', 'delete_shop');
 		$this->aauth->allow_group('master', 'edit_shop');
 
+        //@since 3.0.20
+        // Stock Entry
+        $this->aauth->allow_group('master', 'create_item_stock');
+        $this->aauth->allow_group('master', 'edit_item_stock');
+        $this->aauth->allow_group('master', 'delete_item_stock');
+
         /**
          * Permission for Shop Test
         **/
@@ -489,6 +505,11 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->allow_group('shop_tester', 'edit_shop_registers');
 		$this->aauth->allow_group('shop_tester', 'view_shop_registers');
 
+        //@since 3.0.20
+        // Stock Entry
+        $this->aauth->allow_group('shop_tester', 'create_item_stock');
+        $this->aauth->allow_group('shop_tester', 'edit_item_stock');
+
 		// @since 2.8
 		$this->aauth->allow_group('master', 'enter_shop');
         $this->aauth->allow_group('master', 'create_shop');
@@ -512,7 +533,6 @@ class Nexo_Checkout extends CI_Model
 
         $this->aauth->allow_group( 'shop_tester', 'create_coupons');
         $this->aauth->allow_group( 'shop_tester', 'edit_coupons');
-        // $this->aauth->allow_group( 'shop_tester', 'delete_coupons');
     }
 
     /**
@@ -549,6 +569,7 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->deny_group('shop_manager', 'create_shop_items');
         $this->aauth->deny_group('shop_manager', 'edit_shop_items');
         $this->aauth->deny_group('shop_manager', 'delete_shop_items');
+
 
         // Shop categories
         $this->aauth->deny_group('shop_manager', 'create_shop_categories');
@@ -601,6 +622,11 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->deny_group('shop_manager', 'edit_shop');
         $this->aauth->deny_group('shop_manager', 'delete_shop');
 		$this->aauth->deny_group('shop_manager', 'enter_shop');
+
+        //@since 3.0.20
+        $this->aauth->deny_group('shop_manager', 'create_item_stock');
+        $this->aauth->deny_group('shop_manager', 'edit_item_stock');
+        $this->aauth->deny_group('shop_manager', 'delete_item_stock');
 
         // Master
         // Orders
@@ -673,6 +699,11 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->deny_group('master', 'edit_shop_registers');
         $this->aauth->deny_group('master', 'delete_shop_registers');
 
+        //@since 3.0.20
+        $this->aauth->deny_group('master', 'create_item_stock');
+        $this->aauth->deny_group('master', 'edit_item_stock');
+        $this->aauth->deny_group('master', 'delete_item_stock');
+
         // Denied Permissions for Shop Test
         // Orders
         $this->aauth->deny_group('shop_tester', 'create_shop_orders');
@@ -731,6 +762,11 @@ class Nexo_Checkout extends CI_Model
         $this->aauth->deny_group('shop_tester', 'create_shop');
         $this->aauth->deny_group('shop_tester', 'edit_shop');
 		$this->aauth->deny_group('shop_tester', 'enter_shop');
+        
+        //@since 3.0.20
+        $this->aauth->deny_group('shop_tester', 'create_item_stock');
+        $this->aauth->deny_group('shop_tester', 'edit_item_stock');
+        $this->aauth->deny_group('shop_tester', 'delete_item_stock');
 
         // For Cashier
         // Orders
@@ -799,6 +835,8 @@ class Nexo_Checkout extends CI_Model
         ' . store_prefix() . 'nexo_commandes.DATE_CREATION as DATE_CREATION,
         ' . store_prefix() . 'nexo_commandes.DATE_MOD as DATE_MOD,
         ' . store_prefix() . 'nexo_clients.NOM as customer_name,
+        ' . store_prefix() . 'nexo_clients.TEL as customer_phone,
+        ' . store_prefix() . 'nexo_commandes.ID as ORDER_ID,
         aauth_users.name as author_name' )
         ->from( store_prefix() . 'nexo_commandes' )
         ->join( store_prefix() . 'nexo_clients', store_prefix() . 'nexo_commandes.REF_CLIENT = ' . store_prefix() . 'nexo_clients.ID' )

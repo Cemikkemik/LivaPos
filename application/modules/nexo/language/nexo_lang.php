@@ -103,3 +103,13 @@ $lang[ 'edit_coupons' ]                     =   __( 'Modifier les coupons', 'nex
 $lang[ 'delete_coupons_details' ]           =   __( 'Donne les droits pour supprimer des coupons', 'nexo' );
 $lang[ 'delete_coupons' ]                   =   __( 'Suppressions des coupons', 'nexo' );
 $lang[ 'coupon' ]                           =   __( 'Coupon', 'nexo' );
+
+
+// @since 3.0.20
+$lang[ 'create_item_stock' ]                =   __( 'Gestion du stock', 'nexo' );
+$lang[ 'create_item_stock_details' ]        =   __( 'Confère la capacité à ajouter une entrée dans le stock', 'nexo' );
+$lang[ 'edit_item_stock' ]                  =   __( 'Modification du stock', 'nexo' );
+$lang[ 'edit_item_stock_details' ]          =   __( 'Confère la capacité à modifier une entrée dans le stock', 'nexo' );
+$lang[ 'delete_item_stock' ]                =   __( 'Gestion du stock', 'nexo' );
+$lang[ 'delete_item_stock_details' ]        =   __( 'Confère la capacité à supprimer une entrée dans le stock', 'nexo' );
+$lang[ 'cant_delete_stock_flow' ]           =   __( 'Vous ne pouvez pas supprimer cette entrée, car le stock disponible ne le permet pas.', 'nexo' );

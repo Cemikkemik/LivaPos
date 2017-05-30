@@ -2,7 +2,7 @@
 <application>
 	<name>Grocery Crud</name>
 	<description>grocery CRUD is an open source library that makes a developer's life easier. Just few lines of code and you can create a full stable CRUD with nice views.</description>
-	<version>1.7.7</version>
+	<version>1.7.8</version>
 	<namespace>grocerycrud</namespace>
 	<main>grocerycrud.php</main>
 </application>

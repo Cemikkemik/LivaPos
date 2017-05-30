@@ -51,7 +51,7 @@ if (typeof Object.create !== 'function') {
 			$bar.append(this.options.template).find('.noty_text').html(this.options.text);
 			
 			// To fix alert class by removing it
-			$bar.find('.noty_text').html( '<p>' + $bar.find('.noty_text p').html() + '</p>' );
+			$bar.find('.noty_text').html( '<p>' + $bar.find('.noty_text').html() + '</p>' );
 
 			this.$bar = (this.options.layout.parent.object !== null) ? $(this.options.layout.parent.object).css(this.options.layout.parent.css).append($bar) : $bar;
 			

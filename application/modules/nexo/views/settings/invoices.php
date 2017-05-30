@@ -24,7 +24,8 @@ $this->Gui->add_meta( array(
 		'submit'	=>	array(
 			'label'	=>	__( 'Sauvegarder les réglages', 'nexo' )
 		)
-	)
+	),
+	'use_namespace'	=>	false
 ) );
 
 /**

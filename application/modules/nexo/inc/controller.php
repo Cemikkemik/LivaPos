@@ -4,9 +4,9 @@ class Nexo_Controller extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->events->add_action('load_dashboard', array( $this, 'load_dashboard' ));
-        $this->events->add_action('load_frontend', array( $this, 'frontend' ));
-		$this->events->add_filter('admin_menus', array( $this, 'menus' ), 15);
+        $this->events->add_action( 'load_dashboard', array( $this, 'load_dashboard' ), 10 );
+        $this->events->add_action( 'load_frontend', array( $this, 'frontend' ));
+		$this->events->add_filter( 'admin_menus', array( $this, 'menus' ), 15);
     }
     public function frontend()
     {
@@ -233,12 +233,21 @@ class Nexo_Controller extends CI_Model
 					'title'        =>    __('Ajouter un article', 'nexo'),
 					'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/produits/lists/add'),
 				),
+				// @since 3.0.20
 				array(
-					'title'        =>    __('Liste des rayons', 'nexo'),
+					'title'		=>	__( 'Gestion du stock', 'nexo' ),
+					'href'		=>	site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'stock_supply' ] )
+				),
+                array(
+                    'title'         =>  __( 'Importer les articles', 'nexo' ),
+                    'href'          =>  site_url( array( 'dashboard', store_slug(), 'nexo_import', 'items' ) )
+                ),
+				array(
+					'title'        =>    __('Liste des départements', 'nexo'),
 					'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/rayons/lists'),
 				),
 				array(
-					'title'        =>    __('Ajouter un rayon', 'nexo'),
+					'title'        =>    __('Ajouter un département', 'nexo'),
 					'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/rayons/lists/add'),
 				),
 				array(
@@ -248,11 +257,7 @@ class Nexo_Controller extends CI_Model
 				array(
 					'title'        =>    __('Ajouter une catégorie', 'nexo'),
 					'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/categories/lists/add'),
-				),
-                array(
-                    'title'         =>  __( 'Importer les articles', 'nexo' ),
-                    'href'          =>  site_url( array( 'dashboard', store_slug(), 'nexo_import', 'items' ) )
-                )
+				)
 			));
 
 				$Nexo_Menus[ 'vendors' ]	=	array(
@@ -416,6 +421,11 @@ class Nexo_Controller extends CI_Model
 						'title'            =>    __('Factures & Reçus', 'nexo'),
 						'icon'            =>    'fa fa-gear',
 						'href'            =>    site_url(array( 'dashboard', $store_uri . 'nexo', 'settings', 'invoices' ))
+					),
+					array(// @since 3.0.19
+						'title'            =>    __('Raccourcis Claviers', 'nexo'),
+						'icon'            =>    'fa fa-keyboard-o',
+						'href'            =>    site_url(array( 'dashboard', $store_uri . 'nexo', 'settings', 'keyboard' ))
 					),
 					array(
 						'title'            =>    __('Clients', 'nexo'),

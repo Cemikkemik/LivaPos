@@ -53,17 +53,21 @@ class Alvaro_Library extends Tendoo_Module
 
     public function get_cashiers( $cashiers )
     {
-        global $Options;
-        $store_id   =   get_store_id();
-        if( $cashiers ) {
-            foreach( ( Array ) $cashiers as $key => $cashier ) {
-                $access     =   @$Options[ 'store_access_' . $cashier[ 'id' ] . '_' . $store_id ];
-                if( $access == null ) {
-                    unset( $cashiers[ $key ] );
+        if( multistore_enabled() ) {
+            global $Options;
+            $store_id   =   get_store_id();
+            if( $cashiers ) {
+                foreach( ( Array ) $cashiers as $key => $cashier ) {
+                    $access     =   @$Options[ 'store_access_' . $cashier->user_id . '_' . $store_id ];
+                    if( in_array( $access, [ null, 'no' ] ) ) {
+                        unset( $cashiers[ $key ] );
+                    }
                 }
+                return $cashiers;
             }
+        } else {
             return $cashiers;
-        }
+        }       
     }
 
 }

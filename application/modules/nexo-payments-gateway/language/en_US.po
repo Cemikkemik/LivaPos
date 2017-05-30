@@ -1,0 +1,174 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Nexo Payment Gateway\n"
+"POT-Creation-Date: 2016-12-23 11:00+0100\n"
+"PO-Revision-Date: 2016-12-23 11:00+0100\n"
+"Last-Translator: \n"
+"Language-Team: Nexo Team\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: _s;__;_e\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: inc/angular/register/directives/stripe-payment.php:9
+msgid "Stripe Payment"
+msgstr "Stripe Payment"
+
+#: inc/angular/register/directives/stripe-payment.php:17
+msgid "Montant du paiement"
+msgstr "Payment Amount"
+
+#: inc/angular/register/directives/stripe-payment.php:23
+#, fuzzy
+msgid "Définir un montant"
+msgstr "Set an amount"
+
+#: inc/angular/register/directives/stripe-payment.php:43
+#, fuzzy
+msgid ""
+"Vous devez facturer une carte avec Stripe, avant de l'ajouter comme paiement"
+msgstr "You have to charge a card with Stripe, before adding as payment"
+
+#: inc/filters.php:6 nexo-payments-gateway.php:24 nexo-payments-gateway.php:28
+#: views/dashboard-footer.php:5
+#, fuzzy
+msgid "Stripe"
+msgstr "Stripe"
+
+#: inc/filters.php:18
+#, fuzzy
+msgid "Payment Gateway"
+msgstr "Payment Gateway"
+
+#: views/angular-paybox-controller.php:11 views/dashboard-footer.php:34
+#, fuzzy
+msgid "Attention"
+msgstr "Warning"
+
+#: views/angular-paybox-controller.php:11
+#, fuzzy
+msgid "Le montant spécifié est incorrecte."
+msgstr "The specified amount is incorrect"
+
+#: views/angular-paybox-controller.php:26
+#, fuzzy
+msgid "Paiement d'une commande"
+msgstr "Payment of an order"
+
+#: views/angular-paybox-controller.php:27
+#, fuzzy, php-format
+msgid "Vous venez d'effectuer un paiement dans la boutique %s. Merci"
+msgstr "You have just made a payment in the shop%s. Thank you"
+
+#: views/angular-paybox-controller.php:52
+#, fuzzy
+msgid "Veuillez patienter"
+msgstr "Please wait"
+
+#: views/angular-paybox-controller.php:52
+#, fuzzy
+msgid "Paiement en cours..."
+msgstr "Payment in process..."
+
+#: views/angular-paybox-controller.php:64
+#, fuzzy
+msgid "Paiement effectué"
+msgstr "Payment done"
+
+#: views/angular-paybox-controller.php:64
+#, fuzzy
+msgid "Le paiement a été effectué."
+msgstr "The payment has been done successfully"
+
+#: views/angular-paybox-controller.php:80
+#, fuzzy
+msgid "Une erreur s'est produite"
+msgstr "An error has occurred."
+
+#: views/angular-paybox-controller.php:80
+#, fuzzy
+msgid ""
+"Le paiement n'a pu être effectuée. Une erreur s'est produite durant la "
+"facturation de la carte de crédit.<br>Le serveur à retourner cette erreur : "
+msgstr ""
+"The payment could be made. An error occurred during the credit card billing."
+"<br>The server to return this error:"
+
+#: views/dashboard-footer.php:24
+#, fuzzy
+msgid "Facturer une carte"
+msgstr "Charge a card"
+
+#: views/dashboard-footer.php:34
+#, fuzzy
+msgid ""
+"Vous ne pouvez pas modifier un paiement déjà effectué, car une carte a déjà "
+"été débitée."
+msgstr ""
+"You can not change a payment already made, because a card has already been "
+"charged."
+
+#: views/gateway-settings.php:19
+#, fuzzy
+msgid "Réglages Stripe"
+msgstr "Stripe Settings "
+
+#: views/gateway-settings.php:26
+#, fuzzy
+msgid "Sauvegarder les réglages"
+msgstr "Save Settings"
+
+#: views/gateway-settings.php:34
+#, fuzzy
+msgid "Activer Stripe"
+msgstr "Enable Stripe"
+
+#: views/gateway-settings.php:36
+#, fuzzy
+msgid "Non"
+msgstr "No"
+
+#: views/gateway-settings.php:37
+#, fuzzy
+msgid "Oui"
+msgstr "Yes"
+
+#: views/gateway-settings.php:39
+#, fuzzy
+msgid ""
+"Désactiver Stripe empêchera au ressource de ce dernier de se charger dans "
+"l'interface de la caisse."
+msgstr ""
+"Disable Stripe will prevent this latter's resources to be loaded in the "
+"checkout screen."
+
+#: views/gateway-settings.php:46
+#, fuzzy
+msgid "Publishable Key"
+msgstr "Publishable Key"
+
+#: views/gateway-settings.php:47
+#, fuzzy, php-format
+msgid ""
+"Récupérez les informations de votre \"publishable key\" sur votre compte <a "
+"href=\"%s\">Stripe</a>."
+msgstr ""
+"Retrieve the \"publishable key\" from your <a href=\"%s\">Stripe</a>account."
+
+#: views/gateway-settings.php:54
+#, fuzzy
+msgid "Secret Key"
+msgstr "Secret Key:"
+
+#: views/gateway-settings.php:55
+#, fuzzy, php-format
+msgid ""
+"Récupérez les informations de votre clé secrete sur votre compte <a href=\"%s"
+"\">Stripe</a>."
+msgstr "Retrieve your secret key on your <a href=\"%s\">Stripe</a>account."

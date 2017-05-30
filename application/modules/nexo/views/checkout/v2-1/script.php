@@ -190,15 +190,26 @@ var v2Checkout					=	new function(){
 
 		$( '#cart-table-body .item-reduce' ).each(function(){
 			$( this ).bind( 'click', function(){
-				var parent	=	$( this ).closest( 'tr' );
+				
+				let parent	=	$( this ).closest( 'tr' );
+				
 				_.each( v2Checkout.CartItems, function( value, key ) {
 					if( typeof value != 'undefined' ) {
 						if( value.CODEBAR == $( parent ).data( 'item-barcode' ) ) {
-							value.QTE_ADDED--;
-							// If item reach "0";
-							if( parseInt( value.QTE_ADDED ) == 0 ) {
-								v2Checkout.CartItems.splice( key, 1 );
-							}
+
+							let status		=	NexoAPI.events.applyFilters( 'reduce_from_cart', {
+								barcode 	:	value.CODEBAR,
+								item 		:	value,
+								proceed 	:	true
+							});
+
+							if( status.proceed == true ) {
+								value.QTE_ADDED--;
+								// If item reach "0";
+								if( parseInt( value.QTE_ADDED ) == 0 ) {
+									v2Checkout.CartItems.splice( key, 1 );
+								}
+							}							
 						}
 					}
 				});
@@ -243,6 +254,9 @@ var v2Checkout					=	new function(){
 		// Bind Num padd
 		$( '[name="shop_item_quantity"]' ).bind( 'click', function(){
 			v2Checkout.showNumPad( $( this ), '<?php echo addslashes(__('Définir la quantité à  ajouter', 'nexo'));?>', null, false );
+			setTimeout( () => {
+				$( '[name="numpad_field"]' ).select();
+			}, 500 );
 		});
 		<?php endif;?>
 	}
@@ -271,6 +285,38 @@ var v2Checkout					=	new function(){
 			$( '[order_note]' ).val( v2Checkout.CartNote );
 		});
 	};
+
+	/**
+	* Bind hover product
+	* @since 3.0.19
+    **/
+
+	this.bindHoverItemName 		=	function(){
+		$( '[cart-item]' ).on( 'mouseenter', function() {
+			// item-name
+			let item 	=	v2Checkout.getItem( $( this ).attr( 'data-item-barcode' ) );
+			let speed;
+			let length 	=	item.DESIGN.length;
+			
+			switch( true ) {
+				case ( length >= 20 && length < 25 ) : speed 	=	1;break;
+				case ( length >= 25 && length < 40 ) : speed 	=	2;break;
+				case ( length >= 40 && length < 50 ) : speed 	=	3;break;
+				case ( length >= 50 && length < 60 ) : speed 	=	4;break;
+				case ( length >= 60 ) : speed 	=	5;break;
+				default : speed 	=	4;break;
+			}
+
+			if( length > 23 ) {
+				$( this ).find( '.item-name' ).attr( 'previous', $( this ).find( '.item-name' ).html() );
+				$( this ).find( '.item-name' ).html( '<marquee class="marquee_me" behavior="alternate" scrollamount="' + speed + '" direction="left" style="width:100%;float:left;">' + item.DESIGN + '</marquee>' );
+			}
+		})
+
+		$( '[cart-item]' ).on( 'mouseleave', function() {
+			$( this ).find( '.item-name' ).html( $( this ).find( '.item-name' ).attr( 'previous' ) );
+		})
+	}
 
 	/**
 	* Bind Category Action
@@ -382,17 +428,18 @@ var v2Checkout					=	new function(){
 				MainPrice			=	NexoAPI.ParseFloat( currentItem.SHADOW_PRICE );
 			}
 
-			$( this ).replaceWith( '<td width="130"><div class="input-group input-group-sm"><input type="number" value="' + MainPrice + '" class="unit-price-form form-control" aria-describedby="sizing-addon3"></div></td>' );
+			$( this ).replaceWith( '<td width="110"><div class="input-group input-group-sm"><input type="number" value="' + MainPrice + '" class="unit-price-form form-control" aria-describedby="sizing-addon3"></div></td>' );
 
-			$( '.unit-price-form' ).focus();
+			// Select field content
+			$( '.unit-price-form' ).select();
 
 			$( '.unit-price-form' ).bind( 'blur', function(){
 
 				if( ! isNaN( parseFloat( $( this ).val() ) ) ) {
 
-					$( this ).closest( 'td' ).replaceWith( '<td width="130" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( $( this ).val() ) + '</td>' );
+					$( this ).closest( 'td' ).replaceWith( '<td width="110" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( $( this ).val() ) + '</td>' );
 				} else {
-					$( this ).closest( 'td' ).replaceWith( '<td width="130" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice ) + '</td>' );
+					$( this ).closest( 'td' ).replaceWith( '<td width="110" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice ) + '</td>' );
 				}
 
 				// Update the price on Cart
@@ -581,7 +628,7 @@ var v2Checkout					=	new function(){
 				$( this ).addClass( 'active' );
 
 				// Proceed a quick check on the percentage value
-				$( '[name="discount_value"]' ).focus();
+				$( '[name="discount_value"]' ).select();
 
 				if( typeof config.onPercentDiscount	==	'function' ) {
 					config.onPercentDiscount();
@@ -599,8 +646,7 @@ var v2Checkout					=	new function(){
 
 				$( this ).addClass( 'active' );
 
-				$( '[name="discount_value"]' ).focus();
-				$( '[name="discount_value"]' ).blur();
+				$( '[name="discount_value"]' ).select();
 
 				if( typeof config.onFixedDiscount	==	'function' ) {
 					config.onFixedDiscount();
@@ -656,6 +702,11 @@ var v2Checkout					=	new function(){
 			numpad_value 	= 	numpad_value == '' ? 0 : numpad_value;
 			$( '[name="discount_value"]' ).val( numpad_value );
 		});
+
+		setTimeout( () => {
+			// Select field content
+			$( '[name="discount_value"]' ).select();
+		}, 500 );
 	};
 
 	/**
@@ -856,7 +907,10 @@ var v2Checkout					=	new function(){
 				// /' + value.ID + '
 
 				// :: alert( value.DESIGN.length );
-				var item_design		=	value.DESIGN.length > 20 ? '<span style="text-overflow:hidden">' + value.DESIGN.substr( 0, 20 ) + '</span>' : value.DESIGN ;
+				var item_design		=	NexoAPI.events.applyFilters( 'cart_item_name', {
+					original 		:	value.DESIGN,
+					displayed 		:	value.DESIGN
+				}); // .length > 20 ? '<span style="text-overflow:hidden">' + value.DESIGN.substr( 0, 20 ) + '</span>' : value.DESIGN ;
 
 				var DiscountAmount	=	value.DISCOUNT_TYPE	== 'percentage' ? value.DISCOUNT_PERCENT + '%' : NexoAPI.DisplayMoney( value.DISCOUNT_AMOUNT );
 
@@ -870,22 +924,24 @@ var v2Checkout					=	new function(){
 					itemSubTotal	-=	itemPercentOff;
 				}
 
+				// <marquee class="marquee_me" behavior="alternate" scrollamount="4" direction="left" style="width:100%;float:left;">Earl Klugh - HandPucked</marquee>
+
 				$( '#cart-table-body' ).find( 'table' ).append(
 					'<tr cart-item data-line-weight="' + ( MainPrice * parseInt( value.QTE_ADDED ) ) + '" data-item-barcode="' + value.CODEBAR + '">' +
-					'<td width="200" class="text-left" style="line-height:30px;"><span style="text-transform: uppercase;">' + NexoAPI.events.applyFilters( 'cart_item_name', item_design ) + '</span></td>' +
-					'<td width="130" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice ) + ' ' + Discounted + '</td>' +
-					'<td width="100" class="text-center">' +
-					'<div class="input-group input-group-sm">' +
-					'<span class="input-group-btn">' +
-						'<button class="btn btn-default item-reduce">-</button>' +
-						'<button name="shop_item_quantity" value="' + value.QTE_ADDED + '" class="btn btn-default" style="width:50px;">' + value.QTE_ADDED + '</button>' +
-						'<button class="btn btn-default item-add">+</button>' +
-					'</span>' +
-					'</td>' +
-					<?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-					'<td width="90" class="text-center item-discount"  style="line-height:28px;"><span class="btn btn-default btn-sm">' + DiscountAmount + '</span></td>' +
-					<?php endif;?>
-					'<td width="100" class="text-right" style="line-height:30px;">' + NexoAPI.DisplayMoney( itemSubTotal ) + '</td>' +
+						'<td width="200" class="text-left" style="line-height:30px;">' + NexoAPI.events.applyFilters( 'cart_before_item_name', '' ) + '<p style="text-transform: uppercase;float:left;width:76%;margin-bottom:0px;" class="item-name">' + item_design.displayed + '</p></td>' +
+						'<td width="110" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice ) + ' ' + Discounted + '</td>' +
+						'<td width="100" class="text-center">' +
+						'<div class="input-group input-group-sm">' +
+						'<span class="input-group-btn">' +
+							'<button class="btn btn-default item-reduce">-</button>' +
+							'<button name="shop_item_quantity" value="' + value.QTE_ADDED + '" class="btn btn-default" style="width:50px;">' + value.QTE_ADDED + '</button>' +
+							'<button class="btn btn-default item-add">+</button>' +
+						'</span>' +
+						'</td>' +
+						<?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+						'<td width="90" class="text-center item-discount"  style="line-height:28px;"><span class="btn btn-default btn-sm">' + DiscountAmount + '</span></td>' +
+						<?php endif;?>
+						'<td width="100" class="text-right" style="line-height:30px;">' + NexoAPI.DisplayMoney( itemSubTotal ) + '</td>' +
 					'</tr>'
 				);
 
@@ -907,6 +963,7 @@ var v2Checkout					=	new function(){
 		this.refreshCartValues();
 		this.bindChangeUnitPrice(); // @since 2.9.0
 		this.bindUnitItemDiscount();
+		this.bindHoverItemName(); // @since 3.0.19
 
 		// @since 2.7.3
 		// trigger action when cart is refreshed
@@ -1133,7 +1190,7 @@ var v2Checkout					=	new function(){
 
 		// @since 2.8.2 add order meta
 		this.CartMetas					=	NexoAPI.events.applyFilters( 'order_metas', this.CartMetas );
-		order_details.METAS				=	JSON.stringify( this.CartMetas );
+		order_details.METAS				=	this.CartMetas;
 
 		if( payment_means == 'cash' ) {
 
@@ -1580,6 +1637,8 @@ var v2Checkout					=	new function(){
 						$( this ).remove();
 					});;
 
+					customers 			=	NexoAPI.events.applyFilters( 'customers_dropdown', customers );
+
 					_.each( customers, function( value, key ){
 						if( parseInt( v2Checkout.CartCustomerID ) == parseInt( value.ID ) ) {
 
@@ -1802,6 +1861,7 @@ var v2Checkout					=	new function(){
 			var contentMargin				=	parseInt( $( '.content' ).css( 'padding-top' ) );
 			var footerHeight				=	parseInt( $( '.main-footer' ).outerHeight() );
 			var tabHeight					=	parseInt( $( '.tab-grid' ).outerHeight(true) );
+			var checkoutHeader 				=	parseInt( $( '.checkout-header' ).outerHeight() );
 			var contentPaddingTop			=	parseInt( $( '.content' ).css( 'padding-top' ) ) + 2;
 
 			// var windowHeight				=	parseInt( window.innerHeight < 500 ? 500 : window.innerHeight );
@@ -1840,6 +1900,7 @@ var v2Checkout					=	new function(){
 				+ cartPanel
 				+ col1_paddingWrapper
 				+ tabHeight
+				+ checkoutHeader
 			) );
 
 			// Col 2
@@ -1852,7 +1913,8 @@ var v2Checkout					=	new function(){
 				productListWrapper +
 				categorySliderHeight +
 				searchFieldHeight +
-				tabHeight
+				tabHeight +
+				checkoutHeader 
 			) );
 
 			this.paymentWindow.hideSplash();
@@ -1882,7 +1944,7 @@ var v2Checkout					=	new function(){
 		**/
 
 		this.getItems				=	function( beforeCallback, afterCallback){
-			$.ajax('<?php echo site_url(array( 'rest', 'nexo', 'item' )) . '?store_id=' . $store_id;?>', { // _with_meta
+			$.ajax('<?php echo $this->events->apply_filters( 'nexo_checkout_item_url', site_url([ 'rest', 'nexo', 'item' ]) ) . '?store_id=' . $store_id;?>', { // _with_meta
 				beforeSend	:	function(){
 					if( typeof beforeCallback == 'function' ) {
 						beforeCallback();
@@ -2004,7 +2066,7 @@ var v2Checkout					=	new function(){
 			'</div>' : '';
 
 			var NumPad				=
-			'<form id="numpad">' +
+			'<div id="numpad">' +
 			'<h4 class="text-center">' + ( text ? text : '' ) + '</h4><br>' +
 			input_field	+
 			'<div class="row">' +
@@ -2063,7 +2125,7 @@ var v2Checkout					=	new function(){
 			'<button type="button" class="btn btn-danger btn-block btn-lg numpad numpadclear"><i class="fa fa-eraser"></i></button></div>' +
 			'</div>' +
 			'</div>'
-			'</form>';
+			'</div>';
 
 			if( $( object_wrapper ).length > 0 ) {
 				$( object_wrapper ).html( NumPad );
@@ -2158,9 +2220,12 @@ var v2Checkout					=	new function(){
 			if( value.length <= 3 ) {
 				$( '.filter-add-product' ).each( function(){
 					$( this ).show();
+					$( this ).addClass( 'item-visible' );
+					$( this ).removeClass( 'item-hidden' );
+					$( this ).find( '.floatting-shortcut' ).remove();
 				});
 			} else {
-				$( '.filter-add-product' ).show();
+				let i 	=	1;
 				$( '.filter-add-product' ).each( function(){
 					// Filter Item
 					if(
@@ -2170,7 +2235,15 @@ var v2Checkout					=	new function(){
 						$( this ).attr( 'data-sku' ).search( value.toLowerCase() ) == -1  // Scan, also item SKU
 					) {
 						$( this ).hide();
-					}
+						$( this ).addClass( 'item-hidden' );
+						$( this ).removeClass( 'item-visible' );
+					} else {
+						$( this ).show();
+						$( this ).addClass( 'item-visible' );
+						$( this ).removeClass( 'item-hidden' );
+						$( this ).find( '.caption' ).append( '<span class="floatting-shortcut">' + i + '</span>' );
+						i++;
+					}					
 				});
 			}
 		}
@@ -2265,6 +2338,13 @@ var v2Checkout					=	new function(){
 			$( '#cart-vat' ).html( NexoAPI.DisplayMoney( this.CartVAT ) );
 			$( '#cart-discount' ).html( NexoAPI.DisplayMoney( this.CartDiscount ) );
 			$( '#cart-topay' ).html( NexoAPI.DisplayMoney( this.CartToPay ) );
+			
+			//@since 3.0.19
+			let itemsNumber 	=	0;
+			_.each( this.CartItems, ( item ) => {
+				itemsNumber 	+=	item.QTE_ADDED;
+			});
+			$( '.items-number' ).html( itemsNumber );
 
 			NexoAPI.events.applyFilters( 'refresh_cart_values', this.CartItems );
 		};
@@ -2515,17 +2595,42 @@ var v2Checkout					=	new function(){
 			} else {
 				$( this ).addClass( 'active' );
 				v2Checkout.enableBarcodeSearch 	=	true;
+				$( '[name="item_sku_barcode"]' ).focus();
 			}
 		});
+
+		// check if the button is clicked
+		<?php if( @$Options[ 'enable_quick_search' ] == 'yes' ):?>
+		$( '.enable_barcode_search' ).trigger( 'click' );
+		<?php endif;?>
 
 		/**
 		* Filter Item
 		**/
 
+		let addItemTimeout;
+
 		$( this.ItemSearchForm ).bind( 'keyup', function(){
 			if( v2Checkout.enableBarcodeSearch == false ) {
 				v2Checkout.quickItemSearch( $( '[name="item_sku_barcode"]' ).val() );
 			}
+
+			// Add found item on the cart
+			// @since 3.0.19
+			if( typeof this.addItemTimeout == 'undefined' ) {
+				this.addItemTimeout 	=	5;
+			}
+
+			window.clearTimeout( addItemTimeout );
+
+			addItemTimeout 	=	window.setTimeout( () => {
+				if( $( '.filter-add-product.item-visible' ).length == 1 ) {
+					// when i item is found, just blur the field to avoid multiple quantity adding
+					$( '.filter-add-product.item-visible' ).click();
+					$( '[name="item_sku_barcode"]' ).val('');
+					v2Checkout.quickItemSearch( '' );
+				}
+			}, 500 );
 		});
 
 		/**
@@ -2546,97 +2651,39 @@ var v2Checkout					=	new function(){
 			}
 		})
 
-		<?php if( @$Options[ store_prefix() . 'nexo_compact_enabled' ] == 'yes' ):?>
 		setTimeout( function(){
 			v2Checkout.toggleCompactMode(true);
 		}, 800 );
-		<?php else:?>
-		v2Checkout.CompactMode = true;
-		v2Checkout.fixHeight();
-		<?php endif;?>
 	}
 
 	/**
 	* Toggle Compact Mode
 	**/
 
-	this.CompactMode		=	<?php echo @$Options[ store_prefix() . 'nexo_compact_enabled' ] == 'yes' ? 'true': 'false'; ?>;
+	this.toggleCompactMode		=	function(){
+		$( '.content-header' ).css({
+			'padding'	:	0,
+			'height'	:	0
+		});
 
-	this.DefaultModeOption	=	false
+		$( '.content-header > h1' ).remove();
+		$( '.main-footer' ).hide(0);
+		$( '.main-sidebar' ).hide(0);
+		$( '.main-footer > *' ).remove();
+		$( '.main-header' ).css({
+			'min-height' : 0,
+			'overflow': 'hidden'
+		}).animate({
+			'height' : '0'
+		}, 0 );
 
-	this.toggleCompactMode		=	function( changeMode ){
+		$( '.content-wrapper' ).addClass( 'new-wrapper' ).removeClass( 'content-wrapper' );
 
-		if( this.DefaultModeOption == false ) {
-			this.DefaultModeOption	=	{};
-			// Default Class
-			this.DefaultModeOption.ContentHeader	=	{
-				padding				:	$( '.content-header' ).css( 'padding' ),
-				height				:	$( '.content-header' ).css( 'height' ),
-				h1					:	$( '.content-header > h1' ).html()
-			}
-
-			this.DefaultModeOption.MainFooter		=	{
-				html				:	 $( '.main-footer' ).html(),
-				height				:	$( '.main-footer' ).outerHeight()
-			}
-
-			this.DefaultModeOption.MainHeader		=	{
-				min_height			:	$( '.main-header' ).css( 'min-height' ),
-				height				:	$( '.main-header' ).css( 'height' ),
-				overflow			:	'visible'
-			}
-
-			this.DefaultModeOption.background			=	$( '.new-wrapper' ).find( '.content' ).css( 'background' );
-			this.DefaultModeOption.contentHeight		=	$( '.new-wrapper' ).find( '.content' ).css( 'height' );
-		}
-
-		if( this.CompactMode || ( typeof changeMode != 'undefined' && ! this.CompactMode ) ) {
-			// alert( 'ok' );
-			$( '.content-header' ).css({
-				'padding'	:	0,
-				'height'	:	0
-			});
-
-			$( '.content-header > h1' ).remove();
-			$( '.main-footer' ).hide(0);
-			$( '.main-sidebar' ).hide(0);
-			$( '.main-footer > *' ).remove();
-			$( '.main-header' ).css({
-				'min-height' : 0,
-				'overflow': 'hidden'
-			}).animate({
-				'height' : '0'
-			}, 0 );
-
-			$( '.content-wrapper' ).addClass( 'new-wrapper' ).removeClass( 'content-wrapper' );
-
-			$( '.new-wrapper' ).find( '.content' ).css( 'padding-bottom', 0 );
-			$( '.new-wrapper' ).find( '.content' ).css( 'height', window.innerHeight );
-			// $( '.new-wrapper' ).find( '.content' ).css( 'overflow', 'hidden' );
-			$( '.new-wrapper' ).find( '.content' ).css( 'background', 'rgb(211, 223, 228)' );
-			this.CompactMode	=	false;
-
-		} else {
-			$( '.content-header' ).css({
-				'padding'	:	this.DefaultModeOption.ContentHeader.padding,
-				'height'	:	this.DefaultModeOption.ContentHeader.height
-			});
-
-			$( '.content-header' ).append( '<h1>' + this.DefaultModeOption.ContentHeader.h1 + '</h1>' );
-			$( '.main-footer' ).show();
-			$( '.main-sidebar' ).show();
-			$( '.main-footer' ).html( this.DefaultModeOption.MainFooter.html );
-			$( '.main-header' ).css({
-				'height' : this.DefaultModeOption.MainHeader.height,
-				'overflow': this.DefaultModeOption.MainHeader.overflow
-			});
-
-			$( '.new-wrapper' ).addClass( 'content-wrapper' ).removeClass( 'new-wrapper' );
-			$( '.content-wrapper').find( '.content' ).css( 'background', 'inherit' );
-			$( '.content-wrapper' ).find( '.content' ).css( 'height', 'auto' );
-
-			this.CompactMode	=	true;
-		}
+		$( '.new-wrapper' ).find( '.content' ).css( 'padding-bottom', 0 );
+		$( '.new-wrapper' ).find( '.content' ).css( 'height', window.innerHeight );
+		// $( '.new-wrapper' ).find( '.content' ).css( 'overflow', 'hidden' );
+		$( '.new-wrapper' ).find( '.content' ).css( 'background', 'rgb(211, 223, 228)' );
+		this.CompactMode	=	false;
 		this.fixHeight();
 	}
 
@@ -2663,7 +2710,12 @@ NexoAPI.events.addFilter( 'callback_message', function( data ) {
 });
 
 // Filter for edit item
-NexoAPI.events.addFilter( 'cart_item_name', function( item_name ) {
-	return '<a class="btn btn-sm btn-default quick_edit_item" href="javascript:void(0)" style="vertical-align:inherit;margin-right:10px;"><i class="fa fa-edit"></i></a> ' + item_name;
+NexoAPI.events.addFilter( 'cart_before_item_name', function( item_name ) {
+	return '<a class="btn btn-sm btn-default quick_edit_item" href="javascript:void(0)" style="float:left;vertical-align:inherit;margin-right:10px;"><i class="fa fa-edit"></i></a> ' + item_name;
+});
+
+NexoAPI.events.addFilter( 'cart_item_name', ( data ) => {
+	data.displayed 		=	data.displayed.length > 23 ? data.displayed.substr( 0, 18 ) + '...' : data.displayed;
+	return data;
 });
 </script>

@@ -11,18 +11,7 @@
                     <button type="button" class="enable_barcode_search btn btn-large btn-default"><i class="fa fa-barcode"></i></button>
                 </div>
 
-                <input type="text" name="item_sku_barcode" placeholder="<?php _e('Codebarre, UGS, nom du produit ou de la catégorie...', 'nexo');?>" class="form-control">
-
-                <span class="input-group-btn">
-                	<button class="btn btn-default" onclick="document.location= '<?php echo site_url( array( 'dashboard', store_slug(), 'nexo', 'commandes', 'lists' ) );?>';" type="button"><i class="fa fa-home"></i></button>
-
-                    <button class="btn btn-default toggleCompactMode" type="button"><i class="fa fa-bars"></i></button>
-
-                    <button ng-controller="fullScreenCTRL" type="button" ng-click="openFullScreen()" class="btn btn-default"><i class="fa fa-window-maximize"></i></button>
-                </span>
-
-
-			</div>
+                <input autocomplete="off" type="text" name="item_sku_barcode" placeholder="<?php _e('Codebarre, UGS, nom du produit ou de la catégorie...', 'nexo');?>" class="form-control">			</div>
         </form>
     </div>
     <div class="box-header with-border cattegory-slider" style="padding:0px;">
@@ -135,4 +124,45 @@ div.bootstrap-tab div.bootstrap-tab-content:not(.active){
     border-radius: 0px !important;
     border-radius: 0px !important;
 }
+.floatting-shortcut {
+    background: #b5c7ff;
+    font-weight: 600;
+    padding: 0px 6px;
+    position: absolute;
+    top: 5px;
+    border: solid 1px #545986;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px -1px #9797be;
+    left: 5px;
+}
 </style>
+<script type="text/javascript">
+function toggleFullScreen() {
+  var doc = window.document;
+  var docEl = doc.documentElement;
+
+  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+  var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+  if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+    requestFullScreen.call(docEl);
+  }
+  else {
+    cancelFullScreen.call(doc);
+  }
+}
+function isFullScreen() {
+  var doc = window.document;
+  var docEl = doc.documentElement;
+
+  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+  var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+  if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+</script>

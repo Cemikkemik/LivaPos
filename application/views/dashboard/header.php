@@ -44,6 +44,7 @@ tendoo.csrf_field_value	=	'<?php echo $this->security->get_csrf_hash();?>';
 tendoo.csrf_data		=	{
 	'<?php echo $this->security->get_csrf_token_name();?>'	:	'<?php echo $this->security->get_csrf_hash();?>'
 };
+tendoo.server_date      =   '<?php echo date_now();?>';
 tendoo.options			=	new function(){
     var $this			=	this;
 	var save_slug;

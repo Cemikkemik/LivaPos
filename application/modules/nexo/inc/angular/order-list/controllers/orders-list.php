@@ -1,9 +1,10 @@
+<?php global $Options;?>
 <script>
 /**
  * Create Controller
 **/
 
-tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$http', '__orderStatus', '__paymentName', '__windowSplash', '__stripeCheckout', function( $scope, $compile, $timeout, $http, __orderStatus, __paymentName, __windowSplash, __stripeCheckout ) {
+tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$http', '__orderStatus', '__paymentName', '__windowSplash', '__stripeCheckout', 'hotkeys', function( $scope, $compile, $timeout, $http, __orderStatus, __paymentName, __windowSplash, __stripeCheckout, hotkeys ) {
 
 	$scope.order_status		=	{
 		comptant			:	'nexo_order_comptant',

@@ -178,3 +178,36 @@ Filtres:
  * nexo_store_menus
  * permet de modifier la vue du menu des boutiques
 **/
+
+/**
+ * nexo_checkout_item_url
+ * permet de modifier lurl des elements dun panier
+**/
+
+/**
+ * product_columns 
+ * permet de modifier les colonnes des produits
+**/
+
+/**
+ * nexo_checkout_col_1_view
+ * remplacer la vue de la colonne 1 [
+     'module'   =>  $1,
+     'path'     =>  $2
+ ]
+**/
+
+/**
+ * nexo_checkout_col_2_view
+ * remplacer la vue de la colonne deux
+**/
+
+/**
+ * nexo_demo_list
+ * permet d'ajouter des options dans la liste des démos
+**/
+
+/**
+ * checkout_header_menus_1
+ * Permet de modifier les menus affiché sur le point de ventes
+**/

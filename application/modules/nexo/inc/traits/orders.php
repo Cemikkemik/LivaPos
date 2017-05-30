@@ -104,7 +104,7 @@ trait Nexo_orders
          * array( ID, QUANTITY_ADDED, BARCODE, PRICE, QTE_SOLD, LEFT_QTE, STOCK_ENABLED );
         **/
 
-        foreach ($this->post('ITEMS') as $item) {
+        foreach ( $this->post( 'ITEMS' ) as $item) {
 
 			/**
 			 * If Stock Enabled is active
@@ -112,7 +112,7 @@ trait Nexo_orders
 
 			if( intval( $item[ 'stock_enabled' ] ) == 1 ) {
 
-				$this->db->where('CODEBAR', $item[ 'id' ])->update( store_prefix() . 'nexo_articles', array(
+				$this->db->where('CODEBAR', $item[ 'codebar' ])->update( store_prefix() . 'nexo_articles', array(
 					'QUANTITE_RESTANTE'        	=>    intval($item[ 'qte_remaining' ]) - intval($item[ 'qte_added' ]),
 					'QUANTITE_VENDU'        	=>    intval($item[ 'qte_sold' ]) + intval($item[ 'qte_added' ])
 				) );
@@ -174,7 +174,7 @@ trait Nexo_orders
 		 * Save order meta
 		**/
 
-		$metas					=	json_decode( $this->post( 'METAS' ) );
+		$metas					=	$this->post( 'METAS' );
 
 		if( $metas ) {
 
@@ -419,7 +419,7 @@ trait Nexo_orders
 		$this->db->where( 'REF_ORDER_ID', $order_id )
         ->delete( store_prefix() . 'nexo_commandes_meta' );
 
-		$metas        =	      json_decode( $this->put( 'METAS' ) );
+		$metas        =	      $this->put( 'METAS' );
 
 		if( $metas ) {
 
@@ -953,6 +953,8 @@ trait Nexo_orders
         )
         ->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', $startOfDay )
         ->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', $endOfDay )
+        ->where( store_prefix() . 'nexo_commandes.TYPE', 'nexo_order_comptant' )
+        ->where( store_prefix() . 'nexo_commandes.TOTAL >', 0 )
         ->get();
 
         $this->response( $query->result(), 200 );

@@ -229,7 +229,7 @@ $config[ 'nexo_item_price_group' ]	=	array(
 // Stock Group
 // 'DEFECTUEUX',
 $config[ 'nexo_item_stock_group' ]	=	array(
-	'STATUS', 'TYPE', 'STOCK_ENABLED', 'QUANTITY', 'QUANTITE_RESTANTE', 'QUANTITE_VENDU'
+	'STATUS', 'TYPE', 'STOCK_ENABLED', 'QUANTITY', 'QUANTITE_RESTANTE', 'QUANTITE_VENDU', 'REF_PROVIDER'
 );
 
 // Caracteristiques

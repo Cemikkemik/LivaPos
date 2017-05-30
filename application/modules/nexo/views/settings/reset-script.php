@@ -5,6 +5,9 @@
     <option value="empty_shop"><?php _e('Vider complètement la boutique', 'nexo');?></option>
     <option value="empty_with_demo"><?php _e('Vide la boutique et restaure les données démos', 'nexo');?></option>
     <option value="empty_with_clothes_shop"><?php _e('Activer la démo pour boutique de vêtements', 'nexo');?></option>
+		<?php foreach( $this->events->apply_filters( 'nexo_demo_list', [] ) as $namespace => $name ):?>
+				<option value="<?php echo $namespace;?>"><?php echo $name;?></option>
+		<?php endforeach;?>
   </select>
   <span class="input-group-btn">
     <button class="btn btn-default" type="button" id="Nexo_restaure"><?php _e('Reinitialiser', 'nexo');?></button>

@@ -70,6 +70,7 @@ class Nexo extends CI_Model
         $this->enqueue->js( '../modules/nexo/bower_components/angular-numeraljs/dist/angular-numeraljs.min' );
         $this->enqueue->js( '../bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker' );
         $this->enqueue->js( '../bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates' );
+        $this->enqueue->js( '../modules/nexo/bower_components/angular-hotkeys/build/hotkeys.min' );
 
         $this->enqueue->css_namespace( 'dashboard_header' );
         $this->enqueue->css( 'css/nexo-arrow', module_url( 'nexo' ) );
@@ -77,8 +78,9 @@ class Nexo extends CI_Model
         $this->enqueue->css( '../bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker' );
         $this->enqueue->css( '../modules/nexo/bower_components/bootstrap-toggle/css/bootstrap2-toggle.min' );
         $this->enqueue->css( '../modules/nexo/css/piecharts/piecharts' );
+        $this->enqueue->css( '../modules/nexo/bower_components/angular-hotkeys/build/hotkeys.min' );
 
-        $this->events->add_action('load_dashboard', array( $this, 'dashboard' ));
+        $this->events->add_action( 'load_dashboard', array( $this, 'dashboard' ), 5 );
         $this->events->add_action('after_app_init', array( $this, 'after_app_init' ));
         $this->events->add_filter('nexo_daily_details_link', array( $this, 'remove_link' ), 10, 2);
         $this->events->add_action('load_frontend', array( $this, 'load_frontend' ));
@@ -97,6 +99,7 @@ class Nexo extends CI_Model
         $this->events->add_filter( 'dashboard_dependencies', function( $deps ){
             $deps[]     =   'ngNumeraljs';
             $deps[]     =   'ui.bootstrap.datetimepicker';
+            $deps[]     =   'cfp.hotkeys';
             return $deps;
         });
 
@@ -266,6 +269,9 @@ class Nexo extends CI_Model
 				$store_id = null;
 			}
 		}
+
+        // @since 3.0.19
+        $this->events->do_action( 'nexo_loaded' );
     }
 
     /**

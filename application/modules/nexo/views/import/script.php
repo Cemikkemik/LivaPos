@@ -55,13 +55,18 @@ $columns                    =   array(
 
     tendooApp.controller( 'importCSVController', [ '$scope', '$http', 'textHelper', 'csv', function( $scope, $http, textHelper, csv ) {
 
-        $scope.columns_data =   new Array;
-        $scope.csvArray     =   new Array;
+        $scope.columns_data         =   new Array;
+        $scope.csvArray             =   new Array;
+        $scope.autoSku              =   false;
 
-        $scope.fileContent  =  '';
-        $scope.ext          =   '';
-        $scope.columns      =   <?php echo json_encode( $columns );?>;
-        $scope.notices      =   new Array;
+        $scope.fileContent          =  '';
+        $scope.ext                  =   '';
+        $scope.columns              =   <?php echo json_encode( $columns );?>;
+        $scope.notices              =   new Array;
+        $scope.addToCurrentItems    =   false;
+        $scope.refresh              =   'true';
+        $scope.overwrite            =   'true';
+    
 
         $scope.$watch( 'fileContent', function(){
             if( $scope.fileContent != '' ) {
@@ -107,7 +112,9 @@ $columns                    =   array(
             $http.post( '<?php echo site_url( array( 'rest', 'nexo', 'create_bulk_items', store_get_param('?') ) );?>',{
                 'items'     :   data.items,
                 'author'    :   <?php echo User::id();?>,
-                'date'      :   tendoo.now()
+                'date'      :   tendoo.now(),
+                'refresh'   :   $scope.addToCurrentItems ? 'true' : 'false',
+                'overwrite' :   $scope.overwrite
             },{
     			headers			:	{
     				'<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
@@ -140,7 +147,9 @@ $columns                    =   array(
                 'default_shipping_title'    :   '<?php echo _s( 'Collection Importée', 'nexo' );?>',
                 'author'        :   <?php echo User::id();?>,
                 'date'      :   tendoo.now(),
-                'default_cat_title'    :   '<?php echo _s( 'Categorie Importée', 'nexo' );?>'
+                'default_cat_title'    :   '<?php echo _s( 'Categorie Importée', 'nexo' );?>',
+                'refresh' :     $scope.addToCurrentItems ? 'true' : 'false',
+                'overwrite'     :   $scope
             },{
     			headers			:	{
     				'<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
@@ -195,7 +204,7 @@ $columns                    =   array(
                 return;
             }
 
-            if( _.indexOf( $scope.columns_data, 'SKU' ) == -1 ) {
+            if( _.indexOf( $scope.columns_data, 'SKU' ) == -1 && $scope.autoSku ) {
                 NexoAPI.Notify().warning( '<?php echo _s( 'Champ necessaire absent', 'nexo' );?>', '<?php echo _s( 'Vous devez au moins choisir l\'option "Unité de gestion de stock" pour l\'un des champs disponible', 'nexo' );?>' );
                 return;
             }

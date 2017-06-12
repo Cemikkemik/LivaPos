@@ -7,13 +7,17 @@ include_once(APPPATH . '/libraries/REST_Controller.php'); // Include Rest Contro
 
 include_once(APPPATH . '/modules/nexo/vendor/autoload.php'); // Include from Nexo module dir
 
-include_once(APPPATH . '/modules/alvaro/inc/traits_loader.php'); // Include from Nexo module dir
+include_once(APPPATH . '/modules/nexo-restaurant/inc/traits_loader.php'); // Include from Nexo module dir
 
 use Carbon\Carbon;
 
-class Alvaro_Rest extends REST_Controller
+class Nexo_Restaurant extends REST_Controller
 {
-    use Commissions, Reports, SMS_Reminder;
+    use nexo_restaurant_tables,
+        nexo_restaurant_rooms,
+        nexo_restaurant_areas,
+        nexo_restaurant_kitchens,
+        nexo_restaurant_modifiers;
 
     public function __construct()
     {

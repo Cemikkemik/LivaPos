@@ -254,6 +254,7 @@ class Nexo_Settings_Controller extends CI_Model
         });
 
 		$this->events->add_action( 'dashboard_footer', function(){
+
 			include_once( MODULESPATH . '/nexo/inc/angular/register/include.php' );
 
 			/**
@@ -270,6 +271,18 @@ class Nexo_Settings_Controller extends CI_Model
 			**/
 
 			get_instance()->load->module_view( 'nexo', 'checkout.v2-1.header-script' );
+
+			/**
+			 * @since 3.1
+			 * Load Customer script
+			**/
+
+			if( get_option( store_prefix() . 'disable_customer_creation' ) != 'yes' ) {
+				get_instance()->load->module_view( 'nexo', 'customers.script', [
+					'clients'       =>  [],
+					'client_id'     =>  0
+				]);
+			}			
 		});
 
         $this->events->add_action( 'before_body_content', function(){

@@ -1415,13 +1415,6 @@ var v2Checkout					=	new function(){
 				size: 4
 			});
 
-			if( typeof $( '.cart-add-customer' ).attr( 'bound' ) == 'undefined' ) {
-				$( '.cart-add-customer' ).bind( 'click', function(){
-					v2Checkout.customers.createBox();
-				})
-				$( '.cart-add-customer' ).attr( 'bound', 'true' );
-			}
-
 			if( typeof $( '.customers-list' ).attr( 'change-bound' ) == 'undefined' ) {
 				$( '.customers-list' ).bind( 'change', function(){
 					v2Checkout.customers.bindSelectCustomer( $( this ).val() );
@@ -1429,103 +1422,6 @@ var v2Checkout					=	new function(){
 				$( '.customers-list' ).attr( 'change-bound', 'true' );
 			}
 		}
-
-		/**
-		* Create Box
-		**/
-
-		this.createBox			=	function(){
-			var userForm		=
-			'<form id="NewClientForm" method="POST">' +
-			'<?php echo tendoo_warning(addslashes(__('Toutes les autres informations comme la "date de naissance" pourront être remplis ultérieurement.', 'nexo')));?>' +
-			'<div class="form-group">'+
-			'<div class="input-group">' +
-			'<span class="input-group-addon" id="basic-addon1"><?php echo addslashes(__('Nom du client', 'nexo'));?></span>'+
-			'<input type="text" class="form-control" placeholder="<?php echo addslashes(__('Name', 'nexo'));?>" name="customer_name" aria-describedby="basic-addon1">' +
-			'</div>'+
-			'</div>' +
-			'<div class="form-group">'+
-			'<div class="input-group">' +
-			'<span class="input-group-addon" id="basic-addon1"><?php echo addslashes(__('Prénom du client', 'nexo'));?></span>'+
-			'<input type="text" class="form-control" placeholder="<?php echo addslashes(__('Prénom', 'nexo'));?>" name="customer_surname" aria-describedby="basic-addon1">' +
-			'</div>'+
-			'</div>' +
-			'<div class="form-group">'+
-			'<div class="input-group">' +
-			'<span class="input-group-addon" id="basic-addon1"><?php echo addslashes(__('Email du client', 'nexo'));?></span>'+
-			'<input type="text" class="form-control" placeholder="<?php echo addslashes(__('Email', 'nexo'));?>" name="customer_email" aria-describedby="basic-addon1">' +
-			'</div>'+
-			'</div>' +
-			'<div class="form-group">'+
-			'<div class="input-group">' +
-			'<span class="input-group-addon" id="basic-addon1"><?php echo addslashes(__('Téléphone du client', 'nexo'));?></span>'+
-			'<input type="text" class="form-control" placeholder="<?php echo addslashes(__('Téléphone', 'nexo'));?>" name="customer_tel" aria-describedby="basic-addon1">' +
-			'</div>'+
-			'</div>' +
-			'<div class="form-group">'+
-			'<div class="input-group">' +
-			'<span class="input-group-addon" id="basic-addon1"><?php echo addslashes(__('Groupe du client', 'nexo'));?></span>'+
-			'<select type="text" class="form-control customers_groups" name="customer_group" aria-describedby="basic-addon1">' +
-			'<option value=""><?php echo addslashes(__('Veuillez choisir un client', 'nexo'));?></option>' +
-			'</select>' +
-			'</div>'+
-			'</div>' +
-			'</form>';
-
-			NexoAPI.Bootbox().confirm( userForm, function( action ) {
-				if( action ) {
-					return v2Checkout.customers.create(
-						$( '[name="customer_name"]' ).val(),
-						$( '[name="customer_surname"]' ).val(),
-						$( '[name="customer_email"]' ).val(),
-						$( '[name="customer_tel"]' ).val(),
-						$( '[name="customer_group"]' ).val()
-					);
-				}
-			});
-
-			_.each( v2Checkout.CustomersGroups, function( value, key ) {
-				$( '.customers_groups' ).append( '<option value="' + value.ID + '">' + value.NAME + '</option>' );
-			});
-		};
-
-		/**
-		* Create Customer
-		*
-		* @param string user name
-		* @param string user surname
-		* @param string user email
-		* @param string user phone
-		* @param int user group
-		* @return bool
-		**/
-
-		this.create				=	function( name, surname, email, phone, ref_group ) {
-			// Name is required
-			if( name == '' ) {
-				NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous devez définir le nom du client', 'nexo'));?>' );
-				return false;
-			}
-			// Group is required
-			if( ref_group == '' ) {
-				NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous devez choisir un groupe pour le client', 'nexo'));?>' );
-				return false;
-			}
-			// Ajax
-			$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'customer' ));?>?store_id=<?php echo $store_id == null ? 0 : $store_id;?>', {
-				dataType		:	'json',
-				type			:	'POST',
-				data			:	_.object(
-					// if Store Feature is enabled
-					[ 'nom', 'prenom', 'email', 'tel', 'ref_group', 'author', 'date_creation' ],
-					[ name, surname, email, phone, ref_group, <?php echo User::id();?>, v2Checkout.CartDateTime.format( 'YYYY-MM-DD HH:mm:ss' ) ]
-				),
-				success			:	function(){
-					v2Checkout.customers.get();
-				}
-			});
-		}
-
 
 		/**
 		* Bind select customer
@@ -1643,46 +1539,6 @@ var v2Checkout					=	new function(){
 		};
 
 		/**
-		* Get Customers
-		**/
-
-		this.get						=	function(){
-			$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'customer' ));?>?store_id=<?php echo $store_id == null ? 0 : $store_id;?>', {
-				dataType		:	'json',
-				success			:	function( customers ){
-
-					$( '.customers-list' ).selectpicker('destroy');
-					// Empty list first
-					$( '.customers-list' ).children().each(function(index, element) {
-						$( this ).remove();
-					});;
-
-					customers 			=	NexoAPI.events.applyFilters( 'customers_dropdown', customers );
-
-					_.each( customers, function( value, key ){
-						if( parseInt( v2Checkout.CartCustomerID ) == parseInt( value.ID ) ) {
-
-							$( '.customers-list' ).append( '<option value="' + value.ID + '" selected="selected">' + value.NOM + '</option>' );
-							// Fix customer Selection
-							NexoAPI.events.doAction( 'select_customer', [ value ] );
-
-						} else {
-							$( '.customers-list' ).append( '<option value="' + value.ID + '">' + value.NOM + '</option>' );
-						}
-					});
-
-					// @since 3.0.16
-					v2Checkout.customers.list 	=	customers;
-
-					$( '.customers-list' ).selectpicker( 'refresh' );
-				},
-				error			:	function(){
-					NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Une erreur s\'est produite durant la récupération des clients', 'nexo'));?>' );
-				}
-			});
-		}
-
-		/**
 		* Get Customers Groups
 		**/
 
@@ -1705,8 +1561,6 @@ var v2Checkout					=	new function(){
 		**/
 
 		this.run						=	function(){
-			this.bind();
-			this.get();
 			this.getGroups();
 		};
 	}

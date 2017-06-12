@@ -208,39 +208,90 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 	 * @since 3.1
 	**/
 
+	$scope.calling 					= 	0;
 	$scope.openCreatingUser 		=	function(){
-		NexoAPI.Bootbox().confirm({
-			message 		:	'<div class="customerwrapper"><customers-main></customers-main></div>',
+
+		// create cache
+		if( $( 'div.customers-directive-cache' ).length == 0 ) {
+			angular.element( 'body' ).append( '<div class="customers-directive-cache"></div>' );
+		}
+
+		NexoAPI.Bootbox().alert({
+			message 		:	'<div class="customerwrapper"></div>',
 			title			:	'<?php echo _s( 'Créer un nouveau client', 'nexo' );?>',
 			buttons: {
-				confirm: {
-					label: '<?php echo _s( 'Créer un client', 'nexo' );?>',
-					className: 'btn-success'
-				},
-				cancel: {
+				ok: {
 					label: '<?php echo _s( 'Fermer', 'nexo' );?>',
 					className: 'btn-default'
 				}
 			},
 			callback		:	function( action ) {
-				// return $scope.openOrderOnPOS( action );
+				$( 'customers-main' ).appendTo( '.customers-directive-cache' );
+				$scope.model        =   new Object;
 			}
 		});
-
-		$( '.customerwrapper' ).html( $compile( $( '.customerwrapper' ).html() )($scope) );
-
+		
 		$timeout( function(){
+
+			if( $( 'customers-main' ).length > 0 ) {
+				$( '.customerwrapper' ).html( '' );
+				$( 'customers-main' ).appendTo( '.customerwrapper' );
+			} else {
+				$( '.customerwrapper' ).append( '<customers-main></customers-main>' );
+				$( 'customers-main' ).replaceWith( $compile( 
+					$( 'customers-main' )[0].outerHTML )($scope) 
+				);
+			}
+
 			angular.element( '.modal-dialog' ).css( 'width', '90%' );
-			angular.element( '.modal-body' ).css( 'padding-top', '0px' );
-			angular.element( '.modal-body' ).css( 'padding-bottom', '0px' );
-			angular.element( '.modal-body' ).css( 'padding-left', '0px' );
 			angular.element( '.modal-body' ).css( 'height', $scope.wrapperHeight );
+			angular.element( '.modal-body' ).css( 'background', '#f9f9f9' );
 			angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );
 			angular.element( '.middle-content' ).attr( 'style', 'border-left:solid 1px #DEDEDE;overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
 			angular.element( '.order-details' ).attr( 'style', 'overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
 			angular.element( '.middle-content' ).css( 'padding', 0 );
 		}, 150 );
 	}
+
+	/**
+	 * Get Customer
+	 * @return void
+	**/
+
+	$scope.getCustomers 			=	function(){
+		$http.get( '<?php echo site_url( [ 'rest', 'nexo', 'customers', store_get_param( '?' ) ]);?>', {
+			headers	:	{
+				'<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo get_option( 'rest_key' );?>'
+			}
+		}).then( ( returned ) => {
+			$( '.customers-list' ).selectpicker('destroy');
+			// Empty list first
+			$( '.customers-list' ).children().each(function(index, element) {
+				$( this ).remove();
+			});;
+
+			let customers	=	NexoAPI.events.applyFilters( 'customers_dropdown', returned.data );
+
+			_.each( customers, function( value, key ){
+				if( parseInt( v2Checkout.CartCustomerID ) == parseInt( value.ID ) ) {
+
+					$( '.customers-list' ).append( '<option value="' + value.ID + '" selected="selected">' + value.NOM + '</option>' );
+					// Fix customer Selection
+					NexoAPI.events.doAction( 'select_customer', [ value ] );
+
+				} else {
+					$( '.customers-list' ).append( '<option value="' + value.ID + '">' + value.NOM + '</option>' );
+				}
+			});
+
+			// @since 3.0.16
+			v2Checkout.customers.list 	=	customers;
+
+			$( '.customers-list' ).selectpicker( 'refresh' );
+		});
+	}
+
+	$scope.getCustomers();
 
 	hotkeys.add({
 		combo: '<?php echo @$Options[ 'pending_order' ] == null ? "shift+s" : @$Options[ 'pending_order' ];?>',

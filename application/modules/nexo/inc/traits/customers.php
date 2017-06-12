@@ -294,4 +294,42 @@ trait Nexo_customers
 
         return $this->__success();  
     }
+
+    /**
+     * Customer Get
+     * @param int customer id
+     * @return json
+    **/
+
+    public function customers_get( $client_id = null ) 
+    {
+        if( $client_id != null ) {
+            $this->db->where( store_prefix() . 'nexo_clients.ID', $client_id );
+        }
+
+        $customers      =   $this->db->select( '*' )->from( store_prefix() . 'nexo_clients' )
+        ->get()
+        ->result_array();
+
+        if( $customers ) {
+            foreach( $customers as &$customer ) {
+
+                $addresses      =   $this->db->where( 'ref_client', $customer[ 'ID' ] )
+                ->get( store_prefix() . 'nexo_clients_address' )
+                ->result_array();
+
+                if( $addresses ) {
+                    foreach( $addresses as $address ) {
+                        foreach( $address as $key => $value ) {
+                            if( $key != 'type' ) {
+                                $customer[ $address[ 'type' ] . '_' . $key ]        =   $value;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->response( $customers, 200 );
+    }
 }

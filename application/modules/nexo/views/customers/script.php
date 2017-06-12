@@ -1,17 +1,19 @@
 <?php
-global $Options;
+global $Options, $PageNow;
 $this->load->config( 'rest' );
 ?>
 <script>
 let customersMain    =   function( 
     $scope, 
     $http,
-    $compile
+    $compile,
+    $rootScope
 ) {
 
     tendoo.loader.show();
     $scope.item                     =   new Object;
     $scope.rawCustomers             =   <?php echo json_encode( ( array ) $clients );?>;
+    $scope.pageNow                  =   '<?php echo $PageNow;?>';
 
     $scope.tabs         =   [{
         name        :   '<?php echo _s( 'Basic informations', 'nexo' );?>',
@@ -44,7 +46,8 @@ let customersMain    =   function(
     $scope.enableTab( $scope.tabs[0] );
 
     
-    $scope.submitForm           =   function( ) {
+    $scope.submitForm           =   function() {
+
         if( $scope.form.$valid ) {
             let data    =   new Object;
             _.each( $scope.form, ( value, key ) => {
@@ -63,8 +66,19 @@ let customersMain    =   function(
                     '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
                     }
                 }).then( function( returned ){
-                    document.location   =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'clients', 'lists', 'success', $client_id ]);?>';
-                    tendoo.loader.hide();
+                    // if we're creating a user from the POS screen
+                    if( $scope.pageNow == 'nexo/registers/__use' ) {
+                        // refresh customers
+                        $scope.getCustomers();
+                        $( '[data-bb-handler="ok"]' ).trigger( 'click' );
+                    } else {
+                        document.location   =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'clients', 'lists', 'success', $client_id ]);?>';
+                        tendoo.loader.hide();
+                    }
+
+                    $scope.model[ 'basic' ]         =   new Object;
+                    $scope.model[ 'billing' ]       =   new Object;
+                    $scope.model[ 'shipping' ]      =   new Object;                  
                 }, ( returned ) => {
                     if( returned.data.status == 'failed' ) {
                         switch( returned.data.message ) {
@@ -73,6 +87,7 @@ let customersMain    =   function(
                             break;
                         }
                     }
+
                     tendoo.loader.hide();
                 });
             } else {
@@ -85,8 +100,19 @@ let customersMain    =   function(
                     '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
                     }
                 }).then( function( returned ){
-                    document.location   =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'clients', 'lists', 'success' ]);?>';
-                    tendoo.loader.hide();
+                    // if we're creating a user from the POS screen
+                    if( $scope.pageNow == 'nexo/registers/__use' ) {
+                        // refresh customers
+                        $scope.getCustomers();
+                        $( '[data-bb-handler="ok"]' ).trigger( 'click' );
+                    } else {
+                        document.location   =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'clients', 'lists', 'success' ]);?>';
+                        tendoo.loader.hide();
+                    }   
+
+                    $scope.model[ 'basic' ]         =   new Object;
+                    $scope.model[ 'billing' ]       =   new Object;
+                    $scope.model[ 'shipping' ]      =   new Object;                 
                 }, ( returned ) => {
                     if( returned.data.status == 'failed' ) {
                         switch( returned.data.message ) {
@@ -106,7 +132,8 @@ let customersMain    =   function(
 }
 
 // inject dependencies
-customersMain.$inject    =   [ '$scope', '$http', '$compile' ];
+customersMain.$inject    =   [ '$scope', '$http', '$compile', '$rootScope' ];
+
 tendooApp.directive( 'customersMain', function() {
     return {
         restrict    :   'E',

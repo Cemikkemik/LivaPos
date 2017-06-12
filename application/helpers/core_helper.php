@@ -563,7 +563,7 @@ function unique_multidim_array($array, $key) {
 function get_option( $key = null ) {
     global $Options;
     if( $key != null ) {
-        return @$Options[ 'key' ];
+        return @$Options[ $key ];
     }
     return $Options;
 }

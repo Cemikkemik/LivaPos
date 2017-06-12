@@ -209,7 +209,37 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 	**/
 
 	$scope.openCreatingUser 		=	function(){
-		alert( 'ok' );
+		NexoAPI.Bootbox().confirm({
+			message 		:	'<div class="customerwrapper"><customers-main></customers-main></div>',
+			title			:	'<?php echo _s( 'Créer un nouveau client', 'nexo' );?>',
+			buttons: {
+				confirm: {
+					label: '<?php echo _s( 'Créer un client', 'nexo' );?>',
+					className: 'btn-success'
+				},
+				cancel: {
+					label: '<?php echo _s( 'Fermer', 'nexo' );?>',
+					className: 'btn-default'
+				}
+			},
+			callback		:	function( action ) {
+				// return $scope.openOrderOnPOS( action );
+			}
+		});
+
+		$( '.customerwrapper' ).html( $compile( $( '.customerwrapper' ).html() )($scope) );
+
+		$timeout( function(){
+			angular.element( '.modal-dialog' ).css( 'width', '90%' );
+			angular.element( '.modal-body' ).css( 'padding-top', '0px' );
+			angular.element( '.modal-body' ).css( 'padding-bottom', '0px' );
+			angular.element( '.modal-body' ).css( 'padding-left', '0px' );
+			angular.element( '.modal-body' ).css( 'height', $scope.wrapperHeight );
+			angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );
+			angular.element( '.middle-content' ).attr( 'style', 'border-left:solid 1px #DEDEDE;overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
+			angular.element( '.order-details' ).attr( 'style', 'overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
+			angular.element( '.middle-content' ).css( 'padding', 0 );
+		}, 150 );
 	}
 
 	hotkeys.add({

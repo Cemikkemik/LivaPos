@@ -6,8 +6,17 @@
 <div class="box box-primary direct-chat direct-chat-primary" id="cart-details-wrapper"> <!-- style="visibility:hidden" -->
     <div class="box-header with-border" id="cart-header">
         <form action="#" method="post">
-
+            
             <div class="input-group" ng-controller="cartToolBox">
+                <?php if( @$Options[ store_prefix() . 'disable_shipping' ] != 'yes' ):?>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openDelivery()" title="<?php _e( 'Livraison', 'nexo' );?>">
+                        <i class="fa fa-truck"></i>
+                        <span class="hidden-sm hidden-xs"><?php _e('Livraison', 'nexo');?></span>
+                    </button>
+                </span>
+                <?php endif;?>
+
                 <select data-live-search="true" name="customer_id" title="<?php _e('Veuillez choisir un client', 'nexo' );?>" class="form-control customers-list dropdown-bootstrap">
                     <option value="">
                         <?php _e('Sélectionner un client', 'nexo');?>

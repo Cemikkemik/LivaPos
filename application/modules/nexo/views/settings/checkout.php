@@ -154,6 +154,18 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
+    'name'        =>    $option_prefix . 'disable_shipping',
+    'label'        =>    __('Désactiver les livraisons ?', 'nexo'),
+	'description'	=>	__( 'Désactiver l\'option des livraisons.', 'nexo' ),
+    'options'    =>    array(
+		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
+        'no'        =>    __('Non', 'nexo'),
+		'yes'        =>    __('Oui', 'nexo')
+    )
+), 'Nexo_checkout', 1);
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
     'name'        =>    $option_prefix . 'disable_customer_creation',
     'label'        =>    __('Désactiver la création des clients ?', 'nexo'),
 	'description'	=>	__( 'Permet de désactiver la création des clients. Ces dernièrs pourront toujours être créés depuis l\'interface classique.', 'nexo' ),

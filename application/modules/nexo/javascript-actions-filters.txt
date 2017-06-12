@@ -167,3 +167,23 @@ customers_dropdown :  {
 	type 		:	filter,
 	desc 			:	vous permet de filter la liste des clients.
 }
+
+openPayBox		:	{
+	type 	:	filter
+	desc 	:	permet de déterminer si oui ou non une fenêtre peut s'ouvrir
+} 
+
+history_orderType : {
+	type 	:	filter
+	desc 	:	permet de modifier les types de produits qui peuvent s'afficher sur l'historique des fichiers
+}	
+
+override_open_order : {
+	type 		:	filter
+	desc 		:	permet de déterminer si un script gèrera l'ajout d'une commande en attente sur le panier
+}
+
+hover_item_name 	:	{
+	type 	:	filter,
+	desc 	:	permet dautoriser l'exécution du survol d'élement sur le point de vente
+}

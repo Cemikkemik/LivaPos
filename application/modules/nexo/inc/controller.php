@@ -301,7 +301,7 @@ class Nexo_Controller extends CI_Model
 					),
 					array(
 						'title'        =>    __('Ajouter un client', 'nexo'),
-						'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/clients/lists/add'),
+						'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/clients/add'),
 					),
 					array(
 						'title'        =>    __('Groupes', 'nexo'),
@@ -520,21 +520,19 @@ class Nexo_Controller extends CI_Model
 
         include_once( dirname( __FILE__ ) . '/../__controllers/import.php' );
         include_once( dirname( __FILE__ ) . '/../__controllers/coupons.php' );
+		include_once( dirname( __FILE__ ) . '/../__controllers/templates.php' ); // @since 3.1
 
-        $this->Gui->register_page('nexo', array( $this, 'load_controller' ));
+        $this->Gui->register_page( 'nexo', array( $this, 'load_controller' ));
 		$this->Gui->register_page( 'stores', array( $this, 'stores' ) );
         $this->Gui->register_page_object( 'nexo_import', new Import );
         $this->Gui->register_page_object( 'nexo_coupons', new NexoCouponController );
+		$this->Gui->register_page_object( 'nexo_templates', new Nexo_Templates_Controller ); // @since 3.1
 
         // @since 2.10.1
         $this->events->add_filter( 'stores_controller_callback', function( $action ) {
-            $action[ 'nexo_import' ]    =   new Import;
-            return $action;
-        });
-
-        // @since 3.0
-        $this->events->add_filter( 'stores_controller_callback', function( $action ){
-            $action[ 'nexo_coupons' ]    =   new NexoCouponController;
+            $action[ 'nexo_import' ]    	=   new Import;
+			$action[ 'nexo_coupons' ]    	=   new NexoCouponController;
+			$action[ 'nexo_templates' ]    	=   new Nexo_Templates_Controller; // @since 3.1
             return $action;
         });
 

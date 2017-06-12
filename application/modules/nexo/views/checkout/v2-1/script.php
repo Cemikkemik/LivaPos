@@ -292,30 +292,49 @@ var v2Checkout					=	new function(){
     **/
 
 	this.bindHoverItemName 		=	function(){
-		$( '[cart-item]' ).on( 'mouseenter', function() {
-			// item-name
-			let item 	=	v2Checkout.getItem( $( this ).attr( 'data-item-barcode' ) );
-			let speed;
-			let length 	=	item.DESIGN.length;
-			
-			switch( true ) {
-				case ( length >= 20 && length < 25 ) : speed 	=	1;break;
-				case ( length >= 25 && length < 40 ) : speed 	=	2;break;
-				case ( length >= 40 && length < 50 ) : speed 	=	3;break;
-				case ( length >= 50 && length < 60 ) : speed 	=	4;break;
-				case ( length >= 60 ) : speed 	=	5;break;
-				default : speed 	=	4;break;
-			}
 
-			if( length > 23 ) {
-				$( this ).find( '.item-name' ).attr( 'previous', $( this ).find( '.item-name' ).html() );
-				$( this ).find( '.item-name' ).html( '<marquee class="marquee_me" behavior="alternate" scrollamount="' + speed + '" direction="left" style="width:100%;float:left;">' + item.DESIGN + '</marquee>' );
-			}
+		if( ! NexoAPI.events.applyFilters( 'hover_item_name', true ) ) {
+			return false;
+		}
+
+		$( '[cart-item]' ).each( function() {
+			$( this ).on( 'mouseenter', function() {
+				// item-name
+				let item 	=	v2Checkout.getItem( $( this ).attr( 'data-item-barcode' ) );
+
+				if( item ) {
+					let speed;
+					let length 	=	item.DESIGN.length;
+					
+					switch( true ) {
+						case ( length >= 20 && length < 25 ) : speed 	=	1;break;
+						case ( length >= 25 && length < 40 ) : speed 	=	2;break;
+						case ( length >= 40 && length < 50 ) : speed 	=	3;break;
+						case ( length >= 50 && length < 60 ) : speed 	=	4;break;
+						case ( length >= 60 ) : speed 	=	5;break;
+						default : speed 	=	4;break;
+					}
+
+					if( length > 23 ) {
+						console.log( 'enter' );
+						$( this ).find( '.item-name' ).attr( 'previous', htmlEntities( $( this ).find( '.item-name' ).html() ) );
+						$( this ).find( '.item-name' ).html( '<marquee class="marquee_me" behavior="alternate" scrollamount="' + speed + '" direction="left" style="width:100%;float:left;">' + item.DESIGN + '</marquee>' );
+					}
+				}
+			});			
 		})
 
-		$( '[cart-item]' ).on( 'mouseleave', function() {
-			$( this ).find( '.item-name' ).html( $( this ).find( '.item-name' ).attr( 'previous' ) );
-		})
+		$( '[cart-item]' ).each( function() {
+			$( this ).on( 'mouseleave', function() {
+				let old_previous 	=	htmlEntities( $( this ).find( '.item-name' ).html() ); 
+				
+				// to avoid displaying empty string
+				if( old_previous != '' && typeof $( this ).find( '.item-name' ).attr( 'previous' ) != 'undefined' ) {
+					$( this ).find( '.item-name' ).html( EntitiesHtml( $( this ).find( '.item-name' ).attr( 'previous' ) ) );
+					$( this ).find( '.item-name' ).attr( 'previous', old_previous );
+				}	
+			});		
+		});
 	}
 
 	/**
@@ -326,6 +345,7 @@ var v2Checkout					=	new function(){
 	this.bindCategoryActions	=	function(){
 		$( '.slick-wrapper' ).remove(); // empty all
 		$( '.add_slick_inside' ).html( '<div class="slick slick-wrapper"></div>' );
+		
 		// Build New category wrapper @since 2.7.1
 		_.each( this.ItemsCategories, function( value, id ) {
 			// New Categories List
@@ -928,7 +948,7 @@ var v2Checkout					=	new function(){
 
 				$( '#cart-table-body' ).find( 'table' ).append(
 					'<tr cart-item data-line-weight="' + ( MainPrice * parseInt( value.QTE_ADDED ) ) + '" data-item-barcode="' + value.CODEBAR + '">' +
-						'<td width="200" class="text-left" style="line-height:30px;">' + NexoAPI.events.applyFilters( 'cart_before_item_name', '' ) + '<p style="text-transform: uppercase;float:left;width:76%;margin-bottom:0px;" class="item-name">' + item_design.displayed + '</p></td>' +
+						'<td width="200" class="text-left" style="line-height:30px;"><p style="width:45px;margin:0px;float:left">' + NexoAPI.events.applyFilters( 'cart_before_item_name', '' ) + '</p><p style="text-transform: uppercase;float:left;width:76%;margin-bottom:0px;" class="item-name">' + item_design.displayed + '</p></td>' +
 						'<td width="110" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice ) + ' ' + Discounted + '</td>' +
 						'<td width="100" class="text-center">' +
 						'<div class="input-group input-group-sm">' +
@@ -1045,7 +1065,6 @@ var v2Checkout					=	new function(){
 				}
 
 				$( '.cart-discount-notice-area' ).append( '<span style="cursor: pointer;margin:0px 2px;" class="animated bounceIn btn expandable btn-info btn-xs cart-ristourne"><i class="fa fa-remove"></i> <?php echo addslashes(__('Ristourne : ', 'nexo'));?>' + NexoAPI.DisplayMoney( this.CartRistourneAmount ) + '</span>' );
-
 			}
 
 			this.bindRemoveCartRistourne();
@@ -1190,7 +1209,7 @@ var v2Checkout					=	new function(){
 
 		// @since 2.8.2 add order meta
 		this.CartMetas					=	NexoAPI.events.applyFilters( 'order_metas', this.CartMetas );
-		order_details.METAS				=	this.CartMetas;
+		order_details.metas				=	this.CartMetas;
 
 		if( payment_means == 'cash' ) {
 
@@ -1379,6 +1398,7 @@ var v2Checkout					=	new function(){
 
 	/**
 	* Customer DropDown Menu
+	* @deprecated
 	**/
 
 	this.customers			=	new function(){
@@ -1754,18 +1774,6 @@ var v2Checkout					=	new function(){
 
 				this.POSItems 		=	json;
 
-				$( '.filter-add-product' ).each( function(){
-					$(this).bind( 'mouseenter', function(){
-						$( this ).find( '.marquee_me' ).replaceWith( '<marquee class="marquee_me" behavior="alternate" scrollamount="4" direction="left" style="width:100%;float:left;">' + $( this ).find( '.marquee_me' ).html() + '</marquee>' );
-					})
-				});
-
-				$( '.filter-add-product' ).bind( 'mouseover', function(){
-					$(this).bind( 'mouseleave', function(){
-						$( this ).find( '.marquee_me' ).replaceWith( '<span class="marquee_me">' + $( this ).find( '.marquee_me' ).html() + '</span>' );
-					})
-				});
-
 				// Bind Categorie @since 2.7.1
 				v2Checkout.bindCategoryActions();
 
@@ -1786,6 +1794,18 @@ var v2Checkout					=	new function(){
 			} else {
 				NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous ne pouvez pas procéder à une vente, car aucun article n\'est disponible pour la vente.', 'nexo' ));?>' );
 			}
+
+			$( '.filter-add-product' ).each( function(){
+				$(this).bind( 'mouseenter', function(){
+					$( this ).find( '.marquee_me' ).replaceWith( '<marquee class="marquee_me" behavior="alternate" scrollamount="4" direction="left" style="width:100%;float:left;">' + $( this ).find( '.marquee_me' ).html() + '</marquee>' );
+				})
+			});
+
+			$( '.filter-add-product' ).each( function(){
+				$(this).bind( 'mouseleave', function(){
+					$( this ).find( '.marquee_me' ).replaceWith( '<span class="marquee_me">' + $( this ).find( '.marquee_me' ).html() + '</span>' );
+				})
+			});
 		};
 
 		/**
@@ -1836,7 +1856,7 @@ var v2Checkout					=	new function(){
 					 * Override Add Item default Feature
 					**/
 
-					if( NexoAPI.events.applyFilters( 'override_add_item' , false ) == true ) {
+					if( NexoAPI.events.applyFilters( 'override_add_item' , { _item, proceed : false } ).proceed == true ) {
 						return;
 					}
 
@@ -2320,10 +2340,11 @@ var v2Checkout					=	new function(){
 
 			this.CartDiscount		=	NexoAPI.ParseFloat( this.CartRemise + this.CartRabais + this.CartRistourne + this.CartGroupDiscount );
 			this.CartValueRRR		=	NexoAPI.ParseFloat( this.CartValue - this.CartDiscount );
-
+			
 			this.calculateCartVAT();
 
 			this.CartToPay			=	( this.CartValueRRR + this.CartVAT );
+
 			<?php if( in_array(strtolower(@$Options[ store_prefix() . 'nexo_currency_iso' ]), $this->config->item('nexo_supported_currency')) ) {
 				?>
 				this.CartToPayLong		=	numeral( this.CartToPay ).multiply(100).value();
@@ -2342,7 +2363,7 @@ var v2Checkout					=	new function(){
 			//@since 3.0.19
 			let itemsNumber 	=	0;
 			_.each( this.CartItems, ( item ) => {
-				itemsNumber 	+=	item.QTE_ADDED;
+				itemsNumber 	+=	parseInt( item.QTE_ADDED );
 			});
 			$( '.items-number' ).html( itemsNumber );
 
@@ -2718,4 +2739,12 @@ NexoAPI.events.addFilter( 'cart_item_name', ( data ) => {
 	data.displayed 		=	data.displayed.length > 23 ? data.displayed.substr( 0, 18 ) + '...' : data.displayed;
 	return data;
 });
+
+function htmlEntities(str) {
+    return $( '<div/>' ).text( str ).html()
+}
+
+function EntitiesHtml(str) {
+    return $( '<div/>' ).html( str ).text();
+}
 </script>

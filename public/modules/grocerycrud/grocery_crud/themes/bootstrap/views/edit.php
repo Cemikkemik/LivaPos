@@ -75,13 +75,13 @@
 								?></label>
                 <br />
                 <?php echo $input_fields[$field->field_name]->input;
-								?> </div>
-                                <?php if( ! empty( $field->description ) ):?>
-								<span class="help-block"><?php echo strip_tags( $field->description );?></span>
-								<?php endif;?>
+								?>
+				<?php if( ! empty( $field->description ) ):?>
+				<span class="help-block"><?php echo strip_tags( $field->description );?></span>
+				<?php endif;?> 
+			</div>
             <?php
 			$index++;
-		
 							}
 						}
 					}

@@ -71,6 +71,12 @@ class Nexo extends CI_Model
         $this->enqueue->js( '../bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker' );
         $this->enqueue->js( '../bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates' );
         $this->enqueue->js( '../modules/nexo/bower_components/angular-hotkeys/build/hotkeys.min' );
+        // @since 3.1
+        $this->enqueue->js( '../modules/nexo/bower_components/angular-sanitize/angular-sanitize.min' );
+        $this->enqueue->js( '../modules/nexo/bower_components/tv4/tv4' );
+        $this->enqueue->js( '../modules/nexo/bower_components/objectpath/lib/ObjectPath' );
+        $this->enqueue->js( '../modules/nexo/bower_components/angular-schema-form/dist/schema-form.min' );
+        $this->enqueue->js( '../modules/nexo/bower_components/angular-schema-form/dist/bootstrap-decorator.min' );
 
         $this->enqueue->css_namespace( 'dashboard_header' );
         $this->enqueue->css( 'css/nexo-arrow', module_url( 'nexo' ) );
@@ -100,6 +106,7 @@ class Nexo extends CI_Model
             $deps[]     =   'ngNumeraljs';
             $deps[]     =   'ui.bootstrap.datetimepicker';
             $deps[]     =   'cfp.hotkeys';
+            $deps[]     =   'schemaForm';
             return $deps;
         });
 

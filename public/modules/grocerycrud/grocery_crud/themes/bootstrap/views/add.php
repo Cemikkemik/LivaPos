@@ -74,8 +74,7 @@ if( $groups ) {
 							?></label>
                 <br />
                 <?php echo $input_fields[$field->field_name]->input;?>
-			</div>
-            	<?php if( ! empty( $field->description ) ):?>
+                <?php if( ! empty( $field->description ) ):?>
 				<span class="help-block"><?php echo strip_tags( $field->description );?></span>
                 <?php endif;?>
             </div>
@@ -121,7 +120,9 @@ if( $groups ) {
 					?>" name="<?php echo $field->field_name;
 					?>" aria-describedby="basic-addon1"> -->
             </div>
-            <?php echo $field->description;?>
+            <?php if( ! empty( $field->description ) ):?>
+            <span class="help-block"><?php echo strip_tags( $field->description );?></span>
+            <?php endif;?>  
         </div>
         <?php
 				} else {
@@ -133,8 +134,11 @@ if( $groups ) {
 					?></label>
             <br />
             <?php echo $input_fields[$field->field_name]->input;
-					?> </div>
-                    <?php echo $field->description;?>
+					?> 
+            <?php if( ! empty( $field->description ) ):?>
+            <span class="help-block"><?php echo strip_tags( $field->description );?></span>
+            <?php endif;?>
+        </div>
         <?php
 
 				}

@@ -21,6 +21,13 @@
                 'attrs' =>  [
                     'ng-click'  =>  'openFullScreen()'
                 ]
+            ], [
+                'class' =>  'default history-box-button',
+                'text'  =>  __( 'En Attente', 'nexo' ),
+                'icon'  =>  'history',
+                'attrs' =>  [
+                    'ng-click'  =>  'openHistoryBox()'
+                ]
             ]
         ]) as $menu ) {
             $attrs      =   '';

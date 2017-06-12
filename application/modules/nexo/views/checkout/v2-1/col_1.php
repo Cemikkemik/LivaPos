@@ -16,25 +16,14 @@
                 <span class="input-group-btn">
                     <?php if( @$Options[ store_prefix() . 'disable_customer_creation' ] != 'yes' ):?>
 
-                    <button type="button" class="btn btn-default cart-add-customer" title="<?php _e( 'Ajouter un client', 'nexo' );?>">
+                    <button type="button" class="btn btn-default" ng-click="openCreatingUser()" title="<?php _e( 'Ajouter un client', 'nexo' );?>">
                         <i class="fa fa-user"></i>
                         <span class="hidden-sm hidden-xs"><?php _e('Ajouter un client', 'nexo');?></span>
                         <span class="hidden-lg hidden-md">+1</span>
                     </button>
 
                     <?php endif;?>
-                    <?php foreach( $this->events->apply_filters( 'nexo_cart_buttons', [
-                        // 'delivery'      =>
-                        // '<button type="button" class="btn btn-default">
-                        // 	<i class="fa fa-truck"></i>
-                        // </button>',
-
-                        'history'       =>
-                        '<button type="button" ng-click="openHistoryBox()" class="btn btn-default" title="' . _e( 'Charger les commandes en attente', 'nexo' ) . '">
-                        	<i class="fa fa-history"></i>
-                        </button>'
-
-                    ])  as $button ):;?>
+                    <?php foreach( $this->events->apply_filters( 'nexo_cart_buttons', [])  as $button ):;?>
                         <?php echo $button;?>
                     <?php endforeach;?>
 

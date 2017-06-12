@@ -174,7 +174,7 @@ trait Nexo_orders
 		 * Save order meta
 		**/
 
-		$metas					=	$this->post( 'METAS' );
+		$metas					=	$this->post( 'metas' );
 
 		if( $metas ) {
 
@@ -333,10 +333,10 @@ trait Nexo_orders
         }
 
         // Delete item from order
-        $this->db->where( 'REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ] )->delete( store_prefix() . 'nexo_commandes_produits');
+        // $this->db->where( 'REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ] )->delete( store_prefix() . 'nexo_commandes_produits');
 
         // Delete item metas
-        $this->db->where( 'REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ] )->delete( store_prefix() . 'nexo_commandes_produits_meta');
+        // $this->db->where( 'REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ] )->delete( store_prefix() . 'nexo_commandes_produits_meta');
 
         // Save Order items
         /**
@@ -384,26 +384,21 @@ trait Nexo_orders
                 'DISCOUNT_PERCENT'          =>    $item[ 'discount_percent' ]
             );
 
-            $this->db->insert( store_prefix() . 'nexo_commandes_produits', $item_data );
-
-            // getcommande product id
-            $insert_id = $this->db->insert_id();
+            $this->db->where( store_prefix() . 'nexo_commandes_produits.ID', $item[ 'id' ] )
+            ->where( store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ] )
+            ->update( store_prefix() . 'nexo_commandes_produits', $item_data );
 
             // Saving item metas
-            $meta_array         =   array();
             foreach( ( array ) @$item[ 'metas' ] as $key => $value ) {
-                $meta_array[]     =   [
-                    'REF_COMMAND_PRODUCT'   =>  $insert_id,
-                    'REF_COMMAND_CODE'      =>  $old_order[ 'order' ][0][ 'CODE' ],
-                    'KEY'                   =>  $key,
+                $meta     =   [
                     'VALUE'                 =>  $value,
-                    'DATE_CREATION'         =>  $this->put('DATE_CREATION')
+                    'DATE_MODIFICATION'     =>  $this->put('DATE_CREATION')
                 ];
-            }
 
-            // If item has metas, we just save it
-            if( $meta_array ) {
-                $this->db->insert_batch( store_prefix() . 'nexo_commandes_produits_meta', $meta_array );
+                $this->db->where( 'REF_COMMAND_PRODUCT', $item[ 'id' ] )
+                ->where( 'REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ] )
+                ->where( 'KEY', $key )
+                ->update( store_prefix() . 'nexo_commandes_produits_meta', $meta );
             }
         }
 
@@ -416,10 +411,10 @@ trait Nexo_orders
 		**/
 
 		// Delete first all meta
-		$this->db->where( 'REF_ORDER_ID', $order_id )
-        ->delete( store_prefix() . 'nexo_commandes_meta' );
+		/** $this->db->where( 'REF_ORDER_ID', $order_id )
+        ->delete( store_prefix() . 'nexo_commandes_meta' ); **/
 
-		$metas        =	      $this->put( 'METAS' );
+		$metas        =	      $this->put( 'metas' );
 
 		if( $metas ) {
 
@@ -433,7 +428,9 @@ trait Nexo_orders
 					'DATE_CREATION'	=>	$this->put('DATE_CREATION')
 				);
 
-				$this->db->insert( store_prefix() . 'nexo_commandes_meta', $meta_data );
+				$this->db->where( 'REF_ORDER_ID', $order_id )
+                ->where( 'KEY', $key )
+                ->update( store_prefix() . 'nexo_commandes_meta', $meta_data );
 			}
 		}
 
@@ -524,7 +521,8 @@ trait Nexo_orders
 
 		->get()->result();
 
-		$items		=	$this->db->select( '*' )
+		$items		=	$this->db->select( '*, '
+        . store_prefix() . 'nexo_commandes_produits.ID as ID' )
 
 		->from( store_prefix() . 'nexo_commandes_produits' )
 
@@ -537,6 +535,20 @@ trait Nexo_orders
 		->where( store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE', $order[0]->CODE )
 
 		->get()->result();
+
+        // load items meta
+        foreach( $items as $key => $item ) {
+            $metas      =   $this->db->where( store_prefix() . 'nexo_commandes_produits_meta.REF_COMMAND_PRODUCT', $item->ID )
+            ->get( store_prefix() . 'nexo_commandes_produits_meta' )->result();
+
+            if( $metas ) {
+                $items[ $key ]->metas    =   [];
+            }
+
+            foreach( $metas as $meta ) {
+                $items[ $key ]->metas[ $meta->KEY ]      =   $meta->VALUE;
+            }
+        }
 
 		if( $order && $items ) {
 			$this->response( array(

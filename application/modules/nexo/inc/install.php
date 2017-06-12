@@ -116,6 +116,23 @@ class Nexo_Install extends CI_Model
             PRIMARY KEY (`ID`)
         ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
+		// @since 3.1
+		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_clients_address` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `type` varchar(200) NOT NULL,
+            `name` varchar(200) NOT NULL,
+			`surname` varchar(200) NOT NULL,
+			`enterprise` varchar(200) NOT NULL,
+			`address_1` varchar(200) NOT NULL,
+			`address_2` varchar(200) NOT NULL,
+			`city` varchar(200) NOT NULL,
+			`pobox` varchar(200) NOT NULL,
+			`country` varchar(200) NOT NULL,
+			`state` varchar(200) NOT NULL,
+            `ref_client` int(11) NOT NULL,
+            PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+
 		// Ref STORE
         $this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_clients_groups` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -177,6 +194,8 @@ class Nexo_Install extends CI_Model
 		  `DISCOUNT_TYPE` varchar(200) NOT NULL,
 		  `DISCOUNT_AMOUNT` float NOT NULL,
 		  `DISCOUNT_PERCENT` float NOT NULL,
+		  `NAME` varchar(200) NOT NULL,
+		  `DESCRIPTION` text NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 

@@ -109,6 +109,21 @@ class Nexo_Clients extends CI_Model
 
         $crud->unset_jquery();
 
+        // @since 3.1
+        $crud->unset_add();
+        $crud->unset_edit();
+
+        // add a custom action on header
+        $this->events->add_filter( 'grocery_header_buttons', function( $menus ) {
+            $menus[]        =   [
+                'text'      =>  __( 'Ajouter un client', 'nexo' ),
+                'url'       =>  site_url([ 'dashboard', store_slug(), 'nexo', 'clients', 'add' ])
+            ];
+            return $menus;
+        });
+
+        $crud->add_action( __( 'Modifier', 'nexo' ), null, site_url([ 'dashboard', store_slug(), 'nexo', 'clients', 'edit/' ] ), 'fa fa-edit btn btn-default' );
+
         // Load Nexo Customer Clients Crud
         $crud   =   $this->events->apply_filters( 'customers_crud_loaded', $crud );
 
@@ -178,10 +193,45 @@ class Nexo_Clients extends CI_Model
             redirect(array( 'dashboard', 'access-denied' ));
         }
 
-        $data[ 'crud_content' ]    =    $this->crud_header();
-        $_var1                    =    'clients';
-        $this->Gui->set_title( store_title( __( 'Ajouter un nouveau client', 'nexo' ) ) );
-        $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
+        $data                   =   [];        
+        $data[ 'clients' ]      =   [];
+        $data[ 'client_id' ]    =   0;
+
+        // @since 3.1.0
+        $this->events->add_action( 'dashboard_footer', function() use ( $data ) {
+            get_instance()->load->module_view( 'nexo', 'customers.script', $data );
+        });
+
+        $this->Gui->set_title( store_title( __( 'Add a new customer', 'nexo' ) ) );
+        $this->load->module_view( 'nexo', 'customers.gui' );
+    }
+    
+    /**
+     * Edit customer
+     * @param int customer id
+     * @return void
+    **/
+
+    public function edit( $customer_id ) 
+    {
+        global $PageNow;
+		$PageNow			=	'nexo/clients/add';
+
+        if (! User::can('create_shop_customers')) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+
+        $this->load->module_model( 'nexo', 'nexo_customers' );
+        $data[ 'clients' ]      =   $this->nexo_customers->get_customers( $customer_id );
+        $data[ 'client_id' ]    =   $customer_id;
+
+        // @since 3.1.0
+        $this->events->add_action( 'dashboard_footer', function() use ( $data ) {
+            get_instance()->load->module_view( 'nexo', 'customers.script', $data );
+        });
+
+        $this->Gui->set_title( store_title( __( 'Add a new customer', 'nexo' ) ) );
+        $this->load->module_view( 'nexo', 'customers.gui' );
     }
 
     /**

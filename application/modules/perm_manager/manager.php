@@ -23,10 +23,10 @@ class PermManagerModule extends Tendoo_Module
 
     public function dashboard_loader()
     {
-        
-        
-        include_once( dirname( __FILE__ ) . '/inc/controller.php' );
-        $this->Gui->register_page_object( 'perm_manager', new PermManagerController );
+        if( User::can( 'manage_core' ) ) {
+            include_once( dirname( __FILE__ ) . '/inc/controller.php' );
+            $this->Gui->register_page_object( 'perm_manager', new PermManagerController );
+        }
     }
 
     /**
@@ -36,13 +36,11 @@ class PermManagerModule extends Tendoo_Module
     public function menus( $menus )
     {
         if( User::can( 'manage_core' ) ) {
-            if( @$menus[ 'settings' ] != null ) {
-                $menus  =   array_insert_before( 'modules', $menus, 'perm_manager', [
-                    [
-                        'title'  => 'Manage permission',
-                        'href'   =>  site_url( array( 'dashboard', 'perm_manager', 'mainboard' ) ),
-                    ]
-                ]);
+            if( @$menus[ 'users' ] != null ) {
+                $menus[ 'users' ][]     =   [
+                    'title'  => 'Manage permission',
+                    'href'   =>  site_url( array( 'dashboard', 'perm_manager', 'mainboard' ) ),
+                ];
             }            
         }
         return $menus;

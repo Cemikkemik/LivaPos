@@ -122,4 +122,176 @@ trait Nexo_customers
             $this->__failed();
         }
     }
+
+    /**
+     * Customers POST
+     * @since 3.1
+     * @return json
+    **/
+
+    public function customers_post()
+    {
+        $emailUsed  =   false;
+        // we must avoid same user with same email
+        if( $this->post( 'email' ) != '' ) {
+            $query  =   $this->db->where( 'EMAIL', $this->post( 'email' ) )->get( store_prefix() . 'nexo_clients' )
+            ->result();
+
+            if( $query ) {
+                $emailUsed  =   true;
+            }
+        }
+
+        if( $emailUsed ) {
+            return $this->response([
+                'status'    =>  'failed',
+                'message'   =>  'email_used'
+            ], 403 );
+        }
+
+        $this->db->insert( store_prefix() . 'nexo_clients', [
+            'NOM'               =>  $this->post( 'name' ),
+            'PRENOM'            =>  $this->post( 'surname' ),
+            'COUNTRY'           =>  $this->post( 'country' ),
+            'CITY'              =>  $this->post( 'city' ),
+            'STATE'             =>  $this->post( 'state' ),
+            'DESCRIPTION'       =>  $this->post( 'description' ),
+            'DATE_NAISSANCE'    =>  $this->post( 'birth_date' ),
+            'EMAIL'             =>  $this->post( 'email' ),
+            'DATE_CREATION'     =>  $this->post( 'created_on' ),
+            'AUTHOR'            =>  $this->post( 'author' ),
+            'TEL'               =>  $this->post( 'phone' )
+        ]);
+
+        $insert_id      =   $this->db->insert_id();
+
+        $meta                   =   [];
+        foreach( $this->post() as $key => $value ) {
+            if( substr( $key, 0, 8 ) == 'shipping' || substr( $key, 0, 7 ) == 'billing' ) {
+
+                if( substr( $key, 0, 8 ) == 'shipping' ) {
+                    if( @$meta[ 'shipping' ] == null ) {
+                        $meta[ 'shipping' ]     =   [];
+                    }
+
+                    $meta[ 'shipping' ][ substr( $key, 9 ) ]     =   $value;
+                } else {
+                    if( @$meta[ 'billing' ] == null ) {
+                        $meta[ 'billing' ]     =   [];
+                    }
+
+                    $meta[ 'billing' ][ substr( $key, 8 ) ]     =   $value;
+                }
+            }
+        }
+
+        $meta[ 'billing' ][ 'ref_client' ]          =   $insert_id;
+        $meta[ 'billing' ][ 'type' ]                =   'billing';
+        $meta[ 'shipping' ][ 'ref_client' ]         =   $insert_id;
+        $meta[ 'shipping' ][ 'type' ]               =   'shipping';
+
+        $this->db->insert( store_prefix() . 'nexo_clients_address', $meta[ 'shipping' ] );
+        $this->db->insert( store_prefix() . 'nexo_clients_address', $meta[ 'billing' ] );  
+
+        return $this->__success();  
+    }
+
+    /**
+     * Customers PUT
+     * @since 3.1
+     * @return json
+    **/
+
+    public function customers_put( $client_id = null )
+    {
+        if( $client_id == null ) {
+            return $this->__failed();
+        }
+
+        $emailUsed  =   false;
+        // we must avoid same user with same email
+        if( $this->put( 'email' ) != '' ) {
+            $query  =   $this->db->where( 'EMAIL', $this->put( 'email' ) )->get( store_prefix() . 'nexo_clients' )
+            ->result();
+
+            if( $query ) {
+                if( intval( $query[0]->ID ) != intval( $client_id ) && ! empty( $query[0]->ID ) ) {
+                    $emailUsed  =   true; 
+                }
+            }
+        }
+
+        if( $emailUsed ) {
+            return $this->response([
+                'status'    =>  'failed',
+                'message'   =>  'email_used'
+            ], 403 );
+        }
+
+        $this->db->where( 'ID', $client_id )->update( store_prefix() . 'nexo_clients', [
+            'NOM'               =>  $this->put( 'name' ),
+            'PRENOM'            =>  $this->put( 'surname' ),
+            'COUNTRY'           =>  $this->put( 'country' ),
+            'CITY'              =>  $this->put( 'city' ),
+            'STATE'             =>  $this->put( 'state' ),
+            'DESCRIPTION'       =>  $this->put( 'description' ),
+            'DATE_NAISSANCE'    =>  $this->put( 'birth_date' ),
+            'EMAIL'             =>  $this->put( 'email' ),
+            'DATE_MOD'          =>  $this->put( 'edited_on' ),
+            'AUTHOR'            =>  $this->put( 'author' ),
+            'TEL'               =>  $this->put( 'phone' )
+        ]);
+
+        $insert_id      =   $this->db->insert_id();
+
+        $meta                   =   [];
+        foreach( $this->put() as $key => $value ) {
+            if( substr( $key, 0, 8 ) == 'shipping' || substr( $key, 0, 7 ) == 'billing' ) {
+
+                if( substr( $key, 0, 8 ) == 'shipping' ) {
+                    if( @$meta[ 'shipping' ] == null ) {
+                        $meta[ 'shipping' ]     =   [];
+                    }
+
+                    $meta[ 'shipping' ][ substr( $key, 9 ) ]     =   $value;
+                } else {
+                    if( @$meta[ 'billing' ] == null ) {
+                        $meta[ 'billing' ]     =   [];
+                    }
+
+                    $meta[ 'billing' ][ substr( $key, 8 ) ]     =   $value;
+                }
+            }
+        }
+
+        $meta[ 'billing' ][ 'ref_client' ]          =   $client_id;
+        $meta[ 'billing' ][ 'type' ]                =   'billing';
+        $meta[ 'shipping' ][ 'ref_client' ]         =   $client_id;
+        $meta[ 'shipping' ][ 'type' ]               =   'shipping';
+
+        // for editing, just make sure those information exist for that customer otherwise, we'll insert
+        $address        =   $this->db->where( 'ref_client', $client_id )
+        ->get( store_prefix() . 'nexo_clients_address' )
+        ->result();
+
+        if( $address ) {
+            $this->db->where( 'ref_client', $client_id )
+            ->where( 'type', 'billing' )
+            ->update( 
+                store_prefix() . 'nexo_clients_address', 
+                $meta[ 'billing' ] 
+            );
+
+            $this->db->where( 'ref_client', $client_id )
+            ->where( 'type', 'shipping' )->update( 
+                store_prefix() . 'nexo_clients_address', 
+                $meta[ 'shipping' ] 
+            );
+        } else { // this will pretty useful for those who'll make an update
+            $this->db->insert( store_prefix() . 'nexo_clients_address', $meta[ 'shipping' ] );
+            $this->db->insert( store_prefix() . 'nexo_clients_address', $meta[ 'billing' ] );
+        }
+
+        return $this->__success();  
+    }
 }

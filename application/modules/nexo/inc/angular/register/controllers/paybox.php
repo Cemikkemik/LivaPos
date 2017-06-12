@@ -58,7 +58,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 
 	$scope.addPayment								=	function( payment_namespace, payment_amount, meta ) {
 
-		if( payment_amount <= 0 || ( isNaN( parseFloat( payment_amount ) ) && isNaN( parseInt( payment_amount ) ) ) ) {
+		if( payment_amount <= 0 || ( isNaN( parseFloat( payment_amount ) ) && isNaN( parseFloat( payment_amount ) ) ) ) {
 			NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Le montant spécifié est incorrecte', 'nexo' );?>' );
 			$scope.paidAmount	=	0;
 			return false;
@@ -167,7 +167,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 				angular.element( event.target ).blur();
 
 				if( angular.element( '.modal-dialog' ).length > 0 ) {
-					angular.element( 'div.bootbox div.modal-footer button[data-bb-handler="cancel" ]' ).trigger( 'click' );
+					$( 'div.bootbox div.modal-footer button[data-bb-handler="cancel" ]' ).trigger( 'click' );
 				}
 			}
 		});
@@ -179,7 +179,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 			callback: function() {
 
 				if( angular.element( '.payboxwrapper' ).length > 0 ) {
-					if( parseInt( $scope.paidAmount ) > 0 ) {
+					if( parseFloat( $scope.paidAmount ) > 0 ) {
 						if( $scope.defaultSelectedPaymentNamespace != 'coupon' ) {
 							$scope.addPayment( $scope.defaultSelectedPaymentNamespace, $scope.paidAmount );
 						}						
@@ -286,8 +286,6 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		});
 	};
 
-	$scope.bindKeyBoardEvent();
-
 	/**
 	* Cancel Payment Edition
 	**/
@@ -386,7 +384,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 
 				// @since 2.8.2 add order meta
 				this.CartMetas					=	NexoAPI.events.applyFilters( 'order_metas', v2Checkout.CartMetas );
-				order_details.METAS				=	v2Checkout.CartMetas;
+				order_details.metas				=	v2Checkout.CartMetas;
 
 				if( _.indexOf( _.keys( $scope.paymentTypes ), payment_means ) != -1 ) {
 
@@ -597,6 +595,14 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 
 	$scope.openPayBox		=	function() {
 
+		/**
+		 * A script can lock the paybox 
+		**/
+
+		if( ! NexoAPI.events.applyFilters( 'openPayBox', true ) ) {
+			return false;
+		}
+
 		$scope.cart			=	{
 			value			:		v2Checkout.CartValue,
 			discount		:		v2Checkout.CartDiscount,
@@ -738,7 +744,11 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	}
 
 	// Inject method within payBox controller
-	<?php $this->events->do_action( 'angular_paybox_footer' );?>};
+	<?php $this->events->do_action( 'angular_paybox_footer' );?>
+
+	$scope.bindKeyBoardEvent();
+	
+	};
 
 	/**
 	* Add closure to dependency

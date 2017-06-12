@@ -47,7 +47,15 @@ class Nexo_Premium_Actions extends CI_Model
                     'title'            =>    __('Nouvelle dépense', 'nexo_premium'),
                     'href'            =>    site_url(array( 'dashboard', store_slug(), 'nexo_premium', 'Controller_Factures', 'add' )),
                     'disable'        =>    true
-                )
+                ),
+				// @since 2.6.6
+				[
+					'title'		=>	__( 'Categories', 'nexo_premium' ),
+					'href'		=>	site_url([ 'dashboard', store_slug(), 'nexo_premium', 'expenses_list' ] )
+				], [
+					'title'		=>	__( 'Ajouter une categorie', 'nexo_premium' ),
+					'href'		=>	site_url([ 'dashboard', store_slug(), 'nexo_premium', 'expenses_list', 'add' ] )
+				]
             );
         }
     }
@@ -197,22 +205,22 @@ class Nexo_Premium_Actions extends CI_Model
 
 				if ($Sales) {
 					foreach ($Sales as $sale) {
-						// Uniquement les commandes comptant et avance
-						if (in_array($sale[ 'TYPE' ], array( 'nexo_order_devis' ))) {
-							$CA            =    __floatval($sale[ 'TOTAL' ]) - (__floatval($sale[ 'RISTOURNE' ]) + __floatval($sale[ 'RABAIS' ]) + __floatval($sale[ 'REMISE' ]));
-						}
-						if (in_array($sale[ 'TYPE' ], array( 'nexo_order_advance' ))) {
-							$CA            =    (__floatval($sale[ 'TOTAL' ]) - (__floatval($sale[ 'RISTOURNE' ]) + __floatval($sale[ 'RABAIS' ]) + __floatval($sale[ 'REMISE' ]))) - __floatval($sale[ 'SOMME_PERCU' ]);
-						}
+						if( in_array( $sale[ 'TYPE' ], [ 'nexo_order_devis', 'nexo_order_advance' ] ) ) {
+							if (in_array($sale[ 'TYPE' ], array( 'nexo_order_devis' ))) {
+								$CA            =    __floatval($sale[ 'TOTAL' ]) - (__floatval($sale[ 'RISTOURNE' ]) + __floatval($sale[ 'RABAIS' ]) + __floatval($sale[ 'REMISE' ]));
+							} else if (in_array($sale[ 'TYPE' ], array( 'nexo_order_advance' ))) {
+								$CA            =    (__floatval($sale[ 'TOTAL' ]) - (__floatval($sale[ 'RISTOURNE' ]) + __floatval($sale[ 'RABAIS' ]) + __floatval($sale[ 'REMISE' ]))) - __floatval($sale[ 'SOMME_PERCU' ]);
+							}
 
-						$creances                +=    $CA;
-						// Sale Today
-						if ($startOfDay->lte(Carbon::parse($sale[ 'DATE_CREATION' ])) && $endOfDay->gte(Carbon::parse($sale[ 'DATE_CREATION' ]))) {
-							$creancesToday        +=    $CA;
-						}
-						// Sales Yesterday
-						if ($startOfYesterday->lte(Carbon::parse($sale[ 'DATE_CREATION' ])) && $endOfYesterday->gte(Carbon::parse($sale[ 'DATE_CREATION' ]))) {
-							$creancesYesteday    +=    $CA;
+							$creances                +=    $CA;
+							// Sale Today
+							if ($startOfDay->lte(Carbon::parse($sale[ 'DATE_CREATION' ])) && $endOfDay->gte(Carbon::parse($sale[ 'DATE_CREATION' ]))) {
+								$creancesToday        +=    $CA;
+							}
+							// Sales Yesterday
+							if ($startOfYesterday->lte(Carbon::parse($sale[ 'DATE_CREATION' ])) && $endOfYesterday->gte(Carbon::parse($sale[ 'DATE_CREATION' ]))) {
+								$creancesYesteday    +=    $CA;
+							}
 						}
 					}
 				}

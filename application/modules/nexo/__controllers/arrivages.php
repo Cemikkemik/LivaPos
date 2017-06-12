@@ -40,11 +40,10 @@ class Nexo_Arrivages extends CI_Model
 		$crud->set_table( $this->db->dbprefix( store_prefix() . 'nexo_arrivages' ) );
 
 		// fields
-		$fields			=	array( 'TITRE', 'FOURNISSEUR_REF_ID', 'DESCRIPTION' );
-        $crud->columns('TITRE', 'FOURNISSEUR_REF_ID', 'DESCRIPTION');
+		$fields			=	array( 'TITRE', 'DESCRIPTION' );
+        $crud->columns('TITRE', 'DESCRIPTION');
         $crud->fields( $fields );
 
-		$crud->set_relation('FOURNISSEUR_REF_ID', store_prefix() . 'nexo_fournisseurs', 'NOM');
         $crud->order_by('TITRE', 'asc');
 
         $crud->display_as('TITRE', __('Nom de la livraison', 'nexo'));
@@ -57,7 +56,7 @@ class Nexo_Arrivages extends CI_Model
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
 
-        $crud->required_fields('TITRE', 'FOURNISSEUR_REF_ID');
+        $crud->required_fields('TITRE');
 
         $crud->unset_jquery();
         $output = $crud->render();

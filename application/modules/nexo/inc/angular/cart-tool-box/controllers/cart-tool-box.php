@@ -5,12 +5,13 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 
 	$scope.loadedOrders				=	new Object;
 	$scope.orderDetails				=	null;
-	$scope.orderStatusObject		=	{
+	let default_orderType			=	{
 		nexo_order_devis			:	{
 			title					:	'<?php echo _s( 'En attente', 'nexo' );?>',
 			active					:	false
 		}
 	}
+	$scope.orderStatusObject		=	NexoAPI.events.applyFilters( 'history_orderType', default_orderType );
 	$scope.theSpinner				=	new Object;
 	$scope.theSpinner[ 'mspinner' ]	=	false;
 	$scope.theSpinner[ 'rspinner' ]	=	true;
@@ -21,6 +22,13 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 	NexoAPI.events.addAction( 'reset_cart', function(){
 		NexoAPI.events.removeFilter( 'process_data' );
 	});
+
+	/**
+	 * Since the button has been moved to the pos header. It's not dynamically loaded
+	 * @since 3.0.22
+	**/
+
+	$( '.history-box-button' ).replaceWith( $compile( $( '.history-box-button' )[0].outerHTML )( $scope ) );
 
 	/**
 	 * Load order for
@@ -126,6 +134,16 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 				return data;
 			});
 
+			/**
+			 * Overrite open order on cart
+			 * A script can then handle the way order are added to the cart
+			 * @since 3.0.22
+			**/
+
+			if( NexoAPI.events.applyFilters( 'override_open_order', $scope.orderDetails ) ) {
+				return true;
+			}
+
 			v2Checkout.emptyCartItemTable();
 			v2Checkout.CartItems			=	$scope.orderDetails.items;
 
@@ -185,6 +203,15 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 		$scope.orderDetails						=	null;
 	}
 
+	/**
+	 * Creating Customer
+	 * @since 3.1
+	**/
+
+	$scope.openCreatingUser 		=	function(){
+		alert( 'ok' );
+	}
+
 	hotkeys.add({
 		combo: '<?php echo @$Options[ 'pending_order' ] == null ? "shift+s" : @$Options[ 'pending_order' ];?>',
 		description: 'This one goes to 11',
@@ -193,5 +220,6 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 			$scope.openHistoryBox()
 		}
 	});
+	
 }]);
 </script>

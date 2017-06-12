@@ -217,12 +217,14 @@ class Nexo_Premium_Controller extends CI_Model
         $crud->set_subject(__('Factures', 'nexo_premium'));
         $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_premium_factures'));
 
-        $crud->columns('INTITULE', 'REF', 'MONTANT', 'DESCRIPTION', 'AUTHOR', 'IMAGE', 'DATE_CREATION', 'DATE_MODIFICATION');
-        $crud->fields('INTITULE', 'REF', 'MONTANT', 'DESCRIPTION', 'AUTHOR', 'IMAGE', 'DATE_CREATION', 'DATE_MODIFICATION');
+        $crud->columns('INTITULE', 'REF_CATEGORY', 'MONTANT', 'REF', 'AUTHOR', 'DATE_CREATION', 'DATE_MODIFICATION', 'IMAGE' );
+        $crud->fields('INTITULE', 'MONTANT', 'REF_CATEGORY', 'REF', 'DESCRIPTION', 'AUTHOR', 'IMAGE', 'DATE_CREATION', 'DATE_MODIFICATION');
 
         $crud->set_relation('AUTHOR', 'aauth_users', 'name');
+        $crud->set_relation('REF_CATEGORY', store_prefix() . 'nexo_premium_factures_categories', 'NAME' );
 
         $crud->display_as('INTITULE', __('Désignation', 'nexo_premium'));
+        $crud->display_as('REF_CATEGORY', __('Catégorie', 'nexo_premium'));
         $crud->display_as('MONTANT', __('Prix de la facture', 'nexo_premium'));
         $crud->display_as('REF', __('Référence', 'nexo_premium'));
         $crud->display_as('DESCRIPTION', __('Description', 'nexo_premium'));
@@ -230,6 +232,10 @@ class Nexo_Premium_Controller extends CI_Model
         $crud->display_as('AUTHOR', __('Auteur', 'nexo_premium'));
         $crud->display_as('DATE_CREATION', __('Date de création', 'nexo_premium'));
         $crud->display_as('DATE_MODIFICATION', __('Date de modification', 'nexo_premium'));
+
+        $crud->field_description( 'REF_CATEGORY', __( 'Assigner la dépense à une categorie.', 'nexo_premium' ) );
+        $crud->field_description( 'MONTANT', __( 'Si la dépense à une valeur, vous pouvez le définir sur ce champ.', 'nexo_premium' ) );
+        $crud->field_description( 'REF', __( 'La référence peut être le numéro d\'une facture ou toute information qui permettrait d\'identifier l\'opération.', 'nexo_premium' ) );
 
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
@@ -879,6 +885,105 @@ class Nexo_Premium_Controller extends CI_Model
             'start_date'     =>      $start->toDateTimeString(),
             'end_date'       =>      $end->toDateTimeString()
         ) );
+    }
+
+    /**
+     * Expense Category List
+    **/
+
+    public function expenses_list()
+    {
+        $data[ 'crud' ]     =   $this->expenses_list_crud();
+        $this->Gui->set_title( store_title( __( 'Expenses categories', 'nexo_premium') ) );
+        $this->load->module_view( 'nexo_premium', 'expenses.categories', $data );
+    }
+
+    /**
+     * Expense Category Header
+    **/
+
+    private function expenses_list_crud()
+    {
+        if (
+         ! User::can('create_shop_purchases_invoices ') &&
+         ! User::can('edit_shop_purchases_invoices') &&
+         ! User::can('delete_shop_purchases_invoices')
+        ) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+
+        $crud = new grocery_CRUD();
+
+        $crud->set_theme('bootstrap');
+        $crud->set_subject(__( 'Catégories des factures' , 'nexo_premium'));
+        $crud->set_table( $this->db->dbprefix( store_prefix() . 'nexo_premium_factures_categories' ) );
+
+        $crud->columns( 'NAME', 'AUTHOR', 'DATE_CREATION', 'DATE_MODIFICATION' );
+        $crud->fields( 'NAME', 'DESCRIPTION', 'AUTHOR', 'DATE_CREATION', 'DATE_MODIFICATION');
+
+        $crud->set_relation('AUTHOR', 'aauth_users', 'name');
+
+        $crud->display_as('NAME', __( 'Nom', 'nexo_premium'));
+        $crud->display_as('DESCRIPTION', __('Description', 'nexo_premium'));
+        $crud->display_as('AUTHOR', __('Auteur', 'nexo_premium'));
+        $crud->display_as('DATE_CREATION', __('Date de création', 'nexo_premium'));
+        $crud->display_as('DATE_MODIFICATION', __('Date de modification', 'nexo_premium'));
+
+        // XSS Cleaner
+        $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
+        $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
+
+        $crud->change_field_type( 'AUTHOR', 'invisible');
+        $crud->change_field_type( 'DATE_CREATION', 'invisible');
+        $crud->change_field_type( 'DATE_MODIFICATION', 'invisible');
+
+        $crud->callback_before_insert(array( $this, '__Callback_Backup_Create' ));
+        $crud->callback_before_update(array( $this, '__Callback_Backup_Update' ));
+        $crud->callback_before_delete(array( $this, '__Callback_Backup_Delete' ));
+
+        $crud->callback_before_insert(array( $this, 'expenses_category_insert' ) );
+        $crud->callback_before_update(array( $this, 'expenses_category_update' ) );
+
+        /**
+        * Filter for actions
+        **/
+
+        $this->events->add_filter('grocery_actions', array( $this, '__Filter_action_url' ), 10, 2);
+
+        $crud->unset_jquery();
+        $output = $crud->render();
+
+        foreach ($output->js_files as $files) {
+            $this->enqueue->js(substr($files, 0, -3), '');
+        }
+
+        foreach ($output->css_files as $files) {
+            $this->enqueue->css(substr($files, 0, -4), '');
+        }
+
+        return $output;
+    }
+
+    /**
+     * Expense Category Insert
+    **/
+
+    public function expenses_category_insert( $data ) 
+    {
+        $data[ 'DATE_CREATION' ]    =   date_now();
+        $data[ 'AUTHOR' ]           =   User::id();
+        return $data;
+    }
+
+    /**
+     * Expense Category Update
+    **/
+
+    public function expenses_category_update( $data )
+    {
+        $data[ 'DATE_MODIFICATION' ]    =   date_now();
+        $data[ 'AUTHOR' ]               =   User::id();
+        return $data;
     }
 
 

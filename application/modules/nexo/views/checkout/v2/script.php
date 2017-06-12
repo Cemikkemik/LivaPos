@@ -1084,7 +1084,7 @@ var v2Checkout					=	new function(){
 
 			// @since 2.8.2 add order meta
 			this.CartMetas					=	NexoAPI.events.applyFilters( 'order_metas', this.CartMetas );
-			order_details.METAS				=	JSON.stringify( this.CartMetas );
+			order_details.metas				=	JSON.stringify( this.CartMetas );
 
 		if( payment_means == 'cash' ) {
 

@@ -1562,6 +1562,7 @@ var v2Checkout					=	new function(){
 
 		this.run						=	function(){
 			this.getGroups();
+			this.bind();
 		};
 	}
 

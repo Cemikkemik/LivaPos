@@ -180,9 +180,28 @@ class Nexo_Install extends CI_Model
 		  `DISCOUNT_TYPE` varchar(200) NOT NULL,
 		  `TVA` float NOT NULL,
 		  `GROUP_DISCOUNT` float,
+		  `REF_SHIPPING_ADDRESS` int(11) NOT NULL,
+		  `SHIPPING_AMOUNT` float(11) NOT NULL,
+		  `SHIPPING_TITLE` varchar(200) NOT NULL,
 		  PRIMARY KEY (`ID`),
           UNIQUE( `CODE` )
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+
+		$this->db->query( 'CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_commandes_shipping` (
+			`id` int(11) NOT NULL AUTO_INCREMENT,
+			`ref_shipping` int(11) NOT NULL,
+			`ref_order` int(11) NOT NULL,
+			`name` varchar( 200 ) NOT NULL,
+			`surname` varchar( 200 ) NOT NULL,
+			`address_1` varchar( 200 ) NOT NULL,
+			`address_2` varchar( 200 ) NOT NULL,
+			`city` varchar( 200 ) NOT NULL,
+			`country` varchar( 200 ) NOT NULL,
+			`pobox` varchar( 200 ) NOT NULL,
+			`state` varchar( 200 ) NOT NULL,
+			`enterprise` varchar( 200 ) NOT NULL,
+		  	PRIMARY KEY (`id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;' );
 
         $this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_commandes_produits` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,

@@ -66,6 +66,10 @@ let customersMain    =   function(
                     '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
                     }
                 }).then( function( returned ){
+                    $scope.model[ 'basic' ]         =   new Object;
+                    $scope.model[ 'billing' ]       =   new Object;
+                    $scope.model[ 'shipping' ]      =   new Object;  
+
                     // if we're creating a user from the POS screen
                     if( $scope.pageNow == 'nexo/registers/__use' ) {
                         // refresh customers
@@ -74,11 +78,7 @@ let customersMain    =   function(
                     } else {
                         document.location   =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'clients', 'lists', 'success', $client_id ]);?>';
                         tendoo.loader.hide();
-                    }
-
-                    $scope.model[ 'basic' ]         =   new Object;
-                    $scope.model[ 'billing' ]       =   new Object;
-                    $scope.model[ 'shipping' ]      =   new Object;                  
+                    }                
                 }, ( returned ) => {
                     if( returned.data.status == 'failed' ) {
                         switch( returned.data.message ) {
@@ -100,6 +100,10 @@ let customersMain    =   function(
                     '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
                     }
                 }).then( function( returned ){
+                    $scope.model[ 'basic' ]         =   new Object;
+                    $scope.model[ 'billing' ]       =   new Object;
+                    $scope.model[ 'shipping' ]      =   new Object;  
+                    
                     // if we're creating a user from the POS screen
                     if( $scope.pageNow == 'nexo/registers/__use' ) {
                         // refresh customers
@@ -109,10 +113,6 @@ let customersMain    =   function(
                         document.location   =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'clients', 'lists', 'success' ]);?>';
                         tendoo.loader.hide();
                     }   
-
-                    $scope.model[ 'basic' ]         =   new Object;
-                    $scope.model[ 'billing' ]       =   new Object;
-                    $scope.model[ 'shipping' ]      =   new Object;                 
                 }, ( returned ) => {
                     if( returned.data.status == 'failed' ) {
                         switch( returned.data.message ) {
@@ -292,7 +292,7 @@ tendooApp.directive( 'customersForm', function( $rootScope ){
             tendoo.loader.hide();
         }],
         templateUrl     :      ( element, attrs, scope ) => {
-            let template    =   '<?php echo site_url([ 'dashboard', store_prefix(), 'nexo_templates', 'customers_form' ]);?>';
+            let template    =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo_templates', 'customers_form' ]);?>';
             return template;
         }
     }

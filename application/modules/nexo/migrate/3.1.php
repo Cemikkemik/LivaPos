@@ -30,4 +30,24 @@ foreach( $stores as $store ) {
         `ref_client` int(11) NOT NULL,
         PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+
+    $this->db->query('ALTER TABLE `'. $this->db->dbprefix . $store_prefix .'nexo_commandes` ADD `REF_SHIPPING_ADDRESS` int(11) NOT NULL AFTER `GROUP_DISCOUNT`;');
+    $this->db->query('ALTER TABLE `'. $this->db->dbprefix . $store_prefix .'nexo_commandes` ADD `SHIPPING_AMOUNT` float(11) NOT NULL AFTER `GROUP_DISCOUNT`;');
+    $this->db->query('ALTER TABLE `'. $this->db->dbprefix . $store_prefix .'nexo_commandes` ADD `SHIPPING_TITLE` varchar(200) NOT NULL AFTER `GROUP_DISCOUNT`;');
+
+    $this->db->query( 'CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $store_prefix .'nexo_commandes_shipping` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `ref_shipping` int(11) NOT NULL,
+        `ref_order` int(11) NOT NULL,
+        `name` varchar( 200 ) NOT NULL,
+        `surname` varchar( 200 ) NOT NULL,
+        `address_1` varchar( 200 ) NOT NULL,
+        `address_2` varchar( 200 ) NOT NULL,
+        `city` varchar( 200 ) NOT NULL,
+        `country` varchar( 200 ) NOT NULL,
+        `pobox` varchar( 200 ) NOT NULL,
+        `state` varchar( 200 ) NOT NULL,
+        `enterprise` varchar( 200 ) NOT NULL,
+        PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;' );
 }

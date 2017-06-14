@@ -1,9 +1,9 @@
 <div novalidate>
     <form name="form" novalidate ng-submit="submitForm()">
         <div class="form-group">
-            <div class="input-group input-group-lg">
+            <div class="input-group input-group-lg name-input-group">
                 <input required type="text" name="name" ng-model="model[ 'name' ]" class="form-control"placeholder="<?php echo __( 'Customer Name', 'nexo' );?>">
-                <span class="input-group-btn">
+                <span class="input-group-btn customer-save-btn">
                     <button type="submit" class="btn btn-default"><?php echo __( 'Sauvegarder', 'nexo' );?></button>
                 </span>
             </div>

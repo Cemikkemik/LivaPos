@@ -1,5 +1,119 @@
 <?php global $Options;?>
 <script>
+tendooApp.directive( 'shipping', function(){
+	return {
+		restrict 		:	'E',
+		templateUrl 	:	'<?php echo site_url([ 'dashboard', store_slug(), 'nexo_templates', 'shippings']);?>',
+		controller 		:	[ '$scope', function( $scope ) {
+			$scope.optionShowed 	=	false;
+
+			// Check whether the current customer has valid informations
+			$scope.isAddressValid	=	false;
+			$scope.currentCustomer 	=	new Object;
+
+			_.each( v2Checkout.customers.list, ( customer ) => {
+				if( customer.ID == parseInt( v2Checkout.CartCustomerID ) ) {
+					if( typeof customer.shipping_name != 'undefined' ) {
+						$scope.isAddressValid	=	true;
+						$scope.currentCustomer	=	customer;
+					}
+				}
+			});
+
+			/**
+			 * Toggle Options
+			**/
+
+			$scope.toggleOptions	=	function(){
+				$scope.optionShowed  	=	!$scope.optionShowed;
+			}
+
+			/**
+			 * toggleFillShippingInfo
+			 * @param boolean
+			 * @return void
+			**/
+
+			$scope.toggleFillShippingInfo 	=	function( bool ) {
+				if( bool ) {
+
+					_.each( $scope.currentCustomer, ( customer_fields, key ) => {
+						if( key.substr( 0, 9 ) == 'shipping_' && _.indexOf([ 
+							'name', 'enterprise', 'address_1',
+							'city', 'country', 'pobox',
+							'state', 'surname',
+							'address_2'
+						], key.substr( 9 ) ) != -1 ) {
+							$scope[ key.substr( 9 ) ] 	=	customer_fields;
+						}
+					});
+
+					console.log( $scope );
+				} else {
+					_.each([ 
+						'name', 'enterprise', 'address_1',
+						'city', 'country', 'pobox',
+						'state', 'surname',
+						'address_2'
+					], ( field ) => {
+						$scope[ field ] 	=	'';
+					});
+				}
+			}
+
+			console.log( v2Checkout );
+		}]
+	}
+});
+
+tendooApp.directive('validNumber', function() {
+	return {
+	require: '?ngModel',
+	link: function(scope, element, attrs, ngModelCtrl) {
+		if(!ngModelCtrl) {
+		return; 
+		}
+
+		ngModelCtrl.$parsers.push(function(val) {
+		if (angular.isUndefined(val)) {
+			var val = '';
+		}
+		
+		var clean = val.replace(/[^-0-9\.]/g, '');
+		var negativeCheck = clean.split('-');
+		var decimalCheck = clean.split('.');
+		if(!angular.isUndefined(negativeCheck[1])) {
+			negativeCheck[1] = negativeCheck[1].slice(0, negativeCheck[1].length);
+			clean =negativeCheck[0] + '-' + negativeCheck[1];
+			if(negativeCheck[0].length > 0) {
+				clean =negativeCheck[0];
+			}
+			
+		}
+			
+		if(!angular.isUndefined(decimalCheck[1])) {
+			decimalCheck[1] = decimalCheck[1].slice(0,2);
+			clean =decimalCheck[0] + '.' + decimalCheck[1];
+		}
+
+		if (val !== clean) {
+			ngModelCtrl.$setViewValue(clean);
+			ngModelCtrl.$render();
+		}
+		return clean;
+		});
+
+		element.bind('keypress', function(event) {
+		if(event.keyCode === 32) {
+			event.preventDefault();
+		}
+		});
+	}
+	};
+});
+</script>
+
+<script>
 tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout', 'hotkeys', 
 	function( $http, $compile, $scope, $timeout, hotkeys ) {
 
@@ -11,6 +125,7 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 			active					:	false
 		}
 	}
+
 	$scope.orderStatusObject		=	NexoAPI.events.applyFilters( 'history_orderType', default_orderType );
 	$scope.theSpinner				=	new Object;
 	$scope.theSpinner[ 'mspinner' ]	=	false;
@@ -213,7 +328,7 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 
 		// create cache
 		if( $( 'div.customers-directive-cache' ).length == 0 ) {
-			angular.element( 'body' ).append( '<div class="customers-directive-cache"></div>' );
+			angular.element( 'body' ).append( '<div class="customers-directive-cache" style="display:none;"></div>' );
 		}
 
 		NexoAPI.Bootbox().alert({
@@ -250,7 +365,18 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 			angular.element( '.middle-content' ).attr( 'style', 'border-left:solid 1px #DEDEDE;overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
 			angular.element( '.order-details' ).attr( 'style', 'overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
 			angular.element( '.middle-content' ).css( 'padding', 0 );
+			angular.element( '.modal-footer' ).append( '<a class="btn btn-primary create-customer-footer-btn" href="javascript:void(0)" ng-click="submitForm()"><?php echo _s( 'Ajouter un client', 'nexo' );?></a>')
+			
+			$( '.create-customer-footer-btn' ).replaceWith( $compile( 
+				$( '.create-customer-footer-btn' )[0].outerHTML )($scope) 
+			);
+
 		}, 150 );
+
+		setTimeout( () => {
+			$( '.customer-save-btn' ).remove();
+			$( '.name-input-group' ).removeClass( 'input-group' );
+		}, 600 );
 	}
 
 	/**
@@ -289,6 +415,45 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 
 			$( '.customers-list' ).selectpicker( 'refresh' );
 		});
+	}
+
+	/**
+	 * Open Delivery
+	**/
+
+	$scope.openDelivery 			=	function(){
+		NexoAPI.Bootbox().confirm({
+			message 		:	'<div class="shippingwrapper"><shipping></shipping></div>',
+			title			:	'<?php echo _s( 'Livraison', 'nexo' );?>',
+			buttons: {
+				confirm: {
+					label: '<?php echo _s( 'Confirmer', 'nexo' );?>',
+					className: 'btn-primary'
+				},
+				cancel: {
+					label: '<?php echo _s( 'Fermer', 'nexo' );?>',
+					className: 'btn-default'
+				}
+			},
+			callback		:	function( action ) {
+			}
+		});
+		
+		$timeout( function(){
+
+			angular.element( '.modal-dialog' ).css( 'width', '50%' );
+			angular.element( '.modal-body' ).css( 'height', $scope.wrapperHeight - 100 );
+			angular.element( '.modal-body' ).css( 'background', '#f9f9f9' );
+			angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );
+			angular.element( '.middle-content' ).attr( 'style', 'border-left:solid 1px #DEDEDE;overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
+			angular.element( '.modal-body' ).attr( 'style', 'overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
+			angular.element( '.middle-content' ).css( 'padding', 0 );
+
+			$( '.shippingwrapper' ).replaceWith( $compile( 
+				$( '.shippingwrapper' )[0].outerHTML )($scope) 
+			);
+			
+		}, 150 );
 	}
 
 	$scope.getCustomers();

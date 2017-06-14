@@ -21,4 +21,14 @@ class Nexo_Templates_Controller extends Tendoo_Module
     {
         return $this->load->module_view( 'nexo', $view );
     }
+
+    /**
+     * Shippings
+     * @return string view
+    **/
+
+    public function shippings( $template = 'main-template' )
+    {
+        return $this->load->module_view( 'nexo', 'shippings.' . $template );
+    }
 }

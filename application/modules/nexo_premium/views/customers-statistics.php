@@ -80,7 +80,7 @@ $(function () {
 var NexoCashierPerformance	=	new function(){
 
 	this.Nexo_Order_Avance	=	'<?php echo 'nexo_order_advance';?>';
-	this.Nexo_Order_Cash	=	'<?php echo 'nexo_order_comptant';?>';
+	this.Nexo_Order_Cash			=	<?php echo json_encode( $this->events->apply_filters( 'report_order_types', [ 'nexo_order_comptant' ] ) );?>;
 	this.Nexo_Order_Devis	=	'<?php echo 'nexo_order_devis';?>';
 
 	/**
@@ -152,7 +152,7 @@ var NexoCashierPerformance	=	new function(){
 				if( _.isArray( __value ) ) {
 					_.each( __value, function( order, order_key ) {
 						// Cash Order only
-						if( _.contains( [ NexoCashierPerformance.Nexo_Order_Cash ], order.TYPE ) ) {
+						if( _.contains( NexoCashierPerformance.Nexo_Order_Cash, order.TYPE ) ) {
 							// Fix bug when VAT is not set
 							amount	+=	( NexoAPI.ParseFloat( order.TOTAL ) + NexoAPI.ParseFloat( order.TVA == '' ? 0 : order.TVA ) );
 						}

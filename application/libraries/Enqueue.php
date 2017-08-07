@@ -136,4 +136,34 @@ class Enqueue
             }
         }
     }
+
+    /**
+     * Module CSS
+     * 
+     * @access public
+     * @author Blair Jersyer
+     * @param string module namespace
+     * @param string css 
+     * @return void
+    **/
+
+    public function module_css( $module_namespace, $style ) 
+    {
+        return $this->css( $style, module_url( $module_namespace ) );
+    }
+
+    /**
+     * Module JS
+     *
+     * @access public
+     * @author Blair Jersyer
+     * @param string module namespace
+     * @param string js url relative path
+     * @return void
+    **/
+
+    public function module_js( $module_namespace, $style )
+    {
+        return $this->js( $style, module_url( $module_namespace ) );
+    }
 }

@@ -61,18 +61,18 @@ class Nexo_Clients extends CI_Model
 
         $fields         =   $this->events->apply_filters( 'nexo_clients_fields', $fields );
 
-        $customer_columns   =   $this->events->apply_filters( 'nexo_clients_columns', [ 'NOM', 'EMAIL', 'TEL', 'OVERALL_COMMANDES', 'REF_GROUP', 'AUTHOR', 'DATE_CREATION', 'DATE_MOD' ] );
+        $customer_columns   =   $this->events->apply_filters( 'nexo_clients_columns', [ 'NOM', 'EMAIL', 'TEL', 'OVERALL_COMMANDES', 'TOTAL_SEND', 'REF_GROUP', 'AUTHOR', 'DATE_CREATION', 'DATE_MOD' ] );
 
 		$crud->set_theme('bootstrap');
         $crud->columns( $customer_columns );
         $crud->fields( $fields );
 
-        $crud->display_as('NOM', __('Nom du client', 'nexo'));
-        $crud->display_as('EMAIL', __('Email du client', 'nexo'));
+        $crud->display_as('NOM', __('Nom', 'nexo'));
+        $crud->display_as('EMAIL', __('Email', 'nexo'));
         $crud->display_as('OVERALL_COMMANDES', __('Achats effectués', 'nexo'));
         $crud->display_as('NBR_COMMANDES', __('Nbr Commandes (sess courante)', 'nexo'));
-        $crud->display_as('TEL', __('Téléphone du client', 'nexo'));
-        $crud->display_as('PRENOM', __('Prénom du client', 'nexo'));
+        $crud->display_as('TEL', __('Téléphone', 'nexo'));
+        $crud->display_as('PRENOM', __('Prénom', 'nexo'));
         $crud->display_as('DATE_NAISSANCE', __('Date de naissance', 'nexo'));
         $crud->display_as('ADRESSE', __('Adresse', 'nexo'));
         $crud->display_as('TOTAL_SEND', __('Dépense effectué', 'nexo'));
@@ -95,6 +95,18 @@ class Nexo_Clients extends CI_Model
 
         $crud->callback_before_update(array( $this, '__update' ));
         $crud->callback_before_insert(array( $this, '__insert' ));
+
+        $crud->callback_column( 'TOTAL_SEND', function( $data ){
+            return $this->Nexo_Misc->cmoney_format( $data, true );
+        });
+
+        $crud->callback_column( 'EMAIL', function( $data ){
+            return empty( $data ) ? __( 'Non Défini', 'nexo' ) : $data;
+        });
+
+        $crud->callback_column( 'TEL', function( $data ){
+            return empty( $data ) ? __( 'Non Défini', 'nexo' ) : $data;
+        });
 
         $crud->set_field_upload('AVATAR', get_store_upload_path() . '/customers/');
 
@@ -196,6 +208,7 @@ class Nexo_Clients extends CI_Model
         $data                   =   [];        
         $data[ 'clients' ]      =   [];
         $data[ 'client_id' ]    =   0;
+        $data[ 'groups' ]       =   $this->Nexo_Misc->customers_groups();
 
         // @since 3.1.0
         $this->events->add_action( 'dashboard_footer', function() use ( $data ) {
@@ -224,6 +237,7 @@ class Nexo_Clients extends CI_Model
         $this->load->module_model( 'nexo', 'nexo_customers' );
         $data[ 'clients' ]      =   $this->nexo_customers->get_customers( $customer_id );
         $data[ 'client_id' ]    =   $customer_id;
+        $data[ 'groups' ]       =   $this->Nexo_Misc->customers_groups();
 
         // @since 3.1.0
         $this->events->add_action( 'dashboard_footer', function() use ( $data ) {

@@ -1531,9 +1531,11 @@ var v2Checkout					=	new function(){
 
 		/**
 		 * Get Customers
+		 * @deprecated
 		**/
 
 		this.get						=	function(){
+			console.log( 'v2Checkout.customers.get() has run. It\'s a deprecated function' );
 			$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'customer' ));?>?store_id=<?php echo $store_id == null ? 0 : $store_id;?>', {
 				dataType		:	'json',
 				success			:	function( customers ){
@@ -1549,7 +1551,7 @@ var v2Checkout					=	new function(){
 
 							$( '.customers-list' ).append( '<option value="' + value.ID + '" selected="selected">' + value.NOM + '</option>' );
 							// Fix customer Selection
-							NexoAPI.events.doAction( 'select_customer', [ value ] );
+							// NexoAPI.events.doAction( 'select_customer', [ value ] );
 
 						} else {
 							$( '.customers-list' ).append( '<option value="' + value.ID + '">' + value.NOM + '</option>' );

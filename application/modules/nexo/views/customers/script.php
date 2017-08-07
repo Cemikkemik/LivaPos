@@ -156,6 +156,8 @@ tendooApp.directive( 'customersForm', function( $rootScope ){
         ) {
 
             $scope.rawCustomers             =   <?php echo json_encode( ( array ) $clients );?>;
+            $scope.rawGroups                =   <?php echo json_encode( ( array ) $groups );?>;
+            
             $scope.model[ 'basic' ]         =   new Object;
             $scope.model[ 'billing' ]       =   new Object;
             $scope.model[ 'shipping' ]      =   new Object;
@@ -173,6 +175,17 @@ tendooApp.directive( 'customersForm', function( $rootScope ){
                     }
                 });
             }
+
+            $scope.rawToOptoions        =   function( raw, key, value_key ) {
+                let data        =   {};
+                _.each( raw, function( value, index ) {
+                    data[ value[ key ] ]    =   value[ value_key ];
+                });
+
+                return data;
+            }
+
+            $scope.groups               =   $scope.rawToOptoions( $scope.rawGroups, 'ID', 'NAME' );
 
             $scope.schema               =   new Object;
             $scope.schema[ 'basic' ]    =   {
@@ -203,6 +216,10 @@ tendooApp.directive( 'customersForm', function( $rootScope ){
                     },
                     description     :   {
                         type    :   'string'
+                    },
+                    ref_group       :   {
+                        "title": '<?php echo _s( 'Assigner à un groupe', 'nexo' );?>',
+                        "type": "string"
                     }
                 }
             }
@@ -227,6 +244,10 @@ tendooApp.directive( 'customersForm', function( $rootScope ){
 
             // Basic
             $scope.form[ 'basic' ]      =   [{
+                key         :   'ref_group',
+                type        :   'select',
+                titleMap    :   $scope.groups
+            },{
                 key     :   "surname",
                 title   :   "<?php echo _s( 'Prénom', 'nexo' );?>"
             },{

@@ -22,7 +22,7 @@
                     show        :   function(){
                         return item.variations.length > 1
                     },
-                    desc        :   '<?php echo _s( 'Veuillez choisir une désignation unique pour cette variation', 'nexo' );?>'
+                    desc        :   '<?php echo _s( 'Veuillez choisir un nom unique pour cette variation', 'nexo' );?>'
                 },{
                     type        :   'text',
                     label       :   '<?php echo _s( 'Prix de vente', 'nexo' );?>',

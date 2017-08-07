@@ -40,6 +40,7 @@ class Tendoo_Controller extends CI_Controller
 
         // if is installed, setup is always loaded
         if ( $this->setup->is_installed() ) {
+
             /**
              * Load Session, Database and Options
             **/

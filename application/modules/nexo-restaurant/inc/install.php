@@ -31,6 +31,7 @@ class Nexo_Restaurant_Install extends Tendoo_Module
           `CURRENT_SEATS_USED` int(11),
           `STATUS` varchar(200),
           `SINCE` datetime not null,
+          `BOOKING_START` datetime not null,
           `DATE_CREATION` datetime not null,
           `DATE_MODIFICATION` datetime not null,
           `AUTHOR` int(11) NOT NULL,
@@ -90,8 +91,10 @@ class Nexo_Restaurant_Install extends Tendoo_Module
 
         $this->db->query( 'ALTER TABLE `'. $prefix .'nexo_registers` ADD `REF_KITCHEN` INT NOT NULL AFTER `USED_BY`;');
         $this->db->query( 'ALTER TABLE `'. $prefix .'nexo_articles` ADD `REF_MODIFIERS_GROUP` INT NOT NULL AFTER `BARCODE_TYPE`;');
+        // $this->db->query( 'ALTER TABLE `'. $prefix .'nexo_commandes` ADD `REF_BOOKING` INT NOT NULL AFTER `BARCODE_TYPE`;');
 
         Modules::enable( 'nexo-restaurant' );
+        $this->options->set( 'nexo_restaurant_installed', true, true );
     }
 
     /**

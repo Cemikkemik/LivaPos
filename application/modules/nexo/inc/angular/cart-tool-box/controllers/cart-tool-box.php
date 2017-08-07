@@ -4,8 +4,16 @@ tendooApp.directive( 'shipping', function(){
 	return {
 		restrict 		:	'E',
 		templateUrl 	:	'<?php echo site_url([ 'dashboard', store_slug(), 'nexo_templates', 'shippings']);?>',
-		controller 		:	[ '$scope', function( $scope ) {
+		controller 		:	[ '$scope', '$compile', '$filter', function( $scope, $compile, $filter ) {
 			$scope.optionShowed 	=	false;
+
+			$scope.$watch( 'price', function() {
+				$( '.cart-shipping-amount' ).html( $filter( 'moneyFormat' )( $scope.price ) );
+				v2Checkout.CartShipping  	=	parseFloat( $scope.price );
+				v2Checkout.refreshCartValues();
+			});
+
+			$scope[ 'price' ] 		=	v2Checkout.CartShipping;
 
 			// Check whether the current customer has valid informations
 			$scope.isAddressValid	=	false;
@@ -19,6 +27,25 @@ tendooApp.directive( 'shipping', function(){
 					}
 				}
 			});
+
+			/**
+			 * Cancel Shipping
+			 * @param void
+			 * @return void
+			**/
+			
+			$scope.cancelShipping = function(){
+				_.each([ 
+					'name', 'enterprise', 'address_1',
+					'city', 'country', 'pobox',
+					'state', 'surname', 'title',
+					'address_2',
+					'id'
+				], ( field ) => {
+					$scope[ field ] 	=	'';
+				});
+				$scope[ 'price' ] 		=	0;
+			}
 
 			/**
 			 * Toggle Options
@@ -40,31 +67,150 @@ tendooApp.directive( 'shipping', function(){
 					_.each( $scope.currentCustomer, ( customer_fields, key ) => {
 						if( key.substr( 0, 9 ) == 'shipping_' && _.indexOf([ 
 							'name', 'enterprise', 'address_1',
-							'city', 'country', 'pobox',
-							'state', 'surname',
-							'address_2'
+							'city', 'country', 'pobox', 'price',
+							'state', 'surname', 'title',
+							'address_2',
+							'id'
 						], key.substr( 9 ) ) != -1 ) {
 							$scope[ key.substr( 9 ) ] 	=	customer_fields;
 						}
 					});
-
-					console.log( $scope );
 				} else {
-					_.each([ 
-						'name', 'enterprise', 'address_1',
-						'city', 'country', 'pobox',
-						'state', 'surname',
-						'address_2'
-					], ( field ) => {
-						$scope[ field ] 	=	'';
-					});
+					$scope.cancelShipping();
 				}
 			}
 
-			console.log( v2Checkout );
+			// add custom cancel button
+			$( '.modal-footer' ).append( '<a ng-click="cancelShipping()" class="cancel-shipping btn btn-default"><?php echo _s( 'Annuler', 'nexo' );?></a>');
+			$( '[data-bb-handler="cancel"]' ).hide();
+			$( '.cancel-shipping' ).replaceWith( $compile( $( '.cancel-shipping' )[0].outerHTML )($scope) );
+			// bind special even to close it
+			$( '.cancel-shipping' ).bind( 'click', function() {
+				// close the box
+				$( '[data-bb-handler="cancel"]' ).trigger( 'click' );
+			});
+
+			// Select field content
+			setTimeout( function(){
+				$( '[ng-model="price"]' ).select();
+			}, 200 );
 		}]
 	}
 });
+
+tendooApp.directive( 'items', function(){
+	return {
+		restrict 		:	'E',
+		templateUrl 	:	 '<?php echo site_url([ 'dashboard', store_slug(), 'nexo_templates', 'load', 'items.templates.quick-item-form' ]);?>',
+		controller 		:	[ '$scope', '$compile', function( $scope, $compile ) {
+			$scope.schema = {
+				type: "object",
+				properties: {
+					item_name: { 
+						type: "string", 
+						minLength: 2, 
+						title: "<?php echo _s( 'Nom du produit', 'nexo' );?>", 
+						description: "<?php echo _s( 'Ajouter le nom du produit.', 'nexo' );?>" 
+					},
+					item_price : {
+						type 	:	"number",
+						title 	:	"<?php echo _s( 'Prix unitaire', 'nexo' );?>",
+						description 	:	"<?php echo _s( 'Veuillez définir le prix de vente unitaire du produit.', 'nexo' );?>"
+					},
+					item_quantity : {
+						type 	:	"number",
+						title 	:	"<?php echo _s( 'Quantité', 'nexo' );?>",
+						description 	:	"<?php echo _s( 'Veuillez définir la quantité que vous souhaitez ajouter.', 'nexo' );?>"
+					}
+					// ,
+					// item_create : {
+					// 	type 	:	"boolean",
+					// 	title 	:	"<?php echo _s( 'Ajouter au stock', 'nexo' );?>",
+					// 	description 	:	"<?php echo _s( 'En activant cette option, le produit sera ajouté au stock.', 'nexo' );?>"
+					// },
+					// item_category : {
+					// 	title 	:	"<?php echo _s( 'Categorie', 'nexo' );?>",
+					// 	type 	:	"string",
+					// 	enum 	:	[ 'foo', 'bar' ]
+					// },
+					// item_provider : {
+					// 	title 	:	"<?php echo _s( 'Fournisseur', 'nexo' );?>",
+					// 	type 	:	"string",
+					// 	enum 	:	[ 'foo', 'bar' ]
+					// },
+					// item_shipping : {
+					// 	title 	:	"<?php echo _s( 'Collection', 'nexo' );?>",
+					// 	type 	:	"string",
+					// 	enum 	:	[ 'foo', 'bar' ]
+					// },
+					// item_sku : {
+					// 	title 	:	"<?php echo _s( 'SKU', 'nexo' );?>",
+					// 	type 	:	"string"
+					// },
+					// item_barcode : {
+					// 	title 	:	"<?php echo _s( 'Code Barre', 'nexo' );?>",
+					// 	type 	:	"string"
+					// }
+				},
+				required 	:	[ 'item_name', 'item_price', 'item_quantity' ]
+			};
+
+			$scope.form = [
+				"*"
+			];
+
+			function makeid()
+			{
+				var text = "";
+				var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+				for( var i=0; i < 5; i++ )
+					text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+				return text;
+			}
+
+			/**
+			* Add Item
+			* @return void
+			**/
+
+			$scope.addItem			=	function() {
+				if( $scope.model.item_name == '' || $scope.model.item_quantity == '' || $scope.model.item_price == '' ) {
+					return NexoAPI.Toast()( '<?php echo _s( 'Vous devez remplir tous champs', 'nexo' );?>' );
+				}
+
+				// Proceed add item to the cart
+				let item 			=	new Object;
+				let uniqueBarcode 	=	makeid();
+				
+				v2Checkout.addOnCart([{
+					STATUS 			:	'1',
+					CODEBAR 		:	uniqueBarcode,
+					INLINE 			:	true, // it's an inline product,
+					STOCK_ENABLED 	:	'0',
+					QTE_ADDED 		:	0,
+					TYPE 			:	'2',
+					DESIGN 			:	$scope.model.item_name,
+					PRIX_DE_VENTE 	:	$scope.model.item_price
+				}], uniqueBarcode, $scope.model.item_quantity, true );
+
+				$scope.model 			=	new Object;
+				$( '[data-bb-handler="confirm"]' ).trigger( 'click' );
+			}
+
+			// hide default modal buttons
+			$( '[data-bb-handler="confirm"]' ).hide();
+			$( '.modal-footer' ).append( '<a href="javascript:void(0)" ng-click="addItem()" class="confirm-btn btn btn-primary"><?php echo _s( 'Ajouter le produit', 'nexo' );?></a>')
+			$( '.confirm-btn' ).replaceWith( $compile( $( '.confirm-btn' )[0].outerHTML )( $scope ) );
+			
+			// Set focus on the main field
+			setTimeout( () => {
+				$( '#item_name' ).select();
+			}, 300 );		
+		}]
+	}
+})
 
 tendooApp.directive('validNumber', function() {
 	return {
@@ -114,8 +260,12 @@ tendooApp.directive('validNumber', function() {
 </script>
 
 <script>
-tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout', 'hotkeys', 
-	function( $http, $compile, $scope, $timeout, hotkeys ) {
+tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope', '$timeout', 'hotkeys', 
+	function( $http, $filter, $compile, $scope, $timeout, hotkeys ) {
+
+	// set the shipping price to 0 on start
+	$scope[ 'price' ] 				=	v2Checkout.CartShipping;
+	$( '.cart-shipping-amount' ).html( $filter( 'moneyFormat' )( $scope.price ) );
 
 	$scope.loadedOrders				=	new Object;
 	$scope.orderDetails				=	null;
@@ -132,11 +282,6 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 	$scope.theSpinner[ 'rspinner' ]	=	true;
 	$scope.windowHeight				=	window.innerHeight;
 	$scope.wrapperHeight			=	$scope.windowHeight - ( ( 56 * 2 ) + 30 );
-
-	// reset default URL when cart is reset
-	NexoAPI.events.addAction( 'reset_cart', function(){
-		NexoAPI.events.removeFilter( 'process_data' );
-	});
 
 	/**
 	 * Since the button has been moved to the pos header. It's not dynamically loaded
@@ -237,6 +382,7 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 
 	$scope.openOrderOnPOS			=	function( action ){
 		if( action ) {
+
 			if( $scope.orderDetails == null ) {
 				NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Vous devez choisir une commande avant de l\'ouvrir.', 'nexo' );?>' );
 				return false;
@@ -255,7 +401,10 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 			 * @since 3.0.22
 			**/
 
-			if( NexoAPI.events.applyFilters( 'override_open_order', $scope.orderDetails ) ) {
+			if( NexoAPI.events.applyFilters( 'override_open_order', {
+				order_details : $scope.orderDetails,
+				proceed 	:	false
+			}).proceed ) {
 				return true;
 			}
 
@@ -290,6 +439,11 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 
 			v2Checkout.CartTitle							=	$scope.orderDetails.order.TITRE;
 
+			// @since 3.1.2
+			v2Checkout.CartShipping  						=	parseFloat( $scope.orderDetails.order.SHIPPING_AMOUNT );
+			$scope.price   									=	v2Checkout.CartShipping; // for shipping directive
+			$( '.cart-shipping-amount' ).html( $filter( 'moneyFormat' )( $scope.price ) );
+
 			// Restore Custom Ristourne
 			v2Checkout.restoreCustomRistourne();
 
@@ -298,6 +452,12 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 			v2Checkout.buildCartItemTable();
 			v2Checkout.refreshCart();
 			v2Checkout.refreshCartValues();
+
+			// Restore Shipping
+			// @since 3.1
+			_.each( $scope.orderDetails.order.shipping, ( value, key ) => {
+				$scope[ key ] 	=	value;
+			});
 		}
 	};
 
@@ -403,7 +563,6 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 
 					$( '.customers-list' ).append( '<option value="' + value.ID + '" selected="selected">' + value.NOM + '</option>' );
 					// Fix customer Selection
-					NexoAPI.events.doAction( 'select_customer', [ value ] );
 
 				} else {
 					$( '.customers-list' ).append( '<option value="' + value.ID + '">' + value.NOM + '</option>' );
@@ -412,6 +571,13 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 
 			// @since 3.0.16
 			v2Checkout.customers.list 	=	customers;
+
+			if( typeof $( '.customers-list' ).attr( 'change-bound' ) == 'undefined' ) {
+				$( '.customers-list' ).bind( 'change', function(){
+					v2Checkout.customers.bindSelectCustomer( $( this ).val() );
+				});
+				$( '.customers-list' ).attr( 'change-bound', 'true' );
+			}
 
 			$( '.customers-list' ).selectpicker( 'refresh' );
 		});
@@ -456,16 +622,97 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$compile', '$scope', '$timeout'
 		}, 150 );
 	}
 
+	
+
+	/**
+	 * Open Click Add Product
+	 * @param void
+	 * @return void
+	 * @since 3.1
+	**/
+
+	$scope.openAddQuickItem 		=	function() {
+		NexoAPI.Bootbox().confirm({
+			message 		:	'<div class="items_wrapper"><items></items></div>',
+			title			:	'<?php echo _s( 'Ajouter un produit', 'nexo' );?>',
+			buttons: {
+				confirm: {
+					label: '<?php echo _s( 'Ajouter', 'nexo' );?>',
+					className: 'btn-primary'
+				},
+				cancel: {
+					label: '<?php echo _s( 'Fermer', 'nexo' );?>',
+					className: 'btn-default'
+				}
+			},
+			callback		:	function( action ) {
+			}
+		});
+		
+		$timeout( function(){
+
+			angular.element( '.modal-dialog' ).css( 'width', '50%' );
+			angular.element( '.modal-body' ).css( 'height', $scope.wrapperHeight - 100 );
+			angular.element( '.modal-body' ).css( 'background', '#f9f9f9' );
+			angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );
+			angular.element( '.middle-content' ).attr( 'style', 'border-left:solid 1px #DEDEDE;overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
+			angular.element( '.modal-body' ).attr( 'style', 'overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
+			angular.element( '.middle-content' ).css( 'padding', 0 );
+
+			$( '.items_wrapper' ).replaceWith( $compile( 
+				$( '.items_wrapper' )[0].outerHTML )($scope) 
+			);
+			
+		}, 150 );
+	}
+
+	$scope.model = {
+		item_name 		:	'',
+		item_price 		:	'',
+		item_quantity 	:	''
+	};
+
 	$scope.getCustomers();
 
 	hotkeys.add({
 		combo: '<?php echo @$Options[ 'pending_order' ] == null ? "shift+s" : @$Options[ 'pending_order' ];?>',
 		description: 'This one goes to 11',
-		allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+		// allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 		callback: function() {
 			$scope.openHistoryBox()
 		}
 	});
-	
+
+	// add shipping information to the order
+	NexoAPI.events.addFilter( 'before_submit_order', ( order_details ) => {
+		
+		order_details[ 'shipping' ]		=	new Object;
+
+		_.each([ 
+			'name', 'enterprise', 'address_1', 'price',
+			'city', 'country', 'pobox', 'title',
+			'state', 'surname', 
+			'address_2', 
+			'id'
+		], ( field ) => {
+			order_details[ 'shipping' ][ field ] 		=	$scope[ field ];
+		});
+
+		return order_details;
+	});
+
+	// Clear shipping information when the cart is resetted
+	NexoAPI.events.addAction( 'reset_cart', () => {
+		if( typeof $scope.cancelShipping != 'undefined' ) {
+			$scope.cancelShipping();
+		}		
+	});
+
+	// reset default URL when cart is reset
+	NexoAPI.events.addAction( 'reset_cart', function(){
+		NexoAPI.events.removeFilter( 'process_data' );
+		$scope.price   	=	0; // reset the shipping price
+		$( '.cart-shipping-amount' ).html( $filter( 'moneyFormat' )( $scope.price ) );
+	});	
 }]);
 </script>

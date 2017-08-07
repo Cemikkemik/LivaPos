@@ -1,3 +1,11 @@
+
+v3.1.5
+======
+* Fix saving order issue
+* Fix bug on POS Screen
+v3.1.2
+======
+* Fix print labels
 v2.8.3
 ======
 Fix 

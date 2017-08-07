@@ -113,8 +113,10 @@
              $http.get( '<?php echo site_url( [ 'dashboard', 'perm_manager', 'get' ] );?>' ).then( function( returned ){
                 $scope.roles = returned.data.roles;
                 $scope.permissions = returned.data.permissions;
-                $scope.selectedUser = $scope.roles[0].name;
-                $scope.selectedRole = $scope.roles[0];
+                if( angular.isUndefined( $scope.selectedUser ) ) {
+                    $scope.selectedUser = $scope.roles[0].name;
+                    $scope.selectedRole = $scope.roles[0];
+                }                
              });
          }
 
@@ -155,6 +157,7 @@
                     if( action ) {
                         permissionsResource.delete( {'entries[]' : bulkDel}, function( data ) {
                             $scope.loadData();
+                            sharedAlert.alert( '<?php echo _s( 'Toutes les permissions ont été supprimées', 'perm_manager' );?>' );
                         },function(){
                             sharedAlert.warning( '<?php echo _s(
                                 'Une erreur s\'est produite durant l\'operation',
@@ -174,6 +177,9 @@
              sharedAlert.confirm( '<?php echo _s( 'Souhaitez-vous supprimer ces élément ?', 'perm_manager' );?>', function( action ) {
                 if( action ) {
                     permissionsResource.delete({ permission, group_id }, function( data ) {
+                        if( returned.data.status === 'success' ) {
+                            sharedAlert.warning( '<?php echo _s( 'La permission a été supprimée.', 'perm_manager' );?>' );
+                        }
                         $scope.loadData();
                     },function(){
                         sharedAlert.warning( '<?php echo _s(
@@ -193,15 +199,18 @@
             permissionsResource.save( 
                 $scope.add, 
                 function(){
+                    sharedAlert.warning( '<?php echo _s( 'La modification a été enregistrée', 'perm_manager' );?>' );
+                    $scope.add[ 'permission' ]  =   '';
+                    $scope.add[ 'group' ]       =   '';
                     $scope.loadData();
                 }, 
                 function( returned ){
                     if( returned.data.status === 'alreadyExists' ) {
-                        sharedAlert.warning( '<?php echo _s( 'Le role possède déja cette permission', 'nexopos_advanced' );?>' );
+                        sharedAlert.warning( '<?php echo _s( 'Le role possède déja cette permission', 'perm_manager' );?>' );
                     }
 
                     if( returned.data.status === 'forbidden' || returned.status == 500 ) {
-                        sharedAlert.warning( '<?php echo _s( 'Une erreur s\'est produite durant l\'opération.', 'nexopos_advanced' );?>' );
+                        sharedAlert.warning( '<?php echo _s( 'Une erreur s\'est produite durant l\'opération.', 'perm_manager' );?>' );
                     }
                 }
             )

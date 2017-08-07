@@ -1,7 +1,7 @@
 <form name="form" action="" novalidate>
     <div class="form-group">
         <div class="input-group input-group-lg">
-            <input valid-number type="text" name="price" required ng-model="price" class="form-control" placeholder="<?php echo __( 'Frais de livraison', 'nexo' );?>">
+            <input valid-number type="text" ng-model-options="{ debounce: 1000 }" name="price" required ng-model="price" class="form-control" placeholder="<?php echo __( 'Frais de livraison', 'nexo' );?>">
             <span class="input-group-btn">
                 <button ng-click="toggleOptions()" type="button" class="btn btn-default"><i class="fa fa-cogs"></i> 
                     <span ng-show="optionShowed == true"><?php echo __( 'Masquer' );?></span>
@@ -19,7 +19,7 @@
     <div ng-hide="!optionShowed">
         <div class="input-group">
             <div class="input-group-addon"><?php echo __( 'Titre de la livraison', 'nexo' );?></div>
-            <input type="text" class="form-control"  placeholder="<?php echo __( 'Titre de livraison', 'nexo' );?>">
+            <input ng-model="title" type="text" class="form-control"  placeholder="<?php echo __( 'Titre de livraison', 'nexo' );?>">
         </div>
 
         <div class="checkbox" ng-show="isAddressValid">

@@ -88,6 +88,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    7.85,
+            'PRIX_DE_VENTE_TTC'        =>    7.85,
             'SHADOW_PRICE'			=>	    8.25,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -110,6 +111,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    6.45,
+            'PRIX_DE_VENTE_TTC'        =>    6.45,
             'SHADOW_PRICE'			=>	    7.35,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -132,6 +134,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    7.32,
+            'PRIX_DE_VENTE_TTC'        =>    7.32,
             'SHADOW_PRICE'			=>	    7.97,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -154,6 +157,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    6.52,
+            'PRIX_DE_VENTE_TTC'        =>    6.52,
             'SHADOW_PRICE'			=>	    7.55,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -176,6 +180,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    5.25,
+            'PRIX_DE_VENTE_TTC'        =>    5.25,
             'SHADOW_PRICE'			=>	    6.45,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -205,6 +210,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    7.25,
+            'PRIX_DE_VENTE_TTC'        =>    7.25,
             'SHADOW_PRICE'			=>	    8.45,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -227,6 +233,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    7.25,
+            'PRIX_DE_VENTE_TTC'        =>    7.25,
             'SHADOW_PRICE'			=>	    8.45,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -249,6 +256,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    7.22,
+            'PRIX_DE_VENTE_TTC'        =>    7.22,
             'SHADOW_PRICE'			=>	    8.65,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -271,6 +279,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    7.25,
+            'PRIX_DE_VENTE_TTC'        =>    7.25,
             'SHADOW_PRICE'			=>	    8.45,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -293,6 +302,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    7.52,
+            'PRIX_DE_VENTE_TTC'        =>    7.52,
             'SHADOW_PRICE'			=>	    8.25,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -323,6 +333,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    11.52,
+            'PRIX_DE_VENTE_TTC'        =>    11.52,
             'SHADOW_PRICE'			=>	    12.25,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -345,6 +356,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    12.41,
+            'PRIX_DE_VENTE_TTC'        =>    12.41,
             'SHADOW_PRICE'			=>	    13.36,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -367,6 +379,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    11.25,
+            'PRIX_DE_VENTE_TTC'        =>    11.25,
             'SHADOW_PRICE'			=>	    12.40,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -389,6 +402,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    10.55,
+            'PRIX_DE_VENTE_TTC'        =>    10.55,
             'SHADOW_PRICE'			=>	    11.40,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -411,6 +425,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    10.05,
+            'PRIX_DE_VENTE_TTC'        =>    10.05,
             'SHADOW_PRICE'			=>	    11.00,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -440,6 +455,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    8.00, // $
             'PRIX_DE_VENTE'         =>    9.55,
+            'PRIX_DE_VENTE_TTC'        =>    9.55,
             'SHADOW_PRICE'			=>	    11.00,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -462,6 +478,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    9.05,
+            'PRIX_DE_VENTE_TTC'        =>    9.05,
             'SHADOW_PRICE'			=>	    10.00,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -484,6 +501,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    8.05,
+            'PRIX_DE_VENTE_TTC'     =>    8.05,
             'SHADOW_PRICE'			=>	  9.00,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -506,6 +524,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    8.25,
+            'PRIX_DE_VENTE_TTC'        =>    8.25,
             'SHADOW_PRICE'			=>	  9.50,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -528,6 +547,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    8.55,
+            'PRIX_DE_VENTE_TTC'        =>    8.55,
             'SHADOW_PRICE'			=>	  9.20,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -550,6 +570,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    9.55,
+            'PRIX_DE_VENTE_TTC'        =>    9.55,
             'SHADOW_PRICE'			=>	  9.88,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -572,6 +593,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    7.55,
+            'PRIX_DE_VENTE_TTC'        =>    7.55,
             'SHADOW_PRICE'			=>	  8.88,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -594,6 +616,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    8.25,
+            'PRIX_DE_VENTE_TTC'        =>    8.25,
             'SHADOW_PRICE'			=>	  9.88,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -616,6 +639,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    8.25,
+            'PRIX_DE_VENTE_TTC'        =>    8.25,
             'SHADOW_PRICE'			=>	  9.55,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -645,6 +669,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    7.25,
+            'PRIX_DE_VENTE_TTC'        =>    7.25,
             'SHADOW_PRICE'			=>	  9.55,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -667,6 +692,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    7.55,
+            'PRIX_DE_VENTE_TTC'        =>    7.55,
             'SHADOW_PRICE'			=>	  9.85,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),
@@ -689,6 +715,7 @@ $this->db->insert( store_prefix() . 'nexo_categories', array(
             'DEFECTUEUX'            =>    0,
             'PRIX_DACHAT'           =>    10, // $
             'PRIX_DE_VENTE'         =>    8.55,
+            'PRIX_DE_VENTE_TTC'        =>    8.55,
             'SHADOW_PRICE'			=>	  9.85,
             'AUTHOR'                =>    User::id(),
             'DATE_CREATION'         =>    date_now(),

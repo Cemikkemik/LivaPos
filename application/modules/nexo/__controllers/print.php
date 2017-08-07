@@ -54,17 +54,19 @@ class Nexo_Print extends CI_Model
 			$data[ 'template' ]						=	array();
 			$data[ 'template' ][ 'order_date' ]		=	mdate( '%d/%m/%Y %g:%i %a', strtotime($data[ 'order' ][ 'order' ][0][ 'DATE_CREATION' ]));
 			$data[ 'template' ][ 'order_code' ]		=	$data[ 'order' ][ 'order' ][0][ 'CODE' ];
-            $data[ 'template' ][ 'order_id' ]       =   $data[ 'order' ][ 'order' ][0][ 'ID' ];
+            $data[ 'template' ][ 'order_id' ]       =   $data[ 'order' ][ 'order' ][0][ 'ORDER_ID' ];
 			$data[ 'template' ][ 'order_status' ]	=	$this->Nexo_Checkout->get_order_type($data[ 'order' ][ 'order' ][0][ 'TYPE' ]);
             $data[ 'template' ][ 'order_note' ]     =   $data[ 'order' ][ 'order' ][0][ 'DESCRIPTION' ];
 
-			$data[ 'template' ][ 'order_cashier' ]	=	User::pseudo($data[ 'order' ][ 'order' ][0][ 'AUTHOR' ]);
+			$data[ 'template' ][ 'order_cashier' ]	=	User::pseudo( $data[ 'order' ][ 'order' ][0][ 'AUTHOR' ] );
 			$data[ 'template' ][ 'shop_name' ]		=	@$Options[ store_prefix() . 'site_name' ];
 			$data[ 'template' ][ 'shop_pobox' ]		=	@$Options[ store_prefix() . 'nexo_shop_pobox' ];
 			$data[ 'template' ][ 'shop_fax' ]		=	@$Options[ store_prefix() . 'nexo_shop_fax' ];
-			$data[ 'template' ][ 'shop_email' ]		        =	@$Options[ store_prefix() . 'nexo_shop_email' ];
-			$data[ 'template' ][ 'shop_street' ]	        =	@$Options[ store_prefix() . 'nexo_shop_street' ];
-			$data[ 'template' ][ 'shop_phone' ]		        =	@$Options[ store_prefix() . 'nexo_shop_phone' ];
+			$data[ 'template' ][ 'shop_email' ]     =	@$Options[ store_prefix() . 'nexo_shop_email' ];
+			$data[ 'template' ][ 'shop_street' ]    =	@$Options[ store_prefix() . 'nexo_shop_street' ];
+			$data[ 'template' ][ 'shop_phone' ]     =	@$Options[ store_prefix() . 'nexo_shop_phone' ];
+            $data[ 'template' ][ 'customer_name' ]  =   $data[ 'order' ][ 'order' ][0][ 'customer_name' ];
+            $data[ 'template' ][ 'customer_phone' ]  =   $data[ 'order' ][ 'order' ][0][ 'customer_phone' ];
 
             $theme                                          =	@$Options[ store_prefix() . 'nexo_receipt_theme' ] ? @$Options[ store_prefix() . 'nexo_receipt_theme' ] : 'default';
 
@@ -111,17 +113,17 @@ class Nexo_Print extends CI_Model
 			$data[ 'template' ][ 'order_code' ]		=	$data[ 'order' ][ 'order' ][0][ 'CODE' ];
             $data[ 'template' ][ 'order_id' ]       =   $data[ 'order' ][ 'order' ][0][ 'ID' ];
 			$data[ 'template' ][ 'order_status' ]	=	$this->Nexo_Checkout->get_order_type($data[ 'order' ][ 'order' ][0][ 'TYPE' ]);
-            $data[ 'template' ][ 'order_note' ]     =   $data[ 'order' ][ 'order' ][0][ 'DESCRIPTION' ];
+            $data[ 'template' ][ 'order_note' ]     =   $data[ 'order' ][ 'order' ][0][ 'DESCRIPTION' ];            
 
-			$data[ 'template' ][ 'order_cashier' ]	=	User::pseudo($data[ 'order' ][ 'order' ][0][ 'AUTHOR' ]);
+			$data[ 'template' ][ 'order_cashier' ]	=	User::pseudo( $data[ 'order' ][ 'order' ][0][ 'AUTHOR' ] );
 			$data[ 'template' ][ 'shop_name' ]		=	@$Options[ store_prefix() . 'site_name' ];
 			$data[ 'template' ][ 'shop_pobox' ]		=	@$Options[ store_prefix() . 'nexo_shop_pobox' ];
 			$data[ 'template' ][ 'shop_fax' ]		=	@$Options[ store_prefix() . 'nexo_shop_fax' ];
-			$data[ 'template' ][ 'shop_email' ]		        =	@$Options[ store_prefix() . 'nexo_shop_email' ];
-			$data[ 'template' ][ 'shop_street' ]	        =	@$Options[ store_prefix() . 'nexo_shop_street' ];
-			$data[ 'template' ][ 'shop_phone' ]		        =	@$Options[ store_prefix() . 'nexo_shop_phone' ];
+			$data[ 'template' ][ 'shop_email' ]		=	@$Options[ store_prefix() . 'nexo_shop_email' ];
+			$data[ 'template' ][ 'shop_street' ]    =	@$Options[ store_prefix() . 'nexo_shop_street' ];
+			$data[ 'template' ][ 'shop_phone' ]	    =	@$Options[ store_prefix() . 'nexo_shop_phone' ];
 
-            $theme                                          =	@$Options[ store_prefix() . 'nexo_refund_theme' ] ? @$Options[ store_prefix() . 'nexo_refund_theme' ] : 'default';
+            $theme                                  =	@$Options[ store_prefix() . 'nexo_refund_theme' ] ? @$Options[ store_prefix() . 'nexo_refund_theme' ] : 'default';
 
             $path   =   '../modules/nexo/views/refund/' . $theme . '.php';
 
@@ -143,7 +145,7 @@ class Nexo_Print extends CI_Model
     public function shipping_item_codebar($shipping_id = null)
     {
         if ($shipping_id  == null) {
-            die(__('Arrivage non définie', 'nexo'));
+            show_error(__('Arrivage non définie.', 'nexo'));
         }
 
         $this->cache        =    new CI_Cache(array('adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_products_labels_' . store_prefix() ));
@@ -169,7 +171,15 @@ class Nexo_Print extends CI_Model
             $ids        =    explode(',', $get);
             $products    =    array();
             foreach ($ids as $id) {
-                $unique_product        =    $this->Nexo_Products->get( store_prefix() . 'nexo_articles', $id, 'ID');
+                // $unique_product        =    $this->Nexo_Products->get( store_prefix() . 'nexo_articles', $id, 'ID');
+                $unique_product             =   $this->db->select( '*' )
+                ->from( store_prefix() . 'nexo_arrivages' )
+                ->join( store_prefix() . 'nexo_articles_stock_flow', store_prefix() . 'nexo_articles_stock_flow.REF_SHIPPING = ' . store_prefix() . 'nexo_arrivages.ID' )
+                ->join( store_prefix() . 'nexo_fournisseurs', store_prefix() . 'nexo_fournisseurs.ID = ' . store_prefix() . 'nexo_articles_stock_flow.REF_PROVIDER' )
+                ->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_articles_stock_flow.REF_ARTICLE_BARCODE' )
+                ->where( store_prefix() . 'nexo_arrivages.ID', $delivery_id )
+                ->get()->result_array();
+                
                 // Si le produit existe
                 if (count($unique_product) > 0) {
                     $products[]            =    $unique_product[0];

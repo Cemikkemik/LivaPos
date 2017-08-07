@@ -24,6 +24,10 @@ tendooApp.controller( 'expensesListing', [ '$scope', '$http', function( $scope, 
                     '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
                 }
             }).then(function( returned ){
+                _.each( returned.data, function( entry ) {
+                    entry.DATE_CREATION     =   moment( entry.DATE_CREATION ).format( '<?php echo store_option( 'nexo_js_datetime_format', 'llll' );?>' )
+                });
+                
                 $scope.expenses        =   returned.data;
             }, function(){
                 $scope.expenses        =   [];
@@ -47,11 +51,9 @@ tendooApp.controller( 'expensesListing', [ '$scope', '$http', function( $scope, 
 </script>
 <script type="text/javascript">
 $('.start_date').datepicker({
-    format: 'mm/dd/yyyy',
-    startDate: '-3d'
+    format: 'mm/dd/yyyy'
 });
 $('.end_date').datepicker({
-    format: 'mm/dd/yyyy',
-    startDate: '-3d'
+    format: 'mm/dd/yyyy'
 });
 </script>

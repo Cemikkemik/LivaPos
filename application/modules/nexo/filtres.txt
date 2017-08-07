@@ -211,3 +211,8 @@ Filtres:
  * checkout_header_menus_1
  * Permet de modifier les menus affiché sur le point de ventes
 **/
+
+/**
+ * stores_list_menu
+ * Permet de filtrer les menus du mode multi boutique
+**/

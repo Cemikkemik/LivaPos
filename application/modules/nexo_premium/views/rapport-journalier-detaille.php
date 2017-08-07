@@ -139,7 +139,7 @@ if( ! in_array( @$Options[ 'nexo_enable_registers' ], array( null, 'non' ) ) ){
     ?></td>
         </tr>
         <tr>
-            <td><?php _e('Désignation des documents', 'nexo_premium');
+            <td><?php _e('Nom des documents', 'nexo_premium');
     ?></td>
             <td><?php echo sprintf(__('Montant (%s)', 'nexo_premium'), @$Options[ 'nexo_currency' ]);
     ?></td>
@@ -335,8 +335,9 @@ var Nexo_Daily_Report	=	new function(){
 
 					Nexo_Daily_Report.RRR_Total			+=	( NexoAPI.ParseFloat( value.RABAIS ) + NexoAPI.ParseFloat( value.REMISE ) + NexoAPI.ParseFloat( value.RISTOURNE ) )
 
-					if( value.TYPE == '<?php echo 'nexo_order_comptant';
-    ?>' ) {
+					if( _.indexOf( <?php echo json_encode( 
+						$this->events->apply_filters( 'report_order_types', [ 'nexo_order_comptant' ] )
+					);?>, value.TYPE ) != -1 ) {
 
 						Nexo_Daily_Report.ComptantNbr++
 						Nexo_Daily_Report.CashAvanceNbr++;
@@ -344,10 +345,7 @@ var Nexo_Daily_Report	=	new function(){
 						Nexo_Daily_Report.CashAvanceTotal 	+= 	NexoAPI.ParseFloat( value.TOTAL );
 						CashOrderCode.push( value.CODE );
 
-
-
-					} else if( value.TYPE == '<?php echo 'nexo_order_advance';
-    ?>' ) {
+					} else if( value.TYPE == '<?php echo 'nexo_order_advance';?>' ) {
 
 						Nexo_Daily_Report.AvanceNbr++
 						Nexo_Daily_Report.CashAvanceNbr++;
@@ -355,8 +353,7 @@ var Nexo_Daily_Report	=	new function(){
 						Nexo_Daily_Report.CashAvanceTotal 	+= 	NexoAPI.ParseFloat( value.SOMME_PERCU );
 						Nexo_Daily_Report.AvanceLeftTotal	+=	( NexoAPI.ParseFloat( value.TOTAL ) - NexoAPI.ParseFloat( value.SOMME_PERCU ) );
 
-					} else if( value.TYPE == '<?php echo 'nexo_order_devis';
-    ?>' ) {
+					} else if( value.TYPE == '<?php echo 'nexo_order_devis';?>' ) {
 
 						Nexo_Daily_Report.DevisNbr++
 						Nexo_Daily_Report.DevisTotal	+=	NexoAPI.ParseFloat( value.TOTAL );

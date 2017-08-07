@@ -6,6 +6,8 @@ $this->load->model( 'Nexo_Shipping' );
 <script>
     var stockSupplyingCTRL          =   function( $scope, $http ) {
 
+        $scope.stock_operation      =   <?php echo json_encode( $this->config->item( 'stock-operation' ) );?>;
+
         $scope.fields               =   {
             provider                :   null,
             shipping                :   null,
@@ -40,11 +42,13 @@ $this->load->model( 'Nexo_Shipping' );
             text            :   '<?php echo __( 'Opération', 'nexo' );?>'
         };
 
+        // {
+        //     namespace       :   'supply', 
+        //     text            :   '<?php echo _s( 'Approvisionnement', 'nexo' );?>',
+        // },
+
         $scope.actions              =   [
             {
-                namespace       :   'supply', 
-                text            :   '<?php echo _s( 'Approvisionnement', 'nexo' );?>',
-            },{
                 namespace       :   'adjustment', 
                 text            :   '<?php echo _s( 'Suppression', 'nexo' );?>',
             },{
@@ -59,6 +63,15 @@ $this->load->model( 'Nexo_Shipping' );
                 $scope.fetchItem( next );
             }
         });
+
+        /**
+         * convertType
+         * @return string
+        **/
+
+        $scope.convertType          =   function( type ) {
+            return $scope.stock_operation[ type ];
+        }
 
         /** 
          * Fetch Item
@@ -181,6 +194,7 @@ $this->load->model( 'Nexo_Shipping' );
                 tendoo.loader.show();
                 
                 let data        =   {
+                    unit_price      :   $scope.item[0].PRIX_DACHAT,
                     item_barcode    :   $scope.item[0].CODEBAR,
                     item_qte        :   $scope.fields.item_qte,
                     date_creation   :   tendoo.now(),
@@ -208,7 +222,9 @@ $this->load->model( 'Nexo_Shipping' );
                     $( '.submitSupply' ).removeAttr( 'disabled' );
                     tendoo.loader.hide();
                     $scope.status           =   returned.status;
+                    NexoAPI.Bootbox().alert( '<?php echo _s( 'Impossible d\'effectuer l\'opération, le stock final après l\'opération sera négatif.', 'nexo' );?>' );
                 });
+                
                 return false;
             }
         }

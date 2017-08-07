@@ -29,7 +29,7 @@ class Nexo_Categories extends CI_Model
 		 * multistore is enabled
 		**/
 		
-		if( multistore_enabled() && ! is_multistore() ) {
+		if( ( multistore_enabled() && ! is_multistore() ) && $this->events->add_filter( 'force_show_inventory', false ) == false ) {
 			redirect( array( 'dashboard', 'feature-disabled' ) );
 		}
         

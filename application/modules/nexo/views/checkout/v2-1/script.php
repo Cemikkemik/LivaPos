@@ -24,6 +24,7 @@ var v2Checkout					=	new function(){
 
 	this.CartVATEnabled			=	<?php echo @$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' ? 'true' : 'false';?>;
 	this.CartVATPercent			=	<?php echo in_array(@$Options[ store_prefix() . 'nexo_vat_percent' ], array( null, '' )) ? 0 : @$Options[ store_prefix() . 'nexo_vat_percent' ];?>;
+	this.CartShowItemVAT  		=	<?php echo store_option( 'show_item_taxes' ) == 'yes' ? 'true' : 'false';?>;
 
 	if( this.CartVATPercent == '0' ) {
 		this.CartVATEnabled		=	false;
@@ -316,7 +317,6 @@ var v2Checkout					=	new function(){
 					}
 
 					if( length > 23 ) {
-						console.log( 'enter' );
 						$( this ).find( '.item-name' ).attr( 'previous', htmlEntities( $( this ).find( '.item-name' ).html() ) );
 						$( this ).find( '.item-name' ).html( '<marquee class="marquee_me" behavior="alternate" scrollamount="' + speed + '" direction="left" style="width:100%;float:left;">' + item.DESIGN + '</marquee>' );
 					}
@@ -429,7 +429,7 @@ var v2Checkout					=	new function(){
 			var promo_start					= 	moment( currentItem.SPECIAL_PRICE_START_DATE );
 			var promo_end					= 	moment( currentItem.SPECIAL_PRICE_END_DATE );
 
-			var MainPrice					= 	NexoAPI.ParseFloat( currentItem.PRIX_DE_VENTE )
+			var MainPrice					= 	NexoAPI.ParseFloat( currentItem.PRIX_DE_VENTE_TTC )
 			var Discounted					= 	'';
 			var CustomBackground			=	'';
 			currentItem.PROMO_ENABLED	=	false;
@@ -438,7 +438,7 @@ var v2Checkout					=	new function(){
 				if( promo_end.isSameOrAfter( v2Checkout.CartDateTime ) ) {
 					currentItem.PROMO_ENABLED	=	true;
 					MainPrice			=	NexoAPI.ParseFloat( currentItem.PRIX_PROMOTIONEL );
-					Discounted			=	'<small><del>' + NexoAPI.DisplayMoney( NexoAPI.ParseFloat( currentItem.PRIX_DE_VENTE ) ) + '</del></small>';
+					Discounted			=	'<small><del>' + NexoAPI.DisplayMoney( NexoAPI.ParseFloat( currentItem.PRIX_DE_VENTE_TTC ) ) + '</del></small>';
 					CustomBackground	=	'background:<?php echo $this->config->item('discounted_item_background');?>';
 				}
 			}
@@ -474,7 +474,7 @@ var v2Checkout					=	new function(){
 									v2Checkout.CartItems[i].PRIX_PROMOTIONEL	=	$( this ).val();
 								}
 							} else {
-								v2Checkout.CartItems[i].PRIX_DE_VENTE	=	$( this ).val();
+								v2Checkout.CartItems[i].PRIX_DE_VENTE_TTC	=	$( this ).val();
 							}
 						}
 					}
@@ -513,7 +513,7 @@ var v2Checkout					=	new function(){
 	**/
 
 	this.bindRemoveCartRemise	=	function(){
-		$( '.btn.cart-discount' ).each( function(){
+		$( '.btn.cart-discount-button' ).each( function(){
 			if( ! $( this ).hasClass( 'remove-action-bound' ) ) {
 				$( this ).addClass( 'remove-action-bound' );
 				$( this ).bind( 'click', function(){
@@ -775,7 +775,7 @@ var v2Checkout					=	new function(){
 
 			NexoAPI.Bootbox().confirm( dom, function( action ) {
 				if( action ) {
-					if( NexoAPI.ParseFloat( $( '.current_item_price' ).val() ) < NexoAPI.ParseFloat( CurrentItem.PRIX_DE_VENTE ) ) {
+					if( NexoAPI.ParseFloat( $( '.current_item_price' ).val() ) < NexoAPI.ParseFloat( CurrentItem.PRIX_DE_VENTE_TTC ) ) {
 						NexoAPI.Bootbox().alert( '<?php echo _s( 'Le nouveau prix ne peut pas être inférieur au prix minimal (seuil)', 'nexo' );?>' );
 						return false;
 					} else {
@@ -793,7 +793,7 @@ var v2Checkout					=	new function(){
 				}
 			});
 
-			$( '.sale_price' ).html( NexoAPI.DisplayMoney( CurrentItem.PRIX_DE_VENTE ) );
+			$( '.sale_price' ).html( NexoAPI.DisplayMoney( CurrentItem.PRIX_DE_VENTE_TTC ) );
 			$( '.current_item_price' ).val( CurrentItem.SHADOW_PRICE );
 
 		});
@@ -897,23 +897,27 @@ var v2Checkout					=	new function(){
 		this.CartTotalItems	=	0;
 
 		if( _.toArray( this.CartItems ).length > 0 ){
+			// reset item vat
+			v2Checkout.CartItemsVAT 	=	0;
 			_.each( this.CartItems, function( value, key ) {
 
 				var promo_start			= 	moment( value.SPECIAL_PRICE_START_DATE );
 				var promo_end			= 	moment( value.SPECIAL_PRICE_END_DATE );
 
-				var MainPrice			= 	NexoAPI.ParseFloat( value.PRIX_DE_VENTE )
+				var MainPrice			= 	NexoAPI.ParseFloat( value.PRIX_DE_VENTE_TTC );
 				var Discounted			= 	'';
 				var CustomBackground	=	'';
 				value.PROMO_ENABLED	=	false;
 
-				if( promo_start.isBefore( v2Checkout.CartDateTime ) ) {
-					if( promo_end.isSameOrAfter( v2Checkout.CartDateTime ) ) {
-						value.PROMO_ENABLED	=	true;
-						MainPrice			=	NexoAPI.ParseFloat( value.PRIX_PROMOTIONEL );
-						Discounted			=	'<small><del>' + NexoAPI.DisplayMoney( NexoAPI.ParseFloat( value.PRIX_DE_VENTE ) ) + '</del></small>';
-						CustomBackground	=	'background:<?php echo $this->config->item('discounted_item_background');?>';
-					}
+				if( promo_start.isBefore( v2Checkout.CartDateTime ) && promo_end.isSameOrAfter( v2Checkout.CartDateTime ) ) {
+					value.PROMO_ENABLED	=	true;
+					MainPrice			=	NexoAPI.ParseFloat( value.PRIX_PROMOTIONEL );
+					Discounted			=	'<small><del>' + NexoAPI.DisplayMoney( NexoAPI.ParseFloat( value.PRIX_DE_VENTE_TTC ) ) + '</del></small>';
+					CustomBackground	=	'background:<?php echo $this->config->item('discounted_item_background');?>';
+				}
+
+				if( v2Checkout.CartShowItemVAT ) {
+					v2Checkout.CartItemsVAT	 	+=	( ( NexoAPI.ParseFloat( value.PRIX_DE_VENTE_TTC ) - NexoAPI.ParseFloat( value.PRIX_DE_VENTE ) ) * parseFloat( value.QTE_ADDED ) );
 				}
 
 				// @since 2.7.1
@@ -949,10 +953,10 @@ var v2Checkout					=	new function(){
 				$( '#cart-table-body' ).find( 'table' ).append(
 					'<tr cart-item data-line-weight="' + ( MainPrice * parseInt( value.QTE_ADDED ) ) + '" data-item-barcode="' + value.CODEBAR + '">' +
 						'<td width="200" class="text-left" style="line-height:30px;"><p style="width:45px;margin:0px;float:left">' + NexoAPI.events.applyFilters( 'cart_before_item_name', '' ) + '</p><p style="text-transform: uppercase;float:left;width:76%;margin-bottom:0px;" class="item-name">' + item_design.displayed + '</p></td>' +
-						'<td width="110" class="text-center item-unit-price"  style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice ) + ' ' + Discounted + '</td>' +
-						'<td width="100" class="text-center">' +
+						'<td width="110" class="text-center item-unit-price hidden-xs"  style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice ) + ' ' + Discounted + '</td>' +
+						'<td width="100" class="text-center item-control-btns">' +
 						'<div class="input-group input-group-sm">' +
-						'<span class="input-group-btn">' +
+						'<span class="input-group-btn item-control-btns-wrapper">' +
 							'<button class="btn btn-default item-reduce">-</button>' +
 							'<button name="shop_item_quantity" value="' + value.QTE_ADDED + '" class="btn btn-default" style="width:50px;">' + value.QTE_ADDED + '</button>' +
 							'<button class="btn btn-default item-add">+</button>' +
@@ -961,7 +965,7 @@ var v2Checkout					=	new function(){
 						<?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
 						'<td width="90" class="text-center item-discount"  style="line-height:28px;"><span class="btn btn-default btn-sm">' + DiscountAmount + '</span></td>' +
 						<?php endif;?>
-						'<td width="100" class="text-right" style="line-height:30px;">' + NexoAPI.DisplayMoney( itemSubTotal ) + '</td>' +
+						'<td width="100" class="text-right item-total-price" style="line-height:30px;">' + NexoAPI.DisplayMoney( itemSubTotal ) + '</td>' +
 					'</tr>'
 				);
 
@@ -1001,8 +1005,8 @@ var v2Checkout					=	new function(){
 		}
 
 		// Display Notice
-		if( $( '.cart-discount-notice-area' ).find( '.cart-discount' ).length > 0 ) {
-			$( '.cart-discount-notice-area' ).find( '.cart-discount' ).remove();
+		if( $( '.cart-discount-remove-wrapper' ).find( '.cart-discount-button' ).length > 0 ) {
+			$( '.cart-discount-remove-wrapper' ).find( '.cart-discount-button' ).remove();
 		}
 
 		if( this.CartRemiseEnabled == true ) {
@@ -1020,7 +1024,7 @@ var v2Checkout					=	new function(){
 				}
 
 				if( this.CartRemiseEnabled ) {
-					$( '.cart-discount-notice-area' ).append( '<span style="cursor: pointer;margin:0px 2px;" class="animated bounceIn btn expandable btn-primary btn-xs cart-discount"><i class="fa fa-remove"></i> <?php echo addslashes(__('Remise : ', 'nexo'));?>' + this.CartRemisePercent + '%</span>' );
+					$( '.cart-discount-remove-wrapper' ).prepend( '<span style="cursor: pointer;margin:0px 2px;margin-top: -4px;" class="animated bounceIn btn btn-danger btn-xs cart-discount-button"><i class="fa fa-times"></i></span>' );
 				}
 
 			} else if( this.CartRemiseType == 'flat' ) {
@@ -1029,7 +1033,7 @@ var v2Checkout					=	new function(){
 				}
 
 				if( this.CartRemiseEnabled ) {
-					$( '.cart-discount-notice-area' ).append( '<span style="cursor: pointer;margin:0px 2px;" class="animated bounceIn btn expandable btn-primary btn-xs cart-discount"><i class="fa fa-remove"></i> <?php echo addslashes(__('Remise : ', 'nexo'));?>' + NexoAPI.DisplayMoney( this.CartRemise ) + '</span>' );
+					$( '.cart-discount-remove-wrapper' ).prepend( '<span style="cursor: pointer;margin:0px 2px;margin-top: -4px;" class="animated bounceIn btn btn-danger btn-xs cart-discount-button"><i class="fa fa-times"></i></span>' );
 				}
 			}
 
@@ -1043,6 +1047,7 @@ var v2Checkout					=	new function(){
 	**/
 
 	this.calculateCartRistourne		=	function(){
+		// alert( 'ok' );
 
 		// Will be overwritten by enabled ristourne
 		this.CartRistourne			=	0;
@@ -1057,14 +1062,18 @@ var v2Checkout					=	new function(){
 					this.CartRistourne	=	( NexoAPI.ParseFloat( this.CartRistournePercent ) * this.CartValue ) / 100;
 				}
 
-				$( '.cart-discount-notice-area' ).append( '<span style="cursor: pointer; margin:0px 2px;" class="animated bounceIn btn expandable btn-info btn-xs cart-ristourne"><i class="fa fa-remove"></i> <?php echo addslashes(__('Ristourne : ', 'nexo'));?>' + this.CartRistournePercent + '%</span>' );
+				if( this.CartRistourne > 0 ) {
+					$( '.cart-discount-notice-area' ).prepend( '<span style="cursor: pointer; margin:0px 2px;margin-top: -4px;" class="animated bounceIn btn expandable btn-info btn-xs cart-ristourne"><i class="fa fa-remove"></i> <?php echo addslashes(__('Ristourne : ', 'nexo'));?>' + this.CartRistournePercent + '%</span>' );
+				}
 
 			} else if( this.CartRistourneType == 'amount' ) {
 				if( this.CartRistourneAmount != '' ) {
 					this.CartRistourne	=	NexoAPI.ParseFloat( this.CartRistourneAmount );
 				}
 
-				$( '.cart-discount-notice-area' ).append( '<span style="cursor: pointer;margin:0px 2px;" class="animated bounceIn btn expandable btn-info btn-xs cart-ristourne"><i class="fa fa-remove"></i> <?php echo addslashes(__('Ristourne : ', 'nexo'));?>' + NexoAPI.DisplayMoney( this.CartRistourneAmount ) + '</span>' );
+				if( this.CartRistourne > 0 ) {
+					$( '.cart-discount-notice-area' ).prepend( '<span style="cursor: pointer;margin:0px 2px;margin-top: -4px;" class="animated bounceIn btn expandable btn-info btn-xs cart-ristourne"><i class="fa fa-remove"></i> <?php echo addslashes(__('Ristourne : ', 'nexo'));?>' + NexoAPI.DisplayMoney( this.CartRistourne ) + '</span>' );
+				}
 			}
 
 			this.bindRemoveCartRistourne();
@@ -1084,13 +1093,13 @@ var v2Checkout					=	new function(){
 				if( this.CartGroupDiscountPercent != '' ) {
 					this.CartGroupDiscount		=	( NexoAPI.ParseFloat( this.CartGroupDiscountPercent ) * this.CartValue ) / 100;
 
-					$( '.cart-discount-notice-area' ).append( '<p style="cursor: pointer; margin:0px 2px;" class="animated bounceIn btn btn-warning expandable btn-xs cart-group-discount"><i class="fa fa-remove"></i> <?php echo addslashes(__('Remise de groupe : ', 'nexo'));?>' + this.CartGroupDiscountPercent + '%</p>' );
+					$( '.cart-discount-notice-area' ).append( '<p style="cursor: pointer; margin:0px 2px;margin-top: -4px;" class="animated bounceIn btn btn-warning expandable btn-xs cart-group-discount"><i class="fa fa-remove"></i> <?php echo addslashes(__('Remise de groupe : ', 'nexo'));?>' + this.CartGroupDiscountPercent + '%</p>' );
 				}
 			} else if( this.CartGroupDiscountType == 'amount' ) {
 				if( this.CartGroupDiscountAmount != '' ) {
 					this.CartGroupDiscount		=	NexoAPI.ParseFloat( this.CartGroupDiscountAmount )	;
 
-					$( '.cart-discount-notice-area' ).append( '<p style="cursor: pointer; margin:0px 2px;" class="animated bounceIn btn btn-warning expandable btn-xs cart-group-discount"><i class="fa fa-remove"></i> <?php echo addslashes(__('Remise de groupe : ', 'nexo'));?>' + NexoAPI.DisplayMoney( this.CartGroupDiscountAmount ) + '</p>' );
+					$( '.cart-discount-notice-area' ).append( '<p style="cursor: pointer; margin:0px 2px;margin-top: -4px;" class="animated bounceIn btn btn-warning expandable btn-xs cart-group-discount"><i class="fa fa-remove"></i> <?php echo addslashes(__('Remise de groupe : ', 'nexo'));?>' + NexoAPI.DisplayMoney( this.CartGroupDiscountAmount ) + '</p>' );
 				}
 			}
 
@@ -1150,7 +1159,7 @@ var v2Checkout					=	new function(){
 				id 					:	value.ID,
 				qte_added 			:	value.QTE_ADDED,
 				codebar 			:	value.CODEBAR,
-				sale_price 			:	value.PROMO_ENABLED ? value.PRIX_PROMOTIONEL : ( v2Checkout.CartShadowPriceEnabled ? value.SHADOW_PRICE : value.PRIX_DE_VENTE ),
+				sale_price 			:	value.PROMO_ENABLED ? value.PRIX_PROMOTIONEL : ( v2Checkout.CartShadowPriceEnabled ? value.SHADOW_PRICE : value.PRIX_DE_VENTE_TTC ),
 				qte_sold 			:	value.QUANTITE_VENDU,
 				qte_remaining 		:	value.QUANTITE_RESTANTE,
 				// @since 2.8.2
@@ -1159,7 +1168,10 @@ var v2Checkout					=	new function(){
 				discount_type 		:	value.DISCOUNT_TYPE,
 				discount_amount		:	value.DISCOUNT_AMOUNT,
 				discount_percent 	:	value.DISCOUNT_PERCENT,
-				metas 				:	typeof value.metas == 'undefined' ? {} : value.metas
+				metas 				:	typeof value.metas == 'undefined' ? {} : value.metas,
+				// @since 3.1
+				name 				:	value.DESIGN,
+				inline 				:	typeof value.INLINE ? 1 : 0 // if it's an inline item
 			};
 
 			// improved @since 2.7.3
@@ -1170,8 +1182,9 @@ var v2Checkout					=	new function(){
 		});
 
 		var order_details					=	new Object;
-		order_details.TOTAL				=	NexoAPI.ParseFloat( this.CartToPay );
-		order_details.REMISE_TYPE		=	this.CartRemiseType;
+		order_details.TOTAL					=	NexoAPI.ParseFloat( this.CartToPay );
+		order_details.REMISE_TYPE			=	this.CartRemiseType;
+
 		// @since 2.9.6
 		if( this.CartRemiseType == 'percentage' ) {
 			order_details.REMISE_PERCENT	=	NexoAPI.ParseFloat( this.CartRemisePercent );
@@ -1246,7 +1259,6 @@ var v2Checkout					=	new function(){
 
 			}
 		}
-
 
 		var ProcessObj	=	NexoAPI.events.applyFilters( 'process_data', {
 			url			:	this.ProcessURL,
@@ -1407,20 +1419,24 @@ var v2Checkout					=	new function(){
 
 		/**
 		* Bind
+		* @deprecated
 		**/
 
 		this.bind				=	function(){
-			$('.dropdown-bootstrap').selectpicker({
-				style: 'btn-default',
-				size: 4
-			});
+			// $('.dropdown-bootstrap').selectpicker({
+			// 	style: 'btn-default',
+			// 	size: 4
+			// });
 
-			if( typeof $( '.customers-list' ).attr( 'change-bound' ) == 'undefined' ) {
-				$( '.customers-list' ).bind( 'change', function(){
-					v2Checkout.customers.bindSelectCustomer( $( this ).val() );
-				});
-				$( '.customers-list' ).attr( 'change-bound', 'true' );
-			}
+			// console.log( $( '.customers-list' ).attr( 'change-bound' ) );
+
+			// if( typeof $( '.customers-list' ).attr( 'change-bound' ) == 'undefined' ) {
+			// 	$( '.customers-list' ).bind( 'change', function(){
+			// 		v2Checkout.customers.bindSelectCustomer( $( this ).val() );
+			// 	});
+			// 	$( '.customers-list' ).attr( 'change-bound', 'true' );
+			// 	console.log( $( '.customers-list' ).attr( 'change-bound' ) );
+			// }
 		}
 
 		/**
@@ -1562,7 +1578,7 @@ var v2Checkout					=	new function(){
 
 		this.run						=	function(){
 			this.getGroups();
-			this.bind();
+			// this.bind();
 		};
 	}
 
@@ -1590,7 +1606,7 @@ var v2Checkout					=	new function(){
 					var promo_start	= moment( value.SPECIAL_PRICE_START_DATE );
 					var promo_end	= moment( value.SPECIAL_PRICE_END_DATE );
 
-					var MainPrice	= NexoAPI.ParseFloat( value.PRIX_DE_VENTE )
+					var MainPrice	= NexoAPI.ParseFloat( value.PRIX_DE_VENTE_TTC )
 					var Discounted	= '';
 					var CustomBackground	=	'';
 					var ImagePath			=	value.APERCU == '' ? '<?php echo '../modules/nexo/images/default.png';?>'  : value.APERCU;
@@ -1598,7 +1614,7 @@ var v2Checkout					=	new function(){
 					if( promo_start.isBefore( v2Checkout.CartDateTime ) ) {
 						if( promo_end.isSameOrAfter( v2Checkout.CartDateTime ) ) {
 							MainPrice			=	NexoAPI.ParseFloat( value.PRIX_PROMOTIONEL );
-							Discounted			=	'<small style="color: #999;border: solid 1px #dadada; border-radius: 5px;padding: 2px;position: absolute;box-shadow: 0px 0px 5px 1px #988f8f;top: 10px;left: 10px;z-index: 800;    background: #EEE;"><del>' + NexoAPI.DisplayMoney( NexoAPI.ParseFloat( value.PRIX_DE_VENTE ) ) + '</del></small>';
+							Discounted			=	'<small style="color: #999;border: solid 1px #dadada; border-radius: 5px;padding: 2px;position: absolute;box-shadow: 0px 0px 5px 1px #988f8f;top: 10px;left: 10px;z-index: 800;    background: #EEE;"><del>' + NexoAPI.DisplayMoney( NexoAPI.ParseFloat( value.PRIX_DE_VENTE_TTC ) ) + '</del></small>';
 							// CustomBackground	=	'background:<?php echo $this->config->item('discounted_item_background');?>';
 						}
 					}
@@ -1673,12 +1689,48 @@ var v2Checkout					=	new function(){
 		};
 
 		/**
+		 * Treat Found item
+		 * @param object item
+		 * @since 3.1
+		 * @return void
+		**/
+
+		this.treatFoundItem 		=	function({ _item, codebar, qte_to_add, allow_increase, filter }){
+			
+			/**
+			* Filter item when is loaded
+			**/
+
+			_item 			=	NexoAPI.events.applyFilters( 'item_loaded', _item );
+
+			/**
+				* Override Add Item default Feature
+			**/
+
+			if( NexoAPI.events.applyFilters( 'override_add_item' , { _item, proceed : false, qte_to_add, allow_increase } ).proceed == true ) {
+				return;
+			}
+
+			v2Checkout.addOnCart( _item, codebar, qte_to_add, allow_increase, filter );
+		}
+
+		/**
 		* Fetch Items
 		* Check whether an item is available and add it to the cart items table
 		* @return void
 		**/
 
-		this.fetchItem				=	function( codebar, qte_to_add, allow_increase, filter ) {
+		this.fetchItem				=	function( codebar, qte_to_add = 1, allow_increase = true, filter ) {
+
+			/**
+			 * @since 3.1
+			 * check whether the item is inline or saved on the stock
+			**/
+			let item 		=	this.getItem( codebar );
+			
+			if( typeof item.INLINE != 'undefined' ) { // usually when this param exist, we assume it equal to true
+				return v2Checkout.treatFoundItem({ _item 	:	[ item ], codebar, qte_to_add, allow_increase, filter });
+			}
 
 			var filters 				=	NexoAPI.events.applyFilters( 'fetch_item', [
 				codebar,
@@ -1700,28 +1752,13 @@ var v2Checkout					=	new function(){
 
 			$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'item' ));?>/' + codebar + '/' + filter + '?store_id=' + store_id, { // _with_meta
 				success				:	function( _item ){
-
-					/**
-					 * Filter item when is loaded
-					**/
-
-					_item 			=	NexoAPI.events.applyFilters( 'item_loaded', _item );
-
-					/**
-					 * Override Add Item default Feature
-					**/
-
-					if( NexoAPI.events.applyFilters( 'override_add_item' , { _item, proceed : false } ).proceed == true ) {
-						return;
-					}
-
-					v2Checkout.addOnCart( _item, codebar, qte_to_add, allow_increase, filter );
+					// Treat Found Item
+					v2Checkout.treatFoundItem({ _item, codebar, qte_to_add, allow_increase, filter });
 				},
 				dataType			:	'json',
 				error				:	function(){
 					NexoAPI.Notify().error( '<?php echo addslashes(__('Une erreur s\'est produite', 'nexo'));?>', '<?php echo addslashes(__('Impossible de récupérer les données. L\'article recherché est introuvable.', 'nexo'));?>' );
 				}
-
 			});
 		};
 
@@ -1866,7 +1903,7 @@ var v2Checkout					=	new function(){
 			var promo_start				= 	moment( itemObj.SPECIAL_PRICE_START_DATE );
 			var promo_end				= 	moment( itemObj.SPECIAL_PRICE_END_DATE );
 
-			var MainPrice				= 	NexoAPI.ParseFloat( itemObj.PRIX_DE_VENTE )
+			var MainPrice				= 	NexoAPI.ParseFloat( itemObj.PRIX_DE_VENTE_TTC )
 			var Discounted				= 	'';
 			var CustomBackground		=	'';
 			itemObj.PROMO_ENABLED	=	false;
@@ -2198,7 +2235,7 @@ var v2Checkout					=	new function(){
 			
 			this.calculateCartVAT();
 
-			this.CartToPay			=	( this.CartValueRRR + this.CartVAT );
+			this.CartToPay			=	( this.CartValueRRR + this.CartVAT + this.CartShipping );
 
 			<?php if( in_array(strtolower(@$Options[ store_prefix() . 'nexo_currency_iso' ]), $this->config->item('nexo_supported_currency')) ) {
 				?>
@@ -2210,16 +2247,17 @@ var v2Checkout					=	new function(){
 				<?php
 			};?>
 
-			$( '#cart-value' ).html( NexoAPI.DisplayMoney( this.CartValue ) );
-			$( '#cart-vat' ).html( NexoAPI.DisplayMoney( this.CartVAT ) );
-			$( '#cart-discount' ).html( NexoAPI.DisplayMoney( this.CartDiscount ) );
-			$( '#cart-topay' ).html( NexoAPI.DisplayMoney( this.CartToPay ) );
+			$( '.cart-value' ).html( NexoAPI.DisplayMoney( this.CartValue ) );
+			$( '.cart-vat' ).html( NexoAPI.DisplayMoney( this.CartVAT ) );
+			$( '.cart-discount' ).html( NexoAPI.DisplayMoney( this.CartDiscount ) );
+			$( '.cart-topay' ).html( NexoAPI.DisplayMoney( this.CartToPay ) );
+			$( '.cart-item-vat' ).html( NexoAPI.DisplayMoney( this.CartItemsVAT ) );
 			
 			//@since 3.0.19
 			let itemsNumber 	=	0;
 			_.each( this.CartItems, ( item ) => {
 				itemsNumber 	+=	parseInt( item.QTE_ADDED );
-			});
+			});			
 			$( '.items-number' ).html( itemsNumber );
 
 			NexoAPI.events.applyFilters( 'refresh_cart_values', this.CartItems );
@@ -2294,10 +2332,13 @@ var v2Checkout					=	new function(){
 			this.CartRistournePercent	=	0;
 			this.CartRemisePercent		=	0;
 			this.POSItems				=	[];
+			// @since 3.1.3
+			this.CartShipping   		=	0;
+			this.CartItemsVAT 			=	0;
 
 
 			<?php if (isset($order[ 'order' ])):?>
-			this.ProcessURL				=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id(), $order[ 'order' ][0][ 'ID' ] ));?>?store_id=<?php echo get_store_id();?>";
+			this.ProcessURL				=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id(), $order[ 'order' ][0][ 'ORDER_ID' ] ));?>?store_id=<?php echo get_store_id();?>";
 			this.ProcessType			=	'PUT';
 			<?php else :?>
 			this.ProcessURL				=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id() ));?>?store_id=<?php echo get_store_id();?>";

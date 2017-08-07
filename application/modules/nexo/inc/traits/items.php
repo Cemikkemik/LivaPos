@@ -13,9 +13,9 @@ trait Nexo_items
     public function create_bulk_items_post()
     {
         // get all sku as in an array
-        $old_items      =   $this->db->get( store_prefix() . 'nexo_articles' )->result_array();
-        $skus           =   [];
-        $barcodes        =   [];
+        $old_items          =   $this->db->get( store_prefix() . 'nexo_articles' )->result_array();
+        $skus               =   [];
+        $barcodes           =   [];
 
         foreach( $old_items as $old_item ) {
             $skus[ $old_item[ 'ID' ] ]      =   $old_item[ 'SKU' ];
@@ -24,8 +24,19 @@ trait Nexo_items
 
         if( $this->post( 'refresh' ) == 'false' ) {
             $this->db->query( 'TRUNCATE `' . $this->db->dbprefix . store_prefix() . 'nexo_articles`' );
-            $this->db->query( 'TRUNCATE `' . $this->db->dbprefix . store_prefix() . 'nexo_articles_metas`' );
+            $this->db->query( 'TRUNCATE `' . $this->db->dbprefix . store_prefix() . 'nexo_articles_meta`' );
         }
+
+        // create supply for imported item
+        $this->db->insert( store_prefix() . 'nexo_arrivages', [
+            'TITRE'             =>      sprintf( __( 'Imported Items', 'nexo' ), date_now() ),
+            'DATE_CREATION'     =>      date_now(),
+            'AUTHOR'            =>      User::id()
+        ]);
+
+        $delivery_id            =   $this->db->insert_id();
+        $delivery_cost          =   0;
+        $delivery_quantity      =   0;
 
         foreach( $this->post( 'items' ) as $index => $item ) {
             $randBarcode            =       $index . date( 'y' ) . date( 'i' ) . rand( 0, 999 );
@@ -40,6 +51,10 @@ trait Nexo_items
             if( empty( $item[ 'DESIGN' ] ) ) {
                 $item[ 'DESIGN' ]   =   'Unamed Item (' . $index . ')';
             }
+
+            // include the price with Taxe
+            $item[ 'PRIX_DE_VENTE_TTC' ]        =   $item[ 'PRIX_DE_VENTE' ];
+
             // if overwrite is enabeld
             if( $this->post( 'overwrite' ) == 'true' ) {
                 if( in_array( $item[ 'SKU' ], $skus ) || in_array( $item[ 'CODEBAR' ], $barcodes ) ) {
@@ -53,8 +68,28 @@ trait Nexo_items
                     $this->db->insert( store_prefix() . 'nexo_articles', $item );
                 }
             }
-            
+
+            if( $this->post( 'overwrite' ) == 'true' ) {
+                // Make a supply for this import
+                $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
+                    'REF_ARTICLE_BARCODE'   =>  $item[ 'CODEBAR' ],
+                    'QUANTITE'              =>  @$item[ 'QUANTITY' ],
+                    'AUTHOR'                =>  User::id(),
+                    'TYPE'                  =>  'import',
+                    'UNIT_PRICE'            =>  floatval( @$item[ 'PRIX_DACHAT' ] ),
+                    'TOTAL_PRICE'           =>  floatval( @$item[ 'PRIX_DACHAT' ] ) * floatval( @$item[ 'QUANTITY' ] ),
+                    'REF_SHIPPING'          =>  $delivery_id
+                ]);
+
+                $delivery_cost              +=      floatval( @$item[ 'PRIX_DACHAT' ] ) * floatval( @$item[ 'QUANTITY' ] );
+                $delivery_quantity          +=      floatval( @$item[ 'QUANTITY' ] );          
+            }
         }
+
+        $this->db->where( 'ID', $delivery_id )->update( store_prefix() . 'nexo_arrivages', [
+            'VALUE'         =>  $delivery_cost,
+            'ITEMS'         =>  $delivery_quantity
+        ]);
 
         $this->__success();
     }
@@ -109,13 +144,13 @@ trait Nexo_items
         $old_categories      =   $this->db->get( store_prefix() . 'nexo_categories' )->result_array();
         $old_categories_ids  =   [];
         foreach( $old_categories as $category ) {
-            $old_categories_ids[ $category[ 'ID' ] ]     =   $category[ 'NOM' ];
+            $old_categories_ids[ $category[ 'ID' ] ]     =   strtolower( $category[ 'NOM' ] );
         }
 
         if( $this->post( 'cats' ) ) {
-            // only insert if the category doesn't exists
-            if( ! in_array( ucwords( $category ), $old_categories_ids ) ) {
-                foreach( $this->post( 'cats' ) as $cat ) {
+            foreach( $this->post( 'cats' ) as $cat ) {
+                // only insert if the category doesn't exists
+                if( ! in_array( strtolower( $cat ), $old_categories_ids ) ) {
                     $this->db->insert( store_prefix() . 'nexo_categories', [
                         'NOM'           =>  ucwords( $cat ),
                         'AUTHOR'        =>  $this->post( 'author' ),
@@ -477,18 +512,6 @@ trait Nexo_items
         $item       =   $this->db->where( 'CODEBAR', $this->post( 'item_barcode' ) )->get( store_prefix() . 'nexo_articles' )->result_array();
         // required
         if( $this->post( 'item_barcode' ) != null && $this->post( 'item_qte' ) != null && $this->post( 'type' ) != null && $item ) {
-            $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
-                'REF_ARTICLE_BARCODE'   =>  $this->post( 'item_barcode' ),
-                'QUANTITE'              =>  $this->post( 'item_qte' ),
-                'DATE_CREATION'         =>  $this->post( 'date_creation' ),
-                'AUTHOR'                =>  $this->post( 'author' ),
-                'TYPE'                  =>  $this->post( 'type' ), // defective, usable, supply, ajustment
-                'UNIT_PRICE'            =>  ( float ) $this->post( 'unit_price' ),
-                'TOTAL_PRICE'           =>  ( float ) $this->post( 'unit_price' ) * ( int ) $this->post( 'item_qte' ),
-                'DESCRIPTION'           =>  $this->post( 'description' ) == null ? '' : $this->post( 'description' ),
-                'REF_PROVIDER'          =>  $this->post( 'ref_provider' ) == null ? '' : $this->post( 'ref_provider' ),
-                'REF_SHIPPING'          =>  $this->post( 'ref_shipping' ) == null ? '' : $this->post( 'ref_shipping' ),
-            ]);
 
             // Now increase the current stock of the item
             if( in_array( $this->post( 'type' ), [ 'defective', 'adjustment' ] ) ) {
@@ -496,6 +519,23 @@ trait Nexo_items
             } else if( in_array( $this->post( 'type' ), [ 'supply' ] )) { // 'usable' is only used by the refund feature
                 $remaining_qte      =   intval( $item[0][ 'QUANTITE_RESTANTE' ] ) + intval( $this->post( 'item_qte' ) );
             }
+
+            if( $remaining_qte < 0 ) {
+                return $this->__failed();
+            }
+            
+            $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
+                'REF_ARTICLE_BARCODE'   =>  $this->post( 'item_barcode' ),
+                'QUANTITE'              =>  $this->post( 'item_qte' ),
+                'DATE_CREATION'         =>  date_now(),
+                'AUTHOR'                =>  User::id(),
+                'TYPE'                  =>  $this->post( 'type' ), // defective, usable, supply, adjustment
+                'UNIT_PRICE'            =>  ( float ) $this->post( 'unit_price' ),
+                'TOTAL_PRICE'           =>  ( float ) $this->post( 'unit_price' ) * ( int ) $this->post( 'item_qte' ),
+                'DESCRIPTION'           =>  $this->post( 'description' ) == null ? '' : $this->post( 'description' ),
+                'REF_PROVIDER'          =>  $this->post( 'ref_provider' ) == null ? '' : $this->post( 'ref_provider' ),
+                'REF_SHIPPING'          =>  $this->post( 'ref_shipping' ) == null ? '' : $this->post( 'ref_shipping' ),
+            ]);
 
             $this->db->where( 'CODEBAR', $this->post( 'item_barcode' ) )->update( store_prefix() . 'nexo_articles', [
                 'QUANTITE_RESTANTE'     =>  $remaining_qte
@@ -529,5 +569,138 @@ trait Nexo_items
         ->get()->result();
 
         return $this->response( $stock_query, 200 );
+    }
+
+    /**
+     * Item Bulk Supply Submit
+     * @return json response
+    **/
+
+    public function bulk_supply_post()
+    {
+        if( is_array( $this->post( 'items' ) ) ) {
+            $delivery_cost                  =   [];
+            foreach( $this->post( 'items' ) as $item ) {
+                // get current item stock
+                $saved_item       =   $this->db->where( 'CODEBAR', $item[ 'item_barcode' ] )->get( store_prefix() . 'nexo_articles' )->result_array();
+                // required
+                if( @$item[ 'item_barcode' ] != null && @$item[ 'item_qte' ] != null ) {
+
+                    // Now increase the current stock of the item
+                    if( in_array( $item[ 'type' ], [ 'defective', 'adjustment' ] ) ) {
+                        $remaining_qte      =   intval( $saved_item[0][ 'QUANTITE_RESTANTE' ] ) - intval( $item[ 'item_qte' ] );
+                    } else if( in_array( $item[ 'type' ], [ 'supply' ] )) { // 'usable' is only used by the refund feature
+                        $remaining_qte      =   intval( $saved_item[0][ 'QUANTITE_RESTANTE' ] ) + intval( $item[ 'item_qte' ] );
+                    }
+
+                    if( $remaining_qte < 0 ) {
+                        break;
+                    }
+                    
+                    $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
+                        'REF_ARTICLE_BARCODE'   =>  $item[ 'item_barcode' ],
+                        'QUANTITE'              =>  $item[ 'item_qte' ],
+                        'DATE_CREATION'         =>  date_now(),
+                        'AUTHOR'                =>  User::id(),
+                        'TYPE'                  =>  $item[ 'type' ], // defective, usable, supply, adjustment
+                        'UNIT_PRICE'            =>  ( float ) $item[ 'unit_price' ],
+                        'TOTAL_PRICE'           =>  ( float ) $item[ 'unit_price' ] * ( int ) $item[ 'item_qte' ],
+                        // 'DESCRIPTION'           =>  $this->post( 'description' ) == null ? '' : $this->post( 'description' ),
+                        'REF_PROVIDER'          =>  $item[ 'ref_provider' ],
+                        'REF_SHIPPING'          =>  $item[ 'ref_shipping' ],
+                    ]);
+
+                    $this->db->where( 'CODEBAR', $item[ 'item_barcode' ] )->update( store_prefix() . 'nexo_articles', [
+                        'QUANTITE_RESTANTE'     =>  $remaining_qte
+                    ]);
+
+                    // Calculating the delivery Cost
+                    if( @$delivery_cost[ $item[ 'ref_shipping' ] ] == null ) {
+                        $delivery_cost[ $item[ 'ref_shipping' ] ]       =   [
+                            'cost'          =>  0,
+                            'items'         =>  0,
+                            'ref_provider'  =>  $item[ 'ref_provider' ]
+                        ];
+                    }
+
+                    $delivery_cost[ $item[ 'ref_shipping' ] ][ 'cost' ]     +=   ( 
+                        floatval( $item[ 'unit_price'] ) * floatval( $item[ 'item_qte' ] ) 
+                    );
+
+                    $delivery_cost[ $item[ 'ref_shipping' ] ][ 'items' ]     += floatval( $item[ 'item_qte' ] );
+                }
+            }
+
+            // Update new values
+            foreach( $delivery_cost as $delivery_id => $data ) {
+                $delivery       =   $this->db->where( 'ID', $delivery_id )->get( store_prefix() . 'nexo_arrivages' )
+                ->result_array();
+
+                // adding a new provider
+                $providers       =   array_filter( explode( ',', $delivery[0][ 'REF_PROVIDERS' ] ) );
+                if( ! in_array( $data[ 'ref_provider' ], $providers ) ) {
+                    $providers[]        =   	$data[ 'ref_provider' ];
+                }
+                $providers      =   implode( ',', $providers );
+
+                $this->db->where( store_prefix() . 'nexo_arrivages.ID', $delivery_id )->update( store_prefix() . 'nexo_arrivages', [
+                    'ITEMS'         =>  floatval( $delivery[0][ 'ITEMS' ] ) +   $data[ 'items' ],
+                    'VALUE'         =>  $data[ 'cost' ],
+                    'REF_PROVIDERS' =>  $providers
+                ]);
+            }
+            return $this->__success();
+        }
+        return $this->__failed();
+    }
+
+    /**
+     * Get Item history
+     * @param string barcode
+     * @return json 
+    **/
+
+    public function history_get( $barcode )
+    {
+        $items_all        =   $this->db->select(
+            store_prefix() . 'nexo_articles.DESIGN as ITEM_NAME,'
+        .   store_prefix() . 'nexo_articles.QUANTITE_RESTANTE as REMAINING,'
+        .   store_prefix() . 'nexo_articles.QUANTITY as INITIAL_QUANTITY,'
+        .   store_prefix() . 'nexo_articles.PRIX_DE_VENTE as SALE_PRICE,'
+        .   store_prefix() . 'nexo_articles.PRIX_DE_VENTE_TTC as SALE_PRICE_TI,' // tax included
+        .   store_prefix() . 'nexo_articles_stock_flow.QUANTITE as SUPPLY_QUANTITY,'
+        .   store_prefix() . 'nexo_articles_stock_flow.UNIT_PRICE as SUPPLY_PRICE,'
+        .   store_prefix() . 'nexo_articles_stock_flow.TYPE as TYPE,'
+        .   store_prefix() . 'nexo_articles_stock_flow.TOTAL_PRICE as SUPPLY_TOTAL_PRICE' )
+        ->from( store_prefix() . 'nexo_articles' )
+        ->join( store_prefix() . 'nexo_articles_stock_flow', store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_articles_stock_flow.REF_ARTICLE_BARCODE', 'left' )
+        ->where( store_prefix() . 'nexo_articles.CODEBAR', $barcode )
+        ->get()->result();
+
+        $items          =   $this->db->select(
+            store_prefix() . 'nexo_articles.DESIGN as name,'
+        .   store_prefix() . 'nexo_articles.QUANTITE_RESTANTE as remaining_qte,'
+        .   store_prefix() . 'nexo_articles.QUANTITY as initial_qte,'
+        .   store_prefix() . 'nexo_articles.PRIX_DE_VENTE as sale_price,'
+        .   store_prefix() . 'nexo_articles.PRIX_DE_VENTE_TTC as sale_price_ti,' // tax included
+        .   store_prefix() . 'nexo_articles_stock_flow.QUANTITE as quantity,'
+        .   store_prefix() . 'nexo_articles_stock_flow.UNIT_PRICE as price,'
+        .   store_prefix() . 'nexo_articles_stock_flow.TYPE as type,'
+        .   store_prefix() . 'nexo_articles_stock_flow.DATE_CREATION as date,'
+        .   store_prefix() . 'nexo_articles_stock_flow.AUTHOR as author_id,'
+        . 'aauth_users.name as author_name,'
+        .   store_prefix() . 'nexo_articles_stock_flow.TOTAL_PRICE as total_price' )
+        ->from( store_prefix() . 'nexo_articles' )
+        ->join( store_prefix() . 'nexo_articles_stock_flow', store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_articles_stock_flow.REF_ARTICLE_BARCODE', 'left' )
+        ->join( 'aauth_users', 'aauth_users.id = ' . store_prefix() . 'nexo_articles_stock_flow.AUTHOR' )
+        ->where( store_prefix() . 'nexo_articles.CODEBAR', $barcode )
+        ->order_by( store_prefix() . 'nexo_articles_stock_flow.DATE_CREATION', 'desc' )
+        ->limit( $this->get( 'limit' ), $this->get( 'start' ) )
+        ->get()->result();
+
+        $this->response([
+            'entries'   =>  count( $items_all ),
+            'items'     =>  $items
+        ]);
     }
 }

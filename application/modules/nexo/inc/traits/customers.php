@@ -160,7 +160,8 @@ trait Nexo_customers
             'EMAIL'             =>  $this->post( 'email' ),
             'DATE_CREATION'     =>  $this->post( 'created_on' ),
             'AUTHOR'            =>  $this->post( 'author' ),
-            'TEL'               =>  $this->post( 'phone' )
+            'TEL'               =>  $this->post( 'phone' ),
+            'REF_GROUP'         =>  $this->post( 'group_id' )
         ]);
 
         $insert_id      =   $this->db->insert_id();
@@ -239,7 +240,8 @@ trait Nexo_customers
             'EMAIL'             =>  $this->put( 'email' ),
             'DATE_MOD'          =>  $this->put( 'edited_on' ),
             'AUTHOR'            =>  $this->put( 'author' ),
-            'TEL'               =>  $this->put( 'phone' )
+            'TEL'               =>  $this->put( 'phone' ),
+            'REF_GROUP'         =>  $this->put( 'ref_group' )
         ]);
 
         $insert_id      =   $this->db->insert_id();

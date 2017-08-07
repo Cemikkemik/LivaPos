@@ -17,9 +17,8 @@ class Nexo_Restaurant_Main extends Tendoo_Module
         $this->events->add_action( 'load_dashboard', [ $this->actions, 'load_dashboard' ]);
         $this->events->add_action( 'dashboard_footer', [ $this->actions, 'dashboard_footer' ]);
         $this->events->add_filter( 'admin_menus', [ $this->filters, 'admin_menus' ], 20 );
-        $this->events->add_filter( 'nexo_cart_buttons', [ $this->filters, 'cart_buttons' ]);
+        $this->events->add_filter( 'checkout_header_menus_1', [ $this->filters, 'cart_buttons' ]);
         $this->events->add_filter( 'allowed_order_for_print', [ $this->filters, 'allow_print' ]);
-        $this->events->add_filter( 'before_cart_pay_button', [ $this->filters, 'add_combo' ] );
         $this->events->add_action( 'nexo_after_install_tables', [ $this->actions, 'store_install_tables' ]);
         $this->events->add_action( 'nexo_after_delete_tables', [ $this->actions, 'store_delete_tables' ] );
         $this->events->add_action( 'nexo_empty_shop', [ $this->actions, 'empty_shop' ]);
@@ -27,6 +26,9 @@ class Nexo_Restaurant_Main extends Tendoo_Module
         $this->events->add_filter( 'nexo_demo_list', [ $this->filters, 'restaurant_demo' ] );
         $this->events->add_filter( 'order_editable', [ $this->filters, 'order_editable' ] );
         $this->events->add_filter( 'load_product_crud', [ $this->filters, 'load_product_crud' ] );
+        $this->events->add_filter( 'before_cart_pay_button', [ $this->filters, 'add_combo' ] );
+        $this->events->add_filter( 'report_order_types', [ $this->filters, 'report_order_types' ] );
+        $this->events->add_filter( 'dashboard_dependencies', [ $this->filters, 'dashboard_dependencies' ] );
     }
 }
 

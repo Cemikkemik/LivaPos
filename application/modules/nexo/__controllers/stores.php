@@ -144,7 +144,7 @@ class Nexo_Stores_Controller extends CI_Model
 		$this->load->model( 'Nexo_Stores' );
 		
 		$data[ 'data' ]		=	array(
-			'stores'		=>		$this->Nexo_Stores->get()
+			'stores'		=>		$this->events->apply_filters( 'stores_list_menu', $this->Nexo_Stores->get() )
 		);
 		
 		$this->Gui->set_title( store_title( __('Toutes les boutiques &mdash; NexoPOS', 'nexo') ));

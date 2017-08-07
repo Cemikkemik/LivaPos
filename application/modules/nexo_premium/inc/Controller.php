@@ -223,7 +223,7 @@ class Nexo_Premium_Controller extends CI_Model
         $crud->set_relation('AUTHOR', 'aauth_users', 'name');
         $crud->set_relation('REF_CATEGORY', store_prefix() . 'nexo_premium_factures_categories', 'NAME' );
 
-        $crud->display_as('INTITULE', __('Désignation', 'nexo_premium'));
+        $crud->display_as('INTITULE', __('Nom', 'nexo_premium'));
         $crud->display_as('REF_CATEGORY', __('Catégorie', 'nexo_premium'));
         $crud->display_as('MONTANT', __('Prix de la facture', 'nexo_premium'));
         $crud->display_as('REF', __('Référence', 'nexo_premium'));
@@ -894,7 +894,7 @@ class Nexo_Premium_Controller extends CI_Model
     public function expenses_list()
     {
         $data[ 'crud' ]     =   $this->expenses_list_crud();
-        $this->Gui->set_title( store_title( __( 'Expenses categories', 'nexo_premium') ) );
+        $this->Gui->set_title( store_title( __( 'Catégories des dépenses', 'nexo_premium') ) );
         $this->load->module_view( 'nexo_premium', 'expenses.categories', $data );
     }
 

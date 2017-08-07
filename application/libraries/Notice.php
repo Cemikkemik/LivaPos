@@ -12,7 +12,7 @@ class Notice
     
     public function __construct()
     {
-        $this->notice = '';
+        $this->notice = [];
     }
     
     /**

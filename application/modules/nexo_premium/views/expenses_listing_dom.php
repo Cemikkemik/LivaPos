@@ -38,10 +38,14 @@ $this->load->config( 'rest' );
                     <?php echo __( 'Dates', 'nexo_premium' ); ?>
                 </td>
                 <td width="100">
-                    <?php echo __( 'Références', 'nexo_premium' ); ?>
+                    <?php echo __( 'Catégorie', 'nexo_premium' ); ?>
                 </td>
+                
                 <td width="400">
-                    <?php echo __( 'Désignation', 'nexo_premium' ); ?>
+                    <?php echo __( 'Nom du produit', 'nexo_premium' ); ?>
+                </td>
+                <td width="100">
+                    <?php echo __( 'Références', 'nexo_premium' ); ?>
                 </td>
                 <td width="200">
                     <?php echo __( 'Montant', 'nexo_premium' ); ?>
@@ -54,10 +58,14 @@ $this->load->config( 'rest' );
                     {{ expense.DATE_CREATION }}
                 </td>
                 <td>
-                    {{ expense.REF }}
+                    {{ expense.CATEGORY_NAME }}
                 </td>
+                
                 <td>
                     {{ expense.INTITULE }}
+                </td>
+                <td>
+                    {{ expense.REF || "--" }}
                 </td>
                 <td  class="text-right">
                     {{ expense.MONTANT | moneyFormat }}
@@ -73,6 +81,7 @@ $this->load->config( 'rest' );
                 </td>
                 <td>
                 </td>
+                <td></td>
                 <td>
                 </td>
                 <td class="text-right">

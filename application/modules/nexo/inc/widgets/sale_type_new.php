@@ -1,6 +1,5 @@
 <?php
 use Carbon\Carbon;
-
 ?>
 <div class="box box-solid" data-meta-namespace="<?php echo store_prefix() ;?>sale_type_new">
     <div class="box-header ui-sortable-handle" style="cursor: move;"> <i class="fa fa-money"></i>
@@ -48,7 +47,7 @@ var config = {
 	options: {
 		title: {
             display: true,
-            text: '<?php echo sprintf(_s('Ventes réalisées du %s au %s', 'nexo'), $startOfWeek->toDateString(), $endOfWeek->toDateString());?>'
+            text: '<?php echo sprintf(_s('Ventes réalisées du %s au %s', 'nexo'), nexo_date_format( $startOfWeek->toDateString() ), nexo_date_format( $endOfWeek->toDateString() ) );?>'
         },
 		responsive: true,
 		tooltips: {

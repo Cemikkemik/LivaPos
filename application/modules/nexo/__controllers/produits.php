@@ -40,7 +40,7 @@ class Nexo_Produits extends CI_Model
 		 * multistore is enabled
 		**/
 
-		if( multistore_enabled() && ! is_multistore() ) {
+		if( ( multistore_enabled() && ! is_multistore() ) && $this->events->apply_filters( 'force_show_inventory', false ) == false ) {
 			redirect( array( 'dashboard', 'feature-disabled' ) );
 		}
 
@@ -97,8 +97,9 @@ class Nexo_Produits extends CI_Model
             'SKU',
 			'DESIGN',
 			'REF_CATEGORIE',
-            'PRIX_DE_VENTE',
+            'PRIX_DE_VENTE_TTC',
 			'PRIX_DACHAT',
+            'REF_TAXE',
 			'QUANTITE_RESTANTE',
 			'QUANTITE_VENDU',
 			'DEFECTUEUX',			
@@ -113,13 +114,28 @@ class Nexo_Produits extends CI_Model
 			$columns 
 		);
 
+        $crud->callback_column( 'PRIX_DE_VENTE_TTC', function( $price ){
+            return $this->Nexo_Misc->cmoney_format( $price, true );
+        });
+
+        $crud->callback_column( 'PRIX_DACHAT', function( $price ){
+            return $this->Nexo_Misc->cmoney_format( $price, true );
+        });
+        
+        $crud->callback_column( 'REF_TAXE', function( $tax ){
+            return $tax == 0 ? __( 'Non défini' ) : $tax;
+        });
+
 		$crud->set_relation('REF_RAYON', store_prefix() . 'nexo_rayons', 'TITRE');
 		$crud->set_relation('REF_CATEGORIE', store_prefix() . 'nexo_categories', 'NOM');
 		$crud->set_relation('REF_SHIPPING', store_prefix() . 'nexo_arrivages', 'TITRE');
         $crud->set_relation('REF_PROVIDER', store_prefix() . 'nexo_fournisseurs', 'NOM');
+        $crud->set_relation('REF_TAXE', store_prefix() . 'nexo_taxes', 'NAME');
 		$crud->set_relation('AUTHOR', 'aauth_users', 'name');
 
-        $crud->display_as( 'DESIGN', __('Désignation', 'nexo'));
+        $crud->display_as( 'REF_TAXE', __('Taxe', 'nexo'));
+        $crud->display_as( 'PRIX_DE_VENTE_TTC', __('Prix de vente(*)', 'nexo') );
+        $crud->display_as( 'DESIGN', __('Nom du produit', 'nexo'));
         $crud->display_as( 'SKU', __('UGS (Unité de gestion de stock)', 'nexo'));
         $crud->display_as( 'REF_RAYON', __('Département', 'nexo'));
         $crud->display_as( 'REF_CATEGORIE', __('Catégorie', 'nexo'));
@@ -161,23 +177,32 @@ class Nexo_Produits extends CI_Model
 		$crud->field_description( 'BARCODE_TYPE', tendoo_info( __( 'Si la valeur de ce champ est vide et que l\'option "Générer une étiquette" est activée, alors le type de code barre utilisé sera celui des réglages des articles. Si aucun réglage n\'est défini, la génération de l\'étiquette sera ignorée.', 'nexo' ) ) );
 
 		$crud->field_description( 'CODEBAR', tendoo_info( __( 'Si la valeur de ce champ est vide et que l\'option "Générer un étiquette" est activée, la génération d\'une étiquette sera ignorée.', 'nexo' ) ) );
+        $crud->field_description( 'PRIX_DACHAT', tendoo_info( __( 'Le prix d\'achat représente la valeur du produit à l\'achat. Cette valeur sera utile pour déterminé la marge des bénéfices.', 'nexo' ) ) );
+        $crud->field_description( 'PRIX_DE_VENTE', tendoo_info( __( 'Le prix de vente peut être différent du prix de vente affiché sur le point de vente. Sa valeur pourra varifier selon la taxe applicable sur le produit.', 'nexo' ) ) );
+        $crud->field_description( 'SHADOW_PRICE', tendoo_info( __( 'Si vos clients ont la capacité de discuter les prix. Vous pouvez définir le prix fictif affiché. Le prix de vente sera considéré comme prix minimal du produit.', 'nexo' ) ) );
+        $crud->field_description( 'PRIX_PROMOTIONEL', tendoo_info( __( 'Le prix promotionnel est un prix de vente spécial applicable à un produit durant une période spécifique.', 'nexo' ) ) );
+        $crud->field_description( 'QUANTITY', tendoo_info( __( 'Il s\'agit ici de la quantité initiale qui sera considérée comme quantité d\'approvisionnement.', 'nexo' ) ) );
+        $crud->field_description( 'REF_PROVIDER', tendoo_info( __( 'Lorsque qu\'un produit est crée, il est nécessaire de définir son fournisseur, cette information sera utilisée pour identifier ce dernier sur l\'approvisionnement principal.', 'nexo' ) ) );
+        
+        $crud->field_description( 
+            'REF_TAXE', 
+            __( 'Si vous souhaitez appliquer une taxe sur le prix des produits, vous pouvez choisir cette taxe sur cette liste.', 'nexo' ) 
+        );
 
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
 
-        $crud->add_action( __( 'Historique du stock', 'nexo' ), null, site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'stock_supply' ] ), 'btn btn-default fa fa-eye', [ $this, 'stock_supply_link' ] );
+        $crud->add_action( __( 'Historique d\'approvisionnement', 'nexo' ), null, site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'stock_supply' ] ), 'btn btn-default fa fa-truck', [ $this, 'stock_supply_link' ] );
+        $crud->add_action( __( 'Historique du produit', 'nexo' ), null, site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'stock_supply' ] ), 'btn btn-default fa fa-list', [ $this, 'item_history_link' ] );
 
         $required_fields    =   array(
             'DESIGN',
             'SKU',
             'REF_CATEGORIE',
-            // 'TAUX_DE_MARGE',
-            // 'FRAIS_ACCESSOIRE',
             'PRIX_DE_VENTE',
             'DEFECTUEUX',
             'QUANTITY',
-            'PRIX_DACHAT',
             'STATUS',
             'TYPE',
             'STOCK_ENABLED'
@@ -210,6 +235,7 @@ class Nexo_Produits extends CI_Model
         $crud->change_field_type('DATE_CREATION', 'invisible');
         $crud->change_field_type('DATE_MOD', 'invisible');
         $crud->change_field_type('AUTHOR', 'invisible');
+        $crud->change_field_type('PRIX_DE_VENTE_TTC', 'invisible');
 		// $crud->change_field_type( 'BARCODE_TYPE', 'invisible' );
 
 		// @since 2.8.2
@@ -258,6 +284,16 @@ class Nexo_Produits extends CI_Model
     public function stock_supply_link( $primary_key, $row ) 
     {
         return site_url( [ 'dashboard', store_slug(), 'nexo', 'produits', 'supply', $row->CODEBAR ] );
+    }
+
+    /**
+     * item_history_link
+     * @return string
+    **/
+
+    public function item_history_link( $primary_key, $row )
+    {
+        return site_url( [ 'dashboard', store_slug(), 'nexo', 'produits', 'history', $row->CODEBAR ] );
     }
 
     public function lists($page = 'index', $id = null)
@@ -377,6 +413,10 @@ class Nexo_Produits extends CI_Model
         ) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
+
+        if( ( multistore_enabled() && ! is_multistore() ) && $this->events->apply_filters( 'force_show_inventory', false ) == false ) {
+			redirect( array( 'dashboard', 'feature-disabled' ) );
+		}
         
         // Angular Script
         $this->events->add_action( 'dashboard_footer', function() {
@@ -396,12 +436,9 @@ class Nexo_Produits extends CI_Model
 
     public function supply_header( $barcode = null, $as = null )
     {
-        /**
-		 * This feature is not more accessible on main site when
-		 * multistore is enabled
-		**/
+        // Redirect if multistore is enabled but not in use
 
-		if( multistore_enabled() && ! is_multistore() ) {
+        if( ( multistore_enabled() && ! is_multistore() ) && $this->events->apply_filters( 'force_show_inventory', false ) == false ) {
 			redirect( array( 'dashboard', 'feature-disabled' ) );
 		}
 
@@ -410,19 +447,31 @@ class Nexo_Produits extends CI_Model
         $crud->set_subject(__('Flux du stock', 'nexo'));
         $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_articles_stock_flow'));
 
-        $fields				=	array( 'REF_ARTICLE_BARCODE', 'QUANTITE', 'UNIT_PRICE', 'TOTAL_PRICE', 'REF_PROVIDER', 'REF_COMMAND_CODE', 'REF_SHIPPING', 'AUTHOR', 'TYPE', 'DATE_CREATION' );
-		$crud->columns( 'REF_ARTICLE_BARCODE', 'TYPE', 'QUANTITE', 'UNIT_PRICE', 'TOTAL_PRICE', 'REF_PROVIDER', 'REF_SHIPPING', 'REF_COMMAND_CODE', 'AUTHOR', 'DATE_CREATION' );
+        $fields				=	array( 'TYPE', 'REF_ARTICLE_BARCODE', 'QUANTITE', 'UNIT_PRICE', 'REF_PROVIDER', 'REF_SHIPPING' );
+        $crud->fields( $fields );
+		$crud->columns( 'REF_ARTICLE_BARCODE', 'TYPE', 'QUANTITE', 'UNIT_PRICE', 'TOTAL_PRICE', 'REF_PROVIDER', 'REF_SHIPPING', 'AUTHOR', 'DATE_CREATION' );
 
+        $crud->field_type( 'TYPE', 'dropdown', [
+            'supply'        =>  __( 'Approvisionnement', 'nexo' ),
+            'adjustment'    =>  __( 'Correction du stock', 'nexo' ),
+            'defective'     =>  __( 'Stock Défectueux', 'nexo' )
+        ]);
+
+        $crud->field_type( 'TOTAL_PRICE', 'hidden' );
+        $crud->callback_before_update( [ $this, 'before_update_stock_supply' ] );
+        
         $crud->display_as('REF_ARTICLE_BARCODE', __('Produit', 'nexo'));
         $crud->display_as('QUANTITE', __('Quantité', 'nexo'));
         $crud->display_as('UNIT_PRICE', __('Prix', 'nexo'));
         $crud->display_as('TOTAL_PRICE', __('Total', 'nexo'));
         $crud->display_as('REF_PROVIDER', __('Fournisseur', 'nexo'));
-        $crud->display_as('REF_COMMAND_CODE', __('Commande', 'nexo'));
         $crud->display_as('TYPE', __('Type', 'nexo'));
         $crud->display_as('AUTHOR', __('Auteur', 'nexo'));
         $crud->display_as('DATE_CREATION', __('Date', 'nexo'));
         $crud->display_as('REF_SHIPPING', __('Livraison', 'nexo'));
+        $crud->display_as('DESCRIPTION', __('Description', 'nexo'));
+
+        $crud->where( 'TYPE', 'supply' );
 
         if( $barcode != null && $as == 'BARCODE' ) {
             $crud->where( 'REF_ARTICLE_BARCODE', $barcode );
@@ -444,7 +493,7 @@ class Nexo_Produits extends CI_Model
         $this->load->model( 'Nexo_Products' );
         $crud->callback_before_delete( array( $this->Nexo_Products, 'delete_stock_flow' ) );
 
-        $crud->unset_edit();
+        // $crud->unset_edit();
         $crud->unset_add();
 
         $itemsRaw          =   $this->db->get( store_prefix() . 'nexo_articles' )->result_array();
@@ -454,6 +503,14 @@ class Nexo_Produits extends CI_Model
         }
 
         $crud->field_type( 'REF_ARTICLE_BARCODE', 'dropdown', $items );
+
+        $crud->callback_column( 'UNIT_PRICE', function( $price ){
+            return $this->Nexo_Misc->cmoney_format( $price, true );
+        });
+
+        $crud->callback_column( 'TOTAL_PRICE', function( $price ){
+            return $this->Nexo_Misc->cmoney_format( $price, true );
+        });
 
         $crud->set_relation('AUTHOR', 'aauth_users', 'name');
         $crud->set_relation('REF_SHIPPING', store_prefix() . 'nexo_arrivages', 'TITRE');
@@ -477,6 +534,51 @@ class Nexo_Produits extends CI_Model
     }
 
     /**
+     * Callback before stock update
+    **/
+
+    public function before_update_stock_supply( $stock, $id )
+    {
+        $old_stock  =   $this->db->where( 'ID', $id )
+        ->get( store_prefix() . 'nexo_articles_stock_flow' )
+        ->result_array();
+
+        $current_product    =   $this->db->where( 'CODEBAR', $old_stock[0][ 'REF_ARTICLE_BARCODE' ] )
+        ->get( store_prefix() . 'nexo_articles' )
+        ->result_array();
+
+        // Restoring initial operation
+        if( in_array( $old_stock[0][ 'TYPE' ], [ 'defective', 'adjustment' ] ) ) { // remove from stock
+            $current_product[0][ 'QUANTITE_RESTANTE' ]      =   floatval( $current_product[0][ 'QUANTITE_RESTANTE' ] ) + floatval( $old_stock[0][ 'QUANTITE' ] );
+        } else if( $old_stock[0][ 'TYPE' ] == 'supply' ) { // add to stock
+            $current_product[0][ 'QUANTITE_RESTANTE' ]      =   floatval( $current_product[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $old_stock[0][ 'QUANTITE' ] );
+        }
+
+        // only when stock is being removed
+        if( floatval( $current_product[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $stock[ 'QUANTITE' ] ) < 0 && in_array( $stock[ 'TYPE' ], [ 'defective', 'adjustment' ] ) ) {
+            echo json_encode([
+                'success'    =>  'false',
+                'message'   =>  __( 'La quantité restante après cette opération est négative. Impossible d\'enregistrer l\'opération', 'nexo' )
+            ]);
+            return false;
+        }
+
+        // Now increase the current stock of the item
+        if( in_array( $stock[ 'TYPE' ], [ 'defective', 'adjustment' ] ) ) {
+            $remaining_qte      =   floatval( $current_product[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $stock[ 'QUANTITE' ] );
+        } else if( in_array( $stock[ 'TYPE' ], [ 'supply' ] )) { // 'usable' is only used by the refund feature
+            $remaining_qte      =   floatval( $current_product[0][ 'QUANTITE_RESTANTE' ] ) + floatval( $stock[ 'QUANTITE' ] );
+            $stock[ 'TOTAL_PRICE' ]       =   $remaining_qte * floatval( $stock[ 'UNIT_PRICE' ] );
+        }
+
+        $this->db->where( 'CODEBAR', $current_product[0][ 'CODEBAR' ] )->update( store_prefix() . 'nexo_articles', [
+            'QUANTITE_RESTANTE'     =>  $remaining_qte
+        ]);
+
+        return $stock;
+    }
+
+    /**
      * Supply Controller
     **/
 
@@ -490,9 +592,58 @@ class Nexo_Produits extends CI_Model
             redirect(array( 'dashboard', 'access-denied' ));
         }
 
+		// if( ( multistore_enabled() && ! is_multistore() ) && $this->events->apply_filters( 'force_show_inventory', false ) == false ) {
+		// 	return redirect( array( 'dashboard', 'feature-disabled' ) );
+		// }
+
         $this->Gui->set_title( store_title( __( 'Flux du stock', 'nexo' ) ) );
         $data[ 'crud_content' ]    =    $this->supply_header(  $barcode, $as );
         $this->load->module_view( 'nexo', 'items.stock-supply.crud-gui', $data );
+    }
+
+    /**
+     * New Supply UI
+     * @param void
+     * @return void
+    **/
+
+    public function add_supply()
+    {
+        // Redirect if multistore is enabled but not in use
+
+        if( ( multistore_enabled() && ! is_multistore() ) && $this->events->apply_filters( 'force_show_inventory', false ) == false ) {
+			redirect( array( 'dashboard', 'feature-disabled' ) );
+		}
+
+        $this->load->model( 'Nexo_Shipping' );
+        $this->events->add_action( 'dashboard_footer', function(){
+            get_instance()->load->module_view( 'nexo', 'items.stock-supply.new-ui-script' );
+        });
+
+        $this->Gui->set_title( store_title( __( 'Approvisonnement du stock', 'nexo' ) ) );
+        $this->load->module_view( 'nexo', 'items.stock-supply.new-ui-gui' );
+    }
+
+    /**
+     * Product History
+     * 
+    **/
+
+    public function history( $barcode = null )
+    {
+        // Redirect if multistore is enabled but not in use
+
+        if( ( multistore_enabled() && ! is_multistore() ) && $this->events->apply_filters( 'force_show_inventory', false ) == false ) {
+			redirect( array( 'dashboard', 'feature-disabled' ) );
+		}
+        
+        $this->events->add_action( 'dashboard_footer', function() use( $barcode )  {
+            get_instance()->load->module_view( 'nexo', 'items.history.script', compact( 'barcode' ) );
+        });
+
+        $this->Gui->set_title( store_title( __( 'Historique du produit', 'nexo' ) ) );
+
+        $this->load->module_view( 'nexo', 'items.history.gui' );
     }
 }
 new Nexo_Produits($this->args);

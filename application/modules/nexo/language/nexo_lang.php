@@ -113,3 +113,13 @@ $lang[ 'edit_item_stock_details' ]          =   __( 'Confère la capacité à mo
 $lang[ 'delete_item_stock' ]                =   __( 'Gestion du stock', 'nexo' );
 $lang[ 'delete_item_stock_details' ]        =   __( 'Confère la capacité à supprimer une entrée dans le stock', 'nexo' );
 $lang[ 'cant_delete_stock_flow' ]           =   __( 'Vous ne pouvez pas supprimer cette entrée, car le stock disponible ne le permet pas.', 'nexo' );
+
+$lang[ 'transfert_in' ]         =	__( 'Transfert Entrant', 'nexo' );
+$lang[ 'transfert_out' ] 		=	__( 'Transfert Sortant', 'nexo' );
+$lang[ 'transfert_rejected' ] 	=	__( 'Transfert Rejeté', 'nexo' );
+$lang[ 'transfert_canceled' ]	=	__( 'Transfert Annulé', 'nexo' );
+$lang[ 'defective' ]            =	__( 'Défectueux', 'nexo' );
+$lang[ 'supply' ]				=	__( 'Approvisionnement', 'nexo' );
+$lang[ 'usable' ] 				=	__( 'Retour Stock', 'nexo' );
+$lang[ 'adjustment' ]			=	__( 'Retour Defectueux', 'nexo' );
+$lang[ 'import' ]			    =	__( 'Importé', 'nexo' );

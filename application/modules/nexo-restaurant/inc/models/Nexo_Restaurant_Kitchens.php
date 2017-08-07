@@ -9,10 +9,12 @@ class Nexo_Restaurant_Kitchens extends CI_Model
      *  @return array
     **/
 
-    public function get( $id = null )
+    public function get( $id = null, $filter = 'ID' )
     {
-        if( $id != null ) {
+        if( $id != null && $filter == 'ID' ) {
             $this->db->where( 'ID', $id );
+        } else if( $filter == 'REF_ROOM' && $id != null ) {
+            $this->db->where( 'REF_ROOM', $id );
         }
 
         $query =    $this->db->get( store_prefix() . 'nexo_restaurant_kitchens' );

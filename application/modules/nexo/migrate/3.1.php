@@ -14,8 +14,9 @@ foreach( $stores as $store ) {
 
     $this->db->query('ALTER TABLE `'. $this->db->dbprefix . $store_prefix .'nexo_commandes_produits` ADD `NAME` varchar(200) NOT NULL AFTER `DISCOUNT_PERCENT`;');
     $this->db->query('ALTER TABLE `'. $this->db->dbprefix . $store_prefix .'nexo_commandes_produits` ADD `DESCRIPTION` text NOT NULL AFTER `NAME`;');
+    $this->db->query('ALTER TABLE `'. $this->db->dbprefix . $store_prefix .'nexo_commandes_produits` ADD `INLINE` text NOT NULL AFTER `DESCRIPTION`;');
 
-    $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix . $table_prefix.'nexo_clients_address` (
+    $this->db->query('CREATE TABLE IF NOT EXISTS `'.$this->db->dbprefix . $store_prefix.'nexo_clients_address` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `type` varchar(200) NOT NULL,
         `name` varchar(200) NOT NULL,
@@ -33,9 +34,8 @@ foreach( $stores as $store ) {
 
     $this->db->query('ALTER TABLE `'. $this->db->dbprefix . $store_prefix .'nexo_commandes` ADD `REF_SHIPPING_ADDRESS` int(11) NOT NULL AFTER `GROUP_DISCOUNT`;');
     $this->db->query('ALTER TABLE `'. $this->db->dbprefix . $store_prefix .'nexo_commandes` ADD `SHIPPING_AMOUNT` float(11) NOT NULL AFTER `GROUP_DISCOUNT`;');
-    $this->db->query('ALTER TABLE `'. $this->db->dbprefix . $store_prefix .'nexo_commandes` ADD `SHIPPING_TITLE` varchar(200) NOT NULL AFTER `GROUP_DISCOUNT`;');
 
-    $this->db->query( 'CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $store_prefix .'nexo_commandes_shipping` (
+    $this->db->query( 'CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $store_prefix .'nexo_commandes_shippings` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `ref_shipping` int(11) NOT NULL,
         `ref_order` int(11) NOT NULL,
@@ -48,6 +48,8 @@ foreach( $stores as $store ) {
         `pobox` varchar( 200 ) NOT NULL,
         `state` varchar( 200 ) NOT NULL,
         `enterprise` varchar( 200 ) NOT NULL,
+        `title` varchar(200) NOT NULL,
+		`price` float(11) NOT NULL,
         PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;' );
 }

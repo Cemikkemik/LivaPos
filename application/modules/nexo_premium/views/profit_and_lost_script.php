@@ -61,7 +61,7 @@ $table_head             =   $this->events->apply_filters( 'np_profit_lost_report
       'width'         =>  190
     ),
     'design'            =>  array(
-      'text'          =>  _s( 'Désignation', 'nexo_premium' ),
+      'text'          =>  _s( 'Nom du produit', 'nexo_premium' ),
       'class'         =>  '',
       'width'         =>  300
     ),
@@ -104,13 +104,13 @@ $table_head             =   $this->events->apply_filters( 'np_profit_lost_report
 
 $table_column           =   $this->events->apply_filters( 'np_profit_lost_report_tbody_row', array(
     'date'              =>  array(
-      'text'          =>  '{{ item.DATE_CREATION | date : \'medium\' }}',
+      'text'          =>  '{{ item.DATE_CREATION | date : "' . store_option( 'nexo_js_datetime_format', 'medium' ) . '" }}',
       'class'         =>  '',
       'attr'          =>  '',
       'csv_field'       =>  'item.DATE_CREATION'
     ),
     'design'            =>  array(
-      'text'          =>  '{{ item.DESIGN }}',
+      'text'          =>  '{{ item.DESIGN.length == 0 ? item.NAME : item.DESIGN }}',
       'class'         =>  '',
       'attr'          =>  '',
       'csv_field'       =>  'item.DESIGN'
@@ -161,12 +161,10 @@ $table_column           =   $this->events->apply_filters( 'np_profit_lost_report
  ?>
 <script type="text/javascript">
 $('.start_date').datepicker({
-    format: 'mm/dd/yyyy',
-    startDate: '-3d'
+    format: 'mm/dd/yyyy'
 });
 $('.end_date').datepicker({
-    format: 'mm/dd/yyyy',
-    startDate: '-3d'
+    format: 'mm/dd/yyyy'
 });
 </script>
 <?php include_once( MODULESPATH . '/nexo/inc/angular/order-list/filters/money-format.php' );?>
@@ -493,6 +491,10 @@ tendooApp.controller( 'profitAndLosses', [ '$http', '$scope', function( $http, $
                     '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
                 }
             }).then(function( returned ){
+                _.each( returned.data, function( entry ) {
+                    entry.DATE_CREATION     =   moment( entry.DATE_CREATION ).format( '<?php echo store_option( 'nexo_js_datetime_format', 'llll' );?>' )
+                });
+
                 $scope.items        =   returned.data;
             }, function(){
                 $scope.items        =   [];

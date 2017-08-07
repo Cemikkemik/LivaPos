@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use Carbon\Carbon;
+
 class Nexo_Restaurant_Controller extends Tendoo_Module
 {
     public function __construct()
@@ -51,9 +53,16 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
         $crud->set_subject(__('Tables', 'nexo'));
 		$crud->set_table( $this->db->dbprefix( store_prefix() . 'nexo_restaurant_tables' ) );
 
-        $fields					=	array( 'NAME', 'MAX_SEATS', 'REF_AREA', 'STATUS',  'DATE_CREATION', 'DATE_MODIFICATION', 'AUTHOR', 'DESCRIPTION' );
+        $fields					=	array( 'NAME', 'MAX_SEATS', 'STATUS',  'DATE_CREATION', 'DATE_MODIFICATION', 'AUTHOR', 'DESCRIPTION' );
+        $required_fields        =   [ 'NAME', 'STATUS', 'REF_AREA' ];
+
+        if( store_option( 'disable_area_rooms' ) != 'yes' ) {
+            array_splice( $fields, 1, 0, 'REF_AREA' );
+            $required_fields[]  =   'MAX_SEATS';
+        }
 
 		$crud->columns( 'NAME', 'MAX_SEATS', 'STATUS', 'DATE_CREATION', 'DATE_MODIFICATION', 'AUTHOR' );
+        
         $crud->fields( $fields );
 
         $crud->display_as('NAME', __('Name', 'nexo-restaurant'));
@@ -73,7 +82,7 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
 
         $crud->set_relation('REF_AREA', store_prefix() . 'nexo_restaurant_areas', 'NAME');
 
-        $crud->required_fields('NAME', 'STATUS', 'MAX_SEATS', 'REF_AREA' );
+        $crud->required_fields( $required_fields );
 
         $crud->unset_jquery();
         $output = $crud->render();
@@ -107,9 +116,9 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
      *  @return void
     **/
 
-    public function table_selection()
+    public function templates( $template )
     {
-        return $this->load->module_view( 'nexo-restaurant', 'table-selection' );
+        return $this->load->module_view( 'nexo-restaurant', 'templates.' . $template );
     }
 
     /**
@@ -307,6 +316,15 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
 			$this->load->module_view( 'nexo-restaurant', 'open-kitchen-gui', $data );
 
 		} elseif( $page == 'watch' ) {
+            // angular dependencies
+            $this->events->add_filter( 'dashboard_dependencies', function( $array ) {
+                $array[]    =   'angularMoment';
+                return $array;
+            });
+
+            // enqueue new style
+            $this->enqueue->js( 'bower_components/angular-moment/angular-moment.min', module_url( 'nexo-restaurant' ) );
+
             // Save Footer
             $this->events->add_action( 'dashboard_footer', function() {
                 get_instance()->load->module_view( 'nexo-restaurant', 'watch-kitchen-script' );
@@ -316,7 +334,6 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
             $this->load->module_model( 'nexo-restaurant', 'Nexo_Restaurant_Kitchens' );
 
             $data[ 'kitchen' ]      =   $this->Nexo_Restaurant_Kitchens->get( $arg2 );
-            $data[ 'categories' ]   =   $this->Nexo_Restaurant_Kitchens->get_category_hierarchy( @$data[ 'kitchen' ][0][ 'REF_CATEGORY' ] );
 
             $this->load->module_view( 'nexo-restaurant', 'watch-kitchen', $data );
         }
@@ -328,6 +345,10 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
 
 	private function kitchen_crud_header()
 	{
+        if( store_option( 'disable_kitchen_screen' ) == 'yes' ) { 
+            redirect([ 'dashboard', 'feature-disabled' ]);
+        }
+
 		// if (
         //     ! User::can('create_restaurant_kitchens')  &&
         //     ! User::can('edit_restaurant_kitchens') &&
@@ -343,19 +364,21 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
         $crud->set_subject(__('Restaurant Kitchen', 'nexo_restaurant'));
 
         $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_restaurant_kitchens'));
-        $crud->columns( 'NAME', 'REF_ROOM', 'REF_CATEGORY', 'PRINTER', 'AUTHOR', 'DATE_CREATION', 'DATE_MOD' );
-        $crud->fields( 'NAME', 'REF_ROOM', 'REF_CATEGORY', 'PRINTER', 'DESCRIPTION', 'AUTHOR', 'DATE_CREATION', 'DATE_MOD' );
+        $crud->columns( 'NAME', 'REF_ROOM', 'AUTHOR', 'DATE_CREATION', 'DATE_MOD' );
+        $crud->fields( 'NAME', 'REF_ROOM', 'DESCRIPTION', 'AUTHOR', 'DATE_CREATION', 'DATE_MOD' );
 
         $crud->order_by( 'DATE_CREATION', 'asc');
 
         $crud->display_as('NAME', __('Name', 'nexo_restaurant'));
-		$crud->display_as('PRINTER', __('Assigned Printer', 'nexo_restaurant'));
+		// $crud->display_as('PRINTER', __('Assigned Printer', 'nexo_restaurant'));
         $crud->display_as('DESCRIPTION', __('Description', 'nexo_restaurant'));
-        $crud->display_as('REF_CATEGORY', __('Category', 'nexo_restaurant'));
+        // $crud->display_as('REF_CATEGORY', __('Category', 'nexo_restaurant'));
         $crud->display_as('REF_ROOM', __('Room', 'nexo_restaurant'));
 		$crud->display_as('AUTHOR', __('Author', 'nexo_restaurant'));
 		$crud->display_as('DATE_CREATION', __('Created on', 'nexo_restaurant'));
 		$crud->display_as('DATE_MOD', __('Edited on', 'nexo_restaurant'));
+
+        $crud->field_description( 'REF_ROOM', __( 'All order proceeded from that room will be send to that kitchen (even to that kitchen printer).', 'nexo-restaurant' ) );
 
 		$crud->set_relation('AUTHOR', 'aauth_users', 'name');
 		$crud->set_relation( 'REF_CATEGORY', store_prefix() . 'nexo_categories', 'NOM' );
@@ -442,7 +465,7 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
 
     public function get_orders()
     {
-        $query    =    $this->db
+        $this->db
         ->select( '
         aauth_users.name as AUTHOR_NAME,
         ' . store_prefix() . 'nexo_commandes.CODE as CODE,
@@ -467,7 +490,7 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
         ) as TABLE_ID,
 
         ( SELECT ' . $this->db->dbprefix . store_prefix() . 'nexo_restaurant_tables.NAME FROM ' . $this->db->dbprefix . store_prefix() . 'nexo_restaurant_tables
-            WHERE ROOM_ID = ' . $this->db->dbprefix . store_prefix() . 'nexo_restaurant_tables.ID
+            WHERE TABLE_ID = ' . $this->db->dbprefix . store_prefix() . 'nexo_restaurant_tables.ID
         ) as TABLE_NAME,
 
         ( SELECT ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_meta.VALUE FROM ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_meta
@@ -488,13 +511,24 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
         ->join( store_prefix() . 'nexo_clients', store_prefix() . 'nexo_commandes.REF_CLIENT = ' . store_prefix() . 'nexo_clients.ID' )
         ->join( store_prefix() . 'nexo_commandes_meta', store_prefix() . 'nexo_commandes_meta.REF_ORDER_ID = ' . store_prefix() . 'nexo_commandes.ID' )
         ->join( 'aauth_users', 'aauth_users.id = ' . store_prefix() . 'nexo_commandes.AUTHOR' )
-        ->where( store_prefix() . 'nexo_commandes_meta.VALUE', $this->input->get( 'from-room' ) )
-        ->where( store_prefix() . 'nexo_commandes_meta.KEY', 'room_id' )
-        ->or_where( '( SELECT ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_meta.VALUE FROM ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_meta
+        ->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', Carbon::parse( date_now() )->startOfDay()->toDateTimeString() )
+        ->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', Carbon::parse( date_now() )->endOfDay()->toDateTimeString() );
+
+        if( $this->input->get( 'from-room' ) != 0 ) {
+            $this->db->where( store_prefix() . 'nexo_commandes_meta.VALUE', $this->input->get( 'from-room' ) )
+            ->where( store_prefix() . 'nexo_commandes_meta.KEY', 'room_id' );
+        }
+
+        $this->db->or_where( '( SELECT ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_meta.VALUE FROM ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_meta
             WHERE ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_meta.REF_ORDER_ID = ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes.ID
+            AND ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes.DATE_CREATION >= "' . Carbon::parse( date_now() )->startOfDay()->toDateTimeString() . '"
+            AND ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes.DATE_CREATION <= "' . Carbon::parse( date_now() )->endOfDay()->toDateTimeString() . '"
             AND ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_meta.KEY = "order_real_type"
-        ) = "take_away"' )
-        ->order_by( store_prefix() . 'nexo_commandes.ID', 'desc' )
+        ) = "takeaway"' );
+
+        $this->db->group_by( store_prefix() . 'nexo_commandes.CODE' );
+        
+        $query    =    $this->db->order_by( store_prefix() . 'nexo_commandes.ID', 'desc' )
         ->get();
 
         $data   =   $query->result_array();
@@ -508,6 +542,8 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
                 ' . store_prefix() . 'nexo_commandes_produits.ID as COMMAND_PRODUCT_ID,
     			' . store_prefix() . 'nexo_articles.DESIGN as DESIGN,
                 ' . store_prefix() . 'nexo_articles.REF_CATEGORIE as REF_CATEGORIE,
+                ' . store_prefix() . 'nexo_commandes_produits.NAME as NAME,
+
                 ( SELECT ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_produits_meta.VALUE FROM ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_produits_meta
                     WHERE ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_produits_meta.REF_COMMAND_CODE = "' . $order[ 'CODE' ] . '"
                     AND ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_produits_meta.KEY = "restaurant_note"
@@ -527,10 +563,15 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
                     WHERE ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_produits_meta.REF_COMMAND_CODE = "' . $order[ 'CODE' ] . '"
                     AND ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_produits_meta.KEY = "restaurant_food_issue"
                     AND ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_produits_meta.REF_COMMAND_PRODUCT = COMMAND_PRODUCT_ID
-                ) as FOOD_ISSUE')
+                ) as FOOD_ISSUE,
+                ( SELECT ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_produits_meta.VALUE FROM ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_produits_meta
+                    WHERE ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_produits_meta.REF_COMMAND_CODE = "' . $order[ 'CODE' ] . '"
+                    AND ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_produits_meta.KEY = "modifiers"
+                    AND ' . $this->db->dbprefix . store_prefix() . 'nexo_commandes_produits_meta.REF_COMMAND_PRODUCT = COMMAND_PRODUCT_ID
+                ) as MODIFIERS')
                 ->from( store_prefix() . 'nexo_commandes')
                 ->join( store_prefix() . 'nexo_commandes_produits', store_prefix() . 'nexo_commandes.CODE = ' . store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE', 'inner')
-                ->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR', 'inner')
+                ->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR', 'left')
                 ->join( store_prefix() . 'nexo_commandes_produits_meta', store_prefix() . 'nexo_commandes_produits.ID = ' . store_prefix() . 'nexo_commandes_produits_meta.REF_COMMAND_PRODUCT', 'left' )
                 ->group_by( store_prefix() . 'nexo_commandes_produits_meta.REF_COMMAND_PRODUCT' )
                 ->where( store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE', $order[ 'CODE' ])
@@ -544,17 +585,6 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
         }
         echo json_encode( [ ] );
         return false;
-    }
-
-    /**
-     *  Start Cooking
-     *  @param void
-     *  @return void
-    **/
-
-    public function start_cooking()
-    {
-
     }
 
     /**
@@ -810,4 +840,37 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
         return $data;
     }
 
+    /**
+     * NexoPOS restaurant Callback
+     * 
+     * @return void
+    **/
+
+    public function callback()
+    {
+        if( ! empty( @$_GET[ 'app_code' ] ) ) {
+            // save app code
+            $this->options->set( store_prefix() . 'nexopos_app_code', $_GET[ 'app_code' ], true );
+
+            return redirect([ 'dashboard', store_slug(), 'nexo-restaurant', 'settings?notice=app_connected' ]); 
+        }
+        return redirect([ 'dashboard', 'error', '404' ]);
+    }
+
+    /**
+     * Revoke a connection
+     * @return void
+    **/
+
+    public function revoke()
+    {
+        global $Options;
+        if( ! empty( $_GET[ 'app_code' ] ) ) {
+            if( $_GET[ 'app_code' ] == @$Options[ store_prefix() . 'nexopos_app_code' ] ) {
+                $this->options->delete( store_prefix() . 'nexopos_app_code' );
+                return redirect([ 'dashboard', store_slug(), 'nexo-restaurant', 'settings?notice=app_code_deleted' ]); 
+            }
+        }
+        return redirect([ 'dashboard', store_slug(), 'nexo-restaurant', 'settings?notice=unknow_app' ]); 
+    }
 }

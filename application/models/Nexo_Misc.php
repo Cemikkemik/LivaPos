@@ -188,21 +188,23 @@ class Nexo_Misc extends CI_Model
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_variations`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_stock_flow`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_meta`;');
-        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_stock_flow`;');
+        // $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_articles_stock_flow`;');
 
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_categories`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_fournisseurs`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_arrivages`;');
 
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_taxes`;');
+
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_rayons`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_clients`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_clients_groups`;');
+        $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_clients_address`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_clients_meta`;');
 
         // @since 2.7.5
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_registers`;');
         $this->db->query('TRUNCATE `'.$this->db->dbprefix. store_prefix() . 'nexo_registers_activities`;');
-
     }
 
     /**
@@ -235,7 +237,6 @@ class Nexo_Misc extends CI_Model
         } else if( $demo == 'clothes' ) {
             $this->load->view('../modules/nexo/inc/clothes-demo');
         }
-
     }
 
     /**
@@ -381,6 +382,21 @@ class Nexo_Misc extends CI_Model
                 'type'        =>    'warning'
             ));
         }
+    }
+
+    /**
+     * get Customer Group
+     * @param customer group
+    **/
+
+    public function customers_groups( $id = null )
+    {
+        if( $id != null ) {
+            $this->db->where( 'ID', $id );
+        }
+        
+        return $this->db->get( store_prefix() . 'nexo_clients_groups' )
+        ->result_array();
     }
 
     /**

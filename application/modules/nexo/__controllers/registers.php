@@ -97,7 +97,7 @@ class Nexo_Settings_Controller extends CI_Model
 
         $this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
-		$this->events->add_filter( 'grocery_filter_actions', array( $this, '__register_grocery_filter_action' ), 10, 3 );
+		$this->events->add_filter( 'grocery_filter_actions', array( $this, '__register_grocery_filter_action' ), 10 );
 		$this->events->add_filter( 'grocery_filter_edit_button', array( $this, '__filter_admin_button' ), 10, 4);
 		$this->events->add_filter( 'grocery_filter_delete_button', array( $this, '__filter_admin_button' ), 10, 4);
 
@@ -444,9 +444,12 @@ class Nexo_Settings_Controller extends CI_Model
 	 * Filter Grocery actions for registers
 	**/
 
-	public function __register_grocery_filter_action($grocery_actions_obj, $actions, $row)
+	public function __register_grocery_filter_action( $data )
     {
-		$register_status		=	$this->config->item( 'nexo_registers_status' );
+		$grocery_actions_obj 		=	$data[0];
+		$actions 					=	$data[1];
+		$row 						=	$data[2];
+		$register_status			=	$this->config->item( 'nexo_registers_status' );
         // return $grocery_actions_obj;
         foreach ($actions as $key => $action) {
 			$url				=	substr( $action->link_url, 0, -1 );
@@ -476,7 +479,7 @@ class Nexo_Settings_Controller extends CI_Model
 			}
         }
 
-        return $grocery_actions_obj;
+        return [ $grocery_actions_obj, $actions, $row ];
     }
 
 	/**

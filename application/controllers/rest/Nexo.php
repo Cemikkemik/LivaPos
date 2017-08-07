@@ -24,7 +24,8 @@ class Nexo extends REST_Controller
 		Nexo_customers,
 		Nexo_stores,
         Nexo_Expenses,
-        Nexo_coupons; // @since 3.0.1
+        Nexo_coupons, // @since 3.0.1
+        Nexo_notices; // @since 3.1.3
 
     public function __construct()
     {

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nexo Premium\n"
-"POT-Creation-Date: 2016-12-23 10:59+0100\n"
-"PO-Revision-Date: 2017-02-27 15:49+0100\n"
+"POT-Creation-Date: 2017-06-15 22:38+0100\n"
+"PO-Revision-Date: 2017-06-15 22:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en_US\n"
@@ -28,50 +28,58 @@ msgstr "Lista Gastos"
 msgid "Nouvelle dépense"
 msgstr "Nuevo Gasto"
 
-#: inc/Actions.php:67
+#: inc/Actions.php:53 views/fiche-de-suivi/by-categories.php:28
+msgid "Categories"
+msgstr "Categorias"
+
+#: inc/Actions.php:56
+msgid "Ajouter une categorie"
+msgstr "Agregar una categoría"
+
+#: inc/Actions.php:75
 msgid "Supprimer le cache"
 msgstr "Eliminar Cache"
 
-#: inc/Actions.php:250
+#: inc/Actions.php:258
 msgid "Création d'une nouvelle commande"
 msgstr "Nuevo Pedido"
 
-#: inc/Actions.php:252
+#: inc/Actions.php:260
 #, php-format
 msgid "L'utilisateur %s a crée une nouvelle commande avec pour code : %s"
 msgstr "Usuario%s a creado un nuevo pedido con codigo:%s"
 
-#: inc/Actions.php:268
+#: inc/Actions.php:276
 msgid "Modification d'une commande"
 msgstr "Modificar Pedido"
 
-#: inc/Actions.php:270
+#: inc/Actions.php:278
 #, php-format
 msgid "L'utilisateur %s a modifié une commande avec pour code : %s"
 msgstr "Usuarior%s modifico pedido con codigo:%s"
 
-#: inc/Actions.php:287
+#: inc/Actions.php:295
 msgid "Suppréssion d'une commande"
 msgstr "Eliminar Pedido"
 
-#: inc/Actions.php:289
+#: inc/Actions.php:297
 #, php-format
 msgid "L'utilisateur %s a supprimé une commande avec pour identifiant : %s"
 msgstr "Usuario%s elimino pedido con id:%s"
 
-#: inc/Actions.php:305
+#: inc/Actions.php:313
 msgid "Historique des utilisateurs"
 msgstr "Historial Usuario"
 
-#: inc/Actions.php:310
+#: inc/Actions.php:318
 msgid "Sauvegarder les réglages"
 msgstr "Guardar Ajustes"
 
-#: inc/Actions.php:324
+#: inc/Actions.php:332
 msgid "Souhaitez-vous activer l'historique des activités ?"
 msgstr "¿Activar historial de Actividad?"
 
-#: inc/Actions.php:325
+#: inc/Actions.php:333
 msgid ""
 "Ceci peut très légèrement ralentir l'application, et prendre plus d'espace "
 "dans votre base de données."
@@ -79,15 +87,15 @@ msgstr ""
 "Esto puede ralentizar ligeramente la aplicación y tomar más espacio en su "
 "base de datos"
 
-#: inc/Actions.php:327
+#: inc/Actions.php:335
 msgid "Veuillez choisir une option"
 msgstr "Elige una Opción"
 
-#: inc/Actions.php:328
+#: inc/Actions.php:336
 msgid "Oui"
 msgstr "Si"
 
-#: inc/Actions.php:329
+#: inc/Actions.php:337
 msgid "Non"
 msgstr "No"
 
@@ -136,128 +144,160 @@ msgstr "Buscador Inventario"
 msgid "Factures"
 msgstr "Facturas"
 
-#: inc/Controller.php:225 views/expenses_listing_dom.php:54
-#: views/profit_and_lost_dom.php:64
+#: inc/Controller.php:226 views/expenses_listing_dom.php:44
+#: views/profit_and_lost_dom.php:64 views/profit_and_lost_script.php:64
 msgid "Désignation"
 msgstr "Designación"
 
-#: inc/Controller.php:226
+#: inc/Controller.php:227
+msgid "Catégorie"
+msgstr "Categoria"
+
+#: inc/Controller.php:228
 msgid "Prix de la facture"
 msgstr "Precio Factura"
 
-#: inc/Controller.php:227
+#: inc/Controller.php:229
 msgid "Référence"
 msgstr "Referencia"
 
-#: inc/Controller.php:228 views/historique.php:33
+#: inc/Controller.php:230 inc/Controller.php:927 views/historique.php:33
 msgid "Description"
 msgstr "Descripción"
 
-#: inc/Controller.php:229
+#: inc/Controller.php:231
 msgid "Image"
 msgstr "Imagen"
 
-#: inc/Controller.php:230 inc/Controller.php:497
+#: inc/Controller.php:232 inc/Controller.php:503 inc/Controller.php:928
 msgid "Auteur"
 msgstr "Autor"
 
-#: inc/Controller.php:231 inc/Controller.php:498
+#: inc/Controller.php:233 inc/Controller.php:504 inc/Controller.php:929
 msgid "Date de création"
 msgstr "Fecha Creación"
 
-#: inc/Controller.php:232 inc/Controller.php:499
+#: inc/Controller.php:234 inc/Controller.php:505 inc/Controller.php:930
 msgid "Date de modification"
 msgstr "Modificar Fecha"
 
-#: inc/Controller.php:301
+#: inc/Controller.php:236
+msgid "Assigner la dépense à une categorie."
+msgstr "Asigne el gasto a una categoría."
+
+#: inc/Controller.php:237
+msgid "Si la dépense à une valeur, vous pouvez le définir sur ce champ."
+msgstr "Si el costo de un valor, puede establecerlo en este campo."
+
+#: inc/Controller.php:238
+msgid ""
+"La référence peut être le numéro d'une facture ou toute information qui "
+"permettrait d'identifier l'opération."
+msgstr ""
+"La referencia puede ser el número de una factura o cualquier información que "
+"identifique la transacción."
+
+#: inc/Controller.php:307
 msgid "Liste des factures"
 msgstr "Lista Facturas"
 
-#: inc/Controller.php:309
+#: inc/Controller.php:315
 msgid "Ajouter/modifier une facture"
 msgstr "Add / Editar Factura"
 
-#: inc/Controller.php:364 inc/Filters.php:93
+#: inc/Controller.php:370 inc/Filters.php:93
 msgid "Performances des caissiers"
 msgstr "Cajero Informe "
 
-#: inc/Controller.php:397
+#: inc/Controller.php:403
 msgid "Statistiques des clients"
 msgstr "Estadística Clientes"
 
-#: inc/Controller.php:430
+#: inc/Controller.php:436
 msgid "Supprimer l'historique"
 msgstr "Eliminar Historial"
 
-#: inc/Controller.php:435 inc/Filters.php:133
+#: inc/Controller.php:441 inc/Filters.php:133
 msgid "Historique des activités"
 msgstr "Informe historial Usuario"
 
-#: inc/Controller.php:460
+#: inc/Controller.php:466
 msgid "Réinitialisation de l'historique"
 msgstr "Historial Reset"
 
-#: inc/Controller.php:461
+#: inc/Controller.php:467
 #, php-format
 msgid ""
 "L'utilisateur <strong>%s</strong> à supprimé le contenu de l'historique des "
 "activités."
 msgstr "User <strong>%s</strong>Elimino contenido Historial"
 
-#: inc/Controller.php:487 inc/Filters.php:145
+#: inc/Controller.php:493 inc/Filters.php:145
 msgid "Sauvegardes"
 msgstr "Backups"
 
-#: inc/Controller.php:495
+#: inc/Controller.php:501
 msgid "Titre de la sauvegarde"
 msgstr "Backup Title"
 
-#: inc/Controller.php:496
+#: inc/Controller.php:502
 msgid "Emplacement du fichier"
 msgstr "Localización del Archivo"
 
-#: inc/Controller.php:514
+#: inc/Controller.php:520
 msgid "Télécharger la sauvegarde"
 msgstr "Descarga Backup"
 
-#: inc/Controller.php:541
+#: inc/Controller.php:547
 msgid "Liste des sauvegardes"
 msgstr "Backup lista"
 
-#: inc/Controller.php:546
+#: inc/Controller.php:552
 msgid "Ajouter une sauvegarde"
 msgstr "Add a backup"
 
-#: inc/Controller.php:553
+#: inc/Controller.php:559
 msgid "Edition une sauvegarde"
 msgstr "Backup Editar"
 
-#: inc/Controller.php:568 inc/Controller.php:591
+#: inc/Controller.php:574 inc/Controller.php:597
 msgid "Sauvegarde Base de donnée Nexo POS"
 msgstr "Backup Database  POS"
 
-#: inc/Controller.php:704 inc/Filters.php:149
+#: inc/Controller.php:710 inc/Filters.php:149
 msgid "Restauration"
 msgstr "Restauración"
 
-#: inc/Controller.php:737
+#: inc/Controller.php:743
 msgid "Les Meilleurs"
 msgstr "Mejores Ventas"
 
-#: inc/Controller.php:829
+#: inc/Controller.php:835
 #, php-format
 msgid "Bénéfices et Pertes &mdash; %s"
 msgstr "Perdidas y Ganancias; %s"
 
-#: inc/Controller.php:836
+#: inc/Controller.php:847
 #, php-format
 msgid "Liste des dépenses &mdash; %s"
 msgstr "Lista Gastos &mdash; %s"
 
-#: inc/Controller.php:862
+#: inc/Controller.php:877
 #, php-format
 msgid "Rapport des ventes détaillés &mdash; %s"
 msgstr "Eliminar informe Ventas &mdash; %s"
+
+#: inc/Controller.php:897
+msgid "Catégories des dépenses"
+msgstr "Categorías de gastos"
+
+#: inc/Controller.php:918
+msgid "Catégories des factures"
+msgstr "Categorías de facturas"
+
+#: inc/Controller.php:926
+msgid "Nom"
+msgstr "Nombre"
 
 #: inc/Filters.php:55
 msgid "Rapports"
@@ -382,11 +422,11 @@ msgstr "Selecciona Cajero"
 msgid "Aucun caissier n'est disponible"
 msgstr "Cajero No Disponible"
 
-#: views/cashier-performances.php:90 views/customers-statistics.php:90
+#: views/cashier-performances.php:92 views/customers-statistics.php:92
 msgid "Impossible d'afficher les données pour cette sélection."
 msgstr "No se pueden mostrar los datos de esa selección"
 
-#: views/cashier-performances.php:102
+#: views/cashier-performances.php:104
 msgid "Une erreur s'est produite durant l'affichage du rapport"
 msgstr "Error de Carga del informe"
 
@@ -402,7 +442,7 @@ msgstr "Selecciona Cliente"
 msgid "Aucun client disponible"
 msgstr "Cliente no Disponible"
 
-#: views/customers-statistics.php:102
+#: views/customers-statistics.php:104
 msgid ""
 "Une erreur s'est produite durant l'affichage du rapport. Assurez-vous de "
 "choisir un bon interval de temps. Il doit y avoir au minimum 1 mois "
@@ -430,9 +470,9 @@ msgstr "Ayer"
 #: views/dashboard-content.php:88 views/dashboard-content.php:119
 #: views/fiche-de-suivi/by-categories.php:41
 #: views/flux-de-la-tresorerie.php:136 views/profit_and_lost_dom.php:8
-#: views/rapport-journalier-detaille.php:125 views/sales_detailed_dom.php:116
-#: views/sales_detailed_dom.php:126 views/stats-des-ventes.php:123
-#: views/stats-des-ventes.php:136
+#: views/profit_and_lost_script.php:8 views/rapport-journalier-detaille.php:125
+#: views/sales_detailed_dom.php:116 views/sales_detailed_dom.php:126
+#: views/stats-des-ventes.php:124 views/stats-des-ventes.php:137
 msgid "Total"
 msgstr "Total"
 
@@ -463,31 +503,31 @@ msgstr "Cargar"
 msgid "Imprimer"
 msgstr "Imprimir"
 
-#: views/expenses_listing_dom.php:48
+#: views/expenses_listing_dom.php:38
 msgid "Dates"
 msgstr "Fecha"
 
-#: views/expenses_listing_dom.php:51
+#: views/expenses_listing_dom.php:41
 msgid "Références"
 msgstr "Referencia"
 
-#: views/expenses_listing_dom.php:57 views/sales_detailed_dom.php:44
+#: views/expenses_listing_dom.php:47 views/sales_detailed_dom.php:44
 #: views/sales_detailed_dom.php:127
 msgid "Montant"
 msgstr "Cantidad"
 
-#: views/expenses_listing_dom.php:78
+#: views/expenses_listing_dom.php:68
 msgid ""
 "Aucun résultat disponible. Veuillez choisir un intervalle de temps différent."
 msgstr ""
 "No hay resultados Revisiones para \" Elija un intervalo de tiempo diferente"
 
-#: views/expenses_listing_dom.php:122 views/profit_and_lost_dom.php:469
-#: views/profit_and_lost_dom.php:580
+#: views/expenses_listing_script.php:32 views/profit_and_lost_script.php:390
+#: views/profit_and_lost_script.php:501
 msgid "Attention"
 msgstr "Atención"
 
-#: views/expenses_listing_dom.php:122
+#: views/expenses_listing_script.php:32
 msgid ""
 "Vous devez définir un intervalle de temps précis pour avoir des résultats"
 msgstr "Debe establecer un intervalo de tiempo específico para los resultados"
@@ -528,10 +568,6 @@ msgstr ""
 #: views/fiche-de-suivi/by-categories.php:25
 msgid "Fiche de suivi de stock"
 msgstr "Controlador Stck"
-
-#: views/fiche-de-suivi/by-categories.php:28
-msgid "Categories"
-msgstr "Categorias"
 
 #: views/fiche-de-suivi/by-categories.php:29
 msgid "Entrées"
@@ -657,7 +693,7 @@ msgstr "Movimiento Anual de Cash"
 msgid "Libellé / Mois"
 msgstr "Redacción / mes"
 
-#: views/flux-de-la-tresorerie.php:497 views/stats-des-ventes.php:435
+#: views/flux-de-la-tresorerie.php:497 views/stats-des-ventes.php:437
 msgid "Chargement en cours..."
 msgstr "Carga en Proceso"
 
@@ -678,35 +714,36 @@ msgstr "Titulo"
 msgid "Effectué le"
 msgstr "Realizado en"
 
-#: views/profit_and_lost_dom.php:59
+#: views/profit_and_lost_dom.php:59 views/profit_and_lost_script.php:59
 msgid "Date"
 msgstr "Fecha"
 
-#: views/profit_and_lost_dom.php:69 views/rapport-journalier-detaille.php:69
+#: views/profit_and_lost_dom.php:69 views/profit_and_lost_script.php:69
+#: views/rapport-journalier-detaille.php:69
 msgid "Quantité"
 msgstr "Cantidad"
 
-#: views/profit_and_lost_dom.php:74
+#: views/profit_and_lost_dom.php:74 views/profit_and_lost_script.php:74
 msgid "Prix de vente brut"
 msgstr "Precio Bruto"
 
-#: views/profit_and_lost_dom.php:79
+#: views/profit_and_lost_dom.php:79 views/profit_and_lost_script.php:79
 msgid "Remise (%)"
 msgstr "Descuento (%)"
 
-#: views/profit_and_lost_dom.php:84
+#: views/profit_and_lost_dom.php:84 views/profit_and_lost_script.php:84
 msgid "Remise"
 msgstr "Decuento"
 
-#: views/profit_and_lost_dom.php:89
+#: views/profit_and_lost_dom.php:89 views/profit_and_lost_script.php:89
 msgid "Prix de vente net"
 msgstr "Precio neto"
 
-#: views/profit_and_lost_dom.php:94
+#: views/profit_and_lost_dom.php:94 views/profit_and_lost_script.php:94
 msgid "Prix d'achat"
 msgstr "Precio Compra"
 
-#: views/profit_and_lost_dom.php:99
+#: views/profit_and_lost_dom.php:99 views/profit_and_lost_script.php:99
 msgid "Bénéfice"
 msgstr "Beneficio"
 
@@ -714,24 +751,24 @@ msgstr "Beneficio"
 msgid "Exporter CSV"
 msgstr "Export CSV"
 
-#: views/profit_and_lost_dom.php:227
+#: views/profit_and_lost_dom.php:218
 msgid ""
 "Aucun résultat à afficher. Veuillez choisir un interval de temps différent."
 msgstr ""
 "No hay resultados para mostrar. Elija un intervalo de tiempo diferente."
 
-#: views/profit_and_lost_dom.php:464
+#: views/profit_and_lost_script.php:385
 msgid "Rapport des bénéfices et des pertes"
 msgstr "Informe Pedidas y Ganacias"
 
-#: views/profit_and_lost_dom.php:469
+#: views/profit_and_lost_script.php:390
 msgid ""
 "Aucune données disponible pour l'impression. Veuillez afficher des résultats "
 "en premier"
 msgstr ""
 "No hay datos disponibles para imprimir. Por favor, cargue primero los datos."
 
-#: views/profit_and_lost_dom.php:580
+#: views/profit_and_lost_script.php:501
 msgid "Vous devez sélectionner une date valide"
 msgstr "Selecciona una Fecha Valida"
 
@@ -975,11 +1012,11 @@ msgstr ""
 "Resumen mensual del estado de las ventas según la jerarquía de categorías. "
 "Todas las cantidades mostradas son brutas"
 
-#: views/stats-des-ventes.php:103
+#: views/stats-des-ventes.php:104
 msgid "Statistique des ventes"
 msgstr "Estadística de Ventas"
 
-#: views/stats-des-ventes.php:111
+#: views/stats-des-ventes.php:112
 #, php-format
 msgid "Level %s"
 msgstr "Nivel %s"

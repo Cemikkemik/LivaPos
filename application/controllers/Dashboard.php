@@ -178,12 +178,12 @@ class Dashboard extends Tendoo_Controller
                 if (is_array($notice)) {
                     // Introducing Migrate
                     if (@$notice[ 'msg' ]    ==    'module-updated-migrate-required') {
-                        redirect(array( 'dashboard', 'modules', 'migrate', $notice[ 'namespace' ], $notice[ 'from' ] ));
+                        redirect(array( 'dashboard', 'modules', 'migrate', @$notice[ 'namespace' ], @$notice[ 'from' ] ));
                     } else {
                         // Migration will start from this release
-                        $this->options->set('migration_' . $notice[ 'namespace' ], $notice[ 'version' ], true);
+                        $this->options->set('migration_' . @$notice[ 'namespace' ], @$notice[ 'version' ], true);
                         // redirecting
-                    redirect(array( 'dashboard', 'modules', 'list?highlight=' . $notice[ 'namespace' ] . '&notice=' . $notice[ 'msg' ] . (isset($notice[ 'extra' ]) ? '&extra=' . $notice[ 'extra' ] : '') . '#module-' . $notice[ 'namespace' ] ));
+                    redirect(array( 'dashboard', 'modules', 'list?highlight=' . @$notice[ 'namespace' ] . '&notice=' . $notice[ 'msg' ] . (isset($notice[ 'extra' ]) ? '&extra=' . $notice[ 'extra' ] : '') . '#module-' . $notice[ 'namespace' ] ));
                     }
                 } else {
                     $this->notice->push_notice($this->lang->line($notice));

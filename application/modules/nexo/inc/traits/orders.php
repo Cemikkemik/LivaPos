@@ -33,27 +33,32 @@ trait Nexo_orders
 
         $order_details              =    array();
 
+        $shipping                   =   ( array ) $this->post( 'shipping' );
+
         $order_details              =    array(
-            'RISTOURNE'             =>    $this->post('RISTOURNE'),
-            'REMISE'                =>    $this->post('REMISE'),
+            'RISTOURNE'             =>      $this->post('RISTOURNE'),
+            'REMISE'                =>      $this->post('REMISE'),
             // @since 2.9.6
-            'REMISE_PERCENT'        =>    $this->post( 'REMISE_PERCENT' ),
-            'REMISE_TYPE'           =>    $this->post( 'REMISE_TYPE' ),
-            // @endSince
-            'RABAIS'                =>    $this->post('RABAIS'),
-            'GROUP_DISCOUNT'        =>    $this->post('GROUP_DISCOUNT'),
-            'TOTAL'                 =>    $this->post('TOTAL'),
-            'AUTHOR'                =>    $author_id,
-            'PAYMENT_TYPE'          =>    $this->post('PAYMENT_TYPE'),
-            'REF_CLIENT'            =>    $this->post('REF_CLIENT'),
-            'TVA'                   =>    $this->post('TVA'),
-            'SOMME_PERCU'           =>    $this->post('SOMME_PERCU'),
-            'CODE'                  =>    $this->Nexo_Checkout->shuffle_code(),
-            'DATE_CREATION'         =>    $this->post('DATE_CREATION'),
-			'DESCRIPTION'			=>	$this->post( 'DESCRIPTION' ),
-			'REF_REGISTER'		     =>	$this->post( 'REGISTER_ID' ),
+            'REMISE_PERCENT'        =>      $this->post( 'REMISE_PERCENT' ),
+            'REMISE_TYPE'           =>      $this->post( 'REMISE_TYPE' ),
+
+            'RABAIS'                =>      $this->post('RABAIS'),
+            'GROUP_DISCOUNT'        =>      $this->post('GROUP_DISCOUNT'),
+            'TOTAL'                 =>      $this->post('TOTAL'),
+            'AUTHOR'                =>      $author_id,
+            'PAYMENT_TYPE'          =>      $this->post('PAYMENT_TYPE'),
+            'REF_CLIENT'            =>      $this->post('REF_CLIENT'),
+            'TVA'                   =>      $this->post('TVA'),
+            'SOMME_PERCU'           =>      $this->post('SOMME_PERCU'),
+            'CODE'                  =>      $this->Nexo_Checkout->shuffle_code(),
+            'DATE_CREATION'         =>      date_now(),
+			'DESCRIPTION'			=>      $this->post( 'DESCRIPTION' ),
+			'REF_REGISTER'		    =>      $this->post( 'REGISTER_ID' ),
 			// @since 2.7.10
-			'TITRE'				      =>	$this->post( 'TITRE' ) != null ? $this->post( 'TITRE' ) : ''
+			'TITRE'                 =>      $this->post( 'TITRE' ) != null ? $this->post( 'TITRE' ) : '',
+            // @since 3.1
+            'SHIPPING_AMOUNT'       =>      floatval( @$shipping[ 'price' ] ),
+            'REF_SHIPPING_ADDRESS'  =>      @shipping[ 'id' ]
         );
 
         // Order Type
@@ -137,7 +142,10 @@ trait Nexo_orders
 				// @since 2.9.0
 				'DISCOUNT_TYPE'			=>	$item['discount_type'],
 				'DISCOUNT_AMOUNT'		=>	$item['discount_amount'],
-				'DISCOUNT_PERCENT'		=>	$item['discount_percent']
+				'DISCOUNT_PERCENT'		=>	$item['discount_percent'],
+                // @since 3.1
+                'NAME'                      =>    $item[ 'name' ],
+                'INLINE'                    =>    $item[ 'inline' ]
 			);
 
 			$this->db->insert( store_prefix() . 'nexo_commandes_produits', $item_data );
@@ -152,8 +160,8 @@ trait Nexo_orders
                     'REF_COMMAND_PRODUCT'   =>  $insert_id,
                     'REF_COMMAND_CODE'      =>  $order_details[ 'CODE' ],
                     'KEY'                   =>  $key,
-                    'VALUE'                 =>  $value,
-                    'DATE_CREATION'         =>  $this->post('DATE_CREATION')
+                    'VALUE'                 =>  is_array( $value ) ? json_encode( $value ) : $value,
+                    'DATE_CREATION'         =>  date_now()
                 ];
             }
 
@@ -161,6 +169,18 @@ trait Nexo_orders
             if( $meta_array ) {
                 $this->db->insert_batch( store_prefix() . 'nexo_commandes_produits_meta', $meta_array );
             }
+
+            // Add history for this item on stock flow
+            $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
+                'REF_ARTICLE_BARCODE'       =>  $item[ 'codebar' ],
+                'QUANTITE'                  =>  $item[ 'qte_added' ],
+                'UNIT_PRICE'                =>  $item[ 'sale_price' ],
+                'TOTAL_PRICE'               =>  ( __floatval($item[ 'qte_added' ]) * __floatval($item[ 'sale_price' ]) ) - $discount_amount,
+                'REF_COMMAND_CODE'          =>  $order_details[ 'CODE' ],
+                'AUTHOR'                    =>  User::id(),
+                'DATE_CREATION'             =>  date_now(),
+                'TYPE'                      =>  'sale'
+            ]);
         }
 
         $this->db->insert( store_prefix() . 'nexo_commandes', $order_details);
@@ -182,9 +202,9 @@ trait Nexo_orders
 				$meta_data		=	array(
 					'REF_ORDER_ID'	=>	$current_order[0][ 'ID' ],
 					'KEY'			=>	$key,
-					'VALUE'			=>	$value,
+					'VALUE'			=>	is_array( $value ) ? json_encode( $value ) : $value,
 					'AUTHOR'		=>	$author_id,
-					'DATE_CREATION'	=>	$this->post('DATE_CREATION')
+					'DATE_CREATION'	=>	date_now()
 				);
 
 				$this->db->insert( store_prefix() . 'nexo_commandes_meta', $meta_data );
@@ -206,13 +226,43 @@ trait Nexo_orders
 
 				$Curl->post( site_url( array( 'rest', 'nexo', 'order_payment', store_get_param( '?' ) ) ), array(
 					'author'		=>	$author_id,
-					'date'			=>	$this->post('DATE_CREATION'),
+					'date'			=>	date_now(),
 					'payment_type'	=>	$payment[ 'namespace' ],
 					'amount'		=>	$payment[ 'amount' ],
 					'order_code'	=>	$current_order[0][ 'CODE' ]
 				) );
+
+                // @since 3.1
+                // if the payment is a coupon, then we'll increase his usage
+                if( $payment[ 'namespace' ] == 'coupon' ) {
+                    
+                    $coupon         =   $this->db->where( 'ID', $payment[ 'meta' ][ 'coupon_id' ] )
+                    ->get( store_prefix() . 'nexo_coupons' )
+                    ->result_array();
+
+                    $this->db->where( 'ID', $payment[ 'meta' ][ 'coupon_id' ] )
+                    ->update( store_prefix() . 'nexo_coupons', [
+                        'USAGE_COUNT'   =>  intval( $coupon[0][ 'USAGE_COUNT' ] ) + 1
+                    ]);
+                }
 			}
 		}
+
+        /**
+         * Add shipping informations
+         * @since 3.1
+        **/
+
+        if( $this->post( 'shipping' ) && ! empty( $shipping[ 'title' ] ) ) {
+            // fetch ref shipping for the selected customers
+            $shipping       =   $this->post( 'shipping' );
+            // edit shipping id to ref_shipping
+            $shipping[ 'ref_shipping' ]     =   $shipping[ 'id' ];
+            $shipping[ 'ref_order' ]        =   $current_order[0][ 'ID' ];
+            unset( $shipping[ 'id' ] );
+
+            $this->db->insert( store_prefix() . 'nexo_commandes_shippings', $shipping );
+        }
 
         $this->response(array(
             'order_id'        =>    $current_order[0][ 'ID' ],
@@ -243,6 +293,8 @@ trait Nexo_orders
             $this->__failed();
         }
 
+        $shipping                   =   ( array ) $this->put( 'shipping' );
+
         $order_details            =    array();
         $order_details            =    array(
             'RISTOURNE'         =>    $this->put('RISTOURNE'),
@@ -260,10 +312,14 @@ trait Nexo_orders
             'TVA'               =>    $this->put('TVA'),
             'SOMME_PERCU'       =>    $this->put('SOMME_PERCU'),
             //'CODE'			=>	$this->Nexo_Checkout->shuffle_code(),
-            'DATE_MOD'          =>    $this->put('DATE_CREATION'),
+            'DATE_MOD'          =>    date_now(),
             'DESCRIPTION'       =>	  $this->put( 'DESCRIPTION' ),
             'REF_REGISTER'      =>	  $this->put( 'REGISTER_ID' ),
-            'TITRE'             =>	  $this->put( 'TITRE' ) != null ? $this->put( 'TITRE' ) : ''
+            // @since 3.1
+            'SHIPPING_AMOUNT'       =>      floatval( @$shipping[ 'price' ] ),
+            'REF_SHIPPING_ADDRESS'  =>      @shipping[ 'id' ],
+            // @since 3.1.0
+            'TITRE'             =>  $this->put( 'TITRE' )
         );
 
         // Order Type
@@ -333,10 +389,10 @@ trait Nexo_orders
         }
 
         // Delete item from order
-        // $this->db->where( 'REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ] )->delete( store_prefix() . 'nexo_commandes_produits');
+        $this->db->where( 'REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ] )->delete( store_prefix() . 'nexo_commandes_produits');
 
         // Delete item metas
-        // $this->db->where( 'REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ] )->delete( store_prefix() . 'nexo_commandes_produits_meta');
+        $this->db->where( 'REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ] )->delete( store_prefix() . 'nexo_commandes_produits_meta');
 
         // Save Order items
         /**
@@ -381,18 +437,19 @@ trait Nexo_orders
 				// @since 2.9.0
 				'DISCOUNT_TYPE'             =>    $item[ 'discount_type' ],
 				'DISCOUNT_AMOUNT'           =>    $item[ 'discount_amount' ],
-                'DISCOUNT_PERCENT'          =>    $item[ 'discount_percent' ]
+                'DISCOUNT_PERCENT'          =>    $item[ 'discount_percent' ],
+                // @since 3.1
+                'NAME'                      =>    $item[ 'name' ],
+                'INLINE'                    =>    $item[ 'inline' ]
             );
 
-            $this->db->where( store_prefix() . 'nexo_commandes_produits.ID', $item[ 'id' ] )
-            ->where( store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ] )
-            ->update( store_prefix() . 'nexo_commandes_produits', $item_data );
+            $this->db->insert( store_prefix() . 'nexo_commandes_produits', $item_data );
 
             // Saving item metas
             foreach( ( array ) @$item[ 'metas' ] as $key => $value ) {
                 $meta     =   [
-                    'VALUE'                 =>  $value,
-                    'DATE_MODIFICATION'     =>  $this->put('DATE_CREATION')
+                    'VALUE'                 =>  is_array( $value ) ? json_encode( $value ) : $value,
+                    'DATE_MODIFICATION'     =>  date_now()
                 ];
 
                 $this->db->where( 'REF_COMMAND_PRODUCT', $item[ 'id' ] )
@@ -400,6 +457,18 @@ trait Nexo_orders
                 ->where( 'KEY', $key )
                 ->update( store_prefix() . 'nexo_commandes_produits_meta', $meta );
             }
+
+            // Add history for this item on stock flow
+            $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
+                'REF_ARTICLE_BARCODE'       =>  $item[ 'codebar' ],
+                'QUANTITE'                  =>  $item[ 'qte_added' ],
+                'UNIT_PRICE'                =>  $item[ 'sale_price' ],
+                'TOTAL_PRICE'               =>  ( __floatval($item[ 'qte_added' ]) * __floatval($item[ 'sale_price' ]) ) - $discount_amount,
+                'REF_COMMAND_CODE'          =>  $old_order[ 'order' ][0][ 'CODE' ],
+                'AUTHOR'                    =>  User::id(),
+                'DATE_CREATION'             =>  date_now(),
+                'TYPE'                      =>  'sale'
+            ]);
         }
 
         $this->db->where( 'ID', $order_id )
@@ -423,9 +492,9 @@ trait Nexo_orders
 				$meta_data			=	array(
 					'REF_ORDER_ID'	=>	$order_id,
 					'KEY'			=>	$key,
-					'VALUE'			=>	$value,
+					'VALUE'			=>	is_array( $value ) ? json_encode( $value ) : $value,
 					'AUTHOR'		=>	$author_id,
-					'DATE_CREATION'	=>	$this->put('DATE_CREATION')
+					'DATE_CREATION'	=>	date_now()
 				);
 
 				$this->db->where( 'REF_ORDER_ID', $order_id )
@@ -447,13 +516,43 @@ trait Nexo_orders
 
 				$Curl->post( site_url( array( 'rest', 'nexo', 'order_payment', store_get_param( '?' ) ) ), array(
 					'author'		=>	$author_id,
-					'date'			=>	$this->put('DATE_CREATION'),
+					'date'			=>	date_now(),
 					'payment_type'	=>	$payment[ 'namespace' ],
 					'amount'		=>	$payment[ 'amount' ],
 					'order_code'	=>	$current_order[0][ 'CODE' ]
 				) );
+
+                // @since 3.1
+                // if the payment is a coupon, then we'll increase his usage
+                if( $payment[ 'namespace' ] == 'coupon' ) {
+                    
+                    $coupon         =   $this->db->where( 'ID', $payment[ 'meta' ][ 'coupon_id' ] )
+                    ->get( store_prefix() . 'nexo_coupons' )
+                    ->result_array();
+
+                    $this->db->where( 'ID', $payment[ 'meta' ][ 'coupon_id' ] )
+                    ->update( store_prefix() . 'nexo_coupons', [
+                        'USAGE_COUNT'   =>  intval( $coupon[0][ 'USAGE_COUNT' ] ) + 1
+                    ]);
+                }
 			}
 		}
+
+        /**
+         * Add shipping informations
+         * @since 3.1
+        **/
+
+        if( $this->put( 'shipping' ) && ! empty( $shipping[ 'title' ] ) ) {
+            // fetch ref shipping for the selected customers
+            $shipping       =   $this->put( 'shipping' );
+            // edit shipping id to ref_shipping
+            $shipping[ 'ref_shipping' ]     =   $shipping[ 'id' ];
+            $shipping[ 'ref_order' ]        =   $order_id;
+            unset( $shipping[ 'id' ] );
+
+            $this->db->where( 'ref_order', $order_id )->update( store_prefix() . 'nexo_commandes_shippings', $shipping );
+        }
 
         $this->response(array(
             'order_id'          =>    $order_id,
@@ -480,7 +579,7 @@ trait Nexo_orders
         $this->db->where('DATE_CREATION >=', $this->post('start'));
         $this->db->where('DATE_CREATION <=', $this->post('end'));
 
-        if ($order_type != 'all') {
+        if ( $order_type != 'all') {
             $this->db->where('TYPE', $order_type);
         }
 
@@ -547,6 +646,22 @@ trait Nexo_orders
 
             foreach( $metas as $meta ) {
                 $items[ $key ]->metas[ $meta->KEY ]      =   $meta->VALUE;
+            }
+        }
+
+        // load shippings
+        /** 
+         * get shippings linked to that order
+         * @since 3.1
+        **/
+
+        foreach( ( array ) $order as &$_order ) {
+            $shippings   =   $this->db->where( 'ref_order', $_order->ID )
+            ->get( store_prefix() . 'nexo_commandes_shippings' )
+            ->result_array();
+
+            if( $shippings ) {
+                $_order->shipping   =   $shippings[0];
             }
         }
 
@@ -659,6 +774,22 @@ trait Nexo_orders
 
 		->get()->result();
 
+        // pending review
+        // /** 
+        //  * get shippings linked to that order
+        //  * @since 3.1
+        // **/
+
+        // foreach( ( array ) $order as &$_order ) {
+        //     $shippings   =   $this->db->where( 'ref_order', $_order->ID )
+        //     ->get( store_prefix() . 'nexo_commandes_shippings' )
+        //     ->result_array();
+
+        //     if( $shippings ) {
+        //         $_order->shipping   =   $shippings[0];
+        //     }
+        // }
+
 		$this->response( $order, 200 );
 
 		$this->__empty();
@@ -706,8 +837,24 @@ trait Nexo_orders
             $order_code
         );
 
+        $order      =   $this->db->get()->result();
+
+        // pending
+        // /** 
+        //  * get shippings linked to that order
+        //  * @since 3.1
+        // **/
+
+        // foreach( ( array ) $order as &$_order ) {
+        //     $shippings   =   $this->db->where( 'ID', $_order->ID )
+        //     ->get( store_prefix() . 'nexo_commandes_shippings' )
+        //     ->result();
+
+        //     $_order[ 'shipping' ]   =   $shippings[0];
+        // }
+
         return $this->response(
-            $this->db->get()->result(),
+            $order,
             200
         );
     }
@@ -771,7 +918,7 @@ trait Nexo_orders
 			$this->db->insert( store_prefix() . 'nexo_commandes_paiements', array(
 				'REF_COMMAND_CODE'		=>	$this->post( 'order_code' ),
 				'AUTHOR'				=>	$this->post( 'author' ),
-				'DATE_CREATION'			=>	$this->post( 'date' ),
+				'DATE_CREATION'			=>	date_now(),
 				'PAYMENT_TYPE'			=>	$this->post( 'payment_type' ),
 				'MONTANT'				=>	$this->post( 'amount' )
 			) );
@@ -844,8 +991,10 @@ trait Nexo_orders
 				$this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
 					'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
 					'QUANTITE'				=>	$item[ 'CURRENT_DEFECTIVE_QTE' ],
+                    'UNIT_PRICE'            =>  $item[ 'PRIX'],
+                    'TOTAL_PRICE'           =>  floatval( $item[ 'PRIX'] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ),
 					'AUTHOR'				=>	$this->post( 'author' ),
-					'DATE_CREATION'			=>	$this->post( 'date' ),
+					'DATE_CREATION'			=>	date_now(),
 					'REF_COMMAND_CODE'		=>	$order_code,
                     'TYPE'                  =>  'defective'
 				) );
@@ -865,8 +1014,10 @@ trait Nexo_orders
                 $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
 					'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
 					'QUANTITE'				=>	$item[ 'CURRENT_USABLE_QTE' ],
+                    'UNIT_PRICE'            =>  $item[ 'PRIX'],
+                    'TOTAL_PRICE'           =>  floatval( $item[ 'PRIX'] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] ),
 					'AUTHOR'				=>	$this->post( 'author' ),
-					'DATE_CREATION'			=>	$this->post( 'date' ),
+					'DATE_CREATION'			=>	date_now(),
 					'REF_COMMAND_CODE'		=>	$order_code,
                     'TYPE'                  =>  'usable'
 				) );
@@ -896,7 +1047,7 @@ trait Nexo_orders
 			'REF_COMMAND_CODE'		=>	$order_code,
 			'MONTANT'				=>	- floatval( $toRefund ),
 			'AUTHOR'				=>	$this->post( 'author' ),
-			'DATE_CREATION'			=> 	$this->post( 'date' ),
+			'DATE_CREATION'			=> 	date_now(),
             'PAYMENT_TYPE'          =>  'cash' // cash payment is set as default refund payment
 		) );
 
@@ -965,7 +1116,7 @@ trait Nexo_orders
         )
         ->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', $startOfDay )
         ->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', $endOfDay )
-        ->where( store_prefix() . 'nexo_commandes.TYPE', 'nexo_order_comptant' )
+        // ->where( store_prefix() . 'nexo_commandes.TYPE', 'nexo_order_comptant' )
         ->where( store_prefix() . 'nexo_commandes.TOTAL >', 0 )
         ->get();
 

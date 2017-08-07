@@ -260,16 +260,15 @@ class Nexo_premium extends REST_Controller
 
         $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_' . store_prefix() ));
 
-        if ($cached    =    $Cache->get('best_items_post_' . $this->post('start') . '_' . $this->post('end'))) {
+        if ($cached    =    $Cache->get('best_items_post_' . $this->post('start') . '_' . $this->post('end')) && $this->input->get( 'disable_cache' ) != 'true' ) {
             $this->response($cached, 200);
         } else {
             $this->config->load('nexo_premium');
 
-            $Dates                =    $this->Nexo_Misc->dates_between_borders($this->post('start'), $this->post('end'));
-
-            $Options                =    $this->Options->get();
-            $CashOrder              =    'nexo_order_comptant';
-            $Response               =    array();
+            $Dates          =    $this->Nexo_Misc->dates_between_borders($this->post('start'), $this->post('end'));
+            $Options        =    $this->Options->get();
+            $CashOrder      =    $this->events->apply_filters( 'report_order_types', [ 'nexo_order_comptant' ]);
+            $Response       =    array();
 
             if (! empty($Dates)) {
 
@@ -299,7 +298,10 @@ class Nexo_premium extends REST_Controller
 
                     $this->db->order_by( store_prefix() . 'nexo_articles.QUANTITE_VENDU', 'DESC');
 
-                    $this->db->where( store_prefix() . 'nexo_commandes.TYPE', $CashOrder);
+                    foreach( $CashOrder as $order) {
+                        $this->db->or_where( store_prefix() . 'nexo_commandes.TYPE', $order);
+                    }
+
                     $this->db->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', $StartDay);
                     $this->db->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', $EndDay);
 
@@ -335,22 +337,23 @@ class Nexo_premium extends REST_Controller
 
         $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_' . store_prefix() ) );
 
-        if ($cached    =    $Cache->get('best_categories_post_' . $this->post('start') . '_' . $this->post('end'))) {
+        if ( $cached    =    $Cache->get('best_categories_post_' . $this->post('start') . '_' . $this->post('end')) && $this->input->get( 'disable_cache' ) != 'true' ) {
             $this->response($cached, 200);
         } else {
             $this->config->load('nexo_premium');
 
-            $Dates            =    $this->Nexo_Misc->dates_between_borders($this->post('start'), $this->post('end'));
-            $Options        =    $this->Options->get();
-            $CashOrder        =    'nexo_order_comptant';
-            $Response        =    array();
+            $Dates              =    $this->Nexo_Misc->dates_between_borders($this->post('start'), $this->post('end'));
+            $Options            =    $this->Options->get();
+            $CashOrder          =    $this->events->apply_filters( 'report_order_types', [ 'nexo_order_comptant' ]);
+
+            $Response           =    array();
 
             if (! empty($Dates)) {
                 $items_sales    =    array();
 
                 foreach ($Dates as $Date) {
-                    $StartDay            =        Carbon::parse($Date)->startOfDay()->toDateTimeString();
-                    $EndDay                =        Carbon::parse($Date)->endOfDay()->toDateTimeString();
+                    $StartDay               =        Carbon::parse($Date)->startOfDay()->toDateTimeString();
+                    $EndDay                 =        Carbon::parse($Date)->endOfDay()->toDateTimeString();
 
                     // Here categories takes item_as and item use product_id instead.
                     $this->db->select('
@@ -360,6 +363,7 @@ class Nexo_premium extends REST_Controller
 					' . store_prefix() . 'nexo_commandes_produits.QUANTITE as QUANTITE_UNIQUE_VENDUE,
 					' . store_prefix() . 'nexo_articles.QUANTITE_VENDU as QUANTITE_VENDU,
 					' . store_prefix() . 'nexo_articles.PRIX_DE_VENTE as PRIX_DE_VENTE,
+                    ' . store_prefix() . 'nexo_commandes_produits.PRIX as PRIX,
 					' . store_prefix() . 'nexo_articles.ID as PRODUCT_ID,
 					' . store_prefix() . 'nexo_commandes.DATE_CREATION as SOLD_DATE')
                     ->from( store_prefix() . 'nexo_commandes_produits')
@@ -371,7 +375,9 @@ class Nexo_premium extends REST_Controller
 
                     $this->db->order_by( store_prefix() . 'nexo_articles.QUANTITE_VENDU', 'DESC');
 
-                    $this->db->where( store_prefix() . 'nexo_commandes.TYPE', $CashOrder);
+                    foreach( $CashOrder as $order ) {
+                        $this->db->or_where( store_prefix() . 'nexo_commandes.TYPE', $order );
+                    }                    
 
                     $this->db->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', $StartDay);
                     $this->db->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', $EndDay);
@@ -407,14 +413,14 @@ class Nexo_premium extends REST_Controller
 
         $Cache        =    new CI_Cache(array('adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_premium_' . store_prefix() ) );
 
-        if ($cached    =    $Cache->get('best_shippings_post_' . $this->post('start') . '_' . $this->post('end'))) {
+        if ($cached    =    $Cache->get('best_shippings_post_' . $this->post('start') . '_' . $this->post('end')) && $this->input->get( 'disable_cache' ) != 'true' ) {
             $this->response($cached, 200);
         } else {
             $this->config->load('nexo_premium');
 
             $Dates            =    $this->Nexo_Misc->dates_between_borders($this->post('start'), $this->post('end'));
             $Options        =    $this->Options->get();
-            $CashOrder        =    'nexo_order_comptant';
+            $CashOrder          =    $this->events->apply_filters( 'report_order_types', [ 'nexo_order_comptant' ]);
             $Response        =    array();
 
             if (! empty($Dates)) {
@@ -431,7 +437,8 @@ class Nexo_premium extends REST_Controller
 					' . store_prefix() . 'nexo_articles.DESIGN as ITEM_NAME,
 					' . store_prefix() . 'nexo_commandes_produits.QUANTITE as QUANTITE_UNIQUE_VENDUE,
 					' . store_prefix() . 'nexo_articles.QUANTITE_VENDU as QUANTITE_VENDU,
-					' . store_prefix() . 'nexo_articles.PRIX_DE_VENTE as PRIX_DE_VENTE,
+                    ' . store_prefix() . 'nexo_articles.PRIX_DE_VENTE as PRIX_DE_VENTE,
+					' . store_prefix() . 'nexo_commandes_produits.PRIX as PRIX,
 					' . store_prefix() . 'nexo_articles.ID as PRODUCT_ID,
 					' . store_prefix() . 'nexo_commandes.DATE_CREATION as SOLD_DATE')
 
@@ -444,7 +451,9 @@ class Nexo_premium extends REST_Controller
 
                     $this->db->order_by( store_prefix() . 'nexo_articles.QUANTITE_VENDU', 'DESC');
 
-                    $this->db->where( store_prefix() . 'nexo_commandes.TYPE', $CashOrder);
+                    foreach( $CashOrder as $order) {
+                        $this->db->or_where( store_prefix() . 'nexo_commandes.TYPE', $order);
+                    }
 
                     $this->db->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', $StartDay);
                     $this->db->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', $EndDay);

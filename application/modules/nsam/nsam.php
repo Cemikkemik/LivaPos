@@ -9,11 +9,11 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
     {
         parent::__construct();
         //Codeigniter : Write Less Do More
-        $this->events->add_filter( 'ui_notices', array( $this, 'notices' ) );
         $this->events->add_filter( 'admin_menus', array( $this, 'menus' ), 20 );
         $this->events->add_filter( 'stores_controller_callback', array( $this, 'multistore' ) );
         $this->events->add_action( 'after_main_store_card', array( $this, 'before_rows' ) );
         $this->events->add_action( 'load_dashboard', [ $this, 'load_dashboard' ], 99 );
+        $this->events->add_filter( 'stores_list_menu', [ $this, 'filter_store_menus' ]);
     }
 
     /**
@@ -30,6 +30,15 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
 
         $this->lang->load_lines(dirname(__FILE__) . '/language/lang.php');
 
+        if( ! multistore_enabled() ) {
+            nexo_notices([
+                'user_id'   =>  User::id(),
+                'message'   =>  __( 'Nexo Store Advanced Manager, is not active, since NexoPOS multi Store feature is not active.', 'nsam' ),
+                'link'      =>  site_url( array( 'dashboard', 'nexo', 'stores-settings' ) ),
+                'icon'      =>  'fa fa-info'
+            ]);
+        }
+
         global $Options;
 
         if( is_multistore() && User::in_group([ 'shop_cashier', 'shop_manager', 'shop_tester']  ) ) {
@@ -38,6 +47,33 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
                 redirect([ 'dashboard', 'not-allowed-to-access-to-that-store' ]);
             }
         }
+    }
+
+    /**
+     * Filter Dashboard Menu
+     * @param array
+     * @return array
+    **/
+
+    public function filter_store_menus( $stores ) 
+    {
+        foreach( $stores as $key => $store ) {
+            if( get_option( 'store_access_' . User::id() . '_' . $store[ 'ID' ] ) != 'yes' && ! User::in_group( 'master' ) ) {
+                unset( $stores[ $key ] );
+            }
+        }
+
+        if( count( $stores ) == 0 ) {
+            $stores[]    =   [
+                'NAME'  =>  __( 'Accès Refusé', 'nexo' ),
+                'ID'    =>  false,
+                'STATUS'    =>  'opened',
+                'IMAGE'     =>  '',
+                'DESCRIPTION'   =>      __( 'Aucun n\'accès ne vous a été autorisé', 'nexo' )
+            ];
+        }
+
+        return $stores;
     }
 
     /**
@@ -92,26 +128,6 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
     {
         $array[ 'nsam' ]  =   new NsamController;
         return $array;
-    }
-
-    /**
-     *  Ui Notices
-     *  checks whether multistore is enabled
-     *  @return void
-    **/
-
-    public function notices( $notices )
-    {
-        if( ! multistore_enabled() ) {
-            $notices[]    =   array(
-                'namespace'     =>  'request_multistore',
-                'type'          =>  'info',
-                'message'       =>  __( '<strong>Nexo Store Advanced Manager</strong>, is not active, since NexoPOS multi Store feature is not active.', 'nsam' ),
-                'href'          =>  site_url( array( 'dashboard', 'nexo', 'stores-settings' ) ),
-                'icon'          =>  'fa fa-info'
-            );
-        }
-        return $notices;
     }
 
     /**

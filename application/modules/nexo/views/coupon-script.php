@@ -55,7 +55,7 @@
     });
 
     NexoAPI.events.addAction( 'cart_remove_payment', function( data ) {
-        if( angular.isDefined( data[3].namespace == 'coupon' ) ) {
+        if( data[3].namespace == 'coupon' ) {
             var index       =   _.indexOf( data[2].usedCoupon, parseInt( data[3].meta.coupon_id ) );
 
             // Delete coupon id

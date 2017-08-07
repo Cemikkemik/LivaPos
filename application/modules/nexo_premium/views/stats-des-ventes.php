@@ -170,12 +170,11 @@ $( document ).ready(function(e) {
 		this.LatestIds					=	new Array();
 		this.Index						=	0;
 		this.__TimeCalled				=	0;
-		this.Nexo_Order_Avance			=	'<?php echo 'nexo_order_advance';
-    ?>'
-		this.Nexo_Order_Cash			=	'<?php echo 'nexo_order_comptant';
-    ?>'
-		this.Nexo_Order_Devis			=	'<?php echo 'nexo_order_devis';
-    ?>'
+		this.Nexo_Order_Avance			=	[ '<?php echo 'nexo_order_advance';
+    ?>' ];
+		this.Nexo_Order_Cash			=	<?php echo json_encode( $this->events->apply_filters( 'report_order_types', [ 'nexo_order_comptant' ] ) );?>;
+		this.Nexo_Order_Devis			=	[ '<?php echo 'nexo_order_devis';
+    ?>' ];
 		this.CurrencyBefore				=	'<?php echo $this->Nexo_Misc->display_currency('before');
     ?>';
 		this.CurrencyAfter				=	'<?php echo $this->Nexo_Misc->display_currency('after');
@@ -283,30 +282,30 @@ $( document ).ready(function(e) {
 		this.TreatProducts		=	function( data ) {
 			_.each( data, function( value, key ){
 				var TotalCommandeCash	=	0;
-				_.each( value, function( _value, _key ) {
-					if( _.contains( [
-						NexoPremium_Sales_Statistics.Nexo_Order_Cash,
-						NexoPremium_Sales_Statistics.Nexo_Order_Avance
-					], _value.TYPE_COMMANDE ) ) {
-                        // Exclure la TVA du Rapport
-                        // @since 2.9.6
-                        var $total   =   ( NexoAPI.ParseFloat( _value.PRIX_TOTAL ) );
-                        if( _value.REMISE_TYPE == 'percentage' ) {
-                            var $percentage =   (
-                                parseFloat( _value.REMISE_PERCENT ) *
-                                parseFloat( _value.PRIX_TOTAL )
-                            ) / 100;
-                            $total      =   NexoAPI.ParseFloat( _value.PRIX_TOTAL ) - $percentage;
-                        } else if( _value.REMISE_TYPE == 'flat' ) {
-                            var     $representative_percent     =   ( NexoAPI.ParseFloat( _value.REMISE ) * 100 ) / NexoPremium_Sales_Statistics.cartValue();
+				_.each( value, function( item, key ) {
+					if( _.contains( NexoPremium_Sales_Statistics.Nexo_Order_Cash, item.TYPE_COMMANDE ) || 
+							_.contains( NexoPremium_Sales_Statistics.Nexo_Order_Avance, item.TYPE_COMMANDE ) 
+						) {
+						// Exclure la TVA du Rapport
+						// @since 2.9.6
+						var $total   =   ( NexoAPI.ParseFloat( item.PRIX_TOTAL ) );
+						if( item.REMISE_TYPE == 'percentage' ) {
+							var $percentage =   (
+									parseFloat( item.REMISE_PERCENT ) *
+									parseFloat( item.PRIX_TOTAL )
+							) / 100;
+							$total      =   NexoAPI.ParseFloat( item.PRIX_TOTAL ) - $percentage;
+						} else if( item.REMISE_TYPE == 'flat' ) {
+							// exclude discount made on item
+							var     percent     =   ( NexoAPI.ParseFloat( item.REMISE ) * 100 ) / NexoPremium_Sales_Statistics.cartValue( item, true );
+							var     $valueOff      =   ( NexoAPI.ParseFloat( item.PRIX_DE_VENTE ) * percent ) / 100;
 
-                            var     $valueOff      =   ( NexoAPI.ParseFloat( _value.PRIX_DE_VENTE ) * representative_percent ) / 100;
-
-                            $total      =   NexoAPI.ParseFloat( _value.PRIX_TOTAL ) - $valueOff;
-                        }
+							$total      =   NexoAPI.ParseFloat( item.PRIX_TOTAL ) - $valueOff;
+						}
 						TotalCommandeCash	+=	$total;
 					}
 				});
+
 				$( 'table tbody tr' ).eq( key - 1 ).find( '[month-id="' + NexoPremium_Sales_Statistics.Index + '"]' ).html(
 					NexoPremium_Sales_Statistics.CurrencyBefore + ' ' +
 					'<span class="amount" amount="' + TotalCommandeCash + '">' + NexoAPI.Format( TotalCommandeCash ) + '</span>' +

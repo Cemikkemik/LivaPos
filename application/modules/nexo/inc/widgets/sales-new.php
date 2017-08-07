@@ -33,15 +33,15 @@ $this->load->config('nexo');
                     foreach ($items as $item) {
                         $stock_initial        =    intval($item->QUANTITY);
                         $stock_remaning        =    intval($item->QUANTITE_RESTANTE);
-                        $stock_defectueux    =    intval($item->DEFECTUEUX);
+                        $stock_defectueux 	=    intval($item->DEFECTUEUX);
                     }
                                     
-                    $percent            =    floor(($stock_remaning * 100) / $stock_initial);
-                    $percent_defectueux    =    floor(($stock_defectueux * 100) / $stock_initial);
+                    $percent            	=    floor(($stock_remaning * 100) / $stock_initial);
+                    $percent_defectueux    	=    floor(($stock_defectueux * 100) / $stock_initial);
                 }
             } else {
-                $percent                =    0;
-                $percent_defectueux        =    0;
+                $percent                	=    0;
+                $percent_defectueux        	=    0;
             }
             ?>
             <div class="col-xs-6 text-center" style="border-right: 1px solid #f4f4f4">
@@ -69,7 +69,7 @@ $(function(){
 	// Nexo_Sales_Widget.load();
 });
 </script>
-    <?php
+<?php
 
 }
 ?>
@@ -79,8 +79,8 @@ var Nexo_Sales_Widget		=	new function(){
 	this.load				=	function( arg ){
 		var colors				=	[ '#02B3E7', '#CFD3D6', '#736D79', '#776068', '#EB0D42', '#FFEC62', '#04374E' ];
 		var refresh_it			=	arg == 'refresh' ? '?refresh=true' : '?load=cache';
-		var start_date			=	'<?php echo Carbon::parse(date_now())->subDays(7)->startOfDay()->toDateTimeString();?>';
-		var end_date			=	'<?php echo Carbon::parse(date_now())->endOfDay()->toDateTimeString();?>';
+		var start_date			=	'<?php echo nexo_date_format( Carbon::parse(date_now())->subDays(7)->startOfDay()->toDateTimeString() );?>';
+		var end_date			=	'<?php echo nexo_date_format( Carbon::parse(date_now())->endOfDay()->toDateTimeString() );?>';
 		var limit				=	7;
 		var post_data			=	_.object( [ 'start_date', 'end_date', 'limit' ], [ start_date, end_date, limit ] );
 		$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'widget_sale_new' ));?>' + refresh_it + '<?php echo store_get_param( '&' );?>', {

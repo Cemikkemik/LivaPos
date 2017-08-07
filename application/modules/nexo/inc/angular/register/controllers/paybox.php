@@ -176,7 +176,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 			combo: 'enter',
 			description: 'This one goes to 11',
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
-			callback: function() {
+			callback: function( e ) {
 
 				if( angular.element( '.payboxwrapper' ).length > 0 ) {
 					if( parseFloat( $scope.paidAmount ) > 0 ) {
@@ -191,13 +191,19 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 						angular.element( 'div.bootbox div.modal-footer button[data-bb-handler="confirm" ]' ).trigger( 'click' );
 					}
 				}
+
+				// avoid to unblur  when the search field is used
+				if( $( e.srcElement ).attr( 'name' ) == 'item_sku_barcode' ) {
+					return false;
+				}
+
 				angular.element( event.target ).blur();
 			}
 		});
 
 		hotkeys.add({
 			combo: '<?php echo @$Options[ 'open_paywindow' ] == null ? "shift+p" : @$Options[ 'open_paywindow' ];?>',
-			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			// allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			description: 'Launch Payment',
 			callback: function() {
 				if( angular.element( '.payboxwrapper' ).length == 0 ) {
@@ -217,7 +223,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		hotkeys.add({
 			combo: '<?php echo @$Options[ 'order_note' ] == null ? "shift+n" : @$Options[ 'order_note' ];?>',
 			description: 'Open order Note',
-			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			// allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function() {
 				$( '[data-set-note]' ).trigger( 'click' );
 
@@ -230,7 +236,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		hotkeys.add({
 			combo: '<?php echo @$Options[ 'add_customer' ] == null ? "shift+c" : @$Options[ 'add_customer' ];?>',
 			description: 'To add a customer',
-			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			// allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function() {
 				$( '.cart-add-customer' ).trigger( 'click' );
 
@@ -243,7 +249,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		hotkeys.add({
 			combo: '<?php echo @$Options[ 'void_order' ] == null ? "del" : @$Options[ 'void_order' ];?>',
 			description: 'To void an order',
-			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			// allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function() {
 				$( '#cart-return-to-order' ).trigger( 'click' );
 			}
@@ -252,7 +258,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		hotkeys.add({
 			combo: '<?php echo @$Options[ 'close_register' ] == null ? "shift+4" : @$Options[ 'close_register' ];?>',
 			description: 'To close a register',
-			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			// allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function() {
 				$( '.close_register' ).trigger( 'click' );
 
@@ -265,7 +271,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		hotkeys.add({
 			combo: '<?php echo @$Options[ 'close_register' ] == null ? "shift+d" : @$Options[ 'close_register' ];?>',
 			description: 'To add discount',
-			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			// allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function() {
 				$( '#cart-discount-button' ).trigger( 'click' );
 
@@ -279,7 +285,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		hotkeys.add({
 			combo: '<?php echo @$Options[ 'cancel_discount' ] == null ? "shift+del" : @$Options[ 'cancel_discount' ];?>',
 			description: 'To void an order',
-			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			// allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function() {
 				$( '.cart-discount' ).trigger( 'click' );
 			}
@@ -301,7 +307,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 			$scope.selectPayment( paymentNamespace );
 		}
 
-		$scope.refreshBox();
+		// $scope.refreshBox();
 	};
 
 
@@ -332,7 +338,9 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 						discount_type 		:	value.DISCOUNT_TYPE,
 						discount_amount		:	value.DISCOUNT_AMOUNT,
 						discount_percent 	:	value.DISCOUNT_PERCENT,
-						metas 				:	typeof value.metas == 'undefined' ? {} : value.metas
+						metas 				:	typeof value.metas == 'undefined' ? {} : value.metas,
+						name 				:	value.DESIGN,
+						inline 				:	typeof value.INLINE ? 1 : 0 // if it's an inline item
 					};
 
 					// improved @since 2.7.3
@@ -418,6 +426,14 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 				});
 
 				// Filter Submited Details
+				if( order_details.SOMME_PERCU < order_details.TOTAL && '<?php echo store_option( 'disable_partial_order' );?>' == 'yes' ) {
+					NexoAPI.Notify().warning( 
+						'<?php echo _s('Une erreur s\'est produite', 'nexo');?>', 
+						'<?php echo _s('Les commandes partielles ont été déscactivées.', 'nexo');?>' 
+					);
+					return false;
+				}
+
 				order_details	=	NexoAPI.events.applyFilters( 'before_submit_order', order_details );
 
 				NexoAPI.events.doAction( 'submit_order' );
@@ -607,7 +623,8 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 			value			:		v2Checkout.CartValue,
 			discount		:		v2Checkout.CartDiscount,
 			netPayable		:		v2Checkout.CartToPay,
-			VAT				:		v2Checkout.CartVAT
+			VAT				:		v2Checkout.CartVAT,
+			shipping    	:		v2Checkout.CartShipping // @since 3.1.3
 		};
 
 		$scope.cashPaidAmount			=	0;
@@ -642,7 +659,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		$( '.payboxwrapper' ).html( $compile( $( '.payboxwrapper' ).html() )($scope) );
 		$( '.modal-content > .modal-footer' ).html( $compile( $( '.modal-content > .modal-footer' ).html() )($scope) );
 
-		angular.element( '.modal-dialog' ).css( 'width', '90%' );
+		angular.element( '.modal-dialog' ).css( 'width', '98%' );
 		angular.element( '.modal-body' ).css( 'padding-top', '0px' );
 		angular.element( '.modal-body' ).css( 'padding-bottom', '0px' );
 		angular.element( '.modal-body' ).css( 'padding-left', '0px' );
@@ -654,11 +671,8 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		$scope.selectPayment( paymentTypesNamespaces[0] );
 
 		setTimeout( function(){
-			var cartDetailsTableHeight		=	angular.element( '.cart-details-table' ).outerHeight();
-			var h3Height					=	angular.element( 'h3.text-center' ).outerHeight() * 2;
-
-			angular.element( '.cart-details ul.list-group' ).attr( 'style', 'height:' + ( $scope.wrapperHeight - ( cartDetailsTableHeight + h3Height + 70 ) ) + 'px;overflow-y:scroll;overflow-x:hidden' );
-		}, 500 );
+			angular.element( '.cart-details' ).attr( 'style', 'height:' + ( $scope.wrapperHeight ) + 'px;padding-left:0;overflow-y:scroll;overflow-x:hidden' );
+		}, 300 );
 
 		// Add Filter
 		angular.element( '.modal-footer' ).prepend( '<div class="pay_box_footer pull-left">' + NexoAPI.events.applyFilters( 'pay_box_footer', '' ) + '</div>' );
@@ -686,7 +700,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 			$scope.cart.paidSoFar	+=	parseFloat( value.amount );
 		});
 
-		$scope.cart.balance			=	$scope.cart.paidSoFar - ( v2Checkout.CartValueRRR + $scope.cart.VAT );
+		$scope.cart.balance			=	$scope.cart.paidSoFar - ( v2Checkout.CartValueRRR + $scope.cart.VAT + $scope.cart.shipping );
 
 	};
 

@@ -51,18 +51,6 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'text',
-    'name'        =>    $option_prefix . 'nexo_codebar_height',
-    'label'        =>    __('Hauteur du codebar', 'nexo'),
-), 'Nexo_product_settings', 1);
-
-$this->Gui->add_item(array(
-    'type'        =>    'text',
-    'name'        =>    $option_prefix . 'nexo_bar_width',
-    'label'        =>    __('Largeur des barres', 'nexo'),
-), 'Nexo_product_settings', 1);
-
-$this->Gui->add_item(array(
-    'type'        =>    'text',
     'name'        =>    $option_prefix . 'nexo_codebar_limit_nbr',
     'label'        =>    __('Limite en chiffre sur le code barre', 'nexo'),
     'description'    =>    __('S\'applique à tout type de code sauf aux suivants : EAN8, EAN13', 'nexo')

@@ -62,7 +62,7 @@ var myChart = new Chart(ctx, {
     options: {
 		title: {
             display: true,
-            text: '<?php echo sprintf(_s('Ventes réalisées du %s au %s', 'nexo'), $startOfWeek->toDateString(), $endOfWeek->toDateString());?>'
+            text: '<?php echo sprintf(_s('Ventes réalisées du %s au %s', 'nexo'), nexo_date_format( $startOfWeek->toDateString() ), nexo_date_format( $endOfWeek->toDateString() ) );?>'
         },
         scales: {
             yAxes: [{

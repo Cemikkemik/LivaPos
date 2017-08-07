@@ -49,12 +49,18 @@ class Nexo_Commandes extends CI_Model
 		 * @since 2.7.7
 		**/
 
-		$cols       	=    array( 'CODE', 'REF_REGISTER', 'REF_CLIENT', 'TOTAL', 'PAYMENT_TYPE', 'TYPE', 'DATE_CREATION', 'AUTHOR' );
+		$cols       	=    array( 'CODE', 'REF_REGISTER', 'TITRE', 'REF_CLIENT', 'TOTAL', 'PAYMENT_TYPE', 'TYPE', 'DATE_CREATION', 'AUTHOR' );
 		$edit_link		=	site_url(array( 'rest', 'nexo', 'registers' )) . '/';
 		$edit_class		=	'select_register';
 
 		if( in_array( @$Options[ store_prefix() .'nexo_enable_registers' ], array( null, 'non' ) ) ){
-	        unset( $cols[ 1 ] ); // remove "REF_REGISTER"
+            // better way to remove register :\
+            foreach( $cols as $index => $col ) {
+                if( $col == 'REF_REGISTER' ) {
+                    unset( $cols[ $index ] );
+                }
+            }
+            
 			$edit_link		=	site_url( array( 'dashboard',  store_slug(), 'nexo', 'registers', '__use', 'default' ) ) . '/';
 			$edit_class		=	'';
 		}
@@ -87,6 +93,10 @@ class Nexo_Commandes extends CI_Model
 			'btn btn-default fa fa-edit ' . $edit_class
 		);
 
+        $crud->callback_column( 'TOTAL', function( $price ){
+            return $this->Nexo_Misc->cmoney_format( $price, true );
+        });
+
         $crud->display_as('CODE', __('Code', 'nexo'));
         $crud->display_as('REF_CLIENT', __('Client', 'nexo'));
         $crud->display_as('REMISE', __('Remise Expresse', 'nexo'));
@@ -94,6 +104,7 @@ class Nexo_Commandes extends CI_Model
         $crud->display_as('AUTHOR', __('Par', 'nexo'));
         $crud->display_as('PAYMENT_TYPE', __('Paiement', 'nexo'));
         $crud->display_as('TYPE', __('Statut', 'nexo'));
+        $crud->display_as('TITRE', __('Titre', 'nexo'));
         $crud->display_as('TVA', __('TVA', 'nexo'));
         $crud->display_as('DATE_CREATION', __('Date', 'nexo'));
         $crud->display_as('DATE_MOD', __('Date de modification', 'nexo'));
@@ -127,7 +138,7 @@ class Nexo_Commandes extends CI_Model
         // Filter Class
         $this->events->add_filter('grocery_crud_list_item_class', array( $this, 'filter_grocery_list_item_class' ), 10, 2);
         $this->events->add_filter('grocery_filter_edit_button', array( $this, 'filter_edit_button' ), 10, 4);
-        $this->events->add_filter('grocery_filter_actions', array( $this, 'filter_grocery_actions' ), 10, 3);
+        $this->events->add_filter('grocery_filter_actions', array( $this, 'filter_grocery_actions' ), 10);
 		$this->events->add_filter('gui_wrapper_attrs', function( $content ){
 			return $content	.	'ng-controller="nexo_order_list"';
 		}, 10 );
@@ -244,7 +255,7 @@ class Nexo_Commandes extends CI_Model
         $Cash               =   'nexo_order_comptant';
         $Estimate           =   'nexo_order_devis';
 
-        $nexo_order_types   =    array_flip( $this->config->item('nexo_order_types') );
+        $nexo_order_types   =    array_flip( $this->config->item( 'nexo_order_types') );
 
         if (@$nexo_order_types[ $row->TYPE ]    == $Advance) {
             return 'info';
@@ -305,8 +316,11 @@ class Nexo_Commandes extends CI_Model
      * @return Array
     **/
 
-    public function filter_grocery_actions($grocery_actions_obj, $actions, $row)
+    public function filter_grocery_actions( $data )
     {
+        $grocery_actions_obj        =   $data[0];
+        $actions                    =   $data[1];
+        $row                        =   $data[2];
         // return $grocery_actions_obj;
         foreach ($actions as $key => $action) {
             $order_type        =    array_flip($this->config->item('nexo_order_types'));
@@ -320,7 +334,7 @@ class Nexo_Commandes extends CI_Model
             }
         }
 
-        return $grocery_actions_obj;
+        return [ $grocery_actions_obj, $actions, $row ];
     }
 
 	/**

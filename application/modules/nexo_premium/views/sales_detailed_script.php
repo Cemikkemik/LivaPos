@@ -58,13 +58,10 @@ tendooApp.controller( 'advancedSalesReportController', [ '$scope', '$http', func
         });
 
         _.each( $scope.entries, function( value ) {
-            // if payment_type is empty, just skip it.
-            if( typeof $scope.paymentTypeDetails[ value.PAYMENT_TYPE ].nbr == 'undefined' ) {
-                $scope.paymentTypeDetails[ value.PAYMENT_TYPE ].nbr     =   0;
-            }
 
-            if( typeof $scope.paymentTypeDetails[ value.PAYMENT_TYPE ].total == 'undefined' ) {
-                $scope.paymentTypeDetails[ value.PAYMENT_TYPETYPE ].total     =   0;
+            // if payment_type is empty, just skip it.
+            if( typeof $scope.paymentTypeDetails[ value.PAYMENT_TYPE ] == 'undefined' ) {
+                return false;
             }
 
             $scope.paymentTypeDetails[ value.PAYMENT_TYPE ].nbr++;
@@ -74,14 +71,13 @@ tendooApp.controller( 'advancedSalesReportController', [ '$scope', '$http', func
                 $scope.authors[ value.AUTHOR_ID ]   =   {
                     nbr     :   1,
                     name    :   value.AUTHOR_NAME,
-                    total   :   parseInt( value.TOTAL )
+                    total   :   parseFloat( value.TOTAL )
                 };
             } else {
                 _.propertyOf( $scope.authors )( value.AUTHOR_ID ).nbr++;
                 _.propertyOf( $scope.authors )( value.AUTHOR_ID ).total    +=  parseFloat( value.TOTAL );
             }
         });
-
     }
 
     /**
@@ -169,11 +165,11 @@ tendooApp.controller( 'advancedSalesReportController', [ '$scope', '$http', func
 
     $scope.resetPaymentTypeStats    =   function(){
         _.each( $scope.paymentType, function( value, key ) {
-            $scope.paymentTypeDetails   =   _.extend( $scope.paymentTypeDetails, _.object( [ key ], [{
+            $scope.paymentTypeDetails[ key ]        =   {
                 name        :   value,
                 nbr         :   0,
                 total       :   0
-            }]));
+            }
         });
     }
 

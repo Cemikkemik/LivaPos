@@ -5,9 +5,9 @@ $this->load->config( 'nexo' );
 $currentRow		=	0;
 
 if( @$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' ) {
-	$rowNbr		=	6;
+	$rowNbr		=	7;
 } else {
-	$rowNbr		=	5;
+	$rowNbr		=	6;
 }
 ?>
 <script>
@@ -20,7 +20,7 @@ tendooApp.directive( 'payBoxContent', function(){
 
 	HTML.query( '.paybox-row' ).add( 'div.col-lg-2.col-md-2.col-sm-2.col-xs-3.payment-options.bootstrap-tab-menu' );
 	HTML.query( '.paybox-row' ).add( 'div.col-lg-7.col-md-7.col-sm-5.col-xs-9.payment-options-content' ).each( 'style', 'padding-left:0px' );
-	HTML.query( '.paybox-row' ).add( 'div.col-lg-3.col-md-3.col-sm-5.col-xs-5.cart-details.hidden-xs' ).each( 'style', 'padding-left:0px' );
+	HTML.query( '.paybox-row' ).add( 'div.col-lg-3.col-md-3.col-sm-5.col-xs-5.cart-details.hidden-xs' ).each( 'style', 'padding-left:0px;overflow-y:scroll;' );
 
 	HTML.query( '.payment-options' ).add( 'div.list-group' );
 
@@ -40,8 +40,6 @@ tendooApp.directive( 'payBoxContent', function(){
 		/**
 		 * Only default payment type support keyboard
 		**/
-
-		console.log( value );
 
 		if( ! angular.isDefined( value.isCustom ) ) {
 
@@ -124,8 +122,6 @@ tendooApp.directive( 'payBoxContent', function(){
 
 	});
 
-
-
 	// Creating Cart details
 	var colWidth	=	150;
 
@@ -165,6 +161,23 @@ tendooApp.directive( 'payBoxContent', function(){
 	.only(<?php echo $currentRow++;?>).add( 'td.text-right' )
 	.textContent	=	'{{ cart.VAT | moneyFormat }}';
 	<?php endif;?>
+
+	//
+	
+	<?php if( store_option( 'disable_shipping' ) != 'yes' ):?>
+
+	HTML.query( '.cart-details-table tr' )
+	.only(<?php echo $currentRow;?>)
+	.add( 'td.text-left' )
+	.each( 'width', colWidth ).add( 'strong' ).textContent	=	'<?php echo _s( 'Livraison', 'nexo' );?>';
+
+	HTML.query( '.cart-details-table tr' )
+	.only(<?php echo $currentRow++;?>)
+	.add( 'td.text-right' ).textContent	=	'{{ cart.shipping | moneyFormat }}';
+
+	<?php endif;?>
+
+	// 
 
 	HTML.query( '.cart-details-table tr' )
 	.only(<?php echo $currentRow;?>)
@@ -228,8 +241,6 @@ tendooApp.directive( 'payBoxContent', function(){
 	var payBoxHTML		=	angular.element( 'angular-cache' ).html();
 
 	angular.element( 'angular-cache' ).remove();
-
-	// payBoxHTML			=	'<h3>Bonjour</h3>';
 
 	return {
 		template 	:	payBoxHTML

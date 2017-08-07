@@ -153,6 +153,33 @@ $this->Gui->add_item(array(
     'placeholder'    =>    ''
 ), 'Nexo_soundfx', 2 );
 
+$this->Gui->add_item( array(
+    'type'          =>    'dom',
+    'content'       =>    '<h4>' . __( 'Configuration du format des dates', 'nexo' ) . '</h4>'
+), 'Nexo_soundfx', 2 );
+
+$this->Gui->add_item( array(
+    'type' =>    'text',
+    'name' =>	store_prefix() . 'nexo_date_format',
+    'label' =>   __( 'Format de la date', 'nexo' ),
+    'description' =>   __( 'Permet de formater la date', 'nexo' ),
+), 'Nexo_soundfx', 2 );
+
+
+$this->Gui->add_item( array(
+    'type' =>    'text',
+    'name' =>	store_prefix() . 'nexo_datetime_format',
+    'label' =>   __( 'Format de la date et de l\'heure', 'nexo' ),
+    'description' =>   __( 'Permet de formater la date et l\'heure', 'nexo' ),
+), 'Nexo_soundfx', 2 );
+
+$this->Gui->add_item( array(
+    'type' =>    'text',
+    'name' =>	store_prefix() . 'nexo_js_datetime_format',
+    'label' =>   __( 'Format de la date et de l\'heure pour javascript', 'nexo' ),
+    'description' =>   __( 'Permet de formater la date et l\'heure', 'nexo' ),
+), 'Nexo_soundfx', 2 );
+
 $this->events->do_action('load_nexo_general_settings', $this->Gui);
 
 $this->Gui->output();

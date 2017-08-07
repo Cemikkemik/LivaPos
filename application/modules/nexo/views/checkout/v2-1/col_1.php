@@ -8,21 +8,21 @@
         <form action="#" method="post">
             
             <div class="input-group" ng-controller="cartToolBox">
-                <?php if( @$Options[ store_prefix() . 'disable_shipping' ] != 'yes' ):?>
+                
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="openDelivery()" title="<?php _e( 'Livraison', 'nexo' );?>">
-                        <i class="fa fa-truck"></i>
-                        <span class="hidden-sm hidden-xs"><?php _e('Livraison', 'nexo');?></span>
-                    </button>
+                    
                 </span>
-                <?php endif;?>
 
                 <select data-live-search="true" name="customer_id" title="<?php _e('Veuillez choisir un client', 'nexo' );?>" class="form-control customers-list dropdown-bootstrap">
                     <option value="">
                         <?php _e('Sélectionner un client', 'nexo');?>
                     </option>
                 </select>
+
                 <span class="input-group-btn">
+
+                    
+
                     <?php if( @$Options[ store_prefix() . 'disable_customer_creation' ] != 'yes' ):?>
 
                     <button type="button" class="btn btn-default" ng-click="openCreatingUser()" title="<?php _e( 'Ajouter un client', 'nexo' );?>">
@@ -36,7 +36,20 @@
                         <?php echo $button;?>
                     <?php endforeach;?>
 
-                    <?php echo $this->events->apply_filters( 'pos_search_input_after', '' );?>
+                    <!-- Should be moved to nexo_cart_buttons -->
+                    <?php if( @$Options[ store_prefix() . 'disable_shipping' ] != 'yes' ):?>
+                    <button type="button" class="btn btn-default" ng-click="openDelivery()" title="<?php _e( 'Livraison', 'nexo' );?>">
+                        <i class="fa fa-truck"></i>
+                        <span class="hidden-sm hidden-xs"><?php _e('Livraison', 'nexo');?></span>
+                    </button>
+                    <?php endif;?>
+
+                    <?php if( @$Options[ store_prefix() . 'disable_quick_item' ] != 'yes' ):?>
+                    <button type="button" class="btn btn-default" ng-click="openAddQuickItem()" title="<?php _e( 'Livraison', 'nexo' );?>">
+                        <i class="fa fa-plus"></i>
+                        <span class="hidden-sm hidden-xs"><?php _e('Produit', 'nexo');?></span>
+                    </button>
+                    <?php endif;?>
 
                 </span>
 			</div>
@@ -48,7 +61,7 @@
             <thead>
                 <tr class="active">
                     <td width="200" class="text-left"><?php _e('Article', 'nexo');?></td>
-                    <td width="120" class="text-center"><?php _e('Prix Unitaire', 'nexo');?></td>
+                    <td width="120" class="text-center hidden-xs"><?php _e('Prix Unitaire', 'nexo');?></td>
                     <td width="100" class="text-center"><?php _e('Quantité', 'nexo');?></td>
                     <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
                     <td width="90" class="text-center"><?php _e('Remise', 'nexo');?></td>
@@ -67,45 +80,119 @@
             </table>
         </div>
         <table class="table" id="cart-details">
-            <tfoot>
+            <tfoot class="hidden-xs hidden-sm hidden-md">
                 <tr class="active">
                     <td width="200" class="text-left"><?php echo __( 'Nombre de produits', 'nexo' );?> ( <span class="items-number">0</span> )</td>
-                    <td width="150" class="text-right"></td>
-                    <td width="120" class="text-right"><?php
+                    <td width="150" class="text-right hidden-xs"></td>
+                    <td width="150" class="text-right"><?php
                         if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui') {
                             _e('Net hors taxe', 'nexo');
                         } else {
                             _e('Sous Total', 'nexo');
                         }
                         ?></td>
-                    <td width="90" class="text-right"><span id="cart-value"></span></td>
+                    <td width="90" class="text-right"><span class="cart-value"></span></td>
                 </tr>
                 <tr class="active">
-                    <td colspan="2" class="text-right cart-discount-notice-area"></td>
-                    <td class="text-right"><?php _e('Remise sur le panier', 'nexo');?></td>
-                    <td class="text-right"><span id="cart-discount"></span></td>
-                </tr>
-                <?php
-                if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])) {
+                    <td>
+                    <?php 
+                    if( store_option( 'show_item_taxes' ) == 'yes' ) {
+                        ?>
+                        <?php echo __( 'Total des taxes' );?>
+                        <span class="cart-item-vat pull-right"></span>
+                        <?php
+                    }
                     ?>
-                <tr class="active">
-                    <td class="text-right"></td>
-                    <td class="text-right"></td>
-                    <td class="text-right"><?php echo sprintf(__('TVA (%s%%)', 'nexo'), $Options[ store_prefix() . 'nexo_vat_percent' ]);
-                    ?></td>
-                    <td class="text-right"><span id="cart-vat"></span></td>
+                    </td>
+                    <td></td>
+                    <td class="text-right cart-discount-notice-area"><?php _e('Remise sur le panier', 'nexo');?></td>
+                    <td class="text-right cart-discount-remove-wrapper"><span class="cart-discount pull-right"></span></td>
                 </tr>
-                <?php
 
-                }
-                ?>
+                <?php if ( ( @$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ]) ) || store_option( 'disable_shipping' ) != 'yes' ):?>
+                <tr class="active">
+                    <?php if( store_option( 'disable_shipping' ) != 'yes' ):?>
+                        <?php if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])):?>
+                            <td class="text-right">
+                                <span class="pull-left"><?php echo sprintf(__('TVA (%s%%)', 'nexo'), $Options[ store_prefix() . 'nexo_vat_percent' ]);?></span>
+                                <span class="cart-vat pull-right"></span>
+                            </td>
+                        <?php else:?>
+                            <td></td>
+                        <?php endif;?>
+                        <td></td>
+                    <?php else:?>
+                        <td></td>
+                        <td></td>
+                        <?php if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])):?>
+                            <td class="text-right">
+                                <span class="pull-right"><?php echo sprintf(__('TVA (%s%%)', 'nexo'), $Options[ store_prefix() . 'nexo_vat_percent' ]);?></span>
+                            </td>
+                            <td><span class="cart-vat pull-right"></span></td>
+                        <?php else:?>
+                            <td></td>
+                            <td></td>
+                        <?php endif;?>
+                    <?php endif;?>
+                    <?php if( store_option( 'disable_shipping' ) != 'yes' ):?>
+                        <td class="">
+                            <span class="pull-right"><?php echo __( 'Livraison', 'nexo' );?> </span>
+                        </td>
+                        <td class="text-right"><span class="pull-right cart-shipping-amount"></span></td>
+                    <?php endif;?>
+                </tr>
+                <?php endif;?>
+
                 <tr class="success">
                     <td class="text-right"></td>
                     <td class="text-right"></td>
                     <td class="text-right"><strong>
                         <?php _e('Net à payer', 'nexo');?>
                         </strong></td>
-                    <td class="text-right"><span id="cart-topay"></span></td>
+                    <td class="text-right"><span class="cart-topay pull-right"></span></td>
+                </tr>
+            </tfoot>
+            <tfoot class="hidden-lg">
+                <tr class="active">
+                    <!--<td><?php echo __( 'Nombre de produits', 'nexo' );?> ( <span class="items-number">0</span> )</td>-->
+                    <td>
+                    <span class="hidden-xs"><?php
+                    if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui') {
+                        _e('Net hors taxe', 'nexo');
+                    } else {
+                        _e('Sous Total', 'nexo');
+                    }
+                    ?> 
+                    </span>
+
+                    <span class="hidden-lg hidden-md">
+                    <?php
+                    if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui') {
+                        _e('HT', 'nexo');
+                    } else {
+                        _e('S.Total', 'nexo');
+                    }
+                    ?> 
+                    </span>
+                    
+                    <span class="cart-value pull-right"></span></td>
+                    <td><?php _e('Remise', 'nexo');?><span class="cart-discount pull-right"></span></td>
+                </tr>
+                <tr class="active">
+                    <?php
+                    if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])) {
+                    ?>
+                    <td><?php echo sprintf(__('TVA (%s%%)', 'nexo'), $Options[ store_prefix() . 'nexo_vat_percent' ]);
+                    ?> <span class="cart-vat pull-right"></span></td>
+                    <?php
+                    }
+                    else {
+                        ?>
+                    <td></td>
+                        <?php
+                    }
+                    ?>
+                    <td><?php _e('à payer', 'nexo');?> <span class="cart-topay pull-right"></span></td>
                 </tr>
             </tfoot>
         </table>

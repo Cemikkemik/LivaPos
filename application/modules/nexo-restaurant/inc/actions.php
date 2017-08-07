@@ -24,7 +24,9 @@ class Nexo_Restaurant_Actions extends Tendoo_Module
             global $Options;
 
             // if module is not yet installed
-            if( @$Options[ 'nexo-restaurant-installed' ] == null ) {
+            if( @$Options[ 'nexo_restaurant_installed' ] == null ) {
+
+                $this->options->set( 'nexo_restaurant_installed', true, true );
 
                 $this->load->model( 'Nexo_Stores' );
                 $stores         =   $this->Nexo_Stores->get();
@@ -37,8 +39,7 @@ class Nexo_Restaurant_Actions extends Tendoo_Module
                     $store_prefix       =   $store[ 'ID' ] == 0 ? '' : 'store_' . $store[ 'ID' ] . '_';
                     $this->install->create_tables( $store_prefix );
                 }
-
-                $this->options->set( 'nexo-restaurant-installed', true, true );
+                                
             }
         }
     }
@@ -59,13 +60,13 @@ class Nexo_Restaurant_Actions extends Tendoo_Module
 
         // Add New Order Types
         $order_types        =   $this->config->item( 'nexo_order_types' );
-        $order_types[ 'nexo_order_dine_pending' ]       =   __( 'Dine In Pending', 'nexo-restaurant' );
-        $order_types[ 'nexo_order_dine_ongoing' ]       =   __( 'Dine Ongoing', 'nexo-restaurant' );
-        $order_types[ 'nexo_order_dine_partially' ]     =   __( 'Dine Partially Ready', 'nexo-restaurant' );
-        $order_types[ 'nexo_order_dine_incomplete' ]    =   __( 'Dine Incomplete', 'nexo-restaurant' );
-        $order_types[ 'nexo_order_dine_ready' ]         =   __( 'Dine Ready', 'nexo-restaurant' );
-        $order_types[ 'nexo_order_dine_canceled' ]      =   __( 'Dine Canceled', 'nexo-restaurant' );
-        $order_types[ 'nexo_order_dine_denied' ]        =   __( 'Dine Denied', 'nexo-restaurant' );
+        $order_types[ 'nexo_order_dinein_pending' ]             =   __( 'Dine In Pending', 'nexo-restaurant' );
+        $order_types[ 'nexo_order_dinein_ongoing' ]             =   __( 'Dine Ongoing', 'nexo-restaurant' );
+        $order_types[ 'nexo_order_dinein_partially' ]           =   __( 'Dine Partially Ready', 'nexo-restaurant' );
+        $order_types[ 'nexo_order_dinein_incomplete' ]          =   __( 'Dine Incomplete', 'nexo-restaurant' );
+        $order_types[ 'nexo_order_dinein_ready' ]               =   __( 'Dine Ready', 'nexo-restaurant' );
+        $order_types[ 'nexo_order_dinein_canceled' ]            =   __( 'Dine Canceled', 'nexo-restaurant' );
+        $order_types[ 'nexo_order_dinein_denied' ]              =   __( 'Dine Denied', 'nexo-restaurant' );
 
         $order_types[ 'nexo_order_takeaway_pending' ]       =   __( 'Take Away Pending', 'nexo-restaurant' );
         $order_types[ 'nexo_order_takeaway_ongoing' ]       =   __( 'Take Away Ongoing', 'nexo-restaurant' );
@@ -75,7 +76,6 @@ class Nexo_Restaurant_Actions extends Tendoo_Module
         $order_types[ 'nexo_order_takeaway_canceled' ]      =   __( 'Take Away Canceled', 'nexo-restaurant' );
         $order_types[ 'nexo_order_takeaway_denied' ]        =   __( 'Take Away Denied', 'nexo-restaurant' );
 
-        /**
         $order_types[ 'nexo_order_delivery_pending' ]       =   __( 'Delivery Pending', 'nexo-restaurant' );
         $order_types[ 'nexo_order_delivery_ongoing' ]       =   __( 'Delivery Ongoing', 'nexo-restaurant' );
         $order_types[ 'nexo_order_delivery_partially' ]     =   __( 'Delivery Partially Ready', 'nexo-restaurant' );
@@ -83,7 +83,6 @@ class Nexo_Restaurant_Actions extends Tendoo_Module
         $order_types[ 'nexo_order_delivery_ready' ]         =   __( 'Delivery Ready', 'nexo-restaurant' );
         $order_types[ 'nexo_order_delivery_canceled' ]      =   __( 'Delivery Canceled', 'nexo-restaurant' );
         $order_types[ 'nexo_order_delivery_denied' ]        =   __( 'Delivery Denied', 'nexo-restaurant' );
-        **/
 
         $nexo_item_tabs         =  $this->config->item( 'nexo_item_stock_group' );
         $nexo_item_tabs[]       = 'REF_MODIFIERS_GROUP';
@@ -91,6 +90,13 @@ class Nexo_Restaurant_Actions extends Tendoo_Module
         $this->config->set_item( 'nexo_item_stock_group', $nexo_item_tabs );
         $this->config->set_item( 'nexo_order_types', $order_types );
         $this->config->set_item( 'nexo_all_payment_types', array_merge( $order_types, $this->config->item( 'nexo_all_payment_types' ) ) );
+
+        // enqueue styles
+        $this->enqueue->css_namespace( 'dashboard_header' );
+        $this->enqueue->css( 'bower_components/angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.min', module_url( 'nexo-restaurant' ) );
+        
+        $this->enqueue->js_namespace( 'dashboard_footer' );
+        $this->enqueue->js( 'bower_components/angular-bootstrap-calendar/dist/js/angular-bootstrap-calendar-tpls.min', module_url( 'nexo-restaurant' ) );
     }
 
     /**
@@ -164,7 +170,9 @@ class Nexo_Restaurant_Actions extends Tendoo_Module
 
     public function enable_demo( $demo )
     {
-        $this->load->module_view( 'nexo-restaurant', 'demo' );
+        if( $demo == 'nexo-restaurant' ) {
+            $this->load->module_view( 'nexo-restaurant', 'demo' );
+        }        
     }
 
     /**

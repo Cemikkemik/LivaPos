@@ -88,12 +88,18 @@ $scope.checkCoupon      =   function(){
 
         // if coupon is already used on that cart
         if( _.indexOf( $scope.usedCoupon, parseInt( coupon[0].ID ) ) != -1) {
-            NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Ce coupon est déjà en cours d\'utilisation.', 'nexo' );?>' );
+            NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Ce coupon est déjà en cours d\'utilisation sur ce panier.', 'nexo' );?>' );
+            return false;
+        }
+
+        // @since 3.1
+        // if the coupon reached the usage limit
+        if( parseInt( coupon[0].USAGE_LIMIT ) <= parseInt( coupon[0].USAGE_COUNT ) ) {
+            NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Le coupon a atteint sa limite d\'utilisation.', 'nexo' );?>' );
             return false;
         }
 
         $scope.couponDetails    =   coupon;
-
 
     },function(){
         v2Checkout.paymentWindow.hideSplash();

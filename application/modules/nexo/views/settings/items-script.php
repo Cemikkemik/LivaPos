@@ -9,7 +9,7 @@
 
 <div class="progress xs reset_barcode_progress" style="display:none;">
   <div class="progress-bar progress-bar-aqua barcode_progress_line" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-    <span class="sr-only"><span class="progress_id">0</span>% <?php _e('Complete', 'nexo');?></span>
+    <span class="sr-only"><span class="progress_id">0</span>% <?php _e('Terminé', 'nexo');?></span>
   </div>
 </div>
 
@@ -29,7 +29,7 @@ $( document ).ready(function(e) {
 		this.ResampleIterator	=	0;
 		this.ProductLength		=	0;
 		this.FetchProduct		=	function( refresh ){
-			$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'get', 'nexo_articles', 'null' ));?>', {
+			$.ajax( '<?php echo site_url([ 'rest', 'nexo', 'item' . store_get_param( '?' ) ]);?>', {
 				beforeSend	: function() {
 					NexoBarcodeSettings.Notice( '<?php echo addslashes(__('Récupération des produits en cours...', 'nexo'));?>' );
 				},

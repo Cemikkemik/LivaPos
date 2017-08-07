@@ -4,71 +4,21 @@
         $scope.orders               =   [];
         $scope.products             =   [];
         $scope.timeInterval         =   <?php echo @$Options[ 'refreshing_seconds' ] == null ? 3000 : intval( @$Options[ 'refreshing_seconds' ] ) * 1000;?>;
-        $scope.categories           =   <?php echo json_encode( $categories );?>;
-        $scope.categories_ids       =   [];
-
-        $scope.categories.forEach( ( category ) => {
-            $scope.categories_ids.push( category.ID );
-        });
-
-        $scope.kitchen              =   <?php echo json_encode( $kitchen );?>;
-        $scope.order_types          =   <?php echo json_encode( $this->config->item( 'nexo_order_types' ) );?>;
-        $scope.kitchen              =   $scope.kitchen[0];
-        $scope.room_id              =   $scope.kitchen.REF_ROOM;
-
-        /**
-         *  Categorie check
-         *  @param object item
-         *  @return boolean
-        **/
-
-        /** $scope.categoryCheck        =   ( item ) => {
-            if( item.REF_CATEGORIE == '' ) {
-                return true;
-            }
-
-            if( _.indexOf( $scope.categories_ids, item.REF_CATEGORIE ) == -1 ) {
-                return false;
-            }
-            return true;
-        } **/
-
-        /**
-         *  Categories check all
-         *  @param object items
-         *  @return vdoi
-        **/
-
-        /** $scope.categoryCheckAll     =   ( items ) => {
-
-            let isVisible           =   false;
-            items.meals.forEach( ( meal ) => {
 
 
-                if( ! isVisible ) {
-                    // isVisible           =  $scope.categoryCheck( item );
-                }
-            });
-            return isVisible;
-        } **/
+        $scope.isAreaRoomsDisabled  =   <?php echo store_option( 'disable_area_rooms' ) == 'yes' ? 'true': 'false';?>;
 
-        /**
-         *  Check category for all orders
-         *  @param object orders
-         *  @return return boolean
-        **/
-
-        /** $scope.categoryCheckAllOrders   =   ()  => {
-            let ordersAreVisible        =   false;
-            $scope.orders.forEach( order => {
-                if( ! ordersAreVisible ) {
-                    ordersAreVisible    =   $scope.categoryCheckAll( order );
-                }
-            });
-
-            return ordersAreVisible;
+        if( ! $scope.isAreaRoomsDisabled ) {
+            $scope.kitchen              =   <?php echo json_encode( $kitchen );?>;
+            $scope.kitchen              =   $scope.kitchen[0];
+            $scope.room_id              =   $scope.kitchen.REF_ROOM;
+            $scope.kitchen_id           =   $scope.kitchen.ID;
+        } else {
+            $scope.kitchen_id           =   0;
+            $scope.room_id              =   0;
         }
-        **/
+        
+        $scope.order_types              =   <?php echo json_encode( $this->config->item( 'nexo_order_types' ) );?>;
 
         /**
          *  Change Food State
@@ -125,7 +75,7 @@
 
         $scope.fetchOrders      =   function( callback = null ) {
 
-            $http.get( '<?php echo site_url([ 'dashboard', store_slug(), 'nexo-restaurant', 'get_orders' ]);?>?from-room=' + $scope.room_id )
+            $http.get( '<?php echo site_url([ 'dashboard', store_slug(), 'nexo-restaurant', 'get_orders' ]);?>?from-room=' + $scope.room_id + '&takeaway_kitchen=<?php echo store_option( 'takeaway_kitchen' );?>&current_kitchen=' + $scope.kitchen_id )
             .then( function( returned ){
                 if( $scope.orders.length == 0 ) {
                     $scope.orders     =   returned.data;
@@ -141,6 +91,7 @@
                                  order.meals[ item.MEAL ]   =   [];
                             }
 
+                            item.MODIFIERS      =   angular.fromJson( item.MODIFIERS );   
                             order.meals[ item.MEAL ].push( item );
                         });
                     })
@@ -156,7 +107,8 @@
                             if( typeof order.meals[ item.MEAL ] == 'undefined' ) {
                                  order.meals[ item.MEAL ]   =   [];
                             }
-                            
+
+                            item.MODIFIERS      =   angular.fromJson( item.MODIFIERS );                            
                             order.meals[ item.MEAL ].push( item );
                         });
                     });
@@ -182,9 +134,42 @@
                         return order;
                     }); 
 
+                    if( $scope.orders.length < returned.data.length ) {
+                        if( returned.data[0].TYPE == 'nexo_order_takeaway_pending' ) {
+                            $scope.synthesizer( '<?php echo _s( 'A new take away order has been placed.', 'nexo-restaurant' );?>' );
+                        } else if( returned.data[0].TYPE == 'nexo_order_delivery_pending' ) {
+                            $scope.synthesizer( '<?php echo _s( 'A new delivery order has been placed.', 'nexo-restaurant' );?>' );
+                        } else if( returned.data[0].TYPE == 'nexo_order_dinein_pending' ) {
+                            $scope.synthesizer( '<?php echo _s( 'A new dine in order has been placed, at the table %s.', 'nexo-restaurant' );?>'.replace( '%s', returned.data[0].TABLE_NAME ) );
+                        }                        
+                    }
+
                     $scope.orders           =   returned.data;             
                 }
+                // Order everything so that it can be shown as masonry
+                var availableColumns        =   3;
+                var currentIndex            =   0;
+                var columns                 =   [];
 
+                _.each( $scope.orders, function( order ){
+                    if( order.TYPE.substr( order.TYPE.length - 5, 5 ) != 'ready' ) {
+                        if( typeof columns[ currentIndex ] == 'undefined' ) {
+                            columns[ currentIndex ]  =  [];
+                        }
+
+                        // we'll skip order ready
+                        
+                        columns[ currentIndex ].push( order );
+
+                        currentIndex++;
+                        
+                        if( currentIndex == availableColumns ) {
+                            currentIndex    =   0;
+                        }  
+                    }
+                });
+
+                $scope.columns      =   columns; 
                 typeof callback == 'function' ? callback() : null;
 
             },function(){
@@ -244,14 +229,26 @@
         **/
 
         $scope.getExistingItem          =   ( order_index, meal_index, item_barcode ) => {
-            if( $scope.orders[ order_index ] ) {
-                for( let item of $scope.orders[ order_index ].meals[ meal_index ] ) {
-                    if( item.CODEBAR == item_barcode ) {
-                        return item;
+            if( typeof $scope.orders[ order_index ] != 'undefined') {
+                if( typeof $scope.orders[ order_index ].meals[ meal_index ] != 'undefined' ) {
+                    for( let item of $scope.orders[ order_index ].meals[ meal_index ] ) {
+                        if( item.CODEBAR == item_barcode ) {
+                            return item;
+                        }
                     }
-                }
+                }   
             }
             return {}
+        }
+
+        /** 
+         * Parse JSon
+         * @param json
+         * @return object
+        **/
+
+        $scope.parseJSON        =   function( json ) {
+            return angular.fromJson( json )
         }
 
         /**
@@ -284,12 +281,12 @@
          *  @return void
         **/
 
-        $scope.selectAllItems       =   function( order_index ) {
-            for( let meal_index in $scope.orders[ order_index ].meals ) {
-                for( let item of $scope.orders[ order_index ].meals[ meal_index ] ) {
+        $scope.selectAllItems       =   function( order ) {
+            _.each( order.meals, function( meal ) {
+                _.each( meal, function( item ){
                     item.active     =   true;
-                }
-            }
+                })
+            })
         }
 
         /**
@@ -349,6 +346,32 @@
                 $scope.fetchOrders();
                 $scope.unselectAllItems( order );
             })
+        }
+
+        /**
+         *  Speech Synthesizer
+         * @param void
+         * @return void
+        **/
+
+        $scope.synthesizer          =   function( word ) {
+            <?php if( store_option( 'enable_kitchen_synthesizer' ) == 'yes' ):?>
+            var msg = new SpeechSynthesisUtterance();
+            var voices = window.speechSynthesis.getVoices();
+            msg.voice = voices[1]; // Note: some voices don't support altering params
+            msg.voiceURI = 'native';
+            msg.volume = 1; // 0 to 1
+            msg.rate = 1; // 0.1 to 10
+            msg.pitch = 2; //0 to 2
+            msg.text = word;
+            msg.lang = 'en-US';
+
+            msg.onend = function(e) {
+                // console.log('Finished in ' + event.elapsedTime + ' seconds.');
+            };
+
+            speechSynthesis.speak(msg);
+            <?php endif;?>
         }
 
         /**

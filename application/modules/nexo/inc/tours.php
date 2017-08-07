@@ -4,7 +4,13 @@ class Nexo_Tours extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->events->add_action('dashboard_footer', array( $this, 'demo_prompt' ));
+
+		if( get_option( 'nexo_first_run' ) == null && ! in_array( $this->uri->segment( 3 ), [
+			'about'
+		] ) && $this->uri->segment( 1 ) == 'dashboard' && in_array( $this->uri->segment( 2 ), [ 'nexo', 'stores', 'nexo_import', 'nexo_taxes', 'nexo_coupons', 'nexo_templates' ]) ) {
+			redirect([ 'dashboard', 'nexo', 'about' ]);
+		}
+
         $this->events->add_action( 'load_dashboard', function(){
             get_instance()->enqueue->css_namespace( 'dashboard_header' );
             get_instance()->enqueue->css( '../modules/nexo/bower_components/bootstrap-tour/build/css/bootstrap-tour.min' );

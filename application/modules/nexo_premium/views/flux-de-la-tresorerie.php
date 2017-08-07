@@ -106,35 +106,24 @@ $( document ).ready(function(e) {
     ?></p>
         </div>
     	<div class="hidden-print">
-	    	<?php echo tendoo_info(__('Flux de trésorerie des activités opérationnelles.', 'nexo_premium'));
-    ?>
+	    	<?php echo tendoo_info(__('Flux de trésorerie des activités opérationnelles.', 'nexo_premium'));?>
         </div>
-    	<table class="table table-bordered table-striped box">
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped box">
         	<thead>
             	<tr>
-                	<td colspan="<?php echo count($Months) + 2;
-    ?>"><?php _e('Mouvement annuel de la trésorerie', 'nexo_premium');
-    ?></td>
+                	<td colspan="<?php echo count($Months) + 2;?>"><?php _e('Mouvement annuel de la trésorerie', 'nexo_premium');?></td>
                 </tr>
                 <tr>
-                	<td width="80"><?php _e('Libellé / Mois', 'nexo_premium');
-    ?></td>
-
+                	<td width="80"><?php _e('Libellé / Mois', 'nexo_premium');?></td>
 					<?php foreach ($Months as $key    =>    $Month):?>
-                    	<?php $CarbonReportDate->month    =    $key + 1;
-    ?>
+                    	<?php $CarbonReportDate->month    =    $key + 1;?>
 	                    <td width="90" class="month_thead"
-                        	data-start-date="<?php echo $CarbonReportDate->copy()->startOfMonth();
-    ?>"
-                            data-end-date="<?php echo $CarbonReportDate->copy()->endOfMonth();
-    ?>"
-						><?php echo $Month;
-    ?></td>
-					<?php endforeach;
-    ?>
-
-                    <td width="80"><?php _e('Total', 'nexo_premium');
-    ?></td>
+                        	data-start-date="<?php echo $CarbonReportDate->copy()->startOfMonth();?>"
+                            data-end-date="<?php echo $CarbonReportDate->copy()->endOfMonth();?>"
+						><?php echo $Month;?></td>
+					<?php endforeach;?>
+                    <td width="80"><?php _e('Total', 'nexo_premium');?></td>
                 </tr>
             </thead>
             <tbody id="tbody-wrapper">
@@ -148,29 +137,21 @@ $( document ).ready(function(e) {
                     $class = "warning";
                 } else {
                     $class = "";
-                }
-    ?>
-                <tr class="<?php echo $class;
-    ?>">
-                	<td><?php echo $row;
-    ?></td>
+                } ?>
+                <tr class="<?php echo $class;?>">
+                	<td><?php echo $row;?></td>
                     <?php foreach ($Months as $key => $Month):?>
-                    <td class="table-input-<?php echo $key + 1;
-    ?> <?php echo $class_name;
-    ?>-<?php echo $key + 1;
-    ?> text-right">0</td>
-                    <?php endforeach;
-    ?>
-                    <td class="total-<?php echo $class_name;
-    ?> text-right"></td>
+                    <td class="table-input-<?php echo $key + 1;?> <?php echo $class_name;?>-<?php echo $key + 1;?> text-right">0</td>
+                    <?php endforeach;?>
+                    <td class="total-<?php echo $class_name;?> text-right"></td>
                 </tr>
-                <?php endforeach;
-    ?>
+                <?php endforeach;?>
             </tbody>
         </table>
+		</div>	
+    	
         <hr />
-        <p><?php echo @$Options[ 'nexo_other_details' ];
-    ?></p>
+        <p><?php echo @$Options[ 'nexo_other_details' ];?></p>
         <br />
     </div>
 <script type="text/javascript">
@@ -183,8 +164,7 @@ var NexoCashFlow	=	new function(){
 	this.__TimeCalled		=	0;
 	this.Nexo_Order_Avance	=	'<?php echo 'nexo_order_advance';
     ?>';
-	this.Nexo_Order_Cash	=	'<?php echo 'nexo_order_comptant';
-    ?>';
+	this.Nexo_Order_Cash	=	<?php echo json_encode( $this->events->apply_filters( 'report_order_types', [ 'nexo_order_comptant' ] ) );?>;
 	this.Nexo_Order_Devis	=	'<?php echo 'nexo_order_devis';
     ?>';
 	this.CurrencyBefore		=	'<?php echo $this->Nexo_Misc->display_currency('before');
@@ -413,7 +393,7 @@ var NexoCashFlow	=	new function(){
 			var CurrentOrderRRR				=	( NexoAPI.ParseFloat( value.RISTOURNE ) + NexoAPI.ParseFloat( value.RABAIS ) + NexoAPI.ParseFloat( value.REMISE ) );
 				NexoCashFlow.RRR_Total		+=	CurrentOrderRRR;
 
-			if( value.TYPE == NexoCashFlow.Nexo_Order_Cash ) {
+			if( _.indexOf( NexoCashFlow.Nexo_Order_Cash, value.TYPE ) != -1 ) {
 				NexoCashFlow.CashTotal		+=	( NexoAPI.ParseFloat( value.TOTAL ) + NexoAPI.ParseFloat( CurrentOrderRRR ) );
 			} else if( value.TYPE == NexoCashFlow.Nexo_Order_Avance ) {
 				NexoCashFlow.AvanceTotal	+=	NexoAPI.ParseFloat( value.SOMME_PERCU );

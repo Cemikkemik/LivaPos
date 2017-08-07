@@ -37,7 +37,7 @@ class Nexo_Products extends CI_Model
         }
 
         $barcode_path        =    NEXO_CODEBAR_PATH . $code . $this->Nexo_Misc->ean_checkdigit($code, $code_type);
-        file_put_contents($barcode_path . '.jpg', $generator->getBarcode($code, $generator_type, $barwidth, $height));
+        file_put_contents($barcode_path . '.jpg', $generator->getBarcode($code, $generator_type, 8, 100));
     }
 
     /**
@@ -202,7 +202,7 @@ class Nexo_Products extends CI_Model
 
         global $Options;
         $param[ 'AUTHOR' ]                	=    intval(User::id());
-        $param[ 'QUANTITE_RESTANTE' ]    	=    intval($param[ 'QUANTITY' ]); // - intval($param[ 'DEFECTUEUX' ]);
+        $param[ 'QUANTITE_RESTANTE' ]    	=    floatval($param[ 'QUANTITY' ]); // - intval($param[ 'DEFECTUEUX' ]);
         $param[ 'QUANTITE_VENDU' ]       	=    0;
         // $param[ 'COUT_DACHAT' ]            	=    intval($param[ 'PRIX_DACHAT' ]) + intval($param[ 'FRAIS_ACCESSOIRE' ]);
         $param[ 'DATE_CREATION' ]        	=    date_now();
@@ -235,6 +235,21 @@ class Nexo_Products extends CI_Model
 		if( $store_id != null ) {
 			$param[ 'REF_STORE' ]		=	$store_id;
 		}
+
+        // if taxe is set
+        // @since 3.3
+
+        $param[ 'PRIX_DE_VENTE_TTC' ]       =   $param[ 'PRIX_DE_VENTE' ];
+        if( ! empty( $param[ 'REF_TAXE' ] ) ) {
+            $tax    =   $this->db->where( 'ID', $param[ 'REF_TAXE' ] )->get( store_prefix() . 'nexo_taxes' )->result_array();
+
+            if( $tax ) {
+                $percent    =   ( floatval( $tax[0][ 'RATE' ] ) * floatval( $param[ 'PRIX_DE_VENTE' ] ) ) / 100;
+                $param[ 'PRIX_DE_VENTE_TTC' ]      =    floatval( $param[ 'PRIX_DE_VENTE' ] ) + $percent;
+            } else {
+                $param[ 'PRIX_DE_VENTE_TTC' ]       =   $param[ 'PRIX_DE_VENTE' ];
+            }
+        }
 
 		$param		=	$this->events->apply_filters( 'nexo_save_product', $param );
 
@@ -279,6 +294,20 @@ class Nexo_Products extends CI_Model
 		if( $store_id != null ) {
 			$param[ 'REF_STORE' ]		=	$store_id;
 		}
+
+        // if taxe is set
+        // @since 3.3
+        $param[ 'PRIX_DE_VENTE_TTC' ]       =   $param[ 'PRIX_DE_VENTE' ];
+        if( ! empty( $param[ 'REF_TAXE' ] ) ) {
+            $tax    =   $this->db->where( 'ID', $param[ 'REF_TAXE' ] )->get( store_prefix() . 'nexo_taxes' )->result_array();
+
+            if( $tax ) {
+                $percent    =   ( floatval( $tax[0][ 'RATE' ] ) * floatval( $param[ 'PRIX_DE_VENTE' ] ) ) / 100;
+                $param[ 'PRIX_DE_VENTE_TTC' ]      =    floatval( $param[ 'PRIX_DE_VENTE' ] ) + $percent;
+            }  else {
+                $param[ 'PRIX_DE_VENTE_TTC' ]       =   $param[ 'PRIX_DE_VENTE' ];
+            }
+        }
 
 		$param		=	$this->events->apply_filters( 'nexo_update_product', $param );
 
@@ -333,7 +362,20 @@ class Nexo_Products extends CI_Model
 
     public function get_products_by_shipping($shipping_id)
     {
-        $query    =    $this->db->where('REF_SHIPPING', $shipping_id)->get( store_prefix() . 'nexo_articles');
+        $this->db->select( '*' )
+        ->from( store_prefix() . 'nexo_articles' )
+        ->join( 
+            store_prefix() . 'nexo_articles_stock_flow', 
+            store_prefix() . 'nexo_articles_stock_flow.REF_ARTICLE_BARCODE = ' . store_prefix() . 'nexo_articles.CODEBAR' 
+        )
+        ->join( 
+            store_prefix() . 'nexo_arrivages', 
+            store_prefix() . 'nexo_articles_stock_flow.REF_SHIPPING = ' . store_prefix() . 'nexo_arrivages.ID' 
+        )
+        ->where( store_prefix() . 'nexo_arrivages.ID', $shipping_id );
+        
+        $query    =    $this->db->get();
+
         return $query->result_array();
     }
 
@@ -368,7 +410,7 @@ class Nexo_Products extends CI_Model
 
             if( in_array( $stock[0][ 'TYPE' ], [ 'supply', 'usable' ] ) ) {
                 // can only delete if the stock allow it
-                $result         =   intval( $item[0][ 'QUANTITE_RESTANTE' ] ) - ( intval( $stock[0][ 'QUANTITE' ] ) + 100000000 );
+                $result         =   floatval( $item[0][ 'QUANTITE_RESTANTE' ] ) - ( floatval( $stock[0][ 'QUANTITE' ] ) + 100000000 );
                 if( $result >= 0 ) {
 
                     // update the current quantity
@@ -386,7 +428,7 @@ class Nexo_Products extends CI_Model
                 die;                
             } else if( in_array( $stock[0][ 'TYPE' ], [ 'defective', 'adjustment'] ) ) {
                 // can only delete if the stock allow it
-                $result         =   intval( $item[0][ 'QUANTITE_RESTANTE' ] ) + intval( $stock[0][ 'QUANTITE' ] );
+                $result         =   floatval( $item[0][ 'QUANTITE_RESTANTE' ] ) + floatval( $stock[0][ 'QUANTITE' ] );
                 // update the current quantity
                 $this->db->where( 'CODEBAR', $stock[0][ 'REF_ARTICLE_BARCODE' ] )->update( store_prefix() . 'nexo_articles', [
                     'QUANTITE_RESTANTE' =>  $result

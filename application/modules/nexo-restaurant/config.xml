@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application>
-    <name>Nexo for Restaurant</name>
+    <name>Gastro</name>
     <namespace>nexo-restaurant</namespace>
-    <version>1.2</version>
+    <version>1.2.3</version>
     <author>Blair Jersyer</author>
     <description>Add feature for restaurant to NexoPOS.</description>
     <language>/language</language>

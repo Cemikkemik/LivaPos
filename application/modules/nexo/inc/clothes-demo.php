@@ -158,6 +158,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    10, // $
     'PRIX_DE_VENTE'        =>    17.99,
+    'PRIX_DE_VENTE_TTC'        =>    17.99,
 	'SHADOW_PRICE'			=>	19,
     'TAUX_DE_MARGE'        =>    ((19.99 - (10 + 2)) / 10) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -170,7 +171,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/velvetvneckbodysuit.jpg',
-    'CODEBAR'            =>    0000001,
+    'CODEBAR'            =>    '0000001',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
 	'STATUS'			=>	1
@@ -188,6 +189,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    30, // $
     'PRIX_DE_VENTE'        =>    42.99,
+    'PRIX_DE_VENTE_TTC'        =>    42.99,
 	'SHADOW_PRICE'			=>	43,
     'TAUX_DE_MARGE'        =>    ((42.99 - (30 + 2)) / 10) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -200,7 +202,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/quidluciteheeldressbooties.jpg',
-    'CODEBAR'            =>    0000002,
+    'CODEBAR'            =>    '0000002',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
 	'STATUS'			=>	1
@@ -218,6 +220,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    15, // $
     'PRIX_DE_VENTE'        =>    18.99,
+    'PRIX_DE_VENTE_TTC'        =>    18.99,
 	'SHADOW_PRICE'			=>	19,
     'TAUX_DE_MARGE'        =>    ((18.99 - (15 + 2)) / 10) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -230,7 +233,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/twistedhighlowtop.jpg',
-    'CODEBAR'            =>    0000003,
+    'CODEBAR'            =>    '0000003',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
 	'STATUS'			=>	1
@@ -248,6 +251,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    15, // $
     'PRIX_DE_VENTE'        =>    19.99,
+    'PRIX_DE_VENTE_TTC'        =>    19.99,
 	'SHADOW_PRICE'			=>	19,
     'TAUX_DE_MARGE'        =>    ((19.99 - (15 + 2)) / 10) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -260,7 +264,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/floralnotchedofftheshoulder.jpg',
-    'CODEBAR'            =>    0000004,
+    'CODEBAR'            =>    '0000004',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
 	'STATUS'			=>	1
@@ -278,6 +282,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    30, // $
     'PRIX_DE_VENTE'        =>    42.99,
+    'PRIX_DE_VENTE_TTC'        =>    42.99,
 	'SHADOW_PRICE'			=>	19,
     'TAUX_DE_MARGE'        =>    ((42.99 - (30 + 2)) / 10) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -290,7 +295,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/sequincroppedbomberjacket.jpg',
-    'CODEBAR'            =>    0000005,
+    'CODEBAR'            =>    '0000005',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
 	'STATUS'			=>	1
@@ -308,6 +313,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    10, // $
     'PRIX_DE_VENTE'        =>    14.99,
+    'PRIX_DE_VENTE_TTC'        =>    14.99,
 	'SHADOW_PRICE'			=>	16,
     'TAUX_DE_MARGE'        =>    ((14.99 - (10 + 2)) / 10) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -320,7 +326,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/pushuplowriseleggings.jpg',
-    'CODEBAR'            =>    0000006,
+    'CODEBAR'            =>    '0000006',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
 	'STATUS'			=>	1
@@ -338,6 +344,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    10, // $
     'PRIX_DE_VENTE'        =>    19.99,
+    'PRIX_DE_VENTE_TTC'        =>    19.99,
 	'SHADOW_PRICE'			=>	16,
     'TAUX_DE_MARGE'        =>    ((19.99 - (10 + 2)) / 10) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -350,7 +357,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/varsitystripejoggerpants.jpg',
-    'CODEBAR'            =>    0000007,
+    'CODEBAR'            =>    '0000007',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
 	'STATUS'			=>	1
@@ -368,6 +375,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    10, // $
     'PRIX_DE_VENTE'        =>    17.99,
+    'PRIX_DE_VENTE_TTC'        =>    17.99,
 	'SHADOW_PRICE'			=>	16,
     'TAUX_DE_MARGE'        =>    ((17.99 - (10 + 2)) / 10) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -380,7 +388,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'AUTHOR'            =>    User::id(),
     'DATE_CREATION'        =>    date_now(),
     'APERCU'            =>    ( ( store_prefix() != '' ) ? '../' : '' ) . '../../../modules/nexo/images/charlotterusse/ribberlaceupbody.jpg',
-    'CODEBAR'            =>    68478945,
+    'CODEBAR'            =>    '68478945',
 	'STOCK_ENABLED'		=>	1,
 	'TYPE'				=>	1,
 	'STATUS'			=>	1
@@ -398,6 +406,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    10, // $
     'PRIX_DE_VENTE'        =>    18.99,
+    'PRIX_DE_VENTE_TTC'        =>    18.99,
 	'SHADOW_PRICE'			=>	16,
     'TAUX_DE_MARGE'        =>    ((18.99 - (10 + 2)) / 10) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -428,6 +437,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    10, // $
     'PRIX_DE_VENTE'        =>    29.99,
+    'PRIX_DE_VENTE_TTC'        =>    29.99,
 	'SHADOW_PRICE'			=>	16,
     'TAUX_DE_MARGE'        =>    ((29.99 - (10 + 2)) / 10) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -458,6 +468,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    10, // $
     'PRIX_DE_VENTE'        =>    29.99,
+    'PRIX_DE_VENTE_TTC'        =>    29.99,
 	'SHADOW_PRICE'			=>	16,
     'TAUX_DE_MARGE'        =>    ((29.99 - (10 + 2)) / 10) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -488,6 +499,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    18, // $
     'PRIX_DE_VENTE'        =>    21.99,
+    'PRIX_DE_VENTE_TTC'        =>    21.99,
 	'SHADOW_PRICE'			=>	16,
     'TAUX_DE_MARGE'        =>    ((21.99 - (18 + 2)) / 18) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -518,6 +530,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    30, // $
     'PRIX_DE_VENTE'        =>    36.99,
+    'PRIX_DE_VENTE_TTC'        =>    36.99,
 	'SHADOW_PRICE'			=>	16,
     'TAUX_DE_MARGE'        =>    ((36.99 - (30 + 2)) / 30) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -548,6 +561,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    30, // $
     'PRIX_DE_VENTE'        =>    34.99,
+    'PRIX_DE_VENTE_TTC'        =>    34.99,
 	'SHADOW_PRICE'			=>	16,
     'TAUX_DE_MARGE'        =>    ((34.99 - (30 + 2)) / 30) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -578,6 +592,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    5, // $
     'PRIX_DE_VENTE'        =>    6.99,
+    'PRIX_DE_VENTE_TTC'        =>    6.99,
 	'SHADOW_PRICE'			=>	7,
     'TAUX_DE_MARGE'        =>    ((6.99 - (5 + 2)) / 30) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -608,6 +623,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    5, // $
     'PRIX_DE_VENTE'        =>    17.99,
+    'PRIX_DE_VENTE_TTC'        =>    17.99,
 	'SHADOW_PRICE'			=>	7,
     'TAUX_DE_MARGE'        =>    ((17.99 - (5 + 2)) / 30) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -638,6 +654,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    5, // $
     'PRIX_DE_VENTE'        =>    18.99,
+    'PRIX_DE_VENTE_TTC'        =>    18.99,
 	'SHADOW_PRICE'			=>	7,
     'TAUX_DE_MARGE'        =>    ((18.99 - (5 + 2)) / 30) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -668,6 +685,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    5, // $
     'PRIX_DE_VENTE'        =>    17.99,
+    'PRIX_DE_VENTE_TTC'        =>    17.99,
 	'SHADOW_PRICE'			=>	7,
     'TAUX_DE_MARGE'        =>    ((17.99 - (5 + 2)) / 30) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -698,6 +716,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    5, // $
     'PRIX_DE_VENTE'        =>    35.99,
+    'PRIX_DE_VENTE_TTC'        =>    35.99,
 	'SHADOW_PRICE'			=>	7,
     'TAUX_DE_MARGE'        =>    ((35.99 - (5 + 2)) / 30) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -728,6 +747,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
     'DEFECTUEUX'        =>    0,
     'PRIX_DACHAT'        =>    5, // $
     'PRIX_DE_VENTE'        =>    23.99,
+    'PRIX_DE_VENTE_TTC'        =>    23.99,
 	'SHADOW_PRICE'			=>	7,
     'TAUX_DE_MARGE'        =>    ((23.99 - (5 + 2)) / 30) * 100,
     'FRAIS_ACCESSOIRE'    =>    2, // $
@@ -749,7 +769,7 @@ $this->db->insert( store_prefix() . 'nexo_articles', array(
 
 // Clients
 
-$this->db->query("INSERT INTO `{$this->db->dbprefix}" . store_prefix() . "nexo_clients` (`ID`, `NOM`, `PRENOM`, `POIDS`, `TEL`, `EMAIL`, `DESCRIPTION`, `DATE_NAISSANCE`, `ADRESSE`, `NBR_COMMANDES`, `DISCOUNT_ACTIVE`) VALUES
+$this->db->query( "INSERT INTO `{$this->db->dbprefix}" . store_prefix() . "nexo_clients` (`ID`, `NOM`, `PRENOM`, `POIDS`, `TEL`, `EMAIL`, `DESCRIPTION`, `DATE_NAISSANCE`, `ADRESSE`, `NBR_COMMANDES`, `DISCOUNT_ACTIVE`) VALUES
 (1, '". __('Compte Client', 'nexo')    ."', 	'', 0, 0, 'user@tendoo.org', 				'', '0000-00-00 00:00:00', '', 0, 0),
 (2, '". __('John Doe', 'nexo')        ."', 	'', 0, 0, 'johndoe@tendoo.org', 				'',	'0000-00-00 00:00:00', '', 0, 0),
 (3, '". __('Jane Doe', 'nexo')        ."', 	'', 0, 0, 'janedoe@tendoo.org', 				'',	'0000-00-00 00:00:00', '', 0, 0),

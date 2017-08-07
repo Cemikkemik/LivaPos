@@ -19,8 +19,12 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 	}
 
 	$scope.window			=	{
-		height				:	window.innerHeight < 600 ? 600 : window.innerHeight
+		height				:	$( window ).height()
 	}
+
+	$scope.parseFloat      	=	function( value ) {
+		return value == '' ?  0 : parseFloat( value );
+	};
 
 	/**
 	 * addTO
@@ -162,10 +166,11 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 	**/
 
 	$scope.controlCashAmount	=	function(){
-		if( parseFloat( $scope.cashPaymentAmount ) > 0 && parseFloat( $scope.cashPaymentAmount ) <= parseFloat( $scope.orderBalance ) ) {
+		if( parseFloat( $scope.cashPaymentAmount ) > 0 && parseFloat( $scope.cashPaymentAmount ) < parseFloat( $scope.orderBalance ) ) {
 			$scope.paymentDisabled		=	false;
 		} else if( parseFloat( $scope.cashPaymentAmount ) > parseFloat( $scope.orderBalance ) ) {
-			$scope.cashPaymentAmount	=	parseFloat( $scope.orderBalance );
+			$scope.cashPaymentAmount	=	Number( parseFloat( $scope.orderBalance ).toFixed(2) );
+			$scope.paymentDisabled		=	false;
 			NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Le paiement ne peut pas excéder la somme à payer', 'nexo' );?>' );
 		} else {
 			$scope.cashPaymentAmount	=	0;
@@ -265,7 +270,8 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 
 				// Sum total
 				_.each( $scope.items, function( value ) {
-					$scope.order.GRANDTOTAL	+=	( value.QUANTITE * value.PRIX_DE_VENTE );
+					// if it's INLINE item
+					$scope.order.GRANDTOTAL	+=	( value.QUANTITE * value.PRIX );
 				});
 
 				// Remaining
@@ -273,7 +279,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 
 				var content		=
 				'<div class="row">' +
-					'<div class="col-lg-8" style="height:{{ wrapperHeight }}px;overflow-y: scroll;">' +
+					'<div class="col-lg-8 col-md-8 col-xs-12" style="height:{{ wrapperHeight }}px;overflow-y: scroll;">' +
 						'<h5><?php echo _s( 'Liste des produits', 'nexo' );?></h5>' +
 						'<table class="table table-bordered table-striped">' +
 							'<thead>' +
@@ -287,11 +293,11 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 							'</thead>' +
 							'<tbody>' +
 								'<tr ng-repeat="item in items">' +
-									'<td>{{ item.DESIGN }}</td>' +
-									'<td>{{ item.SKU }}</td>' +
-									'<td>{{ item.PRIX_DE_VENTE | moneyFormat }}</td>' +
+									'<td>{{ item.DESIGN == null ? item.NAME : item.DESIGN }}</td>' +
+									'<td>{{ item.SKU.length == null ? \'N/A\' : item.SKU }}</td>' +
+									'<td>{{ item.PRIX | moneyFormat }}</td>' +
 									'<td>{{ item.QUANTITE }}</td>' +
-									'<td>{{ item.PRIX_DE_VENTE * item.QUANTITE | moneyFormat }}</td>' +
+									'<td>{{ item.PRIX * item.QUANTITE | moneyFormat }}</td>' +
 								'</tr>' +
 								'<tr>' +
 									'<td colspan="4"><strong><?php echo _s( 'Sous Total', 'nexo' );?></strong> </td>' +
@@ -305,22 +311,26 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 									'<td colspan="4"><strong><?php echo _s( 'TVA (+)', 'nexo' );?></strong> </td>' +
 									'<td>{{ order.TVA | moneyFormat }}</td>' +
 								'</tr>' +
+								'<tr ng-show="order.SHIPPING_AMOUNT > 0">' +
+									'<td colspan="4"><strong><?php echo _s( 'Livraison', 'nexo' );?></strong></td>' +
+									'<td>{{ order.SHIPPING_AMOUNT | moneyFormat }}</td>' +
+								'</tr>' +								
 								'<tr>' +
 									'<td colspan="4"><strong><?php echo _s( 'Total', 'nexo' );?></strong></td>' +
 									'<td>{{ order.TOTAL | moneyFormat }}</td>' +
 								'</tr>' +
 								'<tr>' +
-									'<td colspan="4"><strong><?php echo _s( 'Payé (+)', 'nexo' );?></strong></td>' +
+									'<td colspan="4"><strong><?php echo _s( 'Payé', 'nexo' );?></strong></td>' +
 									'<td>{{ order.SOMME_PERCU | moneyFormat }}</td>' +
 								'</tr>' +
 								'<tr>' +
-									'<td colspan="4"><strong><?php echo _s( 'Reste (=)', 'nexo' );?></strong></td>' +
+									'<td colspan="4"><strong><?php echo _s( 'Reste', 'nexo' );?></strong></td>' +
 									'<td>{{ order.BALANCE | moneyFormat }}</td>' +
 								'</tr>' +
 							'</tbody>' +
 						'</table>' +
 					'</div>' +
-					'<div class="col-lg-4">' +
+					'<div class="col-lg-4 col-md-4 col-xs-12">' +
 						'<h5><?php echo _s( 'Détails sur la commande', 'nexo' );?></h5>' +
 						'<ul class="list-group">' +
 						  '<li class="list-group-item"><strong><?php echo _s( 'Auteur :', 'nexo' );?></strong> {{ order.AUTHOR_NAME }}</li>' +
@@ -485,7 +495,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 			HTML.query( '.refund-row' ).only(0).add( 'h4.text-center{<?php echo _s( 'Remboursement', 'nexo' );?>}' );
 			// Defective Stock Table
 			HTML.query( '.refund-row' ).only(0).add( 'table.table.table-bordered.refund-table' ).add( 'thead>tr>td.text-center*8' );
-			HTML.query( '.refund-table td' ).only(0).textContent	=	'<?php echo _s( 'Désignation', 'nexo' );?>';
+			HTML.query( '.refund-table td' ).only(0).textContent	=	'<?php echo _s( 'Nom du produit', 'nexo' );?>';
 			HTML.query( '.refund-table td' ).only(1).textContent	=	'<?php echo _s( 'Qte défectueuse', 'nexo' );?>';
 			HTML.query( '.refund-table td' ).only(2).add( 'i.fa.fa-arrow-right.toCurrentStock' );
 			HTML.query( '.refund-table td' ).only(3).add( 'i.fa.fa-arrow-left.toDefective' );
@@ -663,18 +673,18 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 		var content			=
 		'<h4 class="text-center"><?php echo _s( 'Options de la commande', 'nexo' );?> : {{ orderCode }}</h4>' +
 		'<div class="row" style="border-top:solid 1px #EEE;">' +
-			'<div class="col-lg-2 col-sm-2" style="padding:0px;margin:0px;">' +
+			'<div class="col-lg-2 col-md-2 col-sm-2" style="padding:0px;margin:0px;">' +
 				'<div class="list-group">' +
 				  '<a style="border-radius:0;border-left:0px; border-right:0px;" data-menu-namespace="{{ option.namespace }}" href="#" ng-repeat="option in options" ng-click="toggleTab( option )" class="list-group-item {{ option.class }}"><i class="{{ option.icon }}"></i> {{ option.title }}</a>' +
 				'</div>' +
 			'</div>' +
-			'<div class="col-lg-10 col-sm-10 details-wrapper" style="border-left:solid 1px #EEE;height:{{ window.height / 1.5 }}px;">' +
+			'<div class="col-lg-10 col-md-10 col-sm-10 details-wrapper" style="border-left:solid 1px #EEE;">' +
 				'<div ng-repeat="option in options" ng-show="option.visible" data-namespace="{{ option.namespace }}" >' +
 				'</div>' +
 			'</div>' +
 		'</div>';
 
-		bootbox.alert( {
+		NexoAPI.Bootbox().alert( {
 			message		:	'<dom></dom>',
 			onEscape	:	false,
 			closeButton	:	false
@@ -683,10 +693,10 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 		$( 'dom' ).append( $compile(content)($scope) );
 
 
-		$( '.modal-dialog' ).css( 'width', '80%' );
+		$( '.modal-dialog' ).css( 'width', '98%' );
 		$( '.modal-body' ).css( 'padding-bottom', 0 );
 
-		$scope.wrapperHeight		=	$scope.window.height / 1.5;
+		$scope.wrapperHeight		=	$scope.window.height - 180;
 
 		// Default Tab is loaded
 		$scope.toggleTab( $scope.options.details );

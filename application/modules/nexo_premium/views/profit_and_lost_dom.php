@@ -58,10 +58,10 @@ $table_head             =   $this->events->apply_filters( 'np_profit_lost_report
     'date'              =>  array(
       'text'          =>  _s( 'Date', 'nexo_premium' ),
       'class'         =>  '',
-      'width'         =>  190
+      'width'         =>  220
     ),
     'design'            =>  array(
-      'text'          =>  _s( 'Désignation', 'nexo_premium' ),
+      'text'          =>  _s( 'Nom du produit', 'nexo_premium' ),
       'class'         =>  '',
       'width'         =>  300
     ),
@@ -78,7 +78,7 @@ $table_head             =   $this->events->apply_filters( 'np_profit_lost_report
     'discount_p'        =>  array(
       'text'          =>  _s( 'Remise (%)', 'nexo_premium' ),
       'class'         =>  'text-right',
-      'width'         =>  250
+      'width'         =>  180
     ),
     'discount_f'        =>  array(
       'text'          =>  _s( 'Remise', 'nexo_premium' ),
@@ -88,7 +88,7 @@ $table_head             =   $this->events->apply_filters( 'np_profit_lost_report
     'net_sale'          =>  array(
       'text'          =>  _s( 'Prix de vente net', 'nexo_premium' ),
       'class'         =>  'text-right',
-      'width'         =>  200
+      'width'         =>  180
     ),
     'buy_price'         =>  array(
       'text'          =>  _s( 'Prix d\'achat', 'nexo_premium' ),
@@ -104,7 +104,7 @@ $table_head             =   $this->events->apply_filters( 'np_profit_lost_report
 
 $table_column           =   $this->events->apply_filters( 'np_profit_lost_report_tbody_row', array(
     'date'              =>  array(
-      'text'          =>  '{{ item.DATE_CREATION | date : \'medium\' }}',
+      'text'          =>  '{{ item.DATE_CREATION | date : "' . store_option( 'nexo_js_datetime_format', 'medium' ) . '" }}',
       'class'         =>  '',
       'attr'          =>  '',
       'csv_field'       =>  'item.DATE_CREATION'

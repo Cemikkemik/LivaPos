@@ -560,11 +560,35 @@ function unique_multidim_array($array, $key) {
  *  @return string/int/array
 **/
 
-function get_option( $key = null ) {
+function get_option( $key = null, $default = null ) {
     global $Options;
     if( $key != null ) {
-        return @$Options[ $key ];
+        if( empty( @$Options[ $key ] ) ) {
+            return $default;
+        }
+        return $Options[ $key ];
     }
     return $Options;
+}
+
+/**
+ * Set Options
+ * @param string key
+ * @param var value
+ * @return void
+**/
+
+function set_option( $key, $value ) {
+    return get_instance()->options->set( $key, $value, true );
+}
+
+/**
+ * Get Config
+ * @param key
+**/
+
+function tendoo_config( $name, $key ) {
+    get_instance()->load->config( $name );
+    return get_instance()->config->item( $key );
 }
 /* End of file core_helper.php */

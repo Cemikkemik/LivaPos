@@ -4,3 +4,4 @@ np_profit_lost_report_thead_row : renvoi les éléments thead du tableau du rapp
 np_profit_lost_report_tbody_row : renvoi les élément du tableau du rapport pertes et profits
 np_profit_lost_report_tfoot_row : renvoi les éléments du pied du tableau du rapport pertes et profits
 detailed_sale_report_entry_code :  enrevoi le code d'une vente dans le rapport détaillé
+report_order_types     :   replace order type

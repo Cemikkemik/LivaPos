@@ -78,7 +78,10 @@ if (!$unset_edit) {
 }
 
 if (!empty($row->action_urls)) {
-    $row->action_urls    =    get_instance()->events->apply_filters('grocery_filter_actions', $row->action_urls, $actions, $row);
+    $data               =    get_instance()->events->apply_filters('grocery_filter_actions', [ $row->action_urls, $actions, $row ]);
+    $row->action_urls   =   $data[0];
+    $actions            =   $data[1];
+    $row                =   $data[2];
 
     foreach ($row->action_urls as $action_unique_id => $action_url) {
         $action        = $actions[$action_unique_id];
@@ -86,6 +89,7 @@ if (!empty($row->action_urls)) {
                         <a href="<?php echo $action_url;
         ?>" data-item-id="<?php echo $row->ID;?>" class="<?php echo $action->css_class;
         ?> crud-action" title="<?php echo $action->label?>">
+                        <?php echo @$action->text;?>
                         <?php
                             if (!empty($action->image_url)) {
                                 ?>

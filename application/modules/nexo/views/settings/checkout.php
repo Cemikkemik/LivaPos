@@ -176,6 +176,18 @@ $this->Gui->add_item(array(
     )
 ), 'Nexo_checkout', 1);
 
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    $option_prefix . 'disable_quick_item',
+    'label'        =>    __('Désactiver la création rapide de produits ?', 'nexo'),
+	'description'	=>	__( 'Par défaut, il est possible d\'ajouter des produits et services directement depuis le point de vente. En choisissant "oui", cette fonctionnalité ne sera plus disponible.', 'nexo' ),
+    'options'    =>    array(
+		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
+        'no'        =>    __('Non', 'nexo'),
+		'yes'        =>    __('Oui', 'nexo')
+    )
+), 'Nexo_checkout', 1);
+
 $receipt_themes 	=	$this->events->apply_filters( 'nexo_receipt_theme', array(
 	'default'    =>    __('Par défaut', 'nexo'),
 	'simple'		=>	__( 'Simple', 'nexo' )
@@ -278,6 +290,30 @@ $this->Gui->add_item(array(
     'label'        =>    __('Touches Raccourcis', 'nexo'),
     'name'        =>    $option_prefix . 'keyshortcuts',
     'description'    =>    __('Définissez des valeurs numériques séparée par des tirets verticaux. Exemple : 50|75|99.5|200.', 'nexo')
+), 'Nexo_checkout2', 2);
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    $option_prefix . 'disable_partial_order',
+    'label'        =>    __('Désactiver les commandes incomplètes ?', 'nexo'),
+	'description'	=>	__( 'Cette option permettra de désactiver l\'enregistrement des commandes incomplètes dans le système.', 'nexo' ),
+    'options'    =>    array(
+		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
+        'no'        =>    __('Non', 'nexo'),
+		'yes'        =>    __('Oui', 'nexo')
+    )
+), 'Nexo_checkout2', 2);
+
+$this->Gui->add_item(array(
+    'type'        =>    'select',
+    'name'        =>    $option_prefix . 'show_item_taxes',
+    'label'        =>    __('Afficher le prix hors taxe', 'nexo'),
+	'description'	=>	__( 'Les taxes sur les produits sont calculé automatiquement. Vous pouvez afficher le prix hors taxe et afficher la charge fiscale total sur tout les produits.', 'nexo' ),
+    'options'    =>    array(
+		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
+        'no'        =>    __('Non', 'nexo'),
+		'yes'        =>    __('Oui', 'nexo')
+    )
 ), 'Nexo_checkout2', 2);
 
 $this->events->do_action('load_nexo_checkout_settings', $this->Gui);

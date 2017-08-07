@@ -84,7 +84,7 @@ trait Nexo_rest_misc
 
                     if (! empty($orders)) {
                         $total        =    0;
-                        foreach ($orders  as $order) {
+                        foreach ( ( array ) $orders  as $order) {
                             $total    +=    __floatval($order->TOTAL);
                         }
                         $data[]        =    $total;

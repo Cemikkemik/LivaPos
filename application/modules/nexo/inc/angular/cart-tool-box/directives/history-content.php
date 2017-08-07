@@ -71,7 +71,7 @@ tendooApp.directive( 'historyContent', function(){
 	HTML.query( '.order-details-wrapper' ).add( 'table.table.table-bordered.table-striped.order-details-table' );
 	HTML.query( '.order-details-table' ).add( 'thead>tr>td*5' );
 
-  	HTML.query( '.order-details-table td' ).only(0).textContent	=	'<?php echo _s( 'Désignation', 'nexo' );?>';
+  	HTML.query( '.order-details-table td' ).only(0).textContent	=	'<?php echo _s( 'Nom du produit', 'nexo' );?>';
 	HTML.query( '.order-details-table td' ).only(1).textContent	=	'<?php echo _s( 'Prix Untaire', 'nexo' );?>';
 	HTML.query( '.order-details-table td' ).only(2).textContent	=	'<?php echo _s( 'Quantité', 'nexo' );?>';
 	HTML.query( '.order-details-table td' ).only(3).textContent	=	'<?php echo _s( 'Remise', 'nexo' );?>';

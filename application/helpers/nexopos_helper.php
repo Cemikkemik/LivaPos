@@ -6,6 +6,8 @@
  * All useful function to help build faster
 **/
 
+use Carbon\Carbon;
+
 if (! function_exists('nexo_permission_check')) {
     /**
      * Permission Tester
@@ -99,7 +101,7 @@ if( ! function_exists( 'store_title' ) ) {
 		global $CurrentStore;
 
 		if( $CurrentStore != null ) {
-			return sprintf( __( '%s &rsaquo; %s &mdash; NexoPOS', 'nexo' ), xss_clean( @$CurrentStore[0][ 'NAME' ] ), $title );
+			return sprintf( __( '%s &rsaquo; %s &mdash; %s', 'nexo' ), xss_clean( @$CurrentStore[0][ 'NAME' ] ), $title, store_option( 'site_name', __( 'NexoPOS' ) ) );
 		} else {
             global $Options;
 			return sprintf( __( '%s &rsaquo; %s', 'nexo' ), @$Options[ 'site_name' ] != null ? $Options[ 'site_name' ] : 'NexoPOS', $title );
@@ -211,7 +213,7 @@ if( ! function_exists( 'store_get_param' ) ) {
 		if( store_prefix() != '' ) {
 			return $prefix . 'store_id=' . get_store_id();
 		}
-		return;
+		return $prefix;
 	}
 }
 
@@ -293,5 +295,44 @@ if( ! function_exists( 'nexoCartValue' ) ) {
 if( ! function_exists( 'nexoCartPercentageDiscount' ) ) {
     function nexoCartPercentageDiscount( $items, $order ) {
         return ( nexoCartGrossValue( $items ) * floatval( $order[ 'REMISE_PERCENT' ] ) ) / 100;
+    }
+}
+
+/**
+ * Store Option
+ * @param string option
+ * @return array/bool/string
+**/
+
+if( ! function_exists( 'store_option' ) ) {
+    function store_option( $option, $default = null ) {
+        return get_option( store_prefix() . $option, $default );
+    }
+}
+
+/**
+ * Date format
+ * @param string date
+ * @param string format
+ * @return string formated date
+**/
+
+if( ! function_exists( 'nexo_date_format' ) ) {
+    function nexo_date_format( $date, $format = null ) {
+        if( $format == null ) {
+            $format     =   store_option( 'nexo_date_format', 'Y-m-d' );
+        }
+
+        return Carbon::parse( $date )->format( $format );
+    }
+}
+
+/**
+ * UI Notices
+**/
+
+if( ! function_exists( 'nexo_notices' ) ) {
+    function nexo_notices( $data ) {
+        get_instance()->Nexo_Notices->add( $data );
     }
 }

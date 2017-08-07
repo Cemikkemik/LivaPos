@@ -29,10 +29,11 @@ if( @$Options[ 'nexo_store' ] == 'enabled' ) {
             <!-- inner menu: contains the actual data -->
             <ul class="menu">
                 <?php if( $stores ):?>
+                    <?php $stores   =   $this->events->apply_filters( 'stores_list_menu', $stores );?>
                     <?php foreach( $stores as $store ): ?>
                         <?php if( $store[ 'STATUS' ] == 'opened' ):?>
                             <li><!-- start message -->
-                                <a href="<?php echo site_url( array( 'dashboard', 'stores', $store[ 'ID' ] ) );?>">
+                                <a href="<?php echo $store[ 'ID' ] != false ? site_url( array( 'dashboard', 'stores', $store[ 'ID' ] ) ) : "#";?>">
                                 <div class="pull-left">
                                     <?php if (  $store[ 'IMAGE' ] != '' ): ?>
                                         <img src="<?php echo upload_url() . '/stores/' . $store[ 'IMAGE' ];?>" class="img-circle" alt="User Image">

@@ -35,7 +35,7 @@ if (! $products_labels = $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'tr
             </form>
             <br>
             <div class="btn-group" role="group" aria-label="...">
-                <a href="<?php echo site_url(array( 'dashboard', 'nexo', 'arrivages', 'lists' ));?>" class="btn btn-default">
+                <a href="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'arrivages', 'lists' ));?>" class="btn btn-default">
 	                <?php _e('Revenir à la liste des collections', 'nexo');?>
                 </a>
                 <a href="<?php echo current_url() . '?refresh=true';?>" class="btn btn-default">
@@ -72,7 +72,7 @@ if (! $products_labels = $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'tr
                         ?></strong><br>
                         <small><?php echo sprintf(__('<strong>Prix de vente</strong> : %s', 'nexo'),
                             $this->Nexo_Misc->display_currency('before') .
-                            $product[ 'PRIX_DE_VENTE' ] .
+                            $product[ 'PRIX_DE_VENTE_TTC' ] .
                             $this->Nexo_Misc->display_currency('after'));
                         ?>
 						</small><br>

@@ -58,11 +58,17 @@ trait nexo_restaurant_tables
         $order      =   $this->db->where( 'ID', $this->put( 'ORDER_ID' ) )
         ->get( store_prefix() . 'nexo_commandes' )->result_array();
 
-        $this->db->where( 'ID', $table_id )->update( store_prefix() . 'nexo_restaurant_tables', [
+        $data       =   [
             'CURRENT_SEATS_USED'    =>  $this->put( 'CURRENT_SEATS_USED' ),
-            'STATUS'                =>  $this->put( 'STATUS' ),
-            'SINCE'                 =>  $order[0][ 'DATE_CREATION' ]
-        ]);
+            'STATUS'                =>  $this->put( 'STATUS' )
+        ];
+
+        if( ! empty( @$order[0][ 'DATE_CREATION' ] ) ) {
+            $data[ 'SINCE' ]        =   @$order[0][ 'DATE_CREATION' ];
+        }
+
+        $this->db->where( 'ID', $table_id )->update( store_prefix() . 'nexo_restaurant_tables', $data );
+        return $this->__success();
     }
 
 }

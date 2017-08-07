@@ -49,7 +49,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
             ?>
             <div class="row">
                 <div class="text-center">
-                    <h3><?php _e('Ticket de caisse', 'nexo');?></h3>
+                    <h3><?php _e('Reçu de vente', 'nexo');?></h3>
                 </div>
                 <table class="table table-hover">
                     <thead>
@@ -77,7 +77,8 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 							$total_global        	+=    ( __floatval($_produit[ 'PRIX_TOTAL' ]) );
                             ?>
                             <tr>
-                                <td class=""><?php echo $_produit[ 'DESIGN' ];
+                                <td class="">
+                                    <?php echo empty( $_produit[ 'DESIGN' ] ) ? $_produit[ 'NAME' ] : $_produit[ 'DESIGN' ];
                                 ?></td>
                                 <td class="text-right">
     							<?php echo $this->Nexo_Misc->cmoney_format( __floatval($_produit[ 'PRIX' ]) );
@@ -105,11 +106,15 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
     								<?php echo $this->Nexo_Misc->cmoney_format( __floatval( $_produit[ 'PRIX_TOTAL' ] ) );?>
                                 </td>
                             </tr>
+                        
                         <?php
                         }
+
                         ?>
+                        
                         <tr>
-                            <td class=""><strong><?php _e('Total', 'nexo');?></strong></td>
+                            
+                            <td class=""><strong><?php _e('Sous Total', 'nexo');?></strong></td>
 
                             <td class="text-right">
                             <?php /*echo sprintf(
@@ -129,6 +134,27 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             );?>
                             </td>
                         </tr>
+                        
+                        <?php
+                        if( ! empty( $order[ 'order' ][0][ 'SHIPPING_AMOUNT' ] ) ):
+                        ?>
+                        
+                        <tr>
+                            <td><?php echo __( 'Livraison', 'nexo' );?></td>
+                            <td></td>
+                            <td></td>
+                            <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                            <td></td>
+                            <?php endif;?>
+                            <td class="text-right">
+                            <?php echo $this->Nexo_Misc->cmoney_format(
+                                __floatval( $order[ 'order' ][0][ 'SHIPPING_AMOUNT' ] )
+                            );?>
+                            </td>
+                        </tr>
+
+                        <?php endif;?>
+    
                         <?php if (__floatval($_produit[ 'RISTOURNE' ])):?>
                         <tr>
                             <td class=""><?php _e('Remise automatique', 'nexo');?></td>
@@ -262,7 +288,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                                 __('%s %s %s', 'nexo'),
                                 $this->Nexo_Misc->display_currency('before'),
                                 bcsub(
-                                    __floatval($total_global) + __floatval($_produit[ 'TVA' ]),
+                                    __floatval($total_global) + __floatval($_produit[ 'TVA' ]) + __floatval($order[ 'order'][0][ 'SHIPPING_AMOUNT' ]),
                                     (
                                         __floatval(@$_produit[ 'RISTOURNE' ]) +
                                         __floatval(@$_produit[ 'RABAIS' ]) +
@@ -360,18 +386,18 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 	.hideOnPrint {
 		display:none !important;
 	}
-	td, th {font-size: 3vw;}
+	td, th {font-size: 2.8vw;}
 	.order-details, p {
-		font-size: 2.7vw;
+		font-size: 2.5vw;
 	}
 	.order-details h2 {
-		font-size: 6vw;
+		font-size: 5.5vw;
 	}
 	h3 {
-		font-size: 3vw;
+		font-size: 2.8vw;
 	}
 	h4 {
-		font-size: 3vw;
+		font-size: 2.8vw;
 	}
 }
 </style>

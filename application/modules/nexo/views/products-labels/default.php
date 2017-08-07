@@ -36,7 +36,7 @@ if (! $products_labels = $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'tr
             </form>
             <br>
             <div class="btn-group" role="group" aria-label="...">
-                <a href="<?php echo site_url(array( 'dashboard', 'nexo', 'arrivages', 'lists' ));?>" class="btn btn-default">
+                <a href="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'arrivages', 'lists' ));?>" class="btn btn-default">
 	                <?php _e('Revenir à la liste des collections', 'nexo');?>
                 </a>
                 <a href="<?php echo current_url() . '?refresh=true';?>" class="btn btn-default">
@@ -63,17 +63,17 @@ if (! $products_labels = $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'tr
 					$category		=	get_instance()->Nexo_Categories->get( $product[ 'REF_CATEGORIE' ], 'as_id' );
 
                     // Parcours des produits restants
-                    for ($i = 0; $i < intval( $this->input->get( 'per_item' ) ? $this->input->get( 'per_item' ) : $product[ 'QUANTITE_RESTANTE' ] ) ; $i++) { // $product[ 'QUANTITE_RESTANTE' ]
+                    for ($i = 0; $i < intval( $this->input->get( 'per_item' ) ? $this->input->get( 'per_item' ) : $product[ 'QUANTITE' ] ) ; $i++) { // $product[ 'QUANTITE_RESTANTE' ]
                         // Balise d'ouverture
                         if ($start == 0) {
                             echo '<tr>';
                         }
                         ?>
-					<td style="width:<?php echo 100 / $pp_row_limit;?>%;float:left;padding:0;">
+					<td class="text-center" style="width:<?php echo 100 / $pp_row_limit;?>%;float:left;padding:0;">
                     	<!-- <h4 class="text-center" style="margin:3px 0;"><?php echo $Options[ 'site_name' ];
                         ?></h4> -->
                     	<h4 class="text-center" style="margin:10px;padding:0px;"><?php echo $product[ 'DESIGN' ];?></h4>
-                        <img style="width:94%;height:50px;margin:2%" src="<?php echo upload_url() . '/codebar/' . $product[ 'CODEBAR' ] . '.jpg';
+                        <img style="display:inline-block;margin:2%" src="<?php echo upload_url() . '/codebar/' . $product[ 'CODEBAR' ] . '.jpg';
                         ?>">
 
                         <p class="text-center" style="margin:0px;font-size:12px;"><?php echo $product[ 'CODEBAR' ];?></p>
@@ -81,8 +81,7 @@ if (! $products_labels = $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'tr
                         <p style="border:solid 1px #CCC;margin-top:0px;padding:5px 10px;position:relative;right:0px;float:right;margin-bottom:0px;border-right:0px;border-bottom:0px;font-size:12px;">
                         <?php echo
 						$this->Nexo_Misc->display_currency('before') . ' ' .
-						$product[ 'PRIX_DE_VENTE' ] . ' ' .
-						// $this->Nexo_Misc->cmoney_format( $product[ 'PRIX_DE_VENTE' ] )
+						$product[ 'PRIX_DE_VENTE_TTC' ] . ' ' .
 						$this->Nexo_Misc->display_currency('after');
                         ?>
 						</p>

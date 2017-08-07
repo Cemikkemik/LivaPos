@@ -100,7 +100,7 @@ class Do_setup extends Tendoo_Controller
             );
 
             if ($exec == 'tendoo-installed') {
-                redirect(array( 'sign-in?redirect=dashboard/index&notice=' . $exec . ( $_GET[ 'lang' ] ? '&lang=' . $_GET[ 'lang' ] : '') ));
+                redirect(array( 'sign-in?redirect=dashboard/index&notice=' . $exec . ( @$_GET[ 'lang' ] ? '&lang=' . $_GET[ 'lang' ] : '') ));
             }
 
             $this->notice->push_notice($this->lang->line($exec));

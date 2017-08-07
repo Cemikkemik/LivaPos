@@ -36,8 +36,9 @@ class NexoCouponController extends Tendoo_Module
         $crud->set_subject(__('Coupons', 'nexo'));
         $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_coupons'));
 
-		$fields				=	array( 'CODE', 'AMOUNT', 'DISCOUNT_TYPE', 'PRODUCTS_IDS', 'PRODUCT_CATEGORIES', 'EXPIRY_DATE', 'REWARDED_CASHIER', 'DESCRIPTION' );
-		$crud->columns( 'CODE', 'AMOUNT', 'PRODUCTS_IDS', 'DISCOUNT_TYPE', 'EXPIRY_DATE', 'REWARDED_CASHIER' );
+        // 'USAGE_LIMIT_PER_USER'
+		$fields				=	array( 'CODE', 'AMOUNT', 'DISCOUNT_TYPE', 'PRODUCTS_IDS', 'PRODUCT_CATEGORIES', 'USAGE_LIMIT', 'EXPIRY_DATE', 'REWARDED_CASHIER', 'DESCRIPTION' );
+		$crud->columns( 'CODE', 'AMOUNT', 'PRODUCTS_IDS', 'DISCOUNT_TYPE', 'EXPIRY_DATE', 'REWARDED_CASHIER', 'USAGE_COUNT' );
 
         $this->load->model( 'Nexo_Products' );
         $items              =   $this->Nexo_Products->get_product();
@@ -67,7 +68,20 @@ class NexoCouponController extends Tendoo_Module
         $crud->display_as('EXPIRY_DATE', __('Date d\'expiration', 'nexo'));
         $crud->display_as('DESCRIPTION', __('Description', 'nexo'));
         $crud->display_as('REWARDED_CASHIER', __('Caissier récompensé', 'nexo'));
+        $crud->display_as( 'USAGE_LIMIT', __( 'Limite d\'utilisation', 'nexo' ) );
+        // $crud->display_as( 'USAGE_LIMIT_PER_USER', __( 'Limite d\'utilisation par client', 'nexo' ) );
+        $crud->display_as( 'USAGE_COUNT', __( 'Nombre d\'utilisation', 'nexo' ) );
 
+        // description
+        $crud->field_description( 'USAGE_LIMIT', __( 'Permet de restreindre l\'utilisation du coupon à un nombre déterminé de fois.' , 'nexo' ) );
+        $crud->field_description( 'PRODUCT_CATEGORIES', __( 'Le coupon ne sera utilisable que si un produit appartenant à l\'une de ces catégories est ajouté au panier.', 'nexo' ) );
+        $crud->field_description( 'REWARDED_CASHIER', __( 'L\'utilisation du coupon donnera le mérite au caissier sélectionné.', 'nexo' ) );
+        $crud->field_description( 'PRODUCTS_IDS', __( 'Le coupon ne sera utilisable que si un des produits selectionné est ajouté au panier.', 'nexo' ) );
+        $crud->field_description( 'DISCOUNT_TYPE', __( 'Vous pouvez déterminer quel type de réduction opèrera le coupon.', 'nexo' ) );
+        $crud->field_description( 'AMOUNT', __( 'Il peut s\'agir du pourcentage ou du montant fixe.', 'nexo' ) );
+        $crud->field_description( 'CODE', __( 'Cette valeur permettra d\'identifier le coupon.', 'nexo' ) );
+        $crud->field_description( 'EXPIRY_DATE', __( 'Après la date d\'expiration, le coupon ne sera plus utilisable.', 'nexo' ) );
+        
         $crud->set_relation('REWARDED_CASHIER', 'aauth_users', 'name');
 
         // XSS Cleaner

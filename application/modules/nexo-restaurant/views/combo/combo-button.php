@@ -1,4 +1,4 @@
-<div class="btn-group" role="group" ng-controller="comboCTRL">
+<div class="btn-group" role="group" ng-controller="comboCTRL" ng-show="comboActive">
     <button ng-if="isCombo && isEdit == false" type="button" class="btn btn-success btn-lg" ng-click="finish_combo()" style="margin-bottom:0px;"> 
         <i class="fa fa-plus"></i>
         <span class="hidden-xs"><?php _e('Finish Meal', 'nexo');?></span>

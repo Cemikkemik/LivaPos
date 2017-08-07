@@ -8,14 +8,64 @@
     })
     tendooApp.directive( 'restaurantRooms', function(){
         return {
-            templateUrl        :  '<?php echo site_url([ 'dashboard', store_slug(), 'nexo-restaurant', 'table_selection' ] );?>',
+            templateUrl        :  '<?php echo site_url([ 'dashboard', store_slug(), 'nexo-restaurant', 'templates', 'table-selection' ] );?>',
             restrict            :   'E'
         }
     });
 
+    tendooApp.directive( 'bookingUi', function(){
+        return {
+            templateUrl        :  '<?php echo site_url([ 'dashboard', store_slug(), 'nexo-restaurant', 'templates', 'booking-ui' ] );?>',
+            restrict            :   'E',
+            controller          :   function( $scope ) {
+                $scope.viewDate         =   '<?php echo date_now();?>';
+                $scope.calendarView     =   'month';
+                $scope.cellIsOpen       =   false;
+            }
+        }
+    });
+
+    tendooApp.directive( 'orderTypes', function(){
+        return {
+            templateUrl        :  '<?php echo site_url([ 'dashboard', store_slug(), 'nexo-restaurant', 'templates', 'order-types' ] );?>',
+            restrict            :   'E',
+            controller          :   [ '$scope', '$timeout', function( $scope, $timeout ) {
+                $timeout( function(){
+                    angular.element( '.modal-dialog' ).css( 'width', '30%' );
+                    angular.element( '.modal-body' ).css( 'padding-top', '0px' );
+                    angular.element( '.modal-body' ).css( 'padding-bottom', '0px' );
+                    angular.element( '.modal-body' ).css( 'padding-left', '0px' );
+                    angular.element( '.modal-body' ).css( 'padding-right', '0px' );
+                    angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );
+                    angular.element( '.middle-content' ).css( 'padding', 0 );
+
+                    $( '.modal-dialog' ).css({
+                        'top': function () {
+                            return ( window.innerHeight / 2 ) - ( $( '.modal-dialog' ).height() / 2);
+                        }
+                    });
+
+                    $( '.modal-footer' ).prepend( '<a href="<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'commandes', 'lists']);?>" class="btn btn-warning"><?php echo _s( 'Exit', 'nexo-restaurant' );?></a>' );
+
+                    $( '[data-dismiss="modal"]' ).remove();
+                    $( '[data-bb-handler="cancel"]' ).remove();
+                    $( '.modal-dialog' ).fadeIn(200);
+                }, 450 );
+
+                $scope.selectType       =   function( type ) {
+                    _.each( $scope.types, function( _type ) {
+                        _type.active       =   false;
+                    });
+
+                    type.active            =   true;
+                }
+            }]
+        }
+    })
+
     var selectTableCTRL     =   function( $compile, $scope, $timeout, $http, $interval ) {
 
-
+        $scope.isAreaRoomsDisabled      =   <?php echo store_option( 'disable_area_rooms' ) == 'yes' ? 'true' : 'false';?>;
         $scope.spinner                  =   {}
         $scope.rooms                    =   [];
         $scope.areas                    =   [];
@@ -32,6 +82,7 @@
         $scope.hideButton               =   {
             dot             :   true
         }
+
         $scope.wrapperHeight			=	$scope.windowHeight - ( ( 56 * 2 ) + 30 );
         $scope.reservationPattern       =   <?php echo json_encode( ( array ) explode( ',', @$Options[ store_prefix() . 'reservation_pattern' ] ) );?>;
 
@@ -53,12 +104,22 @@
                     return false;
                 }
 
-                v2Checkout.CartMetas        =   _.extend( v2Checkout.CartMetas, {
-                    table_id            :   $scope.selectedTable.TABLE_ID,
-                    room_id             :   $scope.selectedRoom.ID,
-                    area_id             :   $scope.selectedArea.AREA_ID,
-                    seat_used           :   $scope.seatToUse > parseInt( $scope.selectedTable.MAX_SEATS ) ? $scope.selectedTable.MAX_SEATS  : $scope.seatToUse
-                });
+                if( $scope.isAreaRoomsDisabled ) { 
+                    v2Checkout.CartMetas        =   _.extend( v2Checkout.CartMetas, {
+                        table_id            :   $scope.selectedTable.ID,
+                        room_id             :   0,
+                        area_id             :   0,
+                        seat_used           :   $scope.seatToUse > parseInt( $scope.selectedTable.MAX_SEATS ) ? $scope.selectedTable.MAX_SEATS  : $scope.seatToUse
+                    });
+                } else {
+                    v2Checkout.CartMetas        =   _.extend( v2Checkout.CartMetas, {
+                        table_id            :   $scope.selectedTable.TABLE_ID,
+                        room_id             :   $scope.selectedRoom.ID,
+                        area_id             :   $scope.selectedArea.AREA_ID,
+                        seat_used           :   $scope.seatToUse > parseInt( $scope.selectedTable.MAX_SEATS ) ? $scope.selectedTable.MAX_SEATS  : $scope.seatToUse
+                    });
+                }
+                
             } else {
                 $scope.selectedTable    =   false;
             }
@@ -104,31 +165,144 @@
     				}
     			},
     			callback		:	function( action ) {
+                    if( ! action ) {
+                        $scope.selectOrderType();
+                    }
+
                     return $scope.checkSelectingTableAction( action );
     			}
     		});
 
+            $scope.windowHeight				=	window.innerHeight;
+            $scope.wrapperHeight			=	$scope.windowHeight - ( ( 56 * 2 ) + 30 );
+
             $timeout( function(){
-    			angular.element( '.modal-dialog' ).css( 'width', '90%' );
-    			angular.element( '.modal-body' ).css( 'padding-top', '0px' );
-    			angular.element( '.modal-body' ).css( 'padding-bottom', '0px' );
-    			angular.element( '.modal-body' ).css( 'padding-left', '0px' );
-    			angular.element( '.modal-body' ).css( 'height', $scope.wrapperHeight );
-    			angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );
-    			angular.element( '.middle-content' ).css( 'padding', 0 );
-    		}, 150 );
+    			angular.element( '.modal-dialog' ).css( 'width', '98%' );
+		        angular.element( '.modal-body' ).css( 'padding-top', '0px' );
+                angular.element( '.modal-body' ).css( 'padding-bottom', '0px' );
+                angular.element( '.modal-body' ).css( 'padding-left', '0px' );
+                angular.element( '.modal-body' ).css( 'height', $scope.wrapperHeight );
+                angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );
+    		}, 200 );
 
             $( '.table-selection' ).html( $compile( $( '.table-selection').html() )( $scope ) );
             $scope.getRooms();
 
             $( '[data-bb-handler="cancel"]' ).attr( 'ng-click', 'cancelTableSelection()' );
             $( '.modal-footer' ).html( $compile( $( '.modal-footer' ).html() )( $scope ) );
+
+            /**
+            * When the Rooms and Area are disabled. Just load the tables quickly
+            **/
+
+            if( $scope.isAreaRoomsDisabled ) { 
+                $scope.loadTables();
+            }
         }
 
         // Autorun Table
         angular.element( document ).ready( function(){
-            $scope.openTableSelection();
+            $scope.selectOrderType();
         });
+
+        /**
+         * Select Order Type
+         * @param void
+        **/
+
+        $scope.types               =   [{
+            namespace       :   'delivery',
+            text            :   '<?php echo _s( 'Delivery', 'nexo-restaurant' );?>'
+        },{
+            namespace       :   'dinein',
+            text            :   '<?php echo _s( 'Dine In', 'nexo-restaurant' );?>'
+        },{
+            namespace       :   'takeaway',
+            text            :   '<?php echo _s( 'Take Away', 'nexo-restaurant' );?>'
+        }]
+
+        <?php if( store_option( 'gastro_enable_booking' ) ):?>
+        $scope.types.push({
+            namespace       :   'booking',
+            text            :   '<?php echo _s( 'Booking', 'nexo-restauarnt' );?>'
+        });
+        <?php endif;?>
+
+        $scope.selectOrderType          =   function(){
+            NexoAPI.Bootbox().confirm({
+    			message 		:	'<div class="order-type-selection"><order-types types="types"></order-types></div>',
+    			title			:	'<?php echo _s( 'Which operation would you proceed ?', 'nexo' );?>',
+    			buttons: {
+    				confirm: {
+    					label: '<?php echo _s( 'Confirm', 'nexo' );?>',
+    					className: 'btn-success'
+    				},
+    				cancel: {
+    					label: '<?php echo _s( 'Close', 'nexo' );?>',
+    					className: 'btn-default'
+    				}
+    			},
+    			callback		:	function( action ) {
+                    // check if there is one selected
+                    var selected        =   false;
+                    _.each( $scope.types, function( type ) {
+                        if( type.active ) {
+                            selected    =   true;
+                            $scope.selectedOrderType    =   type;
+                        }
+                    });
+
+                    if( ! selected ) {
+                        NexoAPI.Bootbox().alert( '<?php echo _s( 'You must select an order type', 'nexo-restaurant' );?>' );
+                        return false;
+                    }
+
+                    if( $scope.selectedOrderType.namespace == 'dinein' ) {
+                        $( '[ng-click="openDelivery()"]' ).hide();
+                        $scope.openTableSelection();
+                    } else if( $scope.selectedOrderType.namespace == 'delivery' ) {
+                        $( '[ng-click="openDelivery()"]' ).show();
+                    } else if( $scope.selectedOrderType.namespace == 'takeaway' ) {
+                        $( '[ng-click="openDelivery()"]' ).hide();
+                    } else if( $scope.selectedOrderType.namespace == 'booking' ) {
+                        // 
+                        bootbox.confirm({
+                            title: "<?php echo _s( 'Booking Management', 'nexo-restaurant' );?>",
+                            message: '<div class="booking-wrapper" style="height:300px"><booking-ui></booking-ui></div>',
+                            buttons: {
+                                cancel: {
+                                    label: '<i class="fa fa-times"></i> <?php echo _s( 'Cancel', 'nexo-restaurant' );?>'
+                                },
+                                confirm: {
+                                    label: '<i class="fa fa-check"></i> <?php echo _s( 'Add the booking', 'nexo-restaurant' );?>'
+                                }
+                            },
+                            callback: function (result) {
+                                console.log('This was logged in the callback: ' + result);
+                            }
+                        });
+
+                        $scope.windowHeight				=	window.innerHeight;
+                        $scope.wrapperHeight			=	$scope.windowHeight - ( ( 56 * 2 ) + 30 );
+
+                        $timeout( function(){
+                            angular.element( '.modal-dialog' ).css( 'width', '98%' );
+                            // angular.element( '.modal-body' ).css( 'padding-top', '0px' );
+                            // angular.element( '.modal-body' ).css( 'padding-bottom', '0px' );
+                            // angular.element( '.modal-body' ).css( 'padding-left', '0px' );
+                            angular.element( '.modal-body' ).css( 'height', $scope.wrapperHeight );
+                            angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );
+                        }, 200 );
+
+                        $( '.booking-wrapper' ).html( $compile( $( '.booking-wrapper').html() )( $scope ) );
+                        $scope.getRooms();
+                    }
+    			}
+    		});
+
+            $( '.modal-dialog' ).hide();
+            $( '.order-type-selection' ).html( $compile( $( '.order-type-selection').html() )( $scope ) );
+        }
 
         /**
          *  Get Rooms
@@ -180,15 +354,24 @@
         **/
 
         $scope.loadTables               =   function( area ) {
-            _.each( $scope.areas, function( area ) {
-                area.active                 =   false;
+            _.each( $scope.areas, function( _area ) {
+                _area.active                 =   false;
             });
 
-            $scope.selectedArea             =   area;
-            area.active                     =   true;
+            if( $scope.isAreaRoomsDisabled ) {
+                link    =   '<?php echo site_url([ 'rest', 'nexo_restaurant', 'tables' ]);?>';
+            } else {
+                link    =   '<?php echo site_url([ 'rest', 'nexo_restaurant', 'tables_from_area' ]);?>' + '/' + area.AREA_ID;
+            }
+
+            if( typeof area != 'undefined' ) {
+                $scope.selectedArea             =   area;
+                area.active                     =   true;
+            }
+            
             $scope.spinner[ 'tables' ]      =   true;
 
-            $http.get( '<?php echo site_url([ 'rest', 'nexo_restaurant', 'tables_from_area' ]);?>' + '/' + area.AREA_ID + '<?php echo store_get_param( '?' );?>', {
+            $http.get( link + '<?php echo store_get_param( '?' );?>', {
                 headers			:	{
                     '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
                 }
@@ -213,13 +396,10 @@
                 var d = moment.duration(ms);
                 var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
 
-                console.log( s );
-
                 return s;
             } else {
                 return '--:--:--';
             }
-
         }
 
         /**
@@ -316,9 +496,17 @@
         $scope.setAvailable         =   function( selectedtable ) {
             NexoAPI.Bootbox().confirm( '<?php echo _s( 'Would you like to set this table as available ? This assume there is nobody at this table.', 'nexo-restaurant' );?>', function( action ) {
                 if( action ) {
+
+                    if( $scope.isAreaRoomsDisabled ) {
+                        var link        =   '<?php echo site_url([ 'rest', 'nexo_restaurant', 'table_usage' ]);?>/' +
+                        $scope.selectedTable.ID;
+                    } else {
+                        var link        =   '<?php echo site_url([ 'rest', 'nexo_restaurant', 'table_usage' ]);?>/' +
+                        $scope.selectedTable.TABLE_ID;
+                    }
+
                     $http.put(
-                        '<?php echo site_url([ 'rest', 'nexo_restaurant', 'table_usage' ]);?>/' +
-                        $scope.selectedTable.TABLE_ID +  '<?php echo store_get_param( '?' );?>', {
+                        link +  '<?php echo store_get_param( '?' );?>', {
                         CURRENT_SEATS_USED      :   0,
                         STATUS                  :   'available'
                     }, {
@@ -326,12 +514,16 @@
                             '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
                         }
                     }).then(function(){
-                        _.each( $scope.areas, function( area ) {
-                            // Refresh Area table
-                            if( area.active ) {
-                                $scope.loadTables( area );
-                            }
-                        });
+                        if( $scope.isAreaRoomsDisabled ) {
+                            $scope.loadTables();
+                        } else {
+                            _.each( $scope.areas, function( area ) {
+                                // Refresh Area table
+                                if( area.active ) {
+                                    $scope.loadTables( area );
+                                }
+                            });
+                        }
                         $scope.cancelTableSelection();
                     });
                 }
@@ -348,7 +540,11 @@
             if( $scope.selectedTable == false ) {
                 v2Checkout.CartTitle    =   '<?php echo __( 'Take away', 'nexo-restaurant' );?>';
             } else {
-                v2Checkout.CartTitle    =   $scope.selectedRoom.NAME + ' > ' + $scope.selectedArea.AREA_NAME + ' > ' + $scope.selectedTable.TABLE_NAME
+                if( $scope.isAreaRoomsDisabled ) {
+                    v2Checkout.CartTitle    =   '<?php echo __( 'Table Name', 'nexo-restaurant' );?> : ' + $scope.selectedTable.TABLE_NAME
+                } else {
+                    v2Checkout.CartTitle    =   $scope.selectedRoom.NAME + ' > ' + $scope.selectedArea.AREA_NAME + ' > ' + $scope.selectedTable.TABLE_NAME
+                }
             }
 			v2Checkout.cartSubmitOrder( 'cash' );
         }
@@ -399,10 +595,64 @@
             });
         });
 
+        /**
+         * When cart is reset
+         * Ask for other type again
+        **/
+
+        NexoAPI.events.addAction( 'reset_cart', function(){
+            $timeout( function(){
+                if( $scope.selectedOrderType.namespace == 'dinein' ) {
+                    $scope.openTableSelection();
+                }
+            }, 500 );            
+        });
+
+        /**
+         * If the order is delivery, invite the use to input delivery charges
+        **/
+
+        NexoAPI.events.addFilter( 'openPayBox', ( filter ) => {
+            if( $scope.selectedOrderType.namespace == 'delivery' && $scope.price == null ) {
+                NexoAPI.Toast()( '<?php echo _s( 'You must define delivery details.', 'nexo-restaurant' );?>' );
+
+                var bool        =   true;
+                var increment   =   0;
+                var interval    =   setInterval( function(){
+                    if( bool ) {
+                        $( '[ng-click="openDelivery()"]' ).removeClass( 'btn-default' );
+                        $( '[ng-click="openDelivery()"]' ).addClass( 'btn-warning' );
+                    } else {
+                        $( '[ng-click="openDelivery()"]' ).removeClass( 'btn-warning' );
+                        $( '[ng-click="openDelivery()"]' ).addClass( 'btn-default' );
+                    }
+
+                    bool        =   !bool;
+                    increment++;
+
+                    if( increment == 6 ) {
+                        clearInterval( interval );
+                    }
+                }, 250 );
+                
+                return false;
+            } 
+            return filter;
+        });
+
         // When the order is submited, we just change the selected table status
 
         NexoAPI.events.addFilter( 'test_order_type', function( order ){
-            $http.put( '<?php echo site_url([ 'rest', 'nexo_restaurant', 'table_usage' ]);?>/' + $scope.selectedTable.TABLE_ID +  '<?php echo store_get_param( '?' );?>', {
+
+            if( $scope.isAreaRoomsDisabled ) {
+                var link        =   '<?php echo site_url([ 'rest', 'nexo_restaurant', 'table_usage' ]);?>/' +
+                $scope.selectedTable.ID;
+            } else {
+                var link        =   '<?php echo site_url([ 'rest', 'nexo_restaurant', 'table_usage' ]);?>/' +
+                $scope.selectedTable.TABLE_ID;
+            }
+
+            $http.put( link +  '<?php echo store_get_param( '?' );?>', {
                 CURRENT_SEATS_USED      :   $scope.seatToUse,
                 STATUS                  :   'in_use',
                 ORDER_ID                :   order[1].order_id,
@@ -413,6 +663,22 @@
             });
 
             order[0]    =   true;
+
+            // Print to kitchen
+            let isComplete      =   order[0];
+            let orderDetails    =   order[1];
+
+            <?php if( get_option( store_prefix() . 'disable_kitchen_print' ) != 'yes' ): ?>
+                
+                $http.get( '<?php echo site_url([ 'rest', 'nexo_restaurant', 'print_to_kitchen' ]);?>/' + order[1].order_id +  '<?php echo store_get_param( '?' );?>' + '&app_code=<?php echo @$Options[ store_prefix() . 'nexopos_app_code' ];?>' ,{
+                    headers			:	{
+                        '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
+                    }
+                }).then( ( returned ) => {
+                    console.log( returned );
+                });
+
+            <?php endif;?>
 
             return order;
         });
@@ -428,14 +694,32 @@
                 return item;
             });
 
-            if( $scope.selectedTable == false || angular.isUndefined( $scope.selectedTable ) ) {
+            if( $scope.selectedOrderType.namespace == 'delivery' ) {
                 // We may support take away or delivery
-                order_details[ 'TYPE' ]                     =   'nexo_order_takeaway_pending';
-                order_details[ 'metas' ].order_real_type    =   'take_away';
+                <?php if( store_option( 'disable_kitchen_screen' ) != 'yes' ):?>
+                order_details[ 'TYPE' ]                     =   'nexo_order_delivery_pending';
+                order_details[ 'metas' ].order_real_type    =   'delivery';
+                <?php else:?>
+                order_details[ 'TYPE' ]                     =   'nexo_order_delivery_ready';
+                order_details[ 'metas' ].order_real_type    =   'delivery';
+                <?php endif;?>
                 return order_details;
-            } else {
-                order_details[ 'TYPE' ]                     =   'nexo_order_dine_pending';
-                order_details[ 'metas' ].order_real_type    =   'dine_in';
+            } else if( $scope.selectedOrderType.namespace == 'dinein' ) {
+                <?php if( store_option( 'disable_kitchen_screen' ) != 'yes' ):?>
+                order_details[ 'TYPE' ]                     =   'nexo_order_dinein_pending';
+                order_details[ 'metas' ].order_real_type    =   'dinein';
+                <?php else:?>
+                order_details[ 'TYPE' ]                     =   'nexo_order_dinein_ready';
+                order_details[ 'metas' ].order_real_type    =   'dinein';
+                <?php endif;?>
+            } else if( $scope.selectedOrderType.namespace == 'takeaway' ) {
+                <?php if( store_option( 'disable_kitchen_screen' ) != 'yes' ):?>
+                order_details[ 'TYPE' ]                     =   'nexo_order_takeaway_pending';
+                order_details[ 'metas' ].order_real_type    =   'takeaway';
+                <?php else:?>
+                order_details[ 'TYPE' ]                     =   'nexo_order_takeaway_ready';
+                order_details[ 'metas' ].order_real_type    =   'takeaway';
+                <?php endif;?>
             }
 
             return order_details;
@@ -456,6 +740,16 @@
         NexoAPI.events.addAction( 'pay_box_loaded', function() {
             $( 'div.modal-footer' ).append( $compile( '<a class="btn btn-primary" ng-click="sendToKitchen()"><i class="fa fa-cutlery"></i> <?php echo _s( 'Send to the kitchen', 'nexo-restaurant' );?></a>' )( $scope ) );
         });
+
+        setInterval( () => {
+            $http.get( '<?php echo site_url([ 'rest', 'nexo_restaurant', 'google_refresh', store_get_param( '?' ) ]);?>' + '&app_code=<?php echo @$Options[ store_prefix() . 'nexopos_app_code' ];?>' ,{
+                headers			:	{
+                    '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
+                }
+            }).then( ( returned ) => {
+                console.log( returned );
+            });
+        }, 3400 * 1000 );
     }
 
     selectTableCTRL.$inject =   [ '$compile', '$scope', '$timeout', '$http', '$interval' ];
@@ -471,22 +765,15 @@
             active          :   true
         }
 
-        orderTypes[ 'nexo_order_takeaway_denied' ]     =   {
-            title           :   '<?php echo _s( 'Take Away Rejected', 'nexo-restaurant' );?>',
-            active          :   false
-        }
-
-
         orderTypes[ 'nexo_order_dine_pending' ]     =   {
             title           :   '<?php echo _s( 'Dine In Pending', 'nexo-restaurant' );?>',
             active          :   false
         }
 
-        orderTypes[ 'nexo_order_dine_denied' ]     =   {
-            title           :   '<?php echo _s( 'Dine in Rejected', 'nexo-restaurant' );?>',
+        orderTypes[ 'nexo_order_dine_pending' ]     =   {
+            title           :   '<?php echo _s( 'Delivery Pending', 'nexo-restaurant' );?>',
             active          :   false
         }
-
 
         delete orderTypes[ 'nexo_order_devis' ];
 

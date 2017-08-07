@@ -19,7 +19,7 @@
             <table class="table Nexo-cart-table" style="font-size:16px;">
                 <thead>
                     <tr>
-                        <td><?php _e('Désignation', 'nexo');?></td>
+                        <td><?php _e('Nom du produit', 'nexo');?></td>
                         <td><?php _e('Prix Unitaire', 'nexo');?></td>
                         <td><?php _e('Quantité', 'nexo');?></td>
                         <td><?php _e('Prix Total', 'nexo');?></td>

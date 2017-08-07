@@ -19,6 +19,14 @@
         <option value="by_cash"><?php _e('par chiffre d\'affaire', 'nexo_premium');?></option>
       </select>
     </div>
+	
+	<div class="checkbox">
+		<label>
+			<input type="checkbox" value="1" name="disable_cache">
+			<?php echo __( 'Disable Cache', 'nexo_premium' );?>
+		</label>
+	</div>
+	
 </form>
 <br />
 <div class="nav-tabs-custom">
@@ -45,7 +53,9 @@ var Nexo_Best_Of		=	new function(){
 			this.last_url	=	url;
 		}
 
-		$.ajax( this.last_url + '<?php echo store_get_param( '?' );?>', {
+		var disable_cache = $( '[name="disable_cache"]' ).val() == "1" ? '&disable_cache=true' : '';
+
+		$.ajax( this.last_url + '<?php echo store_get_param( '?' );?>' + disable_cache, {
 			beforeSend	:	function() {
 				$( output_wrapper ).html( '<h3 style="margin:10px 0px" class="text-center"><?php echo addslashes(__('Chargement...', 'nexo_premium'));?></h3>' );
 			},
@@ -123,8 +133,6 @@ var Nexo_Best_Of		=	new function(){
 		});
 
 		var Charts		=	_.values( SoldChart );
-
-		console.log( SoldChart );
 
 		for( var x = 0; x < Charts.length; x++ ) {
 			for( var i = 0; i < data.dates_between_borders.length ;i++ ) {

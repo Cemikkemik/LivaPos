@@ -48,17 +48,11 @@ class Options extends CI_Model
 
     public function set($key, $value, $autoload = false, $user = 0, $app = 'system')
     {
-        // Save on public Array
-    // if( $user = 0 && $app = 'system' ) {
-      // global $Options;
-      // $Options[ $key ]  = $value;
-    // }
-    // For test
-
         // get option if exists
         if ($key != null) {
             $this->db->where('key', $key);
         }
+        
         if ($user != 0) {
             $this->db->where('user', $user);
         }
@@ -105,7 +99,7 @@ class Options extends CI_Model
     public function get($key = null, $user_id = null, $autoload = false)
     {
         // option general otpions can be saved on global options array for autoload parameters. User Parameters must be loaded from db.
-        if (riake($key, $this->options) && $user_id == null) {
+        if ( ! empty( @$this->options[ $key ] ) && $user_id == null) {
             return $this->options[ $key ];
         } elseif (riake($key, $this->user_options) && $user_id === 'current_user') {
             return $this->user_options[ $key ];

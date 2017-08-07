@@ -124,6 +124,7 @@
                                 <td class="text-right"><?php echo __( 'Quantité', 'nexo' );?></td>
                                 <td class="text-right"><?php echo __( 'Type', 'nexo' );?></td>
                                 <td class="text-center"><?php echo __( 'Date', 'nexo' );?></td>
+                                <td class="text-right"></td>
                             </tr>
                         </thead>
                         <tbody>
@@ -131,14 +132,20 @@
                             <tr ng-repeat="entry in history" ng-class="{ 'success' : testType( entry ), 'warning' : testType( entry ) == false }">
                                 <td class="text-left">{{ entry.author }}</td>
                                 <td class="text-right">{{ testType( entry ) ? '+' : '-' }} {{ entry.quantity }}</td>
-                                <td class="text-right">{{ entry.type }}</td>
+                                <td class="text-right">{{ convertType( entry.type ) }}</td>
                                 <td class="text-right">{{ entry.date | date }}</td>
+                                <td class="text-right">
+                                    <a href="<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'supply']);?>/{{ entry.codebar }}/edit/{{ entry.id }}" class="btn btn-sm btn-default">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
                                 <td><?php echo __( 'Quantité restante', 'nexo' );?></td>
                                 <td class="text-right">{{ item[0].QUANTITE_RESTANTE }}</td>
+                                <td></td>
                                 <td></td>
                                 <td class="text-right"><a type="button" class="btn btn-primary btn-sm" ng-href="<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'supply' ] );?>/{{ item[0].CODEBAR }}"><i class="fa fa-eye"></i> <?php echo __( 'Plus de détails', 'nexo' );?></a></td>
                             </tr>

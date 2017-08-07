@@ -223,7 +223,7 @@ $config[ 'nexo_yes_no' ]		=	array(
 // 'TAUX_DE_MARGE', 'COUT_DACHAT',
 // 'FRAIS_ACCESSOIRE',
 $config[ 'nexo_item_price_group' ]	=	array(
-	'PRIX_DACHAT', 'PRIX_DE_VENTE', 'SHADOW_PRICE', 'PRIX_PROMOTIONEL', 'SPECIAL_PRICE_START_DATE', 'SPECIAL_PRICE_END_DATE'
+	'REF_TAXE', 'PRIX_DE_VENTE_TTC', 'PRIX_DACHAT', 'PRIX_DE_VENTE', 'SHADOW_PRICE', 'PRIX_PROMOTIONEL', 'SPECIAL_PRICE_START_DATE', 'SPECIAL_PRICE_END_DATE'
 );
 
 // Stock Group
@@ -251,3 +251,18 @@ $config[ 'nexo_barcode_supported' ]	=	array(
 	'type_msi'	=>	'TYPE MSI',
 	'codabar'	=>	'CODABAR'
 );
+
+// Config
+$config[ 'store_url' ] 		=	'https://127.0.0.1:8000/';
+
+$config[ 'stock-operation' ] 	=	[
+	'transfert_in' 			=>	get_instance()->lang->line( 'transfert_in' ),
+	'transfert_out' 		=>	get_instance()->lang->line( 'transfert_out' ),
+	'transfert_rejected' 	=>	get_instance()->lang->line( 'transfert_rejected' ),
+	'transfert_canceled'	=>	get_instance()->lang->line( 'transfert_canceled' ),
+	'defective'				=>	get_instance()->lang->line( 'defective' ),
+	'supply'				=>	get_instance()->lang->line( 'supply' ),
+	'usable' 				=>	get_instance()->lang->line( 'transfert_in' ),
+	'adjustment'			=>	get_instance()->lang->line( 'transfert_in' ),
+	'import' 				=>	get_instance()->lang->line( 'import' )
+];

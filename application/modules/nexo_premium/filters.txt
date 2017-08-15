@@ -5,3 +5,5 @@ np_profit_lost_report_tbody_row : renvoi les élément du tableau du rapport per
 np_profit_lost_report_tfoot_row : renvoi les éléments du pied du tableau du rapport pertes et profits
 detailed_sale_report_entry_code :  enrevoi le code d'une vente dans le rapport détaillé
 report_order_types     :   replace order type
+dashboard_card_supported_order_type     :    ajouter des commandes prises en charge par les cartes du tableau de bord.
+

@@ -161,7 +161,7 @@ trait Nexo_customers
             'DATE_CREATION'     =>  $this->post( 'created_on' ),
             'AUTHOR'            =>  $this->post( 'author' ),
             'TEL'               =>  $this->post( 'phone' ),
-            'REF_GROUP'         =>  $this->post( 'group_id' )
+            'REF_GROUP'         =>  $this->post( 'ref_group' )
         ]);
 
         $insert_id      =   $this->db->insert_id();

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nexo\n"
-"POT-Creation-Date: 2017-08-07 00:47+0100\n"
-"PO-Revision-Date: 2017-08-07 22:06+0100\n"
+"POT-Creation-Date: 2017-08-10 23:03+0100\n"
+"PO-Revision-Date: 2017-08-14 02:27+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en\n"
@@ -1119,7 +1119,7 @@ msgstr "Used by"
 msgid "Ouvrir la caisse"
 msgstr "Open register"
 
-#: __controllers/registers.php:78 __controllers/registers.php:331
+#: __controllers/registers.php:78 __controllers/registers.php:332
 #: views/settings/keyboard.php:66
 msgid "Fermer la caisse"
 msgstr "Close register"
@@ -1145,15 +1145,15 @@ msgstr "Edit a cash register"
 msgid "Liste des caisses"
 msgstr "Register list"
 
-#: __controllers/registers.php:435
+#: __controllers/registers.php:436
 msgid "Effectuer un vente"
 msgstr "Proceed a sale"
 
-#: __controllers/registers.php:437
+#: __controllers/registers.php:438
 msgid "Modifier une commande"
 msgstr "Edit order"
 
-#: __controllers/registers.php:503
+#: __controllers/registers.php:504
 msgid "Caisses enregistreuses"
 msgstr "Registers"
 
@@ -3323,6 +3323,10 @@ msgstr "Choose a reset option"
 msgid "Veuillez choisir une option dans la liste de réinitialisation"
 msgstr "Please choose an option from the list to reset"
 
+#: inc/traits/items.php:32
+msgid "Produits Importés"
+msgstr "Items Imported"
+
 #: inc/widgets/chiffre-daffaire-net.php:28
 msgid "Chiffre d'affaire ces 7 dernières jours"
 msgstr "Turnover these last 7 days"
@@ -3527,9 +3531,8 @@ msgid "Incomplète"
 msgstr "Incomplete"
 
 #: language/nexo_lang.php:20
-#, fuzzy
 msgid "Devis"
-msgstr "Pedido de presupuesto"
+msgstr "Quotation"
 
 #: language/nexo_lang.php:21
 msgid "Désactivée"
@@ -3816,12 +3819,12 @@ msgid ""
 msgstr "You cannot delete this entry, because the inventory does not allow it."
 
 #: language/nexo_lang.php:117
-msgid "Transfert Entrant"
-msgstr "Incoming Transfers"
+msgid "Stock Accepté"
+msgstr "Transfert Accepted"
 
 #: language/nexo_lang.php:118
-msgid "Transfert Sortant"
-msgstr "Outgoing Transfers"
+msgid "Stock Transféré"
+msgstr "Stock Transferred"
 
 #: language/nexo_lang.php:119
 #, fuzzy
@@ -3842,6 +3845,10 @@ msgstr "Stock return"
 #, fuzzy
 msgid "Retour Defectueux"
 msgstr "Return defective"
+
+#: language/nexo_lang.php:125
+msgid "Importé"
+msgstr ""
 
 #: views/arrivages-list.php:8
 msgid "Gestion & Création des livraisons"
@@ -5410,9 +5417,8 @@ msgid "Caissier : %s"
 msgstr "Cashier: %s"
 
 #: views/receipts/default-backup.php:50 views/receipts/simple.php:61
-#, fuzzy
 msgid "Ticket de caisse"
-msgstr "E-Store Receipt"
+msgstr "Receipt"
 
 #: views/receipts/default-backup.php:113 views/receipts/default-backup.php:135
 #: views/receipts/default-backup.php:150 views/receipts/default-backup.php:165
@@ -5740,9 +5746,8 @@ msgstr "Use cash registers"
 #: views/settings/checkout.php:275 views/settings/checkout.php:301
 #: views/settings/checkout.php:313 views/shop-checkout-settings -
 #: Deprecated.php:126
-#, fuzzy
 msgid "Veuillez choisir une option"
-msgstr "Elige una Opción"
+msgstr "Please select an option"
 
 #: views/settings/checkout.php:60
 msgid "Activer la TVA"
@@ -6767,6 +6772,12 @@ msgstr "Enable Demo"
 #, fuzzy
 msgid "Accéder au tableau de bord"
 msgstr "Access the dashboard"
+
+#~ msgid "Transfert Entrant"
+#~ msgstr "Incoming Transfers"
+
+#~ msgid "Transfert Sortant"
+#~ msgstr "Outgoing Transfers"
 
 #~ msgid "Arrivage non définie"
 #~ msgstr "Shipping not defined"

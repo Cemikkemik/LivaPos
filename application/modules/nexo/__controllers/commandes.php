@@ -86,12 +86,12 @@ class Nexo_Commandes extends CI_Model
 			'btn btn-info fa fa-file'
 		);
 
-		$crud->add_action(
-			__('Modifier la commande', 'nexo'),
-			'',
-			$edit_link,
-			'btn btn-default fa fa-edit ' . $edit_class
-		);
+		// $crud->add_action(
+		// 	__('Modifier la commande', 'nexo'),
+		// 	'',
+		// 	$edit_link,
+		// 	'btn btn-default fa fa-edit ' . $edit_class
+		// );
 
         $crud->callback_column( 'TOTAL', function( $price ){
             return $this->Nexo_Misc->cmoney_format( $price, true );
@@ -146,8 +146,10 @@ class Nexo_Commandes extends CI_Model
         // Run special commande on current crud object
         $crud   =   $this->events->apply_filters( 'nexo_commandes_loaded', $crud );
 
-		$this->events->add_filter( 'grocery_row_actions_output', function( $filter, $row ) {
-			return $filter . '<span class="btn btn-primary btn-sm" ng-click="openDetails( ' . $row->ID . ', \'' . $row->CODE . '\'  )">' . __( 'Options', 'nexo' ) . '</span>';
+		$this->events->add_filter( 'grocery_row_actions_output', function( $filter, $row ) use ( $edit_link ) {
+            $filter     .=  ' <span class="btn btn-default btn-sm" ng-click="editWithRegister( ' . $row->ID . ', \'' . $edit_link . '\' )">' . __( 'Modifier', 'nexo' ) . '</span>';
+			$filter     .= ' <span class="btn btn-primary btn-sm" ng-click="openDetails( ' . $row->ID . ', \'' . $row->CODE . '\'  )">' . __( 'Options', 'nexo' ) . '</span>';
+            return $filter;
 		}, 10, 2 );
 
 
@@ -348,65 +350,6 @@ class Nexo_Commandes extends CI_Model
 		global $Options;
 		if( ( $this->uri->segment( 4 ) == 'lists' && $this->uri->segment( 4 ) != '__use' ) || ( $this->uri->segment( 6 ) == 'lists' && $this->uri->segment( 6 ) != '__use' ) ) {
 ?>
-<script type="text/javascript">
-"use strict";
-var BindAction		=	function(){
-	 $( '.select_register' ).each(function(index, element) {
-		if( typeof $(this).attr( 'bound' ) == 'undefined' ) {
-			$( this ).bind( 'click', function(){
-				$this	=	$( this );
-				$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'registers?store_id=' . get_store_id() ) );?>', {
-					success	:	function( data ){
-
-						var register_lists	=	'';
-
-						_.each( data, function( value, key ) {
-							if( value.STATUS == 'opened' ) {
-								register_lists	+=	'<tr>' +
-									'<td>' + value.NAME + '</td>' +
-									'<td><a class="btn btn-primary btn-sm" href="<?php echo site_url( array( 'dashboard', store_slug(), 'nexo', 'registers', '__use' ) );?>/' + value.ID + '/' + $this.data( 'item-id' ) + '"><?php echo _s( 'Utiliser cette caisse', 'nexo' );?></a></td>' +
-								'</tr>';
-							}
-						});
-
-						var dom		=	'<h4><?php echo _s( 'Selectionner une caisse', 'nexo' );?></h4>' +
-						'<br>' +
-						'<table class="table table-bordered table-striped">' +
-							'<thead>' +
-								'<tr>' +
-									'<td><?php echo _s( 'Caisse', 'nexo' );?></td>' +
-									'<td width="200"><?php echo _s( 'Action', 'nexo' );?></td>' +
-								'</tr>' +
-							'</thead>' +
-							'<tbody>' +
-								register_lists +
-							'</tbody>' +
-						'</table>' +
-						'<br>' +
-						'<?php echo tendoo_info( _s( 'Les caisses affichées sont celles actuellement ouvertes. Assurez-vous de choisir une caisse ayant une de vos sessions', 'nexo' ) );?>';
-
-						NexoAPI.Bootbox().alert( dom, function( action ) {
-
-						});
-					},
-					dataType:"json",
-					error: function(){
-						bootbox.alert( '<?php echo _s( 'Une erreur s\'est produite durant le chargement des caisses.', 'nexo' );?>' );
-					}
-				});
-				return false;
-			})
-			$(this).attr( 'bound', 'true' );
-		}
-	});
-}
-$(document).ready(function(e) {
-   BindAction();
-});
-$( document ).ajaxComplete(function(){
-	BindAction();
-});
-</script>
 <?php if (@$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):?>
 <script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
 <script type="text/javascript">

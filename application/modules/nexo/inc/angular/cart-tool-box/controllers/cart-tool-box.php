@@ -316,6 +316,7 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 		if( ! v2Checkout.isCartEmpty() ) {
 			NexoAPI.Bootbox().confirm( '<?php echo _s( 'Une commande est déjà en cours, souhaitez vous la supprimer ?', 'nexo' );?>', function( action ){
 				if( action ) {
+					NexoAPI.events.doAction( 'order_history_cart_busy' );
 					v2Checkout.resetCart();
 					$scope.openHistoryBox();
 				}

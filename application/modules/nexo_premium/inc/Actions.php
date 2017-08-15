@@ -141,7 +141,7 @@ class Nexo_Premium_Actions extends CI_Model
 						// Default value
 						$CA                        =    0;
 						// Uniquement les commandes comptant et avance
-						if ($sale[ 'TYPE' ] == 'nexo_order_comptant') {
+						if ( in_array( $sale[ 'TYPE' ], $this->events->apply_filters( 'dashboard_card_supported_order_type', [ 'nexo_order_comptant' ] ) ) ) {
 							$CA                =
 							__floatval($sale[ 'TOTAL' ]) - (
 								__floatval($sale[ 'RISTOURNE' ]) +

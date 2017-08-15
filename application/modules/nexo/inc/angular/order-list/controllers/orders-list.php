@@ -885,11 +885,75 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 		}
 	}
 
+	$scope.editWithRegister 				=	function( orderid, register_link ){
+		// if a register is disabled, then open the order directly
+		<?php if( store_option( 'enable_registers' ) != 'yes' ):?>
+		document.location 	=	register_link + orderid;
+		return;
+		<?php endif;?>
+
+		$this	=	$( this );
+		$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'registers?store_id=' . get_store_id() ) );?>', {
+			success	:	function( data ){
+
+				var register_lists	=	'';
+
+				var oneOpen 		=	false;
+
+				_.each( data, function( value, key ) {
+					if( value.STATUS == 'opened' ) {
+						register_lists	+=	
+						'<tr>' +
+							'<td>' + value.NAME + '</td>' +
+							'<td><a class="btn btn-primary btn-sm" href="<?php echo site_url( array( 'dashboard', store_slug(), 'nexo', 'registers', '__use' ) );?>/' + value.ID + '/' + orderid + '"><?php echo _s( 'Utiliser cette caisse', 'nexo' );?></a></td>' +
+						'</tr>';
+						oneOpen 		=	true;
+					}
+				});
+
+				if( oneOpen == false ) {
+					register_lists	+=	
+					'<tr>' +
+						'<td colspan="2"><?php echo _s( 'Aucun caisse n\'est ouverte.', 'nexo' );?></td>' +
+					'</tr>';
+				}
+
+
+				var dom		=	'<h4><?php echo _s( 'Selectionner une caisse', 'nexo' );?></h4>' +
+				'<br>' +
+				'<table class="table table-bordered table-striped">' +
+					'<thead>' +
+						'<tr>' +
+							'<td><?php echo _s( 'Caisse', 'nexo' );?></td>' +
+							'<td width="200"><?php echo _s( 'Action', 'nexo' );?></td>' +
+						'</tr>' +
+					'</thead>' +
+					'<tbody>' +
+						register_lists +
+					'</tbody>' +
+				'</table>' +
+				'<br>' +
+				'<?php echo tendoo_info( _s( 'Les caisses affichées sont celles actuellement ouvertes. Assurez-vous de choisir une caisse ayant une de vos sessions', 'nexo' ) );?>';
+
+				NexoAPI.Bootbox().alert( dom, function( action ) {
+
+				});
+			},
+			dataType:"json",
+			error: function(){
+				bootbox.alert( '<?php echo _s( 'Une erreur s\'est produite durant le chargement des caisses.', 'nexo' );?>' );
+			}
+		});
+		return false;
+	}
+
 	$(document).ready(function(e) {
 	   // $( '.modal-content' ).html( $compile( $( '.modal-content' ).html() )( $scope ) );
 	});
 	$( document ).ajaxComplete(function(){
-		$( '.table.table-striped' ).html( $compile( $( '.table.table-striped' ).html() )( $scope ) );
+		$( '#ajax_list .table.table-striped' ).html( $compile( $( '#ajax_list .table.table-striped' ).html() )( $scope ) );
 	});
+
+
 }]);
 </script>

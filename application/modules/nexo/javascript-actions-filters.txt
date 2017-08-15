@@ -187,3 +187,8 @@ hover_item_name 	:	{
 	type 	:	filter,
 	desc 	:	permet dautoriser l'exécution du survol d'élement sur le point de vente
 }
+
+order_history_cart_busy : {
+	type 	:	action,
+	desc 	:	'permet d'exécuter un action avant qu'une commande ne soit chargée
+}

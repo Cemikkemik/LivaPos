@@ -78,7 +78,7 @@ class Nexo_Stores extends CI_Model
 	 * Delete Store
 	**/
 
-	public function __delete_store( $store_id )
+	public function __delete_store( $store_id, $post )
 	{
 		$store		=	$this->get( $store_id );
 		$prefix		=	'store_' . $store_id . '_';

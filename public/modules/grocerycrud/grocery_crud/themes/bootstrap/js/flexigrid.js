@@ -128,11 +128,14 @@ $(function(){
 
 	$('.ajax_list').on('click','.field-sorting', function(){
 		$(this).closest('.flexigrid').find('.hidden-sorting').val($(this).attr('rel'));
+		$( this ).find( '.icon-order' ).remove();
 
 		if ($(this).hasClass('asc')) {
 			$(this).closest('.flexigrid').find('.hidden-ordering').val('desc');
+			$( this ).append( '<i class="fa fa-arrow-down pull-right icon-order"/>');
 		} else {
 			$(this).closest('.flexigrid').find('.hidden-ordering').val('asc');
+			$( this ).append( '<i class="fa fa-arrow-up pull-right icon-order"/>')
 		}
 
 		$(this).closest('.flexigrid').find('.crud_page').val('1');

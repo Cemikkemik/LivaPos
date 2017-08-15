@@ -280,7 +280,8 @@ class Nexo_Settings_Controller extends CI_Model
 			if( get_option( store_prefix() . 'disable_customer_creation' ) != 'yes' ) {
 				get_instance()->load->module_view( 'nexo', 'customers.script', [
 					'clients'       =>  [],
-					'client_id'     =>  0
+					'client_id'     =>  0,
+					'groups' 		=>	get_instance()->Nexo_Misc->customers_groups()
 				]);
 			}			
 		});

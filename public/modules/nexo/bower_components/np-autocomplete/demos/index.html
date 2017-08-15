@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="ctrl">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>np-autocomplete demos</title>
+		<link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="../dist/np-autocomplete.min.css"/>
+		<style>
+			.glyphicon-refresh-animate {
+				-animation: spin .7s infinite linear;
+				-ms-animation: spin .7s infinite linear;
+				-webkit-animation: spinw .7s infinite linear;
+				-moz-animation: spinm .7s infinite linear;
+			}
+
+			@keyframes spin {
+				from { transform: scale(1) rotate(0deg);}
+				to { transform: scale(1) rotate(360deg);}
+			}
+
+			@-webkit-keyframes spinw {
+				from { -webkit-transform: rotate(0deg);}
+				to { -webkit-transform: rotate(360deg);}
+			}
+
+			@-moz-keyframes spinm {
+				from { -moz-transform: rotate(0deg);}
+				to { -moz-transform: rotate(360deg);}
+			}
+			.np-autocomplete-wrapper.form-group span.form-control-feedback {
+				display: none;
+			}
+			.np-autocomplete-wrapper.has-feedback span.form-control-feedback {
+				display: block;
+			}
+			.np-autocomplete-open input.form-control {
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+			.np-autocomplete-open .list-group-item:first-child {
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
+			}
+			.np-autocomplete-wrapper .list-group-item.active strong {
+				text-shadow: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 col-xs-12">
+					{{idModel}} -- {{inputModel}}
+					<!-- <label class="control-label">test:</label> -->
+					<div class="form-group" np-autocomplete="options" np-input-model="inputModel" ng-model="idModel" np-auto="autoModel">
+						<div class="input-group">
+							<span class="input-group-btn">
+								<button class="btn btn-success" type="button" ng-click="programmaticallyLoad()">Load programmatically!</button>
+							</span>
+							<input type="text" placeholder="Search in Github repositories" class="form-control"/>
+						</div>
+						<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate form-control-feedback" aria-hidden="true"></span>
+						<p class="help-block">raeef</p>
+					</div>
+					<div class="form-group">
+						<label class="control-label"></label>
+						<input type="text" class="form-control">
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="../bower_components/angular/angular.min.js"></script>
+		<script src="../dist/np-autocomplete.min.js"></script>
+		<script src="app.js"></script>
+	</body>
+</html>

@@ -152,6 +152,8 @@ if ($success_message !== null) {
                         </select>
                         <div class="input-group-addon"><?php echo $entries_lang_string; ?></div>
                     </div>
+                    <input type="hidden" name="order_by[0]" id="hidden-sorting" class="hidden-sorting" value="">
+					<input type="hidden" name="order_by[1]" id="hidden-ordering" class="hidden-ordering" value="">
 				</div>
             	<div class="col-lg-3 col-md-3 col-xs-3">
                     <div class="form-inline">

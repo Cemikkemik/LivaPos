@@ -29,7 +29,7 @@ trait Nexo_items
 
         // create supply for imported item
         $this->db->insert( store_prefix() . 'nexo_arrivages', [
-            'TITRE'             =>      sprintf( __( 'Imported Items', 'nexo' ), date_now() ),
+            'TITRE'             =>      sprintf( __( 'Produits Importés', 'nexo' ), date_now() ),
             'DATE_CREATION'     =>      date_now(),
             'AUTHOR'            =>      User::id()
         ]);

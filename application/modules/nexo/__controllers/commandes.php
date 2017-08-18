@@ -148,7 +148,7 @@ class Nexo_Commandes extends CI_Model
         $allowed_order_for_print	=	$this->events->apply_filters( 'allowed_order_for_print', array( 'nexo_order_comptant' ) );
 
 		$this->events->add_filter( 'grocery_row_actions_output', function( $filter, $row ) use ( $edit_link, $allowed_order_for_print ) {
-            // only order allowed for print are displayed
+            // only order allowed for print are displayed 
             if( in_array( $row->TYPE, $allowed_order_for_print ) ) {
                 $filter     .=  ' <span class="btn btn-default btn-sm" ng-click="editWithRegister( ' . $row->ID . ', \'' . $edit_link . '\' )">' . __( 'Modifier', 'nexo' ) . '</span>';
             }

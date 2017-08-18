@@ -37,9 +37,9 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <td><?php echo __( 'Nom du produit', 'stock-manager' );?></td>
-                                <td><?php echo __( 'Prix', 'stock-manager' );?></td>
-                                <td width="150"><?php echo __( 'Quantité', 'stock-manager' );?></td>
+                                <td><?php echo __( 'Item Name', 'stock-manager' );?></td>
+                                <td><?php echo __( 'Price', 'stock-manager' );?></td>
+                                <td width="150"><?php echo __( 'Quantity', 'stock-manager' );?></td>
                                 <td width="200"><?php echo __( 'Total', 'stock-manager' );?></td>
                                 <td></td>
                             </tr>

@@ -145,9 +145,13 @@ class Nexo_Commandes extends CI_Model
 
         // Run special commande on current crud object
         $crud   =   $this->events->apply_filters( 'nexo_commandes_loaded', $crud );
+        $allowed_order_for_print	=	$this->events->apply_filters( 'allowed_order_for_print', array( 'nexo_order_comptant' ) );
 
-		$this->events->add_filter( 'grocery_row_actions_output', function( $filter, $row ) use ( $edit_link ) {
-            $filter     .=  ' <span class="btn btn-default btn-sm" ng-click="editWithRegister( ' . $row->ID . ', \'' . $edit_link . '\' )">' . __( 'Modifier', 'nexo' ) . '</span>';
+		$this->events->add_filter( 'grocery_row_actions_output', function( $filter, $row ) use ( $edit_link, $allowed_order_for_print ) {
+            // only order allowed for print are displayed
+            if( in_array( $row->TYPE, $allowed_order_for_print ) ) {
+                $filter     .=  ' <span class="btn btn-default btn-sm" ng-click="editWithRegister( ' . $row->ID . ', \'' . $edit_link . '\' )">' . __( 'Modifier', 'nexo' ) . '</span>';
+            }
 			$filter     .= ' <span class="btn btn-primary btn-sm" ng-click="openDetails( ' . $row->ID . ', \'' . $row->CODE . '\'  )">' . __( 'Options', 'nexo' ) . '</span>';
             return $filter;
 		}, 10, 2 );

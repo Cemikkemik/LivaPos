@@ -449,7 +449,9 @@ class Nexo_Produits extends CI_Model
 
         $fields				=	array( 'TYPE', 'REF_ARTICLE_BARCODE', 'QUANTITE', 'UNIT_PRICE', 'REF_PROVIDER', 'REF_SHIPPING' );
         $crud->fields( $fields );
-		$crud->columns( 'REF_ARTICLE_BARCODE', 'TYPE', 'QUANTITE', 'UNIT_PRICE', 'TOTAL_PRICE', 'REF_PROVIDER', 'REF_SHIPPING', 'AUTHOR', 'DATE_CREATION' );
+
+        // REF_PROVIDER and REF_SHIPPING is not available on each item supply history
+		$crud->columns( 'REF_ARTICLE_BARCODE', 'TYPE', 'QUANTITE', 'UNIT_PRICE', 'TOTAL_PRICE', 'AUTHOR', 'DATE_CREATION' );
 
         $crud->field_type( 'TYPE', 'dropdown', [
             'supply'        =>  __( 'Approvisionnement', 'nexo' ),
@@ -464,11 +466,11 @@ class Nexo_Produits extends CI_Model
         $crud->display_as('QUANTITE', __('Quantité', 'nexo'));
         $crud->display_as('UNIT_PRICE', __('Prix', 'nexo'));
         $crud->display_as('TOTAL_PRICE', __('Total', 'nexo'));
-        $crud->display_as('REF_PROVIDER', __('Fournisseur', 'nexo'));
+        // $crud->display_as('REF_PROVIDER', __('Fournisseur', 'nexo')); // moved to shipping
         $crud->display_as('TYPE', __('Type', 'nexo'));
         $crud->display_as('AUTHOR', __('Auteur', 'nexo'));
         $crud->display_as('DATE_CREATION', __('Date', 'nexo'));
-        $crud->display_as('REF_SHIPPING', __('Livraison', 'nexo'));
+        // $crud->display_as('REF_SHIPPING', __('Livraison', 'nexo')); // moved to shipping
         $crud->display_as('DESCRIPTION', __('Description', 'nexo'));
 
         $crud->where( 'TYPE', 'supply' );
@@ -513,8 +515,8 @@ class Nexo_Produits extends CI_Model
         });
 
         $crud->set_relation('AUTHOR', 'aauth_users', 'name');
-        $crud->set_relation('REF_SHIPPING', store_prefix() . 'nexo_arrivages', 'TITRE');
-        $crud->set_relation('REF_PROVIDER', store_prefix() . 'nexo_fournisseurs', 'NOM');
+        // $crud->set_relation('REF_SHIPPING', store_prefix() . 'nexo_arrivages', 'TITRE');
+        // $crud->set_relation('REF_PROVIDER', store_prefix() . 'nexo_fournisseurs', 'NOM');
 
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));

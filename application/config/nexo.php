@@ -223,13 +223,14 @@ $config[ 'nexo_yes_no' ]		=	array(
 // 'TAUX_DE_MARGE', 'COUT_DACHAT',
 // 'FRAIS_ACCESSOIRE',
 $config[ 'nexo_item_price_group' ]	=	array(
-	'REF_TAXE', 'PRIX_DE_VENTE_TTC', 'PRIX_DACHAT', 'PRIX_DE_VENTE', 'SHADOW_PRICE', 'PRIX_PROMOTIONEL', 'SPECIAL_PRICE_START_DATE', 'SPECIAL_PRICE_END_DATE'
+	'REF_TAXE', 'PRIX_DE_VENTE', 'PRIX_DE_VENTE_TTC', 'PRIX_DACHAT', 'SHADOW_PRICE', 'PRIX_PROMOTIONEL', 'SPECIAL_PRICE_START_DATE', 'SPECIAL_PRICE_END_DATE'
 );
 
 // Stock Group
 // 'DEFECTUEUX',
 $config[ 'nexo_item_stock_group' ]	=	array(
-	'STATUS', 'TYPE', 'STOCK_ENABLED', 'QUANTITY', 'QUANTITE_RESTANTE', 'QUANTITE_VENDU', 'REF_PROVIDER'
+	// removed 'REF_PROVIDER', 'QUANTITY',
+	'STATUS', 'TYPE', 'STOCK_ENABLED', 'QUANTITE_RESTANTE', 'QUANTITE_VENDU'
 );
 
 // Caracteristiques
@@ -239,7 +240,8 @@ $config[ 'nexo_item_spec_group' ] 	=	array(
 
 // Details
 $config[ 'nexo_item_details_group' ]=	array(
-	'DESIGN', 'SKU', 'REF_CATEGORIE', 'REF_RAYON', 'REF_SHIPPING', 'AUTO_BARCODE', 'BARCODE_TYPE', 'CODEBAR'
+	// removed 'REF_SHIPPING', 
+	'DESIGN', 'SKU', 'REF_CATEGORIE', 'REF_RAYON', 'AUTO_BARCODE', 'BARCODE_TYPE', 'CODEBAR'
 );
 
 // Barcode Type
@@ -249,18 +251,18 @@ $config[ 'nexo_barcode_supported' ]	=	array(
 	'ean13'		=>	'EAN 13',
 	'code_128'	=>	'Code 128',
 	'type_msi'	=>	'TYPE MSI',
-	'codabar'	=>	'CODABAR'
+	'codabar'		=>	'CODABAR'
 );
 
 // Config
 $config[ 'store_url' ] 		=	'https://server.nexopos.com';
 
 $config[ 'stock-operation' ] 	=	[
-	'transfert_in' 			=>	get_instance()->lang->line( 'transfert_in' ),
+	'transfert_in' 		=>	get_instance()->lang->line( 'transfert_in' ),
 	'transfert_out' 		=>	get_instance()->lang->line( 'transfert_out' ),
 	'transfert_rejected' 	=>	get_instance()->lang->line( 'transfert_rejected' ),
 	'transfert_canceled'	=>	get_instance()->lang->line( 'transfert_canceled' ),
-	'defective'				=>	get_instance()->lang->line( 'defective' ),
+	'defective'			=>	get_instance()->lang->line( 'defective' ),
 	'supply'				=>	get_instance()->lang->line( 'supply' ),
 	'usable' 				=>	get_instance()->lang->line( 'transfert_in' ),
 	'adjustment'			=>	get_instance()->lang->line( 'transfert_in' ),

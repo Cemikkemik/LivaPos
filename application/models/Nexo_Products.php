@@ -216,18 +216,22 @@ class Nexo_Products extends CI_Model
 		}
 
         //@snice 3.0.20
+        /**
+         * @deprecated
+         * Supply will have his own UI
+        **/
         // insert as a stock flow
-        $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
-            'REF_PROVIDER'          =>  $param[ 'REF_PROVIDER' ],
-            'UNIT_PRICE'            =>  $param[ 'PRIX_DACHAT' ],
-            'TOTAL_PRICE'           =>  floatval( $param[ 'PRIX_DACHAT' ] )    *  intval( $param[ 'QUANTITY' ] ),
-            'AUTHOR'                =>  User::id(),
-            'TYPE'                  =>  'supply',
-            'REF_ARTICLE_BARCODE'   =>  $param[ 'CODEBAR' ],
-            'DATE_CREATION'         =>  $param[ 'DATE_CREATION' ],
-            'QUANTITE'              =>  $param[ 'QUANTITY' ],
-            'REF_SHIPPING'          =>  $param[ 'REF_SHIPPING' ]
-        ]);
+        // $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
+        //     'REF_PROVIDER'          =>  $param[ 'REF_PROVIDER' ],
+        //     'UNIT_PRICE'            =>  $param[ 'PRIX_DACHAT' ],
+        //     'TOTAL_PRICE'           =>  floatval( $param[ 'PRIX_DACHAT' ] )    *  intval( $param[ 'QUANTITY' ] ),
+        //     'AUTHOR'                =>  User::id(),
+        //     'TYPE'                  =>  'supply',
+        //     'REF_ARTICLE_BARCODE'   =>  $param[ 'CODEBAR' ],
+        //     'DATE_CREATION'         =>  $param[ 'DATE_CREATION' ],
+        //     'QUANTITE'              =>  $param[ 'QUANTITY' ],
+        //     'REF_SHIPPING'          =>  $param[ 'REF_SHIPPING' ]
+        // ]);
 
 		// If Multi store is enabled
 		// @since 2.8

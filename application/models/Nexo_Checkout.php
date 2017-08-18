@@ -866,6 +866,7 @@ class Nexo_Checkout extends CI_Model
         ' . store_prefix() . 'nexo_clients.NOM as customer_name,
         ' . store_prefix() . 'nexo_clients.TEL as customer_phone,
         ' . store_prefix() . 'nexo_commandes.ID as ORDER_ID,
+        ' . store_prefix() . 'nexo_commandes.DESCRIPTION as DESCRIPTION,
         aauth_users.name as author_name' )
         ->from( store_prefix() . 'nexo_commandes' )
         ->join( store_prefix() . 'nexo_clients', store_prefix() . 'nexo_commandes.REF_CLIENT = ' . store_prefix() . 'nexo_clients.ID' )

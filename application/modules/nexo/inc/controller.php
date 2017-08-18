@@ -524,15 +524,15 @@ class Nexo_Controller extends CI_Model
     {
         $this->load->model('Nexo_Misc');
 
-        include_once( dirname( __FILE__ ) . '/../__controllers/import.php' );
-        include_once( dirname( __FILE__ ) . '/../__controllers/coupons.php' );
+		include_once( dirname( __FILE__ ) . '/../__controllers/import.php' );
+		include_once( dirname( __FILE__ ) . '/../__controllers/coupons.php' );
 		include_once( dirname( __FILE__ ) . '/../__controllers/templates.php' ); // @since 3.1
 		include_once( dirname( __FILE__ ) . '/../__controllers/taxes.php' );
 
-        $this->Gui->register_page( 'nexo', array( $this, 'load_controller' ));
+		$this->Gui->register_page( 'nexo', array( $this, 'load_controller' ));
 		$this->Gui->register_page( 'stores', array( $this, 'stores' ) );
-        $this->Gui->register_page_object( 'nexo_import', 	new Import );
-        $this->Gui->register_page_object( 'nexo_coupons', 	new NexoCouponController );
+		$this->Gui->register_page_object( 'nexo_import', 	new Import );
+		$this->Gui->register_page_object( 'nexo_coupons', 	new NexoCouponController );
 		$this->Gui->register_page_object( 'nexo_templates', new Nexo_Templates_Controller ); // @since 3.1
 		$this->Gui->register_page_object( 'nexo_taxes', 	new Nexo_Taxes_Controller ); // @since 3.3
 

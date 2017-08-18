@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<application>
+     <namespace>nexo-updater</namespace>
+     <name>NexoPOS Updater</name>
+     <description>This module will let you activate NexoPOS to receive updates and to receive permanent support.</description>
+     <version>1.0</version>
+     <main>nexo-updater.php</main>
+     <language>language/</language>
+</application>

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nexo\n"
 "POT-Creation-Date: 2017-08-10 23:03+0100\n"
-"PO-Revision-Date: 2017-08-14 02:27+0100\n"
+"PO-Revision-Date: 2017-08-15 21:09+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en\n"
@@ -3848,7 +3848,7 @@ msgstr "Return defective"
 
 #: language/nexo_lang.php:125
 msgid "Importé"
-msgstr ""
+msgstr "Imported"
 
 #: views/arrivages-list.php:8
 msgid "Gestion & Création des livraisons"
@@ -5477,9 +5477,8 @@ msgstr ""
 "seems not to be valid or does not have any product."
 
 #: views/receipts/default.php:52
-#, fuzzy
 msgid "Reçu de vente"
-msgstr "price"
+msgstr "Sale receipt"
 
 #: views/receipts/default.php:190
 #, php-format

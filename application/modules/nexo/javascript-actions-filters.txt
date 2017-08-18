@@ -192,3 +192,16 @@ order_history_cart_busy : {
 	type 	:	action,
 	desc 	:	'permet d'exécuter un action avant qu'une commande ne soit chargée
 }
+
+open_pos_new_item 	:	{
+	type 	:	action,
+	desc 	:	permet d'exécuter un action lorsque la fenêtre de création de produit rapide s'ouvre
+}
+add_inline_item 	:	{
+	type 	:	action,
+	desc 	:	permet d'exécuter une action lors de l'ajout de produit inline
+}
+close_add_inline_item 	:	{
+	type 	:	action,
+	desc 	:	permet d'exécuter une action lorsque la fenêtre d'ajout de produit sur la ligne se ferme
+}

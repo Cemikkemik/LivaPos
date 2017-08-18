@@ -271,28 +271,30 @@ class Modules
 
          if( isset( $module[ 'application' ][ 'dependencies' ] ) && count( @$module[ 'application' ][ 'dependencies' ] ) > 0 ) {
              $dependencies_data    =   $module[ 'application' ][ 'dependencies' ];
-             $keys                 =    array_keys( @$dependencies_data[ 'module' ] );
+             if( is_array( @$dependencies_data[ 'module' ] ) ) {
+                $keys                 =    array_keys( @$dependencies_data[ 'module' ] );
+                
+                if( in_array( $keys[0], array( '@value' ) , true ) ) {
+                    $dependencies      =   array( $dependencies_data[ 'module' ] );
+                } else {
+                    $dependencies      =   $dependencies_data[ 'module' ];
+                }
 
-             if( in_array( $keys[0], array( '@value' ) , true ) ) {
-                 $dependencies      =   array( $dependencies_data[ 'module' ] );
-             } else {
-                 $dependencies      =   $dependencies_data[ 'module' ];
-             }
-
-             foreach( $dependencies as $dependency ) {
-                 if( ! self::is_active( $dependency[ '@attributes' ][ 'namespace' ], true ) ) {
-                     get_instance()->notice->push_notice(
-                         tendoo_info(
-                             sprintf(
-                                 __( '<strong>%s</strong> has been disabled. This module require <strong>%s</strong> to work properly.'),
-                                 $module[ 'application' ][ 'name' ],
-                                 $dependency[ '@value' ]
+                foreach( $dependencies as $dependency ) {
+                    if( ! self::is_active( $dependency[ '@attributes' ][ 'namespace' ], true ) ) {
+                        get_instance()->notice->push_notice(
+                            tendoo_info(
+                                sprintf(
+                                    __( '<strong>%s</strong> has been disabled. This module require <strong>%s</strong> to work properly.'),
+                                    $module[ 'application' ][ 'name' ],
+                                    $dependency[ '@value' ]
+                                )
                             )
-                        )
-                    );
-                    self::disable( $module[ 'application'][ 'namespace' ] );
-                 }
-             }
+                        );
+                        self::disable( $module[ 'application'][ 'namespace' ] );
+                    }
+                }
+             }             
          }
      }
 

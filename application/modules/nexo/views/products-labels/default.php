@@ -73,7 +73,7 @@ if (! $products_labels = $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'tr
                     	<!-- <h4 class="text-center" style="margin:3px 0;"><?php echo $Options[ 'site_name' ];
                         ?></h4> -->
                     	<h4 class="text-center" style="margin:10px;padding:0px;"><?php echo $product[ 'DESIGN' ];?></h4>
-                        <img style="display:inline-block;margin:2%" src="<?php echo upload_url() . '/codebar/' . $product[ 'CODEBAR' ] . '.jpg';
+                        <img style="display:inline-block;margin:2%;width:100%;height:50px;" src="<?php echo upload_url() . '/codebar/' . $product[ 'CODEBAR' ] . '.jpg';
                         ?>">
 
                         <p class="text-center" style="margin:0px;font-size:12px;"><?php echo $product[ 'CODEBAR' ];?></p>

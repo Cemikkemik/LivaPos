@@ -183,20 +183,26 @@ tendooApp.directive( 'items', function(){
 				// Proceed add item to the cart
 				let item 			=	new Object;
 				let uniqueBarcode 	=	makeid();
+
+				console.log( $scope.model );
 				
 				v2Checkout.addOnCart([{
 					STATUS 			:	'1',
-					CODEBAR 		:	uniqueBarcode,
+					CODEBAR 			:	uniqueBarcode,
 					INLINE 			:	true, // it's an inline product,
-					STOCK_ENABLED 	:	'0',
+					STOCK_ENABLED 		:	'0',
 					QTE_ADDED 		:	0,
 					TYPE 			:	'2',
 					DESIGN 			:	$scope.model.item_name,
-					PRIX_DE_VENTE 	:	$scope.model.item_price
+					PRIX_DE_VENTE 		:	$scope.model.item_price,
+					PRIX_DE_VENTE_TTC 	:	$scope.model.item_price
 				}], uniqueBarcode, $scope.model.item_quantity, true );
 
+				NexoAPI.events.doAction( 'add_inline_item', $scope );	
+
 				$scope.model 			=	new Object;
-				$( '[data-bb-handler="confirm"]' ).trigger( 'click' );
+
+				$( '[data-bb-handler="confirm"]' ).trigger( 'click' );				
 			}
 
 			// hide default modal buttons
@@ -207,7 +213,10 @@ tendooApp.directive( 'items', function(){
 			// Set focus on the main field
 			setTimeout( () => {
 				$( '#item_name' ).select();
-			}, 300 );		
+			}, 300 );	
+
+			// add a hook to run each time the inline item popup is open
+			NexoAPI.events.doAction( 'open_pos_new_item', $scope );	
 		}]
 	}
 })
@@ -647,6 +656,9 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 				}
 			},
 			callback		:	function( action ) {
+				if( ! action ) {
+					NexoAPI.events.doAction( 'close_add_inline_item', $scope );
+				}
 			}
 		});
 		

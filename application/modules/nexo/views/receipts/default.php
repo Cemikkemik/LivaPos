@@ -354,8 +354,9 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         </tr>
                     </tbody>
                 </table>
+                <p class="text-center"><?php echo xss_clean( $order[ 'order' ][0][ 'DESCRIPTION' ] );?></p>
 				<p class="text-center"><?php echo xss_clean( $this->parser->parse_string( @$Options[ store_prefix() . 'nexo_bills_notices' ], $template , true ) );?></p>
-                <?php if( @_GET[ 'is-pdf' ] == null ):?>
+                <?php if( @$_GET[ 'is-pdf' ] == null ):?>
                 <div class="container-fluid hideOnPrint">
                     <div class="row hideOnPrint">
                         <div class="col-lg-12">

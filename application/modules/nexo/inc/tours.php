@@ -7,7 +7,7 @@ class Nexo_Tours extends CI_Model
 
 		if( get_option( 'nexo_first_run' ) == null && ! in_array( $this->uri->segment( 3 ), [
 			'about'
-		] ) && $this->uri->segment( 1 ) == 'dashboard' && in_array( $this->uri->segment( 2 ), [ 'nexo', 'stores', 'nexo_import', 'nexo_taxes', 'nexo_coupons', 'nexo_templates' ]) ) {
+		] ) && $this->uri->segment( 1 ) == 'dashboard' && ! in_array( $this->uri->segment( 2 ), [ 'modules', 'options' ] ) ) {
 			redirect([ 'dashboard', 'nexo', 'about' ]);
 		}
 
@@ -17,7 +17,7 @@ class Nexo_Tours extends CI_Model
 
             get_instance()->enqueue->js_namespace( 'dashboard_footer' );
             get_instance()->enqueue->js( '../modules/nexo/bower_components/bootstrap-tour/build/js/bootstrap-tour.min' );
-        });
+		});
     }
 
     /**

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nexo\n"
-"POT-Creation-Date: 2017-07-29 20:44+0100\n"
-"PO-Revision-Date: 2017-07-29 20:56+0100\n"
+"POT-Creation-Date: 2017-08-15 21:10+0100\n"
+"PO-Revision-Date: 2017-08-15 21:17+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: es_ES\n"
@@ -36,14 +36,14 @@ msgstr "n/d"
 msgid "Nom de la livraison"
 msgstr "Nombre Entregas"
 
-#: __controllers/arrivages.php:61 __controllers/arrivages.php:214
+#: __controllers/arrivages.php:61 __controllers/arrivages.php:225
 #: __controllers/produits.php:158
 msgid "Crée le"
 msgstr "Fecha Creación"
 
-#: __controllers/arrivages.php:62 __controllers/arrivages.php:215
-#: __controllers/clients.php:274 __controllers/produits.php:160
-#: __controllers/produits.php:455 __controllers/registers.php:63
+#: __controllers/arrivages.php:62 __controllers/arrivages.php:226
+#: __controllers/clients.php:288 __controllers/produits.php:160
+#: __controllers/produits.php:469 __controllers/registers.php:63
 #: __controllers/stores.php:43 __controllers/taxes - awesomecrud.php:17
 #: __controllers/taxes.php:53 views/items/stock-supply/dom.php:123
 #: views/registers/dashboard_footer.php:144
@@ -52,6 +52,7 @@ msgstr "Autor"
 
 #: __controllers/arrivages.php:63 __controllers/coupons.php:64
 #: inc/angular/register/directives/coupon-payment.php:85
+#: views/items/history/dom.php:9
 msgid "Valeur"
 msgstr "Valor"
 
@@ -61,29 +62,29 @@ msgid "Produits Inclus"
 msgstr "Productos incluidos"
 
 #: __controllers/arrivages.php:65 __controllers/fournisseurs.php:37
-#: inc/controller.php:258
+#: inc/controller.php:262
 msgid "Fournisseurs"
 msgstr "Proveedores"
 
 #: __controllers/arrivages.php:66 __controllers/clients.php:88
-#: __controllers/clients.php:273 __controllers/coupons.php:69
-#: __controllers/produits.php:153 __controllers/produits.php:458
+#: __controllers/clients.php:287 __controllers/coupons.php:69
+#: __controllers/produits.php:153 __controllers/produits.php:472
 #: __controllers/registers.php:60 __controllers/stores.php:42
 #: __controllers/taxes - awesomecrud.php:18 __controllers/taxes.php:54
-#: views/customers/script.php:251 views/customers/script.php:258
+#: views/customers/script.php:272 views/customers/script.php:279
 #: views/import/items-dom.php:23 views/import/script.php:15
 #: views/items/stock-supply/new-ui-dom.php:70
 msgid "Description"
 msgstr "Descripción"
 
-#: __controllers/arrivages.php:67 __controllers/arrivages.php:213
-#: __controllers/produits.php:173 __controllers/produits.php:453
+#: __controllers/arrivages.php:67 __controllers/arrivages.php:224
+#: __controllers/produits.php:173 __controllers/produits.php:467
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:137
-#: inc/angular/items/factories/fields.php:166 views/deliveries/invoice.php:52
+#: inc/angular/items/factories/fields.php:166 views/deliveries/invoice.php:51
 msgid "Fournisseur"
 msgstr "Proveedor"
 
-#: __controllers/arrivages.php:72 __controllers/produits.php:473
+#: __controllers/arrivages.php:72 __controllers/produits.php:487
 #: inc/angular/cart-tool-box/directives/history-content.php:69
 #: inc/angular/order-list/controllers/orders-list.php:283
 #: views/guides/checkout.php:22
@@ -113,31 +114,32 @@ msgstr "Add nueva Entrega"
 msgid "Produits inclus dans l'approvisionnement"
 msgstr "Productos incluidos en el suministro de"
 
-#: __controllers/arrivages.php:203 views/items/stock-supply/dom.php:118
+#: __controllers/arrivages.php:205 __controllers/produits.php:196
+#: views/items/stock-supply/dom.php:118
 msgid "Historique d'approvisionnement"
 msgstr "Historia del abastecimiento"
 
-#: __controllers/arrivages.php:210 __controllers/produits.php:449
-#: views/checkout/v2-1/col_1.php:50 views/deliveries/invoice.php:51
+#: __controllers/arrivages.php:221 __controllers/produits.php:463
+#: views/checkout/v2-1/col_1.php:50 views/deliveries/invoice.php:50
 #: views/items/stock-supply/dom.php:5
 msgid "Produit"
 msgstr "Producto"
 
-#: __controllers/arrivages.php:211 __controllers/produits.php:143
-#: __controllers/produits.php:219 __controllers/produits.php:450
+#: __controllers/arrivages.php:222 __controllers/produits.php:143
+#: __controllers/produits.php:222 __controllers/produits.php:464
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:122
 #: inc/angular/cart-tool-box/directives/history-content.php:76
 #: inc/angular/items/factories/fields.php:174
 #: inc/angular/order-list/controllers/orders-list.php:290
 #: inc/angular/order-list/directives/payment-options.php:248
 #: views/checkout/v2-1/col_1.php:65 views/checkout/v2/col_1.php:38
-#: views/commandes-dom - Deprecated.php:24 views/items/stock-supply/dom.php:69
-#: views/items/stock-supply/dom.php:124
+#: views/commandes-dom - Deprecated.php:24 views/items/history/dom.php:10
+#: views/items/stock-supply/dom.php:69 views/items/stock-supply/dom.php:124
 #: views/items/stock-supply/new-ui-dom.php:14 views/refund/default.php:80
 msgid "Quantité"
 msgstr "Cantidad"
 
-#: __controllers/arrivages.php:212
+#: __controllers/arrivages.php:223
 #: inc/angular/order-list/controllers/orders-list.php:289
 #: views/checkout/v2-1/col_1.php:64 views/checkout/v2/col_1.php:37
 #: views/commandes-dom - Deprecated.php:23
@@ -166,7 +168,7 @@ msgid "Catégorie parente"
 msgstr "Categoria pr"
 
 #: __controllers/categories.php:88 __controllers/categories.php:97
-#: __controllers/categories.php:99 inc/controller.php:247
+#: __controllers/categories.php:99 inc/controller.php:251
 msgid "Liste des catégories"
 msgstr "Lista Categoria"
 
@@ -174,19 +176,20 @@ msgstr "Lista Categoria"
 msgid "Créer une nouvelle catégorie"
 msgstr "Nueva Categoria"
 
-#: __controllers/clients.php:37 inc/controller.php:286 inc/controller.php:424
+#: __controllers/clients.php:37 inc/controller.php:290 inc/controller.php:428
 msgid "Clients"
 msgstr "Clientes"
 
-#: __controllers/clients.php:70 views/checkout/v2/script.php:1330
-#: views/commandes-script - Deprecated.php:24
-msgid "Nom du client"
-msgstr "Nombre Cliente"
+#: __controllers/clients.php:70 __controllers/clients.php:286
+#: views/customers/script.php:285 views/shippings/main-template.php:44
+msgid "Nom"
+msgstr "Nombre"
 
-#: __controllers/clients.php:71 views/checkout/v2/script.php:1342
-#: views/commandes-script - Deprecated.php:36
-msgid "Email du client"
-msgstr "Email Cliente"
+#: __controllers/clients.php:71 __controllers/clients.php:120
+#: views/checkout/v2/script.php:1343 views/commandes-script - Deprecated.php:37
+#: views/customers/script.php:255
+msgid "Email"
+msgstr "Email"
 
 #: __controllers/clients.php:72
 msgid "Achats effectués"
@@ -196,17 +199,19 @@ msgstr "Compras"
 msgid "Nbr Commandes (sess courante)"
 msgstr "Nbr Pedidos"
 
-#: __controllers/clients.php:74 views/checkout/v2/script.php:1348
-#: views/commandes-script - Deprecated.php:42
-msgid "Téléphone du client"
-msgstr "Telefono Cliente"
+#: __controllers/clients.php:74 views/checkout/v2/script.php:1349
+#: views/commandes-script - Deprecated.php:43 views/customers/script.php:259
+msgid "Téléphone"
+msgstr "Teléfono"
 
-#: __controllers/clients.php:75 views/checkout/v2/script.php:1336
-#: views/commandes-script - Deprecated.php:30
-msgid "Prénom du client"
-msgstr "Nombe Cliente"
+#: __controllers/clients.php:75 views/checkout/v2/script.php:1337
+#: views/commandes-script - Deprecated.php:31 views/customers/script.php:252
+#: views/customers/script.php:288 views/shippings/main-template.php:81
+#: views/shippings/main-template.php:82
+msgid "Prénom"
+msgstr "Nombre"
 
-#: __controllers/clients.php:76 views/customers/script.php:242
+#: __controllers/clients.php:76 views/customers/script.php:263
 msgid "Date de naissance"
 msgstr "Fecha Nacimiento"
 
@@ -226,14 +231,14 @@ msgstr "Ultimo Pedido"
 msgid "Avatar"
 msgstr "Avatar"
 
-#: __controllers/clients.php:81 views/customers/script.php:245
-#: views/customers/script.php:285 views/shippings/main-template.php:95
+#: __controllers/clients.php:81 views/customers/script.php:266
+#: views/customers/script.php:306 views/shippings/main-template.php:95
 #: views/shippings/main-template.php:96
 msgid "Pays"
 msgstr "Pais"
 
-#: __controllers/clients.php:82 views/customers/script.php:248
-#: views/customers/script.php:279 views/shippings/main-template.php:102
+#: __controllers/clients.php:82 views/customers/script.php:269
+#: views/customers/script.php:300 views/shippings/main-template.php:102
 #: views/shippings/main-template.php:103
 msgid "Ville"
 msgstr "Ciudad"
@@ -256,6 +261,7 @@ msgid "Modifié le"
 msgstr "Modificado en"
 
 #: __controllers/clients.php:87 __controllers/commandes.php:104
+#: views/items/history/dom.php:12
 msgid "Par"
 msgstr "Por"
 
@@ -268,81 +274,76 @@ msgstr "Grupo"
 msgid "Nom de la compagnie"
 msgstr "Nombre de la empresa"
 
-#: __controllers/clients.php:108 views/checkout/v2/script.php:1343
-#: views/commandes-script - Deprecated.php:37 views/customers/script.php:234
-msgid "Email"
-msgstr "Email"
+#: __controllers/clients.php:104 __controllers/clients.php:108
+#, fuzzy
+msgid "Non Défini"
+msgstr "no definido"
 
-#: __controllers/clients.php:119
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:528
-#: inc/controller.php:296 views/checkout/v2-1/col_1.php:28
+#: __controllers/clients.php:131
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:538
+#: inc/controller.php:300 views/checkout/v2-1/col_1.php:28
 #: views/checkout/v2-1/col_1.php:30 views/checkout/v2/col_1.php:9
 #: views/checkout/v2/col_1.php:21 views/settings/keyboard.php:58
 msgid "Ajouter un client"
 msgstr "Add Cliente"
 
-#: __controllers/clients.php:125
+#: __controllers/clients.php:137 __controllers/commandes.php:150
 #: inc/angular/register/controllers/paybox.php:560 views/commandes-script2 -
 #: Deprecated.php:38
 msgid "Modifier"
 msgstr "Modificar"
 
-#: __controllers/clients.php:170 __controllers/clients.php:179
-#: inc/controller.php:292
+#: __controllers/clients.php:182 __controllers/clients.php:191
+#: inc/controller.php:296
 msgid "Liste des clients"
 msgstr "Lista Clientes"
 
-#: __controllers/clients.php:205 __controllers/clients.php:233
+#: __controllers/clients.php:218 __controllers/clients.php:247
 msgid "Add a new customer"
 msgstr "Añadir un nuevo cliente"
 
-#: __controllers/clients.php:262
+#: __controllers/clients.php:276
 msgid "Groupes d'utilisateurs"
 msgstr "Grupo Usuarios"
 
-#: __controllers/clients.php:272 views/customers/script.php:264
-#: views/shippings/main-template.php:44
-msgid "Nom"
-msgstr "Nombre"
-
-#: __controllers/clients.php:275
+#: __controllers/clients.php:289
 msgid "Date de création"
 msgstr "Fecha Creación"
 
-#: __controllers/clients.php:276
+#: __controllers/clients.php:290
 msgid "Type de remise"
 msgstr "Tipo Descuento"
 
-#: __controllers/clients.php:277
+#: __controllers/clients.php:291
 msgid "Pourcentage de remise (Sans \"%\")"
 msgstr "Descuento(without \"%\")"
 
-#: __controllers/clients.php:278
+#: __controllers/clients.php:292
 msgid "Montant de la remise"
 msgstr "Descuento Cantidad"
 
-#: __controllers/clients.php:279
+#: __controllers/clients.php:293
 msgid "Activer la planification"
 msgstr "Activar Agenda"
 
-#: __controllers/clients.php:280
+#: __controllers/clients.php:294
 msgid "Début de la planification"
 msgstr "Desde"
 
-#: __controllers/clients.php:281
+#: __controllers/clients.php:295
 msgid "Fin de la planification"
 msgstr "Hasta"
 
-#: __controllers/clients.php:282 __controllers/commandes.php:110
+#: __controllers/clients.php:296 __controllers/commandes.php:110
 #: __controllers/stores.php:45
 msgid "Date de modification"
 msgstr "Fecha Modificación"
 
-#: __controllers/clients.php:328 inc/controller.php:300
+#: __controllers/clients.php:342 inc/controller.php:304
 msgid "Groupes"
 msgstr "Grupos"
 
-#: __controllers/clients.php:337
+#: __controllers/clients.php:351
 msgid "Ajouter/Modifier un groupe de clients"
 msgstr "Add/Edit Grupo Clientes"
 
@@ -353,10 +354,6 @@ msgstr "Venta"
 #: __controllers/commandes.php:82
 msgid "Imprimer le ticket de caisse"
 msgstr "Imprimir Ticket"
-
-#: __controllers/commandes.php:90
-msgid "Modifier la commande"
-msgstr "Editar Pedido"
 
 #: __controllers/commandes.php:100 __controllers/coupons.php:63
 #: __controllers/coupons.php:138
@@ -399,66 +396,43 @@ msgstr "Título"
 msgid "TVA"
 msgstr "IVA"
 
-#: __controllers/commandes.php:109 __controllers/produits.php:456
+#: __controllers/commandes.php:109 __controllers/produits.php:470
 #: inc/angular/order-list/controllers/orders-list.php:404
 #: views/items/stock-supply/dom.php:126
 #: views/registers/dashboard_footer.php:147
 msgid "Date"
 msgstr "Fecha"
 
-#: __controllers/commandes.php:111 __controllers/produits.php:452
+#: __controllers/commandes.php:111 __controllers/produits.php:466
 #: inc/angular/order-list/controllers/orders-list.php:319
 #: inc/angular/order-list/directives/payment-options.php:251
 #: inc/angular/order-list/directives/payment-options.php:282
-#: views/deliveries/invoice.php:55 views/deliveries/invoice.php:79
-#: views/items/stock-supply/new-ui-dom.php:34
+#: views/deliveries/invoice.php:54 views/deliveries/invoice.php:78
+#: views/items/history/dom.php:11 views/items/stock-supply/new-ui-dom.php:34
 #: views/receipts/default-backup.php:59 views/receipts/default-backup.php:100
 #: views/receipts/default.php:63 views/receipts/simple.php:73
 #: views/refund/default.php:81 views/refund/default.php:95
 msgid "Total"
 msgstr "Total:"
 
-#: __controllers/commandes.php:112 __controllers/commandes.php:374
-#: __controllers/registers.php:59 inc/controller.php:404
-#: views/checkout/v2/col_1.php:6 views/commandes-dom - Deprecated.php:44
+#: __controllers/commandes.php:112 __controllers/registers.php:59
+#: inc/angular/order-list/controllers/orders-list.php:927
+#: inc/controller.php:408 views/checkout/v2/col_1.php:6 views/commandes-dom -
+#: Deprecated.php:44
 msgid "Caisse"
 msgstr "Cobrar"
 
-#: __controllers/commandes.php:150 views/shippings/main-template.php:8
+#: __controllers/commandes.php:151 views/shippings/main-template.php:8
 msgid "Options"
 msgstr "Opciones"
 
-#: __controllers/commandes.php:217
+#: __controllers/commandes.php:219
 msgid "Liste des commandes"
 msgstr "Lista Pedidos"
 
-#: __controllers/commandes.php:301
+#: __controllers/commandes.php:303
 msgid "Payer une commande"
 msgstr "Pagar Pedido"
-
-#: __controllers/commandes.php:364
-msgid "Utiliser cette caisse"
-msgstr "Usar esta Registradora"
-
-#: __controllers/commandes.php:369
-msgid "Selectionner une caisse"
-msgstr "Selecciona Cajero"
-
-#: __controllers/commandes.php:375 views/registers/dashboard_footer.php:145
-msgid "Action"
-msgstr "Accion"
-
-#: __controllers/commandes.php:383
-msgid ""
-"Les caisses affichées sont celles actuellement ouvertes. Assurez-vous de "
-"choisir une caisse ayant une de vos sessions"
-msgstr ""
-"Los registros visualizados son los que están abiertos actualmente. Asegúrese "
-"de elegir un registro con una de sus sesiones"
-
-#: __controllers/commandes.php:391
-msgid "Une erreur s'est produite durant le chargement des caisses."
-msgstr "Se ha producido un error durante los registros de carga."
 
 #: __controllers/coupons.php:36 __controllers/coupons.php:173
 #: inc/controller.php:164
@@ -562,7 +536,7 @@ msgstr "Add Cupon"
 msgid "Id"
 msgstr "Id"
 
-#: __controllers/coupons.php:139 __controllers/produits.php:454
+#: __controllers/coupons.php:139 __controllers/produits.php:468
 #: inc/angular/register/directives/coupon-payment.php:79
 #: views/items/stock-supply/dom.php:125
 msgid "Type"
@@ -651,7 +625,7 @@ msgstr ""
 msgid "Ce coupon ne sera plus utilisable après cette date."
 msgstr "Este cupón será más utilizable después de esta fecha."
 
-#: __controllers/dashboard.php:27 inc/controller.php:495
+#: __controllers/dashboard.php:27 inc/controller.php:499
 #: views/checkout/v2-1/header.php:6 views/checkout/v2-1/header.php:67
 msgid "Tableau de bord"
 msgstr "Dashboard"
@@ -676,7 +650,7 @@ msgstr "Telefono Proveedor"
 msgid "Description du fournisseur"
 msgstr "Descripción Proveedor"
 
-#: __controllers/fournisseurs.php:83 inc/controller.php:264
+#: __controllers/fournisseurs.php:83 inc/controller.php:268
 msgid "Liste des fournisseurs"
 msgstr "Lista Proveedores"
 
@@ -711,10 +685,11 @@ msgstr ""
 "artículo - <a href=\"%s\">Flashback</a>"
 
 #: __controllers/print.php:148
-msgid "Arrivage non définie"
+#, fuzzy
+msgid "Arrivage non définie."
 msgstr "Envío no definido"
 
-#: __controllers/produits.php:50 inc/controller.php:409
+#: __controllers/produits.php:50 inc/controller.php:413
 msgid "Articles"
 msgstr "Productos"
 
@@ -726,7 +701,7 @@ msgstr "Identificación"
 msgid "Inventaire"
 msgstr "Inventario"
 
-#: __controllers/produits.php:92 __controllers/produits.php:451
+#: __controllers/produits.php:92 __controllers/produits.php:465
 #: inc/angular/items/factories/tabs.php:16 views/receipts/default-backup.php:57
 #: views/receipts/default.php:58 views/receipts/simple.php:68
 msgid "Prix"
@@ -738,23 +713,27 @@ msgstr "Caracteristicas"
 
 #: __controllers/produits.php:126
 #, fuzzy
-msgid "N/A"
-msgstr "N/A"
+msgid "Non défini"
+msgstr "Sin especificar"
 
 #: __controllers/produits.php:136
 msgid "Taxe"
 msgstr "Tasa"
 
 #: __controllers/produits.php:137
-msgid "Prix de vente TTC"
+#, fuzzy
+msgid "Prix de vente(*)"
 msgstr "Precio de venta IVA incluido"
 
 #: __controllers/produits.php:138
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:112
 #: inc/angular/cart-tool-box/directives/history-content.php:74
 #: inc/angular/order-list/controllers/orders-list.php:498 views/commandes-dom -
-#: Deprecated.php:22
-msgid "Désignation"
-msgstr "Designación"
+#: Deprecated.php:22 views/import/items-dom.php:12 views/import/script.php:4
+#: views/items/history/dom.php:7 views/items/stock-supply/new-ui-dom.php:12
+#: views/items/templates/clothes.php:10 views/items/templates/coupon.php:10
+msgid "Nom du produit"
+msgstr "Nombre Producto"
 
 #: __controllers/produits.php:139
 msgid "UGS (Unité de gestion de stock)"
@@ -768,9 +747,10 @@ msgstr "Departamento"
 msgid "Arrivage"
 msgstr "Suministro"
 
-#: __controllers/produits.php:144 __controllers/produits.php:220
+#: __controllers/produits.php:144 __controllers/produits.php:223
 #: inc/angular/order-list/directives/payment-options.php:268
-#: views/items/stock-supply/script.php:52 views/refund/default.php:87
+#: language/nexo_lang.php:121 views/items/stock-supply/script.php:56
+#: views/refund/default.php:87
 #, fuzzy
 msgid "Défectueux"
 msgstr "Stock defectuoso"
@@ -779,11 +759,11 @@ msgstr "Stock defectuoso"
 msgid "Frais Accéssoires"
 msgstr "Costes o cargos incidentales"
 
-#: __controllers/produits.php:146 __controllers/produits.php:224
+#: __controllers/produits.php:146 __controllers/produits.php:227
 msgid "Taux de marge"
 msgstr "Margen Neto"
 
-#: __controllers/produits.php:147 __controllers/produits.php:221
+#: __controllers/produits.php:147 __controllers/produits.php:224
 #: inc/angular/items/factories/fields.php:28 views/checkout/v2-1/script.php:762
 #: views/checkout/v2/script.php:631 views/import/items-dom.php:17
 #: views/import/script.php:9
@@ -824,7 +804,7 @@ msgid "Codebarre"
 msgstr "Código Barras"
 
 #: __controllers/produits.php:157 __controllers/produits.php:166
-#: __controllers/produits.php:222 inc/angular/items/factories/fields.php:36
+#: __controllers/produits.php:225 inc/angular/items/factories/fields.php:36
 #: views/import/items-dom.php:18 views/import/script.php:10
 #: views/items/stock-supply/new-ui-dom.php:13
 msgid "Prix d'achat"
@@ -838,7 +818,7 @@ msgstr "Restante"
 msgid "Vendue"
 msgstr "Vendido"
 
-#: __controllers/produits.php:163 __controllers/produits.php:223
+#: __controllers/produits.php:163 __controllers/produits.php:226
 msgid "Prix promotionnel"
 msgstr "Precio Promo"
 
@@ -948,7 +928,24 @@ msgstr ""
 "El precio promocional es un precio de venta especial aplicable a un producto "
 "durante un período determinado."
 
-#: __controllers/produits.php:187
+#: __controllers/produits.php:184
+#, fuzzy
+msgid ""
+"Il s'agit ici de la quantité initiale qui sera considérée comme quantité "
+"d'approvisionnement."
+msgstr ""
+"Aquí es la cantidad inicial que se considerará la cantidad de la fuente."
+
+#: __controllers/produits.php:185
+msgid ""
+"Lorsque qu'un produit est crée, il est nécessaire de définir son "
+"fournisseur, cette information sera utilisée pour identifier ce dernier sur "
+"l'approvisionnement principal."
+msgstr ""
+"Cuando se crea un producto, es necesario establecer su proveedor, se "
+"utilizará esta información para identificarlo en la red."
+
+#: __controllers/produits.php:189
 #, fuzzy
 msgid ""
 "Si vous souhaitez appliquer une taxe sur le prix des produits, vous pouvez "
@@ -957,66 +954,68 @@ msgstr ""
 "Si desea aplicar el impuesto sobre el precio de los productos, se puede "
 "elegir el impuesto en esa lista."
 
-#: __controllers/produits.php:194
-msgid "Historique du stock"
-msgstr "Historia de la población"
+#: __controllers/produits.php:197 __controllers/produits.php:644
+#, fuzzy
+msgid "Historique du produit"
+msgstr "Historia del producto"
 
-#: __controllers/produits.php:225
+#: __controllers/produits.php:228
 msgid "Frais Accessoires"
 msgstr "Costes o cargos incidentales"
 
-#: __controllers/produits.php:254 inc/controller.php:219
-#: language/nexo_lang.php:109 language/nexo_lang.php:113
+#: __controllers/produits.php:257 language/nexo_lang.php:109
+#: language/nexo_lang.php:113
 msgid "Gestion du stock"
 msgstr "Gestión de stocks"
 
-#: __controllers/produits.php:292 inc/controller.php:223 views/commandes-dom -
+#: __controllers/produits.php:305 inc/controller.php:223 views/commandes-dom -
 #: Deprecated.php:17
 msgid "Liste des articles"
 msgstr "Lista Productos"
 
-#: __controllers/produits.php:307 __controllers/produits.php:327
+#: __controllers/produits.php:320 __controllers/produits.php:340
 msgid "Ajouter un nouvel article"
 msgstr "Add  Producto"
 
-#: __controllers/produits.php:374 views/items/templates/clothes.php:3
+#: __controllers/produits.php:387 views/items/templates/clothes.php:3
 #: views/items/templates/coupon.php:3
 #, fuzzy
 msgid "Créer un nouveau produit"
 msgstr "Crear un nuevo producto"
 
-#: __controllers/produits.php:410
+#: __controllers/produits.php:427
 msgid "Approvisonnement"
 msgstr "Compra de componentes"
 
-#: __controllers/produits.php:433 __controllers/produits.php:581
+#: __controllers/produits.php:447 __controllers/produits.php:599
 msgid "Flux du stock"
 msgstr "El flujo de stock"
 
-#: __controllers/produits.php:441 views/items/stock-supply/script.php:46
+#: __controllers/produits.php:455 language/nexo_lang.php:122
+#: views/items/stock-supply/script.php:47
 msgid "Approvisionnement"
 msgstr "Aprovisionamiento"
 
-#: __controllers/produits.php:442
+#: __controllers/produits.php:456
 msgid "Correction du stock"
 msgstr "Corrección del stock"
 
-#: __controllers/produits.php:443
+#: __controllers/produits.php:457
 msgid "Stock Défectueux"
 msgstr "Stock defectuoso"
 
-#: __controllers/produits.php:457
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:593
+#: __controllers/produits.php:471
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:603
 #: inc/angular/order-list/controllers/orders-list.php:315
 #: inc/angular/register/directives/paybox-content.php:172
 #: views/checkout/v2-1/col_1.php:41 views/checkout/v2-1/col_1.php:43
 #: views/checkout/v2-1/col_1.php:48 views/checkout/v2-1/col_1.php:139
-#: views/customers/script.php:211 views/items/stock-supply/dom.php:78
+#: views/customers/script.php:228 views/items/stock-supply/dom.php:78
 #: views/receipts/default.php:143
 msgid "Livraison"
 msgstr "Entrega"
 
-#: __controllers/produits.php:547
+#: __controllers/produits.php:561
 msgid ""
 "La quantité restante après cette opération est négative. Impossible "
 "d'enregistrer l'opération"
@@ -1025,7 +1024,7 @@ msgstr ""
 "guardar la operación\n"
 " "
 
-#: __controllers/produits.php:599
+#: __controllers/produits.php:623
 #, fuzzy
 msgid "Approvisonnement du stock"
 msgstr "Compra de stock"
@@ -1085,7 +1084,7 @@ msgstr "Usado por"
 msgid "Ouvrir la caisse"
 msgstr "Registradora Abierta"
 
-#: __controllers/registers.php:78 __controllers/registers.php:331
+#: __controllers/registers.php:78 __controllers/registers.php:332
 #: views/settings/keyboard.php:66
 msgid "Fermer la caisse"
 msgstr "Registradora Cerrada"
@@ -1111,15 +1110,15 @@ msgstr "Edit Registadora"
 msgid "Liste des caisses"
 msgstr "Lista Cajeros"
 
-#: __controllers/registers.php:435
+#: __controllers/registers.php:436
 msgid "Effectuer un vente"
 msgstr "Efectua una Venta"
 
-#: __controllers/registers.php:437
+#: __controllers/registers.php:438
 msgid "Modifier une commande"
 msgstr "Editar Pedido"
 
-#: __controllers/registers.php:500
+#: __controllers/registers.php:504
 msgid "Caisses enregistreuses"
 msgstr "Registradores"
 
@@ -1194,8 +1193,8 @@ msgstr "configuración del teclado"
 msgid "Réglages Stripe"
 msgstr "Stripe Ajustes"
 
-#: __controllers/stores-settings.php:29 inc/controller.php:453
-#: inc/controller.php:464 views/stores/main.php:10
+#: __controllers/stores-settings.php:29 inc/controller.php:457
+#: inc/controller.php:468 views/stores/main.php:10
 msgid "Réglages des boutiques"
 msgstr "Ajustes Tiendas"
 
@@ -1274,12 +1273,12 @@ msgstr "Impuestos"
 msgid "Taux d'imposition"
 msgstr "Tipo de gravamen"
 
-#: __controllers/taxes.php:118 inc/controller.php:235
+#: __controllers/taxes.php:121 inc/controller.php:235
 #, fuzzy
 msgid "Liste des taxes"
 msgstr "Lista de los cargos"
 
-#: __controllers/taxes.php:131 inc/controller.php:239
+#: __controllers/taxes.php:134 inc/controller.php:239
 #, fuzzy
 msgid "Ajouter une taxe"
 msgstr "Añadir tarifa"
@@ -1309,17 +1308,11 @@ msgstr ""
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:84
 #: views/checkout/v2-1/col_1.php:227 views/checkout/v2/col_1.php:117
 #: views/checkout/v2/script.php:2124 views/items/stock-supply/new-ui-dom.php:80
+#: views/items/stock-supply/new-ui-script.php:229
 #: views/items/templates/category.php:3 views/items/templates/shipping.php:3
 #: views/items/templates/unit.php:3
 msgid "Annuler"
 msgstr "Cancelar"
-
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:112
-#: views/import/items-dom.php:12 views/import/script.php:4
-#: views/items/stock-supply/new-ui-dom.php:12
-#: views/items/templates/clothes.php:10 views/items/templates/coupon.php:10
-msgid "Nom du produit"
-msgstr "Nombre Producto"
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:113
 #, fuzzy
@@ -1328,7 +1321,7 @@ msgstr "Añadir el nombre del producto."
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:117
 #: inc/angular/order-list/directives/payment-options.php:245
-#: views/deliveries/invoice.php:53 views/refund/default.php:79
+#: views/deliveries/invoice.php:52 views/refund/default.php:79
 #, fuzzy
 msgid "Prix unitaire"
 msgstr "Precio Unitario"
@@ -1381,32 +1374,32 @@ msgstr "Codigo Barras"
 msgid "Vous devez remplir tous champs"
 msgstr "Debe rellenar todos los campos"
 
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:204
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:210
 #, fuzzy
 msgid "Ajouter le produit"
 msgstr "Añadir Producto"
 
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:274
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:283
 #: views/checkout/v2-1/col_1.php:212
 msgid "En attente"
 msgstr "Guardar"
 
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:317
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:326
 msgid "Une commande est déjà en cours, souhaitez vous la supprimer ?"
 msgstr "Una orden ya está en curso, ¿quieres cancelarla?"
 
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:328
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:338
 msgid "Historique des commandes"
 msgstr "Historial Pedidos"
 
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:331
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:341
 msgid "Ouvrir la commande"
 msgstr "Edita Pedido"
 
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:335
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:499
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:600
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:644
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:345
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:509
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:610
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:654
 #: inc/angular/register/controllers/paybox.php:650
 #: inc/angular/saveorder/controllers/saveorder.php:50
 #: views/registers/dashboard_footer.php:131
@@ -1414,7 +1407,7 @@ msgstr "Edita Pedido"
 msgid "Fermer"
 msgstr "Cerrar"
 
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:387
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:397
 #: inc/angular/items/controllers/items.php:27
 #: inc/angular/order-list/controllers/orders-list.php:60
 #: inc/angular/order-list/controllers/orders-list.php:89
@@ -1436,25 +1429,25 @@ msgstr "Cerrar"
 msgid "Attention"
 msgstr "Atención"
 
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:387
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:397
 msgid "Vous devez choisir une commande avant de l'ouvrir."
 msgstr "Debe seleccionar un pedido antes de editarlo."
 
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:496
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:506
 #, fuzzy
 msgid "Créer un nouveau client"
 msgstr "Crear cliente nuevo"
 
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:596
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:606
 #, fuzzy
 msgid "Confirmer"
 msgstr "¿Desea confirmar este pago?"
 
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:637
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:647
 msgid "Ajouter un produit"
 msgstr "Add product"
 
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:640
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:650
 #: inc/angular/register/controllers/paybox.php:29
 #: inc/angular/register/controllers/paybox.php:302 views/commandes-script -
 #: Deprecated.php:166 Deprecated.php:708 Deprecated.php:818
@@ -1528,7 +1521,7 @@ msgstr "No se pueden crear más de 10 variaciones de un mismo producto."
 #: views/settings/checkout.php:253 views/settings/checkout.php:266
 #: views/settings/checkout.php:276 views/settings/checkout.php:303
 #: views/settings/checkout.php:315 views/settings/home.php:81
-#: views/settings/items.php:113 views/shop-checkout-settings -
+#: views/settings/items.php:101 views/shop-checkout-settings -
 #: Deprecated.php:127
 #, fuzzy
 msgid "Oui"
@@ -1545,7 +1538,7 @@ msgstr "Sí"
 #: views/settings/checkout.php:252 views/settings/checkout.php:265
 #: views/settings/checkout.php:277 views/settings/checkout.php:302
 #: views/settings/checkout.php:314 views/settings/home.php:82
-#: views/settings/items.php:114 views/shop-checkout-settings -
+#: views/settings/items.php:102 views/shop-checkout-settings -
 #: Deprecated.php:128
 #, fuzzy
 msgid "Non"
@@ -1582,7 +1575,7 @@ msgstr "Análisis de la diferencia"
 
 #: inc/angular/items/factories/fields.php:25
 #, fuzzy
-msgid "Veuillez choisir une désignation unique pour cette variation"
+msgid "Veuillez choisir un nom unique pour cette variation"
 msgstr "Por favor, elija un nombre único para esta variación"
 
 #: inc/angular/items/factories/fields.php:30
@@ -1790,7 +1783,7 @@ msgstr "Usted va a comer productos comestibles."
 #: inc/angular/items/factories/itemTypes.php:37
 #, fuzzy
 msgid "Service"
-msgstr "Departamento"
+msgstr "Servicio"
 
 #: inc/angular/items/factories/itemTypes.php:38
 #, fuzzy
@@ -1851,7 +1844,8 @@ msgid "Annulation"
 msgstr "Cancelar"
 
 #: inc/angular/order-list/controllers/orders-list.php:216 views/commandes-dom -
-#: Deprecated.php:134 views/reports/daily.php:5
+#: Deprecated.php:134 views/items/stock-supply/new-ui-script.php:225
+#: views/reports/daily.php:5
 msgid "Imprimer"
 msgstr "Imprimir"
 
@@ -2031,6 +2025,35 @@ msgstr ""
 msgid "Une erreur s'est produite durant l'opération"
 msgstr "Se ha producido un error durante la operación"
 
+#: inc/angular/order-list/controllers/orders-list.php:908
+msgid "Utiliser cette caisse"
+msgstr "Usar esta Registradora"
+
+#: inc/angular/order-list/controllers/orders-list.php:917
+msgid "Aucun caisse n'est ouverte."
+msgstr "Ningún registradora está abierta."
+
+#: inc/angular/order-list/controllers/orders-list.php:922
+msgid "Selectionner une caisse"
+msgstr "Selecciona Cajero"
+
+#: inc/angular/order-list/controllers/orders-list.php:928
+#: views/registers/dashboard_footer.php:145
+msgid "Action"
+msgstr "Accion"
+
+#: inc/angular/order-list/controllers/orders-list.php:936
+msgid ""
+"Les caisses affichées sont celles actuellement ouvertes. Assurez-vous de "
+"choisir une caisse ayant une de vos sessions"
+msgstr ""
+"Los registros visualizados son los que están abiertos actualmente. Asegúrese "
+"de elegir un registro con una de sus sesiones"
+
+#: inc/angular/order-list/controllers/orders-list.php:944
+msgid "Une erreur s'est produite durant le chargement des caisses."
+msgstr "Se ha producido un error durante los registros de carga."
+
 #: inc/angular/order-list/directives/payment-options.php:40
 msgid "Valeur du paiement"
 msgstr "Valor de pago"
@@ -2105,7 +2128,7 @@ msgstr ": producto (s) compra (s)"
 #: views/checkout/v2/script.php:1805 views/checkout/v2/script.php:2389
 #: views/checkout/v2/script.php:2404 views/checkout/v2/script.php:2450
 #: views/import/script.php:131 views/import/script.php:168
-#: views/import/script.php:242
+#: views/import/script.php:242 views/items/stock-supply/new-ui-script.php:198
 msgid "Une erreur s'est produite"
 msgstr "Ha ocurrido un Error"
 
@@ -2183,6 +2206,7 @@ msgstr "Órdenes parciales fueron descactivees."
 #: views/checkout/v2-1/script.php:1330 views/checkout/v2-1/script.php:1335
 #: views/checkout/v2/script.php:1162 views/checkout/v2/script.php:1181
 #: views/checkout/v2/script.php:1196 views/checkout/v2/script.php:1201
+#: views/items/history/dom.php:13
 msgid "Effectué"
 msgstr "Realizado"
 
@@ -2332,8 +2356,9 @@ msgid "Intitulé de la commande"
 msgstr "Titulo Cita"
 
 #: inc/angular/saveorder/templates/title.php:8
-msgid "Désignation de la commande"
-msgstr "Designación pedido"
+#, fuzzy
+msgid "Nom de la commande"
+msgstr "Nombre de la orden"
 
 #: inc/clothes-demo.php:5
 msgid "Charlottes Russe 2016"
@@ -2605,6 +2630,11 @@ msgstr "Ventas"
 msgid "Nouvel Approvisionnement"
 msgstr "Nuevas fuentes de alimentación"
 
+#: inc/controller.php:219
+#, fuzzy
+msgid "Ajustement des quantités"
+msgstr "Ajuste de cantidades"
+
 #: inc/controller.php:227 inc/widgets/guides.php:6
 msgid "Ajouter un article"
 msgstr "Add Producto"
@@ -2614,93 +2644,97 @@ msgid "Importer les articles"
 msgstr "Importar productos"
 
 #: inc/controller.php:243
+msgid "Liste des départements"
+msgstr "Lista de departamentos"
+
+#: inc/controller.php:247
 msgid "Ajouter un département"
 msgstr "Añadir un departamento"
 
-#: inc/controller.php:251 inc/widgets/guides.php:4
+#: inc/controller.php:255 inc/widgets/guides.php:4
 msgid "Ajouter une catégorie"
 msgstr "Add Categoria"
 
-#: inc/controller.php:268 inc/widgets/guides.php:2
+#: inc/controller.php:272 inc/widgets/guides.php:2
 msgid "Ajouter un fournisseur"
 msgstr "Add Proveedor"
 
-#: inc/controller.php:304
+#: inc/controller.php:308
 msgid "Ajouter un groupe"
 msgstr "Add Grupo"
 
-#: inc/controller.php:315
+#: inc/controller.php:319
 msgid "Rapports"
 msgstr "Informes"
 
-#: inc/controller.php:321
+#: inc/controller.php:325
 msgid "Meilleurs ventes"
 msgstr "Mejores Ventas"
 
-#: inc/controller.php:325
+#: inc/controller.php:329
 msgid "Ventes journalières"
 msgstr "Ventas Diarias"
 
-#: inc/controller.php:329
+#: inc/controller.php:333
 msgid "Rendement Mensuel"
 msgstr "Rendiemiento Mes"
 
-#: inc/controller.php:333
+#: inc/controller.php:337
 msgid "Statistiques des ventes"
 msgstr "Análisis Ventas"
 
-#: inc/controller.php:337
+#: inc/controller.php:341
 msgid "Fiche de suivi de stocks général"
 msgstr "Ficha Inventario General"
 
-#: inc/controller.php:341
+#: inc/controller.php:345
 msgid "Performances des caissiers"
 msgstr "Rendiemiento Empleados"
 
-#: inc/controller.php:345
+#: inc/controller.php:349
 msgid "Statistiques des clients"
 msgstr "Estadísticas Clientes"
 
-#: inc/controller.php:369
+#: inc/controller.php:373
 msgid "Maintenance & Historique"
 msgstr "Mantnimiento& Historia"
 
-#: inc/controller.php:374
+#: inc/controller.php:378
 msgid "Historique des activités"
 msgstr "Informe historial Usuario"
 
-#: inc/controller.php:378
+#: inc/controller.php:382
 msgid "Importation / Exportation"
 msgstr "Import / export"
 
-#: inc/controller.php:393
+#: inc/controller.php:397
 #, php-format
 msgid "Réglages %s"
 msgstr "%s Ajustes"
 
-#: inc/controller.php:399
+#: inc/controller.php:403
 msgid "Général"
 msgstr "General"
 
-#: inc/controller.php:414
+#: inc/controller.php:418
 msgid "Factures & Reçus"
 msgstr "Facturas & Tickets"
 
-#: inc/controller.php:419
+#: inc/controller.php:423
 #, fuzzy
 msgid "Raccourcis Claviers"
 msgstr "Manual"
 
-#: inc/controller.php:429 views/settings/reset-script.php:2
+#: inc/controller.php:433 views/settings/reset-script.php:2
 msgid "Réinitialisation"
 msgstr "Resetear"
 
-#: inc/controller.php:434
+#: inc/controller.php:438
 #, fuzzy
 msgid "A propos"
-msgstr "Sobre"
+msgstr "Acerca de"
 
-#: inc/controller.php:502
+#: inc/controller.php:511
 msgid "Réglages de la boutique"
 msgstr "Ajustes Tienda"
 
@@ -2966,7 +3000,7 @@ msgstr "Can modify products"
 #: inc/install.php:699
 #, fuzzy
 msgid "Supprimer des articles"
-msgstr "eliminar elementos"
+msgstr "Quitar elementos"
 
 #: inc/install.php:699
 msgid "Peut supprimer des produits"
@@ -3292,6 +3326,11 @@ msgstr "Elija una opción de reinicialización"
 #, fuzzy
 msgid "Veuillez choisir une option dans la liste de réinitialisation"
 msgstr "Por favor, seleccione una opción de la lista de reinicio"
+
+#: inc/traits/items.php:32
+#, fuzzy
+msgid "Produits Importés"
+msgstr "Productos importados"
 
 #: inc/widgets/chiffre-daffaire-net.php:28
 msgid "Chiffre d'affaire ces 7 dernières jours"
@@ -3720,7 +3759,7 @@ msgid "Remboursé"
 msgstr "Reembolso"
 
 #: language/nexo_lang.php:93 views/settings/checkout.php:192
-#: views/settings/items.php:112 views/shop-checkout-settings -
+#: views/settings/items.php:100 views/shop-checkout-settings -
 #: Deprecated.php:112
 msgid "Par défaut"
 msgstr "Por Defecto"
@@ -3778,6 +3817,41 @@ msgid ""
 "Vous ne pouvez pas supprimer cette entrée, car le stock disponible ne le "
 "permet pas."
 msgstr "No se puede eliminar esta entrada, porque el inventario no lo permite."
+
+#: language/nexo_lang.php:117
+#, fuzzy
+msgid "Stock Accepté"
+msgstr "Valores aceptados"
+
+#: language/nexo_lang.php:118
+#, fuzzy
+msgid "Stock Transféré"
+msgstr "Valores transferidos"
+
+#: language/nexo_lang.php:119
+#, fuzzy
+msgid "Transfert Rejeté"
+msgstr "Transferencia rechazada"
+
+#: language/nexo_lang.php:120
+#, fuzzy
+msgid "Transfert Annulé"
+msgstr "Transferencia cancelada"
+
+#: language/nexo_lang.php:123
+#, fuzzy
+msgid "Retour Stock"
+msgstr "Retorno de valores"
+
+#: language/nexo_lang.php:124
+#, fuzzy
+msgid "Retour Defectueux"
+msgstr "Retorno defectuoso"
+
+#: language/nexo_lang.php:125
+#, fuzzy
+msgid "Importé"
+msgstr "Importado"
 
 #: views/arrivages-list.php:8
 msgid "Gestion & Création des livraisons"
@@ -4184,20 +4258,25 @@ msgstr ""
 "Cualquier otra información como \"fecha de nacimiento\" se puede llenar más "
 "tarde."
 
+#: views/checkout/v2/script.php:1330 views/commandes-script - Deprecated.php:24
+msgid "Nom du client"
+msgstr "Nombre Cliente"
+
 #: views/checkout/v2/script.php:1331 views/commandes-script - Deprecated.php:25
 msgid "Name"
 msgstr "Nombre"
 
-#: views/checkout/v2/script.php:1337 views/commandes-script - Deprecated.php:31
-#: views/customers/script.php:231 views/customers/script.php:267
-#: views/shippings/main-template.php:81 views/shippings/main-template.php:82
-msgid "Prénom"
-msgstr "Nombre"
+#: views/checkout/v2/script.php:1336 views/commandes-script - Deprecated.php:30
+msgid "Prénom du client"
+msgstr "Nombe Cliente"
 
-#: views/checkout/v2/script.php:1349 views/commandes-script - Deprecated.php:43
-#: views/customers/script.php:238
-msgid "Téléphone"
-msgstr "Teléfono"
+#: views/checkout/v2/script.php:1342 views/commandes-script - Deprecated.php:36
+msgid "Email du client"
+msgstr "Email Cliente"
+
+#: views/checkout/v2/script.php:1348 views/commandes-script - Deprecated.php:42
+msgid "Téléphone du client"
+msgstr "Telefono Cliente"
 
 #: views/checkout/v2/script.php:1354
 msgid "Groupe du client"
@@ -4320,8 +4399,8 @@ msgstr "Gestion y creación Clientes"
 msgid "Articles disponibles"
 msgstr "Productos Disponibles"
 
-#: views/commandes-dom - Deprecated.php:26
-#: views/items/stock-supply/script.php:40
+#: views/commandes-dom - Deprecated.php:26 views/items/history/dom.php:8
+#: views/items/stock-supply/script.php:42
 msgid "Opération"
 msgstr "Operación"
 
@@ -4612,54 +4691,59 @@ msgstr "El correo electrónico para este usuario ya está en uso"
 msgid "Le formulaire contient une ou plusieurs erreurs"
 msgstr "El formulario contiene uno o más errores"
 
-#: views/customers/script.php:180
+#: views/customers/script.php:193
 #, fuzzy
 msgid "Informations de contact"
 msgstr "Información de contacto"
 
-#: views/customers/script.php:211
+#: views/customers/script.php:221
+#, fuzzy
+msgid "Assigner à un groupe"
+msgstr "Asignar a un grupo"
+
+#: views/customers/script.php:228
 #, fuzzy
 msgid "Facturation"
 msgstr "Facturación"
 
-#: views/customers/script.php:235
+#: views/customers/script.php:256
 #, fuzzy
 msgid "Cet email pourra être utilisé pour envoyer des factures au client"
 msgstr ""
 "Este correo electrónico se utiliza para enviar facturas de los clientes"
 
-#: views/customers/script.php:239
+#: views/customers/script.php:260
 #, fuzzy
 msgid "Ce numéro pourra être utilisé pour envoyer des factures au client"
 msgstr "Este número puede ser usado para enviar facturas de los clientes"
 
-#: views/customers/script.php:254
+#: views/customers/script.php:275
 #, fuzzy
 msgid "Etat / Région"
 msgstr "Estado"
 
-#: views/customers/script.php:270 views/shippings/main-template.php:51
+#: views/customers/script.php:291 views/shippings/main-template.php:51
 #: views/shippings/main-template.php:52
 #, fuzzy
 msgid "Entreprise"
 msgstr "Empresa"
 
-#: views/customers/script.php:273
+#: views/customers/script.php:294
 #, fuzzy
 msgid "Addresse Ligne 1"
 msgstr "Dirección Línea 1"
 
-#: views/customers/script.php:276
+#: views/customers/script.php:297
 #, fuzzy
 msgid "Addresse Ligne 2"
 msgstr "Dirección Línea 2"
 
-#: views/customers/script.php:282
+#: views/customers/script.php:303
 #, fuzzy
 msgid "Code Postal"
 msgstr "Código postal"
 
-#: views/customers/script.php:288
+#: views/customers/script.php:309
 #, fuzzy
 msgid "Etat / Comté"
 msgstr "Estado / Condado"
@@ -4672,22 +4756,17 @@ msgstr "Cajeros"
 msgid "Dépenses"
 msgstr "Gastos"
 
-#: views/deliveries/invoice.php:13
-#, fuzzy
-msgid "Souhaitez-vous imprimer cette facture ?"
-msgstr "¿Desea imprimir esta factura?"
-
-#: views/deliveries/invoice.php:44
+#: views/deliveries/invoice.php:43
 #, fuzzy
 msgid "Facture d'approvisionnement"
 msgstr "Proyecto de ley de alimentación"
 
-#: views/deliveries/invoice.php:54 views/import/items-dom.php:16
+#: views/deliveries/invoice.php:53 views/import/items-dom.php:16
 #: views/import/script.php:8
 msgid "Quantite"
 msgstr "Cantidad"
 
-#: views/deliveries/invoice.php:93
+#: views/deliveries/invoice.php:92
 #, fuzzy
 msgid "Revenir en arrière"
 msgstr "Volver atrás"
@@ -4770,11 +4849,11 @@ msgstr "Tienes %s notificaciónes"
 msgid "Gérer les boutiques"
 msgstr "Gestionar Tiendas"
 
-#: views/header/store-menus.php:47
+#: views/header/store-menus.php:48
 msgid "Aucune description disponible"
 msgstr "No hay descripción disponible"
 
-#: views/header/store-menus.php:54
+#: views/header/store-menus.php:55
 msgid "+1 Créer une boutique"
 msgstr "Crea Nueva Tienda"
 
@@ -4936,6 +5015,11 @@ msgstr "Escaneo del archivo..."
 msgid "Création des collections et catégories..."
 msgstr "Creación de envíos y categorías"
 
+#: views/items/history/dom.php:2
+#, fuzzy
+msgid "Historique d'activité sur le produit"
+msgstr "Actividad sobre la historia del producto"
+
 #: views/items/parts.php:17
 #, fuzzy
 msgid "Supprimer une variation"
@@ -4999,7 +5083,7 @@ msgid "Choisir le fournisseur"
 msgstr "Elegir el proveedor"
 
 #: views/items/stock-supply/dom.php:89
-#: views/items/stock-supply/new-ui-script.php:249
+#: views/items/stock-supply/new-ui-script.php:262
 msgid "Vous devez choisir un fournisseur"
 msgstr "Debe seleccionar un proveedor"
 
@@ -5070,8 +5154,8 @@ msgstr "Completar la operación de"
 #: views/items/stock-supply/new-ui-dom.php:61
 #: views/items/stock-supply/new-ui-dom.php:74
 #: views/items/stock-supply/new-ui-script.php:11
-#: views/items/stock-supply/new-ui-script.php:147
-#: views/items/stock-supply/new-ui-script.php:223
+#: views/items/stock-supply/new-ui-script.php:150
+#: views/items/stock-supply/new-ui-script.php:236
 #, fuzzy
 msgid "Ajouter un approvisionnement"
 msgstr "Agregar una fuente de"
@@ -5091,27 +5175,53 @@ msgstr "Fuente título"
 msgid "Modifier l'approvisionnement"
 msgstr "Modificar fuente"
 
-#: views/items/stock-supply/new-ui-script.php:116
-#: views/items/stock-supply/new-ui-script.php:178
+#: views/items/stock-supply/new-ui-script.php:117
+#: views/items/stock-supply/new-ui-script.php:181
 #, fuzzy
 msgid "Vous devez remplir un titre"
 msgstr "Usted debe completar un título"
 
-#: views/items/stock-supply/new-ui-script.php:241
+#: views/items/stock-supply/new-ui-script.php:129
+#, fuzzy
+msgid "Approvisionnement crée"
+msgstr "La oferta crea"
+
+#: views/items/stock-supply/new-ui-script.php:131
+#, fuzzy
+msgid "Une erreur s'est produit durant l'operation"
+msgstr "Ocurrió un error durante la operación"
+
+#: views/items/stock-supply/new-ui-script.php:195
+#, fuzzy
+msgid "Approvisionnement mis à jour"
+msgstr "Fuente actualizada al día"
+
+#: views/items/stock-supply/new-ui-script.php:216
+#: views/settings/invoices.php:88
+#, fuzzy
+msgid "Reçu d'approvisionnement"
+msgstr "Recibo de suministro de"
+
+#: views/items/stock-supply/new-ui-script.php:254
 #, fuzzy
 msgid "Vous devez avoir au moins un produit dans la liste d'approvisionnement"
 msgstr "Debe tener al menos un producto en la lista"
 
-#: views/items/stock-supply/new-ui-script.php:245
+#: views/items/stock-supply/new-ui-script.php:258
 #, fuzzy
 msgid "Vous devez choisir un arrivage"
 msgstr "Usted debe elegir un envío"
 
-#: views/items/stock-supply/script.php:49
+#: views/items/stock-supply/new-ui-script.php:290
+#, fuzzy
+msgid "Approvisionnement effectuée."
+msgstr "La fuente es hecha."
+
+#: views/items/stock-supply/script.php:53
 msgid "Suppression"
 msgstr "Eliminación"
 
-#: views/items/stock-supply/script.php:211
+#: views/items/stock-supply/script.php:225
 msgid ""
 "Impossible d'effectuer l'opération, le stock final après l'opération sera "
 "négatif."
@@ -5132,7 +5242,7 @@ msgstr "Tipo de cambio"
 #: views/items/templates/clothes.php:12 views/items/templates/coupon.php:12
 #, fuzzy
 msgid "Enregistrer"
-msgstr "Guardar"
+msgstr "Registro"
 
 #: views/items/templates/clothes.php:23 views/items/templates/coupon.php:23
 #, fuzzy
@@ -5191,12 +5301,11 @@ msgid "Gestion & Création des moyens de paiements"
 msgstr "Gestión y Creación de medios de pago"
 
 #: views/product-script.php:29
+#, fuzzy
 msgid ""
-"Un produit avec cette désignation existe déjà, souhaitez-vous pré-remplir ce "
+"Un produit avec ce nom existe déjà, souhaitez-vous pré-remplir ce "
 "formulaire ?"
-msgstr ""
-"Ya existe un producto con este nombre, ¿desea llenar previamente este "
-"formulario?"
+msgstr "Un producto con ese nombre ya existe, ¿desea llenar este formulario?"
 
 #: views/product-script.php:39
 msgid ""
@@ -5291,8 +5400,7 @@ msgstr "Estado Pedido: %s"
 msgid "Caissier : %s"
 msgstr "Cajeros: %s"
 
-#: views/receipts/default-backup.php:50 views/receipts/default.php:52
-#: views/receipts/simple.php:61
+#: views/receipts/default-backup.php:50 views/receipts/simple.php:61
 msgid "Ticket de caisse"
 msgstr "Ticket Ventas"
 
@@ -5350,6 +5458,11 @@ msgid ""
 msgstr ""
 "Se ha producido un error durante la visualización de este recibo. El comando "
 "relevante parece no ser válido o no tiene ningún producto."
+
+#: views/receipts/default.php:52
+#, fuzzy
+msgid "Reçu de vente"
+msgstr "Recibo de venta"
 
 #: views/receipts/default.php:190
 #, php-format
@@ -6118,11 +6231,6 @@ msgstr "{customer_name}, para mostrar el nombre del cliente."
 msgid "{customer_phone}, pour afficher le numéro de téléphone du client."
 msgstr "{customer_phone} para mostrar el número de teléfono del cliente."
 
-#: views/settings/invoices.php:88
-#, fuzzy
-msgid "Reçu d'approvisionnement"
-msgstr "Recibo de suministro de"
-
 #: views/settings/items-script.php:2
 msgid "Recréer les codes barres"
 msgstr "Recrear los códigos de barras"
@@ -6186,66 +6294,58 @@ msgid "Choisir le type de Code Barre"
 msgstr "Elegir tipo de Código de barras"
 
 #: views/settings/items.php:55
-msgid "Hauteur du codebar"
-msgstr "Altura Código de barras"
-
-#: views/settings/items.php:61
-msgid "Largeur des barres"
-msgstr "Ancho de las barras"
-
-#: views/settings/items.php:67
 msgid "Limite en chiffre sur le code barre"
 msgstr "Limitar número de código de barras"
 
-#: views/settings/items.php:68
+#: views/settings/items.php:56
 msgid "S'applique à tout type de code sauf aux suivants : EAN8, EAN13"
 msgstr "Aplicar cualquier código  excepto: EAN8, EAN13"
 
-#: views/settings/items.php:79
+#: views/settings/items.php:67
 msgid "Thème des étiquettes des produits"
 msgstr "Plantilla etiqueta producto"
 
-#: views/settings/items.php:80
+#: views/settings/items.php:68
 msgid "Choisir un template pour les étiquettes des produits."
 msgstr "Elige Plantilla para etiquetas de productos"
 
-#: views/settings/items.php:82
+#: views/settings/items.php:70
 msgid "Produits 1/10 sur A4"
 msgstr "Productos 1/10 A4"
 
-#: views/settings/items.php:83
+#: views/settings/items.php:71
 msgid "Produits 1/7 sur A4"
 msgstr "Producots 1/7  A4"
 
-#: views/settings/items.php:84
+#: views/settings/items.php:72
 msgid "Produits 1/5 sur A4"
 msgstr "Productos 1/5 A4"
 
-#: views/settings/items.php:85
+#: views/settings/items.php:73
 msgid "Produits 1/4 sur A4"
 msgstr "Productos 1/4 A4"
 
-#: views/settings/items.php:86
+#: views/settings/items.php:74
 msgid "Produits 1/2 sur A4"
 msgstr "Productos 1/2 A4"
 
-#: views/settings/items.php:101
+#: views/settings/items.php:89
 msgid "Enregistrer les réglages"
 msgstr "Guardar Ajustes"
 
-#: views/settings/items.php:110
+#: views/settings/items.php:98
 msgid "Activer les alertes de stock"
 msgstr "Habilitar stock alertas"
 
-#: views/settings/items.php:120
+#: views/settings/items.php:108
 msgid "Pourcentage de Stock Minimale"
 msgstr "Porcentaje de bajo Stock"
 
-#: views/settings/items.php:122
+#: views/settings/items.php:110
 msgid "Veuillez définir une valeur numérique"
 msgstr "Introduce un valor númerico"
 
-#: views/settings/items.php:123
+#: views/settings/items.php:111
 msgid ""
 "Lorsque le pourcentage restant d'un stock atteindra un seuil, une alerte "
 "sera émise pour ce dernier."
@@ -6610,6 +6710,49 @@ msgstr "Activar la demo"
 msgid "Accéder au tableau de bord"
 msgstr "Acceso a la consola"
 
+#~ msgid "Modifier la commande"
+#~ msgstr "Editar Pedido"
+
+#~ msgid "Arrivage non définie"
+#~ msgstr "Envío no definido"
+
+#, fuzzy
+#~ msgid "N/A"
+#~ msgstr "N/A"
+
+#~ msgid "Prix de vente TTC"
+#~ msgstr "Precio de venta IVA incluido"
+
+#~ msgid "Désignation"
+#~ msgstr "Designación"
+
+#~ msgid "Historique du stock"
+#~ msgstr "Historia de la población"
+
+#, fuzzy
+#~ msgid "Veuillez choisir une désignation unique pour cette variation"
+#~ msgstr "Por favor, elija un nombre único para esta variación"
+
+#~ msgid "Désignation de la commande"
+#~ msgstr "Designación pedido"
+
+#, fuzzy
+#~ msgid "Souhaitez-vous imprimer cette facture ?"
+#~ msgstr "¿Desea imprimir esta factura?"
+
+#~ msgid ""
+#~ "Un produit avec cette désignation existe déjà, souhaitez-vous pré-remplir "
+#~ "ce formulaire ?"
+#~ msgstr ""
+#~ "Ya existe un producto con este nombre, ¿desea llenar previamente este "
+#~ "formulario?"
+
+#~ msgid "Hauteur du codebar"
+#~ msgstr "Altura Código de barras"
+
+#~ msgid "Largeur des barres"
+#~ msgstr "Ancho de las barras"
+
 #~ msgid "Livraisons"
 #~ msgstr "Entregas"
 
@@ -6621,9 +6764,6 @@ msgstr "Acceso a la consola"
 
 #~ msgid "Nouvelle livraison"
 #~ msgstr "Nueva Entrega"
-
-#~ msgid "Liste des départements"
-#~ msgstr "Lista de departamentos"
 
 #~ msgid "{customer_name}, pour afficher les notes de la commande."
 #~ msgstr "{customer_name}, para mostrar las notas del comando."

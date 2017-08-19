@@ -19,59 +19,59 @@ var NexoRegisters	=	new function(){
 	
 	this.bindAction	=	function(){
 		$( '.open_register' ).bind( 'click', function(){
-					var $this	=	$( this );
-					$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'register_status' ) );?>/' + $( this ).data( 'item-id' ), {
-						success		:	function( data ){
-							// Somebody is logged in
-							if( data[0].STATUS == 'opened' ) {
-								if( data[0].USED_BY != '<?php echo User::id();?>' ) {
-									// Display confirm box to logout current user and login
-									bootbox.alert( '<?php echo _s( 'Impossible d\'accéder à une caisse en cours d\'utilisation. Si le problème persiste, contactez l\'administrateur.', 'nexo' );?>' );
-								} else {
-									bootbox.alert( '<?php echo _s( 'Vous allez être redirigé vers la caisse...', 'nexo' );?>' );	
-									// Document Location
-								}
-							} else if( data[0].STATUS == 'locked' ) {
-								bootbox.alert( '<?php echo _s( 'Impossible d\'accéder à une caisse verrouillée. Si le problème persiste, contactez l\'administrateur.', 'nexo' );?>' );
+			var $this	=	$( this );
+			$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'register_status' ) );?>/' + $( this ).data( 'item-id' ), {
+				success		:	function( data ){
+					// Somebody is logged in
+					if( data[0].STATUS == 'opened' ) {
+						if( data[0].USED_BY != '<?php echo User::id();?>' ) {
+							// Display confirm box to logout current user and login
+							bootbox.alert( '<?php echo _s( 'Impossible d\'accéder à une caisse en cours d\'utilisation. Si le problème persiste, contactez l\'administrateur.', 'nexo' );?>' );
+						} else {
+							bootbox.alert( '<?php echo _s( 'Vous allez être redirigé vers la caisse...', 'nexo' );?>' );	
+							// Document Location
+						}
+					} else if( data[0].STATUS == 'locked' ) {
+						bootbox.alert( '<?php echo _s( 'Impossible d\'accéder à une caisse verrouillée. Si le problème persiste, contactez l\'administrateur.', 'nexo' );?>' );
 
-							} else if( data[0].STATUS == 'closed' ) {
-								var dom		=	'<h3 class="modal-title"><?php echo _s( 'Ouverture de la caisse', 'nexo' );?></h3><hr style="margin:10px 0px;">';
-					
-									dom		+=	'<p><?php echo tendoo_info( sprintf( _s( '%s, vous vous préparez à ouvrir une caisse. Veuillez spécifier le montant initiale de la caisse', 'nexo' ), User::pseudo() ) );?></p>' + 
-												'<div class="input-group">' +
-													'<span class="input-group-addon" id="basic-addon1"><?php echo _s( 'Solde d\'ouverture de la caisse', 'nexo' );?></span>' +
-													'<input type="text" class="form-control open_balance" placeholder="<?php echo _s( 'Montant', 'nexo' );?>" aria-describedby="basic-addon1">' +
-												'</div>';
-								
-								bootbox.confirm( dom, function( action ) {
-									if( action ) {
-										$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'open_register' ) );?>/' + $this.data( 'item-id' ), {
-											dataType	:	'json',
-											type		:	'POST',
-											data		:	_.object( [ 'date', 'balance', 'used_by' ], [ '<?php echo date_now();?>', $( '.open_balance' ).val(), '<?php echo User::id();?>' ]),
-											success: function( data ){
-												bootbox.alert( '<?php echo _s( 'La caisse a été ouverte. Veuillez patientez...', 'nexo' );?>' );
-												document.location	=	'<?php echo site_url( array( 'dashboard', 'nexo', 'registers', '__use' ) );?>/' + $this.data( 'item-id');
-											}
-										});
+					} else if( data[0].STATUS == 'closed' ) {
+						var dom		=	'<h3 class="modal-title"><?php echo _s( 'Ouverture de la caisse', 'nexo' );?></h3><hr style="margin:10px 0px;">';
+			
+							dom		+=	'<p><?php echo tendoo_info( sprintf( _s( '%s, vous vous préparez à ouvrir une caisse. Veuillez spécifier le montant initiale de la caisse', 'nexo' ), User::pseudo() ) );?></p>' + 
+										'<div class="input-group">' +
+											'<span class="input-group-addon" id="basic-addon1"><?php echo _s( 'Solde d\'ouverture de la caisse', 'nexo' );?></span>' +
+											'<input type="text" class="form-control open_balance" placeholder="<?php echo _s( 'Montant', 'nexo' );?>" aria-describedby="basic-addon1">' +
+										'</div>';
+						
+						bootbox.confirm( dom, function( action ) {
+							if( action ) {
+								$.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'open_register' ) );?>/' + $this.data( 'item-id' ), {
+									dataType	:	'json',
+									type		:	'POST',
+									data		:	_.object( [ 'date', 'balance', 'used_by' ], [ '<?php echo date_now();?>', $( '.open_balance' ).val(), '<?php echo User::id();?>' ]),
+									success: function( data ){
+										bootbox.alert( '<?php echo _s( 'La caisse a été ouverte. Veuillez patientez...', 'nexo' );?>' );
+										document.location	=	'<?php echo site_url( array( 'dashboard', 'nexo', 'registers', '__use' ) );?>/' + $this.data( 'item-id');
 									}
 								});
-								
-								// Set custom width
-								$( '.modal-title' ).closest( '.modal-dialog' ).css({
-									'width'		:	'80%'
-								})
 							}
-							
-						},
-						dataType	:	"json",
-						error		:	function(){
-							bootbox.alert( '<?php echo _s( 'Une erreur s\'est produite durant l\'ouverture de la caisse.', 'nexo' );?>' );
-						}
-					})
+						});
+						
+						// Set custom width
+						$( '.modal-title' ).closest( '.modal-dialog' ).css({
+							'width'		:	'60%'
+						})
+					}
 					
-					return false;
-				});
+				},
+				dataType	:	"json",
+				error		:	function(){
+					bootbox.alert( '<?php echo _s( 'Une erreur s\'est produite durant l\'ouverture de la caisse.', 'nexo' );?>' );
+				}
+			})
+			
+			return false;
+		});
 				
 		$( '.close_register' ).bind( 'click', function(){
 			var $this	=	$( this );
@@ -109,7 +109,7 @@ var NexoRegisters	=	new function(){
 						
 						// Set custom width
 						$( '.modal-title' ).closest( '.modal-dialog' ).css({
-							'width'		:	'80%'		
+							'width'		:	'60%'		
 						})
 						
 					} else if( data[0].STATUS == 'locked' ) {

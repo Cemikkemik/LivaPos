@@ -932,7 +932,7 @@ var v2Checkout					=	new function(){
 
 				// :: alert( value.DESIGN.length );
 				var item_design		=	NexoAPI.events.applyFilters( 'cart_item_name', {
-					original 		:	value.DESIGN,
+					original 			:	value.DESIGN,
 					displayed 		:	value.DESIGN
 				}); // .length > 20 ? '<span style="text-overflow:hidden">' + value.DESIGN.substr( 0, 20 ) + '</span>' : value.DESIGN ;
 
@@ -1125,7 +1125,6 @@ var v2Checkout					=	new function(){
 		NexoAPI.Bootbox().confirm( '<?php echo _s('Souhaitez-vous annuler cette commande ?', 'nexo');?>', function( action ) {
 			if( action == true ) {
 				v2Checkout.resetCart();
-				// document.location	=	'<?php echo site_url(array( 'dashboard', 'nexo', 'commandes', 'lists' ));?>';
 			}
 		});
 	}
@@ -1361,7 +1360,7 @@ var v2Checkout					=	new function(){
 				// If order is not more editable
 				if( returned.order_type != 'nexo_order_devis' ) {
 					v2Checkout.resetCart();
-					document.location	=	'<?php echo site_url(array( 'dashboard', 'nexo', 'commandes', 'lists' ));?>';
+					document.location	=	'<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'commandes', 'lists' ));?>';
 				}
 				<?php endif;?>
 			},
@@ -2196,7 +2195,7 @@ var v2Checkout					=	new function(){
 
 			// Hide splash
 			this.hideSplash			=	function(){
-				$( '.nexo-overlay' ).fadeOut( 300, function(){
+				$( '.nexo-overlay' ).fadeOut( 400, function(){
 					$( this ).remove();
 				} );
 			}
@@ -2335,11 +2334,13 @@ var v2Checkout					=	new function(){
 			// @since 3.1.3
 			this.CartShipping   		=	0;
 			this.CartItemsVAT 			=	0;
+			this.CartType 				=	null;
 
 
 			<?php if (isset($order[ 'order' ])):?>
 			this.ProcessURL				=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id(), $order[ 'order' ][0][ 'ORDER_ID' ] ));?>?store_id=<?php echo get_store_id();?>";
 			this.ProcessType			=	'PUT';
+			this.CartType 				=	'<?php echo $order[ 'order' ][0][ 'TYPE' ];?>';
 			<?php else :?>
 			this.ProcessURL				=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id() ));?>?store_id=<?php echo get_store_id();?>";
 			this.ProcessType			=	'POST';

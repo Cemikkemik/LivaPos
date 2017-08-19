@@ -81,10 +81,9 @@ class Nexo_Commandes extends CI_Model
         $crud->add_action(
 			__('Imprimer le ticket de caisse', 'nexo'),
 			'',
-			site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' )) .
-			'/',
+			site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' )) . '/',
 			'btn btn-info fa fa-file'
-		);
+        );
 
 		// $crud->add_action(
 		// 	__('Modifier la commande', 'nexo'),
@@ -95,6 +94,13 @@ class Nexo_Commandes extends CI_Model
 
         $crud->callback_column( 'TOTAL', function( $price ){
             return $this->Nexo_Misc->cmoney_format( $price, true );
+        });
+
+        $crud->callback_column( 'TITRE', function( $titre ) {
+            if( empty( $titre ) ) {
+                return __( 'Non Défini', 'nexo' );
+            }
+            return $titre;
         });
 
         $crud->display_as('CODE', __('Code', 'nexo'));
@@ -145,11 +151,15 @@ class Nexo_Commandes extends CI_Model
 
         // Run special commande on current crud object
         $crud   =   $this->events->apply_filters( 'nexo_commandes_loaded', $crud );
-        $allowed_order_for_print	=	$this->events->apply_filters( 'allowed_order_for_print', array( 'nexo_order_comptant' ) );
+        $allowed_order_for_edit	=	$this->events->apply_filters( 'order_editable', array( 'nexo_order_devis' ) );
 
-		$this->events->add_filter( 'grocery_row_actions_output', function( $filter, $row ) use ( $edit_link, $allowed_order_for_print ) {
+		$this->events->add_filter( 'grocery_row_actions_output', function( $filter, $row ) use ( $edit_link, $allowed_order_for_edit ) {
+
             // only order allowed for print are displayed 
-            if( in_array( $row->TYPE, $allowed_order_for_print ) ) {
+            $query  =   $this->db->where( 'ID', $row->ID )->get( store_prefix() . 'nexo_commandes' )
+            ->result();
+
+            if( in_array( $query[0]->TYPE, $allowed_order_for_edit ) ) {
                 $filter     .=  ' <span class="btn btn-default btn-sm" ng-click="editWithRegister( ' . $row->ID . ', \'' . $edit_link . '\' )">' . __( 'Modifier', 'nexo' ) . '</span>';
             }
 			$filter     .= ' <span class="btn btn-primary btn-sm" ng-click="openDetails( ' . $row->ID . ', \'' . $row->CODE . '\'  )">' . __( 'Options', 'nexo' ) . '</span>';
@@ -331,13 +341,13 @@ class Nexo_Commandes extends CI_Model
         foreach ($actions as $key => $action) {
             $order_type        =    array_flip($this->config->item('nexo_order_types'));
 
-            if ( @$order_type[ $row->TYPE ] != 'nexo_order_comptant' && $action->css_class == 'btn btn-info fa fa-file') {
+            if ( ! in_array( @$order_type[ $row->TYPE ], $this->events->apply_filters( 'allowed_order_for_print', [ 'nexo_order_comptant' ] ) ) && $action->css_class == 'btn btn-info fa fa-file') {
                 unset($grocery_actions_obj[ $key ]);
             }
-			// Hide edit for complete order
-			if ( @$order_type[ $row->TYPE ] == 'nexo_order_comptant' && trim( $action->css_class ) == 'btn btn-default fa fa-edit' ) {
-                unset($grocery_actions_obj[ $key ]);
-            }
+			// // Hide edit for complete order
+			// if ( ! in_array( @$order_type[ $row->TYPE ], $this->events->apply_filters( 'order_editable', [ 'nexo_order_comptant' ] ) ) && trim( $action->css_class ) == 'btn btn-default fa fa-edit' ) {
+            //     unset($grocery_actions_obj[ $key ]);
+            // }
         }
 
         return [ $grocery_actions_obj, $actions, $row ];

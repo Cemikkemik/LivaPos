@@ -1,18 +1,18 @@
 <?php
-    if (!defined('BASEPATH')) {
-        exit('No direct script access allowed');
-    }
+if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 
     $column_width = (int)(80/count($columns));
 
-    if (!empty($list)) {
-        ?>
+if (!empty($list)) {
+    ?>
 
 <div class="box-body no-padding table-responsive">
     <table cellspacing="0" cellpadding="0" border="0" id="flex1" class="table table-striped">
-        <thead>
-            <tr>
-                <?php foreach ($columns as $column) {
+    <thead>
+        <tr>
+        <?php foreach ($columns as $column) {
 ?>
                 <th> <div class="text-left field-sorting <?php if (isset($order_by[0]) &&  $column->field_name == $order_by[0]) {
 ?><?php echo $order_by[1]?><?php
@@ -22,19 +22,19 @@
                 </th>
                 <?php
 }
-    ?>
-                <?php if (!$unset_delete || !$unset_edit || !empty($actions)) {
+?>
+        <?php if (!$unset_delete || !$unset_edit || !empty($actions)) {
 ?>
                 <th align="left" abbr="tools" axis="col1" class="" width='20%'> <div class="text-right"> <?php echo $this->l('list_actions');
 ?> </div>
                 </th>
                 <?php
 }
-    ?>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($list as $num_row => $row) {
+?>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($list as $num_row => $row) {
 ?>
             <?php
                 $item_class         =   get_instance()->events->apply_filters('grocery_crud_list_item_class', 'default', $row);
@@ -45,7 +45,7 @@
                 $rowID              =   $temp_string[$row_num];
 ?>
             <tr  class="<?php if ($num_row % 2 == 1) {
-?>erow<?php
+                ?>erow<?php
 }
 ?> <?php echo $item_class;?>" id="custom_tr_<?php echo $rowID?>">
                 <?php foreach ($columns as $column) {
@@ -62,7 +62,7 @@
 ?>
                 <td align="left" width='20%'><div class='tools'>
                         <?php if (!$unset_delete) {
-ob_start();
+                            ob_start();
 ?>
                         <a href='<?php echo $row->delete_url?>' title='<?php echo $this->l('list_delete')?> <?php echo $subject?>' class="delete-row" > <span class='fa fa-remove btn btn-danger'></span> </a> <?php echo get_instance()->events->apply_filters('grocery_filter_delete_button', ob_get_clean(), $row, $this->l('list_delete'), $subject);
 ?>
@@ -74,7 +74,7 @@ if (!$unset_edit) {
     ?>
                         <a href='<?php echo $row->edit_url?>' title='<?php echo $this->l('list_edit')?> <?php echo $subject?>'> <span class='edit-icon fa fa-edit btn-default btn'></span> </a>
                         <?php
-                    echo get_instance()->events->apply_filters('grocery_filter_edit_button', ob_get_clean(), $row, $this->l('list_edit'), $subject);
+                        echo get_instance()->events->apply_filters('grocery_filter_edit_button', ob_get_clean(), $row, $this->l('list_edit'), $subject);
 }
 
 if (!empty($row->action_urls)) {
@@ -91,12 +91,12 @@ if (!empty($row->action_urls)) {
         ?> crud-action" title="<?php echo $action->label?>">
                         <?php echo @$action->text;?>
                         <?php
-                            if (!empty($action->image_url)) {
-                                ?>
+                        if (!empty($action->image_url)) {
+                            ?>
                         <img src="<?php echo $action->image_url;
-                                ?>" alt="<?php echo $action->label?>" />
+                        ?>" alt="<?php echo $action->label?>" />
                         <?php
-                            }
+                        }
         ?>
                         </a>
                         <?php
@@ -113,16 +113,16 @@ echo get_instance()->events->apply_filters('grocery_row_actions_output', '', $ro
             </tr>
             <?php
 }
-    ?>
-        </tbody>
-    </table>
+?>
+    </tbody>
+</table>
 </div>
 <?php
-    } else {
-        ?>
+} else {
+    ?>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp; <?php echo $this->l('list_no_items');
-        ?> <br/>
+?> <br/>
 <br/>
 <?php
-    }?>
+}?>

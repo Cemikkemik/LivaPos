@@ -201,11 +201,7 @@
     <div class="box-footer" id="cart-panel">
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
 			<?php echo $this->events->apply_filters( 'before_cart_pay_button', '' );?>
-            <div class="btn-group" role="group" ng-controller="payBox">
-                <button type="button" class="btn btn-default btn-lg" ng-click="openPayBox()" style="margin-bottom:0px;"> <i class="fa fa-money"></i>
-                    <span class="hidden-xs"><?php _e('Payer', 'nexo');?></span>
-                </button>
-            </div>
+            <?php echo $this->events->apply_filters( 'cart_pay_button', $this->load->module_view( 'nexo', 'checkout.v2-1.cart_pay_button', null, true ) );?>
             <?php echo $this->events->apply_filters( 'before_cart_save_button', '' );?>
             <div class="btn-group" role="group" ng-controller="saveBox">
                 <button type="button" class="hold_btn btn btn-default btn-lg" ng-click="openSaveBox()" style="margin-bottom:0px;"> <i class="fa fa-hand-stop-o"></i>

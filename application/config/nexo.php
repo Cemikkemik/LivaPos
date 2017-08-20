@@ -222,8 +222,9 @@ $config[ 'nexo_yes_no' ]		=	array(
 
 // 'TAUX_DE_MARGE', 'COUT_DACHAT',
 // 'FRAIS_ACCESSOIRE',
+// 'PRIX_DACHAT', 
 $config[ 'nexo_item_price_group' ]	=	array(
-	'REF_TAXE', 'PRIX_DE_VENTE', 'PRIX_DE_VENTE_TTC', 'PRIX_DACHAT', 'SHADOW_PRICE', 'PRIX_PROMOTIONEL', 'SPECIAL_PRICE_START_DATE', 'SPECIAL_PRICE_END_DATE'
+	'REF_TAXE', 'PRIX_DE_VENTE', 'PRIX_DE_VENTE_TTC', 'SHADOW_PRICE', 'PRIX_PROMOTIONEL', 'SPECIAL_PRICE_START_DATE', 'SPECIAL_PRICE_END_DATE'
 );
 
 // Stock Group
@@ -265,6 +266,6 @@ $config[ 'stock-operation' ] 	=	[
 	'defective'			=>	get_instance()->lang->line( 'defective' ),
 	'supply'				=>	get_instance()->lang->line( 'supply' ),
 	'usable' 				=>	get_instance()->lang->line( 'transfert_in' ),
-	'adjustment'			=>	get_instance()->lang->line( 'transfert_in' ),
+	'adjustment'			=>	get_instance()->lang->line( 'adjustment' ),
 	'import' 				=>	get_instance()->lang->line( 'import' )
 ];

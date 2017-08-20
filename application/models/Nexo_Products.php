@@ -188,7 +188,7 @@ class Nexo_Products extends CI_Model
 
     /**
      * Product Save
-     *
+     * Quantity, Purchase price are provider during the supply.
      * @param array
      * @return array
     **/
@@ -202,9 +202,6 @@ class Nexo_Products extends CI_Model
 
         global $Options;
         $param[ 'AUTHOR' ]                	=    intval(User::id());
-        $param[ 'QUANTITE_RESTANTE' ]    	=    floatval($param[ 'QUANTITY' ]); // - intval($param[ 'DEFECTUEUX' ]);
-        $param[ 'QUANTITE_VENDU' ]       	=    0;
-        // $param[ 'COUT_DACHAT' ]            	=    intval($param[ 'PRIX_DACHAT' ]) + intval($param[ 'FRAIS_ACCESSOIRE' ]);
         $param[ 'DATE_CREATION' ]        	=    date_now();
 
 		// @since 2.9

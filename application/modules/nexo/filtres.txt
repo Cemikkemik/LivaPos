@@ -216,3 +216,8 @@ Filtres:
  * stores_list_menu
  * Permet de filtrer les menus du mode multi boutique
 **/
+
+/**
+ * nexo_item_type
+ * Permet de filter les types de produits
+**/

@@ -1,4 +1,4 @@
-<?php include_once( MODULESPATH . '\nexo\inc\angular\order-list\filters\money-format.php' );?>
+<?php include_once( MODULESPATH . 'nexo/inc/angular/order-list/filters/money-format.php' );?>
 <script>
 var StockTransferCTRL   =   function( $scope, $http ) {
 

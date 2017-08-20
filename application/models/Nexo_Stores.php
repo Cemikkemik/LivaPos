@@ -78,7 +78,7 @@ class Nexo_Stores extends CI_Model
 	 * Delete Store
 	**/
 
-	public function __delete_store( $store_id, $post )
+	public function __delete_store( $store_id )
 	{
 		$store		=	$this->get( $store_id );
 		$prefix		=	'store_' . $store_id . '_';
@@ -93,8 +93,8 @@ class Nexo_Stores extends CI_Model
 		$Install->uninstall( 'nexo', 'store', $prefix );
 
 		// Delete All store options
-		$this->db->like( 'key', 'store_' + $store_id + '_' )->delete( 'options' );
+		$this->db->like( 'key', 'store_' . $store_id . '_' )->delete( 'options' );
 
-		return $post;
+		return $store_id;
 	}
 }

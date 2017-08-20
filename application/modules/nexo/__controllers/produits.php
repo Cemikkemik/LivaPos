@@ -98,7 +98,7 @@ class Nexo_Produits extends CI_Model
 			'DESIGN',
 			'REF_CATEGORIE',
             'PRIX_DE_VENTE_TTC',
-			'PRIX_DACHAT',
+			// 'PRIX_DACHAT', // item purchase price is hidden and only available on the supply history
             'REF_TAXE',
 			'QUANTITE_RESTANTE',
 			'QUANTITE_VENDU',
@@ -239,7 +239,7 @@ class Nexo_Produits extends CI_Model
 		// $crud->change_field_type( 'BARCODE_TYPE', 'invisible' );
 
 		// @since 2.8.2
-		$crud->field_type( 'TYPE', 'dropdown', $this->config->item('nexo_item_type'));
+		$crud->field_type( 'TYPE', 'dropdown', $this->events->apply_filters( 'nexo_item_type', $this->config->item('nexo_item_type') ) );
 		$crud->field_type( 'STATUS', 'dropdown', $this->config->item('nexo_item_status'));
 		$crud->field_type( 'STOCK_ENABLED', 'dropdown', $this->config->item('nexo_item_stock'));
 		$crud->field_type( 'AUTO_BARCODE', 'dropdown', $this->config->item('nexo_yes_no' ) );

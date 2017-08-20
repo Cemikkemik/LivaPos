@@ -121,5 +121,5 @@ $lang[ 'transfert_canceled' ]	=	__( 'Transfert Annulé', 'nexo' );
 $lang[ 'defective' ]            =	__( 'Défectueux', 'nexo' );
 $lang[ 'supply' ]				=	__( 'Approvisionnement', 'nexo' );
 $lang[ 'usable' ] 				=	__( 'Retour Stock', 'nexo' );
-$lang[ 'adjustment' ]			=	__( 'Retour Defectueux', 'nexo' );
+$lang[ 'adjustment' ]			=	__( 'Réduction', 'nexo' );
 $lang[ 'import' ]			    =	__( 'Importé', 'nexo' );

@@ -88,6 +88,7 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
 
             return $row;
         });
+        
         $this->events->add_filter( 'grocery_filter_actions', function( $data ) {
             $urls           =   $data[0];
             $actions        =   $data[1]; 
@@ -236,7 +237,7 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
         foreach( $items as $item ) {
             // check if item exists on the current store otherwise create it
             // Create Slug
-            $slug                   =   intval( $transfert[0][ 'FROM_STORE' ] ) == 0 ? '' : 'store_' . get_store_id() . '_';
+            $slug                   =   intval( $transfert[0][ 'FROM_STORE' ] ) == 0 ? '' : 'store_' . intval( $transfert[0][ 'FROM_STORE' ] ) . '_';
             $itemExists             =   false;
 
             if( @$storeItems[ $item[ 'BARCODE' ] ] == null ) {

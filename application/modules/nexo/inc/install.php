@@ -652,7 +652,7 @@ class Nexo_Install extends CI_Model
 				$this->Nexo_Checkout->delete_permissions();
 			}
 
-			$this->events->do_action_ref_array( 'nexo_after_delete_tables', array( $table_prefix, $scope ) );
+			$this->events->do_action_ref_array( 'nexo_after_delete_tables', array( $table_prefix . $store_prefix, $scope ) );
         }
     }
 

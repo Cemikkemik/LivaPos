@@ -215,22 +215,19 @@ trait Nexo_orders
 		// @since 2.9
 		// Save order payment
 		$this->load->config( 'rest' );
-		$Curl			=	new Curl;
-        //$header_key		=	$this->config->item( 'rest_header_key' );
-		//$header_value	=	$_SERVER[ 'HTTP_' .$this->config->item( 'rest_header_key' ) ];
-		// $Curl->setHeader( $header_key, $header_value );
-		$Curl->setHeader($this->config->item('rest_key_name'), $_SERVER[ 'HTTP_' . $this->config->item('rest_header_key') ]);
 
 		if( is_array( $this->post( 'payments' ) ) ) {
 			foreach( $this->post( 'payments' ) as $payment ) {
 
-				$Curl->post( site_url( array( 'rest', 'nexo', 'order_payment', store_get_param( '?' ) ) ), array(
+				$request    =   Requests::post( site_url( array( 'rest', 'nexo', 'order_payment', $current_order[0][ 'ID' ], store_get_param( '?' ) ) ), [
+                    $this->config->item('rest_key_name')    =>  $_SERVER[ 'HTTP_' . $this->config->item('rest_header_key') ]
+                ], array(
 					'author'		=>	$author_id,
 					'date'			=>	date_now(),
 					'payment_type'	=>	$payment[ 'namespace' ],
 					'amount'		=>	$payment[ 'amount' ],
 					'order_code'	=>	$current_order[0][ 'CODE' ]
-				) );
+                ) );
 
                 // @since 3.1
                 // if the payment is a coupon, then we'll increase his usage
@@ -295,7 +292,6 @@ trait Nexo_orders
 
         $shipping                   =   ( array ) $this->put( 'shipping' );
 
-        $order_details            =    array();
         $order_details            =    array(
             'RISTOURNE'         =>    $this->put('RISTOURNE'),
             'REMISE'            =>    $this->put('REMISE'),
@@ -379,13 +375,24 @@ trait Nexo_orders
             ->update( store_prefix() . 'nexo_clients');
         }
 
-        // Restore Bought items
+        // Restore Bought items 
+        // only if the stock management is enabled
         foreach ( $old_order[ 'products' ] as $product ) {
-            $this->db
-            ->set('QUANTITE_RESTANTE', '`QUANTITE_RESTANTE` + ' . intval($product[ 'QUANTITE' ]), false)
-            ->set('QUANTITE_VENDU', '`QUANTITE_VENDU` - ' . intval($product[ 'QUANTITE' ]), false)
-            ->where('CODEBAR', $product[ 'REF_PRODUCT_CODEBAR' ])
-            ->update( store_prefix() . 'nexo_articles');
+            if( intval( $product[ 'STOCK_ENABLED' ] ) == 1 ) {
+                // to avoid saving negative values
+                // pull fresh value a make a comparison
+                // @since 3.7.5
+                $fresh_product      =   $this->db->where( 'ID', $product[ 'ID' ] )->get( store_prefix() . 'nexo_articles' )
+                ->result_array();
+
+                if( intval( $fresh_product[0][ 'QUANTITE_RESTANTE' ] ) - intval($product[ 'QUANTITE' ]) > 0 ) {
+                    $this->db
+                    ->set('QUANTITE_RESTANTE', '`QUANTITE_RESTANTE` + ' . intval($product[ 'QUANTITE' ]), false)
+                    ->set('QUANTITE_VENDU', '`QUANTITE_VENDU` - ' . intval($product[ 'QUANTITE' ]), false)
+                    ->where('CODEBAR', $product[ 'REF_PRODUCT_CODEBAR' ])
+                    ->update( store_prefix() . 'nexo_articles');        
+                }
+            }
         }
 
         // Delete item from order
@@ -445,17 +452,20 @@ trait Nexo_orders
 
             $this->db->insert( store_prefix() . 'nexo_commandes_produits', $item_data );
 
+            $command_product_id             =   $this->db->insert_id();
+
             // Saving item metas
             foreach( ( array ) @$item[ 'metas' ] as $key => $value ) {
                 $meta     =   [
                     'VALUE'                 =>  is_array( $value ) ? json_encode( $value ) : $value,
-                    'DATE_MODIFICATION'     =>  date_now()
+                    'DATE_MODIFICATION'     =>  date_now(),
+                    'REF_COMMAND_CODE'      =>  $old_order[ 'order' ][0][ 'CODE' ],
+                    'KEY'                   =>  $key,
+                    'REF_COMMAND_PRODUCT'   =>  $command_product_id
                 ];
 
                 $this->db->where( 'REF_COMMAND_PRODUCT', $item[ 'id' ] )
-                ->where( 'REF_COMMAND_CODE', $old_order[ 'order' ][0][ 'CODE' ] )
-                ->where( 'KEY', $key )
-                ->update( store_prefix() . 'nexo_commandes_produits_meta', $meta );
+                ->insert( store_prefix() . 'nexo_commandes_produits_meta', $meta );
             }
 
             // Add history for this item on stock flow
@@ -509,18 +519,20 @@ trait Nexo_orders
 		$Curl			=	new Curl;
         // $header_key		=	$this->config->item( 'rest_key_name' );
 		// $header_value	=	$_SERVER[ 'HTTP_' . $this->config->item( 'rest_key_name' ) ];
-		$Curl->setHeader($this->config->item('rest_key_name'), $_SERVER[ 'HTTP_' . $this->config->item('rest_header_key') ]);
+		// $Curl->setHeader($this->config->item('rest_key_name'), $_SERVER[ 'HTTP_' . $this->config->item('rest_header_key') ]);
 
 		if( is_array( $this->put( 'payments' ) ) ) {
 			foreach( $this->put( 'payments' ) as $payment ) {
 
-				$Curl->post( site_url( array( 'rest', 'nexo', 'order_payment', store_get_param( '?' ) ) ), array(
+				$request    =   Requests::post( site_url( array( 'rest', 'nexo', 'order_payment', $current_order[0][ 'ID' ], store_get_param( '?' ) ) ), [
+                    $this->config->item('rest_key_name')    =>  $_SERVER[ 'HTTP_' . $this->config->item('rest_header_key') ]
+                ], array(
 					'author'		=>	$author_id,
 					'date'			=>	date_now(),
 					'payment_type'	=>	$payment[ 'namespace' ],
 					'amount'		=>	$payment[ 'amount' ],
 					'order_code'	=>	$current_order[0][ 'CODE' ]
-				) );
+                ) );
 
                 // @since 3.1
                 // if the payment is a coupon, then we'll increase his usage
@@ -981,52 +993,62 @@ trait Nexo_orders
 			$this->db->where( 'REF_PRODUCT_CODEBAR', $item[ 'CODEBAR' ] )
             ->update( store_prefix() . 'nexo_commandes_produits', array(
 				'QUANTITE'	=>	$item[ 'QUANTITE' ],
-			) ); // Correcte
+            ) ); // Correcte
+            
+            $freshItem           =   $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )
+            ->get( store_prefix() . 'nexo_articles' )
+            ->result_array();
 
             $total                          =   0;
 
 			// If a defective stock exists
 			if( $item[ 'CURRENT_DEFECTIVE_QTE' ] > 0 ) {
 
-				$this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
-					'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
-					'QUANTITE'				=>	$item[ 'CURRENT_DEFECTIVE_QTE' ],
-                    'UNIT_PRICE'            =>  $item[ 'PRIX'],
-                    'TOTAL_PRICE'           =>  floatval( $item[ 'PRIX'] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ),
-					'AUTHOR'				=>	$this->post( 'author' ),
-					'DATE_CREATION'			=>	date_now(),
-					'REF_COMMAND_CODE'		=>	$order_code,
-                    'TYPE'                  =>  'defective'
-				) );
-
-                $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )
-                // a defective item can't be considered as sold item
-                ->set( 'QUANTITE_VENDU', 'QUANTITE_VENDU - ' . intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ), false )
-                // Increase defective item in stock
-                ->set( 'DEFECTUEUX', 'DEFECTUEUX+' . intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ), false )
-                ->update( store_prefix() . 'nexo_articles' );
+                // quantity stock is active when stock management is enabled
+                if( intval( $freshItem[0][ 'STOCK_ENABELD' ] ) == 1 ) {
+                    $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
+                        'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
+                        'QUANTITE'				=>	$item[ 'CURRENT_DEFECTIVE_QTE' ],
+                        'UNIT_PRICE'            =>  $item[ 'PRIX'],
+                        'TOTAL_PRICE'           =>  floatval( $item[ 'PRIX'] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ),
+                        'AUTHOR'				=>	$this->post( 'author' ),
+                        'DATE_CREATION'			=>	date_now(),
+                        'REF_COMMAND_CODE'		=>	$order_code,
+                        'TYPE'                  =>  'defective'
+                    ) );
+    
+                    $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )
+                    // a defective item can't be considered as sold item
+                    ->set( 'QUANTITE_VENDU', 'QUANTITE_VENDU - ' . intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ), false )
+                    // Increase defective item in stock
+                    ->set( 'DEFECTUEUX', 'DEFECTUEUX+' . intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ), false )
+                    ->update( store_prefix() . 'nexo_articles' );
+                }				
 
                 $total					+=	floatval( $item[ 'PRIX' ] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] );
 			}
 
             if( $item[ 'CURRENT_USABLE_QTE' ] > 0 ) {
 
-                $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
-					'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
-					'QUANTITE'				=>	$item[ 'CURRENT_USABLE_QTE' ],
-                    'UNIT_PRICE'            =>  $item[ 'PRIX'],
-                    'TOTAL_PRICE'           =>  floatval( $item[ 'PRIX'] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] ),
-					'AUTHOR'				=>	$this->post( 'author' ),
-					'DATE_CREATION'			=>	date_now(),
-					'REF_COMMAND_CODE'		=>	$order_code,
-                    'TYPE'                  =>  'usable'
-				) );
+                // quantity stock is active when stock management is enabled
+                if( intval( $freshItem[0][ 'STOCK_ENABELD' ] ) == 1 ) {
+                    $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
+                        'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
+                        'QUANTITE'				=>	$item[ 'CURRENT_USABLE_QTE' ],
+                        'UNIT_PRICE'            =>  $item[ 'PRIX'],
+                        'TOTAL_PRICE'           =>  floatval( $item[ 'PRIX'] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] ),
+                        'AUTHOR'				=>	$this->post( 'author' ),
+                        'DATE_CREATION'			=>	date_now(),
+                        'REF_COMMAND_CODE'		=>	$order_code,
+                        'TYPE'                  =>  'usable'
+                    ) );
 
-                // Increase defective item in stock
-				$this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )
-                ->set( 'QUANTITE_RESTANTE', 'QUANTITE_RESTANTE+' . intval( $item[ 'CURRENT_USABLE_QTE' ] ), false )
-                ->set( 'QUANTITE_VENDU', 'QUANTITE_VENDU-' . intval( $item[ 'CURRENT_USABLE_QTE' ] ), false )
-                ->update( store_prefix() . 'nexo_articles' );
+                    // Increase defective item in stock
+                    $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )
+                    ->set( 'QUANTITE_RESTANTE', 'QUANTITE_RESTANTE+' . intval( $item[ 'CURRENT_USABLE_QTE' ] ), false )
+                    ->set( 'QUANTITE_VENDU', 'QUANTITE_VENDU-' . intval( $item[ 'CURRENT_USABLE_QTE' ] ), false )
+                    ->update( store_prefix() . 'nexo_articles' );
+                }
 
                 $total					+=	floatval( $item[ 'PRIX' ] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] );
             }

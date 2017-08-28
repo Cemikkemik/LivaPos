@@ -36,7 +36,7 @@ class Nexo_Stock_Manager_Install extends Tendoo_Module
 
     public function sql( $table_prefix = '' )
     {
-        $this->db->query('CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $table_prefix . 'nexo_stock_transfert` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'. $table_prefix . 'nexo_stock_transfert` (
             `ID` int(11) NOT NULL AUTO_INCREMENT,
             `TITLE` varchar(200) NOT NULL,
             `DESCRIPTION` text NOT NULL,
@@ -51,7 +51,7 @@ class Nexo_Stock_Manager_Install extends Tendoo_Module
             PRIMARY KEY (`ID`)
         ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-        $this->db->query('CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $table_prefix . 'nexo_stock_transfert_items` (
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'. $table_prefix . 'nexo_stock_transfert_items` (
             `ID` int(11) NOT NULL AUTO_INCREMENT,
             `DESIGN` varchar(200) NOT NULL,
             `QUANTITY` float(11) NOT NULL,
@@ -67,17 +67,36 @@ class Nexo_Stock_Manager_Install extends Tendoo_Module
     }
 
     /**
-     * Uninstall
+     * Remove
+     * @param string table prefix
      * @return void
     **/
 
-    public function do_remove_module( $namespace )
+    public function remove( $table_prefix = '' )
     {
-        // retrait des tables Nexo
-        if ($namespace === 'stock-manager') {
+        $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix . 'nexo_stock_transfert`;');
+        $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix . 'nexo_stock_transfert_items`;');
+    }
 
-            $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_stock_transfert`;');
-            $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_stock_transfert_items`;');
-        }
+    /**
+    * Remove All
+    * @return void
+    **/
+
+    public function remove_all()
+    {
+        $this->load->model( 'Nexo_Stores' );
+        
+        $stores         =   $this->Nexo_Stores->get();
+
+        array_unshift( $stores, [
+            'ID'        =>  0
+        ]);
+
+        foreach( $stores as $store ) {
+            $store_prefix       =   $store[ 'ID' ] == 0 ? '' : 'store_' . $store[ 'ID' ] . '_';
+
+            $this->remove( $this->db->dbprefix . $store_prefix );
+        };
     }
 }

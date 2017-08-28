@@ -26,8 +26,8 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	$scope.addPaymentDisabled		=	false;
 	$scope.cashPaidAmount			=	0;
 	$scope.currentPaymentIndex		=	null;
-	$scope.defaultAddPaymentText	=	'<?php echo _s( 'Ajouter', 'nexo' );?>';
-	$scope.defaultAddPaymentClass	=	'success';
+	$scope.defaultAddPaymentText		=	'<?php echo _s( 'Ajouter', 'nexo' );?>';
+	$scope.defaultAddPaymentClass		=	'success';
 	$scope.editModeEnabled			=	false;
 	$scope.paymentTypes				=	<?php echo json_encode( $this->events->apply_filters( 'nexo_payments_types', $this->config->item( 'nexo_payments_types' ) ) );?>;
 	$scope.paymentTypesObject		= 	new Object;
@@ -351,6 +351,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 				});
 
 				var order_details					=	new Object;
+
 				order_details.TOTAL				=	NexoAPI.ParseFloat( v2Checkout.CartToPay );
 				order_details.REMISE			=	NexoAPI.ParseFloat( v2Checkout.CartRemise );
 				// @since 2.9.6
@@ -370,9 +371,9 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 				order_details.RABAIS			=	NexoAPI.ParseFloat( v2Checkout.CartRabais );
 				order_details.RISTOURNE			=	NexoAPI.ParseFloat( v2Checkout.CartRistourne );
 				order_details.TVA				=	NexoAPI.ParseFloat( v2Checkout.CartVAT );
-				order_details.REF_CLIENT		=	v2Checkout.CartCustomerID == null ? v2Checkout.customers.DefaultCustomerID : v2Checkout.CartCustomerID;
+				order_details.REF_CLIENT			=	v2Checkout.CartCustomerID == null ? v2Checkout.customers.DefaultCustomerID : v2Checkout.CartCustomerID;
 				order_details.PAYMENT_TYPE		=	$scope.paymentList.length == 1 ? $scope.paymentList[0].namespace : 'multi'; // v2Checkout.CartPaymentType;
-				order_details.GROUP_DISCOUNT	=	NexoAPI.ParseFloat( v2Checkout.CartGroupDiscount );
+				order_details.GROUP_DISCOUNT		=	NexoAPI.ParseFloat( v2Checkout.CartGroupDiscount );
 				order_details.DATE_CREATION		=	v2Checkout.CartDateTime.format( 'YYYY-MM-DD HH:mm:ss' )
 				order_details.ITEMS				=	order_items;
 				order_details.DEFAULT_CUSTOMER	=	v2Checkout.DefaultCustomerID;
@@ -418,6 +419,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 				}
 
 				// Queue Payment
+				console.log( $scope.paymentList );
 				order_details.payments		=	$scope.paymentList;
 
 				var ProcessObj	=	NexoAPI.events.applyFilters( 'process_data', {
@@ -467,14 +469,37 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 									MessageObject.msg	=	'<?php echo _s('La commande est en cours d\'impression.', 'nexo');?>';
 									MessageObject.type	=	'success';
 
-									$( 'body' ).append( '<iframe style="display:none;" id="CurrentReceipt" name="CurrentReceipt" src="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true"></iframe>' );
+									$.ajax({
+										url 		:	'<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true',
+										success 		:	function( data ){
+											var params = [
+											'height='+screen.height,
+											'width='+screen.width,
+											'fullscreen=yes' // only works in IE, but here for completeness
+											].join(',');
+											var mywindow = window.open('', 'my div', params );
+											mywindow.document.write('<html><head><title>Store A &rsaquo; Proceed a sale &mdash; Store A</title>');
+											mywindow.document.write('</head><body >');
+											mywindow.document.write(data);
+											mywindow.document.write('</body></html>');
 
-									window.frames["CurrentReceipt"].focus();
-									window.frames["CurrentReceipt"].print();
+											mywindow.document.close(); // necessary for IE >= 10
+											mywindow.focus(); // necessary for IE >= 10
+											setTimeout( function(){
+												mywindow.print();
+												mywindow.close();
+											}, 600 );
+										}
+									});
 
-									setTimeout( function(){
-										$( '#CurrentReceipt' ).remove();
-									}, 5000 );
+									// $( 'body' ).append( '<iframe style="display:none;" id="CurrentReceipt" name="CurrentReceipt" src="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true"></iframe>' );
+
+									// window.frames["CurrentReceipt"].focus();
+									// window.frames["CurrentReceipt"].print();
+
+									// setTimeout( function(){
+									// 	$( '#CurrentReceipt' ).remove();
+									// }, 5000 );
 
 								}
 								// Remove filter after it's done
@@ -542,7 +567,10 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 				NexoAPI.Notify().warning( '<?php echo _s('Une erreur s\'est produite', 'nexo');?>', '<?php echo _s( 'Vous ne pouvez pas valider une commande qui n\'a pas reçu de paiement. Si vous souhaitez enregistrer cette commande, fermer la fenêtre de paiement et cliquez sur le bouton "En attente".', 'nexo' );?>' );
 				return false;
 			}
-		}
+		} else {
+			// When a paybox is being closed
+			NexoAPI.events.doAction( 'close_paybox', $scope );
+		}	
 	};
 
 	/**
@@ -557,8 +585,8 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 			$scope.selectPayment( $scope.paymentList[ index ].namespace );
 			$scope.editModeEnabled			=	true;
 			$scope.showCancelEditionButton	=	true;
-			$scope.defaultAddPaymentText	=	'<?php echo _s( 'Modifier', 'nexo' );?>';
-			$scope.defaultAddPaymentClass	=	'info';
+			$scope.defaultAddPaymentText		=	'<?php echo _s( 'Modifier', 'nexo' );?>';
+			$scope.defaultAddPaymentClass		=	'info';
 			$scope.currentPaymentIndex		=	index;
 			$scope.paidAmount				=	$scope.paymentList[ index ].amount;
 		}
@@ -621,10 +649,10 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 
 		$scope.cart			=	{
 			value			:		v2Checkout.CartValue,
-			discount		:		v2Checkout.CartDiscount,
+			discount			:		v2Checkout.CartDiscount,
 			netPayable		:		v2Checkout.CartToPay,
 			VAT				:		v2Checkout.CartVAT,
-			shipping    	:		v2Checkout.CartShipping // @since 3.1.3
+			shipping    		:		v2Checkout.CartShipping // @since 3.1.3
 		};
 
 		$scope.cashPaidAmount			=	0;
@@ -653,18 +681,19 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 			},
 			callback		:	function( action ) {
 				return $scope.confirmOrder( action );
-			}
+			},
+			className 		:	'paxbox-box'
 		});
 
 		$( '.payboxwrapper' ).html( $compile( $( '.payboxwrapper' ).html() )($scope) );
-		$( '.modal-content > .modal-footer' ).html( $compile( $( '.modal-content > .modal-footer' ).html() )($scope) );
+		$( '.paxbox-box .modal-content > .modal-footer' ).html( $compile( $( '.paxbox-box .modal-content > .modal-footer' ).html() )($scope) );
 
-		angular.element( '.modal-dialog' ).css( 'width', '98%' );
-		angular.element( '.modal-body' ).css( 'padding-top', '0px' );
-		angular.element( '.modal-body' ).css( 'padding-bottom', '0px' );
-		angular.element( '.modal-body' ).css( 'padding-left', '0px' );
-		angular.element( '.modal-body' ).css( 'height', $scope.wrapperHeight );
-		angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );
+		angular.element( '.paxbox-box' ).find( '.modal-dialog' ).css( 'width', '98%' );
+		angular.element( '.paxbox-box' ).find( '.modal-body' ).css( 'padding-top', '0px' );
+		angular.element( '.paxbox-box' ).find( '.modal-body' ).css( 'padding-bottom', '0px' );
+		angular.element( '.paxbox-box' ).find( '.modal-body' ).css( 'padding-left', '0px' );
+		angular.element( '.paxbox-box' ).find( '.modal-body' ).css( 'height', $scope.wrapperHeight );
+		angular.element( '.paxbox-box' ).find( '.modal-body' ).css( 'overflow-x', 'hidden' );
 
 		// Select first payment available
 		var paymentTypesNamespaces	=	_.keys( $scope.paymentTypes );
@@ -675,7 +704,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		}, 300 );
 
 		// Add Filter
-		angular.element( '.modal-footer' ).prepend( '<div class="pay_box_footer pull-left">' + NexoAPI.events.applyFilters( 'pay_box_footer', '' ) + '</div>' );
+		angular.element( '.paxbox-box .modal-footer' ).prepend( '<div class="pay_box_footer pull-left">' + NexoAPI.events.applyFilters( 'pay_box_footer', '' ) + '</div>' );
 
 		NexoAPI.events.doAction( 'pay_box_loaded', $scope );
 	};
@@ -761,6 +790,14 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	<?php $this->events->do_action( 'angular_paybox_footer' );?>
 
 	$scope.bindKeyBoardEvent();
+
+	/**
+	 * Emit Methods
+	**/
+
+	$rootScope.$on( 'payBox.openPayBox', function(){
+		$scope.openPayBox();
+	});
 	
 	};
 

@@ -81,11 +81,12 @@ $columns                    =   array(
         **/
 
         $scope.createItems  =   function( data, collection_categories_ids ) {
+            let shipping        =   _.values( collection_categories_ids.shippings )[0];
             _.each( data.items, function( item, key ) {
                 var category_id     =   false;
 
                 if( isNaN( item.REF_CATEGORIE ) ) {
-                    category_id     =   _.propertyOf( collection_categories_ids.categories )( textHelper.toUrl( item.REF_CATEGORIE, '-', true ) );
+                    category_id     =   _.propertyOf( collection_categories_ids.categories )( textHelper.toUrl( item.REF_CATEGORIE, '_', true ) );
                 }
 
                 data.items[key].REF_CATEGORIE   =  category_id ? category_id : 1 ;
@@ -114,7 +115,8 @@ $columns                    =   array(
                 'author'    :   <?php echo User::id();?>,
                 'date'      :   tendoo.now(),
                 'refresh'   :   $scope.addToCurrentItems ? 'true' : 'false',
-                'overwrite' :   $scope.overwrite
+                'overwrite' :   $scope.overwrite,
+                'shipping_id'   :   shipping
             },{
     			headers			:	{
     				'<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'

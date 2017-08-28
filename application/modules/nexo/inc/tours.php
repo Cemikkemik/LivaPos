@@ -3,8 +3,8 @@ class Nexo_Tours extends CI_Model
 {
     public function __construct()
     {
-        parent::__construct();
-
+		parent::__construct();
+		
 		if( get_option( 'nexo_first_run' ) == null && ! in_array( $this->uri->segment( 3 ), [
 			'about'
 		] ) && $this->uri->segment( 1 ) == 'dashboard' && ! in_array( $this->uri->segment( 2 ), [ 'modules', 'options' ] ) ) {

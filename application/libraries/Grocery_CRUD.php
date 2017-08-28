@@ -1,4 +1,7 @@
 <?php
+use Goodby\CSV\Export\Standard\Exporter;
+use Goodby\CSV\Export\Standard\ExporterConfig;
+
 /**
  * PHP grocery CRUD
  *
@@ -1434,6 +1437,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
         $data->ajax_list_url        = $this->getAjaxListUrl();
         $data->ajax_list_info_url    = $this->getAjaxListInfoUrl();
         $data->export_url            = $this->getExportToExcelUrl();
+        $data->export_csv_url       =   $this->getExportToCSVUrl();
         $data->print_url            = $this->getPrintUrl();
         $data->actions                = $this->actions;
         $data->unique_hash            = $this->get_method_hash();
@@ -1491,6 +1495,55 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 
         @ob_end_clean();
         $this->_export_to_excel($data);
+    }
+
+    protected function exportToCSV($state_info = null)
+    {
+        $data = $this->get_common_data();
+
+        $data->order_by    = $this->order_by;
+        $data->types        = $this->get_field_types();
+
+        $data->list = $this->get_list();
+        $data->list = $this->change_list($data->list, $data->types);
+        $data->list = $this->change_list_add_actions($data->list);
+
+        $data->total_results = $this->get_total_results();
+
+        $data->columns                = $this->get_columns();
+        $data->primary_key            = $this->get_primary_key();
+
+        $config = new ExporterConfig();
+        $exporter = new Exporter($config);
+        
+        
+
+        @ob_end_clean();
+
+        $rows       =   [];
+        $cols       =   [];
+        $hold_column    =   [];
+        
+        foreach( $data->columns as $col ) {
+            $cols[] =   $col->display_as;
+            $hold_columns[]   =   $col->field_name;
+        }
+
+        $rows[]     =   $cols;
+
+        foreach( $data->list as $_row ) {
+            $columns  = ( array ) $_row;
+            $row        =   [];
+            foreach( $hold_columns as $column ) {
+                $row[]      =   $columns[ $column ];
+            }
+            $rows[]     =   $row;
+        }
+
+        header('Content-Type: application/csv');
+        header('Content-Disposition: attachment; filename="' . url_title( 'export ' . $data->subject ) . '.csv";');
+        $exporter->export('php://output', ( array ) $rows );
+        die;
     }
 
     protected function _export_to_excel($data)
@@ -2849,7 +2902,8 @@ class grocery_CRUD_States extends grocery_CRUD_Layout
         16  => 'export',
         17  => 'print',
         18  => 'read',
-        19  => 'delete_multiple'
+        19  => 'delete_multiple',
+        20  =>  'export_csv'
     );
 
     public function getStateInfo()
@@ -2955,6 +3009,8 @@ class grocery_CRUD_States extends grocery_CRUD_Layout
                     }
                 }
                 break;
+            case 20: // export to csv
+                // Export to CSV
 
             case 9:
 
@@ -3115,6 +3171,11 @@ class grocery_CRUD_States extends grocery_CRUD_Layout
     protected function getExportToExcelUrl()
     {
         return $this->state_url('export');
+    }
+
+    protected function getExportToCSVUrl()
+    {
+        return $this->state_url( 'export_csv' );
     }
 
     protected function getPrintUrl()
@@ -4540,6 +4601,25 @@ class Grocery_CRUD extends grocery_CRUD_States
                 $this->delete_layout($delete_result);
 
                 break;
+            case 20 : 
+                //a big number just to ensure that the table characters will not be cutted.
+                $this->character_limiter = 1000000;
+                
+                if ($this->unset_export) {
+                    throw new Exception('You don\'t have permissions for this operation', 15);
+                    die();
+                }
+
+                if ($this->theme === null) {
+                    $this->set_theme($this->default_theme);
+                }
+                $this->setThemeBasics();
+
+                $this->set_basic_Layout();
+
+                $state_info = $this->getStateInfo();
+                $this->set_ajax_list_queries($state_info);
+                $this->exportToCSV($state_info);
 
         }
 

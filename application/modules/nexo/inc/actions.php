@@ -104,29 +104,32 @@ class Nexo_Actions extends Tendoo_Module
 
     public function load_dashboard()
     {
-        // Let's get serious
-        if( ! Modules::get( 'nexo-updater' ) ) {
-            $this->notice->push_notice( 
-            '<div class="container">
-                <div class="jumbotron">
-                    <h1>' . __( 'Activez Votre Copie', 'nexo' ) . '</h1>
-                    <p>' . __( 'Le module <strong>NexoPOS Updater</strong> n\'est pas installé. Pour profiter des mises à jour automatique et d\'une assistance, veuillez <strong><a href="https://nexopos.com/how-to-install-a-module-in-tendoo-cms/" target="_blank">installer le module</a></strong> téléchargeable ici', 'nexo' ) . '</p>
-                    <p><a class="btn btn-primary btn-lg" href="https://nexopos.com/product/nexo-updater" target="_blank" role="button">' . __( 'Télécharger le module', 'nexo' ) . '</a></p>
-                </div>
-            </div>' );
-        }
+        // var_dump( $this->uri->segment(5) );die;
+        if( $this->uri->uri_string() != 'dashboard/nexo/about' && $this->uri->segment(5) != 'about' && $this->uri->uri_string() != 'dashboard/modules' ) {
+            // Let's get serious
+            if( ! Modules::get( 'nexo-updater' ) ) {
+                $this->notice->push_notice( 
+                '<div class="container">
+                    <div class="jumbotron">
+                        <h1>' . __( 'Activez Votre Copie', 'nexo' ) . '</h1>
+                        <p>' . __( 'Le module <strong>NexoPOS Updater</strong> n\'est pas installé. Pour profiter des mises à jour automatique et d\'une assistance, veuillez <strong><a href="https://nexopos.com/how-to-install-a-module-in-tendoo-cms/" target="_blank">installer le module</a></strong> téléchargeable ici', 'nexo' ) . '</p>
+                        <p><a class="btn btn-primary btn-lg" href="https://nexopos.com/product/nexo-updater" target="_blank" role="button">' . __( 'Télécharger le module', 'nexo' ) . '</a></p>
+                    </div>
+                </div>' );
+            }
 
-        else if( ! Modules::is_active( 'nexo-updater' ) ) {
-            $this->notice->push_notice( 
-            '<div class="container">
-                <div class="jumbotron">
-                    <h1>' . __( 'Activez Votre Copie', 'nexo' ) . '</h1>
-                    <p>' . __( 'Le module <strong>NexoPOS Updater</strong> n\'est pas activé. Pour profiter des mises à jour automatiques et d\'une assistance, veuillez activer le module.', 'nexo' ) . '</p>
-                    <p><a class="btn btn-primary btn-lg" href="' . site_url([ 'dashboard', 'modules' ]) . '" role="button">' . __( 'Activer', 'nexo' ) . '</a></p>
-                </div>
-            </div>' );
+            else if( ! Modules::is_active( 'nexo-updater' ) ) {
+                $this->notice->push_notice( 
+                '<div class="container">
+                    <div class="jumbotron">
+                        <h1>' . __( 'Activez Votre Copie', 'nexo' ) . '</h1>
+                        <p>' . __( 'Le module <strong>NexoPOS Updater</strong> n\'est pas activé. Pour profiter des mises à jour automatiques et d\'une assistance, veuillez activer le module.', 'nexo' ) . '</p>
+                        <p><a class="btn btn-primary btn-lg" href="' . site_url([ 'dashboard', 'modules' ]) . '" role="button">' . __( 'Activer', 'nexo' ) . '</a></p>
+                    </div>
+                </div>' );
+            }
         }
-
+        
         $segments    = $this->uri->segment_array();
         
         if( @$segments[ 2 ] == 'stores' && @$segments[ 4 ] == null ) {
@@ -139,7 +142,7 @@ class Nexo_Actions extends Tendoo_Module
         $this->enqueue->js_namespace( 'dashboard_header' );
         $bower_path     =    '../modules/nexo/bower_components/';
         // @since 3.1
-        $libraries[]    =    $bower_path . 'babel/browser.min';
+        // $libraries[]    =    $bower_path . 'babel/browser.min';
         // $libraries[]    =    $bower_path . 'babel/browser-polyfill.min';
 
         $libraries[]    =    $bower_path . 'numeral/min/numeral.min';

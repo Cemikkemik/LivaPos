@@ -25,16 +25,10 @@ trait Nexo_items
         if( $this->post( 'refresh' ) == 'false' ) {
             $this->db->query( 'TRUNCATE `' . $this->db->dbprefix . store_prefix() . 'nexo_articles`' );
             $this->db->query( 'TRUNCATE `' . $this->db->dbprefix . store_prefix() . 'nexo_articles_meta`' );
+            $this->db->query( 'TRUNCATE `' . $this->db->dbprefix . store_prefix() . 'nexo_articles_stock_flow`' );
         }
 
-        // create supply for imported item
-        $this->db->insert( store_prefix() . 'nexo_arrivages', [
-            'TITRE'             =>      sprintf( __( 'Produits Importés', 'nexo' ), date_now() ),
-            'DATE_CREATION'     =>      date_now(),
-            'AUTHOR'            =>      User::id()
-        ]);
-
-        $delivery_id            =   $this->db->insert_id();
+        $delivery_id            =   $this->post( 'shipping_id' );
         $delivery_cost          =   0;
         $delivery_quantity      =   0;
 
@@ -53,12 +47,13 @@ trait Nexo_items
             }
 
             // include the price with Taxe
+            $item[ 'PRIX_DE_VENTE' ]            =   floatval(preg_replace('/[^\d\.]+/', '', $item[ 'PRIX_DE_VENTE' ]) );
             $item[ 'PRIX_DE_VENTE_TTC' ]        =   $item[ 'PRIX_DE_VENTE' ];
 
             // if overwrite is enabeld
             if( $this->post( 'overwrite' ) == 'true' ) {
                 if( in_array( $item[ 'SKU' ], $skus ) || in_array( $item[ 'CODEBAR' ], $barcodes ) ) {
-                    $this->db->where( 'ID', $item[ 'ID' ] )->update( store_prefix() . 'nexo_articles', $item );
+                    $this->db->where( 'SKU', $item[ 'SKU' ] )->update( store_prefix() . 'nexo_articles', $item );
                 } else {     
                     $this->db->insert( store_prefix() . 'nexo_articles', $item );               
                 }
@@ -73,7 +68,7 @@ trait Nexo_items
                 // Make a supply for this import
                 $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
                     'REF_ARTICLE_BARCODE'   =>  $item[ 'CODEBAR' ],
-                    'QUANTITE'              =>  @$item[ 'QUANTITY' ],
+                    'QUANTITE'              =>  ( int ) @$item[ 'QUANTITY' ],
                     'AUTHOR'                =>  User::id(),
                     'TYPE'                  =>  'import',
                     'UNIT_PRICE'            =>  floatval( @$item[ 'PRIX_DACHAT' ] ),
@@ -137,6 +132,7 @@ trait Nexo_items
                     'DATE_CREATION' =>  $this->post( 'date' ),
                     'ID'        =>      1
                 ]);
+                $shippings[ url_title( $this->post( 'default_shipping_title' ), '_' ) ]  =   $this->db->insert_id();
             }
         }
 
@@ -610,9 +606,14 @@ trait Nexo_items
                         'REF_SHIPPING'          =>  $item[ 'ref_shipping' ],
                     ]);
 
-                    $this->db->where( 'CODEBAR', $item[ 'item_barcode' ] )->update( store_prefix() . 'nexo_articles', [
-                        'QUANTITE_RESTANTE'     =>  $remaining_qte
+                    $updatable_columns          =   $this->events->apply_filters( 'items_columns_updatable_after_supply', [
+                        $item, [
+                            'QUANTITE_RESTANTE'     =>  $remaining_qte
+                        ]
                     ]);
+
+                    // use the updatable columns
+                    $this->db->where( 'CODEBAR', $item[ 'item_barcode' ] )->update( store_prefix() . 'nexo_articles', $updatable_columns[1] );
 
                     // Calculating the delivery Cost
                     if( @$delivery_cost[ $item[ 'ref_shipping' ] ] == null ) {

@@ -221,3 +221,13 @@ Filtres:
  * nexo_item_type
  * Permet de filter les types de produits
 **/
+
+/**
+ * editable_stock_type
+ * Les types d'opération sur le stock qui sont susceptible d'être modifiée
+**/
+
+/**
+ * items_columns_updatable_after_supply
+ * colonnes qui sont mise à jour durant la modification de l'arrivages
+**/

@@ -254,8 +254,8 @@ class Nexo_Produits extends CI_Model
 
         $this->events->add_filter( 'grocery_header_buttons', function( $actions ) {
             $actions[]      =   [
-                'text'       =>  __( 'Gestion du stock', 'nexo' ),
-                'url'       =>  site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'stock_supply' ] )  
+                'text'       =>  __( 'Faire un approvisionnement', 'nexo' ),
+                'url'       =>  site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'add_supply' ] )  
             ];
 
             return $actions;

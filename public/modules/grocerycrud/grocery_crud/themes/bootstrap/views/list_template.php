@@ -77,6 +77,11 @@ if ($success_message !== null) {
                 ?></span> </div>
                         </div>
                         </a>
+                        <a class="export-anchor btn btn-default" data-url="<?php echo $export_csv_url;?>" target="_blank">
+                        <div class="fbutton">
+                            <div> <span class="export"><?php echo __( 'Export as CSV' );?></span> </div>
+                        </div>
+                        </a>
                         <?php endif;?>
                         <a class="pReload btn btn-default ajax_refresh_and_loading" id='ajax_refresh_and_loading' title	="<?php _e('Refresh');?>"> <span class="fa fa-refresh"></span>
                         </a>

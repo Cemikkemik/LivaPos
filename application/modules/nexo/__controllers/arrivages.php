@@ -189,36 +189,50 @@ class Nexo_Arrivages extends CI_Model
 
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');
-        $crud->set_subject( __('Produits inclus dans l\'approvisionnement', 'nexo') );
+        $crud->set_subject( __('Produits de l\'approvisionnement', 'nexo') );
 		$crud->set_table( $this->db->dbprefix( store_prefix() . 'nexo_articles_stock_flow' ) );
         $crud->set_relation( 'REF_PROVIDER', store_prefix() . 'nexo_fournisseurs', 'NOM');
+        $crud->set_relation( 'REF_SHIPPING', store_prefix() . 'nexo_arrivages', 'TITRE');
         $crud->set_relation( 'AUTHOR', 'aauth_users', 'name' );
         
         $crud->set_primary_key( 'CODEBAR', store_prefix() . 'nexo_articles' );
         $crud->set_relation( 'REF_ARTICLE_BARCODE', store_prefix() . 'nexo_articles', 'DESIGN');
         
-        $crud->where( store_prefix() . 'nexo_articles_stock_flow.REF_SHIPPING', $delivery_id );
-        $crud->where( store_prefix() . 'nexo_articles_stock_flow.TYPE', 'supply' );
-        $crud->or_where( store_prefix() . 'nexo_articles_stock_flow.TYPE', 'transfert_canceled' );
-        $crud->or_where( store_prefix() . 'nexo_articles_stock_flow.TYPE', 'transfert_rejected' );
+        $crud->where( 
+            '(' .
+            store_prefix() . 'nexo_articles_stock_flow.TYPE = "supply" or ' .
+            store_prefix() . 'nexo_articles_stock_flow.TYPE = "import"' .  
+            ')' . 
+            ' AND ' . store_prefix() . 'nexo_articles_stock_flow.REF_SHIPPING = ' . $delivery_id
+        );
+        // $crud->where_in( store_prefix() . 'nexo_articles_stock_flow.TYPE', 'import' );
+        // $crud->where( store_prefix() . 'nexo_articles_stock_flow.REF_SHIPPING', $delivery_id );
+        // $crud->or_where( store_prefix() . 'nexo_articles_stock_flow.TYPE', 'transfert_canceled' );
+        // $crud->or_where( store_prefix() . 'nexo_articles_stock_flow.TYPE', 'transfert_rejected' );
 
         $crud->add_action( __('Historique d\'approvisionnement', 'nexo'), '', '', 'btn btn-default fa fa-eye', [ $this, 'supply_link' ]);
 
-        $crud->columns( 'REF_ARTICLE_BARCODE', 'TYPE', 'QUANTITE', 'UNIT_PRICE', 'REF_PROVIDER', 'DATE_CREATION', 'AUTHOR' );
+        $crud->columns( 'REF_ARTICLE_BARCODE', 'TYPE', 'QUANTITE', 'UNIT_PRICE', 'REF_PROVIDER', 'REF_SHIPPING', 'DATE_CREATION', 'AUTHOR' );
 
         $crud->callback_column( 'TYPE', function( $type ){
             $config     =   get_instance()->config->item( 'stock-operation' );
             return $config[ $type ];
         });
 
+        $crud->callback_before_update([ $this, '__before_update_history' ]);
+
+        $crud->fields( 'QUANTITE', 'UNIT_PRICE', 'TOTAL_PRICE' );
+
         $crud->callback_column( 'UNIT_PRICE', function( $type ){
             return get_instance()->Nexo_Misc->cmoney_format( $type );
         });
 
         $crud->unset_add();
-        $crud->unset_edit();
+        $crud->field_type( 'TOTAL_PRICE', 'hidden' );
+        // $crud->unset_edit();
 
         $crud->display_as('REF_ARTICLE_BARCODE', __('Produit', 'nexo'));
+        $crud->display_as('REF_SHIPPING', __('Approvisionnement', 'nexo'));
         $crud->display_as('QUANTITE', __('Quantité', 'nexo'));
         $crud->display_as('UNIT_PRICE', __('Prix Unitaire', 'nexo'));
         $crud->display_as('REF_PROVIDER', __('Fournisseur', 'nexo'));
@@ -236,7 +250,68 @@ class Nexo_Arrivages extends CI_Model
             $this->enqueue->css(substr($files, 0, -4), '');
         }
         return $output;
+    }
 
+    /**
+     * Before Update history
+    **/
+
+    public function __before_update_history( $post, $index )
+    {
+        $history        =   $this->db->where( 'ID', $index )
+        ->get( store_prefix() . 'nexo_articles_stock_flow' )
+        ->result_array();
+
+        if( $history ) {
+            $items       =   $this->db
+            ->where( 'REF_SHIPPING', $history[0][ 'REF_SHIPPING' ] )
+            ->get( store_prefix() . 'nexo_articles_stock_flow' )
+            ->result_array();
+
+            $total_amount       =   0;
+            $total_quantity     =   0;
+            $current_item       =   [];
+            foreach( $items as $item ) {
+                if( $item[ 'ID' ] != $index ) {
+                    if( $item[ 'UNIT_PRICE' ] != '0' && $item[ 'TOTAL_PRICE' ] != '0' ) {
+                        $total              =   floatval( $item[ 'UNIT_PRICE' ]) * floatval( $item[ 'QUANTITE' ] );
+                        $total_amount       +=  $total;
+                        $total_quantity     +=  floatval( $item[ 'QUANTITE' ]);
+                    }
+                } else {
+                    $current_item   =   $item;
+                }
+            }
+
+            // update current supply total
+            $item_details       =   $this->db->where( 'CODEBAR', $history[0][ 'REF_ARTICLE_BARCODE' ])
+            ->get( store_prefix() . 'nexo_articles' )
+            ->result_array();
+
+            // remove previous remaning quantity
+            $quantity               =   0;
+            
+            if( floatval( $item_details[0][ 'QUANTITE_RESTANTE' ] > 0 ) && floatval( $item_details[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $history[0][ 'QUANTITE' ] ) >= 0 ) {
+                $quantity           =   floatval( $item_details[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $history[0][ 'QUANTITE' ] );
+            }
+
+            // new quantity
+            $quantity           +=  floatval( $post[ 'QUANTITE' ] );
+
+            // update new remaning quantity
+            $this->db->where( 'CODEBAR', $history[0][ 'REF_ARTICLE_BARCODE' ] )
+            ->update( store_prefix() . 'nexo_articles', [
+                'QUANTITE_RESTANTE'     =>  $quantity
+            ]);
+
+            $this->db->where( 'ID', $history[0][ 'REF_SHIPPING' ] )->update( store_prefix() . 'nexo_arrivages', [
+                'VALUE'         =>  $total_amount + ( floatval( $post[ 'UNIT_PRICE' ] ) * floatval( $post[ 'QUANTITE' ] ) ),
+                'ITEMS'         =>  $total_quantity + floatval( $post[ 'QUANTITE' ] )
+            ]);
+
+            $this->events->do_action_ref_array( 'update_supply_history', [ $post, $index ]);
+        }
+        return $post;
     }
 
     /** 
@@ -256,10 +331,20 @@ class Nexo_Arrivages extends CI_Model
      * @return void
     **/
 
-    public function delivery_items( $delivery_id )
+    public function delivery_items( $delivery_id, $page = 'index', $id = 0 )
     {
+        // only supply, import and transfert can be edited
+        if( $page == 'edit' ) {
+            $stock  =   $this->db->where( 'ID', $id )->get( store_prefix() . 'nexo_articles_stock_flow' )
+            ->result_array();
+
+            if( ! in_array( $stock[0][ 'TYPE' ], $this->events->apply_filters( 'editable_stock_type', [ 'supply', 'import' ] ) ) ) {
+                show_error( __( 'Vous ne pouvez pas modifier cet element', 'nexo' ) );
+            }
+        }
+
         $crud       =   $this->delivery_items_crud( $delivery_id );
-        $this->Gui->set_title( store_title( 'Produits de l\'approvisionnement', 'nexo' ) );
+        $this->Gui->set_title( store_title( __( 'Produits de l\'approvisionnement', 'nexo' ) ) );
         $this->load->module_view( 'nexo', 'deliveries.supply-item-gui', compact( 'crud' ) );
     }
 

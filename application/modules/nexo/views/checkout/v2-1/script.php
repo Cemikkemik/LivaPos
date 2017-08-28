@@ -901,7 +901,7 @@ var v2Checkout					=	new function(){
 			v2Checkout.CartItemsVAT 	=	0;
 			_.each( this.CartItems, function( value, key ) {
 
-				var promo_start			= 	moment( value.SPECIAL_PRICE_START_DATE );
+				var promo_start		= 	moment( value.SPECIAL_PRICE_START_DATE );
 				var promo_end			= 	moment( value.SPECIAL_PRICE_END_DATE );
 
 				var MainPrice			= 	NexoAPI.ParseFloat( value.PRIX_DE_VENTE_TTC );
@@ -1157,16 +1157,16 @@ var v2Checkout					=	new function(){
 			var ArrayToPush			=	{
 				id 					:	value.ID,
 				qte_added 			:	value.QTE_ADDED,
-				codebar 			:	value.CODEBAR,
+				codebar 				:	value.CODEBAR,
 				sale_price 			:	value.PROMO_ENABLED ? value.PRIX_PROMOTIONEL : ( v2Checkout.CartShadowPriceEnabled ? value.SHADOW_PRICE : value.PRIX_DE_VENTE_TTC ),
-				qte_sold 			:	value.QUANTITE_VENDU,
-				qte_remaining 		:	value.QUANTITE_RESTANTE,
+				qte_sold 				:	value.QUANTITE_VENDU,
+				qte_remaining 			:	value.QUANTITE_RESTANTE,
 				// @since 2.8.2
-				stock_enabled 		:	value.STOCK_ENABLED,
+				stock_enabled 			:	value.STOCK_ENABLED,
 				// @since 2.9.0
-				discount_type 		:	value.DISCOUNT_TYPE,
+				discount_type 			:	value.DISCOUNT_TYPE,
 				discount_amount		:	value.DISCOUNT_AMOUNT,
-				discount_percent 	:	value.DISCOUNT_PERCENT,
+				discount_percent 		:	value.DISCOUNT_PERCENT,
 				metas 				:	typeof value.metas == 'undefined' ? {} : value.metas,
 				// @since 3.1
 				name 				:	value.DESIGN,
@@ -1261,7 +1261,7 @@ var v2Checkout					=	new function(){
 
 		var ProcessObj	=	NexoAPI.events.applyFilters( 'process_data', {
 			url			:	this.ProcessURL,
-			type		:	this.ProcessType
+			type			:	this.ProcessType
 		});
 
 		// Filter Submited Details
@@ -1296,14 +1296,37 @@ var v2Checkout					=	new function(){
 							MessageObject.msg	=	'<?php echo _s('La commande est en cours d\'impression.', 'nexo');?>';
 							MessageObject.type	=	'success';
 
-							$( 'body' ).append( '<iframe style="display:none;" id="CurrentReceipt" name="CurrentReceipt" src="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true"></iframe>' );
+							$.ajax({
+								url 		:	'<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true',
+								success 		:	function( data ){
+									var params = [
+									'height='+screen.height,
+									'width='+screen.width,
+									'fullscreen=yes' // only works in IE, but here for completeness
+									].join(',');
+									var mywindow = window.open('', 'my div', params );
+									mywindow.document.write('<html><head><title>Store A &rsaquo; Proceed a sale &mdash; Store A</title>');
+									mywindow.document.write('</head><body >');
+									mywindow.document.write(data);
+									mywindow.document.write('</body></html>');
 
-							window.frames["CurrentReceipt"].focus();
-							window.frames["CurrentReceipt"].print();
+									mywindow.document.close(); // necessary for IE >= 10
+									mywindow.focus(); // necessary for IE >= 10
+									setTimeout( function(){
+										mywindow.print();
+										mywindow.close();
+									}, 600 );
+								}
+							})
 
-							setTimeout( function(){
-								$( '#CurrentReceipt' ).remove();
-							}, 5000 );
+							// $( 'body' ).append( '<iframe style="display:none;" id="CurrentReceipt" name="CurrentReceipt" src="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true"></iframe>' );
+
+							// window.frames["CurrentReceipt"].focus();
+							// window.frames["CurrentReceipt"].print();
+
+							// setTimeout( function(){
+							// 	$( '#CurrentReceipt' ).remove();
+							// }, 5000 );
 
 						}
 						// Remove filter after it's done
@@ -2339,11 +2362,11 @@ var v2Checkout					=	new function(){
 
 			<?php if (isset($order[ 'order' ])):?>
 			this.ProcessURL				=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id(), $order[ 'order' ][0][ 'ORDER_ID' ] ));?>?store_id=<?php echo get_store_id();?>";
-			this.ProcessType			=	'PUT';
-			this.CartType 				=	'<?php echo $order[ 'order' ][0][ 'TYPE' ];?>';
+			this.ProcessType				=	'PUT';
+			this.CartType 					=	'<?php echo $order[ 'order' ][0][ 'TYPE' ];?>';
 			<?php else :?>
 			this.ProcessURL				=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id() ));?>?store_id=<?php echo get_store_id();?>";
-			this.ProcessType			=	'POST';
+			this.ProcessType				=	'POST';
 			<?php endif;?>
 
 			this.CartRemiseType			=	'';

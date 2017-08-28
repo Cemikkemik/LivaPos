@@ -205,3 +205,7 @@ close_add_inline_item 	:	{
 	type 	:	action,
 	desc 	:	permet d'exécuter une action lorsque la fenêtre d'ajout de produit sur la ligne se ferme
 }
+close_paybox 	:	{
+	type 	:	action
+	desc 	:	Permet d'exécuter une action lorsque la fenêtre de paiement se ferme
+}

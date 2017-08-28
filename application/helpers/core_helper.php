@@ -1,7 +1,7 @@
 <?php  if (! defined('BASEPATH')) {
      exit('No direct script access allowed');
  }
-
+ 
 /**
  * Force a var to be an array.
  *
@@ -125,7 +125,7 @@ if (!function_exists('fetch_notice_from_url')) {
 /**
  * Return true or false if numeric var is between two numbers
  *
- * @param Int( Min ), Int( Max ), $subject
+ * @param Int min, Int max, $subject
  * @return Bool
 **/
 

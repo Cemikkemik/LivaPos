@@ -10,7 +10,9 @@
  *
 **/
 
+tendoo.date             =   moment( tendoo.server_date );
+// console.log( tendoo.date );
 setInterval( () => {
-    tendoo.date     =   moment( tendoo.date ).add( 1, 'seconds' ).toDate();
+    tendoo.date     =   moment( tendoo.date ).add( 1, 'seconds' );
 }, 1000 );
 </script>

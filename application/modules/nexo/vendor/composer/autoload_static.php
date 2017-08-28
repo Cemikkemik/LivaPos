@@ -75,11 +75,25 @@ class ComposerStaticInit54edb9b31ab1cd4bd63a507380e820af
                 0 => __DIR__ . '/..' . '/faisalman/simple-excel-php/src',
             ),
         ),
+        'R' => 
+        array (
+            'Requests' => 
+            array (
+                0 => __DIR__ . '/..' . '/rmccue/requests/library',
+            ),
+        ),
         'P' => 
         array (
             'PHPExcel' => 
             array (
                 0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
+            ),
+        ),
+        'G' => 
+        array (
+            'Goodby\\CSV' => 
+            array (
+                0 => __DIR__ . '/..' . '/goodby/csv/src',
             ),
         ),
         'F' => 

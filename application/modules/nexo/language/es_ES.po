@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nexo\n"
-"POT-Creation-Date: 2017-08-15 21:10+0100\n"
-"PO-Revision-Date: 2017-08-15 21:17+0100\n"
+"POT-Creation-Date: 2017-08-22 22:32+0100\n"
+"PO-Revision-Date: 2017-08-22 22:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: es_ES\n"
@@ -36,14 +36,14 @@ msgstr "n/d"
 msgid "Nom de la livraison"
 msgstr "Nombre Entregas"
 
-#: __controllers/arrivages.php:61 __controllers/arrivages.php:225
+#: __controllers/arrivages.php:61 __controllers/arrivages.php:228
 #: __controllers/produits.php:158
 msgid "Crée le"
 msgstr "Fecha Creación"
 
-#: __controllers/arrivages.php:62 __controllers/arrivages.php:226
+#: __controllers/arrivages.php:62 __controllers/arrivages.php:229
 #: __controllers/clients.php:288 __controllers/produits.php:160
-#: __controllers/produits.php:469 __controllers/registers.php:63
+#: __controllers/produits.php:471 __controllers/registers.php:63
 #: __controllers/stores.php:43 __controllers/taxes - awesomecrud.php:17
 #: __controllers/taxes.php:53 views/items/stock-supply/dom.php:123
 #: views/registers/dashboard_footer.php:144
@@ -68,7 +68,7 @@ msgstr "Proveedores"
 
 #: __controllers/arrivages.php:66 __controllers/clients.php:88
 #: __controllers/clients.php:287 __controllers/coupons.php:69
-#: __controllers/produits.php:153 __controllers/produits.php:472
+#: __controllers/produits.php:153 __controllers/produits.php:474
 #: __controllers/registers.php:60 __controllers/stores.php:42
 #: __controllers/taxes - awesomecrud.php:18 __controllers/taxes.php:54
 #: views/customers/script.php:272 views/customers/script.php:279
@@ -77,14 +77,14 @@ msgstr "Proveedores"
 msgid "Description"
 msgstr "Descripción"
 
-#: __controllers/arrivages.php:67 __controllers/arrivages.php:224
-#: __controllers/produits.php:173 __controllers/produits.php:467
+#: __controllers/arrivages.php:67 __controllers/arrivages.php:227
+#: __controllers/produits.php:173
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:137
 #: inc/angular/items/factories/fields.php:166 views/deliveries/invoice.php:51
 msgid "Fournisseur"
 msgstr "Proveedor"
 
-#: __controllers/arrivages.php:72 __controllers/produits.php:487
+#: __controllers/arrivages.php:72 __controllers/produits.php:489
 #: inc/angular/cart-tool-box/directives/history-content.php:69
 #: inc/angular/order-list/controllers/orders-list.php:283
 #: views/guides/checkout.php:22
@@ -114,19 +114,19 @@ msgstr "Add nueva Entrega"
 msgid "Produits inclus dans l'approvisionnement"
 msgstr "Productos incluidos en el suministro de"
 
-#: __controllers/arrivages.php:205 __controllers/produits.php:196
+#: __controllers/arrivages.php:206 __controllers/produits.php:196
 #: views/items/stock-supply/dom.php:118
 msgid "Historique d'approvisionnement"
 msgstr "Historia del abastecimiento"
 
-#: __controllers/arrivages.php:221 __controllers/produits.php:463
+#: __controllers/arrivages.php:224 __controllers/produits.php:465
 #: views/checkout/v2-1/col_1.php:50 views/deliveries/invoice.php:50
 #: views/items/stock-supply/dom.php:5
 msgid "Produit"
 msgstr "Producto"
 
-#: __controllers/arrivages.php:222 __controllers/produits.php:143
-#: __controllers/produits.php:222 __controllers/produits.php:464
+#: __controllers/arrivages.php:225 __controllers/produits.php:143
+#: __controllers/produits.php:222 __controllers/produits.php:466
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:122
 #: inc/angular/cart-tool-box/directives/history-content.php:76
 #: inc/angular/items/factories/fields.php:174
@@ -139,7 +139,7 @@ msgstr "Producto"
 msgid "Quantité"
 msgstr "Cantidad"
 
-#: __controllers/arrivages.php:223
+#: __controllers/arrivages.php:226
 #: inc/angular/order-list/controllers/orders-list.php:289
 #: views/checkout/v2-1/col_1.php:64 views/checkout/v2/col_1.php:37
 #: views/commandes-dom - Deprecated.php:23
@@ -260,7 +260,7 @@ msgstr "Creado"
 msgid "Modifié le"
 msgstr "Modificado en"
 
-#: __controllers/clients.php:87 __controllers/commandes.php:104
+#: __controllers/clients.php:87 __controllers/commandes.php:110
 #: views/items/history/dom.php:12
 msgid "Par"
 msgstr "Por"
@@ -275,6 +275,7 @@ msgid "Nom de la compagnie"
 msgstr "Nombre de la empresa"
 
 #: __controllers/clients.php:104 __controllers/clients.php:108
+#: __controllers/commandes.php:101
 #, fuzzy
 msgid "Non Défini"
 msgstr "no definido"
@@ -287,7 +288,7 @@ msgstr "no definido"
 msgid "Ajouter un client"
 msgstr "Add Cliente"
 
-#: __controllers/clients.php:137 __controllers/commandes.php:150
+#: __controllers/clients.php:137 __controllers/commandes.php:163
 #: inc/angular/register/controllers/paybox.php:560 views/commandes-script2 -
 #: Deprecated.php:38
 msgid "Modifier"
@@ -334,7 +335,7 @@ msgstr "Desde"
 msgid "Fin de la planification"
 msgstr "Hasta"
 
-#: __controllers/clients.php:296 __controllers/commandes.php:110
+#: __controllers/clients.php:296 __controllers/commandes.php:116
 #: __controllers/stores.php:45
 msgid "Date de modification"
 msgstr "Fecha Modificación"
@@ -355,55 +356,55 @@ msgstr "Venta"
 msgid "Imprimer le ticket de caisse"
 msgstr "Imprimir Ticket"
 
-#: __controllers/commandes.php:100 __controllers/coupons.php:63
+#: __controllers/commandes.php:106 __controllers/coupons.php:63
 #: __controllers/coupons.php:138
 #: inc/angular/register/directives/coupon-payment.php:13
 #: inc/angular/register/directives/coupon-payment.php:73
 msgid "Code"
 msgstr "Código"
 
-#: __controllers/commandes.php:101
+#: __controllers/commandes.php:107
 msgid "Client"
 msgstr "Cliente"
 
-#: __controllers/commandes.php:102
+#: __controllers/commandes.php:108
 msgid "Remise Expresse"
 msgstr "Remesa Express"
 
-#: __controllers/commandes.php:103 views/checkout/v2/script.php:2234
+#: __controllers/commandes.php:109 views/checkout/v2/script.php:2234
 #: views/receipts/default-backup.php:229 views/shop-checkout-settings -
 #: Deprecated.php:37
 msgid "Somme perçu"
 msgstr "Suma Recivida"
 
-#: __controllers/commandes.php:105
+#: __controllers/commandes.php:111
 msgid "Paiement"
 msgstr "Pagado"
 
-#: __controllers/commandes.php:106 views/items/templates/clothes.php:63
+#: __controllers/commandes.php:112 views/items/templates/clothes.php:63
 #: views/items/templates/coupon.php:63
 msgid "Statut"
 msgstr "Estatus"
 
-#: __controllers/commandes.php:107 views/items/stock-supply/new-ui-dom.php:66
+#: __controllers/commandes.php:113 views/items/stock-supply/new-ui-dom.php:66
 msgid "Titre"
 msgstr "Título"
 
-#: __controllers/commandes.php:108
+#: __controllers/commandes.php:114
 #: inc/angular/register/directives/paybox-content.php:158
 #: views/receipts/default-backup.php:195 views/receipts/default.php:241
 #: views/receipts/simple.php:218
 msgid "TVA"
 msgstr "IVA"
 
-#: __controllers/commandes.php:109 __controllers/produits.php:470
+#: __controllers/commandes.php:115 __controllers/produits.php:472
 #: inc/angular/order-list/controllers/orders-list.php:404
 #: views/items/stock-supply/dom.php:126
 #: views/registers/dashboard_footer.php:147
 msgid "Date"
 msgstr "Fecha"
 
-#: __controllers/commandes.php:111 __controllers/produits.php:466
+#: __controllers/commandes.php:117 __controllers/produits.php:468
 #: inc/angular/order-list/controllers/orders-list.php:319
 #: inc/angular/order-list/directives/payment-options.php:251
 #: inc/angular/order-list/directives/payment-options.php:282
@@ -415,22 +416,22 @@ msgstr "Fecha"
 msgid "Total"
 msgstr "Total:"
 
-#: __controllers/commandes.php:112 __controllers/registers.php:59
+#: __controllers/commandes.php:118 __controllers/registers.php:59
 #: inc/angular/order-list/controllers/orders-list.php:927
 #: inc/controller.php:408 views/checkout/v2/col_1.php:6 views/commandes-dom -
 #: Deprecated.php:44
 msgid "Caisse"
 msgstr "Cobrar"
 
-#: __controllers/commandes.php:151 views/shippings/main-template.php:8
+#: __controllers/commandes.php:165 views/shippings/main-template.php:8
 msgid "Options"
 msgstr "Opciones"
 
-#: __controllers/commandes.php:219
+#: __controllers/commandes.php:233
 msgid "Liste des commandes"
 msgstr "Lista Pedidos"
 
-#: __controllers/commandes.php:303
+#: __controllers/commandes.php:317
 msgid "Payer une commande"
 msgstr "Pagar Pedido"
 
@@ -536,7 +537,7 @@ msgstr "Add Cupon"
 msgid "Id"
 msgstr "Id"
 
-#: __controllers/coupons.php:139 __controllers/produits.php:468
+#: __controllers/coupons.php:139 __controllers/produits.php:470
 #: inc/angular/register/directives/coupon-payment.php:79
 #: views/items/stock-supply/dom.php:125
 msgid "Type"
@@ -701,7 +702,7 @@ msgstr "Identificación"
 msgid "Inventaire"
 msgstr "Inventario"
 
-#: __controllers/produits.php:92 __controllers/produits.php:465
+#: __controllers/produits.php:92 __controllers/produits.php:467
 #: inc/angular/items/factories/tabs.php:16 views/receipts/default-backup.php:57
 #: views/receipts/default.php:58 views/receipts/simple.php:68
 msgid "Prix"
@@ -954,7 +955,7 @@ msgstr ""
 "Si desea aplicar el impuesto sobre el precio de los productos, se puede "
 "elegir el impuesto en esa lista."
 
-#: __controllers/produits.php:197 __controllers/produits.php:644
+#: __controllers/produits.php:197 __controllers/produits.php:646
 #, fuzzy
 msgid "Historique du produit"
 msgstr "Historia del producto"
@@ -963,10 +964,9 @@ msgstr "Historia del producto"
 msgid "Frais Accessoires"
 msgstr "Costes o cargos incidentales"
 
-#: __controllers/produits.php:257 language/nexo_lang.php:109
-#: language/nexo_lang.php:113
-msgid "Gestion du stock"
-msgstr "Gestión de stocks"
+#: __controllers/produits.php:257
+msgid "Faire un approvisionnement"
+msgstr "Hacer una fogata"
 
 #: __controllers/produits.php:305 inc/controller.php:223 views/commandes-dom -
 #: Deprecated.php:17
@@ -987,35 +987,24 @@ msgstr "Crear un nuevo producto"
 msgid "Approvisonnement"
 msgstr "Compra de componentes"
 
-#: __controllers/produits.php:447 __controllers/produits.php:599
+#: __controllers/produits.php:447 __controllers/produits.php:601
 msgid "Flux du stock"
 msgstr "El flujo de stock"
 
-#: __controllers/produits.php:455 language/nexo_lang.php:122
+#: __controllers/produits.php:457 language/nexo_lang.php:122
 #: views/items/stock-supply/script.php:47
 msgid "Approvisionnement"
 msgstr "Aprovisionamiento"
 
-#: __controllers/produits.php:456
+#: __controllers/produits.php:458
 msgid "Correction du stock"
 msgstr "Corrección del stock"
 
-#: __controllers/produits.php:457
+#: __controllers/produits.php:459
 msgid "Stock Défectueux"
 msgstr "Stock defectuoso"
 
-#: __controllers/produits.php:471
-#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:603
-#: inc/angular/order-list/controllers/orders-list.php:315
-#: inc/angular/register/directives/paybox-content.php:172
-#: views/checkout/v2-1/col_1.php:41 views/checkout/v2-1/col_1.php:43
-#: views/checkout/v2-1/col_1.php:48 views/checkout/v2-1/col_1.php:139
-#: views/customers/script.php:228 views/items/stock-supply/dom.php:78
-#: views/receipts/default.php:143
-msgid "Livraison"
-msgstr "Entrega"
-
-#: __controllers/produits.php:561
+#: __controllers/produits.php:563
 msgid ""
 "La quantité restante après cette opération est négative. Impossible "
 "d'enregistrer l'opération"
@@ -1024,7 +1013,7 @@ msgstr ""
 "guardar la operación\n"
 " "
 
-#: __controllers/produits.php:623
+#: __controllers/produits.php:625
 #, fuzzy
 msgid "Approvisonnement du stock"
 msgstr "Compra de stock"
@@ -1296,7 +1285,42 @@ msgstr "Turnover"
 msgid "Types de commades"
 msgstr "Tipo Pedido"
 
-#: inc/actions.php:191
+#: inc/actions.php:114 inc/actions.php:125
+msgid "Activez Votre Copie"
+msgstr "Activar su copia"
+
+#: inc/actions.php:115
+msgid ""
+"Le module <strong>NexoPOS Updater</strong> n'est pas installé. Pour profiter "
+"des mises à jour automatique et d'une assistance, veuillez <strong><a href="
+"\"https://nexopos.com/how-to-install-a-module-in-tendoo-cms/\" target="
+"\"_blank\">installer le module</a></strong> téléchargeable ici"
+msgstr ""
+"El módulo de <strong>Actualización NexoPOS</strong> no está instalado. Para "
+"tomar ventaja de las actualizaciones automáticas y soporte, por favor, "
+"<strong><a href=\"https://nexopos.com/how-to-install-a-module-in-tendoo-cms/"
+"\" target=\"_blank\">Instale el módulo</a></strong> descargar aquí"
+
+#: inc/actions.php:116
+msgid "Télécharger le module"
+msgstr "Descargar el módulo"
+
+#: inc/actions.php:126
+msgid ""
+"Le module <strong>NexoPOS Updater</strong> n'est pas activé. Pour profiter "
+"des mises à jour automatiques et d'une assistance, veuillez activer le "
+"module."
+msgstr ""
+"El módulo de <strong>Actualización NexoPOS</strong> no está habilitado. Para "
+"tomar ventaja de las actualizaciones automáticas y asistencia, por favor, "
+"activar el módulo."
+
+#: inc/actions.php:127 views/settings/customers.php:36
+#: views/settings/home.php:106 views/stores/main.php:27
+msgid "Activer"
+msgstr "Activar"
+
+#: inc/actions.php:217
 #, php-format
 msgid ""
 "Le stock du produit <strong>%s</strong> est faible. Cliquez-ici pour accéder "
@@ -1306,7 +1330,7 @@ msgstr ""
 "acceder al producto."
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:84
-#: views/checkout/v2-1/col_1.php:227 views/checkout/v2/col_1.php:117
+#: views/checkout/v2-1/col_1.php:223 views/checkout/v2/col_1.php:117
 #: views/checkout/v2/script.php:2124 views/items/stock-supply/new-ui-dom.php:80
 #: views/items/stock-supply/new-ui-script.php:229
 #: views/items/templates/category.php:3 views/items/templates/shipping.php:3
@@ -1380,7 +1404,7 @@ msgid "Ajouter le produit"
 msgstr "Añadir Producto"
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:283
-#: views/checkout/v2-1/col_1.php:212
+#: views/checkout/v2-1/col_1.php:208
 msgid "En attente"
 msgstr "Guardar"
 
@@ -1419,8 +1443,8 @@ msgstr "Cerrar"
 #: inc/angular/register/controllers/paybox.php:77
 #: inc/angular/saveorder/controllers/saveorder.php:15
 #: inc/angular/saveorder/controllers/saveorder.php:36
-#: views/checkout/v2-1/script.php:854 views/checkout/v2-1/script.php:1242
-#: views/checkout/v2-1/script.php:2467 views/checkout/v2/script.php:723
+#: views/checkout/v2-1/script.php:854 views/checkout/v2-1/script.php:1241
+#: views/checkout/v2-1/script.php:2468 views/checkout/v2/script.php:723
 #: views/checkout/v2/script.php:1104 views/checkout/v2/script.php:2741
 #: views/coupon-footer.php:79 views/coupon-footer.php:85
 #: views/coupon-footer.php:91 views/coupon-footer.php:98
@@ -1437,6 +1461,16 @@ msgstr "Debe seleccionar un pedido antes de editarlo."
 #, fuzzy
 msgid "Créer un nouveau client"
 msgstr "Crear cliente nuevo"
+
+#: inc/angular/cart-tool-box/controllers/cart-tool-box.php:603
+#: inc/angular/order-list/controllers/orders-list.php:315
+#: inc/angular/register/directives/paybox-content.php:172
+#: views/checkout/v2-1/col_1.php:41 views/checkout/v2-1/col_1.php:43
+#: views/checkout/v2-1/col_1.php:48 views/checkout/v2-1/col_1.php:139
+#: views/customers/script.php:228 views/items/stock-supply/dom.php:78
+#: views/receipts/default.php:143
+msgid "Livraison"
+msgstr "Entrega"
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:606
 #, fuzzy
@@ -1482,7 +1516,7 @@ msgstr "Precio Unitario:"
 
 #: inc/angular/cart-tool-box/directives/history-content.php:77
 #: views/checkout/v2-1/col_1.php:67 views/checkout/v2-1/col_1.php:179
-#: views/checkout/v2-1/col_1.php:219 views/checkout/v2/col_1.php:40
+#: views/checkout/v2-1/col_1.php:215 views/checkout/v2/col_1.php:40
 #: views/checkout/v2/col_1.php:110 views/receipts/default.php:61
 #: views/receipts/simple.php:71
 msgid "Remise"
@@ -2059,7 +2093,7 @@ msgid "Valeur du paiement"
 msgstr "Valor de pago"
 
 #: inc/angular/order-list/directives/payment-options.php:47
-#: views/checkout/v2-1/col_1.php:206 views/checkout/v2/col_1.php:104
+#: views/checkout/v2-1/cart_pay_button.php:3 views/checkout/v2/col_1.php:104
 #: views/commandes-dom - Deprecated.php:130 views/commandes-script2
 #: Deprecated.php:40
 msgid "Payer"
@@ -2123,12 +2157,12 @@ msgstr ": producto (s) compra (s)"
 #: inc/angular/register/controllers/paybox.php:431
 #: inc/angular/register/controllers/paybox.php:538
 #: inc/angular/register/controllers/paybox.php:542
-#: views/checkout/v2-1/script.php:74 views/checkout/v2-1/script.php:1370
-#: views/checkout/v2-1/script.php:1760 views/checkout/v2/script.php:1236
+#: views/checkout/v2-1/script.php:74 views/checkout/v2-1/script.php:1369
+#: views/checkout/v2-1/script.php:1759 views/checkout/v2/script.php:1236
 #: views/checkout/v2/script.php:1805 views/checkout/v2/script.php:2389
 #: views/checkout/v2/script.php:2404 views/checkout/v2/script.php:2450
-#: views/import/script.php:131 views/import/script.php:168
-#: views/import/script.php:242 views/items/stock-supply/new-ui-script.php:198
+#: views/import/script.php:133 views/import/script.php:170
+#: views/import/script.php:244 views/items/stock-supply/new-ui-script.php:198
 msgid "Une erreur s'est produite"
 msgstr "Ha ocurrido un Error"
 
@@ -2151,14 +2185,14 @@ msgstr ""
 "fonctionnera pas. Veuillez rafraichir la page."
 
 #: inc/angular/order-list/services/stripe-checkout.php:61
-#: views/checkout/v2-1/script.php:1277 views/checkout/v2/script.php:1143
+#: views/checkout/v2-1/script.php:1276 views/checkout/v2/script.php:1143
 #: views/checkout/v2/script.php:2427
 msgid "Veuillez patienter"
 msgstr "Espera"
 
 #: inc/angular/order-list/services/stripe-checkout.php:61
 #: inc/angular/register/controllers/paybox.php:447
-#: views/checkout/v2-1/script.php:1277 views/checkout/v2/script.php:1143
+#: views/checkout/v2-1/script.php:1276 views/checkout/v2/script.php:1143
 #: views/checkout/v2/script.php:2427
 msgid "Paiement en cours..."
 msgstr "Pago en proceso"
@@ -2189,7 +2223,7 @@ msgid "Vous ne pouvez plus ajouter de paiement supplémentaire."
 msgstr "Ya no puede agregar pago adicional."
 
 #: inc/angular/register/controllers/paybox.php:414
-#: views/checkout/v2-1/script.php:1257 views/checkout/v2/script.php:1119
+#: views/checkout/v2-1/script.php:1256 views/checkout/v2/script.php:1119
 msgid "Impossible de reconnaitre le moyen de paiement."
 msgstr "No se pueden reconocer los medios de pago."
 
@@ -2202,8 +2236,8 @@ msgstr "Órdenes parciales fueron descactivees."
 #: inc/angular/register/controllers/paybox.php:485
 #: inc/angular/register/controllers/paybox.php:500
 #: inc/angular/register/controllers/paybox.php:505
-#: views/checkout/v2-1/script.php:1296 views/checkout/v2-1/script.php:1315
-#: views/checkout/v2-1/script.php:1330 views/checkout/v2-1/script.php:1335
+#: views/checkout/v2-1/script.php:1295 views/checkout/v2-1/script.php:1314
+#: views/checkout/v2-1/script.php:1329 views/checkout/v2-1/script.php:1334
 #: views/checkout/v2/script.php:1162 views/checkout/v2/script.php:1181
 #: views/checkout/v2/script.php:1196 views/checkout/v2/script.php:1201
 #: views/items/history/dom.php:13
@@ -2211,17 +2245,17 @@ msgid "Effectué"
 msgstr "Realizado"
 
 #: inc/angular/register/controllers/paybox.php:467
-#: views/checkout/v2-1/script.php:1297 views/checkout/v2/script.php:1163
+#: views/checkout/v2-1/script.php:1296 views/checkout/v2/script.php:1163
 msgid "La commande est en cours d'impression."
 msgstr "Se está imprimiendo el pedido."
 
 #: inc/angular/register/controllers/paybox.php:486
-#: views/checkout/v2-1/script.php:1316 views/checkout/v2/script.php:1182
+#: views/checkout/v2-1/script.php:1315 views/checkout/v2/script.php:1182
 msgid "La commande a été enregistrée."
 msgstr "Se ha guardado el pedido."
 
 #: inc/angular/register/controllers/paybox.php:501
-#: views/checkout/v2-1/script.php:1331 views/checkout/v2/script.php:1197
+#: views/checkout/v2-1/script.php:1330 views/checkout/v2/script.php:1197
 msgid ""
 "La commande a été enregistrée, mais ne peut pas être imprimée tant qu'elle "
 "n'est pas complète."
@@ -2230,12 +2264,12 @@ msgstr ""
 "esté completo."
 
 #: inc/angular/register/controllers/paybox.php:506
-#: views/checkout/v2-1/script.php:1336 views/checkout/v2/script.php:1202
+#: views/checkout/v2-1/script.php:1335 views/checkout/v2/script.php:1202
 msgid "La commande a été enregistrée"
 msgstr "El pedido ha sido guardado."
 
 #: inc/angular/register/controllers/paybox.php:538
-#: views/checkout/v2-1/script.php:1370 views/checkout/v2/script.php:1236
+#: views/checkout/v2-1/script.php:1369 views/checkout/v2/script.php:1236
 msgid "Le paiement n'a pas pu être effectuée."
 msgstr "El pago no se pudo hacer .."
 
@@ -3327,11 +3361,6 @@ msgstr "Elija una opción de reinicialización"
 msgid "Veuillez choisir une option dans la liste de réinitialisation"
 msgstr "Por favor, seleccione una opción de la lista de reinicio"
 
-#: inc/traits/items.php:32
-#, fuzzy
-msgid "Produits Importés"
-msgstr "Productos importados"
-
 #: inc/widgets/chiffre-daffaire-net.php:28
 msgid "Chiffre d'affaire ces 7 dernières jours"
 msgstr "Turnover these last 7 days"
@@ -3395,7 +3424,7 @@ msgid "Chargement..."
 msgstr "Cargando..."
 
 #: inc/widgets/news.php:11 inc/widgets/tutorials.php:11
-#: views/checkout/v2-1/script.php:2114 views/checkout/v2/script.php:2086
+#: views/checkout/v2-1/script.php:2113 views/checkout/v2/script.php:2086
 msgid "Une erreur s'est produite durant la récupération des données"
 msgstr "Se ha producido un error durante la recuperación de datos"
 
@@ -3796,6 +3825,10 @@ msgstr "Dar los derechos para eliminar cupones"
 msgid "Suppressions des coupons"
 msgstr "Eliminar Cupones"
 
+#: language/nexo_lang.php:109 language/nexo_lang.php:113
+msgid "Gestion du stock"
+msgstr "Gestión de stocks"
+
 #: language/nexo_lang.php:110
 msgid "Confère la capacité à ajouter une entrée dans le stock"
 msgstr "Da la posibilidad de añadir una entrada a la población"
@@ -3844,9 +3877,8 @@ msgid "Retour Stock"
 msgstr "Retorno de valores"
 
 #: language/nexo_lang.php:124
-#, fuzzy
-msgid "Retour Defectueux"
-msgstr "Retorno defectuoso"
+msgid "Réduction"
+msgstr "Rebaja"
 
 #: language/nexo_lang.php:125
 #, fuzzy
@@ -4035,18 +4067,18 @@ msgstr "Defina la cantidad o el porcentaje aquí ..."
 msgid "Espèces"
 msgstr "Efectivo"
 
-#: views/checkout/v2-1/script.php:577 views/checkout/v2-1/script.php:1986
+#: views/checkout/v2-1/script.php:577 views/checkout/v2-1/script.php:1985
 #: views/checkout/v2/script.php:450 views/checkout/v2/script.php:1962
 msgid "7"
 msgstr "Facturación en estos últimos 7 días"
 
-#: views/checkout/v2-1/script.php:580 views/checkout/v2-1/script.php:1989
+#: views/checkout/v2-1/script.php:580 views/checkout/v2-1/script.php:1988
 #: views/checkout/v2/script.php:453 views/checkout/v2/script.php:1965
 #, fuzzy
 msgid "8"
 msgstr "8"
 
-#: views/checkout/v2-1/script.php:583 views/checkout/v2-1/script.php:1992
+#: views/checkout/v2-1/script.php:583 views/checkout/v2-1/script.php:1991
 #: views/checkout/v2/script.php:456 views/checkout/v2/script.php:1968
 #, fuzzy
 msgid "9"
@@ -4056,19 +4088,19 @@ msgstr "9"
 msgid "Retour arrière"
 msgstr "Volver"
 
-#: views/checkout/v2-1/script.php:592 views/checkout/v2-1/script.php:2001
+#: views/checkout/v2-1/script.php:592 views/checkout/v2-1/script.php:2000
 #: views/checkout/v2/script.php:465 views/checkout/v2/script.php:1977
 #, fuzzy
 msgid "4"
 msgstr "4"
 
-#: views/checkout/v2-1/script.php:595 views/checkout/v2-1/script.php:2004
+#: views/checkout/v2-1/script.php:595 views/checkout/v2-1/script.php:2003
 #: views/checkout/v2/script.php:468 views/checkout/v2/script.php:1980
 #, fuzzy
 msgid "5"
 msgstr "5"
 
-#: views/checkout/v2-1/script.php:598 views/checkout/v2-1/script.php:2007
+#: views/checkout/v2-1/script.php:598 views/checkout/v2-1/script.php:2006
 #: views/checkout/v2/script.php:471 views/checkout/v2/script.php:1983
 #, fuzzy
 msgid "6"
@@ -4078,19 +4110,19 @@ msgstr "6"
 msgid "Vider"
 msgstr "Vaciar"
 
-#: views/checkout/v2-1/script.php:607 views/checkout/v2-1/script.php:2016
+#: views/checkout/v2-1/script.php:607 views/checkout/v2-1/script.php:2015
 #: views/checkout/v2/script.php:480 views/checkout/v2/script.php:1992
 #, fuzzy
 msgid "1"
 msgstr "Crea Nueva Tienda"
 
-#: views/checkout/v2-1/script.php:610 views/checkout/v2-1/script.php:2019
+#: views/checkout/v2-1/script.php:610 views/checkout/v2-1/script.php:2018
 #: views/checkout/v2/script.php:483 views/checkout/v2/script.php:1995
 #, fuzzy
 msgid "2"
 msgstr "2"
 
-#: views/checkout/v2-1/script.php:613 views/checkout/v2-1/script.php:2022
+#: views/checkout/v2-1/script.php:613 views/checkout/v2-1/script.php:2021
 #: views/checkout/v2/script.php:486 views/checkout/v2/script.php:1998
 #, fuzzy
 msgid "3"
@@ -4101,7 +4133,7 @@ msgstr "3"
 msgid "00"
 msgstr "00"
 
-#: views/checkout/v2-1/script.php:622 views/checkout/v2-1/script.php:2031
+#: views/checkout/v2-1/script.php:622 views/checkout/v2-1/script.php:2030
 #: views/checkout/v2/script.php:495 views/checkout/v2/script.php:2007
 #, fuzzy
 msgid "0"
@@ -4138,7 +4170,7 @@ msgstr "Producto no encontrado"
 msgid "Le nouveau prix ne peut pas être inférieur au prix minimal (seuil)"
 msgstr "El nuevo precio no puede ser inferior al precio mínimo (umbral)."
 
-#: views/checkout/v2-1/script.php:854 views/checkout/v2-1/script.php:2467
+#: views/checkout/v2-1/script.php:854 views/checkout/v2-1/script.php:2468
 #: views/checkout/v2/script.php:723 views/checkout/v2/script.php:2741
 msgid ""
 "La remise fixe ne peut pas excéder la valeur actuelle du panier. Le montant "
@@ -4161,19 +4193,19 @@ msgstr "Descuento Grupo :"
 msgid "Souhaitez-vous annuler cette commande ?"
 msgstr "Would you like to cancel this order?"
 
-#: views/checkout/v2-1/script.php:1242 views/checkout/v2/script.php:1104
+#: views/checkout/v2-1/script.php:1241 views/checkout/v2/script.php:1104
 msgid ""
 "La carte de crédit doit d'abord être facturée avant de valider la commande."
 msgstr "La tarjeta de crédito debe cargarse antes de confirmar el pedido."
 
-#: views/checkout/v2-1/script.php:1570 views/checkout/v2/script.php:1582
+#: views/checkout/v2-1/script.php:1569 views/checkout/v2/script.php:1582
 msgid ""
 "Une erreur s'est produite durant la récupération des groupes des clients"
 msgstr ""
 "Se ha producido un error durante la recuperación de los datos de los grupos "
 "de clientes"
 
-#: views/checkout/v2-1/script.php:1666 views/checkout/v2/script.php:1683
+#: views/checkout/v2-1/script.php:1665 views/checkout/v2/script.php:1683
 msgid ""
 "Vous ne pouvez pas procéder à une vente, car aucun article n'est disponible "
 "pour la vente."
@@ -4181,35 +4213,35 @@ msgstr ""
 "No puede continuar con una venta, porque no hay ningún artículo disponible "
 "para la venta."
 
-#: views/checkout/v2-1/script.php:1760 views/checkout/v2/script.php:1805
+#: views/checkout/v2-1/script.php:1759 views/checkout/v2/script.php:1805
 msgid ""
 "Impossible de récupérer les données. L'article recherché est introuvable."
 msgstr ""
 "No se pueden recuperar los datos. El elemento que busca no se encuentra."
 
-#: views/checkout/v2-1/script.php:1866 views/checkout/v2/script.php:1842
+#: views/checkout/v2-1/script.php:1865 views/checkout/v2/script.php:1842
 msgid "Une erreur s'est produite durant la récupération des produits"
 msgstr "Se produjo un error durante la recuperación de datos."
 
-#: views/checkout/v2-1/script.php:1995 views/checkout/v2/script.php:1971
+#: views/checkout/v2-1/script.php:1994 views/checkout/v2/script.php:1971
 #, fuzzy
 msgid "+"
 msgstr "+"
 
-#: views/checkout/v2-1/script.php:2010 views/checkout/v2/script.php:1986
+#: views/checkout/v2-1/script.php:2009 views/checkout/v2/script.php:1986
 #, fuzzy
 msgid "-"
 msgstr "-"
 
-#: views/checkout/v2-1/script.php:2034 views/checkout/v2/script.php:2010
+#: views/checkout/v2-1/script.php:2033 views/checkout/v2/script.php:2010
 msgid "."
 msgstr "."
 
-#: views/checkout/v2-1/script.php:2475 views/checkout/v2/script.php:2749
+#: views/checkout/v2-1/script.php:2476 views/checkout/v2/script.php:2749
 msgid "Vous devez définir un pourcentage ou une somme."
 msgstr "Se establece un porcentaje o una cantidad."
 
-#: views/checkout/v2-1/script.php:2567 views/checkout/v2/script.php:2813
+#: views/checkout/v2-1/script.php:2568 views/checkout/v2/script.php:2813
 msgid ""
 "Le processus de commande a commencé. Si vous continuez, vous perdrez toutes "
 "les informations non enregistrées"
@@ -4952,38 +4984,38 @@ msgstr "Importar artículos por CSV"
 msgid "Ce type de fichier n'est pas autorisé."
 msgstr "Este tipo de archivo no está permitido."
 
-#: views/import/script.php:125
+#: views/import/script.php:127
 msgid "Importation Terminée"
 msgstr "Importación completada"
 
-#: views/import/script.php:147
+#: views/import/script.php:149
 msgid "Collection Importée"
 msgstr "Envíos Importados"
 
-#: views/import/script.php:150
+#: views/import/script.php:152
 msgid "Categorie Importée"
 msgstr "Categoría Importada"
 
-#: views/import/script.php:160
+#: views/import/script.php:162
 msgid "Création des éléments"
 msgstr "Creación de elementos"
 
-#: views/import/script.php:186
+#: views/import/script.php:188
 msgid "Option en cours d'utilisation"
 msgstr "Esta opción ya está en uso:"
 
-#: views/import/script.php:186
+#: views/import/script.php:188
 msgid ""
 "Vous ne pouvez pas choisir cette option car elle est déjà en cours "
 "d'utilisation par la colonne : "
 msgstr "No puede elegir esta opción porque ya está en uso por la columna:"
 
-#: views/import/script.php:203 views/import/script.php:208
-#: views/import/script.php:213
+#: views/import/script.php:205 views/import/script.php:210
+#: views/import/script.php:215
 msgid "Champ necessaire absent"
 msgstr "Faltan campos requeridos"
 
-#: views/import/script.php:203
+#: views/import/script.php:205
 msgid ""
 "Vous devez au moins choisir l'option \"nom du produit\" pour l'un des champs "
 "disponible"
@@ -4991,7 +5023,7 @@ msgstr ""
 "Debe elegir al menos la opción \"nombre del producto\" para uno de los "
 "campos disponibles"
 
-#: views/import/script.php:208
+#: views/import/script.php:210
 msgid ""
 "Vous devez au moins choisir l'option \"Unité de gestion de stock\" pour l'un "
 "des champs disponible"
@@ -4999,7 +5031,7 @@ msgstr ""
 "Debe elegir al menos la \"unidad de almacenamiento\" para uno de los campos "
 "disponibles"
 
-#: views/import/script.php:213
+#: views/import/script.php:215
 msgid ""
 "Vous devez au moins choisir l'option \"Code barre\" pour l'un des champs "
 "disponible"
@@ -5007,11 +5039,11 @@ msgstr ""
 "Debe elegir al menos la opción \"código de barras\" en uno de los campos "
 "disponibles"
 
-#: views/import/script.php:220
+#: views/import/script.php:222
 msgid "Analyse du fichier en cours..."
 msgstr "Escaneo del archivo..."
 
-#: views/import/script.php:234
+#: views/import/script.php:236
 msgid "Création des collections et catégories..."
 msgstr "Creación de envíos y categorías"
 
@@ -5444,13 +5476,13 @@ msgid "&Agrave; percevoir :"
 msgstr "Cambio"
 
 #: views/receipts/default-backup.php:267 views/receipts/default-backup.php:280
-#: views/receipts/default.php:362 views/receipts/default.php:376
+#: views/receipts/default.php:363 views/receipts/default.php:377
 #: views/receipts/simple.php:331 views/receipts/simple.php:344
 #: views/refund/default.php:108 views/refund/default.php:122
 msgid "Revenir à la liste des commandes"
 msgstr "Volver a la lista de pedidos"
 
-#: views/receipts/default-backup.php:276 views/receipts/default.php:372
+#: views/receipts/default-backup.php:276 views/receipts/default.php:373
 #: views/receipts/simple.php:340 views/refund/default.php:118
 msgid ""
 "Une erreur s'est produite durant l'affichage de ce reçu. La commande "
@@ -6003,11 +6035,6 @@ msgstr "Habilitar dto grupos"
 #: views/settings/home.php:105 views/stores/main.php:26
 msgid "Désactiver"
 msgstr "Desactivar"
-
-#: views/settings/customers.php:36 views/settings/home.php:106
-#: views/stores/main.php:27
-msgid "Activer"
-msgstr "Activar"
 
 #: views/settings/customers.php:43
 msgid "Type de la remise"
@@ -6706,9 +6733,24 @@ msgid "Activer la démo"
 msgstr "Activar la demo"
 
 #: views/welcome/dom.php:8
+msgid "Non, Merci !"
+msgstr "No, gracias."
+
+#: views/welcome/dom.php:11
+msgid "Tutoriels"
+msgstr "Tutoriales"
+
 #, fuzzy
-msgid "Accéder au tableau de bord"
-msgstr "Acceso a la consola"
+#~ msgid "Produits Importés"
+#~ msgstr "Productos importados"
+
+#, fuzzy
+#~ msgid "Retour Defectueux"
+#~ msgstr "Retorno defectuoso"
+
+#, fuzzy
+#~ msgid "Accéder au tableau de bord"
+#~ msgstr "Acceso a la consola"
 
 #~ msgid "Modifier la commande"
 #~ msgstr "Editar Pedido"

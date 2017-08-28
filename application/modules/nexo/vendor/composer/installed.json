@@ -20,7 +20,7 @@
         "suggest": {
             "ext-mbstring": "For best performance"
         },
-        "time": "2016-05-18 14:26:46",
+        "time": "2016-05-18T14:26:46+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -93,7 +93,7 @@
             "symfony/config": "",
             "symfony/yaml": ""
         },
-        "time": "2016-05-12 18:19:29",
+        "time": "2016-05-12T18:19:29+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -148,7 +148,7 @@
         "require-dev": {
             "phpunit/phpunit": "*"
         },
-        "time": "2016-03-09 00:50:07",
+        "time": "2016-03-09T00:50:07+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -202,7 +202,7 @@
         "require": {
             "php": ">=5.4.0"
         },
-        "time": "2015-08-13 07:59:44",
+        "time": "2015-08-13T07:59:44+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -273,7 +273,7 @@
             "satooshi/php-coveralls": "~0.6.1",
             "squizlabs/php_codesniffer": "~2.0"
         },
-        "time": "2016-06-03 22:06:06",
+        "time": "2016-06-03T22:06:06+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -319,7 +319,7 @@
             "reference": "b419766515b3426c6da74b0e29e93d71c4f17099",
             "shasum": ""
         },
-        "time": "2015-05-06 18:49:49",
+        "time": "2015-05-06T18:49:49+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -355,7 +355,7 @@
             "reference": "b8af0cacdc3cbf1e41a586fcb78f506f4121a088",
             "shasum": ""
         },
-        "time": "2015-05-06 20:02:39",
+        "time": "2015-05-06T20:02:39+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -402,7 +402,7 @@
         "require-dev": {
             "phpunit/phpunit": "3.7.*"
         },
-        "time": "2016-05-11 00:36:29",
+        "time": "2016-05-11T00:36:29+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -461,7 +461,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.0|~5.0"
         },
-        "time": "2015-11-04 20:07:17",
+        "time": "2015-11-04T20:07:17+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -508,7 +508,7 @@
             "ext-xmlwriter": "*",
             "php": ">=5.2.0"
         },
-        "time": "2015-05-01 07:00:55",
+        "time": "2015-05-01T07:00:55+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -568,7 +568,7 @@
         "require-dev": {
             "phpunit/phpunit": "3.7.*"
         },
-        "time": "2013-03-21 19:48:38",
+        "time": "2013-03-21T19:48:38+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -602,6 +602,116 @@
             "tsv",
             "writer",
             "xml"
+        ]
+    },
+    {
+        "name": "goodby/csv",
+        "version": "1.3.0",
+        "version_normalized": "1.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/goodby/csv.git",
+            "reference": "e71217b8d6110f3d1ac3784ef9b8a2383c3398b9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/goodby/csv/zipball/e71217b8d6110f3d1ac3784ef9b8a2383c3398b9",
+            "reference": "e71217b8d6110f3d1ac3784ef9b8a2383c3398b9",
+            "shasum": ""
+        },
+        "require": {
+            "ext-mbstring": "*",
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "mikey179/vfsstream": ">=1.1.0",
+            "mockery/mockery": ">=0.7.2",
+            "phpunit/phpunit": "3.7.*",
+            "suin/php-expose": ">=1.0"
+        },
+        "time": "2015-06-29T10:28:19+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Goodby\\CSV": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "suin",
+                "email": "suinyeze@gmail.com",
+                "homepage": "https://www.facebook.com/suinyeze",
+                "role": "Developer, Renaming Specialist"
+            },
+            {
+                "name": "reoring",
+                "email": "mori.reo@gmail.com",
+                "homepage": "https://www.facebook.com/reoring",
+                "role": "Developer"
+            }
+        ],
+        "description": "CSV import/export library",
+        "homepage": "https://github.com/goodby/csv",
+        "keywords": [
+            "csv",
+            "export",
+            "import"
+        ]
+    },
+    {
+        "name": "rmccue/requests",
+        "version": "v1.7.0",
+        "version_normalized": "1.7.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/rmccue/Requests.git",
+            "reference": "87932f52ffad70504d93f04f15690cf16a089546"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/rmccue/Requests/zipball/87932f52ffad70504d93f04f15690cf16a089546",
+            "reference": "87932f52ffad70504d93f04f15690cf16a089546",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2"
+        },
+        "require-dev": {
+            "requests/test-server": "dev-master"
+        },
+        "time": "2016-10-13T00:11:37+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Requests": "library/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "ISC"
+        ],
+        "authors": [
+            {
+                "name": "Ryan McCue",
+                "homepage": "http://ryanmccue.info"
+            }
+        ],
+        "description": "A HTTP library written in PHP, for human beings.",
+        "homepage": "http://github.com/rmccue/Requests",
+        "keywords": [
+            "curl",
+            "fsockopen",
+            "http",
+            "idna",
+            "ipv6",
+            "iri",
+            "sockets"
         ]
     }
 ]

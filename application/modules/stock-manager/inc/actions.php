@@ -30,7 +30,7 @@ class Nexo_Stock_Manager_Actions extends Tendoo_Module
                 'link'          =>  site_url([ 'dashboard', 'nexo', 'stores-settings' ]),
                 'icon'          =>  'fa fa-info',
                 'type'          =>  'text-warning',
-                'message'       =>  sprintf( __( 'Le mode multi-boutique doit être activé, pour utiliser le gestionnaire de stock.', 'nexo' ) )
+                'message'       =>  sprintf( __( 'The multistore feature should be enable in order to use the stock manager.', 'stock-manager' ) )
             ]);
         }
     }
@@ -47,5 +47,40 @@ class Nexo_Stock_Manager_Actions extends Tendoo_Module
 
             $this->install->complete();
         }
+    }
+
+    /**
+     * Install tables
+     * @param string table prefix
+     * @return void
+    **/
+
+    public function install_tables( $table_prefix )
+    {
+        $this->install->sql( $table_prefix );
+    }
+
+    /**
+     * Uninstall
+     * @return void
+    **/
+
+    public function do_remove_module( $namespace )
+    {
+        // retrait des tables Nexo
+        if ( $namespace === 'stock-manager' ) {
+            $this->install->remove_all();
+        }
+    }
+
+    /**
+     * Delete tables
+     * @param string table prefox
+     * @return void
+    **/
+
+    public function remove_tables( $table_prefix )
+    {
+        $this->install->remove( $table_prefix );
     }
 }

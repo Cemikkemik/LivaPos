@@ -287,16 +287,16 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <?php echo sprintf(
                                 __('%s %s %s', 'nexo'),
                                 $this->Nexo_Misc->display_currency('before'),
-                                bcsub(
+                                round( bcsub(
                                     __floatval($total_global) + __floatval($_produit[ 'TVA' ]) + __floatval($order[ 'order'][0][ 'SHIPPING_AMOUNT' ]),
                                     (
                                         __floatval(@$_produit[ 'RISTOURNE' ]) +
                                         __floatval(@$_produit[ 'RABAIS' ]) +
                                         __floatval(@$_produit[ 'REMISE' ]) +
                                         ( ( __floatval( @$_produit[ 'REMISE_PERCENT' ] ) * $total_global ) / 100 ) +
-										__floatval(@$_produit[ 'GROUP_DISCOUNT' ])
-                                    ), 2
-                                ),
+                                        __floatval(@$_produit[ 'GROUP_DISCOUNT' ])
+                                    ), 3
+                                ), 2 ),
                                 $this->Nexo_Misc->display_currency('after')
                             );?>
                             </td>

@@ -82,7 +82,9 @@
     // show the dialog immediately by default
     show: true,
     // dialog container
-    container: "body"
+    container: "body",
+    // box namespace
+    namespace   : null
   };
 
   // our public object; augmented after our private API
@@ -236,7 +238,7 @@
    * this entry-level method makes heavy use of composition to take a simple
    * range of inputs and return valid options suitable for passing to bootbox.dialog
    */
-  function mergeDialogOptions(className, labels, properties, args) {
+  function mergeDialogOptions(className, labels, properties, args ) {
     //  build up a base set of dialog properties
     var baseOptions = {
       className: "bootbox-" + className,
@@ -317,8 +319,7 @@
 
   exports.confirm = function() {
     var options;
-
-    options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
+    options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments );
 
     /**
      * overrides; undo anything the user tried to set they shouldn't have

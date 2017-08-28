@@ -26,7 +26,7 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
         $this->load->module_model( 'stock-manager', 'transfert_model' );
 		
         $crud = new grocery_CRUD();
-        $crud->set_subject(__('Historique de transfert de stock', 'nexo'));
+        $crud->set_subject(__('Stock Transfert History', 'nexo'));
         $crud->set_theme('bootstrap');
         // $crud->set_theme( 'bootstrap' );
         $crud->set_table( $this->db->dbprefix( 'nexo_stock_transfert' ) );

@@ -8,6 +8,8 @@ $baseDir = dirname($vendorDir);
 return array(
     'Svg\\' => array($vendorDir . '/phenx/php-svg-lib/src'),
     'SimpleExcel\\' => array($vendorDir . '/faisalman/simple-excel-php/src'),
+    'Requests' => array($vendorDir . '/rmccue/requests/library'),
     'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
+    'Goodby\\CSV' => array($vendorDir . '/goodby/csv/src'),
     'FontLib\\' => array($vendorDir . '/phenx/php-font-lib/src'),
 );

@@ -87,7 +87,11 @@ class Nexo_Checkout extends CI_Model
         ->where('ID', $post)
         ->get( store_prefix() . 'nexo_commandes');
 
-        $command=    $query->result_array();
+        $command    =    $query->result_array();
+
+        if( ! $command ) {
+            return false;
+        }
 
         // Récupère les produits vendu
         $query    =    $this->db
@@ -122,8 +126,8 @@ class Nexo_Checkout extends CI_Model
 
             // Cumul et restauration des quantités
             $this->db->where('CODEBAR', $codebar)->update( store_prefix() . 'nexo_articles', array(
-                'QUANTITE_VENDU'        =>        floatval($article[0][ 'QUANTITE_VENDU' ]) - $quantity,
-                'QUANTITE_RESTANTE'        =>        floatval($article[0][ 'QUANTITE_RESTANTE' ]) + $data[ 'QUANTITY' ],
+                'QUANTITE_VENDU'        =>        floatval($article[0][ 'QUANTITE_VENDU' ]) - $data[ 'QUANTITY' ],
+                'QUANTITE_RESTANTE'     =>        floatval($article[0][ 'QUANTITE_RESTANTE' ]) + $data[ 'QUANTITY' ],
             ));
 
             // Suppresison des meta des produits

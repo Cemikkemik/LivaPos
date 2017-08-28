@@ -10,157 +10,134 @@ $this->set_js_lib($this->default_javascript_path.'/jquery_plugins/config/jquery.
 // If we have at least one Group
 echo form_open($insert_url, 'method="post" id="crudForm"  enctype="multipart/form-data"');
 
-if( $groups ) {
-		?>
+if ($groups) {
+        ?>
 
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
         <?php
-	$index	=	0;
-	foreach( $groups as $namespace	=> $group ) {
-		?>
-        <li class="<?php echo $index == 0 ? 'active': '';?>"> <a href="#<?php echo $namespace;?>" data-toggle="tab" aria-expanded="true">
-            <?php if ( @$group[ 'icon' ] != '' ) : ?>
+        $index  =   0;
+        foreach ($groups as $namespace => $group) {
+            ?>
+            <li class="<?php echo $index == 0 ? 'active': '';?>"> <a href="#<?php echo $namespace;?>" data-toggle="tab" aria-expanded="true">
+            <?php if (@$group[ 'icon' ] != '') : ?>
             <i class="fa <?php echo $group[ 'icon' ];?>"></i>
             <?php endif;?>
             <?php echo $group[ 'title' ];?> </a> </li>
-        <?php
-        $index++;
-    }
+            <?php
+            $index++;
+        }
     ?>
     </ul>
     <div class="tab-content">
         <?php
-		$index				=	0;
-		// ** Let you create fake field
-		$fields				=	get_instance()->events->apply_filters( 'grocery_registered_fields', $fields );
-		$input_fields		=	get_instance()->events->apply_filters( 'grocery_input_fields', $input_fields );
+        $index              =   0;
+        // ** Let you create fake field
+        $fields                 =   get_instance()->events->apply_filters( 'grocery_registered_fields', $fields );
+        $input_fields       =   get_instance()->events->apply_filters( 'grocery_input_fields', $input_fields );
 
-		foreach( $groups as $namespace	=> $group ) {
-					?>
+        foreach ($groups as $namespace => $group) {
+                    ?>
         <div class="tab-pane <?php echo $index == 0 ? 'active': '';?>" id="<?php echo $namespace;?>">
             <?php
-			$counter = 0;
-			foreach ($fields as $field) {
-				if( in_array( $field->field_name, $group[ 'fields' ] ) ) {
-					$even_odd = $counter % 2 == 0 ? 'odd' : 'even';
-					$counter++;
-					if ( $input_fields[ $field->field_name ]->crud_type != 'relation_invisible') {
-						if (
-							in_array($input_fields[ $field->field_name ]->type, array( 'double', 'varchar', 'int', 'float' )) &&
-							in_array($input_fields[ $field->field_name ]->crud_type, array( false, 'integer' ), true)) {
-							?>
-            <div class="form-group <?php echo $even_odd?>" id="<?php echo $field->field_name;
-							?>_field_box">
-                <div class="input-group"> <span class="input-group-addon" id="basic-addon1"> <?php echo $input_fields[$field->field_name]->display_as;
-							?> <?php echo ($input_fields[$field->field_name]->required)? " <span class='required label label-danger'>*</span> " : "";
-							?> </span> <?php echo $input_fields[$field->field_name]->input;
-							?>
-                    <!--<input type="text" class="form-control" placeholder="<?php echo $field->display_as;
-							?>" name="<?php echo $field->field_name;
-							?>" aria-describedby="basic-addon1"> -->
-                </div>
-                <?php if( ! empty( $field->description ) ):?>
-				<span class="help-block"><?php echo strip_tags( $field->description );?></span>
+            $counter = 0;
+            foreach ($fields as $field) {
+                if (in_array( $field->field_name, $group[ 'fields' ] )) {
+                    $even_odd = $counter % 2 == 0 ? 'odd' : 'even';
+                    $counter++;
+                    if ($input_fields[ $field->field_name ]->crud_type != 'relation_invisible') {
+                        if (in_array($input_fields[ $field->field_name ]->type, array( 'double', 'varchar', 'int', 'float' )) &&
+                            in_array($input_fields[ $field->field_name ]->crud_type, array( false, 'integer' ), true)) {
+                            ?>
+            <div class="form-group <?php echo $even_odd?>" id="<?php echo $field->field_name;?>_field_box">
+                <label for="<?php echo $field->field_name;?>"><?php echo $input_fields[$field->field_name]->display_as;?> <?php echo ($input_fields[$field->field_name]->required)? " <small class='required'>(required)</small> " : "";?></label>
+                <?php echo $input_fields[$field->field_name]->input; ?>
+                <?php if (! empty( $field->description )) :?>
+                <span class="help-block"><?php echo strip_tags( $field->description );?></span>
                 <?php endif;?>
             </div>
             <?php
-						} else {
-			?>
+                        } else {
+            ?>
             <div class="form-group <?php echo $even_odd?>" id="<?php echo $field->field_name;
-							?>_field_box">
-                <label for="exampleInputEmail1"><?php echo $input_fields[$field->field_name]->display_as;
-							?><?php echo ($input_fields[$field->field_name]->required)? " <span class='required label label-danger'>*</span> " : "";
-							?></label>
+                            ?>_field_box">
+                <label for="<?php echo $field->field_name;?>"><?php echo $input_fields[$field->field_name]->display_as;
+                            ?><?php echo ($input_fields[$field->field_name]->required)? " <small class='required'>(required)</small> " : "";?></label>
                 <br />
                 <?php echo $input_fields[$field->field_name]->input;?>
-                <?php if( ! empty( $field->description ) ):?>
-				<span class="help-block"><?php echo strip_tags( $field->description );?></span>
+                <?php if (! empty( $field->description )) :?>
+                <span class="help-block"><?php echo strip_tags( $field->description );?></span>
                 <?php endif;?>
             </div>
             <?php
-								}
-							}
-						}
-					}?>
+                        }
+                    }
+                }
+            }?>
         </div>
         <!-- /.tab-pane -->
         <?php
-					$index++;
-				}
-				?>
+                    $index++;
+        }
+                ?>
     </div>
     <!-- /.tab-content -->
 </div>
 <?php
-	} else {
+} else {
 ?>
 <div id='main-table-box'>
-    <div class='form-div'>
-        <?php
-		$counter = 0;
-		$fields				=	get_instance()->events->apply_filters( 'grocery_registered_fields', $fields );
-		$input_fields		=	get_instance()->events->apply_filters( 'grocery_input_fields', $input_fields );
+<div class='form-div'>
+<?php
+$counter = 0;
+$fields                 =   get_instance()->events->apply_filters( 'grocery_registered_fields', $fields );
+$input_fields       =   get_instance()->events->apply_filters( 'grocery_input_fields', $input_fields );
 
-		foreach ($fields as $field) {
-			$even_odd = $counter % 2 == 0 ? 'odd' : 'even';
-			$counter++;
-			if ($input_fields[ $field->field_name ]->crud_type != 'relation_invisible') {
-				if (
-					in_array( @$input_fields[ $field->field_name ]->type, array( 'double', 'varchar', 'int', 'float' )) &&
-					in_array($input_fields[ $field->field_name ]->crud_type, array( false, 'integer' ), true)) {
-					?>
-        <div class="form-group <?php echo $even_odd?>" id="<?php echo $field->field_name;
-					?>_field_box">
-            <div class="input-group"> <span class="input-group-addon" id="basic-addon1"> <?php echo $input_fields[$field->field_name]->display_as;
-					?> <?php echo ($input_fields[$field->field_name]->required)? " <span class='required label label-danger'>*</span> " : "";
-					?> </span> <?php echo $input_fields[$field->field_name]->input;
-					?>
-                <!--<input type="text" class="form-control" placeholder="<?php echo $field->display_as;
-					?>" name="<?php echo $field->field_name;
-					?>" aria-describedby="basic-addon1"> -->
-            </div>
-            <?php if( ! empty( $field->description ) ):?>
-            <span class="help-block"><?php echo strip_tags( $field->description );?></span>
-            <?php endif;?>  
-        </div>
-        <?php
-				} else {
-					?>
-        <div class="form-group <?php echo $even_odd?>" id="<?php echo $field->field_name;
-					?>_field_box">
-            <label for="exampleInputEmail1"><?php echo $input_fields[$field->field_name]->display_as;
-					?><?php echo ($input_fields[$field->field_name]->required)? " <span class='required label label-danger'>*</span> " : "";
-					?></label>
-            <br />
-            <?php echo $input_fields[$field->field_name]->input;
-					?> 
-            <?php if( ! empty( $field->description ) ):?>
+foreach ($fields as $field) {
+    $even_odd = $counter % 2 == 0 ? 'odd' : 'even';
+    $counter++;
+    if ($input_fields[ $field->field_name ]->crud_type != 'relation_invisible') {
+        if (in_array( @$input_fields[ $field->field_name ]->type, array( 'double', 'varchar', 'int', 'float' )) &&
+            in_array($input_fields[ $field->field_name ]->crud_type, array( false, 'integer' ), true)) {
+            ?>
+        <div class="form-group <?php echo $even_odd?>" id="<?php echo $field->field_name;                           ?>_field_box">
+            <label for="<?php echo $field->field_name;?>"><?php echo $input_fields[$field->field_name]->display_as;?> <?php echo ($input_fields[$field->field_name]->required)? " <small class='required'>(required)</small> " : "";?></label>
+            <?php echo $input_fields[$field->field_name]->input; ?>
+            <?php if (! empty( $field->description )) :?>
             <span class="help-block"><?php echo strip_tags( $field->description );?></span>
             <?php endif;?>
         </div>
         <?php
-
-				}
-			}
-		}?>
+        } else {
+            ?>
+        <div class="form-group <?php echo $even_odd?>" id="<?php echo $field->field_name;                           ?>_field_box">
+            <label for="<?php echo $field->field_name;?>"><?php echo $input_fields[$field->field_name]->display_as;?> <?php echo ($input_fields[$field->field_name]->required)? " <small class='required'>(required)</small> " : "";?></label>
+            <?php echo $input_fields[$field->field_name]->input; ?>
+            <?php if (! empty( $field->description )) :?>
+            <span class="help-block"><?php echo strip_tags( $field->description );?></span>
+            <?php endif;?>
+        </div>
+        <?php
+        }
+    }
+}?>
     </div>
 </div>
 <?php
-	}
-	?>
+}
+    ?>
 <!-- Start of hidden inputs -->
 <?php
-    foreach ($hidden_fields as $hidden_field) {
-        echo $hidden_field->input;
-    }
+foreach ($hidden_fields as $hidden_field) {
+    echo $hidden_field->input;
+}
     ?>
 <!-- End of hidden inputs -->
 <?php if ($is_ajax) {
     ?>
 <input type="hidden" name="is_ajax" value="true" />
 <?php
-    }
+}
     ?>
 <div id='report-error' class='report-div error'></div>
 <div id='report-success' class='report-div success'></div>
@@ -187,9 +164,9 @@ if( $groups ) {
 </div>
 <?php echo form_close(); ?>
 <script>
-	var validation_url = '<?php echo $validation_url?>';
-	var list_url = '<?php echo $list_url?>';
+    var validation_url = '<?php echo $validation_url?>';
+    var list_url = '<?php echo $list_url?>';
 
-	var message_alert_add_form = "<?php echo $this->l('alert_add_form')?>";
-	var message_insert_error = "<?php echo $this->l('insert_error')?>";
+    var message_alert_add_form = "<?php echo $this->l('alert_add_form')?>";
+    var message_insert_error = "<?php echo $this->l('insert_error')?>";
 </script>

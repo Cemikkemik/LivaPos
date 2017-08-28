@@ -145,3 +145,8 @@ Regroupe toutes les actions de la boutique
  * nexo_loaded
  * When nexo is loaded 
 **/
+
+/**
+ * update_supply_history
+ * S'exécute lorsque l'on met à jour l'historique d'approvisionnement
+**/

@@ -2170,7 +2170,6 @@ var v2Checkout					=	new function(){
 			'</div>' +
 		'</div>' +
   '</div>';
-
 		$( '#pay-wrapper' ).html( dom );
 
 		// Footer Filter

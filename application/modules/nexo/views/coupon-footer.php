@@ -105,7 +105,7 @@ $scope.checkCoupon      =   function(){
         v2Checkout.paymentWindow.hideSplash();
     });
 
-    NexoAPI.events.addFilter( 'before_submit_order', function( data ) {
+    /** NexoAPI.events.addFilter( 'before_submit_order', function( data ) {
         data.COUPON             =   [];
         _.each( $scope.allCouponDetails, function( value ) {
             data.COUPON.push({
@@ -115,7 +115,7 @@ $scope.checkCoupon      =   function(){
             });
         });
         return data;
-    });
+    }); **/
 }
 
 /**

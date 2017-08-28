@@ -9,4 +9,9 @@ class Tendoo_Module extends CI_Model{
         //Codeigniter : Write Less Do More
     }
 
+    public function module_view( $namespace, $view, $params, $return )
+    {
+        return $this->load->module_view( $namespace, $view, $params, $return );
+    }
+
 }

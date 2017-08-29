@@ -590,58 +590,59 @@ class Nexo_Install extends CI_Model
     {
 		$table_prefix		=	$this->db->dbprefix . $prefix;
 
-        // retrait des tables Nexo
-        if ($namespace === 'nexo') {
+        	// retrait des tables Nexo
+		if ($namespace === 'nexo') {
 
-            $this->load->model( 'Nexo_Stores' );
+			$this->load->model( 'Nexo_Stores' );
 
-            $stores         =   $this->Nexo_Stores->get();
+			$stores         =   $this->Nexo_Stores->get();
 
-            array_unshift( $stores, [
-                'ID'        =>  0
-            ]);
+			array_unshift( $stores, [
+			'ID'        =>  0
+			]);
 
-            foreach( $stores as $store ) {
+			foreach( $stores as $store ) {
 
-                $store_prefix       =   $store[ 'ID' ] == 0 ? '' : 'store_' . $store[ 'ID' ] . '_';
+				$store_prefix       =   $store[ 'ID' ] == 0 ? '' : 'store_' . $store[ 'ID' ] . '_';
 
-                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes`;');
-                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_produits`;');
-    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_meta`;');
-    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_paiements`;');
-                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_coupons`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_produits`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_meta`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_paiements`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_coupons`;');
 				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_shippings`;');
-                // @since 3.0.16
-                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_produits_meta`;');
+				// @since 3.0.16
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_commandes_produits_meta`;');
 
-                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles`;');
-    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles_variations`;');
-    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles_stock_flow`;');
-    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles_meta`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles_variations`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles_stock_flow`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_articles_meta`;');
 
-                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_categories`;');
-                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_fournisseurs`;');
-                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_historique`;');
-                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_arrivages`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_categories`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_fournisseurs`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_historique`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_arrivages`;');
 
-                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_rayons`;');
-                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_clients`;');
-    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_clients_groups`;');
-                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_clients_meta`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_rayons`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_clients`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_clients_groups`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_clients_meta`;');
 				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_clients_address`;');
-                $this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_paiements`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_paiements`;');
 
-    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_coupons`;');
-    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_checkout_money`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_coupons`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_checkout_money`;');
 
-    			// @since 2.7.5
-    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_registers`;');
-    			$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_registers_activities`;');
+				// @since 2.7.5
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_registers`;');
+				$this->db->query('DROP TABLE IF EXISTS `'.$table_prefix. $store_prefix . 'nexo_registers_activities`;');
 
-                $this->options->delete( $prefix . $store_prefix . 'nexo_installed');
-                $this->options->delete( $prefix . $store_prefix . 'nexo_saved_barcode');
-                $this->options->delete( $prefix . $store_prefix . 'order_code');
-            }
+				$this->options->delete( $prefix . $store_prefix . 'nexo_installed');
+				$this->options->delete( $prefix . $store_prefix . 'nexo_saved_barcode');
+				$this->options->delete( $prefix . $store_prefix . 'order_code');
+				$this->events->do_action_ref_array( 'nexo_after_delete_tables', array( $table_prefix . $store_prefix, $scope ) );
+			}
 
 			if( $scope == 'default' ) {
 				// @since 2.8
@@ -651,9 +652,7 @@ class Nexo_Install extends CI_Model
 				$this->load->model('Nexo_Checkout');
 				$this->Nexo_Checkout->delete_permissions();
 			}
-
-			$this->events->do_action_ref_array( 'nexo_after_delete_tables', array( $table_prefix . $store_prefix, $scope ) );
-        }
+        	}
     }
 
 	/**
@@ -801,268 +800,268 @@ class Nexo_Install extends CI_Model
 		$this->aauth->allow_group('shop_cashier', 'enter_shop');
 
 		// @since 3.0.1 coupons
-        $this->aauth->allow_group( 'shop_cashier', 'create_coupons');
-        $this->aauth->allow_group( 'shop_cashier', 'edit_coupons');
-        $this->aauth->allow_group( 'shop_cashier', 'delete_coupons');
+		$this->aauth->allow_group( 'shop_cashier', 'create_coupons');
+		$this->aauth->allow_group( 'shop_cashier', 'edit_coupons');
+		$this->aauth->allow_group( 'shop_cashier', 'delete_coupons');
 
-        /**
-         * Permission for Shop Manager
-        **/
+		/**
+		* Permission for Shop Manager
+		**/
 
-        // Orders
-        $this->aauth->allow_group('shop_manager', 'create_shop_orders');
-        $this->aauth->allow_group('shop_manager', 'edit_shop_orders');
-        $this->aauth->allow_group('shop_manager', 'delete_shop_orders');
+        	// Orders
+		$this->aauth->allow_group('shop_manager', 'create_shop_orders');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_orders');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_orders');
 
-        // Customers
-        $this->aauth->allow_group('shop_manager', 'create_shop_customers');
-        $this->aauth->allow_group('shop_manager', 'delete_shop_customers');
-        $this->aauth->allow_group('shop_manager', 'edit_shop_customers');
+		// Customers
+		$this->aauth->allow_group('shop_manager', 'create_shop_customers');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_customers');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_customers');
 
-        // Customers Groups
-        $this->aauth->allow_group('shop_manager', 'create_shop_customers_groups');
-        $this->aauth->allow_group('shop_manager', 'delete_shop_customers_groups');
-        $this->aauth->allow_group('shop_manager', 'edit_shop_customers_groups');
+		// Customers Groups
+		$this->aauth->allow_group('shop_manager', 'create_shop_customers_groups');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_customers_groups');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_customers_groups');
 
-        // Shop items
-        $this->aauth->allow_group('shop_manager', 'create_shop_items');
-        $this->aauth->allow_group('shop_manager', 'edit_shop_items');
-        $this->aauth->allow_group('shop_manager', 'delete_shop_items');
+		// Shop items
+		$this->aauth->allow_group('shop_manager', 'create_shop_items');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_items');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_items');
 
-        // Shop categories
-        $this->aauth->allow_group('shop_manager', 'create_shop_categories');
-        $this->aauth->allow_group('shop_manager', 'edit_shop_categories');
-        $this->aauth->allow_group('shop_manager', 'delete_shop_categories');
+		// Shop categories
+		$this->aauth->allow_group('shop_manager', 'create_shop_categories');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_categories');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_categories');
 
-        // Shop Radius
-        $this->aauth->allow_group('shop_manager', 'create_shop_radius');
-        $this->aauth->allow_group('shop_manager', 'edit_shop_radius');
-        $this->aauth->allow_group('shop_manager', 'delete_shop_radius');
+		// Shop Radius
+		$this->aauth->allow_group('shop_manager', 'create_shop_radius');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_radius');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_radius');
 
-        // Shop Shipping
-        $this->aauth->allow_group('shop_manager', 'create_shop_shippings');
-        $this->aauth->allow_group('shop_manager', 'edit_shop_shippings');
-        $this->aauth->allow_group('shop_manager', 'delete_shop_shippings');
+		// Shop Shipping
+		$this->aauth->allow_group('shop_manager', 'create_shop_shippings');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_shippings');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_shippings');
 
-        // Shop Provider
-        $this->aauth->allow_group('shop_manager', 'create_shop_providers');
-        $this->aauth->allow_group('shop_manager', 'edit_shop_providers');
-        $this->aauth->allow_group('shop_manager', 'delete_shop_providers');
+		// Shop Provider
+		$this->aauth->allow_group('shop_manager', 'create_shop_providers');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_providers');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_providers');
 
-        // Shop Options
-        $this->aauth->allow_group('shop_manager', 'create_options');
-        $this->aauth->allow_group('shop_manager', 'edit_options');
-        $this->aauth->allow_group('shop_manager', 'delete_options');
+		// Shop Options
+		$this->aauth->allow_group('shop_manager', 'create_options');
+		$this->aauth->allow_group('shop_manager', 'edit_options');
+		$this->aauth->allow_group('shop_manager', 'delete_options');
 
-        // Shop Purchase Invoices
-        $this->aauth->allow_group('shop_manager', 'create_shop_purchases_invoices');
-        $this->aauth->allow_group('shop_manager', 'edit_shop_purchases_invoices');
-        $this->aauth->allow_group('shop_manager', 'delete_shop_purchases_invoices');
+		// Shop Purchase Invoices
+		$this->aauth->allow_group('shop_manager', 'create_shop_purchases_invoices');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_purchases_invoices');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_purchases_invoices');
 
-        // Shop Backup
-        $this->aauth->allow_group('shop_manager', 'create_shop_backup');
-        $this->aauth->allow_group('shop_manager', 'edit_shop_backup');
-        $this->aauth->allow_group('shop_manager', 'delete_shop_backup');
+		// Shop Backup
+		$this->aauth->allow_group('shop_manager', 'create_shop_backup');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_backup');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_backup');
 
-        // Shop Track User Activity
-        $this->aauth->allow_group('shop_manager', 'read_shop_user_tracker');
-        $this->aauth->allow_group('shop_manager', 'delete_shop_user_tracker');
+		// Shop Track User Activity
+		$this->aauth->allow_group('shop_manager', 'read_shop_user_tracker');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_user_tracker');
 
-        // Stock Entry
-        $this->aauth->allow_group('shop_manager', 'create_item_stock');
-        $this->aauth->allow_group('shop_manager', 'edit_item_stock');
-        $this->aauth->allow_group('shop_manager', 'delete_item_stock');
+		// Stock Entry
+		$this->aauth->allow_group('shop_manager', 'create_item_stock');
+		$this->aauth->allow_group('shop_manager', 'edit_item_stock');
+		$this->aauth->allow_group('shop_manager', 'delete_item_stock');
 
 		// Taxes
 		$this->aauth->allow_group('shop_manager', 'create_taxes');
-        $this->aauth->allow_group('shop_manager', 'edit_taxes');
-        $this->aauth->allow_group('shop_manager', 'delete_taxes');
+		$this->aauth->allow_group('shop_manager', 'edit_taxes');
+		$this->aauth->allow_group('shop_manager', 'delete_taxes');
 
-        // Read Reports
-        $this->aauth->allow_group('shop_manager', 'read_shop_reports');
-        // Profile
-        $this->aauth->allow_group('shop_manager', 'edit_profile');
+		// Read Reports
+		$this->aauth->allow_group('shop_manager', 'read_shop_reports');
+		// Profile
+		$this->aauth->allow_group('shop_manager', 'edit_profile');
 
 		// @since 2.7.5
 		// Creating registers
-        $this->aauth->allow_group('shop_manager', 'create_shop_registers');
-        $this->aauth->allow_group('shop_manager', 'edit_shop_registers');
-        $this->aauth->allow_group('shop_manager', 'delete_shop_registers');
+		$this->aauth->allow_group('shop_manager', 'create_shop_registers');
+		$this->aauth->allow_group('shop_manager', 'edit_shop_registers');
+		$this->aauth->allow_group('shop_manager', 'delete_shop_registers');
 		$this->aauth->allow_group('shop_manager', 'view_shop_registers');
 
 		// @since 2.8
 		$this->aauth->allow_group('shop_manager', 'enter_shop');
-        $this->aauth->allow_group('shop_manager', 'create_shop');
-        $this->aauth->allow_group('shop_manager', 'delete_shop');
+		$this->aauth->allow_group('shop_manager', 'create_shop');
+		$this->aauth->allow_group('shop_manager', 'delete_shop');
 		$this->aauth->allow_group('shop_manager', 'edit_shop');
 
 		$this->aauth->allow_group( 'shop_manager', 'create_coupons');
-        $this->aauth->allow_group( 'shop_manager', 'edit_coupons');
-        $this->aauth->allow_group( 'shop_manager', 'delete_coupons');
+		$this->aauth->allow_group( 'shop_manager', 'edit_coupons');
+		$this->aauth->allow_group( 'shop_manager', 'delete_coupons');
 
 
-        /**
-         * Permission for Master
-        **/
+		/**
+		* Permission for Master
+		**/
 
-        // Orders
-        $this->aauth->allow_group('master', 'create_shop_orders');
-        $this->aauth->allow_group('master', 'edit_shop_orders');
-        $this->aauth->allow_group('master', 'delete_shop_orders');
+		// Orders
+		$this->aauth->allow_group('master', 'create_shop_orders');
+		$this->aauth->allow_group('master', 'edit_shop_orders');
+		$this->aauth->allow_group('master', 'delete_shop_orders');
 
-        // Customers
-        $this->aauth->allow_group('master', 'create_shop_customers');
-        $this->aauth->allow_group('master', 'delete_shop_customers');
-        $this->aauth->allow_group('master', 'edit_shop_customers');
+		// Customers
+		$this->aauth->allow_group('master', 'create_shop_customers');
+		$this->aauth->allow_group('master', 'delete_shop_customers');
+		$this->aauth->allow_group('master', 'edit_shop_customers');
 
-        // Customers Groups
-        $this->aauth->allow_group('master', 'create_shop_customers_groups');
-        $this->aauth->allow_group('master', 'delete_shop_customers_groups');
-        $this->aauth->allow_group('master', 'edit_shop_customers_groups');
+		// Customers Groups
+		$this->aauth->allow_group('master', 'create_shop_customers_groups');
+		$this->aauth->allow_group('master', 'delete_shop_customers_groups');
+		$this->aauth->allow_group('master', 'edit_shop_customers_groups');
 
-        // Shop items
-        $this->aauth->allow_group('master', 'create_shop_items');
-        $this->aauth->allow_group('master', 'edit_shop_items');
-        $this->aauth->allow_group('master', 'delete_shop_items');
+		// Shop items
+		$this->aauth->allow_group('master', 'create_shop_items');
+		$this->aauth->allow_group('master', 'edit_shop_items');
+		$this->aauth->allow_group('master', 'delete_shop_items');
 
-        // Shop categories
-        $this->aauth->allow_group('master', 'create_shop_categories');
-        $this->aauth->allow_group('master', 'edit_shop_categories');
-        $this->aauth->allow_group('master', 'delete_shop_categories');
+		// Shop categories
+		$this->aauth->allow_group('master', 'create_shop_categories');
+		$this->aauth->allow_group('master', 'edit_shop_categories');
+		$this->aauth->allow_group('master', 'delete_shop_categories');
 
-        // Shop Radius
-        $this->aauth->allow_group('master', 'create_shop_radius');
-        $this->aauth->allow_group('master', 'edit_shop_radius');
-        $this->aauth->allow_group('master', 'delete_shop_radius');
+		// Shop Radius
+		$this->aauth->allow_group('master', 'create_shop_radius');
+		$this->aauth->allow_group('master', 'edit_shop_radius');
+		$this->aauth->allow_group('master', 'delete_shop_radius');
 
-        // Shop Shipping
-        $this->aauth->allow_group('master', 'create_shop_shippings');
-        $this->aauth->allow_group('master', 'edit_shop_shippings');
-        $this->aauth->allow_group('master', 'delete_shop_shippings');
+		// Shop Shipping
+		$this->aauth->allow_group('master', 'create_shop_shippings');
+		$this->aauth->allow_group('master', 'edit_shop_shippings');
+		$this->aauth->allow_group('master', 'delete_shop_shippings');
 
-        // Shop Provider
-        $this->aauth->allow_group('master', 'create_shop_providers');
-        $this->aauth->allow_group('master', 'edit_shop_providers');
-        $this->aauth->allow_group('master', 'delete_shop_providers');
+		// Shop Provider
+		$this->aauth->allow_group('master', 'create_shop_providers');
+		$this->aauth->allow_group('master', 'edit_shop_providers');
+		$this->aauth->allow_group('master', 'delete_shop_providers');
 
-        // Shop Purchase Invoices
-        $this->aauth->allow_group('master', 'create_shop_purchases_invoices');
-        $this->aauth->allow_group('master', 'edit_shop_purchases_invoices');
-        $this->aauth->allow_group('master', 'delete_shop_purchases_invoices');
+		// Shop Purchase Invoices
+		$this->aauth->allow_group('master', 'create_shop_purchases_invoices');
+		$this->aauth->allow_group('master', 'edit_shop_purchases_invoices');
+		$this->aauth->allow_group('master', 'delete_shop_purchases_invoices');
 
-        // Shop Backup
-        $this->aauth->allow_group('master', 'create_shop_backup');
-        $this->aauth->allow_group('master', 'edit_shop_backup');
-        $this->aauth->allow_group('master', 'delete_shop_backup');
+		// Shop Backup
+		$this->aauth->allow_group('master', 'create_shop_backup');
+		$this->aauth->allow_group('master', 'edit_shop_backup');
+		$this->aauth->allow_group('master', 'delete_shop_backup');
 
-        // Shop Track User Activity
-        $this->aauth->allow_group('master', 'read_shop_user_tracker');
-        $this->aauth->allow_group('master', 'delete_shop_user_tracker');
+		// Shop Track User Activity
+		$this->aauth->allow_group('master', 'read_shop_user_tracker');
+		$this->aauth->allow_group('master', 'delete_shop_user_tracker');
 
-        // Read Reports
-        $this->aauth->allow_group('master', 'read_shop_reports');
+		// Read Reports
+		$this->aauth->allow_group('master', 'read_shop_reports');
 
 		// @since 2.7.5
 		// Creating registers
-        $this->aauth->allow_group('master', 'create_shop_registers');
-        $this->aauth->allow_group('master', 'edit_shop_registers');
-        $this->aauth->allow_group('master', 'delete_shop_registers');
+		$this->aauth->allow_group('master', 'create_shop_registers');
+		$this->aauth->allow_group('master', 'edit_shop_registers');
+		$this->aauth->allow_group('master', 'delete_shop_registers');
 		$this->aauth->allow_group('master', 'view_shop_registers');
 
 		// @since 2.8
 		$this->aauth->allow_group('master', 'enter_shop');
-        $this->aauth->allow_group('master', 'create_shop');
-        $this->aauth->allow_group('master', 'delete_shop');
+		$this->aauth->allow_group('master', 'create_shop');
+		$this->aauth->allow_group('master', 'delete_shop');
 		$this->aauth->allow_group('master', 'edit_shop');
 
-        //@since 3.0.20
-        // Stock Entry
-        $this->aauth->allow_group('master', 'create_item_stock');
-        $this->aauth->allow_group('master', 'edit_item_stock');
-        $this->aauth->allow_group('master', 'delete_item_stock');
+		//@since 3.0.20
+		// Stock Entry
+		$this->aauth->allow_group('master', 'create_item_stock');
+		$this->aauth->allow_group('master', 'edit_item_stock');
+		$this->aauth->allow_group('master', 'delete_item_stock');
 
 		// @since 3.3
 		$this->aauth->allow_group('master', 'create_taxes');
-        $this->aauth->allow_group('master', 'edit_taxes');
-        $this->aauth->allow_group('master', 'delete_taxes');
+		$this->aauth->allow_group('master', 'edit_taxes');
+		$this->aauth->allow_group('master', 'delete_taxes');
 
 		$this->aauth->allow_group( 'master', 'create_coupons');
-        $this->aauth->allow_group( 'master', 'edit_coupons');
-        $this->aauth->allow_group( 'master', 'delete_coupons');
+		$this->aauth->allow_group( 'master', 'edit_coupons');
+		$this->aauth->allow_group( 'master', 'delete_coupons');
 
-        /**
-         * Permission for Shop Test
-        **/
+		/**
+		* Permission for Shop Test
+		**/
 
-        // Orders
-        $this->aauth->allow_group('shop_tester', 'create_shop_orders');
-        $this->aauth->allow_group('shop_tester', 'edit_shop_orders');
+		// Orders
+		$this->aauth->allow_group('shop_tester', 'create_shop_orders');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_orders');
 
-        // Customers
-        $this->aauth->allow_group('shop_tester', 'create_shop_customers');
-        $this->aauth->allow_group('shop_tester', 'edit_shop_customers');
+		// Customers
+		$this->aauth->allow_group('shop_tester', 'create_shop_customers');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_customers');
 
-        // Customers Groups
-        $this->aauth->allow_group('shop_tester', 'create_shop_customers_groups');
-        $this->aauth->allow_group('shop_tester', 'edit_shop_customers_groups');
+		// Customers Groups
+		$this->aauth->allow_group('shop_tester', 'create_shop_customers_groups');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_customers_groups');
 
-        // Shop items
-        $this->aauth->allow_group('shop_tester', 'create_shop_items');
-        $this->aauth->allow_group('shop_tester', 'edit_shop_items');
+		// Shop items
+		$this->aauth->allow_group('shop_tester', 'create_shop_items');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_items');
 
-        // Shop categories
-        $this->aauth->allow_group('shop_tester', 'create_shop_categories');
-        $this->aauth->allow_group('shop_tester', 'edit_shop_categories');
+		// Shop categories
+		$this->aauth->allow_group('shop_tester', 'create_shop_categories');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_categories');
 
-        // Shop Radius
-        $this->aauth->allow_group('shop_tester', 'create_shop_radius');
-        $this->aauth->allow_group('shop_tester', 'edit_shop_radius');
+		// Shop Radius
+		$this->aauth->allow_group('shop_tester', 'create_shop_radius');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_radius');
 
-        // Shop Shipping
-        $this->aauth->allow_group('shop_tester', 'create_shop_shippings');
-        $this->aauth->allow_group('shop_tester', 'edit_shop_shippings');
+		// Shop Shipping
+		$this->aauth->allow_group('shop_tester', 'create_shop_shippings');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_shippings');
 
-        // Shop Provider
-        $this->aauth->allow_group('shop_tester', 'create_shop_providers');
-        $this->aauth->allow_group('shop_tester', 'edit_shop_providers');
+		// Shop Provider
+		$this->aauth->allow_group('shop_tester', 'create_shop_providers');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_providers');
 
-        // Shop Purchase Invoices
-        $this->aauth->allow_group('shop_tester', 'create_shop_purchases_invoices');
-        $this->aauth->allow_group('shop_tester', 'edit_shop_purchases_invoices');
+		// Shop Purchase Invoices
+		$this->aauth->allow_group('shop_tester', 'create_shop_purchases_invoices');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_purchases_invoices');
 
-        // Shop Backup
-        $this->aauth->allow_group('shop_tester', 'create_shop_backup');
-        $this->aauth->allow_group('shop_tester', 'edit_shop_backup');
+		// Shop Backup
+		$this->aauth->allow_group('shop_tester', 'create_shop_backup');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_backup');
 
-        // Shop Track User Activity
-        $this->aauth->allow_group('shop_tester', 'read_shop_user_tracker');
+		// Shop Track User Activity
+		$this->aauth->allow_group('shop_tester', 'read_shop_user_tracker');
 
-        // Read Reports
-        $this->aauth->allow_group('shop_tester', 'read_shop_reports');
+		// Read Reports
+		$this->aauth->allow_group('shop_tester', 'read_shop_reports');
 
 		$this->aauth->allow_group('shop_tester', 'create_taxes');
-        $this->aauth->allow_group('shop_tester', 'edit_taxes');
+		$this->aauth->allow_group('shop_tester', 'edit_taxes');
 
 		// @since 2.7.5
 		// Creating registers
-        $this->aauth->allow_group('shop_tester', 'create_shop_registers');
-        $this->aauth->allow_group('shop_tester', 'edit_shop_registers');
+		$this->aauth->allow_group('shop_tester', 'create_shop_registers');
+		$this->aauth->allow_group('shop_tester', 'edit_shop_registers');
 		$this->aauth->allow_group('shop_tester', 'view_shop_registers');
 
-        //@since 3.0.20
-        // Stock Entry
-        $this->aauth->allow_group('shop_tester', 'create_item_stock');
-        $this->aauth->allow_group('shop_tester', 'edit_item_stock');
+		//@since 3.0.20
+		// Stock Entry
+		$this->aauth->allow_group('shop_tester', 'create_item_stock');
+		$this->aauth->allow_group('shop_tester', 'edit_item_stock');
 
 		// @since 2.8
 		$this->aauth->allow_group('shop_tester', 'enter_shop');
-        $this->aauth->allow_group('shop_tester', 'create_shop');
+		$this->aauth->allow_group('shop_tester', 'create_shop');
 		$this->aauth->allow_group('shop_tester', 'edit_shop');
 
-        // Profile
-        // $this->aauth->allow_group('shop_tester', 'edit_profile');
+		// Profile
+		// $this->aauth->allow_group('shop_tester', 'edit_profile');
 		$this->aauth->allow_group( 'shop_tester', 'create_coupons');
-        $this->aauth->allow_group( 'shop_tester', 'edit_coupons');
+		$this->aauth->allow_group( 'shop_tester', 'edit_coupons');
 	}
 }
 new Nexo_Install;

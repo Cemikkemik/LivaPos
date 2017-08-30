@@ -194,21 +194,7 @@ tendoo.tools.remove_tags	=	function( string ){
 // Date Object
 tendoo.date				=	new Date( tendoo.server_date );
 tendoo.now				=	function(){
-    this.add_zero		=	function( i ){
-        if (i < 10) {
-            i = "0" + i;
-        }
-        return i;
-    }
-    
-	var d = this.add_zero( tendoo.date.getDate() ),
-		m = this.add_zero( parseInt( tendoo.date.getMonth() ) + 1 ), // https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date
-        y = this.add_zero( tendoo.date.getFullYear() ),
-        s = this.add_zero( tendoo.date.getSeconds() ),
-        h = this.add_zero( tendoo.date.getHours() ),
-        i = this.add_zero( tendoo.date.getMinutes() );
-
-    return y + '-' + m + '-' + d + 'T' + h + ':' + i + ':' + s;
+	return this.date.format();
 };
 
 $(document).ready(function(){

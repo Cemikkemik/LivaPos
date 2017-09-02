@@ -60,7 +60,6 @@ class Tendoo_Controller extends CI_Controller
             // Get Active Modules and load it
 			Modules::init( 'all', null, 'mu-modules' );
             Modules::init( 'actives' );
-
             $this->events->do_action('after_app_init');
         }
         // Only for controller requiring installation
@@ -76,13 +75,26 @@ class Tendoo_Controller extends CI_Controller
         }
 
         // Checks system status
-        if (in_array($this->uri->segment(1), $this->config->item('reserved_controllers')) || $this->uri->segment(1) === null) {
+        if (
+            in_array(
+                $this->uri->segment(1), 
+                $this->config->item('reserved_controllers')
+            ) || 
+            $this->uri->segment(1) === null
+        ) {
             // null for index page
 
             // there are some section which need tendoo to be installed. Before getting there, tendoo controller checks if for those
             // section tendoo is installed. If segment(1) returns null, it means the current section is index. Even for index,
             // installation is required
-            if ((in_array($this->uri->segment(1), $this->config->item('controllers_requiring_installation')) || $this->uri->segment(1) === null) && ! $this->setup->is_installed()) {
+            if ( 
+                ( 
+                    in_array(
+                        $this->uri->segment(1), 
+                        $this->config->item('controllers_requiring_installation')
+                    ) || $this->uri->segment(1) === null
+                ) && ! $this->setup->is_installed()
+            ) {
                 redirect(array( 'do-setup' ));
             }
 

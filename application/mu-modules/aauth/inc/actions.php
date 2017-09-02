@@ -1,5 +1,5 @@
 <?php
-class aauth_action extends CI_model
+class aauth_action extends Tendoo_Module
 {
     public function __construct()
     {

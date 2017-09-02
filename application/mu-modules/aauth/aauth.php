@@ -80,7 +80,6 @@ class auth_module_class extends CI_model
         if (! $this->users->master_exists() && $this->uri->segment(1) !== 'do-setup') {
             redirect(array( 'do-setup', 'site' ));
         }
-
         // force user to be connected for certain controller
         if (in_array($this->uri->segment(1), $this->config->item('controllers_requiring_login')) && $this->setup->is_installed()) {
             if (! $this->users->is_connected() || ! User::get()) {

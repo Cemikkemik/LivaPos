@@ -269,12 +269,12 @@ class Users_model extends CI_Model
     public function login($login_fields_namespace)
     {
         $exec        =        $this->auth->login(
-            $this->input->post(riake('username_or_email', $login_fields_namespace)),
-            $this->input->post(riake('password', $login_fields_namespace)),
-            $this->input->post(riake('keep_connected', $login_fields_namespace)) ? true : false
+            $this->input->post( @$login_fields_namespace[ 'username_or_email' ]),
+            $this->input->post( @$login_fields_namespace[ 'password' ]),
+            $this->input->post( @$login_fields_namespace[ 'keep_connected' ] ) != null ? true : false
         );
 
-        if ($this->auth->is_loggedin()) {
+        if ( $this->auth->is_loggedin()) {
             return 'user-logged-in';
         }
         return 'fetch-error-from-auth';

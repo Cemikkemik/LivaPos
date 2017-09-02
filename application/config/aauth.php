@@ -52,7 +52,7 @@ $config['aauth'] = array(
 
     // ddos protection,
     //if it is true, the user will be banned temporary when he exceed the login 'try'
-    'ddos_protection' => false, // temporarily
+    'ddos_protection' => true, // temporarily
 
     'recaptcha_active' => false,
     'recaptcha_login_attempts' => 4,
@@ -61,7 +61,7 @@ $config['aauth'] = array(
 
     // login attempts time interval
     // default 20 times in one hour
-    'max_login_attempt' => 10,
+    'max_login_attempt' => 5,
 
     // to register email verifitaion need? true / false
     'verification' => true,

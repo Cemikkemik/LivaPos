@@ -133,10 +133,10 @@ class Aauth
 
         // Remove cookies first
         $cookie = array(
-            'name'     => 'user',
-            'value'     => '',
-            'expire' => 2.628e+6,
-            'path'     => '/',
+            'name'          => 'user',
+            'value'         => '',
+            'expire'        => 2.628e+6,
+            'path'          => '/',
         );
 
         $this->CI->input->set_cookie($cookie);

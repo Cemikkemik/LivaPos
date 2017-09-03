@@ -95,7 +95,11 @@ var v2Checkout					=	new function(){
 					}
 				}
 			} else {
-				if( parseInt( _item[0].QUANTITE_RESTANTE ) - qte_to_add < 0 ) {
+				if( 
+					parseInt( _item[0].QUANTITE_RESTANTE ) - qte_to_add < 0 
+					&& _item[0].TYPE == '1'
+					&& _item[0].STOCK_ENABLED == '1'
+				) {
 					NexoAPI.Notify().warning(
 						'<?php echo addslashes(__('Stock épuisé', 'nexo'));?>',
 						'<?php echo addslashes(__('Impossible d\'ajouter ce produit, car son stock est épuisé.', 'nexo'));?>'
@@ -1772,9 +1776,13 @@ var v2Checkout					=	new function(){
 			// For Store Feature
 			var store_id				=	'<?php echo $store_id == null ? 0 : $store_id;?>';
 
-			$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'item' ));?>/' + codebar + '/' + filter + '?store_id=' + store_id, { // _with_meta
+			$.ajax( '<?php echo site_url('api/items-barcode');?>/' + codebar + '?store_id=' + store_id, { // _with_meta
 				success				:	function( _item ){
 					// Treat Found Item
+					if( ! _.isArray( _item ) ) {
+						_item 		=	[ _item ];
+					}
+					
 					v2Checkout.treatFoundItem({ _item, codebar, qte_to_add, allow_increase, filter });
 				},
 				dataType			:	'json',
@@ -1878,7 +1886,7 @@ var v2Checkout					=	new function(){
 		**/
 
 		this.getItems				=	function( beforeCallback, afterCallback){
-			$.ajax('<?php echo $this->events->apply_filters( 'nexo_checkout_item_url', site_url([ 'rest', 'nexo', 'item' ]) ) . '?store_id=' . $store_id;?>', { // _with_meta
+			$.ajax('<?php echo $this->events->apply_filters( 'nexo_checkout_item_url', site_url('api/items') ) . '?store_id=' . $store_id;?>', { // _with_meta
 				beforeSend	:	function(){
 					if( typeof beforeCallback == 'function' ) {
 						beforeCallback();

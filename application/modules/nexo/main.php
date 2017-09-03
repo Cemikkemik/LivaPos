@@ -48,6 +48,7 @@ class Nexo_Main extends CI_Model
         $this->events->add_filter( 'nexo_store_menus', [ $this->filters, 'store_menus' ] );
         $this->events->add_filter( 'ac_filter_get_request', [ $this->filters, 'ac_filter_get_request' ] ); // Awesome CRUD
         $this->events->add_filter( 'ac_delete_entry', [ $this->filters, 'ac_delete_entry' ] );
+        $this->events->add_filter( 'rest_routes', [ $this->filters, 'rest_routes' ]);
     }
 }
 new Nexo_Main;

@@ -126,62 +126,68 @@ if ($success_message !== null) {
         </div>
         <div id='ajax_list' class="ajax_list" style="border-top:solid 1px #EEE;"><?php echo $list_view?> </div>
         <div class="box-footer clearfix">
-        	<div class="row">
-            	<div class="col-lg-4 col-md-4 col-xs-3">
-                    <div class="btn-group">
-                    	<div class="pFirst btn btn-default first-button" title="<?php _e('First Page');?>"> <span>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="btn-group btn-group-justified">
+                        <div class="pFirst btn btn-default first-button" title="<?php _e('First Page');?>"> <span>
                         <?php _e('&laquo;');?>
                         </span> </div>
                         <div class="pPrev btn btn-default prev-button" title="<?php _e('Previous Page');?>"> <span>
                             <?php _e('Previous');?>
                             </span> 
                         </div>
+                        <div class="pNext btn btn-default next-button" title="<?php _e('Next Page');?>"> <span>
+                            <?php _e('Next');?>
+                            </span> 
+                        </div>
+                        <div class="pLast btn btn-default last-button" title="<?php _e('Last Page');?>"> <span>
+                            <?php _e('&raquo;');?>
+                            </span> 
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <div class="input-group-addon"><?php echo $this->l('list_page'); ?> </div>
+                        <input name='page' type="text" value="1" size="4" id='crud_page' class="crud_page form-control">
+                        <div class="input-group-addon"><?php echo $this->l('list_paging_of'); ?> <span id='last-page-number' class="last-page-number"><?php echo ceil($total_results / $default_per_page)?></span></div>
                     </div>
                 </div>
-            	<div class="col-lg-2 col-md-2 col-xs-3">
+                <div class="col-md-5">
                     <div class="input-group">
                         <div class="input-group-addon">
                             <?php list($show_lang_string, $entries_lang_string) = explode('{paging}', $this->l('list_show_entries')); ?>
                             <?php echo $show_lang_string; ?></div>
-                        <select name="per_page" id='per_page' class="per_page form-control">
-                            <?php foreach ($paging_options as $option) {
-        ?>
-                            <option value="<?php echo $option;
-        ?>" <?php if ($option == $default_per_page) {
-        ?>selected="selected"<?php 
-        }
-        ?>><?php echo $option;
-        ?>&nbsp;&nbsp;</option>
-                            <?php 
-        }?>
-                        </select>
+                            <select name="per_page" id='per_page' class="per_page form-control">
+                                <?php foreach ($paging_options as $option) {
+            ?>
+                                <option value="<?php echo $option;
+            ?>" <?php if ($option == $default_per_page) {
+            ?>selected="selected"<?php 
+            }
+            ?>><?php echo $option;
+            ?>&nbsp;&nbsp;</option>
+                                <?php 
+            }?>
+                            </select>
                         <div class="input-group-addon"><?php echo $entries_lang_string; ?></div>
                     </div>
                     <input type="hidden" name="order_by[0]" id="hidden-sorting" class="hidden-sorting" value="">
-					<input type="hidden" name="order_by[1]" id="hidden-ordering" class="hidden-ordering" value="">
+                    <input type="hidden" name="order_by[1]" id="hidden-ordering" class="hidden-ordering" value="">
+                </div>
+            </div>
+            
+        	<div class="row">
+                
+            	<div class="col-lg-2 col-md-2 col-xs-3">
+                    
 				</div>
             	<div class="col-lg-3 col-md-3 col-xs-3">
-                    <div class="form-inline">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon"><?php echo $this->l('list_page'); ?> </div>
-                                <input name='page' type="text" value="1" size="4" id='crud_page' class="crud_page form-control">
-                                <div class="input-group-addon"><?php echo $this->l('list_paging_of'); ?> <span id='last-page-number' class="last-page-number"><?php echo ceil($total_results / $default_per_page)?></span></div>
-                            </div>
-                        </div>
-                    </div>
+                    
 				</div>
                 <div class="col-lg-3 col-md-3 col-xs-3">
-                	<div class="btn-group pull-right">
-                        <div class="pNext btn btn-default next-button" title="<?php _e('Next Page');?>"> <span>
-                                <?php _e('Next');?>
-                                </span> 
-                            </div>
-                            <div class="pLast btn btn-default last-button" title="<?php _e('Last Page');?>"> <span>
-                            <?php _e('&raquo;');?>
-                            </span> 
-						</div>
-                    </div>
+                	
                 	<!-- 
                     <p class="pPageStat">
 						<?php $paging_starts_from = "<span id='page-starts-from' class='page-starts-from'>1</span>"; ?>

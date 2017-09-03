@@ -138,6 +138,19 @@ class Nexo_Taxes_Controller extends Tendoo_Module
     }
 
     /**
+     * Add tax form
+     * @return void
+    **/
+
+    public function edit()
+    {
+        $this->Gui->set_title( store_title( __( 'Modifier une taxe', 'nexo' ) ) );
+        $data[ 'crud_content' ]    =    $this->crud_header();
+
+		$this->load->module_view( 'nexo', 'taxes.gui', $data );
+    }
+
+    /**
      * Insert Validation
      * @use index
      * @return void
@@ -166,6 +179,21 @@ class Nexo_Taxes_Controller extends Tendoo_Module
     **/
 
     public function success()
+    {
+        $this->index();
+    }
+
+    /**
+     * Update modfiication
+     * @return void
+    **/
+
+    public function update_validation()
+    {
+        $this->index();
+    }
+
+    public function update()
     {
         $this->index();
     }

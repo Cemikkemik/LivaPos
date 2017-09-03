@@ -699,7 +699,7 @@ class Nexo_Install extends CI_Model
 			true,
 			get_instance()->lang->line( 'nexo_tester_details' )
 		);
-
+		
 		// Shop Orders
 		$this->aauth->create_perm('create_shop_orders',    __('Gestion des commandes', 'nexo'),            __('Peut créer des commandes', 'nexo'));
 		$this->aauth->create_perm('edit_shop_orders',    __('Modification des commandes', 'nexo'),            __('Peut modifier des commandes', 'nexo'));
@@ -785,9 +785,9 @@ class Nexo_Install extends CI_Model
 		$this->aauth->create_perm('delete_taxes',    __( 'Supprimer des taxes', 'nexo' ),        __( 'Donne la capacité de supprimer des taxes.', 'nexo' ));
 
 		// Unit of measure
-		$this->aauth->create_perm('create_unit',    __('Créer des unités de mesure', 'nexo'),        __('Création des unités de mesure', 'nexo'));
-		$this->aauth->create_perm('edit_unit',    __('Modifier des unités de mesure', 'nexo'),        __('Modification des unités de mesure', 'nexo'));
-		$this->aauth->create_perm('delete_unit',    __('Supprimer des unités de mesure', 'nexo'),        __('Suppression des unités de mesure', 'nexo'));
+		$this->aauth->create_perm('create_unit_of_measure',    __('Créer des unités de mesure', 'nexo'),        __('Création des unités de mesure', 'nexo'));
+		$this->aauth->create_perm('edit_unit_of_measure',    __('Modifier des unités de mesure', 'nexo'),        __('Modification des unités de mesure', 'nexo'));
+		$this->aauth->create_perm('delete_unit_of_measure',    __('Supprimer des unités de mesure', 'nexo'),        __('Suppression des unités de mesure', 'nexo'));
 
 		/**
 		* Permission for Cashier
@@ -801,6 +801,7 @@ class Nexo_Install extends CI_Model
 				'coupons'
 			] as $component ) {
 				foreach([ 'create', 'edit' ] as $action ) {
+					// var_dump( $role, $action . '_' . $component );
 					$this->aauth->allow_group( $role, $action . '_' . $component );	
 				}
 			}
@@ -818,18 +819,18 @@ class Nexo_Install extends CI_Model
         	// Orders
 		foreach([ 'shop_manager', 'master' ] as $role ) {
 			foreach([ 
-				'customers', 
-				'customers_groups', 
+				'shop_customers', 
+				'shop_customers_groups', 
 				'shop_items', 
 				'shop_categories', 
 				'shop_radius', 
 				'shop_shippings', 
 				'shop_providers', 
-				'options',
+				// 'options',
 				'shop_purchases_invoices',
 				'shop_backup',
 				'item_stock',
-				'user_tracker',
+				// 'shop_user_tracker',
 				'shop_registers',
 				'coupons',
 				'shop',
@@ -837,9 +838,10 @@ class Nexo_Install extends CI_Model
 				'shop_customers',
 				'shop_customers_groups',
 				'taxes', // @since 3.3
-				'unit',
+				'unit_of_measure',
 			] as $component ) {
 				foreach([ 'create', 'delete', 'edit' ] as $action ) {
+					// var_dump( $role, $action . '_' . $component );
 					$this->aauth->allow_group( $role, $action . '_' . $component );	
 				}
 			}
@@ -868,18 +870,18 @@ class Nexo_Install extends CI_Model
 
 		foreach([ 'shop_tester' ] as $role ) {
 			foreach([ 
-				'customers', 
-				'customers_groups', 
+				'shop_customers', 
+				'shop_customers_groups', 
 				'shop_items', 
 				'shop_categories', 
 				'shop_radius', 
 				'shop_shippings', 
 				'shop_providers', 
-				'options',
+				// 'options',
 				'shop_purchases_invoices',
 				'shop_backup',
 				'item_stock',
-				'user_tracker',
+				// 'user_tracker',
 				'shop_registers', // @since 2.7.5
 				'coupons',
 				'shop',
@@ -887,9 +889,10 @@ class Nexo_Install extends CI_Model
 				'shop_customers',
 				'shop_customers_groups',
 				'taxes', // @since 3.3
-				'unit',
+				'unit_of_measure',
 			] as $component ) {
 				foreach([ 'create', 'edit' ] as $action ) {
+					// var_dump( $role, $action . '_' . $component );
 					$this->aauth->allow_group( $role, $action . '_' . $component );	
 				}
 			}

@@ -36,31 +36,30 @@ class aauth_fields extends CI_model
     {
         ob_start();
         ?>
-      <div class="form-group has-feedback">
-         <input type="text" class="form-control" placeholder="<?php _e('User Name', 'aauth');
-        ?>" name="username" value="<?php echo set_value('username');
-        ?>">
-         <span class="glyphicon glyphicon-user form-control-feedback"></span>
-       </div>
-       <div class="form-group has-feedback">
-         <input type="email" class="form-control" placeholder="<?php _e('Email', 'aauth');
-        ?>" name="email" value="<?php echo set_value('email');
-        ?>">
-         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-       </div>
-       <div class="form-group has-feedback">
-         <input type="password" class="form-control" placeholder="<?php _e('Password', 'aauth');
-        ?>" name="password" value="<?php echo set_value('password');
-        ?>">
-         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-       </div>
-       <div class="form-group has-feedback">
-         <input type="password" class="form-control" placeholder="<?php _e('Password confirm', 'aauth');
-        ?>" name="confirm" value="<?php echo set_value('confirm');
-        ?>">
-         <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-       </div>
-      <?php
+        <div class="form-group <?php echo form_error( 'username' ) ? 'has-error' : '';?>">
+            <label for="username"><?php echo __( 'User Name', 'aauth' );?></label>
+            <input type="text" class="form-control" placeholder="<?php _e('User Name', 'aauth');?>" name="username" value="<?php echo set_value('username');      ?>">
+            <p class="help-block"><?php echo form_error( 'username' );?></p>
+        </div>
+
+        <div class="form-group <?php echo form_error( 'email' ) ? 'has-error' : '';?>">
+            <label for="email"><?php echo __( 'Email', 'aauth' );?></label>
+            <input type="text" class="form-control" placeholder="<?php _e('Email', 'aauth');?>" name="email" value="<?php echo set_value('email');      ?>">
+            <p class="help-block"><?php echo form_error( 'email' );?></p>
+        </div>
+
+        <div class="form-group <?php echo form_error( 'password' ) ? 'has-error' : '';?>">
+            <label for="password"><?php echo __( 'Password', 'aauth' );?></label>
+            <input type="password" class="form-control" placeholder="<?php _e('Password', 'aauth');?>" name="password" value="<?php echo set_value('password');      ?>">
+            <p class="help-block"><?php echo form_error( 'password' );?></p>
+        </div>
+
+        <div class="form-group <?php echo form_error( 'confirm' ) ? 'has-error' : '';?>">
+            <label for="confirm"><?php echo __( 'Password Confirm', 'aauth' );?></label>
+            <input type="password" class="form-control" placeholder="<?php _e('Password Confirm', 'aauth');?>" name="confirm" value="<?php echo set_value('confirm');      ?>">
+            <p class="help-block"><?php echo form_error( 'confirm' );?></p>
+        </div>
+        <?php
         return $fields    .=    ob_get_clean();
     }
     public function create_login_fields()

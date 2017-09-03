@@ -194,4 +194,32 @@ class Nexo_Filters extends Tendoo_Module
         $data[ 'primaryKey' ]   =   'ID';
         return $data;
     }
+
+    /**
+     * Rest Routes
+     * @param array rest routes
+     * @return array
+    **/
+
+    public function rest_routes( $routes )
+    {
+        $routes[ 'items' ]      =   [
+            'table'             =>   store_prefix() . 'nexo_articles',
+            'fillable'          =>   [ 'DESIGN' ],
+            'expose'            =>   [ 'DESIGN' ],
+            'select'            =>   [ 
+                '*',
+                store_prefix() . 'nexo_articles.ID as ID',  
+                store_prefix() . 'nexo_categories.ID as CAT_ID',
+            ],
+            'join'              =>   [ 
+                store_prefix() . 'nexo_categories'  =>   store_prefix() . 'nexo_articles.REF_CATEGORIE = ' . store_prefix() . 'nexo_categories.ID'
+            ]
+        ];
+
+        $routes[ 'items-barcode' ]                  =   $routes[ 'items' ];
+        $routes[ 'items-barcode' ][ 'primary' ]     =   store_prefix() . 'nexo_articles.CODEBAR';
+
+        return $routes;
+    }
 }

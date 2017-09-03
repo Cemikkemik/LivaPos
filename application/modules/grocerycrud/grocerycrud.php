@@ -7,7 +7,19 @@ class GroceryCrudModule extends CI_Model
         $this->events->add_action('load_dashboard', array( $this, 'init' ));
     }
     public function init()
-    {
+    {     
+        $this->events->add_action( 'dashboard_footer', function(){
+            ?>
+            <script>
+            $(document).ready(function() {
+                $('.summernote').summernote({
+                    height: 300,                 // set editor height   
+                });
+            });
+            </script>
+            <?php
+        });
+
         global $Options;
         $language        =    'english';
         switch (@$Options[ 'site_language' ]) {

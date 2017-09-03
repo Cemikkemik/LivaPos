@@ -2143,6 +2143,11 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
                     $this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/jquery.tine_mce.config.js');
                 break;
 
+                case 'summernote': 
+                    $this->set_js_lib($this->default_texteditor_path.'/summernote/summernote.js');
+                    $this->set_css($this->default_texteditor_path.'/summernote/summernote.css');
+                break;
+
                 case 'markitup':
                     $this->set_css($this->default_texteditor_path.'/markitup/skins/markitup/style.css');
                     $this->set_css($this->default_texteditor_path.'/markitup/sets/default/style.css');
@@ -2152,11 +2157,11 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
                 break;
             }
 
-            $class_name = $this->config->text_editor_type == 'minimal' ? 'mini-texteditor' : 'texteditor';
+            $class_name = $this->config->text_editor_type == 'minimal form-control' ? 'mini-texteditor' : 'texteditor form-control ' . $this->config->default_text_editor;
 
             $input = "<textarea id='field-{$field_info->name}' name='{$field_info->name}' class='$class_name' >$value</textarea>";
         } else {
-            $input = "<textarea id='field-{$field_info->name}' name='{$field_info->name}'>$value</textarea>";
+            $input = "<textarea id='field-{$field_info->name}' class=\"form-control\" name='{$field_info->name}'>$value</textarea>";
         }
         return $input;
     }

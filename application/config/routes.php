@@ -55,7 +55,9 @@ $route['translate_uri_dashes']    = true;
 
 // Slugs.
 // must match reserved controllers and controllers requiring installation
-$route[ 'sign-in' ]                        =    'sign_in';
-$route[ 'sign-up' ]                        =    'sign_up';
-$route[ 'sign-out' ]                    =    'sign_out';
-$route[ 'do-setup' ]                    =    'do-setup';
+$route[ 'sign-in' ]                =    'sign_in';
+$route[ 'sign-up' ]                =    'sign_up';
+$route[ 'sign-out' ]               =    'sign_out';
+$route[ 'do-setup' ]               =    'do-setup';
+$route[ 'api/(:any)' ]             =    'api/index/$1';
+$route[ 'api/(:any)/(:any)' ]      =    'api/index/$1/$2';

@@ -78,29 +78,38 @@ trait Nexo_orders
         // Increase customers purchases
         $query                        	=    $this->db->where('ID', $this->post('REF_CLIENT'))->get( store_prefix() . 'nexo_clients');
         $result                        	=    $query->result_array();
-        $total_commands                	=    intval($result[0][ 'NBR_COMMANDES' ]) + 1;
-        $overal_commands            	=    intval($result[0][ 'OVERALL_COMMANDES' ]) + 1;
-
-        $this->db->set('NBR_COMMANDES', $total_commands);
-        $this->db->set('OVERALL_COMMANDES', $overal_commands);
-
-        // Disable automatic discount
-        if ($this->post('REF_CLIENT') != $this->post('DEFAULT_CUSTOMER')) {
-
-            // Verifie si le client doit profiter de la réduction
-            if ($this->post('DISCOUNT_TYPE') != 'disable') {
-                // On définie si en fonction des réglages, l'on peut accorder une réduction au client
-                if ($total_commands >= __floatval($this->post('HMB_DISCOUNT')) - 1 && $result[0][ 'DISCOUNT_ACTIVE' ] == 0) {
-                    $this->db->set('DISCOUNT_ACTIVE', 1);
-                } elseif ($total_commands >= $this->post('HMB_DISCOUNT') && $result[0][ 'DISCOUNT_ACTIVE' ] == 1) {
-                    $this->db->set('DISCOUNT_ACTIVE', 0); // bénéficiant d'une reduction sur cette commande, la réduction est désactivée
-                    $this->db->set('NBR_COMMANDES', 1); // le nombre de commande est également désactivé
+        
+        // only if customer has been found
+        if( $result ) {
+            $total_commands                	=    intval($result[0][ 'NBR_COMMANDES' ]) + 1;
+            $overal_commands            	=    intval($result[0][ 'OVERALL_COMMANDES' ]) + 1;
+    
+            $this->db->set('NBR_COMMANDES', $total_commands);
+            $this->db->set('OVERALL_COMMANDES', $overal_commands);
+    
+            // Disable automatic discount
+            if ($this->post('REF_CLIENT') != $this->post('DEFAULT_CUSTOMER')) {
+    
+                // Verifie si le client doit profiter de la réduction
+                if ($this->post('DISCOUNT_TYPE') != 'disable') {
+                    // On définie si en fonction des réglages, l'on peut accorder une réduction au client
+                    if ($total_commands >= __floatval($this->post('HMB_DISCOUNT')) - 1 && $result[0][ 'DISCOUNT_ACTIVE' ] == 0) {
+                        $this->db->set('DISCOUNT_ACTIVE', 1);
+                    } elseif ($total_commands >= $this->post('HMB_DISCOUNT') && $result[0][ 'DISCOUNT_ACTIVE' ] == 1) {
+                        $this->db->set('DISCOUNT_ACTIVE', 0); // bénéficiant d'une reduction sur cette commande, la réduction est désactivée
+                        $this->db->set('NBR_COMMANDES', 1); // le nombre de commande est également désactivé
+                    }
                 }
             }
+            // fin désactivation réduction auto pour le client par défaut
+            $this->db->where('ID', $this->post('REF_CLIENT'))
+            ->update( store_prefix() . 'nexo_clients');
+        } else {
+            return $this->response(array(
+                'message'   =>  __( 'Impossible d\'identifier le client', 'nexo' ),
+                'status'    =>  'failed'
+            ), 403 );
         }
-        // fin désactivation réduction auto pour le client par défaut
-        $this->db->where('ID', $this->post('REF_CLIENT'))
-        ->update( store_prefix() . 'nexo_clients');
 
         // Save Order items
 
@@ -115,14 +124,22 @@ trait Nexo_orders
 			 * If Stock Enabled is active
 			**/
 
+			$fresh_item       =   $this->db->where( 'CODEBAR', $item[ 'codebar' ] )
+            ->get( store_prefix() . 'nexo_articles' );
+			/**
+			 * If Stock Enabled is active
+			**/
 			if( intval( $item[ 'stock_enabled' ] ) == 1 ) {
-
-				$this->db->where('CODEBAR', $item[ 'codebar' ])->update( store_prefix() . 'nexo_articles', array(
-					'QUANTITE_RESTANTE'        	=>    intval($item[ 'qte_remaining' ]) - intval($item[ 'qte_added' ]),
-					'QUANTITE_VENDU'        	=>    intval($item[ 'qte_sold' ]) + intval($item[ 'qte_added' ])
-				) );
-
-			}
+                $data                       =   [];
+                $data[ 'QUANTITE_VENDU' ]   =   intval($item[ 'qte_sold' ]) + intval($item[ 'qte_added' ]);
+                // if item type belongs to type which allow to decrease remaning quantity
+                if( in_array( intval( $fresh_item[0][ 'TYPE' ] ), $this->events->apply_filters( 'treat_as_sold_quantity', [ 1 ] ) ) ) {
+                    $data[ 'QUANTITE_RESTANTE' ]   =   intval($item[ 'qte_remaining' ]) - intval($item[ 'qte_added' ]);
+                }
+                // update item stock
+                $this->db->where('CODEBAR', $item[ 'codebar' ])
+                ->update( store_prefix() . 'nexo_articles', $data );
+            }
 
 			// Adding to order product
 			if( $item[ 'discount_type' ] == 'percentage' && $item[ 'discount_percent' ] != '0' ) {

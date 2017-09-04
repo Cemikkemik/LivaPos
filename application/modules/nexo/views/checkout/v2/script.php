@@ -1765,7 +1765,11 @@ var v2Checkout					=	new function(){
 							}
 						}
 					} else {
-						if( parseInt( _item[0].QUANTITE_RESTANTE ) - qte_to_add < 0 ) {
+						if( 
+							parseInt( _item[0].QUANTITE_RESTANTE ) - qte_to_add < 0 
+							&& _item[0].TYPE == '1'
+							&& _item[0].STOCK_ENABLED == '1'
+						) {
 							NexoAPI.Notify().error(
 								'<?php echo addslashes(__('Stock épuisé', 'nexo'));?>',
 								'<?php echo addslashes(__('Impossible d\'ajouter ce produit, car son stock est épuisé.', 'nexo'));?>'

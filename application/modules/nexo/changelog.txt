@@ -1,4 +1,7 @@
 
+v4.0
+====
+* Added : Unit of measure
 v3.1.5
 ======
 * Fix saving order issue

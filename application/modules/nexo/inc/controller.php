@@ -254,6 +254,14 @@ class Nexo_Controller extends CI_Model
 					array(
 						'title'        =>    __('Ajouter une catégorie', 'nexo'),
 						'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/categories/lists/add'),
+					),
+					array(
+						'title'        =>    __('Liste des unités de mesure', 'nexo'),
+						'href'        =>    site_url('dashboard/' . $store_uri . 'nexo_units/lists'),
+					),
+					array(
+						'title'        =>    __('Ajouter une unité de mesure', 'nexo'),
+						'href'        =>    site_url('dashboard/' . $store_uri . 'nexo_units/lists/add'),
 					)
 				));
 
@@ -528,6 +536,7 @@ class Nexo_Controller extends CI_Model
 		include_once( dirname( __FILE__ ) . '/../__controllers/coupons.php' );
 		include_once( dirname( __FILE__ ) . '/../__controllers/templates.php' ); // @since 3.1
 		include_once( dirname( __FILE__ ) . '/../__controllers/taxes.php' );
+		include_once( dirname( __FILE__ ) . '/../__controllers/units.php' ); // @since 4.0
 
 		$this->Gui->register_page( 'nexo', array( $this, 'load_controller' ));
 		$this->Gui->register_page( 'stores', array( $this, 'stores' ) );
@@ -535,6 +544,7 @@ class Nexo_Controller extends CI_Model
 		$this->Gui->register_page_object( 'nexo_coupons', 	new NexoCouponController );
 		$this->Gui->register_page_object( 'nexo_templates', new Nexo_Templates_Controller ); // @since 3.1
 		$this->Gui->register_page_object( 'nexo_taxes', 	new Nexo_Taxes_Controller ); // @since 3.3
+		$this->Gui->register_page_object( 'nexo_units', new Nexo_Unit_Contoller ); // @since 4.0
 
         // @since 2.10.1
         $this->events->add_filter( 'stores_controller_callback', function( $action ) {
@@ -542,6 +552,7 @@ class Nexo_Controller extends CI_Model
 			$action[ 'nexo_coupons' ]    	=   new NexoCouponController;
 			$action[ 'nexo_templates' ]    	=   new Nexo_Templates_Controller; // @since 3.1
 			$action[ 'nexo_taxes' ] 		=	new Nexo_Taxes_Controller; // @since 3.3
+			$action[ 'nexo_units' ] 		=	new Nexo_Unit_Controller; // @since 4.0
             return $action;
         });
 

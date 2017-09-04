@@ -94,10 +94,11 @@ class Nexo_Produits extends CI_Model
 		$crud->add_group( 'spec', __( 'Caractéristiques', 'nexo' ), $this->config->item( 'nexo_item_spec_group' ), 'fa-paint-brush' );
 
         $columns        =   [
-            'SKU',
+            //'SKU',
 			'DESIGN',
 			'REF_CATEGORIE',
             'PRIX_DE_VENTE_TTC',
+            'SALE_TYPE',
 			// 'PRIX_DACHAT', // item purchase price is hidden and only available on the supply history
             'REF_TAXE',
 			'QUANTITE_RESTANTE',
@@ -105,7 +106,7 @@ class Nexo_Produits extends CI_Model
 			'DEFECTUEUX',			
 			'TYPE',
 			'STATUS',
-			'CODEBAR'
+			//'CODEBAR'
         ];
 
         $columns        =   $this->events->apply_filters( 'product_columns', $columns );
@@ -126,12 +127,40 @@ class Nexo_Produits extends CI_Model
             return $tax == 0 ? __( 'Non défini' ) : $tax;
         });
 
+        $crud->callback_column( 'DESIGN', function( $column, $row ) {
+            return '<strong>' . $column . '</strong><br>' . 
+            sprintf( __( '<small> Codebar: %s</small>', 'nexo' ), $row->CODEBAR ) . ' | ' .
+            sprintf( __( '<small> UGS: %s</small>', 'nexo' ), $row->SKU ) . '<br>';
+            sprintf( __( '<small> Codebar: %s</small>', 'nexo' ), $row->CODEBAR ) . ' | ' .
+            sprintf( __( '<small> UGS: %s</small>', 'nexo' ), $row->SKU );
+        });
+
+        $crud->callback_column( 'SALE_TYPE', function( $sale_type, $row ){
+            if( $sale_type == 'choose' ) {
+                return __( 'Demander chaque fois', 'nexo' );
+            } else if( $sale_type == 'base_unit') {
+                return __( 'A l\'unité', 'nexo' );
+            } else if( substr( $sale_type, 0, 5 ) == 'unit_' ) {
+                $name   =   'REF_' . strtoupper( $sale_type );
+                $unit   =   $this->db->where( 'ID', $row->$name )
+                ->get( store_prefix() . 'nexo_units' )
+                ->result_array();
+
+                return $unit[0][ 'NAME' ];
+            }
+            return $sale_type;
+        });
+
 		$crud->set_relation('REF_RAYON', store_prefix() . 'nexo_rayons', 'TITRE');
 		$crud->set_relation('REF_CATEGORIE', store_prefix() . 'nexo_categories', 'NOM');
 		$crud->set_relation('REF_SHIPPING', store_prefix() . 'nexo_arrivages', 'TITRE');
         $crud->set_relation('REF_PROVIDER', store_prefix() . 'nexo_fournisseurs', 'NOM');
         $crud->set_relation('REF_TAXE', store_prefix() . 'nexo_taxes', 'NAME');
-		$crud->set_relation('AUTHOR', 'aauth_users', 'name');
+        $crud->set_relation('AUTHOR', 'aauth_users', 'name');
+        $crud->set_relation( 'REF_UNIT_1', store_prefix() . 'nexo_units', 'NAME' );
+        $crud->set_relation( 'REF_UNIT_2', store_prefix() . 'nexo_units', 'NAME' );
+        $crud->set_relation( 'REF_UNIT_3', store_prefix() . 'nexo_units', 'NAME' );
+
 
         $crud->display_as( 'REF_TAXE', __('Taxe', 'nexo'));
         $crud->display_as( 'PRIX_DE_VENTE_TTC', __('Prix de vente(*)', 'nexo') );
@@ -171,11 +200,15 @@ class Nexo_Produits extends CI_Model
 		$crud->display_as( 'AUTO_BARCODE', __( 'Générer une étiquette automatiquement', 'nexo' ) );
         $crud->display_as( 'SHADOW_PRICE', __( 'Prix fictif', 'nexo' ) );
         $crud->display_as( 'REF_PROVIDER', __( 'Fournisseur', 'nexo' ) );
+        $crud->display_as( 'SALE_TYPE', __( 'Unité à la vente', 'nexo' ) ); // @since 4.0
+        $crud->display_as( 'REF_UNIT_1', __( 'Unité de mesure 1', 'nexo' ) );
+        $crud->display_as( 'REF_UNIT_2', __( 'Unité de mesure 2', 'nexo' ) );
+        $crud->display_as( 'REF_UNIT_3', __( 'Unité de mesure 3', 'nexo' ) );
+        
 
+        $crud->field_description( 'SALE_TYPE', __( 'Définir l\'unité de mesure à la vente. Vous pouvez laisser l\'option "demander chaque fois", ce qui fera apparaitre une fenêtre sur le point de vente. Par défaut, la vente à l\'unité de base 1 sera utilisé.', 'nexo' ) );
 		$crud->field_description( 'AUTO_BARCODE', tendoo_info( __( 'Lorsque cette option est activée, Après la création/mise à jour de cet article, une étiquette sera générée en fonction du type de code barre. Si cette option est désactivée, alors le champ "Code barre" sera utilsiée pour générer l\'étiquette de l\'article. Assurez-vous de définir une valeur unique.', 'nexo' ) ) );
-
 		$crud->field_description( 'BARCODE_TYPE', tendoo_info( __( 'Si la valeur de ce champ est vide et que l\'option "Générer une étiquette" est activée, alors le type de code barre utilisé sera celui des réglages des articles. Si aucun réglage n\'est défini, la génération de l\'étiquette sera ignorée.', 'nexo' ) ) );
-
 		$crud->field_description( 'CODEBAR', tendoo_info( __( 'Si la valeur de ce champ est vide et que l\'option "Générer un étiquette" est activée, la génération d\'une étiquette sera ignorée.', 'nexo' ) ) );
         $crud->field_description( 'PRIX_DACHAT', tendoo_info( __( 'Le prix d\'achat représente la valeur du produit à l\'achat. Cette valeur sera utile pour déterminé la marge des bénéfices.', 'nexo' ) ) );
         $crud->field_description( 'PRIX_DE_VENTE', tendoo_info( __( 'Le prix de vente peut être différent du prix de vente affiché sur le point de vente. Sa valeur pourra varifier selon la taxe applicable sur le produit.', 'nexo' ) ) );
@@ -243,7 +276,8 @@ class Nexo_Produits extends CI_Model
 		$crud->field_type( 'STATUS', 'dropdown', $this->config->item('nexo_item_status'));
 		$crud->field_type( 'STOCK_ENABLED', 'dropdown', $this->config->item('nexo_item_stock'));
 		$crud->field_type( 'AUTO_BARCODE', 'dropdown', $this->config->item('nexo_yes_no' ) );
-		$crud->field_type( 'BARCODE_TYPE', 'dropdown', $this->config->item( 'nexo_barcode_supported' ) );
+        $crud->field_type( 'BARCODE_TYPE', 'dropdown', $this->config->item( 'nexo_barcode_supported' ) );
+        $crud->field_type( 'SALE_TYPE', 'dropdown', $this->config->item( 'sale_type' ) );
 
         // Callback Before Render
         $crud->callback_before_insert(array( 	$this->Nexo_Products, 'product_save' ) );

@@ -16,10 +16,9 @@ class Nexo_Taxes_Controller extends Tendoo_Module
     public function crud_header()
     {
         // if (
-        //     ! User::can('create_shop_registers')  &&
-        //     ! User::can('edit_shop_registers') &&
-        //     ! User::can('delete_shop_registers') &&
-		// 	! User::can( 'view_shop_registers' )
+        //     ! User::can('create_taxes')  &&
+        //     ! User::can('edit_taxes') &&
+        //     ! User::can('delete_taxes') &&
         // ) {
         //     redirect(array( 'dashboard', 'access-denied' ));
         // }

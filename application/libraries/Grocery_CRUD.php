@@ -37,6 +37,7 @@ use Goodby\CSV\Export\Standard\ExporterConfig;
  */
 class grocery_CRUD_Field_Types
 {
+
     /**
      * Gets the field types of the main table.
      * @return array
@@ -3429,6 +3430,17 @@ class Grocery_CRUD extends grocery_CRUD_States
      */
     public function __construct()
     {
+        get_instance()->events->add_action( 'dashboard_footer', function(){
+            ?>
+            <script>
+            $(document).ready(function() {
+                $('.summernote').summernote({
+                    height: 300,                 // set editor height   
+                });
+            });
+            </script>
+            <?php
+        });
     }
 
     /**

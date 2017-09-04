@@ -1,5 +1,5 @@
 <div class="row checkout-header" ng-controller="checkoutHeaderCTRL">
-    <div class="col-lg-6 hidden-xs" style="margin-bottom:10px">
+    <div class="col-lg-6" style="margin-bottom:10px">
         <?php foreach( $this->events->apply_filters( 'checkout_header_menus_1', [
             [
                 'class' =>  'default',
@@ -37,7 +37,7 @@
             <?php
         };?>
     </div>
-    <div class="col-lg-6 hidden-xs">
+    <div class="col-lg-6">
         <?php foreach( $this->events->apply_filters( 'checkout_header_menus_2', [
             [
                 'class' =>  'default',

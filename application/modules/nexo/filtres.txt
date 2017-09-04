@@ -231,3 +231,8 @@ Filtres:
  * items_columns_updatable_after_supply
  * colonnes qui sont mise à jour durant la modification de l'arrivages
 **/
+
+/**
+ * treat_as_sold_quantity
+ * Permet d'ajouter des types sur des produits dont la quantité restante est réduite durant la vente
+**/

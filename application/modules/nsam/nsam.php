@@ -24,7 +24,7 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
 
     public function load_dashboard()
     {
-        if( User::can( 'create_options' ) ) {
+        if( User::can( 'manage_core' ) ) {
             $this->Gui->register_page_object( 'nsam', new NsamController );
         }
 
@@ -65,11 +65,11 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
 
         if( count( $stores ) == 0 ) {
             $stores[]    =   [
-                'NAME'  =>  __( 'Accès Refusé', 'nexo' ),
+                'NAME'  =>  __( 'Access Denied', 'nsam' ),
                 'ID'    =>  false,
                 'STATUS'    =>  'opened',
                 'IMAGE'     =>  '',
-                'DESCRIPTION'   =>      __( 'Aucun n\'accès ne vous a été autorisé', 'nexo' )
+                'DESCRIPTION'   =>      __( 'You don\'t have access to any store.', 'nsam' )
             ];
         }
 
@@ -84,13 +84,13 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
 
     public function menus( $menus )
     {
-        if( multistore_enabled() && is_multistore() && User::can( 'create_options' ) ) {
+        if( multistore_enabled() && is_multistore() && User::can( 'manage_core' ) ) {
             $menus[ 'nexo_settings' ][]   =   array(
                 'href'      =>  site_url( array( 'dashboard', store_slug(), 'nsam', 'content_management' ) ),
                 'title'     =>  __( 'Content Copy', 'nsam' ),
             );
         } else {
-            if( multistore_enabled() && User::can( 'create_options' ) ) {
+            if( multistore_enabled() && User::can( 'manage_core' ) ) {
 
                 // $menus[ 'nexo_store_settings' ][]   =   array(
                 //     'href'      =>  site_url( array( 'dashboard', 'nsam', 'module_control' ) ),

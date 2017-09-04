@@ -274,6 +274,8 @@ class Nexo_Products extends CI_Model
         global $Options;
         $segments                			=    $this->uri->segment_array();
         $item_id                    		=    end($segments) ;
+        $article                            =   $this->db->where( 'CODEBAR', $param[ 'CODEBAR' ] )
+        ->get( store_prefix() . 'nexo_articles' )->result_array();
 
         $param[ 'DATE_MOD' ]            	=    date_now();
         $param[ 'AUTHOR' ]                	=    intval(User::id());

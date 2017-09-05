@@ -125,7 +125,9 @@ trait Nexo_orders
 			**/
 
 			$fresh_item       =   $this->db->where( 'CODEBAR', $item[ 'codebar' ] )
-            ->get( store_prefix() . 'nexo_articles' );
+            ->get( store_prefix() . 'nexo_articles' )
+            ->result_array();
+            
 			/**
 			 * If Stock Enabled is active
 			**/

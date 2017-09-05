@@ -20,7 +20,7 @@
                         <tr ng-repeat="item in cart track by $index">
                             <td>{{ item.CODEBAR }}</td>
                             <td>{{ item.DESIGN }}</td>
-                            <td class="text-right"><input number-mask min="1" max="99999" type="text" class="form-control input-sm" ng-model="item.PRIX_DACHAT"/></td>
+                            <td class="text-right"><input number-mask min="0" max="99999" type="text" class="form-control input-sm" ng-model="item.PRIX_DACHAT"/></td>
                             <td class="text-right"><input number-mask min="1" max="99999" type="text" class="form-control input-sm" ng-model="item.SUPPLY_QUANTITY"/></td>
                             <td class="text-right">{{ item.PRIX_DACHAT * item.SUPPLY_QUANTITY | moneyFormat }}</td>
                             <td><button ng-click="removeItem( $index )" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i></button></td>

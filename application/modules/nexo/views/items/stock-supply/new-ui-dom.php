@@ -12,6 +12,7 @@
                             <td><?php echo __( 'Nom du produit', 'nexo' );?></td>
                             <td width="120"><?php echo __( 'Prix d\'achat', 'nexo' );?></td>
                             <td width="120"><?php echo __( 'Quantité', 'nexo' );?></td>
+                            <td width="100"><?php echo __( 'Unité', 'nexo') ;?></td>
                             <td width="120"><?php echo __( 'Prix total', 'nexo' );?></td>
                             <td width="50"></td>
                         </tr>
@@ -22,6 +23,7 @@
                             <td>{{ item.DESIGN }}</td>
                             <td class="text-right"><input number-mask min="1" max="99999" type="text" class="form-control input-sm" ng-model="item.PRIX_DACHAT"/></td>
                             <td class="text-right"><input number-mask min="1" max="99999" type="text" class="form-control input-sm" ng-model="item.SUPPLY_QUANTITY"/></td>
+                            <td>{{ getUnit( item ) }}</td>
                             <td class="text-right">{{ item.PRIX_DACHAT * item.SUPPLY_QUANTITY | moneyFormat }}</td>
                             <td><button ng-click="removeItem( $index )" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i></button></td>
                         </tr>
@@ -34,6 +36,7 @@
                             <td colspan="2"><?php echo __( 'Total', 'nexo' );?></td>
                             <td class="text-right"><strong>{{ total( cart, 'PRIX_DACHAT' ) | moneyFormat }}</strong></td>
                             <td class="text-right"><strong>{{ total( cart, 'SUPPLY_QUANTITY' ) }}</strong></td>
+                            <td></td>
                             <td class="text-right"><strong>{{ total( cart, 'PRIX_DACHAT', 'SUPPLY_QUANTITY' ) | moneyFormat }}</strong></td>
                             <td></td>
                         </tr>

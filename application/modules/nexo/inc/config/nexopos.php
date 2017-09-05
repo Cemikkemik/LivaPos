@@ -6,3 +6,9 @@ $config[ 'sale_type' ]        =    [
      'unit_2'       =>   __( 'Unité de mesure 2', 'nexo' ),
      'unit_3'       =>   __( 'Unité de mesure 3', 'nexo' ),
 ];
+
+$config[ 'supply_type' ]      =    $config[ 'sale_type' ];
+
+// link to https://nexopos.com
+
+$config[ 'link_item_type' ]   =    'https://nexopos.com/what-is-the-difference-between-physical-and-digital-items-on-nexopos/';

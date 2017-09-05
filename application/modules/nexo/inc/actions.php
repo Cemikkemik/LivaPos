@@ -74,6 +74,8 @@ class Nexo_Actions extends Tendoo_Module
         
         $this->load->config( 'nexo' );
         $this->load->module_config( 'nexo', 'nexopos' );
+        $this->load->module_model( 'nexo', 'Nexo_Units' );
+
 
         // If coupon is disabled, we remove it as payment
         if( @$Options[ store_prefix() . 'disable_coupon' ] == 'yes' ) {

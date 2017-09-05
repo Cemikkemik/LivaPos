@@ -20,7 +20,7 @@ array_unshift( $stores, [
 		ADD `REF_UNIT_1` INT NOT NULL AFTER `REF_CATEGORIE`,
 		ADD `REF_UNIT_2` INT NOT NULL AFTER `REF_UNIT_1`,
 		ADD `REF_UNIT_3` INT NOT NULL AFTER `REF_UNIT_2`,
-		ADD `SUPPLY_UNIT` INT NOT NULL AFTER `REF_UNIT_3`,
+		ADD `SUPPLY_TYPE` varchar(200) NOT NULL AFTER `REF_UNIT_3`,
 		ADD `SALE_TYPE` varchar(200) NOT NULL AFTER `SUPPLY_UNIT`' );
 		
 		$this->schema->create_table( $store_prefix . 'nexo_units', function( $schema ) {
@@ -33,4 +33,7 @@ array_unshift( $stores, [
 			$schema->datetime( 'DATE_MOD' );
 			$schema->integer( 'QUANTITY' );
 		});
+
+		$this->schema->add_column( $store_prefix . 'nexo_commandes_produits', 'REF_UNIT', 'integer', [], 'QUANTITE' );
+		$this->schema->add_column( $store_prefix . 'nexo_commandes_produits', 'UNIT_QUANTITY', 'integer', [], 'REF_UNIT' );
 	}

@@ -20,7 +20,7 @@ class Api extends Tendoo_Controller
      public function index( $slug, $index = null )
      { 
           $this->load->config( 'rest' );
-          $rest          =    $this->db->where( 'key', $_SERVER[ 'HTTP_' . $this->config->item( 'rest_header_key' ) ])
+          $rest          =    $this->db->where( 'key', @$_SERVER[ 'HTTP_' . $this->config->item( 'rest_header_key' ) ])
           ->get( 'restapi_keys' )
           ->result_array();
 
@@ -41,6 +41,15 @@ class Api extends Tendoo_Controller
 
                if ( $_SERVER['REQUEST_METHOD'] === 'GET') {
 
+                    if( empty( $routes[ $slug ][ 'table' ] ) ) {
+                         http_response_code( 403 );
+                         echo json_encode([
+                              'message'      =>   'the resource is not correctly defined. The table is missing.',
+                              'status'       =>   'failed'
+                         ]);
+                         return;
+                    }
+
                     // if a custom select is added
                     if( @$routes[ $slug ][ 'select' ] ) {
                          $this->db->select( implode( ', ', $routes[ $slug ][ 'select' ] ) );
@@ -48,11 +57,54 @@ class Api extends Tendoo_Controller
 
                     if( @$routes[ $slug ][ 'join' ] ) {
                          foreach( $routes[ $slug ][ 'join' ] as $_joined_table => $statement ) {
+                              $statement[0]  =    str_replace( ':primary', $primary, $statement[0] );
+                              $statement[1]  =    str_replace( ':index', $index, $statement[1] );
                               $this->db->join( $_joined_table, $statement );
                          }
                     }
 
-                    if( $index != null ) {
+                    if( @$routes[ $slug ][ 'where' ] ) {
+                         foreach( $routes[ $slug ][ 'where' ] as $statement ) {
+                              $statement[0]  =    str_replace( ':primary', $primary, $statement[0] );
+                              $statement[1]  =    str_replace( ':index', $index, $statement[1] );
+                              call_user_func_array([ $this->db, 'where' ], $statement );
+                         }
+                    }
+
+                    if( @$routes[ $slug ][ 'or_where' ] ) {
+                         foreach( $routes[ $slug ][ 'or_where' ] as $statement ) {
+                              $statement[0]  =    str_replace( ':primary', $primary, $statement[0] );
+                              $statement[1]  =    str_replace( ':index', $index, $statement[1] );
+                              call_user_func_array([ $this->db, 'or_where' ], $statement );
+                         }
+                    }
+
+                    if( @$routes[ $slug ][ 'like' ] ) {
+                         foreach( $routes[ $slug ][ 'like' ] as $statement ) {
+                              $statement[0]  =    str_replace( ':primary', $primary, $statement[0] );
+                              $statement[1]  =    str_replace( ':index', $index, $statement[1] );
+                              call_user_func_array([ $this->db, 'like' ], $statement );
+                         }
+                    }
+
+                    if( @$routes[ $slug ][ 'or_like' ] ) {
+                         foreach( $routes[ $slug ][ 'or_like' ] as $statement ) {
+                              $statement[0]  =    str_replace( ':primary', $primary, $statement[0] );
+                              $statement[1]  =    str_replace( ':index', $index, $statement[1] );
+                              call_user_func_array([ $this->db, 'or_like' ], $statement );
+                         }
+                    }
+
+                    $hasSpecialQuery    =    false;
+                    
+                    foreach( [ 'or_link', 'like', 'where', 'or_where' ] as $query ) {
+                         if( @$routes[ $slug ][ $query ] ) {
+                              $hasSpecialQuery    =    true;
+                         }
+                    }
+
+                    if( $index != null && ! $hasSpecialQuery ) {
+
                          $result   =    $this->db->where( $primary, $index )
                          ->get( $routes[ $slug ][ 'table' ] )->result();
 

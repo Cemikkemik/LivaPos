@@ -4,9 +4,35 @@
         $scope, $compile, $filter, $timeout, $http
     ) {
         $scope.cart         =   [];
-        $scope.columns      =   7;
+        $scope.columns      =   8;
         $scope.providers    =   <?php echo json_encode( $this->Nexo_Shipping->get_providers() );?>;
         $scope.deliveries   =   <?php echo json_encode( $this->Nexo_Shipping->get_shipping() );?>;
+        $scope.units        =   <?php echo json_encode( $this->Nexo_Units->get() );?>;
+        $scope.unitsObject  =   new Object;
+        _.each( $scope.units, unit => {
+            $scope.unitsObject[ unit.ID ]   =   unit;
+        });
+
+        /**
+         * Get Unit
+         * @param string
+         * @return string
+        **/
+
+        $scope.getUnit      =   ( item ) => {
+            if( item.SUPPLY_TYPE == 'choose' ) {
+
+            } else if( item.SUPPLY_TYPE == 'base_unit' ) {
+                return __( 'Unité de base', 'nexo' );
+            } else {
+                if( typeof $scope.unitsObject[ item[ 'REF_' + item.SUPPLY_TYPE.toUpperCase() ] ] != 'undefined' ) {
+                    return $scope.unitsObject[ item[ 'REF_' + item.SUPPLY_TYPE.toUpperCase() ] ].NAME;
+                } else {
+                    return '<?php echo __( 'Unité inconnue', 'nexo' );?>';
+                }
+            }
+        }
+
         $scope.deliveries.unshift({
             TITRE           :   '<?php echo __( 'Ajouter un approvisionnement', 'nexo' );?>',
             ID              :   0
@@ -26,7 +52,7 @@
         $scope.selectedProvider     =   {};
 
         $scope.npAutocompleteOptions = {
-            url: '<?php echo site_url( array( 'rest', 'nexo', 'item' ) );?>' +  '/:searchParam/search?<?php echo store_get_param( null );?>',
+            url: '<?php echo site_url("api/items-search/");?>' +  '/:searchParam<?php echo store_get_param( '?' );?>',
             headers		:	{
                 '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo get_option( 'rest_key' );?>'
             },

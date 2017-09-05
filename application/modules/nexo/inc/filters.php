@@ -219,6 +219,9 @@ class Nexo_Filters extends Tendoo_Module
 
         $routes[ 'items-barcode' ]                  =   $routes[ 'items' ];
         $routes[ 'items-barcode' ][ 'primary' ]     =   store_prefix() . 'nexo_articles.CODEBAR';
+        $routes[ 'items-search' ]                   =   $routes[ 'items' ];
+        $routes[ 'items-search' ][ 'like' ][]       =   [ 'DESIGN', ':index' ];
+
 
         return $routes;
     }

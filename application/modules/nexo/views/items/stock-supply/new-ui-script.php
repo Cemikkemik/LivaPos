@@ -21,9 +21,9 @@
 
         $scope.getUnit      =   ( item ) => {
             if( item.SUPPLY_TYPE == 'choose' ) {
-
+                
             } else if( item.SUPPLY_TYPE == 'base_unit' ) {
-                return __( 'Unité de base', 'nexo' );
+                return '<?php echo __( 'Unité de base', 'nexo' );?>';
             } else {
                 if( typeof $scope.unitsObject[ item[ 'REF_' + item.SUPPLY_TYPE.toUpperCase() ] ] != 'undefined' ) {
                     return $scope.unitsObject[ item[ 'REF_' + item.SUPPLY_TYPE.toUpperCase() ] ].NAME;

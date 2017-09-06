@@ -629,6 +629,21 @@ trait Nexo_items
                     );
 
                     $delivery_cost[ $item[ 'ref_shipping' ] ][ 'items' ]     += floatval( $item[ 'item_qte' ] );
+
+                    // update average price
+                    $supplies       =   $this->db->where( 'REF_ARTICLE_BARCODE', $item[ 'item_barcode' ] )
+                    ->get( store_prefix() . 'nexo_articles_stock_flow' )
+                    ->result_array();
+                    $totalPurchase          =   0;
+                    foreach( $supplies as $supply ) {
+                        $totalPurchase      +=  floatval( $item[ 'unit_price' ] );
+                    }
+                    
+                    $averagePurchase        =   $totalPurchase / count( $supplies );
+                    $this->db->where( 'CODEBAR', $item[ 'item_barcode' ] )->update( store_prefix() . 'nexo_articles', [
+                        'QUANTITE_RESTANTE'     =>  $remaining_qte,
+                        'PRIX_DACHAT'           =>  $averagePurchase
+                    ]);
                 }
             }
 

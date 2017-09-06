@@ -98,7 +98,7 @@ class Nexo_Produits extends CI_Model
 			'DESIGN',
 			'REF_CATEGORIE',
             'PRIX_DE_VENTE_TTC',
-			// 'PRIX_DACHAT', // item purchase price is hidden and only available on the supply history
+			'PRIX_DACHAT', // item purchase price is hidden and only available on the supply history
             'REF_TAXE',
 			'QUANTITE_RESTANTE',
 			'QUANTITE_VENDU',
@@ -172,17 +172,15 @@ class Nexo_Produits extends CI_Model
         $crud->display_as( 'SHADOW_PRICE', __( 'Prix fictif', 'nexo' ) );
         $crud->display_as( 'REF_PROVIDER', __( 'Fournisseur', 'nexo' ) );
 
-		$crud->field_description( 'AUTO_BARCODE', tendoo_info( __( 'Lorsque cette option est activée, Après la création/mise à jour de cet article, une étiquette sera générée en fonction du type de code barre. Si cette option est désactivée, alors le champ "Code barre" sera utilsiée pour générer l\'étiquette de l\'article. Assurez-vous de définir une valeur unique.', 'nexo' ) ) );
-
-		$crud->field_description( 'BARCODE_TYPE', tendoo_info( __( 'Si la valeur de ce champ est vide et que l\'option "Générer une étiquette" est activée, alors le type de code barre utilisé sera celui des réglages des articles. Si aucun réglage n\'est défini, la génération de l\'étiquette sera ignorée.', 'nexo' ) ) );
-
-		$crud->field_description( 'CODEBAR', tendoo_info( __( 'Si la valeur de ce champ est vide et que l\'option "Générer un étiquette" est activée, la génération d\'une étiquette sera ignorée.', 'nexo' ) ) );
-        $crud->field_description( 'PRIX_DACHAT', tendoo_info( __( 'Le prix d\'achat représente la valeur du produit à l\'achat. Cette valeur sera utile pour déterminé la marge des bénéfices.', 'nexo' ) ) );
-        $crud->field_description( 'PRIX_DE_VENTE', tendoo_info( __( 'Le prix de vente peut être différent du prix de vente affiché sur le point de vente. Sa valeur pourra varifier selon la taxe applicable sur le produit.', 'nexo' ) ) );
-        $crud->field_description( 'SHADOW_PRICE', tendoo_info( __( 'Si vos clients ont la capacité de discuter les prix. Vous pouvez définir le prix fictif affiché. Le prix de vente sera considéré comme prix minimal du produit.', 'nexo' ) ) );
-        $crud->field_description( 'PRIX_PROMOTIONEL', tendoo_info( __( 'Le prix promotionnel est un prix de vente spécial applicable à un produit durant une période spécifique.', 'nexo' ) ) );
-        $crud->field_description( 'QUANTITY', tendoo_info( __( 'Il s\'agit ici de la quantité initiale qui sera considérée comme quantité d\'approvisionnement.', 'nexo' ) ) );
-        $crud->field_description( 'REF_PROVIDER', tendoo_info( __( 'Lorsque qu\'un produit est crée, il est nécessaire de définir son fournisseur, cette information sera utilisée pour identifier ce dernier sur l\'approvisionnement principal.', 'nexo' ) ) );
+		$crud->field_description( 'AUTO_BARCODE', __( 'Lorsque cette option est activée, Après la création/mise à jour de cet article, une étiquette sera générée en fonction du type de code barre. Si cette option est désactivée, alors le champ "Code barre" sera utilsiée pour générer l\'étiquette de l\'article. Assurez-vous de définir une valeur unique.', 'nexo' ) );
+		$crud->field_description( 'BARCODE_TYPE', __( 'Si la valeur de ce champ est vide et que l\'option "Générer une étiquette" est activée, alors le type de code barre utilisé sera celui des réglages des articles. Si aucun réglage n\'est défini, la génération de l\'étiquette sera ignorée.', 'nexo' ) );
+		$crud->field_description( 'CODEBAR', __( 'Si la valeur de ce champ est vide et que l\'option "Générer un étiquette" est activée, la génération d\'une étiquette sera ignorée.', 'nexo' ) );
+        $crud->field_description( 'PRIX_DACHAT', __( 'Le prix d\'achat représente la valeur du produit à l\'achat. Cette valeur sera utile pour déterminé la marge des bénéfices.', 'nexo' ) );
+        $crud->field_description( 'PRIX_DE_VENTE', __( 'Le prix de vente peut être différent du prix de vente affiché sur le point de vente. Sa valeur pourra varifier selon la taxe applicable sur le produit.', 'nexo' ) );
+        $crud->field_description( 'SHADOW_PRICE', __( 'Si vos clients ont la capacité de discuter les prix. Vous pouvez définir le prix fictif affiché. Le prix de vente sera considéré comme prix minimal du produit.', 'nexo' ) );
+        $crud->field_description( 'PRIX_PROMOTIONEL', __( 'Le prix promotionnel est un prix de vente spécial applicable à un produit durant une période spécifique.', 'nexo' ) );
+        $crud->field_description( 'QUANTITY', __( 'Il s\'agit ici de la quantité initiale qui sera considérée comme quantité d\'approvisionnement.', 'nexo' ) );
+        $crud->field_description( 'REF_PROVIDER', __( 'Lorsque qu\'un produit est crée, il est nécessaire de définir son fournisseur, cette information sera utilisée pour identifier ce dernier sur l\'approvisionnement principal.', 'nexo' ) );
         
         $crud->field_description( 
             'REF_TAXE', 

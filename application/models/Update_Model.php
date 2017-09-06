@@ -303,20 +303,12 @@ class Update_Model extends CI_model
 
     public function check_modules()
     {
-        $modules        =    json_decode(file_get_content('https://raw.githubusercontent.com/Blair2004/tendoo-cms/3.0/modules.json'));
-        $modules_status    =    force_array($this->options->get('modules_status'));
+        $checked_modules    =   get_option( 'checked_modules', []);
+
         foreach (Modules::get() as $namespace    => $module) {
-            // if current module is genuine
-            if (in_array($namespace, array_keys($modules))) {
-                // If a new version is available
-                if (intval($module[ 'version' ]) < $modules[ $namespace ][ 'version' ]) {
-                    $modules_status[ $namespace ]    =    array(
-                        'version'        =>    $modules[ $namespace ][ 'version' ],
-                        'zip_url'        =>    $modules[ $namespace ][ 'zip_url' ]
-                    );
-                } else {
-                    unset($modules_status[ $namespace ]); // make sure already updated module is removed from "updatable modules"
-                }
+            // if svn path is defined
+            if( ! in_array( $namespace, array_key_values( $checked_modules ) ) && @$module[ 'svn' ] ) {
+                $update_history     =   Requests::get( $module[ 'svn' ]);
             }
         }
         $this->options->set('modules_status', $modules_status);

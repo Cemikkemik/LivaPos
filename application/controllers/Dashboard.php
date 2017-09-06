@@ -491,10 +491,6 @@ class Dashboard extends Tendoo_Controller
      */
     public function update($page = 'home',  $version = null)
     {
-        if (! Modules::is_active('aauth')) {
-            redirect(array( 'dashboard', 'error-occurred?notice=required_module_missing' ));
-        }
-
         if (! User::can('manage_core')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }

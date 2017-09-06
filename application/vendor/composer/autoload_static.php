@@ -45,11 +45,22 @@ class ComposerStaticInit3c672232a8167007c93c9ca364a5ad3e
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'R' => 
+        array (
+            'Requests' => 
+            array (
+                0 => __DIR__ . '/..' . '/rmccue/requests/library',
+            ),
+        ),
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit3c672232a8167007c93c9ca364a5ad3e::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit3c672232a8167007c93c9ca364a5ad3e::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit3c672232a8167007c93c9ca364a5ad3e::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

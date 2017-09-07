@@ -71,15 +71,15 @@ Tendoo Version Required : 1.5
                     // meta icon ?
                     $icon                =    riake('icon', $meta, false);
                     // enable gui form saver
-                    $form_expire    =    gmt_to_local(time(), 'UTC') + GUI_EXPIRE;
+                    $form_expire        =    gmt_to_local(time(), 'UTC') + GUI_EXPIRE;
                     $ref                =    urlencode(current_url());
-                    $use_namespace    =    riake('use_namespace', $meta, false);
-                    $class            =    riake('classes', riake('custom', $meta));
-                    $id                =    riake('id', riake('custom', $meta));
-                    $action            =    riake('action', riake('custom', $meta), site_url(array( 'dashboard', 'options', 'save' )));
-                    $method            =    riake('method', riake('custom', $meta), 'POST');
-                    $enctype        =    riake('enctype', riake('custom', $meta), 'multipart/form-data');
-                    $namespace        =    riake('namespace', $meta);
+                    $use_namespace      =    riake('use_namespace', $meta, false);
+                    $class              =    riake('classes', riake('custom', $meta));
+                    $id                 =    riake('id', riake('custom', $meta));
+                    $action             =    riake('action', riake('custom', $meta), site_url(array( 'dashboard', 'options', 'save' )));
+                    $method             =    riake('method', riake('custom', $meta), 'POST');
+                    $enctype            =    riake('enctype', riake('custom', $meta), 'multipart/form-data');
+                    $namespace          =    riake('namespace', $meta);
 
                     if (riake('gui_saver', $meta)) {
                         ?>
@@ -89,6 +89,7 @@ Tendoo Version Required : 1.5
                         ?>" enctype="<?php echo $enctype;
                         ?>" method="<?php echo $method;
                         ?>">
+                            <input type="hidden" name="gui_saver_user_id" value="<?php echo @$meta[ 'user_id' ];?>"/> 
 							<input type="hidden" name="gui_saver_ref" value="<?php echo $ref;
                         ?>" />
 							<input type="hidden" name="gui_saver_option_namespace" value="<?php echo riake('namespace', $meta);
@@ -228,6 +229,7 @@ Tendoo Version Required : 1.5
                         ?>" enctype="<?php echo $enctype;
                         ?>" method="<?php echo $method;
                         ?>">
+                            <input type="hidden" name="gui_saver_user_id" value="<?php echo @$meta[ 'user_id' ];?>"/> 
 							<input type="hidden" name="gui_saver_ref" value="<?php echo $ref;
                         ?>" />
 							<input type="hidden" name="gui_saver_option_namespace" value="<?php echo riake('namespace', $meta);

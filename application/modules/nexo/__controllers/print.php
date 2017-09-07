@@ -52,7 +52,8 @@ class Nexo_Print extends CI_Model
 
 			// @since 2.7.9
 			$data[ 'template' ]						=	array();
-			$data[ 'template' ][ 'order_date' ]		=	mdate( '%d/%m/%Y %g:%i %a', strtotime($data[ 'order' ][ 'order' ][0][ 'DATE_CREATION' ]));
+            $data[ 'template' ][ 'order_date' ]		=	mdate( '%d/%m/%Y %g:%i %a', strtotime($data[ 'order' ][ 'order' ][0][ 'DATE_CREATION' ]));
+            $data[ 'template' ][ 'order_updated' ]  =	mdate( '%d/%m/%Y %g:%i %a', strtotime($data[ 'order' ][ 'order' ][0][ 'DATE_MOD' ]));
 			$data[ 'template' ][ 'order_code' ]		=	$data[ 'order' ][ 'order' ][0][ 'CODE' ];
             $data[ 'template' ][ 'order_id' ]       =   $data[ 'order' ][ 'order' ][0][ 'ORDER_ID' ];
 			$data[ 'template' ][ 'order_status' ]	=	$this->Nexo_Checkout->get_order_type($data[ 'order' ][ 'order' ][0][ 'TYPE' ]);
@@ -85,57 +86,51 @@ class Nexo_Print extends CI_Model
 
     public function order_refund( $order_id = null )
     {
-        if ($order_id != null) {
-            $this->cache        =    new CI_Cache(array( 'adapter' => 'file', 'backup' => 'file', 'key_prefix'    =>    'nexo_order_refund_' . store_prefix() ));
+        // if ($order_cache = $this->cache->get($order_id) && @$_GET[ 'refresh' ] != 'true') {
+        //     echo $this->cache->get($order_id);
+        //     return;
+        // }
 
-            if ($order_cache = $this->cache->get($order_id) && @$_GET[ 'refresh' ] != 'true') {
-                echo $this->cache->get($order_id);
-                return;
-            }
+        $this->load->library('parser');
+        $this->load->model('Nexo_Checkout');
 
-			$this->load->library('parser');
-            $this->load->model('Nexo_Checkout');
+        global $Options;
 
-            global $Options;
+        $data                		=   array();
+        // $data[ 'order' ]    		=   $this->Nexo_Checkout->get_order_products($order_id, true);
+        // $data[ 'stock' ]            =   $this->Nexo_Checkout->get_order_with_item_stock( $order_id );
+        // $data[ 'cache' ]    		=   $this->cache;
 
-            $data                		=   array();
-            $data[ 'order' ]    		=   $this->Nexo_Checkout->get_order_products($order_id, true);
-            $data[ 'stock' ]            =   $this->Nexo_Checkout->get_order_with_item_stock( $order_id );
-            $data[ 'cache' ]    		=   $this->cache;
+        // if (count($data[ 'order' ]) == 0) {
+        //     die(sprintf(__('Impossible d\'afficher le reçu de remboursement. Cette commande ne possède aucun article &mdash; <a href="%s">Retour en arrière</a>', 'nexo'), $_SERVER['HTTP_REFERER']));
+        // }
 
-            if (count($data[ 'order' ]) == 0) {
-                die(sprintf(__('Impossible d\'afficher le reçu de remboursement. Cette commande ne possède aucun article &mdash; <a href="%s">Retour en arrière</a>', 'nexo'), $_SERVER['HTTP_REFERER']));
-            }
+        // @since 2.7.9
+        $data[ 'template' ]						=	array();
+        $data[ 'template' ][ 'order_date' ]		=	':orderDate'; // mdate( '%d/%m/%Y %g:%i %a', strtotime($data[ 'order' ][ 'order' ][0][ 'DATE_CREATION' ]));
+        $data[ 'template' ][ 'order_updated' ]  =   ':orderUpdated'; // just to show the date when the order has been update
+        $data[ 'template' ][ 'order_code' ]		=	':orderCode'; // $data[ 'order' ][ 'order' ][0][ 'CODE' ];
+        $data[ 'template' ][ 'order_id' ]       =   ':orderId'; // $data[ 'order' ][ 'order' ][0][ 'ID' ];
+        $data[ 'template' ][ 'order_status' ]	=	':orderStatus'; // $this->Nexo_Checkout->get_order_type($data[ 'order' ][ 'order' ][0][ 'TYPE' ]);
+        $data[ 'template' ][ 'order_note' ]     =   ':orderNote'; // $data[ 'order' ][ 'order' ][0][ 'DESCRIPTION' ];            
+        $data[ 'template' ][ 'order_cashier' ]	=	':orderCashier'; // User::pseudo( $data[ 'order' ][ 'order' ][0][ 'AUTHOR' ] );
 
-			// @since 2.7.9
-			$data[ 'template' ]						=	array();
-			$data[ 'template' ][ 'order_date' ]		=	mdate( '%d/%m/%Y %g:%i %a', strtotime($data[ 'order' ][ 'order' ][0][ 'DATE_CREATION' ]));
-			$data[ 'template' ][ 'order_code' ]		=	$data[ 'order' ][ 'order' ][0][ 'CODE' ];
-            $data[ 'template' ][ 'order_id' ]       =   $data[ 'order' ][ 'order' ][0][ 'ID' ];
-			$data[ 'template' ][ 'order_status' ]	=	$this->Nexo_Checkout->get_order_type($data[ 'order' ][ 'order' ][0][ 'TYPE' ]);
-            $data[ 'template' ][ 'order_note' ]     =   $data[ 'order' ][ 'order' ][0][ 'DESCRIPTION' ];            
+        $data[ 'template' ][ 'shop_name' ]		=	@$Options[ store_prefix() . 'site_name' ];
+        $data[ 'template' ][ 'shop_pobox' ]		=	@$Options[ store_prefix() . 'nexo_shop_pobox' ];
+        $data[ 'template' ][ 'shop_fax' ]		=	@$Options[ store_prefix() . 'nexo_shop_fax' ];
+        $data[ 'template' ][ 'shop_email' ]		=	@$Options[ store_prefix() . 'nexo_shop_email' ];
+        $data[ 'template' ][ 'shop_street' ]    =	@$Options[ store_prefix() . 'nexo_shop_street' ];
+        $data[ 'template' ][ 'shop_phone' ]	    =	@$Options[ store_prefix() . 'nexo_shop_phone' ];
 
-			$data[ 'template' ][ 'order_cashier' ]	=	User::pseudo( $data[ 'order' ][ 'order' ][0][ 'AUTHOR' ] );
-			$data[ 'template' ][ 'shop_name' ]		=	@$Options[ store_prefix() . 'site_name' ];
-			$data[ 'template' ][ 'shop_pobox' ]		=	@$Options[ store_prefix() . 'nexo_shop_pobox' ];
-			$data[ 'template' ][ 'shop_fax' ]		=	@$Options[ store_prefix() . 'nexo_shop_fax' ];
-			$data[ 'template' ][ 'shop_email' ]		=	@$Options[ store_prefix() . 'nexo_shop_email' ];
-			$data[ 'template' ][ 'shop_street' ]    =	@$Options[ store_prefix() . 'nexo_shop_street' ];
-			$data[ 'template' ][ 'shop_phone' ]	    =	@$Options[ store_prefix() . 'nexo_shop_phone' ];
+        $theme                                  =	@$Options[ store_prefix() . 'nexo_refund_theme' ] ? @$Options[ store_prefix() . 'nexo_refund_theme' ] : 'default';
 
-            $theme                                  =	@$Options[ store_prefix() . 'nexo_refund_theme' ] ? @$Options[ store_prefix() . 'nexo_refund_theme' ] : 'default';
+        $path   =   '../modules/nexo/views/refund/' . $theme . '.php';
 
-            $path   =   '../modules/nexo/views/refund/' . $theme . '.php';
-
-            $this->load->view(
-                $this->events->apply_filters( 'nexo_refund_theme_path', $path ),
-                $data,
-                $theme
-            );
-
-        } else {
-            die(__('Cette commande est introuvable.', 'nexo'));
-        }
+        $this->load->view(
+            $this->events->apply_filters( 'nexo_refund_theme_path', $path ),
+            $data,
+            $theme
+        );
     }
 
     /**

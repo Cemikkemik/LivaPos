@@ -20,6 +20,7 @@ foreach( $Users as $User ) {
     $this->Gui->add_meta( array(
         'col_id'    =>  $col_id,
         'namespace' =>  'nsam_users_control' . $User->user_id,
+        'user_id'   =>  $User->user_id,
         'type'      =>  'box',
         'title'     =>  __( $User->user_name, 'nsam' ) . ' (' . $User->group_name . ')',
         'footer'    =>  [

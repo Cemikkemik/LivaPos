@@ -365,13 +365,14 @@ class Dashboard extends Tendoo_Controller
                 // if JSON mode is enabled redirect is disabled
                 redirect(array( 'dashboard', 'options' ));
             }
+
             if ($this->input->post('gui_saver_expiration_time') >  gmt_to_local(time(), 'UTC')) {
                 $content    =    array();
 
                 // loping post value
                 global $Options;
                 foreach ($_POST as $key => $value) {
-                    if (! in_array($key, array( 'gui_saver_option_namespace', 'gui_saver_ref', 'gui_saver_expiration_time', 'gui_saver_use_namespace', 'gui_delete_option_field', 'gui_json' ))) {
+                    if (! in_array($key, array( 'gui_saver_option_namespace', 'gui_saver_ref', 'gui_saver_expiration_time', 'gui_saver_use_namespace', 'gui_delete_option_field', 'gui_json', 'gui_saver_user_id' ))) {
                         /**
                          * Merge options which a supposed to be wrapped within the same array
                         **/
@@ -386,9 +387,19 @@ class Dashboard extends Tendoo_Controller
                                 $content[ $key ]    =    ($mode == 'merge') ? $options : $this->input->post($key);
                             } else {
                                 if ($mode == 'merge' && is_array($value)) {
-                                    $this->options->set($key, $options, true);
+                                    $this->options->set(
+                                        $key, 
+                                        $options, 
+                                        true, 
+                                        @$this->input->post( 'gui_saver_user_id' ) ? $this->input->post( 'gui_saver_user_id' ) : 0
+                                    );
                                 } else {
-                                    $this->options->set($key, $this->input->post($key), true);
+                                    $this->options->set(
+                                        $key, 
+                                        $this->input->post($key), 
+                                        true,
+                                        @$this->input->post( 'gui_saver_user_id' ) ? $this->input->post( 'gui_saver_user_id' ) : 0
+                                    );
                                 }
                             }
                         } else {
@@ -396,9 +407,19 @@ class Dashboard extends Tendoo_Controller
                                 $content[ $key ]    =    ($mode == 'merge') ? $options : xss_clean($_POST[ $key ]);
                             } else {
                                 if ($mode == 'merge' && is_array($value)) {
-                                    $this->options->set($key, $options, true);
+                                    $this->options->set(
+                                        $key, 
+                                        $options, 
+                                        true,
+                                        @$this->input->post( 'gui_saver_user_id' ) ? $this->input->post( 'gui_saver_user_id' ) : 0
+                                    );
                                 } else {
-                                    $this->options->set($key, xss_clean($_POST[ $key ]), true);
+                                    $this->options->set(
+                                        $key, 
+                                        xss_clean($_POST[ $key ]), 
+                                        true,
+                                        @$this->input->post( 'gui_saver_user_id' ) ? $this->input->post( 'gui_saver_user_id' ) : 0
+                                    );
                                 }
                             }
                         }
@@ -408,7 +429,12 @@ class Dashboard extends Tendoo_Controller
                         foreach (force_array($_POST[ 'gui_delete_option_field' ]) as $field_to_delete) {
                             if ($this->input->post('gui_saver_use_namespace') === 'true') {
                                 unset($Options[ $this->input->post('gui_saver_option_namespace') ][ $field_to_delete ]);
-                                $this->options->set($this->input->post('gui_saver_option_namespace'), $Options[ $this->input->post('gui_saver_option_namespace') ]);
+                                $this->options->set(
+                                    $this->input->post('gui_saver_option_namespace'), 
+                                    $Options[ $this->input->post('gui_saver_option_namespace') ],
+                                    true,
+                                    @$this->input->post( 'gui_saver_user_id' ) ? $this->input->post( 'gui_saver_user_id' ) : 0
+                                );
                             } else {
                                 $this->options->delete($field_to_delete);
                             }
@@ -418,7 +444,12 @@ class Dashboard extends Tendoo_Controller
 
                 // saving all post using namespace
                 if ($this->input->post('gui_saver_use_namespace') == 'true') {
-                    $this->options->set($this->input->post('gui_saver_option_namespace'), $content, true);
+                    $this->options->set(
+                        $this->input->post('gui_saver_option_namespace'), 
+                        $content, 
+                        true,
+                        @$this->input->post( 'gui_saver_user_id' ) ? $this->input->post( 'gui_saver_user_id' ) : 0
+                    );
                 }
 
                 if (! $this->input->post('gui_json')) { // if JSON mode is enabled redirect is disabled

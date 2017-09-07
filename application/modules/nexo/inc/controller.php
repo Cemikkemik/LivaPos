@@ -579,8 +579,13 @@ class Nexo_Controller extends CI_Model
 
 			$urls		      =	func_get_args();
 			$store_id	      =	@$urls[0];
-            $slug_namespace   = @$urls[1];
+            	$slug_namespace   = @$urls[1];
 			$urls		      =	array_splice( $urls, 2 );
+
+			// if store is closed, then no one can access to that
+			if( $CurrentStore[0][ 'STATUS' ] == 'closed' ) {
+				redirect( 'dashboard/store-closed' );
+			}
 
 			if( $CurrentStore ) {
 

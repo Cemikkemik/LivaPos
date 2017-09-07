@@ -840,24 +840,64 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 				author	:	<?php echo User::id();?>,
 				date		:	tendoo.now()
 			}
-
 		}).then(function( returned ) {
+			$scope.order_items 		=	returned.data;
+			$.ajax({
+				url 	:	'<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'print', 'order_refund', store_get_param('?') ] );?>',
+				success 	:	function( data ) {
+					// replace template
+					data 	=	data.replace( ':orderCode', $scope.order_items[0].CODE );
+					data 	=	data.replace( ':orderDate', $scope.order_items[0].DATE );
+					data 	=	data.replace( ':orderUpdated', $scope.order_items[0].DATE_MOD );
+					data 	=	data.replace( ':orderId', $scope.order_items[0].ID );
+					data 	=	data.replace( ':orderNote', $scope.order_items[0].DESCRIPTION );
+					data 	=	data.replace( ':orderStatus', $scope.order_items[0].TYPE );
+					data 	=	data.replace( ':orderCashier', $scope.order_items[0].ORDER_CASHIER );
+					data 	=	data.replace( ':orderPaymentType', $scope.order_items[0].PAYMENT_TYPE );
+					$( 'body' ).append( '<div class="hidden printRefundHidden">' + data + '</div>' );
+					
+					$timeout( function(){
+						$( '.printRefundHidden' ).html( $compile( $( '.printRefundHidden' ).html() )( $scope ) );
+						$timeout( function(){
+							NexoAPI.Popup( $( '.printRefundHidden' ).html() );
+							$( '.printRefundHidden' ).remove();
+						}, 100 );
+					}, 100 );
+				}
+			})
 			$scope.closeSpinner( 'grand' );
-			$scope.returnedItems 	=	returned.data;
+			// $scope.closeSpinner( 'grand' );
+			// $scope.returnedItems 	=	returned.data;
 
-			$( 'body' ).append( '<iframe style="display:none;" id="CurrentReceipt" name="CurrentReceipt" src="<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'print', 'order_refund' ] );?>/' + $scope.order.ID + '?refresh=true"></iframe>' );
-			window.frames["CurrentReceipt"].focus();
-			window.frames["CurrentReceipt"].print();
+			// $( 'body' ).append( '<iframe style="display:none;" id="CurrentReceipt" name="CurrentReceipt" src="></iframe>' );
+			// window.frames["CurrentReceipt"].focus();
+			// window.frames["CurrentReceipt"].print();
 
-			setTimeout( function(){
-				$( '#CurrentReceipt' ).remove();
-			}, 5000 );
+			// setTimeout( function(){
+			// 	$( '#CurrentReceipt' ).remove();
+			// }, 5000 );
 
 
 		}, function( data ) {
 			$scope.closeSpinner( 'grand' );
 			NexoAPI.Bootbox().alert( '<?php echo _s( 'Une erreur s\'est produite durant l\'opération', 'nexo' );?>' );
 		});
+	}
+
+	$scope.totalQuantity    =   function() {
+		var total   =   0;
+		angular.forEach( $scope.order_items, function( value ) {
+			total   +=  parseInt( value.QUANTITE );
+		});
+		return total;
+	}
+
+	$scope.totalAmount      =   function(){
+		var total   =   0;
+		angular.forEach( $scope.order_items, function( value ) {
+			total   +=  ( parseInt( value.QUANTITE ) * parseFloat( value.PRIX ) );
+		});
+		return total;
 	}
 
 

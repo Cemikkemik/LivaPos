@@ -55,7 +55,7 @@
 
             this.confirm    =   function( message, callback ) {
                 return SweetAlert.swal({
-                    title                : "Confirmez votre action",
+                    title                : "<?php echo __( 'Confirm your action', 'perm_manager' );?>",
                     text                 : message,
                     type                 : "warning",
                     showCancelButton     : true,
@@ -75,7 +75,7 @@
 
             this.warning            =   function( message ) {
                 return SweetAlert.swal({
-                    title                : "Attention",
+                    title                : "<?php echo __( 'Warning', 'perm_manager' );?>",
                     text                 : message,
                     type                 : "warning",
                     showCancelButton     : false,
@@ -151,16 +151,16 @@
              });
 
              if ( bulkDel.length == 0){
-                return sharedAlert.warning( '<?php echo _s( 'Sélectionnez au moins un élément', 'perm_manager' );?>' );   
+                return sharedAlert.warning( '<?php echo _s( 'Select an item', 'perm_manager' );?>' );   
              } else {
-                sharedAlert.confirm( '<?php echo _s( 'Souhaitez-vous supprimer ces élément ?', 'perm_manager' );?>', function( action ) {
+                sharedAlert.confirm( '<?php echo _s( 'Would you like to delete all these elements?', 'perm_manager' );?>', function( action ) {
                     if( action ) {
                         permissionsResource.delete( {'entries[]' : bulkDel}, function( data ) {
                             $scope.loadData();
-                            sharedAlert.alert( '<?php echo _s( 'Toutes les permissions ont été supprimées', 'perm_manager' );?>' );
+                            sharedAlert.alert( '<?php echo _s( 'All permissions has been deleted !', 'perm_manager' );?>' );
                         },function(){
                             sharedAlert.warning( '<?php echo _s(
-                                'Une erreur s\'est produite durant l\'operation',
+                                'An error occured.',
                                 'perm_manager'
                             );?>' );
                         });
@@ -174,16 +174,16 @@
           **/
 
          $scope.delete = function ( permission, group_id ){
-             sharedAlert.confirm( '<?php echo _s( 'Souhaitez-vous supprimer ces élément ?', 'perm_manager' );?>', function( action ) {
+             sharedAlert.confirm( '<?php echo _s( 'Would you like to delete this ?', 'perm_manager' );?>', function( action ) {
                 if( action ) {
                     permissionsResource.delete({ permission, group_id }, function( data ) {
                         if( returned.data.status === 'success' ) {
-                            sharedAlert.warning( '<?php echo _s( 'La permission a été supprimée.', 'perm_manager' );?>' );
+                            sharedAlert.warning( '<?php echo _s( 'The permission has been delete.', 'perm_manager' );?>' );
                         }
                         $scope.loadData();
                     },function(){
                         sharedAlert.warning( '<?php echo _s(
-                            'Une erreur s\'est produite durant l\'operation',
+                            'An error occured',
                             'perm_manager'
                         );?>' );
                     });
@@ -199,18 +199,18 @@
             permissionsResource.save( 
                 $scope.add, 
                 function(){
-                    sharedAlert.warning( '<?php echo _s( 'La modification a été enregistrée', 'perm_manager' );?>' );
+                    sharedAlert.warning( '<?php echo _s( 'The modification has been made', 'perm_manager' );?>' );
                     $scope.add[ 'permission' ]  =   '';
                     $scope.add[ 'group' ]       =   '';
                     $scope.loadData();
                 }, 
                 function( returned ){
                     if( returned.data.status === 'alreadyExists' ) {
-                        sharedAlert.warning( '<?php echo _s( 'Le role possède déja cette permission', 'perm_manager' );?>' );
+                        sharedAlert.warning( '<?php echo _s( 'This role already has this permission !', 'perm_manager' );?>' );
                     }
 
                     if( returned.data.status === 'forbidden' || returned.status == 500 ) {
-                        sharedAlert.warning( '<?php echo _s( 'Une erreur s\'est produite durant l\'opération.', 'perm_manager' );?>' );
+                        sharedAlert.warning( '<?php echo _s( 'An error occured during the operation.', 'perm_manager' );?>' );
                     }
                 }
             )

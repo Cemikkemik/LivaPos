@@ -89,6 +89,25 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
                 'href'      =>  site_url( array( 'dashboard', store_slug(), 'nsam', 'content_management' ) ),
                 'title'     =>  __( 'Content Copy', 'nsam' ),
             );
+
+            if( User::in_group([ 'master', 'shop_manager' ] ) ) {
+                $menus[ 'nsam_users' ]      =   [
+                    array(
+                        'href'      =>  site_url( array( 'dashboard', store_slug(), 'nsam', 'users' ) ),
+                        'title'     =>  __( 'Users List', 'nsam' ),
+                        'icon'      =>  'fa fa-users',
+                        'disable'   =>  true
+                    ),
+                    array(
+                        'href'      =>  site_url( array( 'dashboard', store_slug(), 'nsam', 'users' ) ),
+                        'title'     =>  __( 'All users', 'nsam' )
+                    ),
+                    array(
+                        'href'      =>  site_url( array( 'dashboard', store_slug(), 'nsam', 'users', 'add' ) ),
+                        'title'     =>  __( 'New User', 'nsam' )
+                    )
+                ];
+            }
         } else {
             if( multistore_enabled() && User::can( 'manage_core' ) ) {
 

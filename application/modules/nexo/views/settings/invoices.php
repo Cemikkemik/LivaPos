@@ -67,6 +67,7 @@ $this->Gui->add_item( array(
 	__( '{shop_street} pour afficher la rue de la boutique', 'nexo' ). '<br>' .
 	__( '{shop_email} pour afficher l\'email de la boutique', 'nexo' ). '<br>' .
 	__( '{order_date}, pour afficher la date de la commande.', 'nexo' ) . '<br>' .
+	__( '{order_updated}, pour afficher la date de modification de la commande.', 'nexo' ) . '<br>' .
 	__( '{order_code}, pour afficher le code de la commande.', 'nexo' ) . '<br>' .
 	__( '{order_id}, pour afficher l\'identifiant de la commande.', 'nexo' ) . '<br>' .
 	__( '{order_note}, pour afficher les notes de la commande.', 'nexo' ) . '<br>' .

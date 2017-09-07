@@ -45,7 +45,7 @@
                     <?php endif;?>
 
                     <?php if( @$Options[ store_prefix() . 'disable_quick_item' ] != 'yes' ):?>
-                    <button type="button" class="btn btn-default" ng-click="openAddQuickItem()" title="<?php _e( 'Livraison', 'nexo' );?>">
+                    <button type="button" class="btn btn-default" ng-click="openAddQuickItem()" title="<?php _e( 'Produit', 'nexo' );?>">
                         <i class="fa fa-plus"></i>
                         <span class="hidden-sm hidden-xs"><?php _e('Produit', 'nexo');?></span>
                     </button>

@@ -12,6 +12,14 @@ $(function(){
 			}
 		});
 
+		$( '#main-table-box' ).find( '.form-group' ).each( function() {
+			$( this ).find( '[name]' ).bind( 'focus', function(){
+				$( this ).closest( '.form-group' ).find( '.error-block' ).remove();
+				$( this ).closest( '.form-group' ).removeClass( 'has-error' );
+				$( this ).closest( '.form-group' ).find( '.help-block' ).show();
+			});
+		});
+
 		var save_and_close = false;
 
 		$('#save-and-go-back-button').click(function(){
@@ -29,20 +37,25 @@ $(function(){
 				cache: 'false',
 				beforeSend: function(){
 					$("#FormLoading").show();
+					$( '#main-table-box' ).find( '.form-group' ).each( function() {
+						$( this ).find( '.error-block' ).remove();
+						$( this ).removeClass( 'has-error' );
+						$( this ).find( '.help-block' ).show();
+					});
 				},
 				success: function(data){
 					$("#FormLoading").hide();
 					if(data.success)
 					{
 						$('#crudForm').ajaxSubmit({
-							dataType: 'text',
+							dataType: 'json',
 							cache: 'false',
 							beforeSend: function(){
 								$("#FormLoading").show();
 							},
-							success: function(result){
+							success: function(data){
 								$("#FormLoading").fadeOut("slow");
-								data = $.parseJSON( result );
+								// data = $.parseJSON( result );
 								if(data.success)
 								{
 									var data_unique_hash = my_crud_form.closest(".flexigrid").attr("data-unique-hash");
@@ -69,11 +82,24 @@ $(function(){
 								}
 								else
 								{
-									alert( message_insert_error );
+									// console.log( message_insert_error );
+									// alert( message_insert_error );
+									$.each(data.error_fields, function(index,value){
+										$( '#field-' + index ).closest( '.form-group' ).addClass( 'has-error' );
+										$( '#field-' + index ).closest( '.form-group' ).find( '.help-block' ).hide();
+										$( '#field-' + index ).after( '<p class="help-block error-block">' + value + '<p>' );
+										// $('input[name='+index+']').addClass('field_error');
+									});
 								}
 							},
-							error: function(){
-								alert( message_insert_error );
+							error: function( data ){
+								// alert( message_insert_error );
+								$.each(data.error_fields, function(index,value){
+									$( '#field-' + index ).closest( '.form-group' ).addClass( 'has-error' );
+									$( '#field-' + index ).closest( '.form-group' ).find( '.help-block' ).hide();
+									$( '#field-' + index ).after( '<p class="help-block error-block">' + value + '<p>' );
+									// $('input[name='+index+']').addClass('field_error');
+								});
 								$("#FormLoading").hide();
 							}
 						});
@@ -81,9 +107,12 @@ $(function(){
 					else
 					{
 						$('.field_error').removeClass('field_error');
-						form_error_message(data.error_message);
+						// form_error_message(data.error_message);
 						$.each(data.error_fields, function(index,value){
-							$('input[name='+index+']').addClass('field_error');
+							$( '#field-' + index ).closest( '.form-group' ).addClass( 'has-error' );
+							$( '#field-' + index ).closest( '.form-group' ).find( '.help-block' ).hide();
+							$( '#field-' + index ).after( '<p class="help-block error-block">' + value + '<p>' );
+							// $('input[name='+index+']').addClass('field_error');
 						});
 
 					}

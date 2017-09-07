@@ -55,7 +55,7 @@ class Options extends CI_Model
         
         if ($user != 0) {
             $this->db->where('user', $user);
-        }
+        } 
 
         $query        =    $this->db->get('options');
         $options    =    $query->result_array();

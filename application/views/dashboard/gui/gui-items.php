@@ -7,6 +7,16 @@ if ($saver_enabled && riake('use_namespace', $meta)) {
 }
 
 foreach (force_array(riake('items', $meta)) as $_item) {
+    $name           =    @$_item[ 'name' ];
+    $type           =    @$_item[ 'type' ];
+    $placeholder    =    @$_item[ 'placeholder' ];
+    $value          =    @$_item[ 'value' ];
+    $icon           =    @$_item[ 'icon' ];
+    $label          =    @$_item[ 'label' ];
+    $rows           =    @$_item[ 'rows' ];
+    $disabled       =    @$_item[ 'disabled' ];
+    $description    =    @$_item[ 'description' ];
+    $active         =    @$_item[ 'active' ];
 
     // fetch option from dashboard
 

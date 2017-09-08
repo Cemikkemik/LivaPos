@@ -1,6 +1,7 @@
 <?php
 return array(
 	'4.0'		=>	dirname( __FILE__ ) . '/migrate/4.0.php',
+	'3.8.0'		=>	dirname( __FILE__ ) . '/migrate/3.8.0.php',
 	'3.7'		=>	dirname( __FILE__ ) . '/migrate/3.7.php',
 	'3.3'		=>	dirname( __FILE__ ) . '/migrate/3.3.php',
 	'3.2'		=>	dirname( __FILE__ ) . '/migrate/3.2.php',

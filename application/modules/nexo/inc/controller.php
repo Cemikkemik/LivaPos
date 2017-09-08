@@ -536,7 +536,7 @@ class Nexo_Controller extends CI_Model
 		include_once( dirname( __FILE__ ) . '/../__controllers/coupons.php' );
 		include_once( dirname( __FILE__ ) . '/../__controllers/templates.php' ); // @since 3.1
 		include_once( dirname( __FILE__ ) . '/../__controllers/taxes.php' );
-		include_once( dirname( __FILE__ ) . '/../__controllers/units.php' ); // @since 4.0
+		include_once( dirname( __FILE__ ) . '/../__controllers/units.php' ); // @since 4.0		
 
 		$this->Gui->register_page( 'nexo', array( $this, 'load_controller' ));
 		$this->Gui->register_page( 'stores', array( $this, 'stores' ) );
@@ -590,8 +590,13 @@ class Nexo_Controller extends CI_Model
 
 			$urls		      =	func_get_args();
 			$store_id	      =	@$urls[0];
-            $slug_namespace   = @$urls[1];
+            	$slug_namespace   = @$urls[1];
 			$urls		      =	array_splice( $urls, 2 );
+
+			// if store is closed, then no one can access to that
+			if( $CurrentStore[0][ 'STATUS' ] == 'closed' ) {
+				redirect( 'dashboard/store-closed' );
+			}
 
 			if( $CurrentStore ) {
 

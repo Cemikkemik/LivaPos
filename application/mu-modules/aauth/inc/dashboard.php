@@ -21,7 +21,7 @@ class aauth_dashboard extends CI_model
     public function user_id($user_id)
     {
         if ($user_id == 'false') {
-            return $this->users->auth->get_user_id();
+            return User::id();
         }
     }
     public function before_dashboard_menu()

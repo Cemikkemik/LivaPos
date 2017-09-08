@@ -42,7 +42,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon"><?php echo __( 'Nom', 'nexo' );?></div>
-                            <input type="text" ng-model="name" class="form-control"  placeholder="<?php echo __( 'Montant', 'nexo' );?>">
+                            <input type="text" ng-model="name" class="form-control"  placeholder="<?php echo __( 'Nom', 'nexo' );?>">
                         </div>
                     </div>
                     
@@ -100,7 +100,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon"><?php echo __( 'Ville', 'nexo' );?></div>
-                            <input type="text" ng-model="address_1" class="form-control" placeholder="<?php echo __( 'Ville', 'nexo' );?>">
+                            <input type="text" ng-model="city" class="form-control" placeholder="<?php echo __( 'Ville', 'nexo' );?>">
                         </div>
                     </div>
                 </div>

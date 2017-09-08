@@ -52,6 +52,7 @@ trait Nexo_orders
             // 'SOMME_PERCU'           =>      $this->post('SOMME_PERCU'),
             'CODE'                  =>      $this->Nexo_Checkout->shuffle_code(),
             'DATE_CREATION'         =>      date_now(),
+            'DATE_MOD'              =>      date_now(), // @since 3.8.0
 			'DESCRIPTION'			=>      $this->post( 'DESCRIPTION' ),
 			'REF_REGISTER'		    =>      $this->post( 'REGISTER_ID' ),
 			// @since 2.7.10
@@ -835,8 +836,20 @@ trait Nexo_orders
     public function order_with_stock_get( $order_code )
     {
         $this->db->select(
+            'aauth_users.name as ORDER_CASHIER, ' .
             store_prefix() . 'nexo_articles.DESIGN, ' .
-            store_prefix() . 'nexo_commandes_produits.PRIX, ' .
+            store_prefix() . 'nexo_commandes.TOTAL as TOTAL,' .
+            store_prefix() . 'nexo_commandes.ID as ID,' .
+            store_prefix() . 'nexo_commandes.CODE as CODE , ' .            
+            store_prefix() . 'nexo_commandes.PAYMENT_TYPE , ' .            
+            store_prefix() . 'nexo_commandes.SOMME_PERCU , ' .       
+            store_prefix() . 'nexo_commandes.TYPE , ' .            
+            store_prefix() . 'nexo_commandes.PAYMENT_TYPE , ' .            
+            store_prefix() . 'nexo_commandes.DESCRIPTION , ' .            
+            store_prefix() . 'nexo_commandes.DATE_CREATION as DATE , ' .      
+            store_prefix() . 'nexo_commandes.DATE_MOD as DATE_MOD , ' .            
+            store_prefix() . 'nexo_articles_stock_flow.REF_ARTICLE_BARCODE, ' .
+            store_prefix() . 'nexo_articles_stock_flow.UNIT_PRICE as PRIX, ' .
             store_prefix() . 'nexo_articles_stock_flow.QUANTITE as QUANTITE, ' .
             store_prefix() . 'nexo_articles_stock_flow.TYPE as TYPE'
         );
@@ -844,29 +857,30 @@ trait Nexo_orders
         $this->db->from( store_prefix() . 'nexo_commandes' );
 
         $this->db->join(
-            store_prefix() . 'nexo_commandes_produits',
-            store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE = ' .
+            store_prefix() . 'nexo_articles_stock_flow',
+            store_prefix() . 'nexo_articles_stock_flow.REF_COMMAND_CODE = ' .
             store_prefix() . 'nexo_commandes.CODE', 'left'
+        );
+
+        $this->db->join(
+            'aauth_users',
+            'aauth_users.id = ' .
+            store_prefix() . 'nexo_commandes.AUTHOR', 'left'
         );
 
         $this->db->join(
             store_prefix() . 'nexo_articles',
             store_prefix() . 'nexo_articles.CODEBAR = ' .
-            store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR', 'left'
+            store_prefix() . 'nexo_articles_stock_flow.REF_ARTICLE_BARCODE', 'left'
         );
 
-        $this->db->join(
-            store_prefix() . 'nexo_articles_stock_flow',
-            store_prefix() . 'nexo_articles_stock_flow.REF_ARTICLE_BARCODE = ' .
-            store_prefix() . 'nexo_articles.CODEBAR', 'left'
-        );
+        $this->db->where( store_prefix() . 'nexo_articles_stock_flow.REF_COMMAND_CODE', $order_code );
+        $this->db->where_in( store_prefix() . 'nexo_articles_stock_flow.TYPE', [ 'defective', 'usable' ]);
 
-        $this->db->where( store_prefix() . 'nexo_commandes.CODE', $order_code );
-
-        $this->db->or_where(
-            store_prefix() . 'nexo_articles_stock_flow.REF_COMMAND_CODE',
-            $order_code
-        );
+        // $this->db->or_where(
+        //     store_prefix() . 'nexo_articles_stock_flow.REF_COMMAND_CODE',
+        //     $order_code
+        // );
 
         $order      =   $this->db->get()->result();
 
@@ -1024,7 +1038,7 @@ trait Nexo_orders
 			if( $item[ 'CURRENT_DEFECTIVE_QTE' ] > 0 ) {
 
                 // quantity stock is active when stock management is enabled
-                if( intval( $freshItem[0][ 'STOCK_ENABELD' ] ) == 1 ) {
+                if( intval( $freshItem[0][ 'STOCK_ENABLED' ] ) == 1 ) {
                     $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
                         'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
                         'QUANTITE'				=>	$item[ 'CURRENT_DEFECTIVE_QTE' ],
@@ -1050,7 +1064,7 @@ trait Nexo_orders
             if( $item[ 'CURRENT_USABLE_QTE' ] > 0 ) {
 
                 // quantity stock is active when stock management is enabled
-                if( intval( $freshItem[0][ 'STOCK_ENABELD' ] ) == 1 ) {
+                if( intval( $freshItem[0][ 'STOCK_ENABLED' ] ) == 1 ) {
                     $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
                         'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
                         'QUANTITE'				=>	$item[ 'CURRENT_USABLE_QTE' ],
@@ -1109,7 +1123,8 @@ trait Nexo_orders
 		}
 
 		// Set new Total for this order
-		$data[ 'TOTAL' ]	=	floatval( $order[0][ 'TOTAL' ] ) - $toRefund;
+        $data[ 'TOTAL' ]	    =	floatval( $order[0][ 'TOTAL' ] ) - $toRefund;
+        $data[ 'DATE_MOD' ]     =   date_now(); // @since 3.8.0
 
 		$this->db->where( 'CODE', $order_code )->update( store_prefix() . 'nexo_commandes', $data );
 

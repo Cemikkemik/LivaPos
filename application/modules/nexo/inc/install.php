@@ -383,7 +383,7 @@ class Nexo_Install extends CI_Model
 			`QUANTITE` int(11) NOT NULL,
 			`DATE_CREATION` datetime NOT NULL,
 			`AUTHOR` int(11) NOT NULL,
-			`REF_COMMAND_CODE` int(11) NOT NULL,
+			`REF_COMMAND_CODE` varchar(11) NOT NULL,
 			`REF_SHIPPING` int(11) NOT NULL,
 			`TYPE` varchar(200) NOT NULL,
 			`UNIT_PRICE` float(11) NOT NULL,

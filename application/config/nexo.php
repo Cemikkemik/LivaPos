@@ -267,5 +267,6 @@ $config[ 'stock-operation' ] 	=	[
 	'supply'				=>	get_instance()->lang->line( 'supply' ),
 	'usable' 				=>	get_instance()->lang->line( 'transfert_in' ),
 	'adjustment'			=>	get_instance()->lang->line( 'adjustment' ),
-	'import' 				=>	get_instance()->lang->line( 'import' )
+	'import' 				=>	get_instance()->lang->line( 'import' ),
+	'sale' 				=>	get_instance()->lang->line( 'sale' )
 ];

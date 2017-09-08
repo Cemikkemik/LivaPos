@@ -28,7 +28,7 @@
             // item barcode
             $scope.itemBarcode      =   '<?php echo $barcode;?>';
 
-            $http.get( '<?php echo site_url([ 'rest', 'nexo', 'history' ]);?>/' + $scope.itemBarcode + '<?php echo store_get_param( '?' );?>' + '&limit=10&page=1', {
+            $http.get( '<?php echo site_url([ 'rest', 'nexo', 'history' ]);?>/' + $scope.itemBarcode + '<?php echo store_get_param( '?' );?>' + '&limit=<?php echo @$_GET[ 'limit' ] ? @$_GET[ 'limit' ] : 10;?> &page=<?php echo @$_GET[ 'page' ] ? @$_GET[ 'page' ] : 1;?>', {
                 headers			:	{
                     '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo get_option( 'rest_key' );?>'
                 }

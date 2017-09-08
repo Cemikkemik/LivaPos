@@ -123,4 +123,5 @@ $lang[ 'supply' ]				     =	__( 'Approvisionnement', 'nexo' );
 $lang[ 'usable' ] 				     =	__( 'Retour Stock', 'nexo' );
 $lang[ 'adjustment' ]			     =	__( 'Réduction', 'nexo' );
 $lang[ 'import' ]			          =	__( 'Importé', 'nexo' );
+$lang[ 'sale' ]                         =    __( 'Vente', 'nexo' );
 $lang[ 'store-closed' ]			    =	tendoo_error( __( 'Vous ne pouvez pas accéder à cette boutique, car elle est fermée.', 'nexo' ) );

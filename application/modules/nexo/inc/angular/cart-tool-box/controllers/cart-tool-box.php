@@ -269,8 +269,8 @@ tendooApp.directive('validNumber', function() {
 </script>
 
 <script>
-tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope', '$timeout', 'hotkeys', 
-	function( $http, $filter, $compile, $scope, $timeout, hotkeys ) {
+tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope', '$timeout', 'hotkeys', '$rootScope',
+	function( $http, $filter, $compile, $scope, $timeout, hotkeys, $rootScope ) {
 
 	// set the shipping price to 0 on start
 	$scope[ 'price' ] 				=	v2Checkout.CartShipping;
@@ -285,7 +285,7 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 		}
 	}
 
-	$scope.orderStatusObject		=	NexoAPI.events.applyFilters( 'history_orderType', default_orderType );
+	$scope.orderStatusObject			=	NexoAPI.events.applyFilters( 'history_orderType', default_orderType );
 	$scope.theSpinner				=	new Object;
 	$scope.theSpinner[ 'mspinner' ]	=	false;
 	$scope.theSpinner[ 'rspinner' ]	=	true;
@@ -336,6 +336,7 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 		NexoAPI.Bootbox().confirm({
 			message 		:	'<div class="historyboxwrapper"><history-content/></div>',
 			title			:	'<?php echo _s( 'Historique des commandes', 'nexo' );?>',
+			className 	:	'history-box',
 			buttons: {
 				confirm: {
 					label: '<?php echo _s( 'Ouvrir la commande', 'nexo' );?>',
@@ -354,15 +355,15 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 		$( '.historyboxwrapper' ).html( $compile( $( '.historyboxwrapper' ).html() )($scope) );
 
 		$timeout( function(){
-			angular.element( '.modal-dialog' ).css( 'width', '90%' );
-			angular.element( '.modal-body' ).css( 'padding-top', '0px' );
-			angular.element( '.modal-body' ).css( 'padding-bottom', '0px' );
-			angular.element( '.modal-body' ).css( 'padding-left', '0px' );
-			angular.element( '.modal-body' ).css( 'height', $scope.wrapperHeight );
-			angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );
-			angular.element( '.middle-content' ).attr( 'style', 'border-left:solid 1px #DEDEDE;overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
-			angular.element( '.order-details' ).attr( 'style', 'overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
-			angular.element( '.middle-content' ).css( 'padding', 0 );
+			angular.element( '.history-box .modal-dialog' ).css( 'width', '90%' );
+			angular.element( '.history-box .modal-body' ).css( 'padding-top', '0px' );
+			angular.element( '.history-box .modal-body' ).css( 'padding-bottom', '0px' );
+			angular.element( '.history-box .modal-body' ).css( 'padding-left', '0px' );
+			angular.element( '.history-box .modal-body' ).css( 'height', $scope.wrapperHeight );
+			angular.element( '.history-box .modal-body' ).css( 'overflow-x', 'hidden' );
+			angular.element( '.history-box .middle-content' ).attr( 'style', 'border-left:solid 1px #DEDEDE;overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
+			angular.element( '.history-box .order-details' ).attr( 'style', 'overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
+			angular.element( '.history-box .middle-content' ).css( 'padding', 0 );
 		}, 150 );
 
 
@@ -727,5 +728,14 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 		$scope.price   	=	0; // reset the shipping price
 		$( '.cart-shipping-amount' ).html( $filter( 'moneyFormat' )( $scope.price ) );
 	});	
+
+	/**
+	 * Events
+	 * @since 3.8.2
+	**/
+
+	$rootScope.$on( 'open-history-box', function(){
+		$scope.openHistoryBox();
+	});
 }]);
 </script>

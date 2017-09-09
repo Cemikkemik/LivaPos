@@ -426,6 +426,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 				$scope.orderBalance				=	NexoAPI.ParseFloat( response.data[0].TOTAL ) - NexoAPI.ParseFloat( response.data[0].SOMME_PERCU );
 
 				// check if Stripe Payment is disabled
+
 				<?php
 				if( @$Options[ store_prefix() . 'nexo_enable_stripe' ] == 'no' ) {
 					?>
@@ -845,6 +846,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 			$.ajax({
 				url 	:	'<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'print', 'order_refund', store_get_param('?') ] );?>',
 				success 	:	function( data ) {
+					console.log( $scope.order_items );
 					// replace template
 					data 	=	data.replace( ':orderCode', $scope.order_items[0].CODE );
 					data 	=	data.replace( ':orderDate', $scope.order_items[0].DATE );

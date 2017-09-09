@@ -1039,19 +1039,22 @@ trait Nexo_orders
 			// If a defective stock exists
 			if( $item[ 'CURRENT_DEFECTIVE_QTE' ] > 0 ) {
 
+                // Whether the item is a digital item, it need to be refundable
+
+                $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
+                    'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
+                    'QUANTITE'				=>	$item[ 'CURRENT_DEFECTIVE_QTE' ],
+                    'UNIT_PRICE'            =>  $item[ 'PRIX'],
+                    'TOTAL_PRICE'           =>  floatval( $item[ 'PRIX'] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ),
+                    'AUTHOR'				=>	$this->post( 'author' ),
+                    'DATE_CREATION'			=>	date_now(),
+                    'REF_COMMAND_CODE'		=>	$order_code,
+                    'TYPE'                  =>  'defective'
+                ) );
+
                 // quantity stock is active when stock management is enabled
                 if( intval( $freshItem[0][ 'STOCK_ENABLED' ] ) == 1 ) {
-                    $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
-                        'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
-                        'QUANTITE'				=>	$item[ 'CURRENT_DEFECTIVE_QTE' ],
-                        'UNIT_PRICE'            =>  $item[ 'PRIX'],
-                        'TOTAL_PRICE'           =>  floatval( $item[ 'PRIX'] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ),
-                        'AUTHOR'				=>	$this->post( 'author' ),
-                        'DATE_CREATION'			=>	date_now(),
-                        'REF_COMMAND_CODE'		=>	$order_code,
-                        'TYPE'                  =>  'defective'
-                    ) );
-    
+                    
                     $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )
                     // a defective item can't be considered as sold item
                     ->set( 'QUANTITE_VENDU', 'QUANTITE_VENDU - ' . intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ), false )
@@ -1065,18 +1068,21 @@ trait Nexo_orders
 
             if( $item[ 'CURRENT_USABLE_QTE' ] > 0 ) {
 
+                // Whether the item is a digital item, it need to be refundable
+
+                $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
+                    'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
+                    'QUANTITE'				=>	$item[ 'CURRENT_USABLE_QTE' ],
+                    'UNIT_PRICE'            =>  $item[ 'PRIX'],
+                    'TOTAL_PRICE'           =>  floatval( $item[ 'PRIX'] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] ),
+                    'AUTHOR'				=>	$this->post( 'author' ),
+                    'DATE_CREATION'			=>	date_now(),
+                    'REF_COMMAND_CODE'		=>	$order_code,
+                    'TYPE'                  =>  'usable'
+                ) );
+
                 // quantity stock is active when stock management is enabled
                 if( intval( $freshItem[0][ 'STOCK_ENABLED' ] ) == 1 ) {
-                    $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
-                        'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
-                        'QUANTITE'				=>	$item[ 'CURRENT_USABLE_QTE' ],
-                        'UNIT_PRICE'            =>  $item[ 'PRIX'],
-                        'TOTAL_PRICE'           =>  floatval( $item[ 'PRIX'] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] ),
-                        'AUTHOR'				=>	$this->post( 'author' ),
-                        'DATE_CREATION'			=>	date_now(),
-                        'REF_COMMAND_CODE'		=>	$order_code,
-                        'TYPE'                  =>  'usable'
-                    ) );
 
                     // Increase defective item in stock
                     $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )

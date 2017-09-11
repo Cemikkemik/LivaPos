@@ -226,7 +226,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <td class="text-right">
                             <?php echo $this->Nexo_Misc->cmoney_format(
 							bcsub(
-								__floatval($total_global),
+								__floatval($total_global) + __floatval($order[ 'order'][0][ 'SHIPPING_AMOUNT' ]),
 								(
 									__floatval(@$_produit[ 'RISTOURNE' ]) +
 									__floatval(@$_produit[ 'RABAIS' ]) +
@@ -262,7 +262,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                                 __('%s %s %s', 'nexo'),
                                 $this->Nexo_Misc->display_currency('before'),
                                 bcsub(
-                                    __floatval($total_global) + __floatval($_produit[ 'TVA' ]),
+                                    __floatval($total_global) + __floatval($_produit[ 'TVA' ]) + __floatval($order[ 'order'][0][ 'SHIPPING_AMOUNT' ]),
                                     (
                                         __floatval(@$_produit[ 'RISTOURNE' ]) +
                                         __floatval(@$_produit[ 'RABAIS' ]) +
@@ -284,21 +284,17 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             <td class="text-right"></td>
                             <?php endif;?>
                             <td class="text-right">
-                            <?php echo sprintf(
-                                __('%s %s %s', 'nexo'),
-                                $this->Nexo_Misc->display_currency('before'),
-                                round( bcsub(
-                                    __floatval($total_global) + __floatval($_produit[ 'TVA' ]) + __floatval($order[ 'order'][0][ 'SHIPPING_AMOUNT' ]),
-                                    (
-                                        __floatval(@$_produit[ 'RISTOURNE' ]) +
-                                        __floatval(@$_produit[ 'RABAIS' ]) +
-                                        __floatval(@$_produit[ 'REMISE' ]) +
-                                        ( ( __floatval( @$_produit[ 'REMISE_PERCENT' ] ) * $total_global ) / 100 ) +
-                                        __floatval(@$_produit[ 'GROUP_DISCOUNT' ])
-                                    ), 3
-                                ), 2 ),
-                                $this->Nexo_Misc->display_currency('after')
-                            );?>
+                            <?php
+                            echo $this->Nexo_Misc->cmoney_format( bcsub(
+                                __floatval($total_global) + __floatval($_produit[ 'TVA' ]) + __floatval($order[ 'order'][0][ 'SHIPPING_AMOUNT' ]),
+                                (
+                                    __floatval(@$_produit[ 'RISTOURNE' ]) +
+                                    __floatval(@$_produit[ 'RABAIS' ]) +
+                                    __floatval(@$_produit[ 'REMISE' ]) +
+                                    ( ( __floatval( @$_produit[ 'REMISE_PERCENT' ] ) * $total_global ) / 100 ) +
+                                    __floatval(@$_produit[ 'GROUP_DISCOUNT' ])
+                                ), 2
+                            ) )?>
                             </td>
                         </tr>
                         <?php endif;?>
@@ -337,7 +333,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                             </td>
                         </tr>
                         <?php
-                        $terme        =    __floatval( $_produit[ 'SOMME_PERCU' ] ) > floatval( $order[ 'order' ][0][ 'TOTAL' ] ) ? __('Solde :', 'nexo') : __('&Agrave; percevoir :', 'nexo');
+                        $terme        =    __floatval( $_produit[ 'SOMME_PERCU' ] ) >= floatval( $order[ 'order' ][0][ 'TOTAL' ] ) ? __('Monnaie :', 'nexo') : __('&Agrave; percevoir :', 'nexo');
                         ?>
                         <tr>
                             <td class="text-right" colspan="<?php echo @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ? 4 : 3;?>"><h4><strong><?php echo $terme;?></strong></h4></td>

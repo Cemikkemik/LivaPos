@@ -328,16 +328,16 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 					var ArrayToPush			=	{
 						id 					:	value.ID,
 						qte_added 			:	value.QTE_ADDED,
-						codebar 			:	value.CODEBAR,
-						sale_price 			:	value.PROMO_ENABLED ? value.PRIX_PROMOTIONEL : ( v2Checkout.CartShadowPriceEnabled ? value.SHADOW_PRICE : value.PRIX_DE_VENTE ),
-						qte_sold 			:	value.QUANTITE_VENDU,
-						qte_remaining 		:	value.QUANTITE_RESTANTE,
+						codebar 				:	value.CODEBAR,
+						sale_price 			:	value.PROMO_ENABLED ? value.PRIX_PROMOTIONEL : ( v2Checkout.CartShadowPriceEnabled ? value.SHADOW_PRICE : value.PRIX_DE_VENTE_TTC ),
+						qte_sold 				:	value.QUANTITE_VENDU,
+						qte_remaining 			:	value.QUANTITE_RESTANTE,
 						// @since 2.8.2
-						stock_enabled 		:	value.STOCK_ENABLED,
+						stock_enabled 			:	value.STOCK_ENABLED,
 						// @since 2.9.0
-						discount_type 		:	value.DISCOUNT_TYPE,
+						discount_type 			:	value.DISCOUNT_TYPE,
 						discount_amount		:	value.DISCOUNT_AMOUNT,
-						discount_percent 	:	value.DISCOUNT_PERCENT,
+						discount_percent 		:	value.DISCOUNT_PERCENT,
 						metas 				:	typeof value.metas == 'undefined' ? {} : value.metas,
 						name 				:	value.DESIGN,
 						inline 				:	typeof value.INLINE ? 1 : 0 // if it's an inline item

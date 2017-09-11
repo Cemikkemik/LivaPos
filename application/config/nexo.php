@@ -257,7 +257,6 @@ $config[ 'nexo_barcode_supported' ]	=	array(
 
 // Config
 $config[ 'store_url' ] 		=	'https://server.nexopos.com/';
-
 $config[ 'stock-operation' ] 	=	[
 	'transfert_in' 		=>	get_instance()->lang->line( 'transfert_in' ),
 	'transfert_out' 		=>	get_instance()->lang->line( 'transfert_out' ),
@@ -265,7 +264,7 @@ $config[ 'stock-operation' ] 	=	[
 	'transfert_canceled'	=>	get_instance()->lang->line( 'transfert_canceled' ),
 	'defective'			=>	get_instance()->lang->line( 'defective' ),
 	'supply'				=>	get_instance()->lang->line( 'supply' ),
-	'usable' 				=>	get_instance()->lang->line( 'transfert_in' ),
+	'usable' 				=>	get_instance()->lang->line( 'usable' ),
 	'adjustment'			=>	get_instance()->lang->line( 'adjustment' ),
 	'import' 				=>	get_instance()->lang->line( 'import' ),
 	'sale' 				=>	get_instance()->lang->line( 'sale' )

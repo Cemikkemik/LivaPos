@@ -479,6 +479,7 @@ var v2Checkout					=	new function(){
 								}
 							} else {
 								v2Checkout.CartItems[i].PRIX_DE_VENTE_TTC	=	$( this ).val();
+								v2Checkout.CartItems[i].PRIX_DE_VENTE		=	$( this ).val();
 							}
 						}
 					}

@@ -138,6 +138,17 @@ class NsamController extends
         ->get( 'aauth_users' )->result_array();
 
         if( $user ) {
+            if( strlen( $user[0][ 'name' ] ) < 5 ) {
+                echo json_encode([
+                    'error_fields'     =>  [
+                        'name'          =>  __( 'Unable to create user. the username should have more that 5 characters', 'nsam' ),
+                    ],
+                    'error_message'     =>  __( 'Unable to create user. This username should have more that 5 characters', 'nsam' ),
+                    'success'           =>  false
+                ]);
+                die;
+            }
+
             if( $user[0][ 'name' ] == $post[ 'name' ] ) {
                 echo json_encode([
                     'error_fields'     =>  [
@@ -148,6 +159,7 @@ class NsamController extends
                 ]);
                 die;
             }
+            
             echo json_encode([
                 'error_fields'     =>  [
                     'email'          =>  __( 'Unable to create user. This email is already taken', 'nsam' ),

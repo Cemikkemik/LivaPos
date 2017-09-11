@@ -711,7 +711,7 @@ trait Nexo_items
         ->join( 'aauth_users', 'aauth_users.id = ' . store_prefix() . 'nexo_articles_stock_flow.AUTHOR' )
         ->where( store_prefix() . 'nexo_articles.CODEBAR', $barcode )
         ->order_by( store_prefix() . 'nexo_articles_stock_flow.DATE_CREATION', 'desc' )
-        ->limit( $this->get( 'limit' ), $this->get( 'start' ) )
+        ->limit( $this->get( 'limit' ), $this->get( 'page' ) )
         ->get()->result();
 
         $this->response([

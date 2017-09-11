@@ -3,6 +3,7 @@
     tendooApp.controller( 'itemHistoryCTRL', [ '$scope', '$http', function( $scope, $http ){
 
         $scope.stock_operation      =   <?php echo json_encode( $this->config->item( 'stock-operation' ) );?>;
+        $scope.totalEntries         =   false;
 
         $scope.total    =   {
             unit_price  :   {
@@ -18,17 +19,20 @@
                 minus   :   0
             }
         };
+
+        $scope.itemsPerPage  =   20;
         
         /** 
          * Load Entries
          * @return void
         **/
 
-        $scope.loadHistory      =   function(){
+        $scope.loadHistory      =   function( page = 0 ){
             // item barcode
             $scope.itemBarcode      =   '<?php echo $barcode;?>';
+            $scope.currentPage      =   page;
 
-            $http.get( '<?php echo site_url([ 'rest', 'nexo', 'history' ]);?>/' + $scope.itemBarcode + '<?php echo store_get_param( '?' );?>' + '&limit=<?php echo @$_GET[ 'limit' ] ? @$_GET[ 'limit' ] : 10;?> &page=<?php echo @$_GET[ 'page' ] ? @$_GET[ 'page' ] : 1;?>', {
+            $http.get( '<?php echo site_url([ 'rest', 'nexo', 'history' ]);?>/' + $scope.itemBarcode + '<?php echo store_get_param( '?' );?>' + '&limit=' + $scope.itemsPerPage + '&page=' + page, {
                 headers			:	{
                     '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo get_option( 'rest_key' );?>'
                 }
@@ -47,7 +51,9 @@
                         minus   :   0
                     }
                 };
-                $scope.items    =   returned.data.items
+                $scope.items            =   returned.data.items
+                $scope.totalEntries     =   returned.data.entries;
+                $scope.totalPage        =   $scope.totalEntries / $scope.itemsPerPage;
                 $scope.sumTotal();
             });
         }
@@ -121,5 +127,17 @@
         }
 
         $scope.loadHistory();
-    }])
+    }]);
+
+    tendooApp.filter('range', function() {
+        return function(input, total) {
+            total = parseInt(total);
+
+            for (var i=0; i<total; i++) {
+                input.push(i);
+            }
+
+            return input;
+        };
+    });
 </script>

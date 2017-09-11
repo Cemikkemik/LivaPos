@@ -420,7 +420,7 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 			}
 
 			v2Checkout.emptyCartItemTable();
-			v2Checkout.CartItems			=	$scope.orderDetails.items;
+			v2Checkout.CartItems			=	angular.copy( $scope.orderDetails.items );
 
 			_.each( v2Checkout.CartItems, function( value, key ) {
 				value.QTE_ADDED		=	value.QUANTITE;
@@ -432,8 +432,8 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 			if( $scope.orderDetails.order.REMISE_TYPE != '' ) {
 				v2Checkout.CartRemiseType			=	$scope.orderDetails.order.REMISE_TYPE;
 				v2Checkout.CartRemise				=	NexoAPI.ParseFloat( $scope.orderDetails.order.REMISE );
-				v2Checkout.CartRemisePercent		=	NexoAPI.ParseFloat( $scope.orderDetails.order.REMISE_PERCENT );
-				v2Checkout.CartRemiseEnabled		=	true;
+				v2Checkout.CartRemisePercent			=	NexoAPI.ParseFloat( $scope.orderDetails.order.REMISE_PERCENT );
+				v2Checkout.CartRemiseEnabled			=	true;
 			}
 
 			if( parseFloat( $scope.orderDetails.order.GROUP_DISCOUNT ) > 0 ) {
@@ -452,7 +452,7 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 
 			// @since 3.1.2
 			v2Checkout.CartShipping  						=	parseFloat( $scope.orderDetails.order.SHIPPING_AMOUNT );
-			$scope.price   									=	v2Checkout.CartShipping; // for shipping directive
+			$scope.price 									=	v2Checkout.CartShipping; // for shipping directive
 			$( '.cart-shipping-amount' ).html( $filter( 'moneyFormat' )( $scope.price ) );
 
 			// Restore Custom Ristourne
@@ -469,6 +469,9 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 			_.each( $scope.orderDetails.order.shipping, ( value, key ) => {
 				$scope[ key ] 	=	value;
 			});
+
+			// broadcast open order to edit
+			NexoAPI.events.doAction( 'open_order_on_pos' );
 		}
 	};
 
@@ -632,8 +635,6 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 			
 		}, 150 );
 	}
-
-	
 
 	/**
 	 * Open Click Add Product

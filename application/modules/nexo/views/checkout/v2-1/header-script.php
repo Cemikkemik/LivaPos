@@ -39,7 +39,7 @@ let checkoutHeaderCTRL      =   function( $scope, hotkeys ) {
 						<div class="calculator">
 							<input type="text" readonly>
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-md-12 col-xs-12 col-sm-12">
 									<div class="key">1</div>
 									<div class="key">2</div>
 									<div class="key">3</div>
@@ -47,7 +47,7 @@ let checkoutHeaderCTRL      =   function( $scope, hotkeys ) {
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-md-12 col-xs-12 col-sm-12">
 									<div class="key">4</div>
 									<div class="key">5</div>
 									<div class="key">6</div>
@@ -55,7 +55,7 @@ let checkoutHeaderCTRL      =   function( $scope, hotkeys ) {
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-md-12 col-xs-12 col-sm-12">
 									<div class="key">7</div>
 									<div class="key">8</div>
 									<div class="key">9</div>
@@ -63,7 +63,7 @@ let checkoutHeaderCTRL      =   function( $scope, hotkeys ) {
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-md-12 col-xs-12 col-sm-12">
 									<div class="key action">+</div>
 									<div class="key action">-</div>
 									<div class="key action">x</div>

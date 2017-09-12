@@ -20,7 +20,7 @@
 .calculator .row { margin-top: 10px; }
 
 .calculator .key {
-    width: 64px;
+    width: 63px;
     display: inline-block;
     background-color: white;
     color: #3e3e3e;

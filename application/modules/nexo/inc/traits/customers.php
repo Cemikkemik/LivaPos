@@ -158,7 +158,8 @@ trait Nexo_customers
             'DESCRIPTION'       =>  $this->post( 'description' ),
             'DATE_NAISSANCE'    =>  $this->post( 'birth_date' ),
             'EMAIL'             =>  $this->post( 'email' ),
-            'DATE_CREATION'     =>  $this->post( 'created_on' ),
+            'DATE_CREATION'     =>  date_now(),
+            'DATE_MOD'          =>  date_now(),
             'AUTHOR'            =>  $this->post( 'author' ),
             'TEL'               =>  $this->post( 'phone' ),
             'REF_GROUP'         =>  $this->post( 'ref_group' )
@@ -238,7 +239,7 @@ trait Nexo_customers
             'DESCRIPTION'       =>  $this->put( 'description' ),
             'DATE_NAISSANCE'    =>  $this->put( 'birth_date' ),
             'EMAIL'             =>  $this->put( 'email' ),
-            'DATE_MOD'          =>  $this->put( 'edited_on' ),
+            'DATE_MOD'          =>  date_now(),
             'AUTHOR'            =>  $this->put( 'author' ),
             'TEL'               =>  $this->put( 'phone' ),
             'REF_GROUP'         =>  $this->put( 'ref_group' )

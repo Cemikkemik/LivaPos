@@ -19,6 +19,7 @@ var v2Checkout					=	new function(){
 	this.ItemSearchForm			=	'#search-item-form';
 	this.CartPayButton			=	'#cart-pay-button';
 	this.CartCancelButton		=	'#cart-return-to-order';
+	this.From 				=	null;
 	// @since 3.x
 	this.enableBarcodeSearch	=	false;
 
@@ -2363,6 +2364,7 @@ var v2Checkout					=	new function(){
 			this.CartShipping   		=	0;
 			this.CartItemsVAT 			=	0;
 			this.CartType 				=	null;
+			this.From 				=	null;
 
 
 			<?php if (isset($order[ 'order' ])):?>

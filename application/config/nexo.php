@@ -256,8 +256,8 @@ $config[ 'nexo_barcode_supported' ]	=	array(
 );
 
 // Config
-$config[ 'store_url' ] 		=	'https://server.nexopos.com/';
-// $config[ 'store_url' ] 		=	'http://127.0.0.1:8000/';
+// $config[ 'store_url' ] 		=	'https://server.nexopos.com/';
+$config[ 'store_url' ] 		=	'http://127.0.0.1:8000/';
 
 $config[ 'stock-operation' ] 	=	[
 	'transfert_in' 		=>	get_instance()->lang->line( 'transfert_in' ),

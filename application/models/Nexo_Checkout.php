@@ -883,6 +883,7 @@ class Nexo_Checkout extends CI_Model
             // var_dump( $query->result_array() );die;
             $sub_query        =    $this->db
             ->select('*,
+            ' . store_prefix() . 'nexo_commandes_produits.ID as ITEM_ID,
 			' . store_prefix() . 'nexo_commandes_produits.QUANTITE as QTE_ADDED,
 			' . store_prefix() . 'nexo_articles.DESIGN as DESIGN')
             ->from( store_prefix() . 'nexo_commandes')

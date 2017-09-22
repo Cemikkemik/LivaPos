@@ -23,11 +23,17 @@ $(function(){
 
 	$('#crudForm').submit(function(){
 		var my_crud_form = $(this);
+		var form_data 			=	{};
+		$( this ).find( '[id^="field-"]' ).each( function(){
+			form_data[ $( this ).attr( 'name' ) ] 	=	$( this ).val();
+		});
 
-		$(this).ajaxSubmit({
+		$.ajax({
 			url: validation_url,
 			dataType: 'json',
 			cache: 'false',
+			type: 'POST',
+			data: form_data,
 			beforeSend: function(){
 				$("#FormLoading").show();
 			},
@@ -35,9 +41,12 @@ $(function(){
 				$("#FormLoading").hide();
 				if(data.success)
 				{
-					$('#crudForm').ajaxSubmit({
+					$.ajax({
 						dataType: 'text',
+						url 	:	$( my_crud_form ).attr( 'action' ),
 						cache: 'false',
+						type: 'POST',
+						data: form_data,
 						beforeSend: function(){
 							$("#FormLoading").show();
 						},

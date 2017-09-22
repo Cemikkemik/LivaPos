@@ -1,4 +1,14 @@
 
+v3.8.6
+======
+* Fix issue while submiting entry
+v3.8.5
+======
+* Added New receipt format
+* Fixing some bugs
+* Adding Logo on receipt
+* Fixing persistent payment for even hold order
+* Fixing renaming file your avoid some server production issues
 v3.8.3
 ======
 * Fix calculator layout

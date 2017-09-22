@@ -39,6 +39,27 @@ $this->Gui->add_item( array(
 **/
 
 $this->Gui->add_item( array(
+	'type'			=>	'text',
+	'name'			=>	$option_prefix . 'url_to_logo',
+	'label' 			=>	__( 'Url logo', 'nexo' ),
+	'description'			=>	__( 'Si ce champ est rempli, l\'image sera affichée sur le reçu de vente à la place du nom de la boutique.', 'nexo' ),
+), 'invoice1', 1 );
+
+$this->Gui->add_item( array(
+	'type'			=>	'text',
+	'name'			=>	$option_prefix . 'logo_height',
+	'label' 			=>	__( 'Hauteur Logo(px)', 'nexo' ),
+	'description'			=>	__( 'Forcer la hauteur du logo. Veuillez définir une valeur numérique, par exemple : "30" et non "30px"', 'nexo' ),
+), 'invoice1', 1 );
+
+$this->Gui->add_item( array(
+	'type'			=>	'text',
+	'name'			=>	$option_prefix . 'logo_width',
+	'label' 			=>	__( 'Largeur Logo(px)', 'nexo' ),
+	'description'			=>	__( 'Forcer la largeur du logo. Veuillez définir une valeur numérique, par exemple : "30" et non "30px"', 'nexo' ),
+), 'invoice1', 1 );
+
+$this->Gui->add_item( array(
 	'type'			=>	'textarea',
 	'name'			=>	$option_prefix . 'receipt_col_1',
 	'label'			=>	__( 'Colonne 1 du reçu par défaut', 'nexo' ),

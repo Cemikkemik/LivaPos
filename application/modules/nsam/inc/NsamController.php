@@ -88,6 +88,9 @@ class NsamController extends
         
         $crud->callback_before_insert([ $this, 'before_insert' ]);
         $crud->callback_after_insert([ $this, 'after_insert' ]);
+
+        $crud->callback_before_update([ $this, 'before_update' ]);
+        $crud->callback_after_update([ $this, 'after_update' ]);
         $crud->field_type( 'pass', 'password' );
         $crud->field_type( 'pass_confirm', 'password' );
         $crud->required_fields( 'name', 'email', 'pass' );
@@ -197,6 +200,80 @@ class NsamController extends
         return $post;
     }
 
+    /**
+     * Before Update
+     * @return data
+    **/
+
+    public function before_update( $post, $index ) 
+    {
+        // fetch if email is already used
+        $user  =   $this->db->where( 'email', $post[ 'email' ])
+        ->where( 'aauth_users.id !=', $index )
+        ->where( 'aauth_users.name !=', $post[ 'name' ] )
+        ->get( 'aauth_users' )->result_array();
+
+        if( $user ) {
+            if( strlen( $user[0][ 'name' ] ) < 5 ) {
+                echo json_encode([
+                    'error_fields'     =>  [
+                        'name'          =>  __( 'Unable to create user. the username should have more that 5 characters', 'nsam' ),
+                    ],
+                    'error_message'     =>  __( 'Unable to create user. This username should have more that 5 characters', 'nsam' ),
+                    'success'           =>  false
+                ]);
+                die;
+            }
+
+            if( $user[0][ 'name' ] == $post[ 'name' ] ) {
+                echo json_encode([
+                    'error_fields'     =>  [
+                        'name'          =>  __( 'Unable to create user. This username is already taken', 'nsam' ),
+                    ],
+                    'error_message'     =>  __( 'Unable to create user. This username is already taken', 'nsam' ),
+                    'success'           =>  false
+                ]);
+                die;
+            }
+            
+            echo json_encode([
+                'error_fields'     =>  [
+                    'email'          =>  __( 'Unable to create user. This email is already taken', 'nsam' ),
+                ],
+                'error_message'     =>  __( 'Unable to create user. This email is already taken', 'nsam' ),
+                'success'           =>  false
+            ]);
+            die;
+        }
+
+        if( ! filter_var( $post[ 'email' ], FILTER_VALIDATE_EMAIL) ) {
+            echo json_encode([
+                'error_fields'     =>  [
+                    'email'          =>  __( 'This email is not a valid email.', 'nsam' ),
+                ],
+                'success'           =>  false
+            ]);
+            die;
+        }
+
+        if( $post[ 'pass' ] != $this->input->post( 'pass_confirm' ) ) {
+            echo json_encode([
+                'error_fields'     =>  [
+                    'pass'                  =>  __( 'This password don\'t match the confirm password.', 'nsam' ),
+                    'pass_confirm'          =>  __( 'This password confirm don\'t match the password.', 'nsam' ),
+                ],
+                'error_message'     =>  __( 'Unable to create user. the password don\'t match the confirm password.', 'nsam' ),
+                'success'           =>  false
+            ]);
+            die;
+        }
+
+        // unset password confirm
+        unset( $post[ 'pass_confirm' ]);
+        return $post;
+    }
+
+
     public function after_insert( $data, $primary ) 
     {
         // update password
@@ -209,6 +286,14 @@ class NsamController extends
 
         // assign user to current store on options
         set_option( 'store_access_' . $primary . '_' . get_store_id(), 'yes', true );
+    }
+
+    public function after_update( $data, $primary ) 
+    {
+        // update password
+        $this->db->where( 'id', $primary )->update( 'aauth_users',[
+            'pass'  =>  $this->hash_password( $data[ 'pass' ], $primary )
+        ]);
     }
 
     private function hash_password($pass, $userid)

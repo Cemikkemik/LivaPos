@@ -126,6 +126,7 @@ Filtres:
 
 /**
  * fetch_item
+ * @deprecated
  * Permet de filtre des données lorsqu'elles sont envoyée pour récupérer un produit
 **/
 
@@ -235,4 +236,34 @@ Filtres:
 /**
  * treat_as_sold_quantity
  * Permet d'ajouter des types sur des produits dont la quantité restante est réduite durant la vente
+**/
+
+/**
+ * post_order_details
+ * Permet de filtrer les données des commandes soumisses
+**/
+
+/**
+ * put_order_details
+ * Permet de filtrer les données des commandes soumisses durant la modfiication
+**/
+
+/**
+ * receipt_after_item_name
+ * Permet d'injecter du code lorsque l'on affiche un produit dans la facture
+**/
+
+/**
+ * receipt_filter_item_price
+ * permet de filtrer le prix dun produit durant l'affichage du reçu
+**/
+
+/**
+ * put_order_item
+ * permet de filtrer un produit durant la mise à jour de la commande
+**/
+
+/**
+ * post_order_item
+ * permet de filtrer un produit durant la publication de la commande
 **/

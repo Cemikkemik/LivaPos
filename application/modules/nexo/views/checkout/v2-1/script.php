@@ -37,7 +37,7 @@ var v2Checkout					=	new function(){
 	 *  @return void
 	**/
 
-	this.addOnCart 				=	function( _item, codebar, qte_to_add, allow_increase, filter ) {
+	this.addOnCart 				=	function(_item, codebar, qte_to_add, allow_increase, filter) {
 
 		/**
 		* If Item is "On Sale"
@@ -50,7 +50,9 @@ var v2Checkout					=	new function(){
 
 			// Let's check whether an item is already added to cart
 			_.each( v2Checkout.CartItems, function( value, _index ) {
-				if( value.CODEBAR == _item[0].CODEBAR ) {
+				// let check whether the item is an inline item
+				// the item must not be inline to be added over an existing item
+				if( value.CODEBAR == _item[0].CODEBAR && ! value.INLINE ) {
 					InCartIndex		=	_index;
 					InCart			=	true;
 				}
@@ -140,6 +142,103 @@ var v2Checkout					=	new function(){
 	}
 
 	/**
+	* Reloaded Add To Cart
+	* @param object
+	* @return void
+	**/
+
+	this.addToCart 	=	function({ item, barcode, quantity = 1, index = null, increase = true, filter = null}) {
+
+		// If we're just adding new quantity (not increasing). We should restore already added quantity
+		// if the item has already been added.
+		let currentQty 	=	0;
+
+		if( index != null ) {
+			item 		=	this.CartItems[ index ];
+			currentQty 	=	parseInt( this.CartItems[ index ].QTE_ADDED );
+		}
+
+		/**
+		* If Item is "On Sale"
+		**/
+
+		if( item.STATUS == '1' ) {
+			let gridItem 			=	$( '.item-list-container' )
+			.find( '[data-codebar="' + item.CODEBAR + '"]' );
+			let remainingQuantity 	=	parseInt( $( gridItem ).attr( 'data-remaining-quantity' ) );
+			let testQuantity 		=	quantity;
+
+			// if we're just increasing an existing item.
+			// proceed to some check before
+			if( increase && index ) {
+				testQuantity 		=	parseInt( v2Checkout.CartItems[ index ].QTE_ADDED ) + quantity;
+			}
+
+			console.log( testQuantity );
+
+			if( 
+				remainingQuantity - testQuantity < 0 
+				&& item.TYPE == '1'
+				&& item.STOCK_ENABLED == '1'
+			) {
+				NexoAPI.Notify().warning(
+					'<?php echo addslashes(__('Stock épuisé', 'nexo'));?>',
+					'<?php echo addslashes(__('Impossible d\'ajouter ce produit, car son stock est épuisé.', 'nexo'));?>'
+				);
+			} else {
+
+				// update grid item remaining quantity when the stock management of this item is enabled
+				if( item.STOCK_ENABLED == '1' && item.TYPE == '1' ) {
+					if( increase ) {
+						$( gridItem ).attr( 'data-remaining-quantity', remainingQuantity - quantity );					
+					} else {
+						// restore added quantity
+						$( gridItem ).attr( 'data-remaining-quantity', ( remainingQuantity + currentQty ) - quantity );
+					}
+				}
+
+				if( index != null ) {
+					if( this.CartItems[ index ] ) {
+						if( increase == true ) {
+							this.CartItems[ index ].QTE_ADDED 	+=	quantity
+						} else {
+							this.CartItems[ index ].QTE_ADDED 	=	quantity
+						}
+					}
+				} else {
+					// improved @since 2.7.3
+					// add meta by default
+					var ItemMeta	=	NexoAPI.events.applyFilters( 'items_metas', [] );
+					var FinalMeta	=	[ [ 'QTE_ADDED' ], [ quantity ] ] ;
+
+					_.each( ItemMeta, function( value, key ) {
+						FinalMeta[0].push( _.keys( value )[0] );
+						FinalMeta[1].push( _.values( value )[0] );
+					});
+
+					// @since 2.9.0
+					// add unit item discount
+					item.DISCOUNT_TYPE		=	'percentage'; // has two type, "percent" and "flat";
+					item.DISCOUNT_AMOUNT	=	0;
+					item.DISCOUNT_PERCENT	=	0;
+
+					v2Checkout.CartItems.unshift( _.extend( item, _.object( FinalMeta[0], FinalMeta[1] ) ) );
+					
+					// Add Item To Cart
+				}
+
+				NexoAPI.events.doAction( 'add_to_cart', v2Checkout );
+
+				// Build Cart Table Items
+				v2Checkout.refreshCart();
+				v2Checkout.buildCartItemTable();
+			}
+		} else {
+			NexoAPI.Notify().error( '<?php echo addslashes(__('Impossible d\'ajouter l\'article', 'nexo'));?>', '<?php echo addslashes(__('Impossible de récupérer l\'article, ce dernier est introuvable, indisponible ou le code envoyé est incorrecte.', 'nexo'));?>' );
+		}
+	}
+
+	/**
 	* Show Product List Splash
 	**/
 
@@ -183,10 +282,25 @@ var v2Checkout					=	new function(){
 		$( '#filter-list' ).find( '.filter-add-product[data-category]' ).each( function(){
 			$( this ).bind( 'click', function(){
 				var codebar	=	$( this ).attr( 'data-codebar' );
-				v2Checkout.fetchItem( codebar );
+				v2Checkout.retreiveItem( codebar );
 			});
 		});
 	};
+
+	/**
+	 * Retreive item on db
+	 * Each retreive add item as single entry
+	 * @param string barcode
+	 * @return void
+	**/
+
+	this.retreiveItem 			=	function( barcode, callback = null ) {
+		$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'item' ));?>/' + barcode + '/sku-barcode<?php echo store_get_param( '?' );?>', { 
+			success 	:	( items ) => {
+				this.treatFoundItem({ item : items[0], callback })
+			}
+		});
+	}
 
 	/**
 	* Bind Add Reduce Actions on Cart table items
@@ -198,10 +312,11 @@ var v2Checkout					=	new function(){
 			$( this ).bind( 'click', function(){
 				
 				let parent	=	$( this ).closest( 'tr' );
+				let index 	=	$( this ).closest( 'tr' ).attr( 'cart-item-id' );
 				
-				_.each( v2Checkout.CartItems, function( value, key ) {
-					if( typeof value != 'undefined' ) {
-						if( value.CODEBAR == $( parent ).data( 'item-barcode' ) ) {
+				_.each( v2Checkout.CartItems, function( value, loop_index ) {
+					if( typeof loop_index != 'undefined' ) {
+						if( loop_index == index ) {
 
 							let status		=	NexoAPI.events.applyFilters( 'reduce_from_cart', {
 								barcode 	:	value.CODEBAR,
@@ -213,9 +328,19 @@ var v2Checkout					=	new function(){
 								value.QTE_ADDED--;
 								// If item reach "0";
 								if( parseInt( value.QTE_ADDED ) == 0 ) {
-									v2Checkout.CartItems.splice( key, 1 );
+									v2Checkout.CartItems.splice( loop_index, 1 );
 								}
-							}							
+							}	
+
+							// restore removed quantity
+							let gridItem 			=	$( '.item-list-container' )
+							.find( '[data-codebar="' + value.CODEBAR + '"]' );
+							let remainingQuantity 	=	parseInt( $( gridItem ).attr( 'data-remaining-quantity' ) );
+
+							// if item is physical and stock is enabled
+							if( value.STOCK_ENABLED == '1' && value.TYPE == '1' ) {
+								$( gridItem ).attr( 'data-remaining-quantity', remainingQuantity + 1 );
+							}					
 						}
 					}
 				});
@@ -227,10 +352,29 @@ var v2Checkout					=	new function(){
 			});
 		});
 
-		$( '#cart-table-body .item-add' ).each(function(){
-			$( this ).bind( 'click', function(){
+		$( '#cart-table-body .item-add' ).each( function() {
+			$( this ).bind( 'click', function() {
 				var parent	=	$( this ).closest( 'tr' );
-				v2Checkout.fetchItem( $( parent ).data( 'item-barcode' ), 1, true );
+				let index 	=	$( this ).closest( 'tr' ).attr( 'cart-item-id' );
+				let barcode 	=	$( parent ).data( 'item-barcode' );
+
+				// check if item is INLINE.
+				let item 		=	v2Checkout.CartItems[ index ];
+				if( item.INLINE ) {
+					v2Checkout.addToCart({
+						item,
+						index,
+						increase 	:	true
+					});
+				} else {
+					v2Checkout.retreiveItem( barcode, ( item ) => {
+						v2Checkout.addToCart({
+							item,
+							index,
+							increase 	:	true
+						});
+					});
+				}
 			});
 		});
 	};
@@ -246,11 +390,17 @@ var v2Checkout					=	new function(){
 		});
 		$( '[name="shop_item_quantity"]' ).bind( 'change', function(){
 			var parent 			=	$( this ).closest( 'tr' );
-			var value			=	$( this ).val();
-			var codebar			=	$( parent ).data( 'item-barcode' );
+			var value				=	parseInt( $( this ).val() );
+			var barcode			=	$( parent ).data( 'item-barcode' );
+			let index 			=	$( parent ).attr( 'cart-item-id' );
 
 			if( value >= 0 ) {
-				v2Checkout.fetchItem( codebar, value, false );
+				v2Checkout.addToCart({
+					index,
+					barcode,
+					quantity  	:	value,
+					increase  	:	false
+				})
 			} else {
 				$( this ).val( currentInputValue );
 			}
@@ -824,7 +974,8 @@ var v2Checkout					=	new function(){
 	this.bindUnitItemDiscount 	=	function(){
 		$( '.item-discount' ).bind( 'click', function(){
 
-			var _item			=	v2Checkout.getItem( $( this ).closest( 'tr' ).attr( 'data-item-barcode' ) );
+			let index 		=	$( this ).closest( 'tr' ).attr( 'cart-item-id' );
+			var _item			=	v2Checkout.CartItems[ index ];
 			var salePrice		=	v2Checkout.getItemSalePrice( _item );
 
 			v2Checkout.bindAddDiscount({
@@ -957,7 +1108,7 @@ var v2Checkout					=	new function(){
 				// <marquee class="marquee_me" behavior="alternate" scrollamount="4" direction="left" style="width:100%;float:left;">Earl Klugh - HandPucked</marquee>
 
 				$( '#cart-table-body' ).find( 'table' ).append(
-					'<tr cart-item data-line-weight="' + ( MainPrice * parseInt( value.QTE_ADDED ) ) + '" data-item-barcode="' + value.CODEBAR + '">' +
+					'<tr cart-item-id="' + key + '" cart-item data-line-weight="' + ( MainPrice * parseInt( value.QTE_ADDED ) ) + '" data-item-barcode="' + value.CODEBAR + '">' +
 						'<td width="200" class="text-left" style="line-height:30px;"><p style="width:45px;margin:0px;float:left">' + NexoAPI.events.applyFilters( 'cart_before_item_name', '' ) + '</p><p style="text-transform: uppercase;float:left;width:76%;margin-bottom:0px;" class="item-name">' + item_design.displayed + '</p></td>' +
 						'<td width="110" class="text-center item-unit-price hidden-xs"  style="line-height:30px;">' + NexoAPI.DisplayMoney( MainPrice ) + ' ' + Discounted + '</td>' +
 						'<td width="100" class="text-center item-control-btns">' +
@@ -1186,7 +1337,7 @@ var v2Checkout					=	new function(){
 			order_items.push( ArrayToPush );
 		});
 
-		var order_details					=	new Object;
+		let order_details					=	new Object;
 		order_details.TOTAL					=	NexoAPI.ParseFloat( this.CartToPay );
 		order_details.REMISE_TYPE			=	this.CartRemiseType;
 
@@ -1660,11 +1811,11 @@ var v2Checkout					=	new function(){
 					value.MAINPRICE 		=	MainPrice;
 
 					$( '#filter-list' ).append(
-						'<div class="col-lg-2 col-md-3 col-xs-6 shop-items filter-add-product noselect text-center" data-codebar="' + value.CODEBAR + '" style="' + CustomBackground + ';padding:5px; border-right: solid 1px #DEDEDE;border-bottom: solid 1px #DEDEDE;" data-design="' + value.DESIGN.toLowerCase() + '" data-category="' + value.REF_CATEGORIE + '" data-sku="' + value.SKU.toLowerCase() + '">' +
-						'<img data-original="<?php echo get_store_upload_url() . '/items-images/';?>' + ImagePath + '" width="100" style="max-height:64px;" class="img-responsive img-rounded lazy">' +
-						'<div class="caption text-center" style="padding:2px;overflow:hidden;"><strong class="item-grid-title">' + design + '</strong><br>' +
-						'<span class="align-center">' + NexoAPI.DisplayMoney( MainPrice ) + '</span>' + Discounted +
-						'</div>' +
+						'<div class="col-lg-2 col-md-3 col-xs-6 shop-items filter-add-product noselect text-center" data-remaining-quantity="' + value.QUANTITE_RESTANTE + '" data-codebar="' + value.CODEBAR + '" style="' + CustomBackground + ';padding:5px; border-right: solid 1px #DEDEDE;border-bottom: solid 1px #DEDEDE;" data-design="' + value.DESIGN.toLowerCase() + '" data-category="' + value.REF_CATEGORIE + '" data-sku="' + value.SKU.toLowerCase() + '">' +
+							'<img data-original="<?php echo get_store_upload_url() . '/items-images/';?>' + ImagePath + '" width="100" style="max-height:64px;" class="img-responsive img-rounded lazy">' +
+							'<div class="caption text-center" style="padding:2px;overflow:hidden;"><strong class="item-grid-title">' + design + '</strong><br>' +
+							'<span class="align-center">' + NexoAPI.DisplayMoney( MainPrice ) + '</span>' + Discounted +
+							'</div>' +
 						'</div>' );
 
 						v2Checkout.ItemsCategories	=	_.extend( v2Checkout.ItemsCategories, _.object( [ value.REF_CATEGORIE ], [ value.NOM ] ) );
@@ -1723,72 +1874,36 @@ var v2Checkout					=	new function(){
 		 * @return void
 		**/
 
-		this.treatFoundItem 		=	function({ _item, codebar, qte_to_add, allow_increase, filter }){
+		this.treatFoundItem 		=	function({ item, barcode, quantity, increase, index = null, callback = null }){
 			
 			/**
 			* Filter item when is loaded
 			**/
 
-			_item 			=	NexoAPI.events.applyFilters( 'item_loaded', _item );
+			item 			=	NexoAPI.events.applyFilters( 'item_loaded', item );
 
 			/**
-				* Override Add Item default Feature
+			* Override Add Item default Feature
 			**/
 
-			if( NexoAPI.events.applyFilters( 'override_add_item' , { _item, proceed : false, qte_to_add, allow_increase } ).proceed == true ) {
+			if( NexoAPI.events.applyFilters( 'override_add_item' , { 
+				item,
+				proceed 			: false, 
+				quantity,
+				increase,
+				index
+			}).proceed == true ) {
 				return;
 			}
 
-			v2Checkout.addOnCart( _item, codebar, qte_to_add, allow_increase, filter );
-		}
-
-		/**
-		* Fetch Items
-		* Check whether an item is available and add it to the cart items table
-		* @return void
-		**/
-
-		this.fetchItem				=	function( codebar, qte_to_add = 1, allow_increase = true, filter ) {
-
-			/**
-			 * @since 3.1
-			 * check whether the item is inline or saved on the stock
-			**/
-			let item 		=	this.getItem( codebar );
-			
-			if( typeof item.INLINE != 'undefined' ) { // usually when this param exist, we assume it equal to true
-				return v2Checkout.treatFoundItem({ _item 	:	[ item ], codebar, qte_to_add, allow_increase, filter });
+			if( typeof callback == 'function' ) {
+				callback( item );
+			} else {
+				this.addToCart({ item : item })
 			}
 
-			var filters 				=	NexoAPI.events.applyFilters( 'fetch_item', [
-				codebar,
-				qte_to_add,
-				allow_increase,
-				filter
-			]);
-
-			var codebar					=	filters[0];
-			var qte_to_add				=	filters[1];
-			var allow_increase			=	filters[2];
-			var filter					=	filters[3];
-
-			allow_increase				=	typeof allow_increase	==	'undefined' ? true : allow_increase
-			qte_to_add					=	typeof qte_to_add == 'undefined' ? 1 : qte_to_add;
-			filter						=	typeof filter == 'undefined' ? 'sku-barcode' : filter;
-			// For Store Feature
-			var store_id				=	'<?php echo $store_id == null ? 0 : $store_id;?>';
-
-			$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'item' ));?>/' + codebar + '/' + filter + '?store_id=' + store_id, { // _with_meta
-				success				:	function( _item ){
-					// Treat Found Item
-					v2Checkout.treatFoundItem({ _item, codebar, qte_to_add, allow_increase, filter });
-				},
-				dataType			:	'json',
-				error				:	function(){
-					NexoAPI.Notify().error( '<?php echo addslashes(__('Une erreur s\'est produite', 'nexo'));?>', '<?php echo addslashes(__('Impossible de récupérer les données. L\'article recherché est introuvable.', 'nexo'));?>' );
-				}
-			});
-		};
+			// this.addToCart({ item, barcode, quantity, increase });
+		}
 
 		/**
 		* Fix Product Height
@@ -2148,7 +2263,7 @@ var v2Checkout					=	new function(){
 		**/
 
 		this.searchItems					=	function( value ){
-			this.fetchItem( value, 1, true, 'sku-barcode' ); // 'sku-barcode'
+			console.log( 'FIX THIS' );
 		};
 
 		/**
@@ -2230,7 +2345,7 @@ var v2Checkout					=	new function(){
 			}
 
 			this.close				=	function(){
-				$( '[data-bb-handler="cancel"]' ).trigger( 'click' );
+				$( '.paxbox-box [data-bb-handler="cancel"]' ).trigger( 'click' );
 			};
 		};
 
@@ -2349,9 +2464,9 @@ var v2Checkout					=	new function(){
 			this.CartDiscount			=	0;
 			this.CartToPay				=	0;
 			this.CartToPayLong			=	0;
-			this.CartRabais				=	0;
+			this.CartRabais			=	0;
 			this.CartTotalItems			=	0;
-			this.CartRemise				=	0;
+			this.CartRemise			=	0;
 			this.CartPerceivedSum		=	0;
 			this.CartCreance			=	0;
 			this.CartToPayBack			=	0;
@@ -2531,7 +2646,7 @@ var v2Checkout					=	new function(){
 		**/
 
 		$( this.ItemSearchForm ).bind( 'submit', function(){
-			v2Checkout.searchItems( $( '[name="item_sku_barcode"]' ).val() );
+			v2Checkout.retreiveItem( $( '[name="item_sku_barcode"]' ).val() );
 			$( '[name="item_sku_barcode"]' ).val('');
 			return false;
 		});

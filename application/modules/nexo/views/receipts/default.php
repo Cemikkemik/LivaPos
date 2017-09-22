@@ -29,7 +29,15 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
         <div class="well col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="row order-details">
                 <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
-                    <h2 class="text-center"><?php echo @$Options[ store_prefix() . 'site_name' ];?></h2>
+                    <?php if( store_option( 'url_to_logo' ) != null ):?>
+                        <div class="text-center">
+                            <img src="<?php echo store_option( 'url_to_logo' );?>" 
+                            style="display:inline-block;<?php echo store_option( 'logo_height' ) != null ? 'height:' . store_option( 'logo_height' ) . 'px' : '';?>
+                            ;<?php echo store_option( 'logo_width' ) != null ? 'width:' . store_option( 'logo_width' ) . 'px' : '';?>"/>
+                        </div>
+                    <?php else:?>
+                        <h2 class="text-center"><?php echo @$Options[ store_prefix() . 'site_name' ];?></h2>
+                    <?php endif;?>
                 </div>
                 <?php ob_start();?>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

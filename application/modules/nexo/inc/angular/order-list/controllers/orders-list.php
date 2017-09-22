@@ -30,9 +30,21 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 	 * addTO
 	**/
 
-	$scope.addTo				=	function( place, barcode ) {
+	$scope.addTo				=	function( place, $index ) {
 		_.each( $scope.orderItems, function( value, key ) {
-			if( value.CODEBAR == barcode ) {
+			if( key == $index ) {
+				if( $scope.order.REMISE_TYPE == 'flat' ) { // flat discount
+					console.log( 
+						$scope.orderItems[ key ].PRIX,
+						parseFloat( $scope.order.REMISE ),
+						$scope.orderItems.length,
+						$scope.order.TVA
+					)
+					var salePrice	=	( parseFloat( $scope.orderItems[ key ].PRIX ) - ( ( parseFloat( $scope.order.REMISE ) / $scope.orderItems.length ) ) ) + parseFloat( $scope.order.TVA );
+				} else { // for percentage
+					let discount 	=	( parseFloat( $scope.order.REMISE_PERCENT ) * parseFloat( $scope.originalOrder.TOTAL ) ) / 100;
+					var salePrice	=	( parseFloat( $scope.orderItems[ key ].PRIX ) - ( ( discount / $scope.orderItems.length ) ) ) + parseFloat( $scope.order.TVA );
+				}
 				if( place == 'defective' ) {
 					if( $scope.orderItems[ key ].QUANTITE > 0 ) {
 
@@ -44,7 +56,6 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 							$scope.orderItems[ key ].DEFECTUEUX				=	parseInt( $scope.orderItems[ key ].DEFECTUEUX ) + 1;
 						}
 
-						var salePrice	=	parseFloat( $scope.orderItems[ key ].PRIX ); // * $scope.orderItems[ key ].CURRENT_DEFECTIVE_QTE
 
 						if( $scope.orderItems[ key ].DISCOUNT_TYPE == 'percentage' ) {
 							var percentPrice	=	( ( parseFloat( $scope.orderItems[ key ].DISCOUNT_PERCENT ) * parseFloat( $scope.orderItems[ key ].PRIX ) ) ) / 100;
@@ -54,7 +65,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 						}
 
 						$scope.toRefund			+=	salePrice;
-						$scope.order.TOTAL		-=	salePrice;
+						$scope.order.TOTAL			-=	salePrice;
 
 					} else {
 						NexoAPI.Notify().warning( '<?php echo _s( 'Attention', 'nexo' );?>', '<?php echo _s( 'Vous ne pouvez plus retirer de quantité', 'nexo' );?>' );
@@ -63,7 +74,6 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 
 					if( $scope.orderItems[ key ].CURRENT_DEFECTIVE_QTE > 0 ) {
 
-						var salePrice	=	parseFloat( $scope.orderItems[ key ].PRIX ); // * $scope.orderItems[ key ].CURRENT_DEFECTIVE_QTE
 
 						if( $scope.orderItems[ key ].DISCOUNT_TYPE == 'percentage' ) {
 							var percentPrice	=	( ( parseFloat( $scope.orderItems[ key ].DISCOUNT_PERCENT ) * parseFloat( $scope.orderItems[ key ].PRIX ) ) ) / 100;
@@ -99,7 +109,6 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 							$scope.orderItems[ key ].QUANTITE_RESTANTE		=	parseInt( $scope.orderItems[ key ].QUANTITE_RESTANTE ) + 1;
 						}
 
-						var salePrice	=	parseFloat( $scope.orderItems[ key ].PRIX ); // * $scope.orderItems[ key ].CURRENT_DEFECTIVE_QTE
 
 						if( $scope.orderItems[ key ].DISCOUNT_TYPE == 'percentage' ) {
 							var percentPrice	=	( ( parseFloat( $scope.orderItems[ key ].DISCOUNT_PERCENT ) * parseFloat( $scope.orderItems[ key ].PRIX ) ) ) / 100;
@@ -117,7 +126,6 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 				} else if( place == 'act_to_stock' ) {
 					if( $scope.orderItems[ key ].CURRENT_USABLE_QTE > 0 ) {
 
-						var salePrice	=	parseFloat( $scope.orderItems[ key ].PRIX ); // * $scope.orderItems[ key ].CURRENT_DEFECTIVE_QTE
 
 						if( $scope.orderItems[ key ].DISCOUNT_TYPE == 'percentage' ) {
 							var percentPrice	=	( ( parseFloat( $scope.orderItems[ key ].DISCOUNT_PERCENT ) * parseFloat( $scope.orderItems[ key ].PRIX ) ) ) / 100;
@@ -254,6 +262,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 
 				$scope.items			=	returned.data.items;
 				$scope.order			=	returned.data.order;
+				$scope.originalOrder 	=	returned.data.order;
 				$scope.order.GRANDTOTAL	=	0;
 				$scope.orderCode		=	$scope.order.CODE;
 				$scope.order.CHARGE		=	NexoAPI.ParseFloat( $scope.order.REMISE ) + NexoAPI.ParseFloat( $scope.order.RABAIS ) + NexoAPI.ParseFloat( $scope.order.RISTOURNE );
@@ -543,16 +552,16 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 					// Manage unlimited items
 				});
 
-				HTML.query( '.refund-table' ).only(0).add( 'tbody>tr' ).each( 'ng-repeat', 'item in orderItems' );
+				HTML.query( '.refund-table' ).only(0).add( 'tbody>tr' ).each( 'ng-repeat', 'item in orderItems; track by $index' );
 				HTML.query( '.refund-table tbody tr' ).only(0).add( 'td.text-center*8' );
 
 				HTML.query( '.refund-table tbody tr td' ).only(0).textContent = '{{ item.DESIGN }}';
 				HTML.query( '.refund-table tbody tr td' ).only(1).textContent = '{{ item.CURRENT_DEFECTIVE_QTE }}/{{ item.DEFECTUEUX }}';
-				HTML.query( '.refund-table tbody tr td' ).only(2).each( 'ng-click', 'addTo( "def_to_stock", item.CODEBAR )' ).add( 'i.fa.fa-arrow-right' );
-				HTML.query( '.refund-table tbody tr td' ).only(3).each( 'ng-click', 'addTo( "defective", item.CODEBAR )' ).add( 'i.fa.fa-arrow-left' );
+				HTML.query( '.refund-table tbody tr td' ).only(2).each( 'ng-click', 'addTo( "def_to_stock", $index )' ).add( 'i.fa.fa-arrow-right' );
+				HTML.query( '.refund-table tbody tr td' ).only(3).each( 'ng-click', 'addTo( "defective", $index )' ).add( 'i.fa.fa-arrow-left' );
 				HTML.query( '.refund-table tbody tr td' ).only(4).textContent = '{{item.QUANTITE}}/{{item.QUANTITE_VENDU}}';
-				HTML.query( '.refund-table tbody tr td' ).only(5).each( 'ng-click', 'addTo( "active", item.CODEBAR )' ).add( 'i.fa.fa-arrow-right' );
-				HTML.query( '.refund-table tbody tr td' ).only(6).each( 'ng-click', 'addTo( "act_to_stock", item.CODEBAR )' ).add( 'i.fa.fa-arrow-left' );
+				HTML.query( '.refund-table tbody tr td' ).only(5).each( 'ng-click', 'addTo( "active", $index )' ).add( 'i.fa.fa-arrow-right' );
+				HTML.query( '.refund-table tbody tr td' ).only(6).each( 'ng-click', 'addTo( "act_to_stock", $index )' ).add( 'i.fa.fa-arrow-left' );
 				HTML.query( '.refund-table tbody tr td' ).only(7).textContent = '{{ item.CURRENT_USABLE_QTE }}/{{ item.QUANTITE_RESTANTE }}';
 
 				$( '[data-namespace="refund"] .refund-table' ).html( $compile( $( '[data-namespace="refund"] .refund-table' ).html() )($scope) );

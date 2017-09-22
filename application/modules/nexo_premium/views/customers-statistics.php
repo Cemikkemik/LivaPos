@@ -94,7 +94,7 @@ var NexoCashierPerformance	=	new function(){
 		}
 
 		$.ajax( '<?php echo site_url(array( 'nexo', 'customer_statistics' ));?>/' + start_date + '/' + end_date + '<?php echo store_get_param( '?' );?>', {
-			data	:	_.object( [ 'customer_id' ], [ customer_id ] ),
+			data	:	_.extend( tendoo.csrf_data, _.object( [ 'customer_id' ], [ customer_id ] ) ),
 			dataType:	"json",
 			type	:	'POST',
 			success	:	function( data ){

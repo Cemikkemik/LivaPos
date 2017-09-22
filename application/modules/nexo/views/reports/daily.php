@@ -389,7 +389,7 @@ var	Nexo_Daily_Report	=	new function(){
 		
 		$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'get', 'nexo_commandes', 'DATE_CREATION', 'filter_date_interval',  store_get_param( '?' ) ));
     ?>', {
-			data			:	_.object( [ 'key' ], [ this.Dates[0] ] ),
+			data			:	_.extend( tendoo.csrf_data, _.object( [ 'key' ], [ this.Dates[0] ] ) ),
 			type			:	'POST',
 			dataType		:	'json',
 			success			:	function( json ){

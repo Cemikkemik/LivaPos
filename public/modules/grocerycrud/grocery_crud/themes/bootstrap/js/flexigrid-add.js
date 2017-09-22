@@ -30,12 +30,17 @@ $(function(){
 
 		$('#crudForm').submit(function(){
 			var my_crud_form = $(this);
+			var form_data 			=	{};
+			$( this ).find( '[id^="field-"]' ).each( function(){
+				form_data[ $( this ).attr( 'name' ) ] 	=	$( this ).val();
+			});
 
-			$(this).ajaxSubmit({
-				url: validation_url,
-				dataType: 'json',
-				cache: 'false',
-				beforeSend: function(){
+			$.ajax({
+				url			: validation_url,
+				dataType		: 'json',
+				type 		:	'POST',
+				data 		: form_data,
+				beforeSend	: function(){
 					$("#FormLoading").show();
 					$( '#main-table-box' ).find( '.form-group' ).each( function() {
 						$( this ).find( '.error-block' ).remove();
@@ -47,9 +52,12 @@ $(function(){
 					$("#FormLoading").hide();
 					if(data.success)
 					{
-						$('#crudForm').ajaxSubmit({
+						$.ajax({
 							dataType: 'json',
+							url 	:	$( my_crud_form ).attr( 'action' ),
 							cache: 'false',
+							data 	:	form_data,
+							type 	:	'POST',
 							beforeSend: function(){
 								$("#FormLoading").show();
 							},
@@ -114,7 +122,7 @@ $(function(){
 							$( '#field-' + index ).after( '<p class="help-block error-block">' + value + '<p>' );
 							// $('input[name='+index+']').addClass('field_error');
 						});
-
+						error_message( 'An error has occured during the operation.' );
 					}
 				},
 				error: function(){

@@ -27,6 +27,7 @@ tendoo.app		=	function(){
 				// Objdata								=	_.object( [ key ], [ value ] ); Not tested
 				eval( 'Objdata		= { '+ key + ' 	: 	value }' );
 				Objdata.gui_saver_expiration_time	=	tendoo.form_expire; // Saving Gui Expire Form
+				Objdata 		=	_.extend( tendoo.csrf_data, Objdata );
 
 				$.ajax({
 					url : tendoo.dashboard_url + '/options/save?mode=json',
@@ -45,6 +46,7 @@ tendoo.app		=	function(){
 				// Objdata								=	_.object( [ key, 'user_id' ], [ value, user_id ] ); Not tested
 				eval( 'Objdata		= { "' + key + '" 	: 	value, "user_id" : user_id }' );
 				Objdata.gui_saver_expiration_time	=	tendoo.form_expire; // Saving Gui Expire Form
+				Objdata 		=	_.extend( tendoo.csrf_data, Objdata );
 
 				$.ajax({
 					url : tendoo.dashboard_url + '/options/save_user_meta?mode=json',
@@ -192,7 +194,6 @@ tendoo.tools.remove_tags	=	function( string ){
 };
 
 // Date Object
-tendoo.date				=	new Date( tendoo.server_date );
 tendoo.now				=	function(){
     return this.date.format();
 };
@@ -210,18 +211,18 @@ $(document).ready(function(){
 
 	// Add CSRF Protection to each request
 	$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-		if( typeof originalOptions.type != 'undefined' ) {
-			if ( originalOptions.type.toUpperCase() === 'POST' || options.type.toUpperCase() === 'POST') {
-				if( typeof originalOptions.data == 'string' ) {
-					options.data	=	$.param( _.extend( tendoo.csrf_data, $.parseParams( originalOptions.data ) ) );
-				} else if( typeof originalOptions.data == 'object' ) {
-					// Fix Grocery Crud issue while upload
-					if( typeof options.multipart == 'undefined' ) {
-						options.data	=	$.param( _.extend( tendoo.csrf_data, originalOptions.data ) );
-					}
-				}
-			}
-		}
+		// if( typeof originalOptions.type != 'undefined' ) {
+		// 	if ( originalOptions.type.toUpperCase() === 'POST' || options.type.toUpperCase() === 'POST') {
+		// 		if( typeof originalOptions.data == 'string' ) {
+		// 			options.data	=	$.param( _.extend( tendoo.csrf_data, $.parseParams( originalOptions.data ) ) );
+		// 		} else if( typeof originalOptions.data == 'object' ) {
+		// 			// Fix Grocery Crud issue while upload
+		// 			if( typeof options.multipart == 'undefined' ) {
+		// 				options.data	=	$.param( _.extend( tendoo.csrf_data, originalOptions.data ) );
+		// 			}
+		// 		}
+		// 	}
+		// }
 		// Add header @since 3.1.1
 		if ( options.beforeSend ) {
 			var oldBeforeSend	=	options.beforeSend;

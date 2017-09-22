@@ -613,7 +613,8 @@ trait Nexo_items
                     ]);
 
                     // use the updatable columns
-                    $this->db->where( 'CODEBAR', $item[ 'item_barcode' ] )->update( store_prefix() . 'nexo_articles', $updatable_columns[1] );
+                    $this->db->where( 'CODEBAR', $item[ 'item_barcode' ] )
+                    ->update( store_prefix() . 'nexo_articles', $updatable_columns[1] );
 
                     // Calculating the delivery Cost
                     if( @$delivery_cost[ $item[ 'ref_shipping' ] ] == null ) {

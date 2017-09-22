@@ -105,7 +105,8 @@ class Nexo_Checkout extends CI_Model
         foreach ($produits as $product) {
             $products_data[ $product[ 'REF_PRODUCT_CODEBAR' ] ] =    [
                 'QUANTITY'              =>  floatval($product[ 'QUANTITE' ]),
-                'COMMAND_PRODUCT_ID'    =>  $product[ 'ID' ]
+                'COMMAND_PRODUCT_ID'    =>  $product[ 'ID' ],
+                'INLINE'                =>  $product[ 'INLINE' ]
             ];
         }
 
@@ -124,11 +125,14 @@ class Nexo_Checkout extends CI_Model
             $query    =    $this->db->where('CODEBAR', $codebar)->get( store_prefix() . 'nexo_articles');
             $article    =    $query->result_array();
 
-            // Cumul et restauration des quantités
-            $this->db->where('CODEBAR', $codebar)->update( store_prefix() . 'nexo_articles', array(
-                'QUANTITE_VENDU'        =>        floatval($article[0][ 'QUANTITE_VENDU' ]) - $data[ 'QUANTITY' ],
-                'QUANTITE_RESTANTE'     =>        floatval($article[0][ 'QUANTITE_RESTANTE' ]) + $data[ 'QUANTITY' ],
-            ));
+            // Restoring quantities don't work for inline item
+            if( $data[ 'INLINE' ] != '1' ) {
+                // Cumul et restauration des quantités
+                $this->db->where('CODEBAR', $codebar)->update( store_prefix() . 'nexo_articles', array(
+                    'QUANTITE_VENDU'        =>        floatval($article[0][ 'QUANTITE_VENDU' ]) - $data[ 'QUANTITY' ],
+                    'QUANTITE_RESTANTE'     =>        floatval($article[0][ 'QUANTITE_RESTANTE' ]) + $data[ 'QUANTITY' ],
+                ));
+            }
 
             // Suppresison des meta des produits
             $this->db->where( 'ID', $data[ 'COMMAND_PRODUCT_ID' ] )->delete( store_prefix() . 'nexo_commandes_produits_meta' );

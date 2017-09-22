@@ -423,8 +423,21 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 			v2Checkout.CartItems			=	angular.copy( $scope.orderDetails.items );
 
 			_.each( v2Checkout.CartItems, function( value, key ) {
-				value.QTE_ADDED		=	value.QUANTITE;
+				value.QTE_ADDED		=	parseInt( value.QUANTITE );
+
+				// if it's inline
+				if( value.INLINE == '1' ) {
+					value.PRIX_DE_VENTE 	=	parseFloat( value.PRIX );
+					value.PRIX_DE_VENTE_TTC 	=	parseFloat( value.PRIX );
+					value.PRIX_PROMOTIONNEL 	=	0;
+					value.STOCK_ENABLED 	=	0;
+					value.STATUS 			=	2;
+					value.DESIGN 			=	value.NAME;
+					value.INLINE 			=	true;
+					value.STATUS 			=	'1';
+				}
 			});
+
 
 			// @added CartRemisePercent
 			// @since 2.9.6
@@ -710,7 +723,7 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 			'address_2', 
 			'id'
 		], ( field ) => {
-			order_details[ 'shipping' ][ field ] 		=	$scope[ field ];
+			order_details[ 'shipping' ][ field ] 		=	$scope[ field ] == null ? '' : $scope[ field ];
 		});
 
 		return order_details;

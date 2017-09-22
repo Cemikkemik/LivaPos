@@ -321,7 +321,7 @@ var Nexo_Daily_Report	=	new function(){
 	this.OrderReport	=	function(){
 
 		$.post(
-			'<?php echo site_url(array( 'rest', 'nexo', 'order_by_dates' ));?>/all/' + this.Register_ID + '<?php echo store_get_param( '?' );?>',
+			'<?php echo site_url(array( 'rest', 'nexo', 'order_by_dates' ));?>/nexo_order_comptant/' + this.Register_ID + '<?php echo store_get_param( '?' );?>',
 			_.object(
 				[ 'start', 'end' ],
 				[ '<?php echo $CarbonReportDate->copy()->startOfDay();?>', '<?php echo $CarbonReportDate->copy()->endOfDay();?>' ]

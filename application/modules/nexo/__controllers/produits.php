@@ -447,6 +447,7 @@ class Nexo_Produits extends CI_Model
 
         $fields				=	array( 'TYPE', 'REF_ARTICLE_BARCODE', 'QUANTITE', 'UNIT_PRICE', 'REF_PROVIDER', 'REF_SHIPPING' );
         $crud->fields( $fields );
+        $crud->order_by( store_prefix() . 'nexo_articles_stock_flow.DATE_CREATION', 'desc' );
 
         // REF_PROVIDER and REF_SHIPPING is not available on each item supply history
 		$crud->columns( 'REF_ARTICLE_BARCODE', 'TYPE', 'QUANTITE', 'UNIT_PRICE', 'TOTAL_PRICE', 'AUTHOR', 'DATE_CREATION' );

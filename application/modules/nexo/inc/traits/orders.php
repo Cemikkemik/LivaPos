@@ -62,6 +62,9 @@ trait Nexo_orders
             'REF_SHIPPING_ADDRESS'  =>      @$shipping[ 'id' ]
         );
 
+        // filter order details
+        $order_details          =   $this->events->apply_filters( 'post_order_details', $order_details );
+
         // Order Type
 		// @since 2.7.1 if a custom type is submited this type replace default order type
 		if( ! $this->post( 'TYPE' ) ) {
@@ -127,17 +130,18 @@ trait Nexo_orders
             ->result_array();
 
 			/**
-			 * If Stock Enabled is active
-			**/
-
-			if( intval( $item[ 'stock_enabled' ] ) == 1 ) {
+             * If Stock Enabled is active
+             * stock enable is not checked for inline items
+            **/
+            
+			if( intval( $item[ 'stock_enabled' ] ) == '1' && $item[ 'inline' ] != '1' ) {
 
                 $data                       =   [];
-                $data[ 'QUANTITE_VENDU' ]   =   intval($item[ 'qte_sold' ]) + intval($item[ 'qte_added' ]);
+                $data[ 'QUANTITE_VENDU' ]   =   intval( $fresh_item[0][ 'QUANTITE_VENDU' ]) + intval($item[ 'qte_added' ]);
 
                 // if item type belongs to type which allow to decrease remaning quantity
                 if( in_array( intval( $fresh_item[0][ 'TYPE' ] ), $this->events->apply_filters( 'treat_as_sold_quantity', [ 1 ] ) ) ) {
-                    $data[ 'QUANTITE_RESTANTE' ]   =   intval($item[ 'qte_remaining' ]) - intval($item[ 'qte_added' ]);
+                    $data[ 'QUANTITE_RESTANTE' ]   =   intval($fresh_item[0][ 'QUANTITE_RESTANTE' ]) - intval($item[ 'qte_added' ]);
                 }
 
                 // update item stock
@@ -167,7 +171,9 @@ trait Nexo_orders
                 // @since 3.1
                 'NAME'                      =>    $item[ 'name' ],
                 'INLINE'                    =>    $item[ 'inline' ]
-			);
+            );
+            
+            $item_data                      =     $this->events->apply_filters_ref_array( 'post_order_item', [$item_data, $item] );
 
 			$this->db->insert( store_prefix() . 'nexo_commandes_produits', $item_data );
 
@@ -202,6 +208,9 @@ trait Nexo_orders
                 'DATE_CREATION'             =>  date_now(),
                 'TYPE'                      =>  'sale'
             ]);
+
+            // update current remaining quantity
+
         }
 
         $this->db->insert( store_prefix() . 'nexo_commandes', $order_details);
@@ -283,9 +292,9 @@ trait Nexo_orders
         }
 
         $this->response(array(
-            'order_id'        =>    $current_order[0][ 'ID' ],
-            'order_type'    =>    $order_details[ 'TYPE' ],
-            'order_code'    =>    $current_order[0][ 'CODE' ]
+            'order_id'          =>    $current_order[0][ 'ID' ],
+            'order_type'        =>    $order_details[ 'TYPE' ],
+            'order_code'        =>    $current_order[0][ 'CODE' ]
         ), 200);
     }
 
@@ -307,7 +316,7 @@ trait Nexo_orders
         ->result_array();
 
         // Only incomplete order can be edited
-        if ( ! in_array( $current_order[0][ 'TYPE' ], $this->put( 'EDITABLE_ORDERS' ) ) ) {
+        if ( ! in_array( $current_order[0][ 'TYPE' ], $this->events->apply_filters( 'order_editable', [ 'nexo_order_devis' ] ) ) ) { // $this->put( 'EDITABLE_ORDERS' )
             $this->__failed();
         }
 
@@ -338,6 +347,9 @@ trait Nexo_orders
             // @since 3.1.0
             'TITRE'             =>  $this->put( 'TITRE' )
         );
+
+        // filter order details
+        $order_details          =   $this->events->apply_filters( 'put_order_details', $order_details );
 
         // Order Type
 		// @since 2.7.1 if a custom type is submited this type replace default order type
@@ -439,7 +451,7 @@ trait Nexo_orders
 			 * If Stock Enabled is active
 			**/
 
-			if( intval( $item['stock_enabled'] ) == 1 ) {
+			if( intval( $item['stock_enabled'] ) == 1 && $item[ 'inline' ] != '1' ) {
 				$this->db->where('CODEBAR', $item['codebar'])->update( store_prefix() . 'nexo_articles', array(
 					'QUANTITE_RESTANTE'        =>    intval($fresh_items[0][ 'QUANTITE_RESTANTE' ]) - intval($item['qte_added']),
 					'QUANTITE_VENDU'        =>    intval($fresh_items[0][ 'QUANTITE_VENDU' ]) + intval($item['qte_added'])
@@ -470,6 +482,9 @@ trait Nexo_orders
                 'NAME'                      =>    $item[ 'name' ],
                 'INLINE'                    =>    $item[ 'inline' ]
             );
+
+            // filter item
+            $item_data                      =     $this->events->apply_filters_ref_array( 'put_order_item', [$item_data, $item] );
 
             $this->db->insert( store_prefix() . 'nexo_commandes_produits', $item_data );
 
@@ -1180,7 +1195,7 @@ trait Nexo_orders
         )
         ->where( store_prefix() . 'nexo_commandes.DATE_CREATION >=', $startOfDay )
         ->where( store_prefix() . 'nexo_commandes.DATE_CREATION <=', $endOfDay )
-        // ->where( store_prefix() . 'nexo_commandes.TYPE', 'nexo_order_comptant' )
+        ->where( store_prefix() . 'nexo_commandes.TYPE', 'nexo_order_comptant' )
         ->where( store_prefix() . 'nexo_commandes.TOTAL >', 0 )
         ->get();
 

@@ -81,7 +81,7 @@ tendooApp.directive( 'historyContent', function(){
 	.each( 'ng-repeat', 'item in orderDetails.items' )
 	.add( 'td.text-left*5' );
 
-	HTML.query( '.item-row td' ).only(0).textContent		=	'{{ item.DESIGN }}';
+	HTML.query( '.item-row td' ).only(0).textContent		=	'{{ item.DESIGN || item.NAME }}';
 	HTML.query( '.item-row td' ).only(1).textContent		=	'{{ item.PRIX | moneyFormat }}';
 	HTML.query( '.item-row td' ).only(2).textContent		=	'{{ item.QUANTITE }}';
 	HTML.query( '.item-row td' ).only(3).textContent		=	'{{ item.DISCOUNT_TYPE == "percentage" ? item.DISCOUNT_PERCENT : item.DISCOUNT_AMOUNT | moneyFormat }}';

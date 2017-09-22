@@ -1,17 +1,17 @@
 <div class="input-group">
-  <span class="input-group-addon" id="basic-addon1"><?php _e("Réinitialisation", 'nexo');?></span>
-  <select class="form-control" id="Nexo_restaure_value">
-  	<option value=""><?php _e('Sélectionner une valeur', 'nexo');?></option>
-    <option value="empty_shop"><?php _e('Vider complètement la boutique', 'nexo');?></option>
-    <option value="empty_with_demo"><?php _e('Vide la boutique et restaure les données démos', 'nexo');?></option>
-    <option value="empty_with_clothes_shop"><?php _e('Activer la démo pour boutique de vêtements', 'nexo');?></option>
-		<?php foreach( $this->events->apply_filters( 'nexo_demo_list', [] ) as $namespace => $name ):?>
-				<option value="<?php echo $namespace;?>"><?php echo $name;?></option>
-		<?php endforeach;?>
-  </select>
-  <span class="input-group-btn">
-    <button class="btn btn-default" type="button" id="Nexo_restaure"><?php _e('Reinitialiser', 'nexo');?></button>
-  </span>
+<span class="input-group-addon" id="basic-addon1"><?php _e("Réinitialisation", 'nexo');?></span>
+<select class="form-control" id="Nexo_restaure_value">
+<option value=""><?php _e('Sélectionner une valeur', 'nexo');?></option>
+<option value="empty_shop"><?php _e('Vider complètement la boutique', 'nexo');?></option>
+<option value="empty_with_demo"><?php _e('Vide la boutique et restaure les données démos', 'nexo');?></option>
+<option value="empty_with_clothes_shop"><?php _e('Activer la démo pour boutique de vêtements', 'nexo');?></option>
+<?php foreach( $this->events->apply_filters( 'nexo_demo_list', [] ) as $namespace => $name ):?>
+<option value="<?php echo $namespace;?>"><?php echo $name;?></option>
+<?php endforeach;?>
+</select>
+<span class="input-group-btn">
+<button class="btn btn-default" type="button" id="Nexo_restaure"><?php _e('Reinitialiser', 'nexo');?></button>
+</span>
 </div>
 <br />
 
@@ -21,9 +21,9 @@
 
 <script type="text/javascript">
 var	NexoRestaure	=	new function(){
-
+    
 	this.AllowEnterPress	=	false;
-
+    
 	this.__get		=	function( option ){
 		if( option == 'restaure_value' ) {
 			return $( '#Nexo_restaure_value' ).val();
@@ -52,17 +52,17 @@ var	NexoRestaure	=	new function(){
 			},
 			buttons	: {
 				confirm : {
-				  label: "<?php echo addslashes(__('Restaurer', 'nexo'));?>",
-				  className: "btn-success restaure-confirm",
-				  callback: function() {
-					Example.show("great success");
-				  }
+                    label: "<?php echo addslashes(__('Restaurer', 'nexo'));?>",
+                    className: "btn-success restaure-confirm",
+                    callback: function() {
+                        Example.show("great success");
+                    }
 				},
 			}
 		});
 		// Change text input to password
 		$( '.restaure-confirm' ).closest( '.modal-content' ).find( '.modal-body input[type="text"]' ).attr( 'type', 'password' );
-
+        
 		$( '.restaure-confirm' ).closest( '.modal-content' ).find( '.modal-body input[type="password"]' ).bind( 'focus', function(){
 			NexoRestaure.AllowEnterPress	=	true;
 		});
@@ -80,16 +80,23 @@ var	NexoRestaure	=	new function(){
 			},
 			dataType: 	"json",
 			type: 'POST',
-			data	:	_.object([ '_nexo_uz_pwd', 'reset_type' ], [ password, NexoRestaure.__get( 'restaure_value' ) ] )
-		});
-	};
+			data	:	_.extend( 
+				tendoo.csrf_data, 
+				_.object(
+					[ '_nexo_uz_pwd', 'reset_type' ], 
+					[ password, NexoRestaure.__get( 'restaure_value' ) ] 
+                ) 
+            )
+        });
+    };
 };
 $( '#Nexo_restaure' ).bind( 'click', function(){
-	NexoRestaure.prompt();
+    NexoRestaure.prompt();
 });
 $(document).keypress(function(e) {
-	if( e.which == 13 && NexoRestaure.AllowEnterPress == true ) {
-		$('.restaure-confirm' ).trigger( 'click' );
-	}
+    if( e.which == 13 && NexoRestaure.AllowEnterPress == true ) {
+        $('.restaure-confirm' ).trigger( 'click' );
+    }
 });
 </script>
+        

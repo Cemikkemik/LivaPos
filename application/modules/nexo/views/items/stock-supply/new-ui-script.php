@@ -307,8 +307,9 @@
         // Add autofocus on field
         var counter         =   0;
         setInterval( function(){
-            if( $( ':focus' ).attr( 'type' ) != 'text' ) {                
-                if( counter == 3 ) {
+            console.log(  );
+            if( _.indexOf([ 'TEXTAREA', 'INPUT', 'SELECT'], $( ':focus' ).prop( 'tagName' ) ) == -1 || $( ':focus' ).prop( 'tagName' ) == undefined ) {                
+                if( counter == 1 ) {
                     $( '[np-input-model="searchValue"]' ).focus();
                     counter     =   0;
                 }

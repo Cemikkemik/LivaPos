@@ -340,7 +340,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 						discount_percent 		:	value.DISCOUNT_PERCENT,
 						metas 				:	typeof value.metas == 'undefined' ? {} : value.metas,
 						name 				:	value.DESIGN,
-						inline 				:	typeof value.INLINE ? 1 : 0 // if it's an inline item
+						inline 				:	typeof value.INLINE != 'undefined' ? value.INLINE : 0 // if it's an inline item
 					};
 
 					// improved @since 2.7.3
@@ -383,6 +383,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 				order_details.REGISTER_ID		=	'<?php echo $register_id;?>';
 
 				// @since 2.7.1, send editable order to Rest Server
+				// @deprecated
 				order_details.EDITABLE_ORDERS	=	<?php echo json_encode( $this->events->apply_filters( 'order_editable', array( 'nexo_order_devis' ) ) );?>;
 
 				// @since 2.7.3 add Order note
@@ -419,13 +420,17 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 				}
 
 				// Queue Payment
-				console.log( $scope.paymentList );
-				order_details.payments		=	$scope.paymentList;
+				order_details.payments				=	$scope.paymentList;
 
 				var ProcessObj	=	NexoAPI.events.applyFilters( 'process_data', {
 					url			:	v2Checkout.ProcessURL,
 					type		:	v2Checkout.ProcessType
 				});
+
+				// if we're updating an item, then we should keep the TYPE provided
+				if( ProcessObj.type == 'PUT' ) {
+					order_details.TYPE 			=	v2Checkout.CartType || null;
+				}
 
 				// Filter Submited Details
 				if( order_details.SOMME_PERCU < order_details.TOTAL && '<?php echo store_option( 'disable_partial_order' );?>' == 'yes' ) {
@@ -451,6 +456,10 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 					success			:	function( returned ) {
 						v2Checkout.paymentWindow.hideSplash();
 						v2Checkout.paymentWindow.close();
+
+						// fix issue when saving an order after having made a payment
+						$scope.cashPaidAmount			=	0;
+						$scope.paymentList				=	[];
 
 						if( _.isObject( returned ) ) {
 							// Init Message Object
@@ -578,9 +587,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 	**/
 
 	$scope.editPayment			=	function( index ){
-
 		// let use controll whether they would allow specific payement done
-
 		if( NexoAPI.events.applyFilters( 'allow_payment_edition', [ true, $scope.paymentList[ index ].namespace ] )[0] == true ) {
 			$scope.selectPayment( $scope.paymentList[ index ].namespace );
 			$scope.editModeEnabled			=	true;
@@ -647,12 +654,12 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 			return false;
 		}
 
-		$scope.cart			=	{
-			value			:		v2Checkout.CartValue,
-			discount			:		v2Checkout.CartDiscount,
-			netPayable		:		v2Checkout.CartToPay,
-			VAT				:		v2Checkout.CartVAT,
-			shipping    		:		v2Checkout.CartShipping // @since 3.1.3
+		$scope.cart					=	{
+			value					:		v2Checkout.CartValue,
+			discount					:		v2Checkout.CartDiscount,
+			netPayable				:		v2Checkout.CartToPay,
+			VAT						:		v2Checkout.CartVAT,
+			shipping    				:		v2Checkout.CartShipping // @since 3.1.3
 		};
 
 		$scope.cashPaidAmount			=	0;
@@ -667,7 +674,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 		}
 
 		NexoAPI.Bootbox().confirm({
-			message 		:	'<div class="payboxwrapper"><pay-box-content/></div>',
+			message 			:	'<div class="payboxwrapper"><pay-box-content/></div>',
 			title			:	'<?php echo _s( 'Paiement de la commande', 'nexo' );?>',
 			buttons: {
 				confirm: {

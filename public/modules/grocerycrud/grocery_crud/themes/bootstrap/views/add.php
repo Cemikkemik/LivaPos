@@ -139,6 +139,7 @@ foreach ($hidden_fields as $hidden_field) {
 <?php
 }
     ?>
+<input id="field-csrf" type="hidden" name="<?php echo get_instance()->security->get_csrf_token_name(); ?>" value="<?php echo get_instance()->security->get_csrf_hash(); ?>">
 <div id='report-error' class='report-div error'></div>
 <div id='report-success' class='report-div success'></div>
 <div class="buttons-box">

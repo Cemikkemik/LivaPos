@@ -189,7 +189,8 @@ $this->Gui->add_item(array(
 ), 'Nexo_checkout', 1);
 
 $receipt_themes 	=	$this->events->apply_filters( 'nexo_receipt_theme', array(
-	'default'    =>    __('Par défaut', 'nexo'),
+    'default'       =>    __('Par défaut', 'nexo'),
+    'light'		    =>	__( 'Léger', 'nexo' ),
 	'simple'		=>	__( 'Simple', 'nexo' )
 ) );
 

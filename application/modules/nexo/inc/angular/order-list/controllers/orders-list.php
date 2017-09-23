@@ -33,18 +33,22 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 	$scope.addTo				=	function( place, $index ) {
 		_.each( $scope.orderItems, function( value, key ) {
 			if( key == $index ) {
-				if( $scope.order.REMISE_TYPE == 'flat' ) { // flat discount
-					console.log( 
-						$scope.orderItems[ key ].PRIX,
-						parseFloat( $scope.order.REMISE ),
-						$scope.orderItems.length,
-						$scope.order.TVA
-					)
-					var salePrice	=	( parseFloat( $scope.orderItems[ key ].PRIX ) - ( ( parseFloat( $scope.order.REMISE ) / $scope.orderItems.length ) ) ) + parseFloat( $scope.order.TVA );
-				} else { // for percentage
-					let discount 	=	( parseFloat( $scope.order.REMISE_PERCENT ) * parseFloat( $scope.originalOrder.TOTAL ) ) / 100;
-					var salePrice	=	( parseFloat( $scope.orderItems[ key ].PRIX ) - ( ( discount / $scope.orderItems.length ) ) ) + parseFloat( $scope.order.TVA );
+
+				let tvaPerItems 		=	0;
+				if( $scope.order.TVA != '0' ) {
+					tvaPerItems 		=	parseFloat( $scope.order.TVA ) / $scope.orderItems.length;
 				}
+
+				let discountPerItems 	=	0;
+				if( $scope.order.REMISE_TYPE == 'flat' ) {
+					discountPerItems 	=	parseFloat( $scope.order.REMISE ) / $scope.orderItems.length;
+				} else if( $scope.order.REMISE_TYPE == 'percent' ) {
+					let discount 	=	( parseFloat( $scope.order.REMISE_PERCENT ) * parseFloat( $scope.originalOrder.TOTAL ) ) / 100;
+					discountPerItems 	=	discount / $scope.ordersItems.length;	
+				}
+
+				let salePrice 			=	parseFloat( $scope.orderItems[ key ].PRIX ) - discountPerItems + tvaPerItems;
+
 				if( place == 'defective' ) {
 					if( $scope.orderItems[ key ].QUANTITE > 0 ) {
 

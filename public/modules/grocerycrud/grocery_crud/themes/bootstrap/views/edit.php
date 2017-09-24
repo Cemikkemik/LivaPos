@@ -62,7 +62,7 @@
 								?>" aria-describedby="basic-addon1"> --> 
                 </div>
                 <?php if( ! empty( $field->description ) ):?>
-				<span class="help-block"><?php echo strip_tags( $field->description );?></span>
+				<span class="help-block"><?php echo xss_clean( $field->description );?></span>
                 <?php endif;?>
             </div>
             <?php 
@@ -77,7 +77,7 @@
                 <?php echo $input_fields[$field->field_name]->input;
 								?>
 				<?php if( ! empty( $field->description ) ):?>
-				<span class="help-block"><?php echo strip_tags( $field->description );?></span>
+				<span class="help-block"><?php echo xss_clean( $field->description );?></span>
 				<?php endif;?> 
 			</div>
             <?php
@@ -121,7 +121,7 @@
 				?>" aria-describedby="basic-addon1"> --> 
 	</div>
 	<?php if( ! empty( $field->description ) ):?>
-	<span class="help-block"><?php echo strip_tags( $field->description );?></span>
+	<span class="help-block"><?php echo xss_clean( $field->description );?></span>
 	<?php endif;?>
 </div>
 <?php 
@@ -135,7 +135,7 @@
 	<?php echo $input_fields[$field->field_name]->input;
 				?> 
 			<?php if( ! empty( $field->description ) ):?>
-            <span class="help-block"><?php echo strip_tags( $field->description );?></span>
+            <span class="help-block"><?php echo xss_clean( $field->description );?></span>
             <?php endif;?>
         </div>
                 

@@ -3876,7 +3876,8 @@ class Grocery_CRUD extends grocery_CRUD_States
     /**
      *
      * Load the language strings array from the language file
-     */
+    **/
+
     protected function _load_language()
     {
         if ($this->language === null) {

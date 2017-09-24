@@ -41,16 +41,29 @@ class Nexo_Categories extends CI_Model
 		
 		// If Multi store is enabled
 		// @since 2.8		
-		$fields					=	array( 'NOM', 'BP', 'TEL', 'EMAIL', 'DESCRIPTION' );
+        $fields					=	array( 'NOM', 'BP', 'TEL', 'EMAIL', 'DESCRIPTION' );
+        $columns                =   [ 'NOM', 'BP', 'TEL', 'EMAIL', 'DESCRIPTION' ];
+
+        if( store_option( 'enable_providers_account', 'no' ) == 'yes' ) {
+            array_splice( $columns, 1, 0, 'PAYABLE' );
+
+            $crud->add_action( __( 'History', 'nexo' ), '', site_url([ 'dashboard', store_slug(), 'nexo', 'fournisseurs', 'history' ]) . '/', 'btn btn-default fa fa-line-chart' );
+            $crud->add_action( __( 'Payer le fournisseur', 'nexo' ), '', site_url([ 'dashboard', store_slug(), 'nexo_premium', 'Controller_Factures', 'provider' ]) . '/', 'btn btn-default fa fa-money' );
+        }
 		
-		$crud->columns('NOM', 'BP', 'TEL', 'EMAIL', 'DESCRIPTION');
+		$crud->columns( $columns );
         $crud->fields( $fields );
         
         $crud->display_as('NOM', __('Nom du fournisseur', 'nexo'));
+        $crud->display_as('PAYABLE', __('Somme due', 'nexo'));
         $crud->display_as('EMAIL', __('Email du fournisseur', 'nexo'));
         $crud->display_as('BP', __('BP du fournisseur', 'nexo'));
         $crud->display_as('TEL', __('Tel du fournisseur', 'nexo'));
         $crud->display_as('DESCRIPTION', __('Description du fournisseur', 'nexo'));
+
+        $crud->callback_column( 'PAYABLE', function( $price ){
+            return $this->Nexo_Misc->cmoney_format( $price, true );
+        });
         
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
@@ -59,6 +72,7 @@ class Nexo_Categories extends CI_Model
         $crud->required_fields('NOM');
         
         $crud->set_rules('EMAIL', 'Email', 'valid_email');
+        
         // $crud->columns('customerName','phone','addressLine1','creditLimit');
 
         $crud->unset_jquery();
@@ -72,6 +86,83 @@ class Nexo_Categories extends CI_Model
         }
         
         return $output;
+    }
+
+    public function history( $provider_id, $page = 0 )
+    {
+        $this->data               =   [];
+        
+        $provider       =   $this->db->where( 'ID', $provider_id )
+        ->get( store_prefix() . 'nexo_fournisseurs' )
+        ->result_array();
+
+        if( ! $provider ) {
+            return show_error( __( 'Unable to retreive the provider.', 'nexo' ) );
+        }
+
+        // operation type 
+        $this->data[ 'operation' ]      =   [
+            'payment'           =>  __( 'Paiement', 'nexo' ),
+            'stock_purchase'    =>  __( 'Livraison de produits', 'nexo' )
+        ];
+
+        $this->data[ 'provider' ]       =   $provider[0];
+
+        $this->load->library("pagination");
+        $config["base_url"] = site_url([ 'dashboard', store_slug(), 'nexo', 'fournisseurs', 'history', $provider_id ]);
+        //EDIT THIS (to get a count of number of rows. Might have to add in a criteria (category etc)
+        $config["total_rows"] = $this->db->get( store_prefix() . 'nexo_fournisseurs_history' )->num_rows();
+        //EDIT THIS
+        // $config["uri_segment"] = 3;
+        //EDIT THIS:
+        $config["per_page"] = 20;
+        $choice = $config["total_rows"] / $config["per_page"];
+        $config["num_links"] = round($choice);
+        $config['use_page_numbers'] = true; // use page numbers, or use the current row number (limit offset)
+        // $page = ($this->uri->segment($config["uri_segment"] )) ? $this->uri->segment($config["uri_segment"] ) : 0;
+        //EDIT THIS:
+        $page = $page-1;
+		if ($page<0) { 
+			$page = 0;
+		}
+		$from = intval( $page ) * $config["per_page"];
+        $this->data["results"] = $this->db
+        ->select( '*' )
+        ->from( store_prefix() . 'nexo_fournisseurs_history' )
+        ->join( 'aauth_users', 'aauth_users.id = ' . store_prefix()  .'nexo_fournisseurs_history.AUTHOR' )
+        ->limit( $config["per_page"], $from )
+        ->order_by( store_prefix() . 'nexo_fournisseurs_history.DATE_CREATION', 'desc' )
+        ->get()
+        ->result_array();
+        // styling/html stuff
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul><!--pagination-->';
+        $config['first_link'] = '&laquo; First';
+        $config['first_tag_open'] = '<li class="prev page">';
+        $config['first_tag_close'] = '</li>' . "\n";
+        $config['last_link'] = 'Last &raquo;';
+        $config['last_tag_open'] = '<li class="next page">';
+        $config['last_tag_close'] = '</li>' . "\n";
+        $config['next_link'] = 'Next &rarr;';
+        $config['next_tag_open'] = '<li class="next page">';
+        $config['next_tag_close'] = '</li>' . "\n";
+        $config['prev_link'] = '&larr; Previous';
+        $config['prev_tag_open'] = '<li class="prev page">';
+        $config['prev_tag_close'] = '</li>' . "\n";
+        $config['cur_tag_open'] = '<li class="active"><a href="">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li class="page">';
+        $config['num_tag_close'] = '</li>' . "\n";
+        $this->pagination->initialize($config);
+        $this->data["pagination"] = $this->pagination->create_links();
+
+        $this->events->add_action( 'dashboard_footer', function(){
+            get_instance()->load->module_view( 'nexo', 'providers.history-script' );
+        });
+        
+        $this->Gui->set_title( store_title( sprintf( __( '%s : Supply History', 'nexo' ), $provider[0][ 'NOM' ] ) ) );
+
+        return $this->load->module_view( 'nexo', 'providers.history-gui', $this->data );
     }
     
     public function lists($page = 'index', $id = null)

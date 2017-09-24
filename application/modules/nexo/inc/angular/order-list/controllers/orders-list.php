@@ -856,6 +856,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 			}
 		}).then(function( returned ) {
 			$scope.order_items 		=	returned.data;
+			console.log( $scope.order_items );
 			$.ajax({
 				url 	:	'<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'print', 'order_refund', store_get_param('?') ] );?>',
 				success 	:	function( data ) {

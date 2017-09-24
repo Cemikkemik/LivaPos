@@ -201,7 +201,7 @@ class Nexo_Premium_Controller extends CI_Model
      * @return void
     **/
 
-    private function Controller_Header()
+    private function Controller_Header( $page, $index )
     {
         if (
          ! User::can('create_shop_purchases_invoices ') &&
@@ -217,8 +217,21 @@ class Nexo_Premium_Controller extends CI_Model
         $crud->set_subject(__('Factures', 'nexo_premium'));
         $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_premium_factures'));
 
-        $crud->columns('INTITULE', 'REF_CATEGORY', 'MONTANT', 'REF', 'AUTHOR', 'DATE_CREATION', 'DATE_MODIFICATION', 'IMAGE' );
-        $crud->fields('INTITULE', 'MONTANT', 'REF_CATEGORY', 'REF', 'DESCRIPTION', 'AUTHOR', 'IMAGE', 'DATE_CREATION', 'DATE_MODIFICATION');
+        $columns        =   [ 'INTITULE', 'REF_CATEGORY', 'MONTANT', 'REF', 'AUTHOR', 'DATE_CREATION', 'DATE_MODIFICATION', 'IMAGE' ];
+        $fields         =   [ 'INTITULE', 'MONTANT', 'REF_CATEGORY', 'REF', 'DESCRIPTION', 'AUTHOR', 'IMAGE', 'DATE_CREATION', 'DATE_MODIFICATION' ];
+
+        // only if the providers account is enabeld
+        if( store_option( 'enable_providers_account', 'no' ) == 'yes' ) {
+            array_splice( $columns, 2, 0, 'REF_PROVIDER' );
+            array_splice( $fields, 2, 0, 'REF_PROVIDER' );
+            $crud->set_relation( 'REF_PROVIDER', store_prefix() . 'nexo_fournisseurs', 'NOM' );
+            $crud->field_description( 'REF_PROVIDER', sprintf( 
+                __( 'Assigner une dépense à un fournisseur. Assurez-vous <a href="%s">d\'avoir assigné la bonne catégorie</a> pour les comptes créditeurs des fournisseurs.', 'nexo_premium' ) 
+            , site_url([ 'dashboard', store_slug(), 'nexo', 'settings', 'providers' ]) ) );
+        }
+
+        $crud->columns( $columns );
+        $crud->fields( $fields );
 
         $crud->set_relation('AUTHOR', 'aauth_users', 'name');
         $crud->set_relation('REF_CATEGORY', store_prefix() . 'nexo_premium_factures_categories', 'NAME' );
@@ -232,6 +245,7 @@ class Nexo_Premium_Controller extends CI_Model
         $crud->display_as('AUTHOR', __('Auteur', 'nexo_premium'));
         $crud->display_as('DATE_CREATION', __('Date de création', 'nexo_premium'));
         $crud->display_as('DATE_MODIFICATION', __('Date de modification', 'nexo_premium'));
+        $crud->display_as('REF_PROVIDER', __('Fournisseur', 'nexo_premium'));
 
         $crud->field_description( 'REF_CATEGORY', __( 'Assigner la dépense à une categorie.', 'nexo_premium' ) );
         $crud->field_description( 'MONTANT', __( 'Si la dépense à une valeur, vous pouvez le définir sur ce champ.', 'nexo_premium' ) );
@@ -301,12 +315,60 @@ class Nexo_Premium_Controller extends CI_Model
      * @return void
     **/
 
-    public function Controller_Factures($page = 'lists' )
+    public function Controller_Factures($page = 'lists', $index = null )
     {
         if ($page == 'list') {
             $this->Gui->set_title( store_title( __('Liste des factures', 'nexo_premium') ));
         } elseif ($page == 'delete') {
             nexo_permission_check('delete_shop_purchases_invoices');
+        } elseif( $page == 'provider' && $index != null ) {
+            // if the payable account is not set
+            // then redirect to the config page
+            if( empty( store_option( 'providers_account_category' ) ) ) {
+                return redirect([ 'dashboard', store_slug(), 'nexo', 'settings', 'providers?notice=provider_account_cateogry_missing' ]);
+            }
+            // if page is set to 'provider'
+            // means we would like to pay a provider
+            if( $page == 'provider' ) {
+                $this->load->library('user_agent');
+                $this->load->model( 'Nexo_Misc' );
+                $provider       =   $this->db->where( 'ID', $index )->get( store_prefix() . 'nexo_fournisseurs' )
+                ->result_array();
+
+                if( ! $provider ) {
+                    $returnLink             =   '';
+                    if( $this->agent->is_referral() ) {
+                        $returnLink =  sprintf( __( '<a href="%s">Return</a>', 'nexo_premium' ), $this->agent->referrer() );
+                    }
+
+                    return show_error( sprintf( 
+                        __( 'Unable to locate the provider. %s', 'nexo_premium' ),
+                        $returnLink
+                    ) );
+                }
+
+                $this->load->library( 'form_validation' );
+                $this->form_validation->set_rules( 'amount', __( 'Montant', 'nexo_premium' ), 'required|numeric' );
+
+                if( $this->form_validation->run() ) {
+                    $result             =   $this->Nexo_Misc->setPayment([
+                        'provider_id'   =>  $index,
+                        'amount'        =>  $this->input->post( 'amount' ),
+                        'description'   =>  $this->input->post( 'description' ),
+                        'ref_category'  =>  store_option( 'providers_account_category' )
+                    ]);
+
+                    if( $result == 'payment_made' ) {
+                        return redirect([ 'dashboard', store_slug(), 'nexo', 'fournisseurs', 'lists' ]);
+                    }
+                }
+
+                $this->Gui->set_title( store_title( 
+                    sprintf( __( 'Paiement d\'un fournisseur : %s', 'nexo_premium' ), $provider[0][ 'NOM' ] ) 
+                ) );
+            }
+
+            return $this->load->module_view( 'nexo_premium', 'providers.pay-gui' );
         } else {
             if (! User::can('create_shop_purchases_invoices')) {
                 redirect(array( 'dashboard', 'access-denied' ));
@@ -315,7 +377,7 @@ class Nexo_Premium_Controller extends CI_Model
             $this->Gui->set_title( store_title( __('Ajouter/modifier une facture', 'nexo_premium') ) );
         }
 
-        $data[ 'crud_content' ]    =    $this->Controller_Header();
+        $data[ 'crud_content' ]    =    $this->Controller_Header( $page, $index );
         $this->load->view('../modules/nexo_premium/views/factures.php', $data);
     }
 
@@ -493,11 +555,13 @@ class Nexo_Premium_Controller extends CI_Model
         $crud->set_subject(__('Sauvegardes', 'nexo_premium'));
         $crud->set_table($this->db->dbprefix('nexo_premium_backups'));
 
-        $crud->columns('NAME', 'FILE_LOCATION', 'AUTHOR', 'DATE_CREATION');
-        $crud->fields('NAME', 'FILE_LOCATION', 'AUTHOR', 'DATE_CREATION', 'DATE_MODIFICATION');
+        $columns    =   [ 'NAME', 'FILE_LOCATION', 'AUTHOR', 'DATE_CREATION' ];
+        $fields     =   [ 'NAME', 'FILE_LOCATION', 'AUTHOR', 'DATE_CREATION', 'DATE_MODIFICATION' ];
 
+        $crud->columns( $columns );
+        $crud->fields( $fields );
         $crud->set_relation('AUTHOR', 'aauth_users', 'name');
-
+        // Display
         $crud->display_as('NAME', __('Titre de la sauvegarde', 'nexo_premium'));
         $crud->display_as('FILE_LOCATION', __('Emplacement du fichier', 'nexo_premium'));
         $crud->display_as('AUTHOR', __('Auteur', 'nexo_premium'));

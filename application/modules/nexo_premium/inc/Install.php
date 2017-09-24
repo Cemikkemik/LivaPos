@@ -76,12 +76,15 @@ class Nexo_Premium_Install extends CI_Model
 
 	public function SQL_Install_Queries( $table_prefix )
 	{
+        // ref user for paying 
 		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_premium_factures` (
 		  `ID` int(11) NOT NULL AUTO_INCREMENT,
 		  `INTITULE` varchar(200) NOT NULL,
 		  `REF` varchar(200) NOT NULL,
 		  `MONTANT` float(11) NOT NULL,
           `REF_CATEGORY` int(11) NOT NULL,
+          `REF_PROVIDER` int(11) NOT NULL,
+          `REF_USER` int(11) NOT NULL,
 		  `IMAGE` varchar(200) NOT NULL,
 		  `DESCRIPTION` text NOT NULL,
 		  `DATE_CREATION` datetime NOT NULL,

@@ -276,11 +276,23 @@ class Nexo_Install extends CI_Model
 
         // @since 3.0.1
 
-        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_commandes_coupons` (
+        	$this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_commandes_coupons` (
             `ID` int(11) NOT NULL AUTO_INCREMENT,
             `REF_COMMAND` int(11) NOT NULL,
             `REF_COUPON` int(11) NOT NULL,
             PRIMARY KEY (`ID`)
+		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+
+		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_commandes_refunds` (
+			`ID` int(11) NOT NULL AUTO_INCREMENT,
+			`REF_COMMAND` int(11) NOT NULL,
+			`REF_ITEM` int(11) NOT NULL,
+			`QUANTITY` int(11) NOT NULL,
+			`REF_UNIT` int(11) NULL,
+			`AUTHOR` int(11) NOT NULL,
+			`DATE_CREATION` datetime NOT NULL,
+			`DATE_MODIFICATION` datetime NOT NULL,
+			PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
         // Articles tables
@@ -373,7 +385,9 @@ class Nexo_Install extends CI_Model
 		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_articles_stock_flow` (
 			`ID` int(11) NOT NULL AUTO_INCREMENT,
 			`REF_ARTICLE_BARCODE` varchar(250) NOT NULL,
+			`BEFORE_QUANTITE` int(11) NOT NULL,
 			`QUANTITE` int(11) NOT NULL,
+			`AFTER_QUANTITE` int(11) NOT NULL,
 			`DATE_CREATION` datetime NOT NULL,
 			`AUTHOR` int(11) NOT NULL,
 			`REF_COMMAND_CODE` varchar(11) NOT NULL,
@@ -403,16 +417,30 @@ class Nexo_Install extends CI_Model
         // Fournisseurs table
 
         $this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_fournisseurs` (
-		  `ID` int(11) NOT NULL AUTO_INCREMENT,
-		  `NOM` varchar(200) NOT NULL,
-		  `BP` varchar(200) NOT NULL,
-		  `TEL` varchar(200) NOT NULL,
-		  `EMAIL` varchar(200) NOT NULL,
-		  `DATE_CREATION` datetime NOT NULL,
-		   `DATE_MOD` datetime NOT NULL,
-		  `AUTHOR` varchar(200) NOT NULL,
-		  `DESCRIPTION` text NOT NULL,
-		  PRIMARY KEY (`ID`)
+			`ID` int(11) NOT NULL AUTO_INCREMENT,
+			`NOM` varchar(200) NOT NULL,
+			`BP` varchar(200) NOT NULL,
+			`TEL` varchar(200) NOT NULL,
+			`EMAIL` varchar(200) NOT NULL,
+			`DATE_CREATION` datetime NOT NULL,
+			`DATE_MOD` datetime NOT NULL,
+			`AUTHOR` varchar(200) NOT NULL,
+			`DESCRIPTION` text NOT NULL,
+			`PAYABLE` float(11) NOT NULL,
+			PRIMARY KEY (`ID`)
+		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+
+		$this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_fournisseurs_history` (
+			`ID` int(11) NOT NULL AUTO_INCREMENT,
+			`TYPE` varchar(200) NOT NULL,
+			`BEFORE_AMOUNT` float(11) NOT NULL,
+			`AMOUNT` float(11) NOT NULL,
+			`AFTER_AMOUNT` float(11) NOT NULL,
+			`REF_PROVIDER` int(11) NOT NULL,
+			`DATE_CREATION` datetime NOT NULL,
+			`DATE_MOD` datetime NOT NULL,
+			`AUTHOR` int(11) NOT NULL,
+			PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
         // Log Modification
@@ -481,7 +509,7 @@ class Nexo_Install extends CI_Model
 		  `MINIMUM_AMOUNT` float NOT NULL,
 		  `MAXIMUM_AMOUNT` float NOT NULL,
 		  `USED_BY` text NOT NULL,
-          `REWARDED_CASHIER` int(11) NOT NULL,
+            `REWARDED_CASHIER` int(11) NOT NULL,
 		  `EMAIL_RESTRICTIONS` text NOT NULL,
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');

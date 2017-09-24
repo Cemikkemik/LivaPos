@@ -576,6 +576,7 @@ trait Nexo_items
     {
         if( is_array( $this->post( 'items' ) ) ) {
             $delivery_cost                  =   [];
+            $provider_amount_due            =   [];
             foreach( $this->post( 'items' ) as $item ) {
                 // get current item stock
                 $saved_item       =   $this->db->where( 'CODEBAR', $item[ 'item_barcode' ] )->get( store_prefix() . 'nexo_articles' )->result_array();
@@ -625,25 +626,69 @@ trait Nexo_items
                         ];
                     }
 
-                    $delivery_cost[ $item[ 'ref_shipping' ] ][ 'cost' ]     +=   ( 
-                        floatval( $item[ 'unit_price'] ) * floatval( $item[ 'item_qte' ] ) 
-                    );
+                    $item_cost          =   floatval( $item[ 'unit_price'] ) * floatval( $item[ 'item_qte' ] ) ;
 
+                    $delivery_cost[ $item[ 'ref_shipping' ] ][ 'cost' ]     +=   $item_cost;
                     $delivery_cost[ $item[ 'ref_shipping' ] ][ 'items' ]     += floatval( $item[ 'item_qte' ] );
 
                     // update average price
                     $supplies       =   $this->db->where( 'REF_ARTICLE_BARCODE', $item[ 'item_barcode' ] )
                     ->get( store_prefix() . 'nexo_articles_stock_flow' )
                     ->result_array();
+                    
                     $totalPurchase          =   0;
+                    
                     foreach( $supplies as $supply ) {
                         $totalPurchase      +=  floatval( $item[ 'unit_price' ] );
                     }
                     
                     $averagePurchase        =   $totalPurchase / count( $supplies );
+                    
                     $this->db->where( 'CODEBAR', $item[ 'item_barcode' ] )->update( store_prefix() . 'nexo_articles', [
                         'QUANTITE_RESTANTE'     =>  $remaining_qte,
                         'PRIX_DACHAT'           =>  $averagePurchase
+                    ]);
+
+                    // Save item cost to the supplier
+                    if( store_option( 'enable_providers_account', 'no' ) == 'yes' ) {
+                        if( @$provider_amount_due[ $item[ 'ref_provider' ] ] == null ) {
+                            $provider_amount_due[ $item[ 'ref_provider' ] ]     =   [];
+                        }
+
+                        $provider_amount_due[ $item[ 'ref_provider' ] ][]       =   $item_cost;
+                    }
+                }
+            }
+
+            if( store_option( 'enable_providers_account', 'no' ) == 'yes' ) {
+                // update amount due
+                foreach( $provider_amount_due as $provider => $amounts ) {
+                    $currentProvider    =   $this->db->where( 'ID', $provider )
+                    ->get( store_prefix() . 'nexo_fournisseurs' )
+                    ->result_array();
+    
+                    // loop amount
+                    $currentAmountDue   =   floatval( $currentProvider[0][ 'PAYABLE' ] );
+                    $transactionAmount      =   0;
+                    foreach( $amounts as $amount ) {
+                        $transactionAmount      +=  floatval( $amount );
+                    }
+
+                    $currentAmountDue       +=  $transactionAmount;
+    
+                    // Update customer payable.
+                    $this->db->where( 'ID', $provider )->update( store_prefix() . 'nexo_fournisseurs', [
+                        'PAYABLE'   =>  $currentAmountDue
+                    ]);
+
+                    // add it as an history
+                    $this->db->insert( store_prefix() . 'nexo_fournisseurs_history', [
+                        'REF_PROVIDER'      =>  $provider,
+                        'TYPE'              =>  'stock_purchase',
+                        'AMOUNT'            =>  $transactionAmount,
+                        'DATE_CREATION'     =>  date_now(),
+                        'DATE_MOD'          =>  date_now(),
+                        'AUTHOR'            =>  User::id()
                     ]);
                 }
             }

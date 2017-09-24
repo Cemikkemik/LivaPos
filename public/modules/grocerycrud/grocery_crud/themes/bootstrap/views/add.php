@@ -53,7 +53,7 @@ if ($groups) {
                 <label for="<?php echo $field->field_name;?>"><?php echo $input_fields[$field->field_name]->display_as;?> <?php echo ($input_fields[$field->field_name]->required)? " <small class='required'>(required)</small> " : "";?></label>
                 <?php echo $input_fields[$field->field_name]->input; ?>
                 <?php if (! empty( $field->description )) :?>
-                <span class="help-block"><?php echo strip_tags( $field->description );?></span>
+                <span class="help-block"><?php echo xss_clean( $field->description );?></span>
                 <?php endif;?>
             </div>
             <?php
@@ -66,7 +66,7 @@ if ($groups) {
                 <br />
                 <?php echo $input_fields[$field->field_name]->input;?>
                 <?php if (! empty( $field->description )) :?>
-                <span class="help-block"><?php echo strip_tags( $field->description );?></span>
+                <span class="help-block"><?php echo xss_clean( $field->description );?></span>
                 <?php endif;?>
             </div>
             <?php
@@ -104,7 +104,7 @@ foreach ($fields as $field) {
             <label for="<?php echo $field->field_name;?>"><?php echo $input_fields[$field->field_name]->display_as;?> <?php echo ($input_fields[$field->field_name]->required)? " <small class='required'>(required)</small> " : "";?></label>
             <?php echo $input_fields[$field->field_name]->input; ?>
             <?php if (! empty( $field->description )) :?>
-            <span class="help-block"><?php echo strip_tags( $field->description );?></span>
+            <span class="help-block"><?php echo xss_clean( $field->description );?></span>
             <?php endif;?>
         </div>
         <?php
@@ -114,7 +114,7 @@ foreach ($fields as $field) {
             <label for="<?php echo $field->field_name;?>"><?php echo $input_fields[$field->field_name]->display_as;?> <?php echo ($input_fields[$field->field_name]->required)? " <small class='required'>(required)</small> " : "";?></label>
             <?php echo $input_fields[$field->field_name]->input; ?>
             <?php if (! empty( $field->description )) :?>
-            <span class="help-block"><?php echo strip_tags( $field->description );?></span>
+            <span class="help-block"><?php echo xss_clean( $field->description );?></span>
             <?php endif;?>
         </div>
         <?php

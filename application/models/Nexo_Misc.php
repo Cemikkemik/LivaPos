@@ -771,4 +771,49 @@ class Nexo_Misc extends CI_Model
         ->get( store_prefix() . 'nexo_commandes_paiements' )
         ->result_array();
     }
+
+    /**
+     * Pay Providers
+     * @param array
+     * @return void
+    **/
+
+    public function setPayment( $data )
+    {
+        // update PAYABLE amount
+        $provider   =   $this->db->where( 'ID', $data[ 'provider_id' ])->get( store_prefix() . 'nexo_fournisseurs' )
+        ->result_array();
+
+        if( ! $provider ) {
+            return 'unknow_provider';
+        }
+
+        $this->db->insert( store_prefix() . 'nexo_premium_factures', [
+            'INTITULE'              =>  __( 'Paiement du fournisseur', 'nexo_premium' ),
+            'REF_PROVIDER'          =>  $data[ 'provider_id' ],
+            'MONTANT'               =>  $data[ 'amount' ],
+            'DESCRIPTION'           =>  $data[ 'description' ],
+            'REF_CATEGORY'          =>  $data[ 'ref_category' ],
+            'DATE_CREATION'         =>  date_now(),
+            'DATE_MODIFICATION'     =>  date_now(),
+            'AUTHOR'            =>  User::id()
+        ]);
+
+        // insert it as a provider history
+        $this->db->insert( store_prefix() . 'nexo_fournisseurs_history', [
+            'TYPE'              =>  'payment',
+            'AMOUNT'            =>  $data[ 'amount' ],
+            'REF_PROVIDER'      =>  $data[ 'provider_id' ],
+            'DATE_CREATION'     =>  date_now(),
+            'DATE_MOD'          =>  date_now(),
+            'AUTHOR'            =>  User::id()
+        ]);
+
+        // Update payable
+        $this->db->where( 'ID', $data[ 'provider_id' ])->update( store_prefix() . 'nexo_fournisseurs', [
+            'PAYABLE'           =>  floatval( $provider[0][ 'PAYABLE' ] ) - floatval( $data[ 'amount' ] )
+        ]);
+
+        return 'payment_made';
+    }
 }

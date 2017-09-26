@@ -47,7 +47,7 @@ class Nexo_Categories extends CI_Model
         if( store_option( 'enable_providers_account', 'no' ) == 'yes' ) {
             array_splice( $columns, 1, 0, 'PAYABLE' );
 
-            $crud->add_action( __( 'History', 'nexo' ), '', site_url([ 'dashboard', store_slug(), 'nexo', 'fournisseurs', 'history' ]) . '/', 'btn btn-default fa fa-line-chart' );
+            $crud->add_action( __( 'Historique', 'nexo' ), '', site_url([ 'dashboard', store_slug(), 'nexo', 'fournisseurs', 'history' ]) . '/', 'btn btn-default fa fa-line-chart' );
             $crud->add_action( __( 'Payer le fournisseur', 'nexo' ), '', site_url([ 'dashboard', store_slug(), 'nexo_premium', 'Controller_Factures', 'provider' ]) . '/', 'btn btn-default fa fa-money' );
         }
 		
@@ -97,7 +97,7 @@ class Nexo_Categories extends CI_Model
         ->result_array();
 
         if( ! $provider ) {
-            return show_error( __( 'Unable to retreive the provider.', 'nexo' ) );
+            return show_error( __( 'Impossible de récupérer le fournisseur.', 'nexo' ) );
         }
 
         // operation type 
@@ -160,7 +160,7 @@ class Nexo_Categories extends CI_Model
             get_instance()->load->module_view( 'nexo', 'providers.history-script' );
         });
         
-        $this->Gui->set_title( store_title( sprintf( __( '%s : Supply History', 'nexo' ), $provider[0][ 'NOM' ] ) ) );
+        $this->Gui->set_title( store_title( sprintf( __( '%s : Historique d\'approvisionnement', 'nexo' ), $provider[0][ 'NOM' ] ) ) );
 
         return $this->load->module_view( 'nexo', 'providers.history-gui', $this->data );
     }

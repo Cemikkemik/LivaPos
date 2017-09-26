@@ -271,15 +271,15 @@ if( ! function_exists( 'nexoCartValue' ) ) {
     function nexoCartGrossValue( $items ) {
         $value      =      0;
         foreach( $items as $item ) {
-            if( $item[ 'DISCOUNT_TYPE' ] == 'percentage' ) {
+            if( $item[ 'DISCOUNT_TYPE' ] == 'percentage' && $item[ 'DISCOUNT_PERCENT'] != '0' ) {
                 $percent    =   floatval( $item[ 'DISCOUNT_PERCENT' ] ) * floatval( $item[ 'PRIX' ] ) / 100;
-                $discount   =   floatval( $item[ 'PRIX' ] ) - $percent;
+                $discount   =   ( floatval( $item[ 'PRIX' ] ) - $percent ) * intval( $item[ 'QUANTITE' ] );
                 $value      +=  $discount;
             } else if( $item[ 'DISCOUNT_TYPE' ] == 'flat' ) {
-                $discount   =   floatval( $item[ 'PRIX' ] ) -  floatval( $item[ 'DISCOUNT_AMOUNT' ] ) ;
+                $discount   =   ( floatval( $item[ 'PRIX' ] ) -  floatval( $item[ 'DISCOUNT_AMOUNT' ] ) ) * intval( $item[ 'QUANTITE' ] ) ;
                 $value      +=  $discount;
             } else {
-                $value      +=  floatval( $item[ 'PRIX' ] );
+                $value      +=  floatval( $item[ 'PRIX' ] ) * intval( $item[ 'QUANTITE' ] );
             }
         }
         return $value;

@@ -31,23 +31,35 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 	**/
 
 	$scope.addTo				=	function( place, $index ) {
+		let itemLength 		=	0;
+
+		$scope.orderItems.forEach( ( item ) => {
+			if( item.REAL_QUANTITE != '0' ) {
+				itemLength 	+=	parseInt( item.REAL_QUANTITE );
+			}
+		});
+
 		_.each( $scope.orderItems, function( value, key ) {
 			if( key == $index ) {
 
 				let tvaPerItems 		=	0;
+
 				if( $scope.order.TVA != '0' ) {
-					tvaPerItems 		=	parseFloat( $scope.order.TVA ) / $scope.orderItems.length;
+					tvaPerItems 		=	parseFloat( $scope.order.TVA ) / itemLength;
 				}
 
 				let discountPerItems 	=	0;
 				if( $scope.order.REMISE_TYPE == 'flat' ) {
-					discountPerItems 	=	parseFloat( $scope.order.REMISE ) / $scope.orderItems.length;
-				} else if( $scope.order.REMISE_TYPE == 'percent' ) {
-					let discount 	=	( parseFloat( $scope.order.REMISE_PERCENT ) * parseFloat( $scope.originalOrder.TOTAL ) ) / 100;
-					discountPerItems 	=	discount / $scope.ordersItems.length;	
+					discountPerItems 	=	parseFloat( $scope.order.REMISE ) / itemLength;
+				} else if( $scope.order.REMISE_TYPE == 'percentage' ) {
+					let discount 	=	( parseFloat( $scope.order.REMISE_PERCENT ) * parseFloat( $scope.originalOrder.NET_TOTAL ) ) / 100;
+					discountPerItems 	=	discount / itemLength;	
 				}
 
-				let salePrice 			=	parseFloat( $scope.orderItems[ key ].PRIX ) - discountPerItems + tvaPerItems;
+				let salePrice 			=	( parseFloat( $scope.orderItems[ key ].PRIX ) + tvaPerItems ) - discountPerItems;
+
+				// save the refund price
+				value.REFUND_PRICE 		=	salePrice;
 
 				if( place == 'defective' ) {
 					if( $scope.orderItems[ key ].QUANTITE > 0 ) {
@@ -89,14 +101,13 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 						$scope.toRefund	=
 							$scope.toRefund > 0 ? $scope.toRefund -	salePrice : 0;
 
-						$scope.order.TOTAL		+=	salePrice;
-
+						$scope.order.TOTAL							+=	salePrice;
 						$scope.orderItems[ key ].QUANTITE 				=	parseInt( $scope.orderItems[ key ].QUANTITE ) + 1;
 						$scope.orderItems[ key ].CURRENT_DEFECTIVE_QTE	=	parseInt( $scope.orderItems[ key ].CURRENT_DEFECTIVE_QTE ) - 1;
 
 						if( $scope.orderItems[key].STOCK_ENABLED == '1' ) {
-							$scope.orderItems[ key ].QUANTITE_VENDU			=	parseInt( $scope.orderItems[ key ].QUANTITE_VENDU ) + 1;
-							$scope.orderItems[ key ].DEFECTUEUX				=	parseInt( $scope.orderItems[ key ].DEFECTUEUX ) - 1
+							$scope.orderItems[ key ].QUANTITE_VENDU 	=	parseInt( $scope.orderItems[ key ].QUANTITE_VENDU ) + 1;
+							$scope.orderItems[ key ].DEFECTUEUX 		=	parseInt( $scope.orderItems[ key ].DEFECTUEUX ) - 1
 						}
 
 					} else {
@@ -266,7 +277,16 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 
 				$scope.items			=	returned.data.items;
 				$scope.order			=	returned.data.order;
-				$scope.originalOrder 	=	returned.data.order;
+				$scope.originalOrder 	=	new Object;
+				angular.copy( returned.data.order, $scope.originalOrder );
+
+				// Calculating Net Total
+				let netTotal  					=	0;
+				_.each( $scope.items, ( item, key ) => {
+					netTotal 					+=	parseFloat( item.PRIX ) * parseInt( item.QUANTITE );
+				});
+				$scope.originalOrder.NET_TOTAL  	=	netTotal;
+
 				$scope.order.GRANDTOTAL	=	0;
 				$scope.orderCode		=	$scope.order.CODE;
 				$scope.order.CHARGE		=	NexoAPI.ParseFloat( $scope.order.REMISE ) + NexoAPI.ParseFloat( $scope.order.RABAIS ) + NexoAPI.ParseFloat( $scope.order.RISTOURNE );
@@ -791,10 +811,11 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 						  	author	:	<?php echo User::id();?>,
 						  	date		:	tendoo.now()
 						}
-
 					}).then(function( data ) {
 						$scope.closeSpinner( 'grand' );
 						NexoAPI.Bootbox().alert( '<?php echo _s( 'Le remboursement a correctement été effectué.', 'nexo' );?>' );
+						// to refresh order details
+						$scope.loadContent( $scope.createOptions().details );
 						$scope.loadContent( $scope.createOptions().refund );
 					}, function( data ) {
 						$scope.closeSpinner( 'grand' );
@@ -856,7 +877,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 			}
 		}).then(function( returned ) {
 			$scope.order_items 		=	returned.data;
-			console.log( $scope.order_items );
+
 			$.ajax({
 				url 	:	'<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'print', 'order_refund', store_get_param('?') ] );?>',
 				success 	:	function( data ) {

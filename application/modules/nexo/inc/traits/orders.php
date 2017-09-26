@@ -1018,7 +1018,9 @@ trait Nexo_orders
 
 	public function order_items_defectives_get( $order_code )
 	{
-		$this->db->select( '*' )
+        $this->db->select( '*,
+        ' . store_prefix() . 'nexo_commandes_produits.ID as ORDER_ITEM_ID,
+        ' . store_prefix() . 'nexo_commandes_produits.QUANTITE as REAL_QUANTITE' )
 		->from( store_prefix() . 'nexo_articles' )
 		->join( store_prefix() . 'nexo_commandes_produits', store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = ' . store_prefix() . 'nexo_articles.CODEBAR', 'left' )
 		->join( store_prefix() . 'nexo_commandes', store_prefix() . 'nexo_commandes.CODE = ' . store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE', 'inner' )
@@ -1036,14 +1038,10 @@ trait Nexo_orders
 
 	public function order_refund_post( $order_code )
 	{
-		$toRefund				=	0;
+        $toRefund				=	0;
+        $itemToRemove           =   [];
 
 		foreach( $this->post( 'items' ) as $item ) {
-
-			$this->db->where( 'REF_PRODUCT_CODEBAR', $item[ 'CODEBAR' ] )
-            ->update( store_prefix() . 'nexo_commandes_produits', array(
-				'QUANTITE'	=>	$item[ 'QUANTITE' ],
-            ) ); // Correcte
             
             $freshItem           =   $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )
             ->get( store_prefix() . 'nexo_articles' )
@@ -1055,12 +1053,11 @@ trait Nexo_orders
 			if( $item[ 'CURRENT_DEFECTIVE_QTE' ] > 0 ) {
 
                 // Whether the item is a digital item, it need to be refundable
-
                 $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
                     'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
                     'QUANTITE'				=>	$item[ 'CURRENT_DEFECTIVE_QTE' ],
-                    'UNIT_PRICE'            =>  $item[ 'PRIX'],
-                    'TOTAL_PRICE'           =>  floatval( $item[ 'PRIX'] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ),
+                    'UNIT_PRICE'            =>  $item[ 'REFUND_PRICE'],
+                    'TOTAL_PRICE'           =>  floatval( $item[ 'REFUND_PRICE'] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ),
                     'AUTHOR'				=>	$this->post( 'author' ),
                     'DATE_CREATION'			=>	date_now(),
                     'REF_COMMAND_CODE'		=>	$order_code,
@@ -1078,7 +1075,10 @@ trait Nexo_orders
                     ->update( store_prefix() . 'nexo_articles' );
                 }				
 
-                $total					+=	floatval( $item[ 'PRIX' ] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] );
+                $total					+=	floatval( $item[ 'REFUND_PRICE' ] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] );
+
+                // save quantity to remove from order item list
+                $itemToRemove[ $item[ 'ORDER_ITEM_ID' ] ]     =   $item[ 'CURRENT_DEFECTIVE_QTE' ];
 			}
 
             if( $item[ 'CURRENT_USABLE_QTE' ] > 0 ) {
@@ -1088,8 +1088,8 @@ trait Nexo_orders
                 $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
                     'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
                     'QUANTITE'				=>	$item[ 'CURRENT_USABLE_QTE' ],
-                    'UNIT_PRICE'            =>  $item[ 'PRIX'],
-                    'TOTAL_PRICE'           =>  floatval( $item[ 'PRIX'] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] ),
+                    'UNIT_PRICE'            =>  $item[ 'REFUND_PRICE'],
+                    'TOTAL_PRICE'           =>  floatval( $item[ 'REFUND_PRICE'] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] ),
                     'AUTHOR'				=>	$this->post( 'author' ),
                     'DATE_CREATION'			=>	date_now(),
                     'REF_COMMAND_CODE'		=>	$order_code,
@@ -1106,7 +1106,10 @@ trait Nexo_orders
                     ->update( store_prefix() . 'nexo_articles' );
                 }
 
-                $total					+=	floatval( $item[ 'PRIX' ] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] );
+                $total					+=	floatval( $item[ 'REFUND_PRICE' ] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] );
+                
+                // quantity to remove
+                $itemToRemove[ $item[ 'ORDER_ITEM_ID' ] ]     =   $item[ 'CURRENT_USABLE_QTE' ];
             }
 
 			// get discount
@@ -1118,7 +1121,19 @@ trait Nexo_orders
 
 			// Refund
 			$toRefund	+=	$total - $percentage;
-		}
+        }
+        
+        // remove item from order
+        foreach( $itemToRemove as $orderItemID => $quantity ) {
+            $this->db->where( 'ID', $orderItemID )
+            ->set( 'QUANTITE', 'QUANTITE-' . intval( $quantity ) )
+            ->update( store_prefix() . 'nexo_commandes_produits' );
+
+            // Posting Refund entry
+            // $this->db->insert( store_prefix() . 'nexo_commandes_refunds', [
+            //     'REF_COMMAND'       =>  
+            // ])
+        }
 
 		// add to order payment
 		$this->db->insert( store_prefix() . 'nexo_commandes_paiements', array(

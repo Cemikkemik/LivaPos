@@ -271,3 +271,10 @@ $config[ 'stock-operation' ] 	=	[
 	'import' 				=>	get_instance()->lang->line( 'import' ),
 	'sale' 				=>	get_instance()->lang->line( 'sale' )
 ];
+
+/**
+ * Refresh Order Alert
+ * @since 3.9.0
+**/
+
+$config[ 'refresh_alert_orders' ] 	= 	86400; // one day

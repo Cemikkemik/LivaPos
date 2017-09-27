@@ -415,6 +415,10 @@ class Nexo_Controller extends CI_Model
 						'href'            =>    site_url(array( 'dashboard', $store_uri . 'nexo', 'settings', 'items' ))
 					),
 					[
+						'title'	 		=>	__( 'Commandes', 'nexo' ),
+						'href' 			=>	site_url([ 'dashboard', store_slug(), 'nexo', 'settings', 'orders' ])
+					],
+					[
 						'title'	 		=>	__( 'Fournisseurs', 'nexo' ),
 						'href' 			=>	site_url([ 'dashboard', store_slug(), 'nexo', 'settings', 'providers' ])
 					],

@@ -77,7 +77,36 @@ trait Nexo_orders
 			}
 		} else {
 			$order_details[ 'TYPE' ]		=	$this->post( 'TYPE' );
-		}
+        }
+
+        /**
+         * order aging
+         * set expiration date for current order
+         * @since 3.9.0
+        **/
+
+        if( 
+            (
+                in_array( $order_details[ 'TYPE' ], [ 'nexo_order_devis' ] ) && 
+                store_option( 'expiring_order_type' ) == 'quote'
+            ) ||
+            (
+                in_array( $order_details[ 'TYPE' ], ['nexo_order_devis', 'nexo_order_advance'] ) && 
+                store_option( 'expiring_order_type' ) == 'both'
+            ) ||
+            (
+                in_array( $order_details[ 'TYPE' ], [ 'nexo_order_advance'] ) && 
+                store_option( 'expiring_order_type' ) == 'incomplete'
+            )
+        ) { 
+            // if order aging is defined
+            if( store_option( 'enable_order_aging', 'no' ) == 'yes' ) {
+                // if date is not defined, the we'll just use the current date
+                $order_details[ 'EXPIRATION_DATE' ]         =   Carbon::parse( date_now() )
+                ->addDays( store_option( 'expiration_time', 0 ) )->toDateTimeString();
+            }
+        }
+
 
         // Increase customers purchases
         $query                        	=    $this->db->where('ID', $this->post('REF_CLIENT'))->get( store_prefix() . 'nexo_clients');
@@ -363,7 +392,35 @@ trait Nexo_orders
 			}
 		} else {
 			$order_details[ 'TYPE' ]		=	$this->put( 'TYPE' );
-		}
+        }
+        
+        /**
+         * order aging
+         * set expiration date for current order
+         * @since 3.9.0
+        **/
+        
+        if( 
+            (
+                in_array( $order_details[ 'TYPE' ], [ 'nexo_order_devis' ] ) && 
+                store_option( 'expiring_order_type' ) == 'quotes'
+            ) ||
+            (
+                in_array( $order_details[ 'TYPE' ], ['nexo_order_devis', 'nexo_order_advance'] ) && 
+                store_option( 'expiring_order_type' ) == 'both'
+            ) ||
+            (
+                in_array( $order_details[ 'TYPE' ], [ 'nexo_order_advance'] ) && 
+                store_option( 'expiring_order_type' ) == 'incompletes'
+            )
+        ) { 
+            // if order aging is defined
+            if( store_option( 'enable_order_aging', 'no' ) == 'yes' ) {
+                // if date is not defined, the we'll just use the current date
+                $order_details[ 'EXPIRATION_DATE' ]         =   Carbon::parse( date_now() )
+                ->addDays( store_option( 'expiration_time', 0 ) )->toDateTimeString();
+            }
+        }
 
         // If customer has changed
         if ($this->put('REF_CLIENT') != $old_order['order'][0][ 'REF_CLIENT' ]) {

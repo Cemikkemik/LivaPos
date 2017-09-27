@@ -54,6 +54,9 @@ class Nexo_Settings_Controller extends CI_Model
             } elseif ($page == 'providers') { // @since 2.7.9
                 $this->Gui->set_title( store_title( __('Fournisseurs', 'nexo')));
                 $this->load->view("../modules/nexo/views/settings/{$page}.php");
+            } elseif ($page == 'orders') { // @since 3.8.8
+                $this->Gui->set_title( store_title( __('Commandes', 'nexo')));
+                $this->load->view("../modules/nexo/views/settings/{$page}.php");
             }
 			// Settings are now handled by another module
 			 elseif ($page == 'stripe') {

@@ -208,9 +208,9 @@ class Nexo_Actions extends Tendoo_Module
         // @since 3.0.19
         $this->events->do_action( 'nexo_loaded' );
 
+        $cache  =   new CI_Cache( array( 'adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' ) );
         // @since 3.1.3
         if( @$Options[ store_prefix() . 'nexo_enable_stock_warning' ] == 'yes' ) {
-            $cache  =   new CI_Cache( array( 'adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' ) );
             if( $itemsOutOfStock    =   $cache->get( store_prefix() . 'items_out_of_stock' ) ) {
                 foreach( $itemsOutOfStock as $item ) {
                     nexo_notices([
@@ -222,6 +222,50 @@ class Nexo_Actions extends Tendoo_Module
                     ]);
                 }
                 $cache->delete( store_prefix() . 'items_out_of_stock' );
+            }
+        }
+
+        // var_dump( store_option( 'enable_order_aging', 'no' ) );die;
+
+        // enabling order aging
+        if( store_option( 'enable_order_aging', 'no' ) == 'yes' ) {
+
+            // if it hasn't yet run
+            if( ! $cache->get( store_prefix() . 'alert_orders' ) ) {
+
+                $this->db->where( 'EXPIRATION_DATE >=', date_now() );
+
+                if( store_option( 'expiring_order_type' ) == 'quotes' ) {
+                    $this->db->where( 'TYPE', 'nexo_order_devis' );
+                } else if( store_option( 'expiring_order_type' ) == 'incompletes' ) {
+                    $this->db->where( 'TYPE', 'nexo_order_advance' );
+                } else {
+                    $this->db->where( 'TYPE', 'nexo_order_advance' );
+                    $this->db->or_where( 'TYPE', 'nexo_order_devis' );
+                }
+
+                $orders         =   $this->db
+                ->get( store_prefix() . 'nexo_commandes' )
+                ->result_array();
+
+                $masters            =   $this->auth->list_users( 'master' );
+                $admins             =   $this->auth->list_users( 'admin' );
+                $users              =   array_merge( $masters, $admins );
+
+                foreach( $orders as $order ) {
+                    foreach( $users as $user ) {
+                        nexo_notices([
+                            'message'   =>  sprintf( __( 'Le paiement de la commande <strong>%s</strong> est arrivé à échéance.', 'nexo' ), @$order[ 'CODE' ] ),
+                            'user_id'   =>  $user->user_id,
+                            'icon'      =>  'fa fa-warning',
+                            'type'      =>  'text-info',
+                            'link'      =>  site_url( array( 'dashboard', store_slug(), 'nexo', 'commandes', 'lists' ) ),
+                        ]);
+                    }
+                }
+
+                // set cache for Defined hours again
+                $cache->save( store_prefix() . 'alert_orders', 'true', 1 ); // $this->config->item( 'refresh_alert_orders' )
             }
         }
     }

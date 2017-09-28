@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<application>
-     <namespace>marvin</namespace>
-     <name>Marvin Customizations</name>
-     <description></description>
-          <version>1.0</version>
-     <main>marvin.php</main>
-     <language>language/</language>
-</application>

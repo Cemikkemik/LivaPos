@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nexo\n"
-"POT-Creation-Date: 2017-09-25 23:44+0100\n"
-"PO-Revision-Date: 2017-09-25 23:47+0100\n"
+"POT-Creation-Date: 2017-09-28 15:15+0100\n"
+"PO-Revision-Date: 2017-09-28 15:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en\n"
@@ -61,7 +61,7 @@ msgid "Produits Inclus"
 msgstr "Prodotti inclusi"
 
 #: __controllers/arrivages.php:65 __controllers/fournisseurs.php:37
-#: __controllers/settings.php:55 inc/controller.php:262 inc/controller.php:418
+#: __controllers/settings.php:55 inc/controller.php:262 inc/controller.php:422
 msgid "Fournisseurs"
 msgstr "Suppliers"
 
@@ -70,9 +70,8 @@ msgstr "Suppliers"
 #: __controllers/produits.php:153 __controllers/produits.php:473
 #: __controllers/registers.php:60 __controllers/stores.php:42
 #: __controllers/taxes - awesomecrud.php:18 __controllers/taxes.php:54
-#: views/customers/script.php:272 views/customers/script.php:279
-#: views/import/items-dom.php:23 views/import/script.php:15
-#: views/items/stock-supply/new-ui-dom.php:70
+#: views/customers/script.php:284 views/import/items-dom.php:23
+#: views/import/script.php:15 views/items/stock-supply/new-ui-dom.php:70
 msgid "Description"
 msgstr "Description"
 
@@ -185,19 +184,19 @@ msgstr "Categories List"
 msgid "Créer une nouvelle catégorie"
 msgstr "Create a new category"
 
-#: __controllers/clients.php:37 inc/controller.php:290 inc/controller.php:432
+#: __controllers/clients.php:37 inc/controller.php:290 inc/controller.php:436
 msgid "Clients"
 msgstr "Customers"
 
 #: __controllers/clients.php:70 __controllers/clients.php:286
-#: views/customers/script.php:285 views/providers/history-dom.php:13
+#: views/customers/script.php:302 views/providers/history-dom.php:13
 #: views/shippings/main-template.php:44 views/shippings/main-template.php:45
 msgid "Nom"
 msgstr "Name"
 
 #: __controllers/clients.php:71 __controllers/clients.php:120
 #: views/checkout/v2/script.php:1343 views/commandes-script - Deprecated.php:37
-#: views/customers/script.php:255
+#: views/customers/script.php:264
 msgid "Email"
 msgstr "Email"
 
@@ -210,19 +209,19 @@ msgid "Nbr Commandes (sess courante)"
 msgstr "Nbr Orders (current sess)"
 
 #: __controllers/clients.php:74 views/checkout/v2/script.php:1349
-#: views/commandes-script - Deprecated.php:43 views/customers/script.php:259
+#: views/commandes-script - Deprecated.php:43 views/customers/script.php:268
 #, fuzzy
 msgid "Téléphone"
 msgstr "Phone:"
 
 #: __controllers/clients.php:75 views/checkout/v2/script.php:1337
-#: views/commandes-script - Deprecated.php:31 views/customers/script.php:252
-#: views/customers/script.php:288 views/shippings/main-template.php:81
+#: views/commandes-script - Deprecated.php:31 views/customers/script.php:261
+#: views/customers/script.php:305 views/shippings/main-template.php:81
 #: views/shippings/main-template.php:82
 msgid "Prénom"
 msgstr "First Name"
 
-#: __controllers/clients.php:76 views/customers/script.php:263
+#: __controllers/clients.php:76 views/customers/script.php:272
 msgid "Date de naissance"
 msgstr "Birth Date"
 
@@ -242,14 +241,14 @@ msgstr "Last order"
 msgid "Avatar"
 msgstr "Avatar"
 
-#: __controllers/clients.php:81 views/customers/script.php:266
-#: views/customers/script.php:306 views/shippings/main-template.php:95
+#: __controllers/clients.php:81 views/customers/script.php:275
+#: views/customers/script.php:323 views/shippings/main-template.php:95
 #: views/shippings/main-template.php:96
 msgid "Pays"
 msgstr "Country"
 
-#: __controllers/clients.php:82 views/customers/script.php:269
-#: views/customers/script.php:300 views/shippings/main-template.php:102
+#: __controllers/clients.php:82 views/customers/script.php:278
+#: views/customers/script.php:317 views/shippings/main-template.php:102
 #: views/shippings/main-template.php:103
 msgid "Ville"
 msgstr "City"
@@ -634,7 +633,7 @@ msgstr ""
 msgid "Ce coupon ne sera plus utilisable après cette date."
 msgstr "This coupon will be more usable after this date."
 
-#: __controllers/dashboard.php:27 inc/controller.php:503
+#: __controllers/dashboard.php:27 inc/controller.php:507
 #: views/checkout/v2-1/header.php:6 views/checkout/v2-1/header.php:67
 msgid "Tableau de bord"
 msgstr "Dashboard"
@@ -679,16 +678,16 @@ msgstr "Failed to retrieve the provider."
 msgid "Livraison de produits"
 msgstr "Delivering product"
 
-#: __controllers/fournisseurs.php:163
+#: __controllers/fournisseurs.php:168
 #, php-format
 msgid "%s : Historique d'approvisionnement"
 msgstr "%s: Supply History"
 
-#: __controllers/fournisseurs.php:174 inc/controller.php:268
+#: __controllers/fournisseurs.php:179 inc/controller.php:268
 msgid "Liste des fournisseurs"
 msgstr "Suppliers List"
 
-#: __controllers/fournisseurs.php:183 __controllers/fournisseurs.php:202
+#: __controllers/fournisseurs.php:188 __controllers/fournisseurs.php:207
 msgid "Ajouter un nouveau fournisseur"
 msgstr "Add new supplier"
 
@@ -705,12 +704,12 @@ msgstr ""
 "Unable to show the receipt. This command has no items - <a href=\"%s\">Go "
 "back</a>"
 
-#: __controllers/print.php:83
+#: __controllers/print.php:89
 #, fuzzy
 msgid "Cette commande est introuvable."
 msgstr "This order cannot be found"
 
-#: __controllers/print.php:143
+#: __controllers/print.php:149
 #, fuzzy
 msgid "Arrivage non définie."
 msgstr "Shipping not defined"
@@ -1201,12 +1200,17 @@ msgstr "Settings invoice/receipt"
 msgid "Réglages Clavier"
 msgstr "Keyboard Controls"
 
-#: __controllers/settings.php:60
+#: __controllers/settings.php:58 inc/controller.php:418
+#, fuzzy
+msgid "Commandes"
+msgstr "Number of Orders"
+
+#: __controllers/settings.php:63
 msgid "Réglages Stripe"
 msgstr "Stripe Settings "
 
-#: __controllers/stores-settings.php:29 inc/controller.php:461
-#: inc/controller.php:472 views/stores/main.php:10
+#: __controllers/stores-settings.php:29 inc/controller.php:465
+#: inc/controller.php:476 views/stores/main.php:10
 msgid "Réglages des boutiques"
 msgstr "Stores settings"
 
@@ -1350,6 +1354,11 @@ msgstr ""
 "The product <strong>%s</strong> stock is low. Click here to access the "
 "product."
 
+#: inc/actions.php:258
+#, php-format
+msgid "Le paiement de la commande <strong>%s</strong> est arrivé à échéance."
+msgstr "The order <strong>%s</strong> payment became due."
+
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:84
 #: views/checkout/v2-1/col_1.php:223 views/checkout/v2/col_1.php:117
 #: views/checkout/v2/script.php:2128 views/items/stock-supply/new-ui-dom.php:80
@@ -1485,7 +1494,7 @@ msgstr "Create New Customer"
 #: inc/angular/order-list/controllers/orders-list.php:348
 #: inc/angular/register/directives/paybox-content.php:172
 #: views/checkout/v2-1/col_1.php:41 views/checkout/v2-1/col_1.php:43
-#: views/checkout/v2-1/col_1.php:139 views/customers/script.php:228
+#: views/checkout/v2-1/col_1.php:139 views/customers/script.php:237
 #: views/items/stock-supply/dom.php:78 views/receipts/default.php:151
 #: views/receipts/light.php:148
 msgid "Livraison"
@@ -1574,8 +1583,9 @@ msgstr "You cannot create more than 10 variations of the same product."
 #: views/settings/checkout.php:254 views/settings/checkout.php:267
 #: views/settings/checkout.php:277 views/settings/checkout.php:304
 #: views/settings/checkout.php:316 views/settings/home.php:81
-#: views/settings/items.php:101 views/settings/providers.php:20
-#: views/shop-checkout-settings - Deprecated.php:127
+#: views/settings/items.php:101 views/settings/orders.php:20
+#: views/settings/providers.php:20 views/shop-checkout-settings -
+#: Deprecated.php:127
 msgid "Oui"
 msgstr "Yes"
 
@@ -1590,8 +1600,9 @@ msgstr "Yes"
 #: views/settings/checkout.php:253 views/settings/checkout.php:266
 #: views/settings/checkout.php:278 views/settings/checkout.php:303
 #: views/settings/checkout.php:315 views/settings/home.php:82
-#: views/settings/items.php:102 views/settings/providers.php:21
-#: views/shop-checkout-settings - Deprecated.php:128
+#: views/settings/items.php:102 views/settings/orders.php:21
+#: views/settings/providers.php:21 views/shop-checkout-settings -
+#: Deprecated.php:128
 msgid "Non"
 msgstr "No"
 
@@ -2762,24 +2773,24 @@ msgstr "%s Settings"
 msgid "Général"
 msgstr "General"
 
-#: inc/controller.php:422
+#: inc/controller.php:426
 msgid "Factures & Reçus"
 msgstr "Invoices & Receipts"
 
-#: inc/controller.php:427
+#: inc/controller.php:431
 #, fuzzy
 msgid "Raccourcis Claviers"
 msgstr "Keyboard Shortcuts"
 
-#: inc/controller.php:437 views/settings/reset-script.php:2
+#: inc/controller.php:441 views/settings/reset-script.php:2
 msgid "Réinitialisation"
 msgstr "Reset"
 
-#: inc/controller.php:442
+#: inc/controller.php:446
 msgid "A propos"
 msgstr "About"
 
-#: inc/controller.php:515
+#: inc/controller.php:519
 msgid "Réglages de la boutique"
 msgstr "Store Settings"
 
@@ -2996,333 +3007,333 @@ msgstr "Note"
 msgid "%s"
 msgstr "%s"
 
-#: inc/install.php:719
+#: inc/install.php:720
 #, fuzzy
 msgid "Gestion des commandes"
 msgstr "Manage orders"
 
-#: inc/install.php:719
+#: inc/install.php:720
 msgid "Peut créer des commandes"
 msgstr "Can create orders"
 
-#: inc/install.php:720
+#: inc/install.php:721
 #, fuzzy
 msgid "Modification des commandes"
 msgstr "Change orders"
 
-#: inc/install.php:720
+#: inc/install.php:721
 msgid "Peut modifier des commandes"
 msgstr "Can change orders"
 
-#: inc/install.php:721
+#: inc/install.php:722
 #, fuzzy
 msgid "Suppression des commandes"
 msgstr "Deletion of orders"
 
-#: inc/install.php:721
+#: inc/install.php:722
 #, fuzzy
 msgid "Peut supprimer des commandes"
 msgstr "Can remove commands"
 
-#: inc/install.php:724
+#: inc/install.php:725
 #, fuzzy
 msgid "Créer des articles"
 msgstr "Create articles"
 
-#: inc/install.php:724
+#: inc/install.php:725
 msgid "Peut créer des produits"
 msgstr "Create products"
 
-#: inc/install.php:725
+#: inc/install.php:726
 #, fuzzy
 msgid "Modifier des articles"
 msgstr "Modifying items"
 
-#: inc/install.php:725
+#: inc/install.php:726
 msgid "Peut modifier des produits"
 msgstr "Can modify products"
 
-#: inc/install.php:726
+#: inc/install.php:727
 #, fuzzy
 msgid "Supprimer des articles"
 msgstr "Delete posts"
 
-#: inc/install.php:726
+#: inc/install.php:727
 msgid "Peut supprimer des produits"
 msgstr "Can remove products"
 
-#: inc/install.php:729
+#: inc/install.php:730
 #, fuzzy
 msgid "Créer des catégories"
 msgstr "Creating categories"
 
-#: inc/install.php:729
+#: inc/install.php:730
 #, fuzzy
 msgid "Crée les catégories"
 msgstr "Create categories"
 
-#: inc/install.php:730
+#: inc/install.php:731
 #, fuzzy
 msgid "Modifier des catégories"
 msgstr "Editing categories"
 
-#: inc/install.php:730
+#: inc/install.php:731
 #, fuzzy
 msgid "Modifie les catégories"
 msgstr "Changes the categories"
 
-#: inc/install.php:731
+#: inc/install.php:732
 #, fuzzy
 msgid "Supprimer des catégories"
 msgstr "Delete Categories"
 
-#: inc/install.php:731
+#: inc/install.php:732
 #, fuzzy
 msgid "Supprime les catégories"
 msgstr "Delete categories"
 
-#: inc/install.php:734
+#: inc/install.php:735
 #, fuzzy
 msgid "Créer des rayons"
 msgstr "Create rays"
 
-#: inc/install.php:734
+#: inc/install.php:735
 #, fuzzy
 msgid "Crée les rayons"
 msgstr "Creates the rays"
 
-#: inc/install.php:735
+#: inc/install.php:736
 #, fuzzy
 msgid "Modifier des rayons"
 msgstr "Change rays"
 
-#: inc/install.php:735
+#: inc/install.php:736
 #, fuzzy
 msgid "Modifie les rayons"
 msgstr "Changes the rays"
 
-#: inc/install.php:736
+#: inc/install.php:737
 #, fuzzy
 msgid "Supprimer des rayons"
 msgstr "Remove rays"
 
-#: inc/install.php:736
+#: inc/install.php:737
 #, fuzzy
 msgid "Supprime les rayons"
 msgstr "Removes the rays"
 
-#: inc/install.php:739
+#: inc/install.php:740
 #, fuzzy
 msgid "Créer des collections"
 msgstr "Create collections"
 
-#: inc/install.php:739
+#: inc/install.php:740
 #, fuzzy
 msgid "Crée les collections"
 msgstr "THE COLLECTIONS"
 
-#: inc/install.php:740
+#: inc/install.php:741
 #, fuzzy
 msgid "Modifier des collections"
 msgstr "Change collections"
 
-#: inc/install.php:740
+#: inc/install.php:741
 #, fuzzy
 msgid "Modifie les collections"
 msgstr "Change collections"
 
-#: inc/install.php:741
+#: inc/install.php:742
 #, fuzzy
 msgid "Supprimer des collections"
 msgstr "Remove Collection"
 
-#: inc/install.php:741
+#: inc/install.php:742
 #, fuzzy
 msgid "Supprime les collections"
 msgstr "Removes the collections"
 
-#: inc/install.php:744
+#: inc/install.php:745
 #, fuzzy
 msgid "Créer des fournisseurs"
 msgstr "Create suppliers"
 
-#: inc/install.php:744 inc/install.php:745 inc/install.php:746
+#: inc/install.php:745 inc/install.php:746 inc/install.php:747
 msgid "Gère les fournisseurs (Livreurs)"
 msgstr "Manage suppliers"
 
-#: inc/install.php:745
+#: inc/install.php:746
 #, fuzzy
 msgid "Modifier des fournisseurs"
 msgstr "Change providers"
 
-#: inc/install.php:746
+#: inc/install.php:747
 #, fuzzy
 msgid "Supprimer des fournisseurs"
 msgstr "Delete suppliers"
 
-#: inc/install.php:749
+#: inc/install.php:750
 #, fuzzy
 msgid "Créer des clients"
 msgstr "Create customers"
 
-#: inc/install.php:749
+#: inc/install.php:750
 #, fuzzy
 msgid "Création des clients"
 msgstr "Creation of customers"
 
-#: inc/install.php:750
+#: inc/install.php:751
 msgid "Modifier des clients"
 msgstr "Edit Customers"
 
-#: inc/install.php:750
+#: inc/install.php:751
 #, fuzzy
 msgid "Modification des clients"
 msgstr "Editing the customers"
 
-#: inc/install.php:751
+#: inc/install.php:752
 #, fuzzy
 msgid "Supprimer des clients"
 msgstr "Delete Clients"
 
-#: inc/install.php:751
+#: inc/install.php:752
 msgid "Suppression des clients"
 msgstr "Removing Customers"
 
-#: inc/install.php:754
+#: inc/install.php:755
 #, fuzzy
 msgid "Créer des groupes de clients"
 msgstr "Create groups of customers"
 
-#: inc/install.php:754
+#: inc/install.php:755
 #, fuzzy
 msgid "Création des groupes de clients"
 msgstr "Creating groups of customers"
 
-#: inc/install.php:755
+#: inc/install.php:756
 #, fuzzy
 msgid "Modifier des groupes de clients"
 msgstr "Edit Customer Groups"
 
-#: inc/install.php:755
+#: inc/install.php:756
 #, fuzzy
 msgid "Modification des groupes de clients"
 msgstr "Editing groups of customers"
 
-#: inc/install.php:756
+#: inc/install.php:757
 #, fuzzy
 msgid "Supprimer des groupes de clients"
 msgstr "Remove groups of customers"
 
-#: inc/install.php:756
+#: inc/install.php:757
 msgid "Suppression des groupes de clients"
 msgstr "Removing customers groups"
 
-#: inc/install.php:759
+#: inc/install.php:760
 #, fuzzy
 msgid "Créer des factures d'achats"
 msgstr "Create invoices of purchases"
 
-#: inc/install.php:759
+#: inc/install.php:760
 #, fuzzy
 msgid "Création des factures d'achats"
 msgstr "Creation of invoices of purchases"
 
-#: inc/install.php:760
+#: inc/install.php:761
 msgid "Modifier des factures d'achats"
 msgstr "Edit Purchase Invoices"
 
-#: inc/install.php:760
+#: inc/install.php:761
 msgid "Modification des factures d'achats"
 msgstr "Edit Purchase Invoices"
 
-#: inc/install.php:761
+#: inc/install.php:762
 #, fuzzy
 msgid "Supprimer des factures d'achats"
 msgstr "Delete invoices of purchases"
 
-#: inc/install.php:761
+#: inc/install.php:762
 msgid "Suppression des factures d'achats"
 msgstr "Removal of purchase invoices"
 
-#: inc/install.php:764
+#: inc/install.php:765
 #, fuzzy
 msgid "Créer des sauvegardes"
 msgstr "Create & backups"
 
-#: inc/install.php:764
+#: inc/install.php:765
 #, fuzzy
 msgid "Création des sauvegardes"
 msgstr "Creating backups"
 
-#: inc/install.php:765
+#: inc/install.php:766
 #, fuzzy
 msgid "Modifier des sauvegardes"
 msgstr "Modify backups"
 
-#: inc/install.php:765
+#: inc/install.php:766
 #, fuzzy
 msgid "Modification des sauvegardes"
 msgstr "Modification of backups"
 
-#: inc/install.php:766
+#: inc/install.php:767
 msgid "Supprimer des sauvegardes"
 msgstr "Remove backups"
 
-#: inc/install.php:766
+#: inc/install.php:767
 #, fuzzy
 msgid "Suppression des sauvegardes"
 msgstr "Deletion of backups"
 
-#: inc/install.php:769
+#: inc/install.php:770
 #, fuzzy
 msgid "Lit le flux d'activité des utilisateurs"
 msgstr "The users activity stream bed"
 
-#: inc/install.php:770
+#: inc/install.php:771
 #, fuzzy
 msgid "Efface le flux d'actvite des utilisateurs"
 msgstr "Erases the users activity stream"
 
-#: inc/install.php:773
+#: inc/install.php:774
 #, fuzzy
 msgid "Lecture des rapports & statistiques"
 msgstr "Reading the reports & statistics"
 
-#: inc/install.php:773
+#: inc/install.php:774
 #, fuzzy
 msgid "Autorise la lecture des rapports"
 msgstr "Allows the reading of the reports"
 
-#: inc/install.php:788 language/nexo_lang.php:100
+#: inc/install.php:789 language/nexo_lang.php:100
 msgid "Création des coupon"
 msgstr "Creation of coupon"
 
-#: inc/install.php:798
+#: inc/install.php:799
 #, fuzzy
 msgid "Créer des taxes"
 msgstr "Create taxes"
 
-#: inc/install.php:798
+#: inc/install.php:799
 #, fuzzy
 msgid "Donne la capcité de créer des taxes."
 msgstr "Give the large create taxes."
 
-#: inc/install.php:799
+#: inc/install.php:800
 #, fuzzy
 msgid "Modifier des taxes"
 msgstr "Change fees"
 
-#: inc/install.php:799
+#: inc/install.php:800
 #, fuzzy
 msgid "Donne la capacité de modifier des taxes."
 msgstr "Gives the ability to change taxes."
 
-#: inc/install.php:800
+#: inc/install.php:801
 #, fuzzy
 msgid "Supprimer des taxes"
 msgstr "Remove taxes"
 
-#: inc/install.php:800
+#: inc/install.php:801
 #, fuzzy
 msgid "Donne la capacité de supprimer des taxes."
 msgstr "Gives the ability to remove taxes."
@@ -3364,7 +3375,7 @@ msgstr "Choose a reset option"
 msgid "Veuillez choisir une option dans la liste de réinitialisation"
 msgstr "Please choose an option from the list to reset"
 
-#: inc/traits/orders.php:113
+#: inc/traits/orders.php:142
 msgid "Impossible d'identifier le client"
 msgstr "Unable to identify the customer"
 
@@ -3570,7 +3581,7 @@ msgstr "Complete"
 msgid "Incomplète"
 msgstr "Incomplete"
 
-#: language/nexo_lang.php:20
+#: language/nexo_lang.php:20 views/settings/orders.php:32
 msgid "Devis"
 msgstr "Quotation"
 
@@ -4712,7 +4723,7 @@ msgid "Customer Name"
 msgstr "Customer Name"
 
 #: views/customers/main-template.php:7 views/items/templates/clothes.php:12
-#: views/items/templates/coupon.php:12
+#: views/items/templates/coupon.php:12 views/settings/orders.php:11
 #, fuzzy
 msgid "Enregistrer"
 msgstr "Save"
@@ -4722,83 +4733,83 @@ msgstr "Save"
 msgid "Vous devez fournir un nom au client."
 msgstr "You must provide a name to the client."
 
-#: views/customers/script.php:19
+#: views/customers/script.php:21
 #, fuzzy
 msgid "Basic informations"
 msgstr "Basic information"
 
-#: views/customers/script.php:22
+#: views/customers/script.php:27
 #, fuzzy
 msgid "Billing Informations"
 msgstr "Billing Information"
 
-#: views/customers/script.php:25
+#: views/customers/script.php:33
 #, fuzzy
 msgid "Informations de livraison"
 msgstr "Shipping Details"
 
-#: views/customers/script.php:86 views/customers/script.php:120
+#: views/customers/script.php:95 views/customers/script.php:129
 #, fuzzy
 msgid "L'email de cet utilisateurs est déjà utilisé"
 msgstr "The email of this user is already used"
 
-#: views/customers/script.php:129
+#: views/customers/script.php:138
 #, fuzzy
 msgid "Le formulaire contient une ou plusieurs erreurs"
 msgstr "The form contains one or more errors"
 
-#: views/customers/script.php:193
+#: views/customers/script.php:202
 #, fuzzy
 msgid "Informations de contact"
 msgstr "Contact Information"
 
-#: views/customers/script.php:221
+#: views/customers/script.php:230
 #, fuzzy
 msgid "Assigner à un groupe"
 msgstr "Assign Group"
 
-#: views/customers/script.php:228
+#: views/customers/script.php:237
 #, fuzzy
 msgid "Facturation"
 msgstr "Invoicing"
 
-#: views/customers/script.php:256
+#: views/customers/script.php:265
 #, fuzzy
 msgid "Cet email pourra être utilisé pour envoyer des factures au client"
 msgstr "This email can be used to send invoices to the customer"
 
-#: views/customers/script.php:260
+#: views/customers/script.php:269
 #, fuzzy
 msgid "Ce numéro pourra être utilisé pour envoyer des factures au client"
 msgstr "This number can be used to send invoices to the customer"
 
-#: views/customers/script.php:275
+#: views/customers/script.php:281
 #, fuzzy
 msgid "Etat / Région"
 msgstr "State / County"
 
-#: views/customers/script.php:291 views/shippings/main-template.php:51
+#: views/customers/script.php:308 views/shippings/main-template.php:51
 #: views/shippings/main-template.php:52
 #, fuzzy
 msgid "Entreprise"
 msgstr "Business"
 
-#: views/customers/script.php:294
+#: views/customers/script.php:311
 #, fuzzy
 msgid "Addresse Ligne 1"
 msgstr "Address Line 1"
 
-#: views/customers/script.php:297
+#: views/customers/script.php:314
 #, fuzzy
 msgid "Addresse Ligne 2"
 msgstr "Address Line 2"
 
-#: views/customers/script.php:303
+#: views/customers/script.php:320
 #, fuzzy
 msgid "Code Postal"
 msgstr "Zip/Post Code"
 
-#: views/customers/script.php:309
+#: views/customers/script.php:326
 #, fuzzy
 msgid "Etat / Comté"
 msgstr "State / county"
@@ -5247,7 +5258,7 @@ msgid "Approvisionnement mis à jour"
 msgstr "Updated supply up-to-date"
 
 #: views/items/stock-supply/new-ui-script.php:216
-#: views/settings/invoices.php:110
+#: views/settings/invoices.php:111
 #, fuzzy
 msgid "Reçu d'approvisionnement"
 msgstr "Receipt of supply"
@@ -5755,7 +5766,7 @@ msgstr "The dates are not specified"
 #: views/settings/checkout.php:26 views/settings/checkout.php:39
 #: views/settings/customers.php:24 views/settings/home.php:26
 #: views/settings/home.php:94 views/settings/invoices.php:26
-#: views/settings/invoices.php:114 views/settings/items.php:37
+#: views/settings/invoices.php:115 views/settings/items.php:37
 #: views/settings/reset.php:13 views/shop-checkout-settings - Deprecated.php:10
 #: views/stores/main.php:16
 msgid "Sauvegarder les réglages"
@@ -6264,12 +6275,12 @@ msgstr ""
 "Force the width of the logo. Please define a numeric value, for example: "
 "\"30\" and not \"30px\""
 
-#: views/settings/invoices.php:65 views/settings/invoices.php:123
+#: views/settings/invoices.php:65 views/settings/invoices.php:124
 #, fuzzy
 msgid "Colonne 1 du reçu par défaut"
 msgstr "Column 1 of the default receipt"
 
-#: views/settings/invoices.php:71 views/settings/invoices.php:129
+#: views/settings/invoices.php:71 views/settings/invoices.php:130
 #, fuzzy
 msgid "Colonne 2 du reçu par défaut"
 msgstr "Column 2 of the default receipt"
@@ -6279,31 +6290,31 @@ msgstr "Column 2 of the default receipt"
 msgid "Notes pour factures"
 msgstr "Notes for bills"
 
-#: views/settings/invoices.php:83 views/settings/invoices.php:135
+#: views/settings/invoices.php:83 views/settings/invoices.php:136
 msgid "<h4>Utilisez les balises suivantes : </h4>"
 msgstr "<h4> Use the following tags: </h4>"
 
-#: views/settings/invoices.php:84 views/settings/invoices.php:136
+#: views/settings/invoices.php:84 views/settings/invoices.php:137
 msgid "{shop_name} pour afficher le nom de la boutique"
 msgstr "{shop_name}  to display the name of the shop"
 
-#: views/settings/invoices.php:85 views/settings/invoices.php:137
+#: views/settings/invoices.php:85 views/settings/invoices.php:138
 msgid "{shop_phone} pour afficher le numéro de téléphone de la boutique"
 msgstr "{shop_phone} to display the shop phone number"
 
-#: views/settings/invoices.php:86 views/settings/invoices.php:138
+#: views/settings/invoices.php:86 views/settings/invoices.php:139
 msgid "{shop_fax} pour afficher le fax de la boutique"
 msgstr "{shop_fax} to view the shop fax number"
 
-#: views/settings/invoices.php:87 views/settings/invoices.php:139
+#: views/settings/invoices.php:87 views/settings/invoices.php:140
 msgid "{shop_pobox} pour afficher la boite postale de la boutique"
 msgstr "{shop_pobox} to display the shop pobox"
 
-#: views/settings/invoices.php:88 views/settings/invoices.php:140
+#: views/settings/invoices.php:88 views/settings/invoices.php:141
 msgid "{shop_street} pour afficher la rue de la boutique"
 msgstr "{shop_street} to display the shop street"
 
-#: views/settings/invoices.php:89 views/settings/invoices.php:141
+#: views/settings/invoices.php:89 views/settings/invoices.php:142
 msgid "{shop_email} pour afficher l'email de la boutique"
 msgstr "{shop_email} to display the shop email"
 
@@ -6609,6 +6620,44 @@ msgstr "Remove a discount"
 #, fuzzy
 msgid "Par défaut : shift+del"
 msgstr "Default: shift   del"
+
+#: views/settings/orders.php:19 views/settings/orders.php:31
+msgid "Choisissez une option"
+msgstr "Choose an option"
+
+#: views/settings/orders.php:24
+msgid "Expiration des commandes"
+msgstr "Order expiration"
+
+#: views/settings/orders.php:25
+msgid ""
+"Activer une date d'expiration des commandes qui ne sont pas totalement "
+"réglées"
+msgstr "Activate an expiry of orders that are not completely settled"
+
+#: views/settings/orders.php:33
+msgid "Incomplètes"
+msgstr "Incomplete"
+
+#: views/settings/orders.php:34
+msgid "Devis & Incomplètes"
+msgstr "Quote & incomplete"
+
+#: views/settings/orders.php:37
+msgid "Commandes Concernée"
+msgstr "Orders concerned"
+
+#: views/settings/orders.php:38
+msgid "Définir les commandes qui sont susceptibles d'expirer."
+msgstr "Define commands that are likely to expire."
+
+#: views/settings/orders.php:44
+msgid "Expiration (Jours)"
+msgstr "Expiration (days)"
+
+#: views/settings/orders.php:45
+msgid "Définir après combien de temps une commande expire."
+msgstr "Define how long an order expire."
 
 #: views/settings/providers.php:24
 msgid "Activer l'historique des fournisseurs"
@@ -7420,10 +7469,6 @@ msgstr "Tutorials"
 
 #~ msgid "Type de la commande"
 #~ msgstr "Order type"
-
-#, fuzzy
-#~ msgid "Commandes"
-#~ msgstr "Number of Orders"
 
 #~ msgid "Nombre de commandes"
 #~ msgstr "Number of Orders"

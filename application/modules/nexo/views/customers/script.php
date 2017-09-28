@@ -15,16 +15,25 @@ let customersMain    =   function(
     $scope.rawCustomers             =   <?php echo json_encode( ( array ) $clients );?>;
     $scope.pageNow                  =   '<?php echo $PageNow;?>';
 
-    $scope.tabs         =   [{
+    $scope.tabs                     =   new Array;
+    <?php if( $this->events->apply_filters( 'nexo_customers_show_basic_tab', true ) ):?>
+    $scope.tabs.push({
         name        :   '<?php echo _s( 'Basic informations', 'nexo' );?>',
         namespace   :   'basic'
-    },{
+    });
+    <?php endif;?>
+    <?php if( $this->events->apply_filters( 'nexo_customers_show_billing_tab', true ) ):?>
+    $scope.tabs.push({
         name        :   '<?php echo _s( 'Billing Informations', 'nexo' );?>',
         namespace   :   'billing'
-    },{
+    });
+    <?php endif;?>
+    <?php if( $this->events->apply_filters( 'nexo_customers_show_shipping_tab', true ) ):?>
+    $scope.tabs.push({
         name        :   '<?php echo _s( 'Informations de livraison', 'nexo' );?>',
         namespace   :   'shipping'
-    }];
+    });
+    <?php endif;?>
 
     $scope.model        =   new Object;
 
@@ -242,42 +251,50 @@ tendooApp.directive( 'customersForm', function( $rootScope ){
             
             $scope.form                 =   new Array;
 
+            <?php 
+            $basic_fields           =   [
+                [
+                    'key'           =>  'ref_group',
+                    'type'          =>  'select'
+                ], [
+                    'key'         =>      'surname',
+                    'title'         =>  __( 'Prénom', 'nexo' )
+                ], [
+                    'key'         =>      'email',
+                    'title'         =>  __( 'Email', 'nexo' ),
+                    'description'   =>  __( 'Cet email pourra être utilisé pour envoyer des factures au client', 'nexo' )
+                ], [
+                    'key'         =>      'phone',
+                    'title'         =>  __( 'Téléphone', 'nexo' ),
+                    'description'   =>  __( 'Ce numéro pourra être utilisé pour envoyer des factures au client', 'nexo' )
+                ], [
+                    'key'         =>      'birth_date',
+                    'title'         =>  __( 'Date de naissance', 'nexo' )
+                ], [
+                    'key'         =>      'country',
+                    'title'         =>  __( 'Pays', 'nexo' )
+                ], [
+                    'key'         =>      'city',
+                    'title'         =>  __( 'Ville', 'nexo' )
+                ], [
+                    'key'         =>      'state',
+                    'title'         =>  __( 'Etat / Région', 'nexo' )
+                ], [
+                    'key'         =>      'description',
+                    'title'         =>  __( 'Description', 'nexo' ),
+                    'type'          =>  'textarea'
+                ]
+            ];
+            $basic_fields   =   $this->events->apply_filters( 'nexo_customers_basic_fields', $basic_fields );
+            ?>
+
             // Basic
-            $scope.form[ 'basic' ]      =   [{
-                key         :   'ref_group',
-                type        :   'select',
-                titleMap    :   $scope.groups
-            },{
-                key     :   "surname",
-                title   :   "<?php echo _s( 'Prénom', 'nexo' );?>"
-            },{
-                key     :   "email",
-                title   :   "<?php echo _s( 'Email', 'nexo' );?>",
-                description     :   "<?php echo _s( 'Cet email pourra être utilisé pour envoyer des factures au client', 'nexo' );?>"
-            },{
-                key     :   "phone",
-                title   :   "<?php echo _s( 'Téléphone', 'nexo' );?>",
-                description     :   "<?php echo _s( 'Ce numéro pourra être utilisé pour envoyer des factures au client', 'nexo' );?>"
-            },{
-                key     :   "birth_date",
-                title   :   "<?php echo _s( 'Date de naissance', 'nexo' );?>"
-            },{
-                key     :   "country",
-                title   :   "<?php echo _s( 'Pays', 'nexo' );?>"
-            },{
-                key     :   "city",
-                title   :   "<?php echo _s( 'Ville', 'nexo' );?>"
-            },{
-                key     :   "description",
-                title   :   "<?php echo _s( 'Description', 'nexo' );?>"
-            },{
-                key     :   "state",
-                title   :   "<?php echo _s( 'Etat / Région', 'nexo' );?>"
-            },{
-                key     :   "description",
-                type    :   "textarea",
-                title   :   "<?php echo _s( 'Description', 'nexo' );?>"
-            }];
+            $scope.form[ 'basic' ]                  =   <?php echo json_encode( $basic_fields );?>;
+            $scope.form[ 'basic' ].forEach( ( $field, key ) => {
+                if( $field.type == 'ref_group' ) {
+                    $scope.form[ 'basic' ][key].titleMap      =   $scope.groups;
+                }
+            });            
 
             _.each([ 'billing', 'shipping' ], ( tab ) => {
                 $scope.form[ tab ]      =   [{

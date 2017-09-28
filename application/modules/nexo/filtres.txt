@@ -267,3 +267,43 @@ Filtres:
  * post_order_item
  * permet de filtrer un produit durant la publication de la commande
 **/
+
+/**
+ * nexo_customers_basic_fields
+ * Filtre les champs des clients de l'onglet basics
+**/
+
+/**
+ * nexo_customers_show_basic_tab
+ * Afficher l'onglet basic
+**/
+
+/**
+ * nexo_customers_show_billing_tab
+ * Afficher l'onglet billing
+**/
+
+/**
+ * nexo_customers_show_delivery_tab
+ * Afficher l'onglet delivery
+**/
+
+/**
+* nexo_filters_customers_post_fields
+* Permet de filtrer les champs des clients durant la soumissions
+**/
+
+/**
+* nexo_filters_customers_put_fields
+* Permet de filtrer les champs des clients durant la soumissions
+**/
+
+/**
+ * nexo_filter_invoice_dom_tag_list
+ * permet de filtrer la liste des templates pour le reçu de vente
+**/
+
+/**
+ * nexo_filter_receipt_template
+ * Filter customer details
+**/

@@ -69,9 +69,15 @@ class Nexo_Print extends CI_Model
             $data[ 'template' ][ 'customer_name' ]  =   $data[ 'order' ][ 'order' ][0][ 'customer_name' ];
             $data[ 'template' ][ 'customer_phone' ]  =   $data[ 'order' ][ 'order' ][0][ 'customer_phone' ];
 
-            $theme                                          =	@$Options[ store_prefix() . 'nexo_receipt_theme' ] ? @$Options[ store_prefix() . 'nexo_receipt_theme' ] : 'default';
+            $filtered   =   $this->events->apply_filters( 'nexo_filter_receipt_template', [
+                'template'          =>      $data[ 'template' ],
+                'order'             =>      $data[ 'order' ][ 'order' ][0],
+                'items'             =>      $data[ 'order' ][ 'products' ]
+            ]);
 
-            $path   =   '../modules/nexo/views/receipts/' . $theme . '.php';
+            $data[ 'template' ]             =   $filtered[ 'template' ];
+            $theme                          =	@$Options[ store_prefix() . 'nexo_receipt_theme' ] ? @$Options[ store_prefix() . 'nexo_receipt_theme' ] : 'default';
+            $path                           =   '../modules/nexo/views/receipts/' . $theme . '.php';
 
             $this->load->view(
                 $this->events->apply_filters( 'nexo_receipt_theme_path', $path ),

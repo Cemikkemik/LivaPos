@@ -38,12 +38,13 @@ class CMD_Library {
      *  @return void
     **/
 
-    public function askDescrition( $description )
+    public function askDescription( $description )
     {
         $this->checkExit( $description );
-
+        
         if( ! $this->isEmpty( $description ) ) {
             $this->module_description   =   $description;
+
             $module_string      =   '';
             $module_string      .=   'Module Name : ' . $this->module_name . '\n';
             $module_string      .=   'Module Author : ' . $this->module_author . '\n';
@@ -53,7 +54,8 @@ class CMD_Library {
             $module_string      .=   'Module Description : ' . $this->module_description . '\n';
             return $this->ask(
                 'Whould you confirm module creation [Y] for yes [N] for No.\n' .
-                $module_string
+                $module_string,
+                [ $this, 'createModule' ]
             );
         }
         return $this->ask( 'Incorrect module description', [ $this, 'askDescription' ] );
@@ -116,6 +118,17 @@ class CMD_Library {
     public function isEmpty( $string )
     {
         return empty( trim( $string ) );
+    }
+
+    /**
+     * Create Module
+     * @return void
+    **/
+
+    public function createModule()
+    {
+        Modules::load( MODULESPATH );
+        var_dump( Modules::get( $this->module_namespace ) );
     }
 
 

@@ -149,21 +149,25 @@ trait Nexo_customers
             ], 403 );
         }
 
-        $this->db->insert( store_prefix() . 'nexo_clients', [
-            'NOM'               =>  $this->post( 'name' ),
-            'PRENOM'            =>  $this->post( 'surname' ),
-            'COUNTRY'           =>  $this->post( 'country' ),
-            'CITY'              =>  $this->post( 'city' ),
-            'STATE'             =>  $this->post( 'state' ),
-            'DESCRIPTION'       =>  $this->post( 'description' ),
-            'DATE_NAISSANCE'    =>  $this->post( 'birth_date' ),
-            'EMAIL'             =>  $this->post( 'email' ),
-            'DATE_CREATION'     =>  date_now(),
-            'DATE_MOD'          =>  date_now(),
-            'AUTHOR'            =>  $this->post( 'author' ),
-            'TEL'               =>  $this->post( 'phone' ),
-            'REF_GROUP'         =>  $this->post( 'ref_group' )
-        ]);
+        $customer_fields        =   $this->events->apply_filters_ref_array( 'nexo_filters_customers_post_fields', [
+            [
+                'NOM'               =>  $this->post( 'name' ) != null ? $this->post( 'name' ) : '',
+                'PRENOM'            =>  $this->post( 'surname' ) != null ? $this->post( 'surname' ) : '',
+                'COUNTRY'           =>  $this->post( 'country' ) != null ? $this->post( 'country' ) : '',
+                'CITY'              =>  $this->post( 'city' ) != null ? $this->post( 'city' ) : '',
+                'STATE'             =>  $this->post( 'state' ) != null ? $this->post( 'state' ) : '',
+                'DESCRIPTION'       =>  $this->post( 'description' ) != null ? $this->post( 'description' ) : '',
+                'DATE_NAISSANCE'    =>  $this->post( 'birth_date' ) != null ? $this->post( 'birth_date' ) : '',
+                'EMAIL'             =>  $this->post( 'email' ) != null ? $this->post( 'email' ) : '',
+                'DATE_CREATION'     =>  date_now(),
+                'DATE_MOD'          =>  date_now(),
+                'AUTHOR'            =>  $this->post( 'author' ) != null ? $this->post( 'author' ) : '',
+                'TEL'               =>  $this->post( 'phone' ) != null ? $this->post( 'phone' ) : '',
+                'REF_GROUP'         =>  $this->post( 'ref_group' )  != null ? $this->post( 'ref_group' )  : ''
+            ], $this
+        ] );
+
+        $this->db->insert( store_prefix() . 'nexo_clients', $customer_fields );
 
         $insert_id      =   $this->db->insert_id();
 
@@ -193,8 +197,8 @@ trait Nexo_customers
         $meta[ 'shipping' ][ 'type' ]               =   'shipping';
 
         $this->db->insert( store_prefix() . 'nexo_clients_address', $meta[ 'shipping' ] );
-        $this->db->insert( store_prefix() . 'nexo_clients_address', $meta[ 'billing' ] );  
-
+        $this->db->insert( store_prefix() . 'nexo_clients_address', $meta[ 'billing' ] ); 
+        
         return $this->__success();  
     }
 
@@ -230,20 +234,24 @@ trait Nexo_customers
             ], 403 );
         }
 
-        $this->db->where( 'ID', $client_id )->update( store_prefix() . 'nexo_clients', [
-            'NOM'               =>  $this->put( 'name' ),
-            'PRENOM'            =>  $this->put( 'surname' ),
-            'COUNTRY'           =>  $this->put( 'country' ),
-            'CITY'              =>  $this->put( 'city' ),
-            'STATE'             =>  $this->put( 'state' ),
-            'DESCRIPTION'       =>  $this->put( 'description' ),
-            'DATE_NAISSANCE'    =>  $this->put( 'birth_date' ),
-            'EMAIL'             =>  $this->put( 'email' ),
-            'DATE_MOD'          =>  date_now(),
-            'AUTHOR'            =>  $this->put( 'author' ),
-            'TEL'               =>  $this->put( 'phone' ),
-            'REF_GROUP'         =>  $this->put( 'ref_group' )
+        $customer_fields        =   $this->events->apply_filters_ref_array( 'nexo_filters_customers_put_fields', [
+            [
+                'NOM'               =>  $this->put( 'name' ),
+                'PRENOM'            =>  $this->put( 'surname' ),
+                'COUNTRY'           =>  $this->put( 'country' ),
+                'CITY'              =>  $this->put( 'city' ),
+                'STATE'             =>  $this->put( 'state' ),
+                'DESCRIPTION'       =>  $this->put( 'description' ),
+                'DATE_NAISSANCE'    =>  $this->put( 'birth_date' ),
+                'EMAIL'             =>  $this->put( 'email' ),
+                'DATE_MOD'          =>  date_now(),
+                'AUTHOR'            =>  $this->put( 'author' ),
+                'TEL'               =>  $this->put( 'phone' ),
+                'REF_GROUP'         =>  $this->put( 'ref_group' )
+            ], $this
         ]);
+
+        $this->db->where( 'ID', $client_id )->update( store_prefix() . 'nexo_clients', $customer_fields);
 
         $insert_id      =   $this->db->insert_id();
 

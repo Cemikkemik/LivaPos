@@ -111,7 +111,11 @@ class Nexo_Categories extends CI_Model
         $this->load->library("pagination");
         $config["base_url"] = site_url([ 'dashboard', store_slug(), 'nexo', 'fournisseurs', 'history', $provider_id ]);
         //EDIT THIS (to get a count of number of rows. Might have to add in a criteria (category etc)
-        $config["total_rows"] = $this->db->get( store_prefix() . 'nexo_fournisseurs_history' )->num_rows();
+        $config["total_rows"] = 
+        $this->db
+        ->where( store_prefix() . 'nexo_fournisseurs_history.REF_PROVIDER', $provider_id )
+        ->get( store_prefix() . 'nexo_fournisseurs_history' )
+        ->num_rows();
         //EDIT THIS
         // $config["uri_segment"] = 3;
         //EDIT THIS:
@@ -131,6 +135,7 @@ class Nexo_Categories extends CI_Model
         ->from( store_prefix() . 'nexo_fournisseurs_history' )
         ->join( 'aauth_users', 'aauth_users.id = ' . store_prefix()  .'nexo_fournisseurs_history.AUTHOR' )
         ->limit( $config["per_page"], $from )
+        ->where( store_prefix() . 'nexo_fournisseurs_history.REF_PROVIDER', $provider_id )
         ->order_by( store_prefix() . 'nexo_fournisseurs_history.DATE_CREATION', 'desc' )
         ->get()
         ->result_array();

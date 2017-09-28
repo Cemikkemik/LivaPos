@@ -5,6 +5,7 @@ define( 'APPPATH', BASEPATH . 'application/' );
 define( 'MODULESPATH', APPPATH . 'modules/' );
 
 include_once( APPPATH . 'helpers/cmd_helper.php' );
+include_once( APPPATH . 'libraries/Modules.php' );
 
 if( $argc < 2 ) {
     echo "Not enough parameters";

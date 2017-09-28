@@ -80,21 +80,22 @@ $this->Gui->add_item(array(
 $this->Gui->add_item( array(
 	'type'			=>	'dom',
 	'content'		=>
-	__( '<h4>Utilisez les balises suivantes : </h4>', 'nexo' ) .
-	__( '{shop_name} pour afficher le nom de la boutique', 'nexo' ) . '<br>' .
-	__( '{shop_phone} pour afficher le numéro de téléphone de la boutique', 'nexo' ) . '<br>' .
-	__( '{shop_fax} pour afficher le fax de la boutique', 'nexo' ) . '<br>' .
-	__( '{shop_pobox} pour afficher la boite postale de la boutique', 'nexo' ) . '<br>' .
-	__( '{shop_street} pour afficher la rue de la boutique', 'nexo' ). '<br>' .
-	__( '{shop_email} pour afficher l\'email de la boutique', 'nexo' ). '<br>' .
-	__( '{order_date}, pour afficher la date de la commande.', 'nexo' ) . '<br>' .
-	__( '{order_updated}, pour afficher la date de modification de la commande.', 'nexo' ) . '<br>' .
-	__( '{order_code}, pour afficher le code de la commande.', 'nexo' ) . '<br>' .
-	__( '{order_id}, pour afficher l\'identifiant de la commande.', 'nexo' ) . '<br>' .
-	__( '{order_note}, pour afficher les notes de la commande.', 'nexo' ) . '<br>' .
-	__( '{order_cashier}, pour afficher l\'auteur de la commande.', 'nexo' ) . '<br>' .
-	__( '{customer_name}, pour afficher le nom du client.', 'nexo' ) . '<br>' .
-	__( '{customer_phone}, pour afficher le numéro de téléphone du client.', 'nexo' ) . '<br>'
+	$this->events->apply_filters( 'nexo_filter_invoice_dom_tag_list', __( '<h4>Utilisez les balises suivantes : </h4>', 'nexo' ) .
+		__( '{shop_name} pour afficher le nom de la boutique', 'nexo' ) . '<br>' .
+		__( '{shop_phone} pour afficher le numéro de téléphone de la boutique', 'nexo' ) . '<br>' .
+		__( '{shop_fax} pour afficher le fax de la boutique', 'nexo' ) . '<br>' .
+		__( '{shop_pobox} pour afficher la boite postale de la boutique', 'nexo' ) . '<br>' .
+		__( '{shop_street} pour afficher la rue de la boutique', 'nexo' ). '<br>' .
+		__( '{shop_email} pour afficher l\'email de la boutique', 'nexo' ). '<br>' .
+		__( '{order_date}, pour afficher la date de la commande.', 'nexo' ) . '<br>' .
+		__( '{order_updated}, pour afficher la date de modification de la commande.', 'nexo' ) . '<br>' .
+		__( '{order_code}, pour afficher le code de la commande.', 'nexo' ) . '<br>' .
+		__( '{order_id}, pour afficher l\'identifiant de la commande.', 'nexo' ) . '<br>' .
+		__( '{order_note}, pour afficher les notes de la commande.', 'nexo' ) . '<br>' .
+		__( '{order_cashier}, pour afficher l\'auteur de la commande.', 'nexo' ) . '<br>' .
+		__( '{customer_name}, pour afficher le nom du client.', 'nexo' ) . '<br>' .
+		__( '{customer_phone}, pour afficher le numéro de téléphone du client.', 'nexo' ) . '<br>'
+	) 
 ), 'invoice1', 1 );
 
 /** 

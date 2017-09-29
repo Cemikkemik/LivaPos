@@ -24,7 +24,6 @@ class Nexo_Restaurant_Main extends Tendoo_Module
         $this->events->add_filter( 'put_order_details', [ $this->filters, 'put_order_details' ], 10, 1 );
 
         $this->events->add_filter( 'nexo_demo_list', [ $this->filters, 'restaurant_demo' ] );
-        // $this->events->add_filter( 'order_editable', [ $this->filters, 'order_editable' ] );
         $this->events->add_filter( 'load_product_crud', [ $this->filters, 'load_product_crud' ] );
         // $this->events->add_filter( 'before_cart_pay_button', [ $this->filters, 'add_combo' ] );
         // $this->events->add_filter( 'report_order_types', [ $this->filters, 'report_order_types' ] );

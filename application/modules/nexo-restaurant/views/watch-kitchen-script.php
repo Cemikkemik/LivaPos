@@ -137,45 +137,23 @@
                 
                 if( $scope.orders.length == 0 ) {
                     $scope.orders     =     filteredOrders;
+                    $scope.orders.forEach( ( order ) => {
+                        if( typeof order.meals == 'undefined' ) {
+                            order.meals     =   [];
+                        }
 
-                    <?php if( store_option( 'disable_meal_feature' ) == 'yes' ):?>
-                        $scope.orders.forEach( ( order ) => {
-                            if( typeof order.meals == 'undefined' ) {
-                                order.meals     =   [];
+                        _.each( order.items, ( item ) => {
+                            // if meal feature is disabled, we'll group all mean on the same array
+                            if( typeof order.meals[0] == 'undefined' ) {
+                                order.meals[0]   =   [];
                             }
 
-                            _.each( order.items, ( item ) => {
-                                // if meal feature is disabled, we'll group all mean on the same array
-                                if( typeof order.meals[0] == 'undefined' ) {
-                                    order.meals[0]   =   [];
-                                }
-
-                                item.MODIFIERS      =   angular.fromJson( item.MODIFIERS );   
-                                order.meals[0].push( item );
-                            });  
-                            // save order code
-                            $scope.ordersCodes.push( order.CODE );                   
-                        });
-                    <?php else:?>
-                        $scope.orders.forEach( ( order ) => {
-                            if( typeof order.meals == 'undefined' ) {
-                                order.meals     =   {};
-                            }
-
-                            _.each( order.items, ( item ) => {
-
-                                if( typeof order.meals[ item.MEAL ] == 'undefined' ) {
-                                    order.meals[ item.MEAL ]   =   [];
-                                }
-
-                                item.MODIFIERS      =   angular.fromJson( item.MODIFIERS );   
-                                order.meals[ item.MEAL ].push( item );
-                            });    
-                            // save order code
-                            $scope.ordersCodes.push( order.CODE );                          
-                        });
-                    <?php endif;?>
-
+                            item.MODIFIERS      =   angular.fromJson( item.MODIFIERS );   
+                            order.meals[0].push( item );
+                        });  
+                        // save order code
+                        $scope.ordersCodes.push( order.CODE );                   
+                    });
                 } else {
                     // first remove all orders which doesnt exists
                     let newFilteredOrders           =   [];
@@ -185,58 +163,38 @@
                     _.each( $scope.orders, function( order ) {
                         // if an existing order exists in the raw
                         if( _.indexOf( $scope.rawOrdersCodes, order.CODE ) != -1 ) {
+                            // Update order real type
+                            
                             // Let update current orders items status
                             _.each( filteredOrders, function( __updatedOrder ) {
                                 if( order.CODE == __updatedOrder.CODE ) {
-                                    <?php if( store_option( 'disable_meal_feature' ) == 'yes' ):?>
-                                        if( typeof __updatedOrder.meals == 'undefined' ) {
-                                            __updatedOrder.meals     =   [];
+                                    if( typeof __updatedOrder.meals == 'undefined' ) {
+                                        __updatedOrder.meals     =   [];
+                                    }
+
+                                    // console.log( __updatedOrder.REAL_TYPE );
+
+                                    order.STATUS     =   __updatedOrder.STATUS;
+
+                                    _.each( __updatedOrder.items, ( item ) => {
+                                        // if meal feature is disabled, we'll group all mean on the same array
+                                        if( typeof __updatedOrder.meals[0] == 'undefined' ) {
+                                            __updatedOrder.meals[0]   =   [];
                                         }
 
-                                        _.each( __updatedOrder.items, ( item ) => {
-                                            // if meal feature is disabled, we'll group all mean on the same array
-                                            if( typeof __updatedOrder.meals[0] == 'undefined' ) {
-                                                __updatedOrder.meals[0]   =   [];
+                                        let itemsStatuses           =   {};
+
+                                        _.each( order.meals[0], function( currentMeal ) {
+                                            if( item.CODEBAR == currentMeal.CODEBAR ) {
+                                                itemsStatuses[ item.CODEBAR ]     =   typeof currentMeal.active == 'undefined' ? false : currentMeal.active;
                                             }
+                                        });
 
-                                            let itemsStatuses           =   {};
-                                            _.each( order.meals[0], function( currentMeal ) {
-                                                if( item.CODEBAR == currentMeal.CODEBAR ) {
-                                                    itemsStatuses[ item.CODEBAR ]     =   typeof currentMeal.active == 'undefined' ? false : currentMeal.active;
-                                                }
-                                            });
-
-                                            item.active         =   itemsStatuses[ item.CODEBAR ];      
-                                            item.MODIFIERS      =   angular.fromJson( item.MODIFIERS );   
-                                            __updatedOrder.meals[0].push( item );
-                                        });  
-                                    <?php else:?>
-                                        if( typeof __updatedOrder.meals == 'undefined' ) {
-                                            __updatedOrder.meals     =   {};
-                                        }
-
-                                        _.each( __updatedOrder.items, ( item ) => {
-                                            
-                                            if( typeof __updatedOrder.meals[ item.MEAL ] == 'undefined' ) {
-                                                __updatedOrder.meals[ item.MEAL ]   =   [];
-                                            }
-
-                                            let itemsStatuses           =   {};
-                                            
-                                            _.each( order.meals, function( meal ) {
-                                                _.each( meal, function( meal_item ) {
-                                                    if( item.CODEBAR == meal_item.CODEBAR ) {
-                                                        itemsStatuses[ meal_item.CODEBAR ]     =   typeof meal_item.active == 'undefined' ? false : meal_item.active;
-                                                    }
-                                                })
-                                            });
-
-                                            item.active         =   itemsStatuses[ item.CODEBAR ];      
-                                            item.MODIFIERS      =   angular.fromJson( item.MODIFIERS );   
-                                            __updatedOrder.meals[ item.MEAL ].push( item );
-                                        });  
-
-                                    <?php endif;?>
+                                        item.active         =   itemsStatuses[ item.CODEBAR ];      
+                                        item.MODIFIERS      =   angular.fromJson( item.MODIFIERS );   
+                                        __updatedOrder.meals[0].push( item );
+                                    });
+                                    
                                     order.meals     =   __updatedOrder.meals;
                                 }
                             });                            
@@ -259,7 +217,6 @@
                     _.each( filteredOrders, function( order ) {
                         if( _.indexOf( $scope.ordersCodes, order.CODE ) == -1 ) {
                          // the order we're building should not already exists ont he ordersCodes;
-                        <?php if( store_option( 'disable_meal_feature' ) == 'yes' ):?>
                             if( typeof order.meals == 'undefined' ) {
                                 order.meals     =   [];
                             }
@@ -275,23 +232,7 @@
                             });  
                             // save order code
                             $scope.ordersCodes.push( order.CODE );                   
-                        <?php else:?>
-                            if( typeof order.meals == 'undefined' ) {
-                                order.meals     =   {};
-                            }
-
-                            _.each( order.items, ( item ) => {
-
-                                if( typeof order.meals[ item.MEAL ] == 'undefined' ) {
-                                    order.meals[ item.MEAL ]   =   [];
-                                }
-
-                                item.MODIFIERS      =   angular.fromJson( item.MODIFIERS );   
-                                order.meals[ item.MEAL ].push( item );
-                            });    
-                            // save order code
-                            $scope.ordersCodes.push( order.CODE );                          
-                        <?php endif;?>
+                        
                             newOrders.push( order );
                             newOrdersCodes.push( order.CODE );
                         }
@@ -319,6 +260,8 @@
                     }
                     
                 }
+
+                
 
                 // Order everything so that it can be shown as masonry
                 var availableColumns        =   3;

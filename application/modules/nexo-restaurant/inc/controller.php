@@ -290,21 +290,23 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
 	{
 		$data						=	array();
 
-		if( $page == 'lists' ) {
+		if( in_array( $page, [ 'lists', 'edit' ] ) ) {
 
 			$data[ 'crud_content' ]    =    $this->kitchen_crud_header();
 
 			if( $page == 'lists' && $arg2 != 'add' ) {
-				$this->Gui->set_title( sprintf( __( 'Kitchen &mdash; %s', 'nexo_restaurant'), get('core_signature')));
+				$this->Gui->set_title( sprintf( __( 'Kitchen &mdash; %s', 'nexo-restaurant'), get('core_signature')));
 			} elseif( $page == 'lists' && $arg2 == 'add' ) {
-				$this->Gui->set_title( sprintf( __( 'Create a new kitchen &mdash; %s', 'nexo_restaurant'), get('core_signature')));
-			}
+				$this->Gui->set_title( sprintf( __( 'Create a new kitchen &mdash; %s', 'nexo-restaurant'), get('core_signature')));
+			} else {
+                $this->Gui->set_title( __( 'Edit Kitchen', 'nexo-restaurant')  );
+            }
 
 			$this->load->module_view( 'nexo-restaurant', 'kitchens', $data );
 
 		} elseif( $page == 'open' ) {
 
-			$this->load->model( 'Nexo_Restaurant' );
+			$this->load->model( 'Nexo_Restaurantç' );
 
 			$data[ 'kitchen' ]		=	$this->Nexo_Restaurant->get_kitchen( $arg2 );
 
@@ -358,6 +360,9 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
             $data[ 'kitchen' ]      =   $this->Nexo_Restaurant_Kitchens->get( $arg2 );
 
             $this->load->module_view( 'nexo-restaurant', 'waiters-screen.gui', $data );
+        } else {
+            $data[ 'crud_content' ]    =    $this->kitchen_crud_header();
+            $this->load->module_view( 'nexo-restaurant', 'kitchens', $data );
         }
 	}
 
@@ -379,7 +384,7 @@ class Nexo_Restaurant_Controller extends Tendoo_Module
         //     redirect(array( 'dashboard', 'access-denied' ));
         // }
 
-		$this->load->model( 'Nexo_Restaurant' );
+		$this->load->module_model( 'nexo-restaurant', 'Nexo_Restaurant_Kitchens', 'Nexo_Restaurant' );    
 
         $crud = new grocery_CRUD();
         $crud->set_theme('bootstrap');

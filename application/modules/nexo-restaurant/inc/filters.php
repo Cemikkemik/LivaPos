@@ -432,16 +432,26 @@ class Nexo_Restaurant_Filters extends Tendoo_Module
         ->get( store_prefix() . 'nexo_commandes_produits_meta' )
         ->result_array();
 
+        $restaurant_note    =   $this->db->where( 'REF_COMMAND_PRODUCT', $data[ 'item'][ 'ITEM_ID' ] )
+        ->where( 'KEY', 'restaurant_note' )
+        ->get( store_prefix() . 'nexo_commandes_produits_meta' )
+        ->result_array();
+
+        $string                 =   '';
+        if( $restaurant_note ) {
+            $string         .=  $restaurant_note[0][ 'VALUE' ] . '<br>';
+        }
+
         if( $raw_meta ) {
             $metas                  =   json_decode( $raw_meta[0][ 'VALUE'], true );
             if( $metas ) {
-                $string                 =   '';
                 foreach( $metas as $meta ) {
                     $string             .=  '&mdash; ' . $meta[ 'name' ] . '<br> + ' . get_instance()->Nexo_Misc->cmoney_format( floatval( $meta[ 'price' ] ) * $data[ 'item' ][ 'QUANTITE' ] ) . '<br>';
                 }
-                $data[ 'output' ]       =   $string;
             }
         }
+
+        $data[ 'output' ]       =   $string;
         return $data;
     }
 

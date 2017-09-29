@@ -579,7 +579,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 				HTML.query( '.refund-table' ).only(0).add( 'tbody>tr' ).each( 'ng-repeat', 'item in orderItems; track by $index' );
 				HTML.query( '.refund-table tbody tr' ).only(0).add( 'td.text-center*8' );
 
-				HTML.query( '.refund-table tbody tr td' ).only(0).textContent = '{{ item.DESIGN }}';
+				HTML.query( '.refund-table tbody tr td' ).only(0).textContent = '{{ item.DESIGN || item.NAME }}';
 				HTML.query( '.refund-table tbody tr td' ).only(1).textContent = '{{ item.CURRENT_DEFECTIVE_QTE }}/{{ item.DEFECTUEUX }}';
 				HTML.query( '.refund-table tbody tr td' ).only(2).each( 'ng-click', 'addTo( "def_to_stock", $index )' ).add( 'i.fa.fa-arrow-right' );
 				HTML.query( '.refund-table tbody tr td' ).only(3).each( 'ng-click', 'addTo( "defective", $index )' ).add( 'i.fa.fa-arrow-left' );

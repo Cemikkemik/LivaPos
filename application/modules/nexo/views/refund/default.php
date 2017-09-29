@@ -34,7 +34,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="item in order_items">
-                                <td>{{ item.DESIGN }}</td>
+                                <td>{{ item.DESIGN || item.NAME }}</td>
                                 <td>{{ item.TYPE == "defective" ? "<?php echo _s( 'Défectueux', 'nexo' );?>" : "<?php echo _s( 'En bon état', 'nexo' );?>" }}</td>
                                 <td>{{ item.PRIX | moneyFormat  }}</td>
                                 <td>{{ item.QUANTITE }}</td>

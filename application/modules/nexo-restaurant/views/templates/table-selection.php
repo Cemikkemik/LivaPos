@@ -1,4 +1,4 @@
-<div ng-show="selectedTable != false || <?php echo store_option( 'disable_area_rooms' ) == 'yes' ? 'true' : 'false';?>" class="col-lg-4 col-md-4 col-xs-5 col-sm-5" style="height:{{ wrapperHeight }}px">
+<div ng-show="selectedTable != false || <?php echo store_option( 'disable_area_rooms' ) == 'yes' ? 'true' : 'false';?>" class="col-lg-4 col-md-4 col-xs-5 col-sm-5" style="overflow-y:scroll;height:{{ wrapperHeight }}px">
     <div class="text-center">
         <h4>
             <?php echo __( 'Table', 'nexo-restaurant' );?> : {{ selectedTable.TABLE_NAME }}</h4>
@@ -41,7 +41,7 @@
             <button ng-click="showHistory = false"  class="btn btn-default"><i class="fa fa-remove"></i><span class="hidden-xs"><?php echo __( 'Close' );?></span></button>
         </div>
     </div>
-    <div ng-show="sessionOrder.TYPE != 'nexo_order_comptant'">
+    <div ng-show="sessionOrder && sessionOrder.TYPE != 'nexo_order_comptant'">
     <br>
         <div class="alert alert-info">
             <strong><?php echo __( 'Info', 'nexo-restaurant' );?></strong> <?php echo __( 'You can\'t set a table as free if the placed orders aren\'t paid', 'nexo-restauran' );?>
@@ -62,28 +62,16 @@
           </select>
           <p class="help-block"><?php echo __( 'This table will be set as reserved during the amount of time selected.', 'nexo-restaurant' );?></p>
         </div> -->
-        <keyboard ng-show="selectedTable.STATUS != 'in_use' && selectedTable != false" input_name="used_seat" keyinput="keyboardInput"
-            hide-side-keys="hideSideKeys" hide-button="hideButton" />
+        <div ng-show="selectedTable.STATUS != 'in_use' && selectedTable != false">
+            <h4 class="text-center" style="margin-bottom: 0px"><?php echo  __( 'How many people join the party ?', 'nexo-restaurant' );?></h4>
+            <keyboard input_name="used_seat" keyinput="keyboardInput"
+                hide-side-keys="hideSideKeys" hide-button="hideButton" />
+        </div>
     </div>
 
     
 </div>
 <?php if( store_option( 'disable_area_rooms' ) != 'yes' ) :?>
-<!-- <div ng-show="selectedTable === false" class="col-lg-2 col-md-2 col-sm-3 col-xs-3 bootstrap-tab-menu">
-    <div class="text-center">
-        <h4>
-            <?php echo __( 'Select a Room', 'nexo-restaurant' );?>
-        </h4>
-    </div>
-    <hr style="margin:0px;">
-    <div class="list-group">
-        <a ng-class="{ 'active' : room.active }" ng-click="loadRoomAreas( room )" ng-repeat="room in rooms track by $index" class="text-left list-group-item"
-            href="javascript:void(0)" style="margin: 0px; border-radius: 0px; border-width: 0px 0px 1px 1px; border-style: solid; border-bottom-color: rgb(222, 222, 222); line-height: 30px;border-left: solid 0px;">{{ room.NAME }}</a>
-        <a ng-show="rooms.length == 0" class="text-left list-group-item" href="javascript:void(0)" style="margin: 0px; border-radius: 0px; border-width: 0px 0px 1px 1px; border-style: solid; border-bottom-color: rgb(222, 222, 222); line-height: 30px;border-left: solid 0px;">
-            <?php echo __( 'No Rooms available', 'nexo-restaurant' );?>
-        </a>
-    </div>
-</div> -->
 <div ng-show="selectedTable === false" class="col-lg-4 col-md-4 col-sm-5 col-xs-5 bootstrap-tab-menu" style="height:{{ wrapperHeight }}px;border-left:solid 1px #EEE;">
     <div class="text-center">
         <h4>

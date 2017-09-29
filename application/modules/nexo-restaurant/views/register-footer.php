@@ -255,6 +255,7 @@
 		        angular.element( '.table-selection-box .modal-body' ).css( 'padding-top', '0px' );
                 angular.element( '.table-selection-box .modal-body' ).css( 'padding-bottom', '0px' );
                 angular.element( '.table-selection-box .modal-body' ).css( 'padding-left', '0px' );
+                angular.element( '.table-selection-box .modal-body' ).css( 'padding-right', '0px' );
                 angular.element( '.table-selection-box .modal-body' ).css( 'height', $scope.wrapperHeight );
                 angular.element( '.table-selection-box .modal-body' ).css( 'overflow-x', 'hidden' );
     		}, 200 );
@@ -801,6 +802,8 @@
 
             $scope.seatToUse    =   $scope.seatToUse == '' ? 0 : parseInt( $scope.seatToUse );
             $scope.seatToUse    =   ( $scope.seatToUse > parseInt( $scope.selectedTable.MAX_SEATS ) ) ? $scope.selectedTable.MAX_SEATS  :  $scope.seatToUse;
+
+            $( '.table-selection-box' ).find( '[data-bb-handler="confirm"]' ).trigger( 'click' );
     	};
 
 
@@ -1188,6 +1191,13 @@
 
         // All this works only if we're making a new order
         NexoAPI.events.addFilter( 'before_submit_order', function( order_details ){
+
+            // only when pay box is on
+            if( order_details.SOMME_PERCU < order_details.TOTAL && $( '.paxbox-box' ).length > 0 ) {
+                NexoAPI.Bootbox().alert( '<?php echo _s( 'Incomplete order aren\'t allowed', 'nexo' );?>' );
+                return {}
+            }
+
             if( v2Checkout.ProcessType == 'POST' ) {
                 // no table has been selected
                 order_details.ITEMS.map( ( item ) => {

@@ -23,6 +23,7 @@ class Nexo_Install extends CI_Model
         $this->events->add_action('tendoo_settings_tables', array( $this, 'install_tables' ) );
         $this->events->add_action('tendoo_settings_final_config', array( $this, 'final_config' ), 10);
     }
+    
     public function enable($namespace)
     {
         if ($namespace === 'nexo' && $this->options->get('nexo_installed') == null) {

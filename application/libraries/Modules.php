@@ -806,4 +806,36 @@ class Modules
             get_instance()->zip->download($module_namespace . '-' . $module[ 'application' ][ 'version' ]);
         }
     }
+
+    /**
+     * Get Migration Files
+     * @param string module namespace
+     * @param string from release
+     * @param string to release
+     * @author Blair Jersyer
+     * @return array
+    **/
+
+    public static function migration_files( $namespace, $from, $to )
+    {
+        $files      =   [];
+        
+        if( $from == null || $to == null ) {
+            return $files;
+        }
+
+        if( ! is_file( MODULESPATH . $namespace . '/migrate.php' ) ) {
+            return $files;
+        }
+
+        $migration_files         =   include( MODULESPATH . $namespace . '/migrate.php' );
+        
+        foreach( $migration_files as $version => $_file ) {
+            if( version_compare( $version, $from, '>' ) && version_compare( $version, $to, '<=' ) ) {
+                $files[ $version ][] =  $_file;
+            }
+        }
+
+        return $files;
+    }
 }

@@ -439,6 +439,8 @@ class Nexo_Install extends CI_Model
 			`AMOUNT` float(11) NOT NULL,
 			`AFTER_AMOUNT` float(11) NOT NULL,
 			`REF_PROVIDER` int(11) NOT NULL,
+			`REF_INVOICE` int(11) NOT NULL,
+			`REF_SUPPLY` int(11) NOT NULL,
 			`DATE_CREATION` datetime NOT NULL,
 			`DATE_MOD` datetime NOT NULL,
 			`AUTHOR` int(11) NOT NULL,

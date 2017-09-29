@@ -1187,7 +1187,8 @@ trait Nexo_orders
         // remove item from order
         foreach( $itemToRemove as $orderItemID => $quantity ) {
             $orderItem      =   $this->db->where( 'ID', $orderItemID )
-            ->get( store_prefix() . 'nexo_commandes_produits' );
+            ->get( store_prefix() . 'nexo_commandes_produits' )
+            ->result_array();
 
             $this->db->where( 'ID', $orderItemID )
             ->update( store_prefix() . 'nexo_commandes_produits', [

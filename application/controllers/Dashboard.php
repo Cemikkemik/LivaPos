@@ -306,7 +306,7 @@ class Dashboard extends Tendoo_Controller
                         }
                         // When migrate is done the last version key is saved as previous migration version
                         // Next migration will start from here
-                        // $this->options->set('migration_' . $module[ 'application' ][ 'namespace' ], $arg3, true);
+                        $this->options->set( 'migration_' . $module[ 'application' ][ 'namespace' ], $arg3, true);
                     }
                     // Handling error
                     $content    =    ob_get_clean();

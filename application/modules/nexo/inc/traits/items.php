@@ -652,28 +652,27 @@ trait Nexo_items
                     // Save item cost to the supplier
                     if( store_option( 'enable_providers_account', 'no' ) == 'yes' ) {
                         if( @$provider_amount_due[ $item[ 'ref_provider' ] ] == null ) {
-                            $provider_amount_due[ $item[ 'ref_provider' ] ]     =   [];
+                            $provider_amount_due[ $item[ 'ref_provider' ] ]     =   [
+                                'cost'          =>  0,
+                                'supply_id'     =>  $item[ 'ref_shipping' ]
+                            ];
                         }
 
-                        $provider_amount_due[ $item[ 'ref_provider' ] ][]       =   $item_cost;
+                        $provider_amount_due[ $item[ 'ref_provider' ] ][ 'cost' ]  +=    $item_cost;
                     }
                 }
             }
 
             if( store_option( 'enable_providers_account', 'no' ) == 'yes' ) {
                 // update amount due
-                foreach( $provider_amount_due as $provider => $amounts ) {
+                foreach( $provider_amount_due as $provider => $data ) {
                     $currentProvider    =   $this->db->where( 'ID', $provider )
                     ->get( store_prefix() . 'nexo_fournisseurs' )
                     ->result_array();
     
                     // loop amount
-                    $currentAmountDue   =   floatval( $currentProvider[0][ 'PAYABLE' ] );
-                    $transactionAmount      =   0;
-                    foreach( $amounts as $amount ) {
-                        $transactionAmount      +=  floatval( $amount );
-                    }
-
+                    $currentAmountDue       =   floatval( $currentProvider[0][ 'PAYABLE' ] );
+                    $transactionAmount      =   $data[ 'cost' ];
                     $currentAmountDue       +=  $transactionAmount;
     
                     // Update customer payable.
@@ -684,8 +683,11 @@ trait Nexo_items
                     // add it as an history
                     $this->db->insert( store_prefix() . 'nexo_fournisseurs_history', [
                         'REF_PROVIDER'      =>  $provider,
+                        'REF_SUPPLY'        =>  $data[ 'supply_id' ], // @since 3.10.0
                         'TYPE'              =>  'stock_purchase',
+                        'BEFORE_AMOUNT'     =>  $currentProvider[0][ 'PAYABLE' ],
                         'AMOUNT'            =>  $transactionAmount,
+                        'AFTER_AMOUNT'      =>  $currentAmountDue,
                         'DATE_CREATION'     =>  date_now(),
                         'DATE_MOD'          =>  date_now(),
                         'AUTHOR'            =>  User::id()

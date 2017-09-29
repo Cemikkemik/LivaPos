@@ -12,8 +12,8 @@ foreach( $stores as $store ) {
 
     $store_prefix       =   $store[ 'ID' ] == 0 ? '' : 'store_' . $store[ 'ID' ] . '_';
 
-    $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_fournisseurs_history` 
-    ADD `REF_SUPPLY` int(11) NOT NULL AFTER `REF_PROVIDER`;' );
-    $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_fournisseurs_history` 
-    ADD `REF_INVOICE` int(11) NOT NULL AFTER `REF_PROVIDER`;' );
+    // $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_fournisseurs_history` 
+    // ADD `REF_SUPPLY` int(11) NOT NULL AFTER `REF_PROVIDER`;' );
+    // $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_fournisseurs_history` 
+    // ADD `REF_INVOICE` int(11) NOT NULL AFTER `REF_PROVIDER`;' );
 }

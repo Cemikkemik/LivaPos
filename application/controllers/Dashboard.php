@@ -273,7 +273,7 @@ class Dashboard extends Tendoo_Controller
                 'module'    =>  $module,
                 'from'        =>    $arg3
             ));
-        } elseif ($page == 'exec' && $arg2 != null && $arg3 != null) {
+        } elseif ($page == 'exec' && $arg2 != null && $arg3 != null && $arg4 != null) {
 
             // Can user extract modules ?
             if (! User::can('update_modules')) {
@@ -306,7 +306,7 @@ class Dashboard extends Tendoo_Controller
                         }
                         // When migrate is done the last version key is saved as previous migration version
                         // Next migration will start from here
-                        $this->options->set( 'migration_' . $module[ 'application' ][ 'namespace' ], $arg3, true);
+                        $this->options->set( 'migration_' . $module[ 'application' ][ 'namespace' ], $arg4, true);
                     }
                     // Handling error
                     $content    =    ob_get_clean();

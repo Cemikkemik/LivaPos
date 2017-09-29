@@ -86,15 +86,17 @@
 <script>
     $( document ).ready( function(){
         $('[data-action="uninstall"]').bind('click', function () {
-            if (confirm('<?php _e('
-                    Do you really want to delete this module ? ');?>')) {
+            if (confirm('<?php _e('Do you really want to delete this module ? ');?>')) {
                 return true;
             }
             return false;
         });
 
         $( '.migrate-module' ).bind( 'click', function(){
-            alert( 'ok' );
+            if (confirm('<?php _e('Do you really want to make a migration ? You should always have a backup of the current system.');?>')) {
+                return true;
+            }
+            return false;
         });
     })
 </script>

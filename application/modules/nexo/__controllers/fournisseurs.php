@@ -113,8 +113,12 @@ class Nexo_Categories extends CI_Model
         //EDIT THIS (to get a count of number of rows. Might have to add in a criteria (category etc)
         $config["total_rows"] = 
         $this->db
-        ->where( store_prefix() . 'nexo_fournisseurs_history.REF_PROVIDER', $provider_id )
-        ->get( store_prefix() . 'nexo_fournisseurs_history' )
+        ->select( '*' )
+        ->from( store_prefix() . 'nexo_fournisseurs_history' )
+        ->join( store_prefix() . 'nexo_premium_factures', store_prefix() . 'nexo_premium_factures.ID = ' . store_prefix() . 'nexo_fournisseurs_history.REF_INVOICE', 'left' )
+        ->join( store_prefix() . 'nexo_arrivages', store_prefix() . 'nexo_arrivages.ID = ' . store_prefix() . 'nexo_fournisseurs_history.REF_SUPPLY', 'left' )
+        ->where( store_prefix() . 'nexo_fournisseurs_history.REF_PROVIDER', $provider_id )        
+        ->get()
         ->num_rows();
         //EDIT THIS
         // $config["uri_segment"] = 3;
@@ -131,9 +135,14 @@ class Nexo_Categories extends CI_Model
 		}
 		$from = intval( $page ) * $config["per_page"];
         $this->data["results"] = $this->db
-        ->select( '*' )
+        ->select( '*,
+        ' . store_prefix() . 'nexo_fournisseurs_history.DATE_CREATION as DATE_CREATION,
+        ' . store_prefix() . 'nexo_premium_factures.ID as INVOICE_ID,
+        ' . store_prefix() . 'nexo_arrivages.ID as SUPPLY_ID' )
         ->from( store_prefix() . 'nexo_fournisseurs_history' )
         ->join( 'aauth_users', 'aauth_users.id = ' . store_prefix()  .'nexo_fournisseurs_history.AUTHOR' )
+        ->join( store_prefix() . 'nexo_premium_factures', store_prefix() . 'nexo_premium_factures.ID = ' . store_prefix() . 'nexo_fournisseurs_history.REF_INVOICE', 'left' )
+        ->join( store_prefix() . 'nexo_arrivages', store_prefix() . 'nexo_arrivages.ID = ' . store_prefix() . 'nexo_fournisseurs_history.REF_SUPPLY', 'left' )
         ->limit( $config["per_page"], $from )
         ->where( store_prefix() . 'nexo_fournisseurs_history.REF_PROVIDER', $provider_id )
         ->order_by( store_prefix() . 'nexo_fournisseurs_history.DATE_CREATION', 'desc' )

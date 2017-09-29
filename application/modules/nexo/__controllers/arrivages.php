@@ -197,6 +197,10 @@ class Nexo_Arrivages extends CI_Model
         
         $crud->set_primary_key( 'CODEBAR', store_prefix() . 'nexo_articles' );
         $crud->set_relation( 'REF_ARTICLE_BARCODE', store_prefix() . 'nexo_articles', 'DESIGN');
+
+        if( @$_GET[ 'provider_id' ] ) {
+            $crud->where( store_prefix() . 'nexo_articles_stock_flow.REF_PROVIDER', $_GET[ 'provider_id' ] );
+        }
         
         $crud->where( 
             '(' .

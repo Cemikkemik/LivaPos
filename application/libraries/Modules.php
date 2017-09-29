@@ -818,24 +818,24 @@ class Modules
 
     public static function migration_files( $namespace, $from, $to )
     {
-        $files      =   [];
+        $saved_files      =   [];
         
         if( $from == null || $to == null ) {
-            return $files;
+            return $saved_files;
         }
 
         if( ! is_file( MODULESPATH . $namespace . '/migrate.php' ) ) {
-            return $files;
+            return $saved_files;
         }
 
         $migration_files         =   include( MODULESPATH . $namespace . '/migrate.php' );
-        
+
         foreach( $migration_files as $version => $_file ) {
             if( version_compare( $version, $from, '>' ) && version_compare( $version, $to, '<=' ) ) {
-                $files[ $version ][] =  $_file;
+                $saved_files[ $version ][]          	=   $_file;
             }
         }
 
-        return $files;
+        return $saved_files;
     }
 }

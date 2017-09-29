@@ -799,11 +799,14 @@ class Nexo_Misc extends CI_Model
             'AUTHOR'            =>  User::id()
         ]);
 
+        $invoice_id         =   $this->db->insert_id();
+
         // insert it as a provider history
         $this->db->insert( store_prefix() . 'nexo_fournisseurs_history', [
             'TYPE'              =>  'payment',
             'AMOUNT'            =>  $data[ 'amount' ],
             'REF_PROVIDER'      =>  $data[ 'provider_id' ],
+            'REF_INVOICE'       =>  $invoice_id,
             'DATE_CREATION'     =>  date_now(),
             'DATE_MOD'          =>  date_now(),
             'AUTHOR'            =>  User::id()

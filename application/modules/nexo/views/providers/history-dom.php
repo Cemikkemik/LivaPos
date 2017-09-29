@@ -42,12 +42,13 @@
                                         <td class="text-right"><i class="fa fa-<?php echo $sign;?>"></i> <?php echo $this->Nexo_Misc->cmoney_format( $result[ 'AMOUNT' ] );?></td>
                                         <td class="text-right"><?php echo $result[ 'DATE_CREATION' ];?></td>
                                         <td class="text-right"><?php echo ucwords( $result[ 'name' ] );?></td>
-                                        <td>
+                                        <td class="text-center">
                                         <?php if( @$result[ 'TITRE' ] != null ):?>
                                         <a href="<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'arrivages', 'delivery_items', $result[ 'SUPPLY_ID' ], '?provider_id=' . $provider[ 'ID' ] ]);?>">
                                              <?php echo __( 'Historique de l\'approvisionnement', 'nexo' );?>
                                         </a>
                                         <?php else:?>
+                                        ---
                                         <!-- <a href="<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'arrivages', 'delivery_items', $result[ 'INVOICE_ID' ], '?provider_id=' . $provider[ 'ID' ] ]);?>">
                                              <?php echo __( 'Open the invoice', 'nexo' );?>
                                         </a> -->

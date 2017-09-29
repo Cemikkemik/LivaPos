@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nexo\n"
-"POT-Creation-Date: 2017-09-28 15:20+0100\n"
-"PO-Revision-Date: 2017-09-28 15:24+0100\n"
+"POT-Creation-Date: 2017-09-29 19:37+0100\n"
+"PO-Revision-Date: 2017-09-29 19:57+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: es_ES\n"
@@ -36,12 +36,12 @@ msgstr "n/d"
 msgid "Nom de la livraison"
 msgstr "Nombre Entregas"
 
-#: __controllers/arrivages.php:61 __controllers/arrivages.php:239
+#: __controllers/arrivages.php:61 __controllers/arrivages.php:243
 #: __controllers/produits.php:158
 msgid "Crée le"
 msgstr "Fecha Creación"
 
-#: __controllers/arrivages.php:62 __controllers/arrivages.php:240
+#: __controllers/arrivages.php:62 __controllers/arrivages.php:244
 #: __controllers/clients.php:288 __controllers/produits.php:160
 #: __controllers/produits.php:470 __controllers/registers.php:63
 #: __controllers/stores.php:43 __controllers/taxes - awesomecrud.php:17
@@ -76,7 +76,7 @@ msgstr "Proveedores"
 msgid "Description"
 msgstr "Descripción"
 
-#: __controllers/arrivages.php:67 __controllers/arrivages.php:238
+#: __controllers/arrivages.php:67 __controllers/arrivages.php:242
 #: __controllers/produits.php:173
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:137
 #: inc/angular/items/factories/fields.php:166 views/deliveries/invoice.php:51
@@ -108,27 +108,27 @@ msgstr "La lista"
 msgid "Ajouter une nouvelle livraison"
 msgstr "Add nueva Entrega"
 
-#: __controllers/arrivages.php:192 __controllers/arrivages.php:347
+#: __controllers/arrivages.php:192 __controllers/arrivages.php:351
 msgid "Produits de l'approvisionnement"
 msgstr "Productos de la fuente"
 
-#: __controllers/arrivages.php:213 __controllers/produits.php:194
+#: __controllers/arrivages.php:217 __controllers/produits.php:194
 #: views/items/stock-supply/dom.php:118
 msgid "Historique d'approvisionnement"
 msgstr "Historia del abastecimiento"
 
-#: __controllers/arrivages.php:234 __controllers/produits.php:464
+#: __controllers/arrivages.php:238 __controllers/produits.php:464
 #: views/checkout/v2-1/col_1.php:48 views/checkout/v2-1/col_1.php:50
 #: views/deliveries/invoice.php:50 views/items/stock-supply/dom.php:5
 msgid "Produit"
 msgstr "Producto"
 
-#: __controllers/arrivages.php:235 __controllers/produits.php:456
+#: __controllers/arrivages.php:239 __controllers/produits.php:456
 #: language/nexo_lang.php:122 views/items/stock-supply/script.php:47
 msgid "Approvisionnement"
 msgstr "Aprovisionamiento"
 
-#: __controllers/arrivages.php:236 __controllers/produits.php:143
+#: __controllers/arrivages.php:240 __controllers/produits.php:143
 #: __controllers/produits.php:220 __controllers/produits.php:465
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:122
 #: inc/angular/cart-tool-box/directives/history-content.php:76
@@ -143,14 +143,14 @@ msgstr "Aprovisionamiento"
 msgid "Quantité"
 msgstr "Cantidad"
 
-#: __controllers/arrivages.php:237
+#: __controllers/arrivages.php:241
 #: inc/angular/order-list/controllers/orders-list.php:322
 #: views/checkout/v2-1/col_1.php:64 views/checkout/v2/col_1.php:37
 #: views/commandes-dom - Deprecated.php:23
 msgid "Prix Unitaire"
 msgstr "Precio Unitario"
 
-#: __controllers/arrivages.php:342
+#: __controllers/arrivages.php:346
 msgid "Vous ne pouvez pas modifier cet element"
 msgstr "No puede modificar este elemento"
 
@@ -189,8 +189,8 @@ msgid "Clients"
 msgstr "Clientes"
 
 #: __controllers/clients.php:70 __controllers/clients.php:286
-#: views/customers/script.php:302 views/providers/history-dom.php:13
-#: views/shippings/main-template.php:44 views/shippings/main-template.php:45
+#: views/customers/script.php:302 views/shippings/main-template.php:44
+#: views/shippings/main-template.php:45
 msgid "Nom"
 msgstr "Nombre"
 
@@ -270,7 +270,7 @@ msgid "Modifié le"
 msgstr "Modificado en"
 
 #: __controllers/clients.php:87 __controllers/commandes.php:110
-#: views/items/history/dom.php:13 views/providers/history-dom.php:16
+#: views/items/history/dom.php:13 views/providers/history-dom.php:17
 msgid "Par"
 msgstr "Por"
 
@@ -407,7 +407,7 @@ msgstr "IVA"
 
 #: __controllers/commandes.php:115 __controllers/produits.php:471
 #: inc/angular/order-list/controllers/orders-list.php:437
-#: views/items/stock-supply/dom.php:126 views/providers/history-dom.php:15
+#: views/items/stock-supply/dom.php:126 views/providers/history-dom.php:16
 #: views/registers/dashboard_footer.php:147
 msgid "Date"
 msgstr "Fecha"
@@ -548,7 +548,7 @@ msgstr "Id"
 
 #: __controllers/coupons.php:139 __controllers/produits.php:469
 #: inc/angular/register/directives/coupon-payment.php:79
-#: views/items/stock-supply/dom.php:125
+#: views/items/stock-supply/dom.php:125 views/providers/history-dom.php:14
 msgid "Type"
 msgstr "Tipo"
 
@@ -680,16 +680,16 @@ msgstr "No se pudo recuperar el proveedor."
 msgid "Livraison de produits"
 msgstr "Entrega de productos"
 
-#: __controllers/fournisseurs.php:168
+#: __controllers/fournisseurs.php:177
 #, php-format
 msgid "%s : Historique d'approvisionnement"
 msgstr "%s : Historia del abastecimiento"
 
-#: __controllers/fournisseurs.php:179 inc/controller.php:268
+#: __controllers/fournisseurs.php:188 inc/controller.php:268
 msgid "Liste des fournisseurs"
 msgstr "Lista Proveedores"
 
-#: __controllers/fournisseurs.php:188 __controllers/fournisseurs.php:207
+#: __controllers/fournisseurs.php:197 __controllers/fournisseurs.php:216
 msgid "Ajouter un nouveau fournisseur"
 msgstr "Add Proveedor"
 
@@ -3018,340 +3018,340 @@ msgstr "Nota"
 msgid "%s"
 msgstr "%s"
 
-#: inc/install.php:720
+#: inc/install.php:723
 #, fuzzy
 msgid "Gestion des commandes"
 msgstr "Gestión de pedidos."
 
-#: inc/install.php:720
+#: inc/install.php:723
 msgid "Peut créer des commandes"
 msgstr "Can create orders"
 
-#: inc/install.php:721
+#: inc/install.php:724
 #, fuzzy
 msgid "Modification des commandes"
 msgstr "Las órdenes de cambio"
 
-#: inc/install.php:721
+#: inc/install.php:724
 msgid "Peut modifier des commandes"
 msgstr "Can change orders"
 
-#: inc/install.php:722
+#: inc/install.php:725
 #, fuzzy
 msgid "Suppression des commandes"
 msgstr "Las órdenes de expulsión"
 
-#: inc/install.php:722
+#: inc/install.php:725
 #, fuzzy
 msgid "Peut supprimer des commandes"
 msgstr "Puede eliminar comandos"
 
-#: inc/install.php:725
+#: inc/install.php:728
 #, fuzzy
 msgid "Créer des articles"
 msgstr "crear artículos"
 
-#: inc/install.php:725
+#: inc/install.php:728
 msgid "Peut créer des produits"
 msgstr "Create products"
 
-#: inc/install.php:726
+#: inc/install.php:729
 #, fuzzy
 msgid "Modifier des articles"
 msgstr "editar artículos"
 
-#: inc/install.php:726
+#: inc/install.php:729
 msgid "Peut modifier des produits"
 msgstr "Can modify products"
 
-#: inc/install.php:727
+#: inc/install.php:730
 #, fuzzy
 msgid "Supprimer des articles"
 msgstr "Quitar elementos"
 
-#: inc/install.php:727
+#: inc/install.php:730
 msgid "Peut supprimer des produits"
 msgstr "Can remove products"
 
-#: inc/install.php:730
+#: inc/install.php:733
 #, fuzzy
 msgid "Créer des catégories"
 msgstr "crear categorías"
 
-#: inc/install.php:730
+#: inc/install.php:733
 #, fuzzy
 msgid "Crée les catégories"
 msgstr "crear categorías"
 
-#: inc/install.php:731
+#: inc/install.php:734
 #, fuzzy
 msgid "Modifier des catégories"
 msgstr "Modificar categorías"
 
-#: inc/install.php:731
+#: inc/install.php:734
 #, fuzzy
 msgid "Modifie les catégories"
 msgstr "cambios categorías"
 
-#: inc/install.php:732
+#: inc/install.php:735
 #, fuzzy
 msgid "Supprimer des catégories"
 msgstr "eliminar categorías"
 
-#: inc/install.php:732
+#: inc/install.php:735
 #, fuzzy
 msgid "Supprime les catégories"
 msgstr "eliminar categorías"
 
-#: inc/install.php:735
+#: inc/install.php:738
 #, fuzzy
 msgid "Créer des rayons"
 msgstr "creación de los rayos"
 
-#: inc/install.php:735
+#: inc/install.php:738
 #, fuzzy
 msgid "Crée les rayons"
 msgstr "crea rayos"
 
-#: inc/install.php:736
+#: inc/install.php:739
 #, fuzzy
 msgid "Modifier des rayons"
 msgstr "Editar rayos"
 
-#: inc/install.php:736
+#: inc/install.php:739
 #, fuzzy
 msgid "Modifie les rayons"
 msgstr "modifica los rayos"
 
-#: inc/install.php:737
+#: inc/install.php:740
 #, fuzzy
 msgid "Supprimer des rayons"
 msgstr "Retire los rayos"
 
-#: inc/install.php:737
+#: inc/install.php:740
 #, fuzzy
 msgid "Supprime les rayons"
 msgstr "elimina los rayos"
 
-#: inc/install.php:740
+#: inc/install.php:743
 #, fuzzy
 msgid "Créer des collections"
 msgstr "crear colecciones"
 
-#: inc/install.php:740
+#: inc/install.php:743
 #, fuzzy
 msgid "Crée les collections"
 msgstr "crear colecciones"
 
-#: inc/install.php:741
+#: inc/install.php:744
 #, fuzzy
 msgid "Modifier des collections"
 msgstr "Editar colecciones"
 
-#: inc/install.php:741
+#: inc/install.php:744
 #, fuzzy
 msgid "Modifie les collections"
 msgstr "colecciones cambios"
 
-#: inc/install.php:742
+#: inc/install.php:745
 #, fuzzy
 msgid "Supprimer des collections"
 msgstr "Eliminar colecciÃ³n"
 
-#: inc/install.php:742
+#: inc/install.php:745
 #, fuzzy
 msgid "Supprime les collections"
 msgstr "elimina colecciones"
 
-#: inc/install.php:745
+#: inc/install.php:748
 #, fuzzy
 msgid "Créer des fournisseurs"
 msgstr "crear proveedor"
 
-#: inc/install.php:745 inc/install.php:746 inc/install.php:747
+#: inc/install.php:748 inc/install.php:749 inc/install.php:750
 msgid "Gère les fournisseurs (Livreurs)"
 msgstr "Manage suppliers"
 
-#: inc/install.php:746
+#: inc/install.php:749
 #, fuzzy
 msgid "Modifier des fournisseurs"
 msgstr "Editar proveedores"
 
-#: inc/install.php:747
+#: inc/install.php:750
 #, fuzzy
 msgid "Supprimer des fournisseurs"
 msgstr "Retire proveedores"
 
-#: inc/install.php:750
+#: inc/install.php:753
 #, fuzzy
 msgid "Créer des clients"
 msgstr "Crear clientes"
 
-#: inc/install.php:750
+#: inc/install.php:753
 #, fuzzy
 msgid "Création des clients"
 msgstr "¿Deseas inhabilitar creaciones de clientes?"
 
-#: inc/install.php:751
+#: inc/install.php:754
 #, fuzzy
 msgid "Modifier des clients"
 msgstr "Editar cliente"
 
-#: inc/install.php:751
+#: inc/install.php:754
 #, fuzzy
 msgid "Modification des clients"
 msgstr "clientes que cambian"
 
-#: inc/install.php:752
+#: inc/install.php:755
 #, fuzzy
 msgid "Supprimer des clients"
 msgstr "eliminar clientes"
 
-#: inc/install.php:752
+#: inc/install.php:755
 #, fuzzy
 msgid "Suppression des clients"
 msgstr "La eliminación de los clientes"
 
-#: inc/install.php:755
+#: inc/install.php:758
 #, fuzzy
 msgid "Créer des groupes de clients"
 msgstr "Crear grupos de clientes"
 
-#: inc/install.php:755
+#: inc/install.php:758
 #, fuzzy
 msgid "Création des groupes de clients"
 msgstr "La creación de grupos de clientes"
 
-#: inc/install.php:756
+#: inc/install.php:759
 #, fuzzy
 msgid "Modifier des groupes de clients"
 msgstr "Editar grupos de clientes"
 
-#: inc/install.php:756
+#: inc/install.php:759
 #, fuzzy
 msgid "Modification des groupes de clients"
 msgstr "Cambio de grupos de clientes"
 
-#: inc/install.php:757
+#: inc/install.php:760
 #, fuzzy
 msgid "Supprimer des groupes de clients"
 msgstr "La eliminación de los grupos de clientes"
 
-#: inc/install.php:757
+#: inc/install.php:760
 #, fuzzy
 msgid "Suppression des groupes de clients"
 msgstr "La eliminación de los grupos de clientes"
 
-#: inc/install.php:760
+#: inc/install.php:763
 #, fuzzy
 msgid "Créer des factures d'achats"
 msgstr "Crear facturas de compra"
 
-#: inc/install.php:760
+#: inc/install.php:763
 #, fuzzy
 msgid "Création des factures d'achats"
 msgstr "Creación de facturas de compra"
 
-#: inc/install.php:761
+#: inc/install.php:764
 #, fuzzy
 msgid "Modifier des factures d'achats"
 msgstr "Editar facturas de compra"
 
-#: inc/install.php:761
+#: inc/install.php:764
 #, fuzzy
 msgid "Modification des factures d'achats"
 msgstr "Modificación de las facturas de compra"
 
-#: inc/install.php:762
+#: inc/install.php:765
 #, fuzzy
 msgid "Supprimer des factures d'achats"
 msgstr "Eliminar las facturas de compra"
 
-#: inc/install.php:762
+#: inc/install.php:765
 #, fuzzy
 msgid "Suppression des factures d'achats"
 msgstr "La eliminación de las facturas de compra"
 
-#: inc/install.php:765
+#: inc/install.php:768
 #, fuzzy
 msgid "Créer des sauvegardes"
 msgstr "Crear copias de & respaldo"
 
-#: inc/install.php:765
+#: inc/install.php:768
 #, fuzzy
 msgid "Création des sauvegardes"
 msgstr "La creación de copias de seguridad"
 
-#: inc/install.php:766
+#: inc/install.php:769
 #, fuzzy
 msgid "Modifier des sauvegardes"
 msgstr "Editar copias de seguridad"
 
-#: inc/install.php:766
+#: inc/install.php:769
 #, fuzzy
 msgid "Modification des sauvegardes"
 msgstr "Modificación de copias de seguridad"
 
-#: inc/install.php:767
+#: inc/install.php:770
 #, fuzzy
 msgid "Supprimer des sauvegardes"
 msgstr "eliminar las copias de seguridad"
 
-#: inc/install.php:767
+#: inc/install.php:770
 #, fuzzy
 msgid "Suppression des sauvegardes"
 msgstr "Eliminación de copias de seguridad"
 
-#: inc/install.php:770
+#: inc/install.php:773
 #, fuzzy
 msgid "Lit le flux d'activité des utilisateurs"
 msgstr "Lee la corriente de la actividad del usuario"
 
-#: inc/install.php:771
+#: inc/install.php:774
 #, fuzzy
 msgid "Efface le flux d'actvite des utilisateurs"
 msgstr "Borra los usuarios intermedios actvity"
 
-#: inc/install.php:774
+#: inc/install.php:777
 #, fuzzy
 msgid "Lecture des rapports & statistiques"
 msgstr "La lectura de los informes y estadísticas"
 
-#: inc/install.php:774
+#: inc/install.php:777
 #, fuzzy
 msgid "Autorise la lecture des rapports"
 msgstr "Autoriza a los informes"
 
-#: inc/install.php:789 language/nexo_lang.php:100
+#: inc/install.php:792 language/nexo_lang.php:100
 msgid "Création des coupon"
 msgstr "Crear Cupon"
 
-#: inc/install.php:799
+#: inc/install.php:802
 #, fuzzy
 msgid "Créer des taxes"
 msgstr "crear impuestos"
 
-#: inc/install.php:799
+#: inc/install.php:802
 #, fuzzy
 msgid "Donne la capcité de créer des taxes."
 msgstr "Da capcité crear impuestos."
 
-#: inc/install.php:800
+#: inc/install.php:803
 #, fuzzy
 msgid "Modifier des taxes"
 msgstr "edita los impuestos"
 
-#: inc/install.php:800
+#: inc/install.php:803
 #, fuzzy
 msgid "Donne la capacité de modifier des taxes."
 msgstr "Da la posibilidad de cambiar los impuestos."
 
-#: inc/install.php:801
+#: inc/install.php:804
 #, fuzzy
 msgid "Supprimer des taxes"
 msgstr "Retire los impuestos"
 
-#: inc/install.php:801
+#: inc/install.php:804
 #, fuzzy
 msgid "Donne la capacité de supprimer des taxes."
 msgstr "Da la capacidad de suprimir los impuestos."
@@ -5442,11 +5442,27 @@ msgstr "<strong>Codigo Barras</strong> : %s"
 msgid "Aucun produit disponible"
 msgstr "No hay ningún artículo disponible"
 
-#: views/providers/history-dom.php:14
+#: views/providers/history-dom.php:13
+msgid "Intitulé"
+msgstr "Título"
+
+#: views/providers/history-dom.php:15
 msgid "Coût"
 msgstr "Coste"
 
-#: views/providers/history-dom.php:45
+#: views/providers/history-dom.php:18
+msgid "Liens"
+msgstr "Enlaces"
+
+#: views/providers/history-dom.php:48
+msgid "Historique de l'approvisionnement"
+msgstr "Historia de la fuente"
+
+#: views/providers/history-dom.php:52
+msgid "Open the invoice"
+msgstr "Abrir la factura"
+
+#: views/providers/history-dom.php:59
 msgid "Solde du compte"
 msgstr "Saldo de fondos"
 

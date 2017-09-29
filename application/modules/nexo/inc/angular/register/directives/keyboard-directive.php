@@ -9,9 +9,12 @@ tendooApp.directive( 'keyboard', function(){
 
 
 	HTML.query( 'angular-cache' )
-	.add( 'div.row.keyboard-separator-wrapper>div.col-md-9' )
+	.add( 'div.row.keyboard-separator-wrapper>div.keys-wrapper' )
 	.add( 'div.keyboard-wrapper.row' )
 	.each( 'style', 'padding:15px 0;' );
+
+	HTML.query( '.keys-wrapper' )
+	.each( 'ng-class', '{ \'col-md-12\' : hideSideKeys, \'col-md-9\' : ! hideSideKeys }' );
 
 	for( var i = 7; i <= 9; i++ ) {
 		HTML.query( '.keyboard-wrapper' )
@@ -83,7 +86,9 @@ tendooApp.directive( 'keyboard', function(){
 	HTML.query( '.keyboard-separator-wrapper' )
 	.add( 'div.col-md-3.right-side-keyboard>div.row' )
 	.each( 'style', 'padding:15px 0;' )
-    .each( 'ng-hide', 'hideSideKeys' )
+
+	HTML.query( '.right-side-keyboard' )
+	.each( 'ng-hide', 'hideSideKeys' )
 
 	<?php
 	$keyShortcuts 		=	@$Options[ store_prefix() . 'keyshortcuts' ];

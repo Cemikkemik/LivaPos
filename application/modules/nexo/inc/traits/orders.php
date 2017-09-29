@@ -1078,8 +1078,8 @@ trait Nexo_orders
         $this->db->select( '*,
         ' . store_prefix() . 'nexo_commandes_produits.ID as ORDER_ITEM_ID,
         ' . store_prefix() . 'nexo_commandes_produits.QUANTITE as REAL_QUANTITE' )
-		->from( store_prefix() . 'nexo_articles' )
-		->join( store_prefix() . 'nexo_commandes_produits', store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = ' . store_prefix() . 'nexo_articles.CODEBAR', 'left' )
+		->from( store_prefix() . 'nexo_commandes_produits' )
+		->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR = ' . store_prefix() . 'nexo_articles.CODEBAR', 'left' )
 		->join( store_prefix() . 'nexo_commandes', store_prefix() . 'nexo_commandes.CODE = ' . store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE', 'inner' )
 		->where( store_prefix() . 'nexo_commandes.CODE', $order_code );
 		// ->where( store_prefix() . 'nexo_articles_defectueux.REF_COMMAND_CODE', $order_code );
@@ -1109,28 +1109,30 @@ trait Nexo_orders
 			// If a defective stock exists
 			if( $item[ 'CURRENT_DEFECTIVE_QTE' ] > 0 ) {
 
-                // Whether the item is a digital item, it need to be refundable
-                $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
-                    'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
-                    'QUANTITE'				=>	$item[ 'CURRENT_DEFECTIVE_QTE' ],
-                    'UNIT_PRICE'            =>  $item[ 'REFUND_PRICE'],
-                    'TOTAL_PRICE'           =>  floatval( $item[ 'REFUND_PRICE'] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ),
-                    'AUTHOR'				=>	$this->post( 'author' ),
-                    'DATE_CREATION'			=>	date_now(),
-                    'REF_COMMAND_CODE'		=>	$order_code,
-                    'TYPE'                  =>  'defective'
-                ) );
+                if( $item[ 'INLINE' ] != '1' ) {
+                    // Whether the item is a digital item, it need to be refundable
+                    $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
+                        'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
+                        'QUANTITE'				=>	$item[ 'CURRENT_DEFECTIVE_QTE' ],
+                        'UNIT_PRICE'            =>  $item[ 'REFUND_PRICE'],
+                        'TOTAL_PRICE'           =>  floatval( $item[ 'REFUND_PRICE'] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ),
+                        'AUTHOR'				=>	$this->post( 'author' ),
+                        'DATE_CREATION'			=>	date_now(),
+                        'REF_COMMAND_CODE'		=>	$order_code,
+                        'TYPE'                  =>  'defective'
+                    ) );
 
-                // quantity stock is active when stock management is enabled
-                if( intval( $freshItem[0][ 'STOCK_ENABLED' ] ) == 1 ) {
-                    
-                    $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )
-                    // a defective item can't be considered as sold item
-                    ->set( 'QUANTITE_VENDU', 'QUANTITE_VENDU - ' . intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ), false )
-                    // Increase defective item in stock
-                    ->set( 'DEFECTUEUX', 'DEFECTUEUX+' . intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ), false )
-                    ->update( store_prefix() . 'nexo_articles' );
-                }				
+                    // quantity stock is active when stock management is enabled
+                    if( intval( @$freshItem[0][ 'STOCK_ENABLED' ] ) == 1 ) {
+                        
+                        $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )
+                        // a defective item can't be considered as sold item
+                        ->set( 'QUANTITE_VENDU', 'QUANTITE_VENDU - ' . intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ), false )
+                        // Increase defective item in stock
+                        ->set( 'DEFECTUEUX', 'DEFECTUEUX+' . intval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ), false )
+                        ->update( store_prefix() . 'nexo_articles' );
+                    }	
+                }                			
 
                 $total					+=	floatval( $item[ 'REFUND_PRICE' ] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] );
 
@@ -1140,27 +1142,29 @@ trait Nexo_orders
 
             if( $item[ 'CURRENT_USABLE_QTE' ] > 0 ) {
 
-                // Whether the item is a digital item, it need to be refundable
+                if( $item[ 'INLINE' ] != '1' ) {
+                    // Whether the item is a digital item, it need to be refundable
 
-                $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
-                    'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
-                    'QUANTITE'				=>	$item[ 'CURRENT_USABLE_QTE' ],
-                    'UNIT_PRICE'            =>  $item[ 'REFUND_PRICE'],
-                    'TOTAL_PRICE'           =>  floatval( $item[ 'REFUND_PRICE'] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] ),
-                    'AUTHOR'				=>	$this->post( 'author' ),
-                    'DATE_CREATION'			=>	date_now(),
-                    'REF_COMMAND_CODE'		=>	$order_code,
-                    'TYPE'                  =>  'usable'
-                ) );
+                    $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
+                        'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
+                        'QUANTITE'				=>	$item[ 'CURRENT_USABLE_QTE' ],
+                        'UNIT_PRICE'            =>  $item[ 'REFUND_PRICE'],
+                        'TOTAL_PRICE'           =>  floatval( $item[ 'REFUND_PRICE'] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] ),
+                        'AUTHOR'				=>	$this->post( 'author' ),
+                        'DATE_CREATION'			=>	date_now(),
+                        'REF_COMMAND_CODE'		=>	$order_code,
+                        'TYPE'                  =>  'usable'
+                    ) );
 
-                // quantity stock is active when stock management is enabled
-                if( intval( $freshItem[0][ 'STOCK_ENABLED' ] ) == 1 ) {
+                    // quantity stock is active when stock management is enabled
+                    if( intval( @$freshItem[0][ 'STOCK_ENABLED' ] ) == 1 ) {
 
-                    // Increase defective item in stock
-                    $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )
-                    ->set( 'QUANTITE_RESTANTE', 'QUANTITE_RESTANTE+' . intval( $item[ 'CURRENT_USABLE_QTE' ] ), false )
-                    ->set( 'QUANTITE_VENDU', 'QUANTITE_VENDU-' . intval( $item[ 'CURRENT_USABLE_QTE' ] ), false )
-                    ->update( store_prefix() . 'nexo_articles' );
+                        // Increase defective item in stock
+                        $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )
+                        ->set( 'QUANTITE_RESTANTE', 'QUANTITE_RESTANTE+' . intval( $item[ 'CURRENT_USABLE_QTE' ] ), false )
+                        ->set( 'QUANTITE_VENDU', 'QUANTITE_VENDU-' . intval( $item[ 'CURRENT_USABLE_QTE' ] ), false )
+                        ->update( store_prefix() . 'nexo_articles' );
+                    }
                 }
 
                 $total					+=	floatval( $item[ 'REFUND_PRICE' ] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] );
@@ -1179,12 +1183,16 @@ trait Nexo_orders
 			// Refund
 			$toRefund	+=	$total - $percentage;
         }
-        
+
         // remove item from order
         foreach( $itemToRemove as $orderItemID => $quantity ) {
+            $orderItem      =   $this->db->where( 'ID', $orderItemID )
+            ->get( store_prefix() . 'nexo_commandes_produits' );
+
             $this->db->where( 'ID', $orderItemID )
-            ->set( 'QUANTITE', 'QUANTITE-' . intval( $quantity ) )
-            ->update( store_prefix() . 'nexo_commandes_produits' );
+            ->update( store_prefix() . 'nexo_commandes_produits', [
+                'QUANTITE'      =>  intval( $orderItem[0][ 'QUANTITE' ] ) - $quantity
+            ]);
 
             // Posting Refund entry
             // $this->db->insert( store_prefix() . 'nexo_commandes_refunds', [

@@ -1,0 +1,8 @@
+v1.4.4
+======
+* Added : Collect meal individually
+v1.4.3
+======
+* Fix : kitchen view when single kitchen is enabled
+* Fix : Hidding kitchen when it's disabled
+* Added : Hide waiter screen.

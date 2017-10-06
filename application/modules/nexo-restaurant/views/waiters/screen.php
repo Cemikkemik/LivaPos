@@ -200,23 +200,29 @@ function( $scope, $timeout, $compile, $rootScope, $interval, $http, $filter ){
 	$interval( function(){
 		$http.get( '<?php echo site_url([ 'dashboard', store_slug(), 'nexo-restaurant', 'get_orders_with_meals' ]);?>' )
 		.then( function( returned ){
-			// Just emit what the server returns
-			$rootScope.$emit( 'getOrders.withMetas', angular.copy( returned.data ) );
 			
 			// filter only ready items
 			let indexToRemove 		=	[];
+			let dineinOrders 		=	[];
 			returned.data.forEach( ( order, index ) => {
 				// if order is not ready or collected
 				if( _.indexOf([ 'ready', 'collected' ], order.STATUS ) == -1 ) {
 					indexToRemove.push( index );
 				}
+
+				if( order.TYPE == 'REAL_TYPE' ) {
+					dineinOrders.push( order );
+				}
 			});
+
+			// Just emit what the server returns
+			$rootScope.$emit( 'getOrders.withMetas', angular.copy( returned.data ) );
 
 			// Clear all unused index
 			indexToRemove.forEach( index => {
 				returned.data.splice( index, 1 );
 			});
-			
+
 			$scope.rawOrders		=	[];
 			$scope.rawOrdersCodes 	=	[];
 			

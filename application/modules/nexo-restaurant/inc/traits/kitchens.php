@@ -72,7 +72,7 @@ trait nexo_restaurant_kitchens
             $order_all_food     =   $this->post( 'all_foods' );
 
             foreach( $order_foods as $food ) {
-                if( $food[ 'VALUE' ] == 'ready' ) {
+                if( in_array( $food[ 'VALUE' ], [ 'ready', 'collected' ] ) ) {
                     $order_is_ready[]   =   true;
                 }
 

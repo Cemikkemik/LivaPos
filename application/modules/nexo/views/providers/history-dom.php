@@ -44,8 +44,8 @@
                                         <td class="text-right"><?php echo ucwords( $result[ 'name' ] );?></td>
                                         <td class="text-center">
                                         <?php if( @$result[ 'TITRE' ] != null ):?>
-                                        <a href="<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'arrivages', 'delivery_items', $result[ 'SUPPLY_ID' ], '?provider_id=' . $provider[ 'ID' ] ]);?>">
-                                             <?php echo __( 'Historique de l\'approvisionnement', 'nexo' );?>
+                                        <a href="<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'arrivages', 'delivery_invoice', $result[ 'SUPPLY_ID' ], '?provider_id=' . $provider[ 'ID' ] ]);?>">
+                                             <?php echo __( 'Supply Receipt', 'nexo' );?>
                                         </a>
                                         <?php else:?>
                                         ---

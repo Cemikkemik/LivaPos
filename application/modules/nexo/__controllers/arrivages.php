@@ -140,13 +140,18 @@ class Nexo_Arrivages extends CI_Model
     public function delivery_invoice( $delivery_id )
     {
         global $Options;
-        $items      =   $this->db->select( '*' )
+        $this->db->select( '*' )
         ->from( store_prefix() . 'nexo_arrivages' )
         ->join( store_prefix() . 'nexo_articles_stock_flow', store_prefix() . 'nexo_articles_stock_flow.REF_SHIPPING = ' . store_prefix() . 'nexo_arrivages.ID' )
         ->join( store_prefix() . 'nexo_fournisseurs', store_prefix() . 'nexo_fournisseurs.ID = ' . store_prefix() . 'nexo_articles_stock_flow.REF_PROVIDER' )
         ->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_articles_stock_flow.REF_ARTICLE_BARCODE' )
-        ->where( store_prefix() . 'nexo_arrivages.ID', $delivery_id )
-        ->get()->result_array();
+        ->where( store_prefix() . 'nexo_arrivages.ID', $delivery_id );
+        
+        if( @$_GET[ 'provider_id' ] != null ) {
+            $this->db->where( store_prefix() . 'nexo_articles_stock_flow.REF_PROVIDER', $_GET[ 'provider_id' ] );
+        }
+
+        $items      =   $this->db->get()->result_array();
 
         $this->load->library('parser');
 

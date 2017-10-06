@@ -336,3 +336,19 @@ if( ! function_exists( 'nexo_notices' ) ) {
         get_instance()->Nexo_Notices->add( $data );
     }
 }
+
+/**
+ * Raw to options
+ * @param array raw entries
+ * @param string key
+ * @param string value
+ * @return array key value
+**/
+
+function nexo_convert_raw( $raw, $key, $value ) {
+    $new    =   [];
+    foreach( $raw as $data ) {
+        $new[ $data[ $key ] ]      =   $data[ $value ];
+    }
+    return $new;
+}

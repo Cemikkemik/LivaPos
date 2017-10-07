@@ -24,7 +24,6 @@ class Bulksms extends REST_Controller
     
     public function send_sms_post($AccountSid = null, $AuthToken = null)
     {
-        return;
         $this->load->helper('nexo_sms');
         
         /*

@@ -478,38 +478,8 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 									MessageObject.msg	=	'<?php echo _s('La commande est en cours d\'impression.', 'nexo');?>';
 									MessageObject.type	=	'success';
 
-									$.ajax({
-										url 		:	'<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true',
-										success 		:	function( data ){
-											var params = [
-											'height='+screen.height,
-											'width='+screen.width,
-											'fullscreen=yes' // only works in IE, but here for completeness
-											].join(',');
-											var mywindow = window.open('', 'my div', params );
-											mywindow.document.write('<html><head><title>Store A &rsaquo; Proceed a sale &mdash; Store A</title>');
-											mywindow.document.write('</head><body >');
-											mywindow.document.write(data);
-											mywindow.document.write('</body></html>');
-
-											mywindow.document.close(); // necessary for IE >= 10
-											mywindow.focus(); // necessary for IE >= 10
-											setTimeout( function(){
-												mywindow.print();
-												mywindow.close();
-											}, 600 );
-										}
-									});
-
-									// $( 'body' ).append( '<iframe style="display:none;" id="CurrentReceipt" name="CurrentReceipt" src="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true"></iframe>' );
-
-									// window.frames["CurrentReceipt"].focus();
-									// window.frames["CurrentReceipt"].print();
-
-									// setTimeout( function(){
-									// 	$( '#CurrentReceipt' ).remove();
-									// }, 5000 );
-
+									$( '#receipt-wrapper' ).remove();
+									$( 'body' ).append( '<iframe id="receipt-wrapper" style="visibility:hidden;height:0px;width:0px;position:absolute;top:0;" src="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true&autoprint=true"></iframe>' );
 								}
 								// Remove filter after it's done
 								NexoAPI.events.removeFilter( 'cart_enable_print' );

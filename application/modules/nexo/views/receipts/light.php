@@ -347,7 +347,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 	}
 }
 </style>
-
+<?php include( dirname( __FILE__ ) . '/receipt-footer.php' );?>
 <?php if( @$_GET[ 'ignore_header' ] != 'true' ):?>
 </body>
 </html>

@@ -35,6 +35,7 @@ var v2Checkout					=	new function(){
 	 *  Add on cart
 	 *  @param object item to fetch
 	 *  @return void
+	 *  @deprecated
 	**/
 
 	this.addOnCart 				=	function(_item, codebar, qte_to_add, allow_increase, filter) {
@@ -167,14 +168,13 @@ var v2Checkout					=	new function(){
 			.find( '[data-codebar="' + item.CODEBAR + '"]' );
 			let remainingQuantity 	=	parseInt( $( gridItem ).attr( 'data-remaining-quantity' ) );
 			let testQuantity 		=	quantity;
+			let currentItem;
 
 			// if we're just increasing an existing item.
 			// proceed to some check before
 			if( increase && index ) {
 				testQuantity 		=	parseInt( v2Checkout.CartItems[ index ].QTE_ADDED ) + quantity;
 			}
-
-			console.log( testQuantity );
 
 			if( 
 				remainingQuantity - testQuantity < 0 
@@ -197,6 +197,20 @@ var v2Checkout					=	new function(){
 					}
 				}
 
+				/**
+				 * If item already exist on the cart. 
+				 * Then we can increase the quantity if that item is not an inline item
+				 * @since 3.10.1
+				**/
+
+				if( currentItem = this.getItem( item.CODEBAR ) ) {
+					// only works for item which are'nt inline
+					console.log( currentItem.LOOP_INDEX );
+					if( currentItem.INLINE != '1' || currentItem.INLINE == undefined ) {	
+						index 	=	currentItem.LOOP_INDEX; // provided by this.getItem(...);
+					}
+				} 
+				
 				if( index != null ) {
 					if( this.CartItems[ index ] ) {
 						if( increase == true ) {
@@ -1585,8 +1599,6 @@ var v2Checkout					=	new function(){
 		}
 	}
 
-
-
 	/**
 	* Customer DropDown Menu
 	* @deprecated
@@ -2030,6 +2042,7 @@ var v2Checkout					=	new function(){
 		this.getItem				=	function( barcode ) {
 			for( var i = 0; i < this.CartItems.length ; i++ ) {
 				if( this.CartItems[i].CODEBAR == barcode ) {
+					this.CartItems[i].LOOP_INDEX 	=	i;
 					return this.CartItems[i];
 				}
 			}

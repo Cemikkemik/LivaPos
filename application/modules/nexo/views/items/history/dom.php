@@ -36,7 +36,7 @@
                         <td>{{ operationName( item.type ) }} </td>
                         <td class="text-right">{{ item.before_quantity }} </td>
                         <td class="text-right">{{ testOperation( item ) }} {{ item.quantity }} </td>
-                        <td class="text-left"> = {{ item.after_quantity }} </td>
+                        <td class="text-right"> = {{ item.after_quantity }} </td>
                         <td class="text-right">{{ item.price | moneyFormat }}</td>
                         <td class="text-right">{{ item.total_price | moneyFormat }} </td>
                         <td class="text-right">{{ item.author_name }} </td>

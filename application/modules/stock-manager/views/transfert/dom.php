@@ -55,7 +55,7 @@
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </span>
-                                        <input ng-focus="watchItem( item )" ng-change="checkChange( item )" ng-model="item.QTE_ADDED" type="text" class="form-control" id="exampleInputAmount" placeholder="Search">
+                                        <input ng-focus="watchItem( item )" ng-model-options="{ updateOn: 'blur' }" ng-change="checkChange( item )" ng-model="item.QTE_ADDED" type="text" class="form-control" id="exampleInputAmount" placeholder="Search">
                                         <span class="input-group-btn">
                                             <button ng-click="quantity( item, 'increase' )" type="button" class="btn btn-default">
                                                 <i class="fa fa-plus"></i>

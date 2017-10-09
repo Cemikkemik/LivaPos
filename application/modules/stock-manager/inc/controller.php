@@ -221,19 +221,7 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
         foreach( $allItems as $item ) {
             $storeItems[ $item[ 'CODEBAR' ] ]   =   $item;
         }
-
-        // create shipping on the store receiver
-        // $this->db->insert( store_prefix() . 'nexo_arrivages', [
-        //     'TITRE'             =>  $transfert[0][ 'TITLE' ],
-        //     'DESCRIPTION'       =>  $transfert[0][ 'DESCRIPTION' ],
-        //     'VALUE'             =>  0,
-        //     'ITEMS'             =>  0,
-        //     'REF_PROVIDERS'     =>  '',
-        //     'DATE_CREATION'     =>  date_now(),
-        //     'AUTHOR'            =>  User::id() 
-        // ]);
-        
-        $delivery_id        =   $this->db->insert_id();
+        unset( $item );
 
         // get all items from source
         $slug                   =   intval( $transfert[0][ 'FROM_STORE' ] ) == 0 ? '' : 'store_' . intval( $transfert[0][ 'FROM_STORE' ] ) . '_';
@@ -254,49 +242,65 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
         $source_categories_details      =   nexo_convert_raw( $raw_categories, 'ID' );
         $current_categories_details     =   nexo_convert_raw( $raw_current_categories, 'ID' );
 
+        // var_dump( $source_items_details, $source_categories_details, $current_categories_details );
         $failures       =   [];
         foreach( $items as $item ) {
             // check if item exists on the current store otherwise create it
-            $itemExists             =   false;
+            $item_data              =   [];
 
             if( @$storeItems[ $item[ 'BARCODE' ] ] == null ) {
-
                 // if item exist on the original store
                 if( @$source_items_details[ $item[ 'BARCODE' ] ] != null ) {
-                    $itemExists                            =   true;
                     $item_data                             =   $source_items_details[ $item[ 'BARCODE' ] ];
                     $item_data[ 'CODEBAR' ]                =   $item[ 'BARCODE' ];
                     $item_data[ 'QUANTITE_RESTANTE' ]      =   0;
                     $item_data[ 'DESIGN' ]                 =   $item[ 'DESIGN' ];
                     $this->db->insert( store_prefix() . 'nexo_articles', $item_data );
 
-                    // if destination store category don't exists
-                    // get the source category and create on the destination store
-                    if( @$current_categories_details[ $item_data[ 'REF_CATEGORIE' ] ] == null ) {
-                        if( @$source_categories_details[ $item_data[ 'REF_CATEGORIE' ] ] != null  ) {
-                            $this->db->insert( 
-                                store_prefix() . 'nexo_articles', 
-                                @$source_categories_details[ $item_data[ 'REF_CATEGORIE' ] ] 
-                            );
-                        }
-                    }
                 } else {
                     // if item can't be transfered, save it as failures
                     $failures[]     =   $item;
                     break;
                 }            
+            } else {
+                // the item already exist then no need to create it. Just proceed.
+                $itemExists         =   true;
+                $item_data          =   @$storeItems[ $item[ 'BARCODE' ] ];
             }
 
-            if( ! $itemExists ) {
-                // $item_details           =   $this->db->where( 'CODEBAR', $item[ 'BARCODE' ] )
-                // ->get( store_prefix() . 'nexo_articles' )
-                // ->result_array();
-    
+            if( $item_data ) {
+                // if destination store category don't exists
+                // get the source category and create on the destination store
+                // May need to get the complete hierarchy
+                if( @$current_categories_details[ $item_data[ 'REF_CATEGORIE' ] ] == null ) {
+                    if( @$source_categories_details[ $item_data[ 'REF_CATEGORIE' ] ] != null  ) {  
+                        $this->db->insert( 
+                            store_prefix() . 'nexo_categories', 
+                            $source_categories_details[ $item_data[ 'REF_CATEGORIE' ] ] 
+                        );
+                    }
+                }
+
+                // create shipping on the store receiver
+                $this->db->insert( store_prefix() . 'nexo_arrivages', [
+                    'TITRE'             =>  $transfert[0][ 'TITLE' ],
+                    'DESCRIPTION'       =>  $transfert[0][ 'DESCRIPTION' ],
+                    'VALUE'             =>  0,
+                    'ITEMS'             =>  0,
+                    'REF_PROVIDERS'     =>  '',
+                    'DATE_CREATION'     =>  date_now(),
+                    'AUTHOR'            =>  User::id() 
+                ]);
+                
+                $delivery_id        =   $this->db->insert_id();
+
                 // Make a supply entry
                 // store which receive item
                 $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
                     'REF_ARTICLE_BARCODE'           =>  $item[ 'BARCODE' ],
+                    'BEFORE_QUANTITE'               =>  $item_data[ 'QUANTITE_RESTANTE' ],
                     'QUANTITE'                      =>  $item[ 'QUANTITY' ],
+                    'AFTER_QUANTITE'                =>  floatval( $item_data[ 'QUANTITE_RESTANTE' ] ) + floatval( $item[ 'QUANTITY' ] ),
                     'DATE_CREATION'                 =>  date_now(),
                     'AUTHOR'                        =>  User::id(),
                     'REF_SHIPPING'                  =>  $delivery_id,
@@ -305,57 +309,39 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
                     'TOTAL_PRICE'                   =>  $item[ 'TOTAL_PRICE' ],
                 ]);
 
+                // Update item created on the destination store and update the remaining quantity
                 $this->db->where( 'CODEBAR', $item[ 'BARCODE' ] )->update( store_prefix() . 'nexo_articles', [
                     'QUANTITE_RESTANTE'             => floatval( $item_data[ 'QUANTITE_RESTANTE' ] ) + floatval( $item[ 'QUANTITY' ] )
                 ]);
 
-                // if the from store allow deduction only when stock is approuved.
-                if( intval( $transfert[0][ 'FROM_STORE'] ) == 0 ) {
-                    if( get_option( 'deduct_from_store', 'yes' ) == 'no' ) {
-                        $item_details           =   $this->db->where( 'CODEBAR', $item[ 'BARCODE' ] )
-                        ->get( 'nexo_articles' )
-                        ->result_array();
+                // create the valid slug. which should be the source slug
+                $slug   =   ( intval( $transfert[0][ 'FROM_STORE'] ) == 0 ) ? '' : 'store_' . $transfert[0][ 'FROM_STORE' ] . '_';
 
-                        // reduce from quantity
-                        $this->db->where( 'CODEBAR', $item[ 'BARCODE' ] )->update( 'nexo_articles', [
-                            'QUANTITE_RESTANTE'     =>      floatval( $item_details[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $item[ 'QUANTITY' ] )
-                        ]);
-    
-                        // Input in stock flow as transfer
-                        $this->db->insert( 'nexo_articles_stock_flow', [
-                            'QUANTITE'              =>      floatval( $item[ 'QUANTITY' ] ),
-                            'TYPE'                  =>      'transfert_out',
-                            'UNIT_PRICE'            =>      $item[ 'UNIT_PRICE' ],
-                            'TOTAL_PRICE'           =>      floatval( $item[ 'QUANTITY' ] ) * floatval( $item[ 'UNIT_PRICE' ] ),
-                            'REF_ARTICLE_BARCODE'   =>      $item[ 'BARCODE' ],
-                            'DATE_CREATION'         =>      date_now(),
-                            'AUTHOR'                =>      User::id()
-                        ]);
-                    }
-                } else {
-                    if( get_option( 'store_' . $transfert[0][ 'FROM_STORE' ] . '_deduct_from_store', 'yes' ) == 'no' ) {
-                        $item_details           =   $this->db->where( 'CODEBAR', $item[ 'BARCODE' ] )
-                        ->get( 'store_' . $transfert[0][ 'FROM_STORE' ] . '_nexo_articles' )
-                        ->result_array();
-                        
-                        // reduce from quantity
-                        $this->db->where( 'CODEBAR', $item[ 'BARCODE' ] )->update( 'store_' . $transfert[0][ 'FROM_STORE' ] . '_nexo_articles', [
-                            'QUANTITE_RESTANTE'     =>      floatval( $item_details[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $item[ 'QUANTITY' ] )
-                        ]);
-    
-                        // Input in stock flow as transfer
-                        $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
-                            'QUANTITE'              =>      floatval( $item[ 'QUANTITY' ] ),
-                            'TYPE'                  =>      'transfert_out',
-                            'UNIT_PRICE'            =>      $item[ 'UNIT_PRICE' ],
-                            'TOTAL_PRICE'           =>      floatval( $item[ 'QUANTITY' ] ) * floatval( $item[ 'UNIT_PRICE' ] ),
-                            'REF_ARTICLE_BARCODE'   =>      $item[ 'BARCODE' ],
-                            'DATE_CREATION'         =>      date_now(),
-                            'AUTHOR'                =>      User::id()
-                        ]);
-                    }
-                } 
-            }      
+                // if transfert allow deduction
+                if( @$transfert[0][ 'DEDUCT_FROM_SOURCE' ] == 'no' ) {
+                    $item_details           =   $this->db->where( 'CODEBAR', $item[ 'BARCODE' ] )
+                    ->get( $slug . 'nexo_articles' )
+                    ->result_array();
+
+                    // reduce from quantity
+                    $this->db->where( 'CODEBAR', $item[ 'BARCODE' ] )->update( $slug . 'nexo_articles', [
+                        'QUANTITE_RESTANTE'     =>      floatval( $item_details[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $item[ 'QUANTITY' ] )
+                    ]);
+
+                    // Input in stock flow as transfer
+                    $this->db->insert( $slug . 'nexo_articles_stock_flow', [
+                        'BEFORE_QUANTITE'       =>      floatval( $item_details[0][ 'QUANTITE_RESTANTE' ] ),
+                        'QUANTITE'              =>      floatval( $item[ 'QUANTITY' ] ),
+                        'AFTER_QUANTITE'        =>      floatval( $item_details[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $item[ 'QUANTITY' ] ),
+                        'TYPE'                  =>      'transfert_out',
+                        'UNIT_PRICE'            =>      $item[ 'UNIT_PRICE' ],
+                        'TOTAL_PRICE'           =>      floatval( $item[ 'QUANTITY' ] ) * floatval( $item[ 'UNIT_PRICE' ] ),
+                        'REF_ARTICLE_BARCODE'   =>      $item[ 'BARCODE' ],
+                        'DATE_CREATION'         =>      date_now(),
+                        'AUTHOR'                =>      User::id()
+                    ]);
+                }
+            }
         }
 
         // update transfert status
@@ -385,7 +371,7 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
         }
 
         // if the stock hasn't been send, then we don't need to return anything, just change the transfert status.
-        if( store_option( 'deduct_from_store', 'yes' ) == 'no' ) {
+        if( $transfert[0][ 'DEDUCT_FROM_SOURCE' ] == 'no' ) {
             // update transfert status
             $this->transfert_model->status( $transfert_id, 4 );
 

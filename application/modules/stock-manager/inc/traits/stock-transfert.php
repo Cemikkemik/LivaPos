@@ -19,6 +19,7 @@ trait Stock_Transfert_Trait
             'TYPE'                  =>  'supply',
             'DATE_CREATION'         =>  date_now(),
             'APPROUVED'              =>  0, // 0: pending, 1: approuved, 2: refused
+            'DEDUCT_FROM_SOURCE'    =>  store_option( 'deduct_from_store', 'yes' )
         ]);
 
         $transfert_id                =   $this->db->insert_id();
@@ -40,13 +41,15 @@ trait Stock_Transfert_Trait
             if( store_option( 'deduct_from_store', 'yes' ) == 'yes' ) {
                 // reduce from quantity
                 $this->db->where( 'CODEBAR', $item[ 'CODEBAR' ] )->update( 
-                    ( get_store_id() == 0 ? store_prefix() : '' ) . 'nexo_articles', [
+                    store_prefix() . 'nexo_articles', [
                     'QUANTITE_RESTANTE'     =>      floatval( $item[ 'QUANTITE_RESTANTE' ] ) - floatval( $item[ 'QTE_ADDED' ] )
                 ]);
 
                 // Input in stock flow as transfer
-                $this->db->insert( ( get_store_id() == 0 ? store_prefix() : '' ) . 'nexo_articles_stock_flow', [
+                $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
+                    'BEFORE_QUANTITE'       =>      floatval( $item[ 'QUANTITE_RESTANTE' ] ),
                     'QUANTITE'              =>      floatval( $item[ 'QTE_ADDED' ] ),
+                    'AFTER_QUANTITE'        =>      floatval( $item[ 'QUANTITE_RESTANTE' ] ) - floatval( $item[ 'QTE_ADDED' ] ),
                     'TYPE'                  =>      'transfert_out',
                     'UNIT_PRICE'            =>      $item[ 'PRIX_DACHAT' ],
                     'TOTAL_PRICE'           =>      floatval( $item[ 'QTE_ADDED' ] ) * floatval( $item[ 'PRIX_DACHAT' ] ),
@@ -55,7 +58,6 @@ trait Stock_Transfert_Trait
                     'AUTHOR'                =>      User::id()
                 ]);
             } 
-
         }    
 
         $this->response([

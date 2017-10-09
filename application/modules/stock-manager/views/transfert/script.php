@@ -131,6 +131,10 @@ var StockTransferCTRL   =   function( $scope, $http ) {
     **/
 
     $scope.checkChange      =   function( item ) {
+        if( isNaN( item.QTE_ADDED ) ) {
+            return item.QTE_ADDED  =   1;
+        }
+        
         let currentValue    =   item.QTE_ADDED;
 
         // We're adding quantity

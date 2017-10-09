@@ -36,6 +36,7 @@ class Nexo_Stock_Manager_Install extends Tendoo_Module
             `DATE_CREATION` datetime NOT NULL,
             `DATE_MOD` datetime NOT NULL,
             `DESTINATION_STORE` int(11) NOT NULL,
+            `DEDUCT_FROM_SOURCE` varchar(200) NOT NULL,
             `FROM_STORE` int(11) NOT NULL,
             PRIMARY KEY (`ID`)
         ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');

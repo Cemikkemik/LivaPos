@@ -42,13 +42,13 @@
                 return true;
             },
             nameAttr            :   'DESIGN',
-            clearOnSelect       :   false,
+            clearOnSelect       :   true,
             onSelect            :   function( item ) {
                 $scope.addItem( item );
             }, 
             onError             :   function(){
-                // angular.element( '.search-input' ).val('');
-                // angular.element( '.search-input' ).select();
+                angular.element( '.search-input' ).val('');
+                angular.element( '.search-input' ).select();
             },
             delay               :   500
         };

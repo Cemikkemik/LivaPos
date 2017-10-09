@@ -224,11 +224,11 @@ var StockTransferCTRL   =   function( $scope, $http ) {
     }
 
     $scope.npAutocompleteOptions = {
-        url: '<?php echo site_url( array( 'rest', 'nexo', 'item' ) );?>' +  '/:searchParam/search?<?php echo store_get_param( null );?>',
+        url: '<?php echo site_url( array( 'rest', 'nexo', 'search_item' ) );?>' +  '?<?php echo store_get_param( null );?>',
         headers		:	{
             '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo get_option( 'rest_key' );?>'
         },
-        queryMode           :   false,
+        queryMode           :   true,
         callback            :   function( data, option ) {
             if( data.length == 1 ) {
                 $scope.addToCart( data[0], 1 );

@@ -41,32 +41,32 @@ class Nexo_Install extends CI_Model
 
     public function final_config()
     {
-        $this->load->model('Nexo_Checkout');
-        $this->create_permissions();
+		$this->load->model('Nexo_Checkout');
+		$this->create_permissions();
 
-        // Defaut options
-        $this->options->set('nexo_installed', true, true);
-        $this->options->set('nexo_display_select_client', 'enable', true);
-        $this->options->set('nexo_display_payment_means', 'enable', true);
-        $this->options->set('nexo_display_amount_received', 'enable', true);
-        $this->options->set('nexo_display_discount', 'enable', true);
-        $this->options->set('nexo_currency_position', 'before', true);
-        $this->options->set('nexo_receipt_theme', 'default', true);
-        $this->options->set('nexo_enable_autoprinting', 'no', true);
-        $this->options->set('nexo_devis_expiration', 7, true);
-        $this->options->set('nexo_shop_street', 'Cameroon, Yaoundé Ngousso Av.', true);
-        $this->options->set('nexo_shop_pobox', '45 Edéa Cameroon', true);
-        $this->options->set('nexo_shop_email', 'carlosjohnsonluv2004@gmail.com', true);
-        $this->options->set('how_many_before_discount', 0, true);
-        $this->options->set('nexo_products_labels', 5, true);
-        $this->options->set('nexo_codebar_height', 100, true);
-        $this->options->set('nexo_bar_width', 3, true);
-        $this->options->set('nexo_soundfx', 'enable', true);
-        $this->options->set('nexo_currency', '$', true);
-        $this->options->set('nexo_vat_percent', 10, true);
-        $this->options->set('nexo_enable_autoprint', 'yes', true);
-        $this->options->set('nexo_enable_smsinvoice', 'no', true);
-        $this->options->set('nexo_currency_iso', 'USD', true);
+		// Defaut options
+		$this->options->set('nexo_installed', true, true);
+		$this->options->set('nexo_display_select_client', 'enable', true);
+		$this->options->set('nexo_display_payment_means', 'enable', true);
+		$this->options->set('nexo_display_amount_received', 'enable', true);
+		$this->options->set('nexo_display_discount', 'enable', true);
+		$this->options->set('nexo_currency_position', 'before', true);
+		$this->options->set('nexo_receipt_theme', 'default', true);
+		$this->options->set('nexo_enable_autoprinting', 'no', true);
+		$this->options->set('nexo_devis_expiration', 7, true);
+		$this->options->set('nexo_shop_street', 'Cameroon, Yaoundé Ngousso Av.', true);
+		$this->options->set('nexo_shop_pobox', '45 Edéa Cameroon', true);
+		$this->options->set('nexo_shop_email', 'carlosjohnsonluv2004@gmail.com', true);
+		$this->options->set('how_many_before_discount', 0, true);
+		$this->options->set('nexo_products_labels', 5, true);
+		$this->options->set('nexo_codebar_height', 100, true);
+		$this->options->set('nexo_bar_width', 3, true);
+		$this->options->set('nexo_soundfx', 'enable', true);
+		$this->options->set('nexo_currency', '$', true);
+		$this->options->set('nexo_vat_percent', 10, true);
+		$this->options->set('nexo_enable_autoprint', 'yes', true);
+		$this->options->set('nexo_enable_smsinvoice', 'no', true);
+		$this->options->set('nexo_currency_iso', 'USD', true);
 		$this->options->set( 'nexo_compact_enabled', 'yes', true );
 		$this->options->set( 'nexo_enable_shadow_price', 'no', true );
 		$this->options->set( 'nexo_enable_stripe', 'no', true );

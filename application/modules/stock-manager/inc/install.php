@@ -8,24 +8,13 @@ class Nexo_Stock_Manager_Install extends Tendoo_Module
 
     /**
      * Global Installation
+     * The table for the transfert is set only once
      * @return void
     **/
 
     public function complete()
     {
-        $this->load->model( 'Nexo_Stores' );
-
-        $stores         =   $this->Nexo_Stores->get();
-
-        array_unshift( $stores, [
-            'ID'        =>  0
-        ]);
-
-        foreach( $stores as $store ) {
-            $store_prefix       =   $store[ 'ID' ] == 0 ? '' : 'store_' . $store[ 'ID' ] . '_';
-
-            $this->sql( $store_prefix );
-        };
+        $this->sql( $this->db->dbprefix );
     }
 
     /**
@@ -85,18 +74,6 @@ class Nexo_Stock_Manager_Install extends Tendoo_Module
 
     public function remove_all()
     {
-        $this->load->model( 'Nexo_Stores' );
-        
-        $stores         =   $this->Nexo_Stores->get();
-
-        array_unshift( $stores, [
-            'ID'        =>  0
-        ]);
-
-        foreach( $stores as $store ) {
-            $store_prefix       =   $store[ 'ID' ] == 0 ? '' : 'store_' . $store[ 'ID' ] . '_';
-
-            $this->remove( $this->db->dbprefix . $store_prefix );
-        };
+        $this->remove( $this->db->dbprefix );
     }
 }

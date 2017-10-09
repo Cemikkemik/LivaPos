@@ -229,7 +229,9 @@ trait Nexo_orders
             // Add history for this item on stock flow
             $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
                 'REF_ARTICLE_BARCODE'       =>  $item[ 'codebar' ],
+                'BEFORE_QUANTITE'           =>  $fresh_item[0][ 'QUANTITE_RESTANTE' ],
                 'QUANTITE'                  =>  $item[ 'qte_added' ],
+                'AFTER_QUANTITE'            =>  floatval( $fresh_item[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $item[ 'qte_added' ] ),
                 'UNIT_PRICE'                =>  $item[ 'sale_price' ],
                 'TOTAL_PRICE'               =>  ( __floatval($item[ 'qte_added' ]) * __floatval($item[ 'sale_price' ]) ) - $discount_amount,
                 'REF_COMMAND_CODE'          =>  $order_details[ 'CODE' ],
@@ -500,7 +502,7 @@ trait Nexo_orders
         foreach ( $this->put('ITEMS') as $item ) {
 
             // Get Items
-            $fresh_items    =    $this->db->where('CODEBAR', $item[ 'codebar' ])
+            $fresh_item    =    $this->db->where('CODEBAR', $item[ 'codebar' ])
             ->get( store_prefix() . 'nexo_articles')
             ->result_array();
 
@@ -510,8 +512,8 @@ trait Nexo_orders
 
 			if( intval( $item['stock_enabled'] ) == 1 && $item[ 'inline' ] != '1' ) {
 				$this->db->where('CODEBAR', $item['codebar'])->update( store_prefix() . 'nexo_articles', array(
-					'QUANTITE_RESTANTE'        =>    intval($fresh_items[0][ 'QUANTITE_RESTANTE' ]) - intval($item['qte_added']),
-					'QUANTITE_VENDU'        =>    intval($fresh_items[0][ 'QUANTITE_VENDU' ]) + intval($item['qte_added'])
+					'QUANTITE_RESTANTE'        =>    intval($fresh_item[0][ 'QUANTITE_RESTANTE' ]) - intval($item['qte_added']),
+					'QUANTITE_VENDU'        =>    intval($fresh_item[0][ 'QUANTITE_VENDU' ]) + intval($item['qte_added'])
 				) );
 			}
 
@@ -564,7 +566,9 @@ trait Nexo_orders
             // Add history for this item on stock flow
             $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
                 'REF_ARTICLE_BARCODE'       =>  $item[ 'codebar' ],
+                'BEFORE_QUANTITE'           =>  $fresh_item[0][ 'QUANTITE_RESTANTE' ],
                 'QUANTITE'                  =>  $item[ 'qte_added' ],
+                'AFTER_QUANTITE'            =>  floatval( $fresh_item[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $item[ 'qte_added' ] ),
                 'UNIT_PRICE'                =>  $item[ 'sale_price' ],
                 'TOTAL_PRICE'               =>  ( __floatval($item[ 'qte_added' ]) * __floatval($item[ 'sale_price' ]) ) - $discount_amount,
                 'REF_COMMAND_CODE'          =>  $old_order[ 'order' ][0][ 'CODE' ],
@@ -1114,6 +1118,8 @@ trait Nexo_orders
                     $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
                         'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
                         'QUANTITE'				=>	$item[ 'CURRENT_DEFECTIVE_QTE' ],
+                        'BEFORE_QUANTITE'       =>	$freshItem[0][ 'QUANTITE_RESTANTE' ],
+                        'AFTER_QUANTITE'        =>	( floatval( $freshItem[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ) ),
                         'UNIT_PRICE'            =>  $item[ 'REFUND_PRICE'],
                         'TOTAL_PRICE'           =>  floatval( $item[ 'REFUND_PRICE'] ) * floatval( $item[ 'CURRENT_DEFECTIVE_QTE' ] ),
                         'AUTHOR'				=>	$this->post( 'author' ),
@@ -1147,7 +1153,9 @@ trait Nexo_orders
 
                     $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', array(
                         'REF_ARTICLE_BARCODE'	=>	$item[ 'REF_PRODUCT_CODEBAR' ],
+                        'BEFORE_QUANTITE'       =>	$freshItem[0][ 'QUANTITE_RESTANTE' ],
                         'QUANTITE'				=>	$item[ 'CURRENT_USABLE_QTE' ],
+                        'AFTER_QUANTITE'        =>	floatval( $item[ 'CURRENT_USABLE_QTE' ] ) + floatval( $item[ 'CURRENT_USABLE_QTE' ] ),
                         'UNIT_PRICE'            =>  $item[ 'REFUND_PRICE'],
                         'TOTAL_PRICE'           =>  floatval( $item[ 'REFUND_PRICE'] ) * floatval( $item[ 'CURRENT_USABLE_QTE' ] ),
                         'AUTHOR'				=>	$this->post( 'author' ),

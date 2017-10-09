@@ -523,6 +523,8 @@ trait Nexo_items
             $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
                 'REF_ARTICLE_BARCODE'   =>  $this->post( 'item_barcode' ),
                 'QUANTITE'              =>  $this->post( 'item_qte' ),
+                'BEFORE_QUANTITE'       =>  $item[0][ 'QUANTITE_RESTANTE' ],
+                'AFTER_QUANTITE'        =>  $remaining_qte,
                 'DATE_CREATION'         =>  date_now(),
                 'AUTHOR'                =>  User::id(),
                 'TYPE'                  =>  $this->post( 'type' ), // defective, usable, supply, adjustment
@@ -596,6 +598,8 @@ trait Nexo_items
                     
                     $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
                         'REF_ARTICLE_BARCODE'   =>  $item[ 'item_barcode' ],
+                        'BEFORE_QUANTITE'       =>  $saved_item[0][ 'QUANTITE_RESTANTE' ],
+                        'AFTER_QUANTITE'        =>  $remaining_qte,
                         'QUANTITE'              =>  $item[ 'item_qte' ],
                         'DATE_CREATION'         =>  date_now(),
                         'AUTHOR'                =>  User::id(),
@@ -733,6 +737,8 @@ trait Nexo_items
         .   store_prefix() . 'nexo_articles.PRIX_DE_VENTE as SALE_PRICE,'
         .   store_prefix() . 'nexo_articles.PRIX_DE_VENTE_TTC as SALE_PRICE_TI,' // tax included
         .   store_prefix() . 'nexo_articles_stock_flow.QUANTITE as SUPPLY_QUANTITY,'
+        .   store_prefix() . 'nexo_articles_stock_flow.BEFORE_QUANTITE as BEFORE_QUANTITE,'
+        .   store_prefix() . 'nexo_articles_stock_flow.AFTER_QUANTITE as AFTER_QUANTITE,'
         .   store_prefix() . 'nexo_articles_stock_flow.UNIT_PRICE as SUPPLY_PRICE,'
         .   store_prefix() . 'nexo_articles_stock_flow.TYPE as TYPE,'
         .   store_prefix() . 'nexo_articles_stock_flow.TOTAL_PRICE as SUPPLY_TOTAL_PRICE' )
@@ -748,6 +754,8 @@ trait Nexo_items
         .   store_prefix() . 'nexo_articles.PRIX_DE_VENTE as sale_price,'
         .   store_prefix() . 'nexo_articles.PRIX_DE_VENTE_TTC as sale_price_ti,' // tax included
         .   store_prefix() . 'nexo_articles_stock_flow.QUANTITE as quantity,'
+        .   store_prefix() . 'nexo_articles_stock_flow.BEFORE_QUANTITE as before_quantity,'
+        .   store_prefix() . 'nexo_articles_stock_flow.AFTER_QUANTITE as after_quantity,'
         .   store_prefix() . 'nexo_articles_stock_flow.UNIT_PRICE as price,'
         .   store_prefix() . 'nexo_articles_stock_flow.TYPE as type,'
         .   store_prefix() . 'nexo_articles_stock_flow.DATE_CREATION as date,'

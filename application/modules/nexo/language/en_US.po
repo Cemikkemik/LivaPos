@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nexo\n"
 "POT-Creation-Date: 2017-09-29 19:36+0100\n"
-"PO-Revision-Date: 2017-09-29 19:36+0100\n"
+"PO-Revision-Date: 2017-10-09 10:49+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en\n"
@@ -285,9 +285,8 @@ msgstr "Company name"
 
 #: __controllers/clients.php:104 __controllers/clients.php:108
 #: __controllers/commandes.php:101
-#, fuzzy
 msgid "Non Défini"
-msgstr "Non definito"
+msgstr "Undefined"
 
 #: __controllers/clients.php:131
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:555

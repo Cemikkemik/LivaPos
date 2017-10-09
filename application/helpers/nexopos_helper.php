@@ -345,10 +345,10 @@ if( ! function_exists( 'nexo_notices' ) ) {
  * @return array key value
 **/
 
-function nexo_convert_raw( $raw, $key, $value ) {
+function nexo_convert_raw( $raw, $key, $value = null) {
     $new    =   [];
     foreach( $raw as $data ) {
-        $new[ $data[ $key ] ]      =   $data[ $value ];
+        $new[ $data[ $key ] ]      =   ( $value == null ) ? $data : $data[ $value ];
     }
     return $new;
 }

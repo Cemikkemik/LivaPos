@@ -16,8 +16,8 @@ class Nexo_Stock_Manager_Module extends Tendoo_Module
         $this->events->add_action( 'load_dashboard', [ $this->actions, 'load_dashboard' ] );
         $this->events->add_action( 'do_enable_module', [ $this->actions, 'do_enable_module' ] );
         $this->events->add_action( 'do_remove_module', [ $this->actions, 'do_remove_module' ] );
-        $this->events->add_action( 'nexo_after_install_tables', [ $this->actions, 'install_tables' ] );
-        $this->events->add_action( 'nexo_after_delete_tables', [ $this->actions, 'remove_tables' ] );
+        // $this->events->add_action( 'nexo_after_install_tables', [ $this->actions, 'install_tables' ] );
+        // $this->events->add_action( 'nexo_after_delete_tables', [ $this->actions, 'remove_tables' ] );
     }
 }
 new Nexo_Stock_Manager_Module;

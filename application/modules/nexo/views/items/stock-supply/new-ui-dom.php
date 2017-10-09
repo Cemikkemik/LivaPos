@@ -2,7 +2,7 @@
     <div class="col-md-8">
         <div class="box">
             <div class="box-header" np-autocomplete="npAutocompleteOptions">
-                <input np-input-model="searchValue" ng-model-options="{ debounce : 500 }" type="text" class="search-input form-control input-lg" placeholder="<?php echo __( 'Rechercher le nom du produit, le code barre ou l\'unité de gestion du stock', 'nexo' );?>">
+                <input np-input-model="searchValue" ng-model-options="{ debounce : 2000 }" type="text" class="search-input form-control input-lg" placeholder="<?php echo __( 'Rechercher le nom du produit, le code barre ou l\'unité de gestion du stock', 'nexo' );?>">
             </div>
             <div class="box-body no-padding">
                 <table class="table table-bordered">

@@ -223,6 +223,19 @@ trait Nexo_items
         $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
     }
 
+    /** 
+     * Search Item With a GET
+    **/
+
+    public function search_item_get() 
+    {
+        $result        =    $this->db
+        ->like( 'DESIGN', $this->get( 'search' ) )
+        ->get( store_prefix() . 'nexo_articles')
+        ->result();
+        $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
+    }
+
     /**
      *  item get with meta
      *  @param int id

@@ -26,11 +26,11 @@
         $scope.selectedProvider     =   {};
 
         $scope.npAutocompleteOptions = {
-            url: '<?php echo site_url( array( 'rest', 'nexo', 'item' ) );?>' +  '/:searchParam/search?<?php echo store_get_param( null );?>',
+            url: '<?php echo site_url( array( 'rest', 'nexo', 'search_item' ) );?>' +  '?<?php echo store_get_param( null );?>',
             headers		:	{
                 '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo get_option( 'rest_key' );?>'
             },
-            queryMode           :   false,
+            queryMode           :   true,
             callback            :   function( data, option ) {
                 if( data.length == 1 ) {
                     $scope.addItem( data[0] );
@@ -42,13 +42,13 @@
                 return true;
             },
             nameAttr            :   'DESIGN',
-            clearOnSelect       :   true,
+            clearOnSelect       :   false,
             onSelect            :   function( item ) {
                 $scope.addItem( item );
             }, 
             onError             :   function(){
-                angular.element( '.search-input' ).val('');
-                angular.element( '.search-input' ).select();
+                // angular.element( '.search-input' ).val('');
+                // angular.element( '.search-input' ).select();
             },
             delay               :   500
         };
@@ -248,8 +248,6 @@
             if( $scope.canSubmit   ==  true ) {
                 canSubmit           =   false;
 
-                console.log(  )
-                
                 if( $scope.cart.length == 0 ) {
                     return NexoAPI.Bootbox().alert( '<?php echo _s( 'Vous devez avoir au moins un produit dans la liste d\'approvisionnement', 'nexo' );?>' );
                 }

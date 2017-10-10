@@ -8,3 +8,4 @@ application/config/database.php
 #ignoring unmerged files
 application/temp/*
 public/upload/*
+nexopos.zip

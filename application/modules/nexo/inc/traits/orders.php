@@ -153,6 +153,8 @@ trait Nexo_orders
         **/
 
         foreach ( $this->post( 'ITEMS' ) as $item) {
+            // let the user filter items
+            $item   =   $this->events->apply_filters( 'post_order_filter_item', $item );
 
             $fresh_item       =   $this->db->where( 'CODEBAR', $item[ 'codebar' ] )
             ->get( store_prefix() . 'nexo_articles' )
@@ -311,7 +313,7 @@ trait Nexo_orders
          * @since 3.1
         **/
 
-        if( $this->post( 'shipping' ) && ! empty( $shipping[ 'title' ] ) ) {
+        if( $this->post( 'shipping' ) ) {
             // fetch ref shipping for the selected customers
             $shipping       =   $this->post( 'shipping' );
             // edit shipping id to ref_shipping
@@ -501,6 +503,9 @@ trait Nexo_orders
 
         foreach ( $this->put('ITEMS') as $item ) {
 
+            // let the user filter items
+            $item   =   $this->events->apply_filters( 'put_order_filter_item', $item );
+
             // Get Items
             $fresh_item    =    $this->db->where('CODEBAR', $item[ 'codebar' ])
             ->get( store_prefix() . 'nexo_articles')
@@ -652,7 +657,7 @@ trait Nexo_orders
          * @since 3.1
         **/
 
-        if( $this->put( 'shipping' ) && ! empty( $shipping[ 'title' ] ) ) {
+        if( $this->put( 'shipping' ) ) {
             // fetch ref shipping for the selected customers
             $shipping       =   $this->put( 'shipping' );
             // edit shipping id to ref_shipping

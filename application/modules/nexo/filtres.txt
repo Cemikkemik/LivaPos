@@ -269,6 +269,16 @@ Filtres:
 **/
 
 /**
+ * put_order_filter_item
+ * Permet de filter les produits au tout début de la boucle
+**/
+
+/**
+ * post_order_filter_item
+ * Permet de filter les produits au tout début de la boucle
+**/
+
+/**
  * nexo_customers_basic_fields
  * Filtre les champs des clients de l'onglet basics
 **/

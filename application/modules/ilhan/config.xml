@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<application>
-     <namespace>ilhan</namespace>
-     <name>Ilhan Customization</name>
-     <description></description>
-          <version>1.0</version>
-     <main>ilhan.php</main>
-     <language>language/</language>
-</application>

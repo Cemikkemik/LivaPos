@@ -217,9 +217,9 @@ tendooApp.controller( 'profitAndLosses', [ '$http', '$scope', function( $http, $
     */
 
     $scope.calculatePercentage              =   function( item ){
-        var item_percentage                 =   Math.abs(item.DISCOUNT_PERCENT * item.PRIX ) / 100;
+        var item_percentage                 =   ( Math.abs( item.DISCOUNT_PERCENT * item.PRIX ) / 100 ) * parseInt( item.QUANTITE );
 
-        var priceAfterDiscount              =   parseFloat( item.PRIX ) - item_percentage;
+        var priceAfterDiscount              =   ( parseFloat( item.PRIX ) * parseInt( item.QUANTITE ) ) - item_percentage;
         var cartValue                       =   $scope.cartValue( item, true );
         var general_percentage_value        =   0;
 
@@ -262,7 +262,7 @@ tendooApp.controller( 'profitAndLosses', [ '$http', '$scope', function( $http, $
     */
 
     $scope.calculateItemPercentage      =   function( item ){
-        var item_percentage                 =   Math.abs(item.DISCOUNT_PERCENT * item.PRIX_DE_VENTE) / 100;
+        var item_percentage                 =   Math.abs(item.DISCOUNT_PERCENT * item.PRIX) / 100;
 
         return item_percentage;
     }
@@ -334,7 +334,7 @@ tendooApp.controller( 'profitAndLosses', [ '$http', '$scope', function( $http, $
         if( inlineDiscount === true ) {
             // Exclure aussi les remises effectués sur les produits
             if( item.DISCOUNT_TYPE == 'percentage' && item.DISCOUNT_PERCENT != '0' ) {
-                cartValue       +=  ( parseInt( item.PRIX_DE_VENTE ) * parseInt( item.DISCOUNT_PERCENT ) ) / 100;
+                cartValue       +=  ( parseInt( item.PRIX ) * parseInt( item.DISCOUNT_PERCENT ) ) / 100;
             } else  { // in this case for fixed discount on item
                 cartValue       +=  parseInt( item.DISCOUNT_AMOUNT );
             }
@@ -572,7 +572,8 @@ tendooApp.controller( 'profitAndLosses', [ '$http', '$scope', function( $http, $
 
         if( item.REMISE_TYPE == 'flat' ) {
             var percent         =       ( parseFloat( item.REMISE ) * 100 ) / $scope.cartValue( item );
-            general_percentage_value        =   ( ( parseFloat( item.PRIX_DE_VENTE ) * parseInt( item.QUANTITE ) ) * percent ) / 100;
+            console.log( percent, item );
+            general_percentage_value        =   ( ( parseFloat( item.PRIX ) * parseInt( item.QUANTITE ) ) * percent ) / 100;
         }
 
         return Math.abs( parseFloat( item.DISCOUNT_AMOUNT ) + general_percentage_value ); // parseFloat( item.REMISE )
@@ -590,7 +591,7 @@ tendooApp.controller( 'profitAndLosses', [ '$http', '$scope', function( $http, $
 
         if( item.REMISE_TYPE == 'flat' ) {
             var percent         =       ( parseFloat( item.REMISE ) * 100 ) / $scope.cartValue( item );
-            general_percentage_value        =   ( ( parseFloat( item.PRIX_DE_VENTE ) ) * percent ) / 100;
+            general_percentage_value        =   ( ( parseFloat( item.PRIX ) * parseInt( item.QUANTITE ) ) * percent ) / 100;
         }
 
         return general_percentage_value; // parseFloat( item.REMISE )

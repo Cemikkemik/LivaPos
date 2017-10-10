@@ -499,7 +499,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 								// Do Action when order is complete and submited
 								NexoAPI.events.doAction( 'is_cash_order', [ v2Checkout, returned ] );
 								<?php endif;?>
-							} else {
+							} else if ( test_order != null ) { // let the user customize the response
 								<?php if (@$Options[ store_prefix() . 'nexo_enable_autoprint' ] == 'yes'):?>
 								MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
 								MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée, mais ne peut pas être imprimée tant qu\'elle n\'est pas complète.', 'nexo');?>';
@@ -513,7 +513,8 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 							}
 
 							// Filter Message Callback
-							var data				=	NexoAPI.events.applyFilters( 'callback_message', [ MessageObject, returned ] );
+							// add filtred data to callback message
+							var data				=	NexoAPI.events.applyFilters( 'callback_message', [ MessageObject, returned, data[0] ] );
 							MessageObject		=	data[0];
 
 							// For Success

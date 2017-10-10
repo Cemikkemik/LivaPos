@@ -1,0 +1,12 @@
+<application>
+    <name>Awesome Crud</name>
+    <namespace>awesome-crud</namespace>
+    <version>1.0</version>
+    <author>Blair Jersyer</author>
+    <description>New Crud for NexoPOS.</description>
+    <language>/language</language>
+    <main>awesome-crud.php</main>
+    <dependencies>
+        <module namespace="nexo">Nexo</module>
+    </dependencies>
+</application>

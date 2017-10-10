@@ -85,6 +85,13 @@ class Nexo_Commandes extends CI_Model
 			'btn btn-info fa fa-file'
         );
 
+        $crud->add_action(
+			__('Imprimer la facture', 'nexo'),
+			'',
+			site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_invoice' )) . '/',
+			'btn btn-primary fa fa-file'
+        );
+
 		// $crud->add_action(
 		// 	__('Modifier la commande', 'nexo'),
 		// 	'',

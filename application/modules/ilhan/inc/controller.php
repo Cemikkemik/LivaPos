@@ -19,9 +19,18 @@ class ilhanCTRL extends Tendoo_Module
       */
      public function change_date()
      {
+          $date          =    date_parse_from_format( 'd/m/Y H:i', $this->input->post( 'date' ) );
+          $carbon        =    Carbon::now();
+          foreach( $date as $key => $value ) {
+               if( in_array( $key, [ 'year', 'month', 'hour', 'day', 'minute' ] ) ) {
+                    $carbon->$key       =    $value;
+               }
+          }
+
           $this->db->where( 'ID', $this->input->post( 'order' ) )
           ->update( store_prefix() . 'nexo_commandes', [
-               'DATE_CREATION'     =>   Carbon::parse( $this->input->post( 'date' ) )->toDateTimeString()
+               'DATE_CREATION'     =>   $carbon->toDateTimeString(),
+               'DATE_MOD'          =>   $carbon->toDateTimeString()
           ]);
 
           echo json_encode([

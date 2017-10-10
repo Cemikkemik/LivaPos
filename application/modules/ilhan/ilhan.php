@@ -8,7 +8,19 @@ class Ilhan_Module extends Tendoo_Module
           $this->events->add_filter( 'checkout_header_menus_1', [ $this, 'checkout_header_menus_1'] );
           $this->events->add_action( 'dashboard_footer', [ $this, 'dashboard_footer' ]);
           $this->events->add_action( 'load_dashboard', [ $this, 'load_dashboard' ]);
+          $this->events->add_filter( 'nexo_commandes_loaded', [ $this, 'nexo_commandes_loaded' ]);
      }
+
+    /**
+     * Reorder date
+     * @param object current CRUD object
+     * @return object updated CRUD object
+     */
+    public function nexo_commandes_loaded( $crud )
+    {
+        $crud->order_by( 'DATE_CREATION', 'desc' );
+        return $crud;
+    }
 
      /**
       * Dashboard footer
@@ -25,6 +37,7 @@ class Ilhan_Module extends Tendoo_Module
      public function load_dashboard()
      {
           $this->enqueue->js( 'bootstrap-datetimepicker.min', module_url( 'ilhan' ) .'bower_components/eonasdan-bootstrap-datetimepicker/build/js/' );
+          $this->enqueue->js( 'locales', module_url( 'ilhan' ) .'bower_components/moment/min/' );
           $this->enqueue->css( 'bootstrap-datetimepicker.min', module_url( 'ilhan' ) . 'bower_components/eonasdan-bootstrap-datetimepicker/build/css/' );
           
           // register regular Controller

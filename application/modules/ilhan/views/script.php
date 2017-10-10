@@ -1,4 +1,5 @@
 <script>
+moment.locale( 'fr' );
 tendooApp.controller( 'ilhanCTRL', [ '$scope', '$http', '$compile', function( $scope, $http, $compile ){
 
      $scope.openCalendar           =    function(){
@@ -17,7 +18,11 @@ tendooApp.controller( 'ilhanCTRL', [ '$scope', '$http', '$compile', function( $s
           $( '.calendar-input' ).val( v2Checkout.__inputDate );
 
           $(function () {
-               $('#datetimepicker2').datetimepicker();
+               $('#datetimepicker2').datetimepicker({
+                    dayViewHeaderFormat      :    'DD/MM/YYYY HH:mm',
+                    format                   :    'DD/MM/YYYY HH:mm',
+                    locale                   :    'fr'
+               });
           });
 
           $( '.calendar' ).trigger( 'click' );

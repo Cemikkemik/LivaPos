@@ -94,7 +94,17 @@ $this->Gui->add_item( array(
 		__( '{order_note}, pour afficher les notes de la commande.', 'nexo' ) . '<br>' .
 		__( '{order_cashier}, pour afficher l\'auteur de la commande.', 'nexo' ) . '<br>' .
 		__( '{customer_name}, pour afficher le nom du client.', 'nexo' ) . '<br>' .
-		__( '{customer_phone}, pour afficher le numéro de téléphone du client.', 'nexo' ) . '<br>'
+		__( '{customer_phone}, pour afficher le numéro de téléphone du client.', 'nexo' ) . '<br>' . 
+		
+		__( '<h3>Delivery Informations</h3>', 'nexo' ) . '<br>' .		
+		__( '{delivery_address_1}, Pour afficher les informations de livraison addresse 1.', 'nexo' ) . '<br>' .
+		__( '{delivery_address_2}, Pour afficher les informations de livraison addresse 2', 'nexo' ) . '<br>' .
+		__( '{city}, pour afficher la ville de livraison.', 'nexo' ) . '<br>' .
+		__( '{country}, pour afficher le pays de livraison', 'nexo' ) . '<br>' .
+		__( '{name}, Pour afficher la personne à qui est destiné la livraison', 'nexo' ) . '<br>' .
+		__( '{surname}, Pour afifcher le prénom de la perosnne à qui est destiné la livraison.', 'nexo' ) . '<br>' .
+		__( '{state}, Pour afficher l\'état ou la livraison doit avoir lieu.', 'nexo' ) . '<br>' .
+		__( '{delivery_cost}, pour afficher le côut de livraison.', 'nexo' ) . '<br>'
 	) 
 ), 'invoice1', 1 );
 

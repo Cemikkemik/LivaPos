@@ -39,6 +39,7 @@ class Nexo_Print extends CI_Model
             $data                		=   array();
             $data[ 'order' ]    		=   $this->Nexo_Checkout->get_order_products($order_id, true);
             $data[ 'cache' ]    		=   $this->cache;
+            $data[ 'shipping' ]         =   $this->db->where( 'ref_order', $order_id )->get( store_prefix() . 'nexo_commandes_shippings' )->result_array();
 			$allowed_order_for_print	=	$this->events->apply_filters( 'allowed_order_for_print', array( 'nexo_order_comptant' ) );
 
             // Allow only cash order to be printed
@@ -68,6 +69,15 @@ class Nexo_Print extends CI_Model
 			$data[ 'template' ][ 'shop_phone' ]     =	@$Options[ store_prefix() . 'nexo_shop_phone' ];
             $data[ 'template' ][ 'customer_name' ]  =   $data[ 'order' ][ 'order' ][0][ 'customer_name' ];
             $data[ 'template' ][ 'customer_phone' ]  =   $data[ 'order' ][ 'order' ][0][ 'customer_phone' ];
+
+            $data[ 'template' ][ 'delivery_address_1' ]     =   @$data[ 'shipping' ][0][ 'address_1' ];
+            $data[ 'template' ][ 'delivery_address_2' ]     =   @$data[ 'shipping' ][0][ 'address_2' ];
+            $data[ 'template' ][ 'city' ]               =   @$data[ 'shipping' ][0][ 'city' ];
+            $data[ 'template' ][ 'country' ]            =   @$data[ 'shipping' ][0][ 'country' ];
+            $data[ 'template' ][ 'name' ]               =   @$data[ 'shipping' ][0][ 'name' ];
+            $data[ 'template' ][ 'surname' ]            =   @$data[ 'shipping' ][0][ 'surname' ];
+            $data[ 'template' ][ 'state' ]              =   @$data[ 'shipping' ][0][ 'surname' ];
+            $data[ 'template' ][ 'delivery_cost' ]      =   @$data[ 'shipping' ][0][ 'price' ];
 
             $filtered   =   $this->events->apply_filters( 'nexo_filter_receipt_template', [
                 'template'          =>      $data[ 'template' ],

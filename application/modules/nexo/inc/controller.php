@@ -35,7 +35,8 @@ class Nexo_Controller extends CI_Model
 					array(
 						'title'		=>        __('Boutiques', 'nexo'), // menu title
 						'icon'		=>        'fa fa-cubes', // menu icon
-						'disable'	=>    true
+						'disable'	=>    true,
+						'permission' 	=>	[ 'create_shop', 'edit_shop', 'enter_shop', 'delete_shop' ]
 					)
 				);
 

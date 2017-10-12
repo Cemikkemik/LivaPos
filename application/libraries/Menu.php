@@ -19,6 +19,14 @@ class Menu
     {
         $core_menus    =    self::$admin_menus_core;
         foreach ($core_menus as $menu_namespace => $current_menu) {
+
+            // check if user has permission to see that
+            if( @$current_menu[ 'permission' ] != null ) {
+                if( ! User::can( $current_menu[ 'permission' ] ) ) {
+                    continue;
+                }
+            }
+
             $menu_status        =    '';
             $custom_ul_style    =    '';
             $custom_style        =    '';

@@ -85,6 +85,10 @@ class User
     {
         $group        =    Group::get();
 
+        if( is_array( $permission ) ) {
+            return array_intersect( $permission, self::$groups_permissions[ $group[0]->name ]);
+        }
+
         if (in_array($permission, self::$groups_permissions[ $group[0]->name ])) {
             return true;
         }

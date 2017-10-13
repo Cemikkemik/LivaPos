@@ -11,10 +11,8 @@ class Nexo_Controller extends CI_Model
     public function menus($final)
     {
 		// @since 2.7.7
-        global $Nexo_Menus, $Options;
-
-        $Nexo_Menus    =    array();
-
+		global $Nexo_Menus, $Options;
+		$Nexo_Menus    =    array();
 		$this->events->do_action('nexo_before_checkout', $Nexo_Menus);
 
 		/***
@@ -24,45 +22,34 @@ class Nexo_Controller extends CI_Model
 
 		if( @$Options[ 'nexo_store' ] == 'enabled' ) {
 
-			if (
-				User::can('create_shop') ||
-				User::can('edit_shop') ||
-				User::can('delete_shop') ||
-				User::can( 'enter_shop' )
-			) {
+			$Nexo_Menus[ 'nexo_shop' ]        =    array(
+				array(
+					'title'		=>        __('Boutiques', 'nexo'), // menu title
+					'icon'		=>        'fa fa-cubes', // menu icon
+					'disable'	=>    true,
+					'permission' 	=>	[ 'create_shop', 'edit_shop', 'enter_shop', 'delete_shop' ]
+				)
+			);
 
-				$Nexo_Menus[ 'nexo_shop' ]        =    array(
-					array(
-						'title'		=>        __('Boutiques', 'nexo'), // menu title
-						'icon'		=>        'fa fa-cubes', // menu icon
-						'disable'	=>    true,
-						'permission' 	=>	[ 'create_shop', 'edit_shop', 'enter_shop', 'delete_shop' ]
-					)
-				);
+			// Create a new store
+			$Nexo_Menus[ 'nexo_shop' ][]	=	array(
+				'title'		=>        __('Toutes les boutiques', 'nexo'), // menu title
+				'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'lists' ) ),
+				'permission' 	=>	[ 'create_shop', 'edit_shop', 'enter_shop', 'delete_shop' ]
+			);
 
-				if( User::can( 'create_shop' ) || User::can( 'edit_shop' ) || User::can( 'delete_shop' ) ) {
+			$Nexo_Menus[ 'nexo_shop' ][]	=	array(
+				'title'		=>        __('Ajouter une boutique', 'nexo'), // menu title
+				'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'lists', 'add' ) ),
+				'permission' 	=>	[ 'create_shop', 'edit_shop', 'enter_shop', 'delete_shop' ]
+			);
 
-					// Create a new store
-					$Nexo_Menus[ 'nexo_shop' ][]	=	array(
-						'title'		=>        __('Toutes les boutiques', 'nexo'), // menu title
-						'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'lists' ) )
-					);
-
-					$Nexo_Menus[ 'nexo_shop' ][]	=	array(
-						'title'		=>        __('Ajouter une boutique', 'nexo'), // menu title
-						'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'lists', 'add' ) )
-					);
-				} else {
-
-					$Nexo_Menus[ 'nexo_shop' ][]	=	array(
-						'title'		=>        __('Toutes les boutiques', 'nexo'), // menu title
-						'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'all' ) )
-					);
-
-				}
-
-			}
-
+			$Nexo_Menus[ 'nexo_shop' ][]	=	array(
+				'title'		=>        __('Toutes les boutiques', 'nexo'), // menu title
+				'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'all' ) ),
+				'permission'	=>		'enter_shop',
+				'exclude'		=>		[ 'create_shop', 'edit_shop', 'delete_shop' ]
+			);
 		}
 
 		// @since 2.8
@@ -586,10 +573,10 @@ class Nexo_Controller extends CI_Model
 
 		if( @$Options[ 'nexo_store' ] == 'enabled' ) {
 
-			$urls		      =	func_get_args();
-			$store_id	      =	@$urls[0];
-            	$slug_namespace   = @$urls[1];
-			$urls		      =	array_splice( $urls, 2 );
+			$urls 			=	func_get_args();
+			$store_id 		=	@$urls[0];
+            	$slug_namespace 	= 	@$urls[1];
+			$urls	 		=	array_splice( $urls, 2 );
 
 			// if store is closed, then no one can access to that
 			if( $CurrentStore[0][ 'STATUS' ] == 'closed' ) {

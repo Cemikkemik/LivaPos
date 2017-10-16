@@ -695,405 +695,133 @@ class Nexo_Install extends CI_Model
 	public function create_permissions()
 	{
 		$this->aauth        =    $this->users->auth;
-        // Create Cashier
-        Group::create(
-            'shop_cashier',
-            get_instance()->lang->line( 'nexo_cashier' ),
-            true,
-            get_instance()->lang->line( 'nexo_cashier_details' )
-        );
-
-        // Create Shop Manager
-        Group::create(
-            'shop_manager',
-            get_instance()->lang->line( 'nexo_shop_manager' ),
-            true,
-            get_instance()->lang->line( 'nexo_shop_manager_details' )
-        );
-
-        // Create Shop Tester
-        Group::create(
-            'shop_tester',
-            get_instance()->lang->line( 'nexo_tester' ),
-            true,
-            get_instance()->lang->line( 'nexo_tester_details' )
-        );
-
-        // Shop Orders
-        $this->aauth->create_perm('create_shop_orders',    __('Gestion des commandes', 'nexo'),            __('Peut créer des commandes', 'nexo'));
-        $this->aauth->create_perm('edit_shop_orders',    __('Modification des commandes', 'nexo'),            __('Peut modifier des commandes', 'nexo'));
-        $this->aauth->create_perm('delete_shop_orders',    __('Suppression des commandes', 'nexo'),            __('Peut supprimer des commandes', 'nexo'));
-
-        // Shop Items
-        $this->aauth->create_perm('create_shop_items',        __('Créer des articles', 'nexo'),            __('Peut créer des produits', 'nexo'));
-        $this->aauth->create_perm('edit_shop_items',        __('Modifier des articles', 'nexo'),            __('Peut modifier des produits', 'nexo'));
-        $this->aauth->create_perm('delete_shop_items',    __('Supprimer des articles', 'nexo'),        __('Peut supprimer des produits', 'nexo'));
-
-        // Shop Categories
-        $this->aauth->create_perm('create_shop_categories',  __('Créer des catégories', 'nexo'),        __('Crée les catégories', 'nexo'));
-        $this->aauth->create_perm('edit_shop_categories',  __('Modifier des catégories', 'nexo'),        __('Modifie les catégories', 'nexo'));
-        $this->aauth->create_perm('delete_shop_categories',  __('Supprimer des catégories', 'nexo'),        __('Supprime les catégories', 'nexo'));
-
-        // Shop radius
-        $this->aauth->create_perm('create_shop_radius',    __('Créer des rayons', 'nexo'),                __('Crée les rayons', 'nexo'));
-        $this->aauth->create_perm('edit_shop_radius',    __('Modifier des rayons', 'nexo'),                __('Modifie les rayons', 'nexo'));
-        $this->aauth->create_perm('delete_shop_radius',    __('Supprimer des rayons', 'nexo'),                __('Supprime les rayons', 'nexo'));
-
-        // Shop Shipping
-        $this->aauth->create_perm('create_shop_shippings',    __('Créer des collections', 'nexo'),        __('Crée les collections', 'nexo'));
-        $this->aauth->create_perm('edit_shop_shippings',    __('Modifier des collections', 'nexo'),        __('Modifie les collections', 'nexo'));
-        $this->aauth->create_perm('delete_shop_shippings',    __('Supprimer des collections', 'nexo'),        __('Supprime les collections', 'nexo'));
-
-        // Shop Provider
-        $this->aauth->create_perm('create_shop_providers',    __('Créer des fournisseurs', 'nexo'),        __('Gère les fournisseurs (Livreurs)', 'nexo'));
-        $this->aauth->create_perm('edit_shop_providers',    __('Modifier des fournisseurs', 'nexo'),        __('Gère les fournisseurs (Livreurs)', 'nexo'));
-        $this->aauth->create_perm('delete_shop_providers',    __('Supprimer des fournisseurs', 'nexo'),        __('Gère les fournisseurs (Livreurs)', 'nexo'));
-
-        // Shop Customers
-        $this->aauth->create_perm('create_shop_customers',    __('Créer des clients', 'nexo'),        __('Création des clients', 'nexo'));
-        $this->aauth->create_perm('edit_shop_customers',    __('Modifier des clients', 'nexo'),        __('Modification des clients', 'nexo'));
-        $this->aauth->create_perm('delete_shop_customers',    __('Supprimer des clients', 'nexo'),        __('Suppression des clients', 'nexo'));
-
-        // Shop Customers Group
-        $this->aauth->create_perm('create_shop_customers_groups',    __('Créer des groupes de clients', 'nexo'),        __('Création des groupes de clients', 'nexo'));
-        $this->aauth->create_perm('edit_shop_customers_groups',    __('Modifier des groupes de clients', 'nexo'),        __('Modification des groupes de clients', 'nexo'));
-        $this->aauth->create_perm('delete_shop_customers_groups',    __('Supprimer des groupes de clients', 'nexo'),        __('Suppression des groupes de clients', 'nexo'));
-
-        // Shop Purchase Invoices
-        $this->aauth->create_perm('create_shop_purchases_invoices',    __('Créer des factures d\'achats', 'nexo'),        __('Création des factures d\'achats', 'nexo'));
-        $this->aauth->create_perm('edit_shop_purchases_invoices',    __('Modifier des factures d\'achats', 'nexo'),        __('Modification des factures d\'achats', 'nexo'));
-        $this->aauth->create_perm('delete_shop_purchases_invoices',    __('Supprimer des factures d\'achats', 'nexo'),        __('Suppression des factures d\'achats', 'nexo'));
-        
-		// Shop Order Types
-        $this->aauth->create_perm('create_shop_backup',    __('Créer des sauvegardes', 'nexo'),        __('Création des sauvegardes', 'nexo'));
-        $this->aauth->create_perm('edit_shop_backup',    __('Modifier des sauvegardes', 'nexo'),        __('Modification des sauvegardes', 'nexo'));
-        $this->aauth->create_perm('delete_shop_backup',    __('Supprimer des sauvegardes', 'nexo'),        __('Suppression des sauvegardes', 'nexo'));
-
-        // Shop Track User
-        $this->aauth->create_perm('read_shop_user_tracker',    __('Lit le flux d\'activité des utilisateurs', 'nexo'),        __('Lit le flux d\'activité des utilisateurs', 'nexo'));
-        $this->aauth->create_perm('delete_shop_user_tracker',    __('Efface le flux d\'actvite des utilisateurs', 'nexo'),        __('Efface le flux d\'actvite des utilisateurs', 'nexo'));
-
-        // Shop Read Reports
-        $this->aauth->create_perm('read_shop_reports', __('Lecture des rapports & statistiques', 'nexo'),            __('Autorise la lecture des rapports', 'nexo'));
-
-		// Shop Registers
-        $this->aauth->create_perm('create_shop_registers',    $this->lang->line( 'create_registers' ),        $this->lang->line( 'create_registers_details' ));
-        $this->aauth->create_perm('edit_shop_registers',    $this->lang->line( 'edit_registers' ),        $this->lang->line( 'edit_registers_details' ));
-        $this->aauth->create_perm('delete_shop_registers',    $this->lang->line( 'delete_registers' ),       $this->lang->line( 'delete_registers_details' ));
-		$this->aauth->create_perm('view_shop_registers',    $this->lang->line( 'view_registers' ),       $this->lang->line( 'view_registers_details' ));
-
-		// @since 2.8 Stores
-		$this->aauth->create_perm('create_shop',    $this->lang->line( 'create_shop' ),        $this->lang->line( 'create_shop_details' ));
-        $this->aauth->create_perm('edit_shop',    $this->lang->line( 'edit_shop' ),        $this->lang->line( 'edit_shop_details' ));
-        $this->aauth->create_perm('delete_shop',    $this->lang->line( 'delete_shop' ),       $this->lang->line( 'delete_shop_details' ));
-		$this->aauth->create_perm('enter_shop',    $this->lang->line( 'view_shop' ),       $this->lang->line( 'view_shop_details' ));
-
-        // Coupons
-        $this->aauth->create_perm('create_coupons',    __( 'Création des coupon', 'nexo' ),        $this->lang->line( 'create_coupons_details' ));
-        $this->aauth->create_perm('edit_coupons',    $this->lang->line( 'edit_coupons' ),        $this->lang->line( 'edit_coupons_details' ));
-        $this->aauth->create_perm('delete_coupons',    $this->lang->line( 'delete_coupons' ),        $this->lang->line( 'delete_coupons_details' ));
-
-        // Item Stock
-        $this->aauth->create_perm('create_item_stock',    $this->lang->line( 'create_item_stock' ),        $this->lang->line( 'create_item_stock_details' ));
-        $this->aauth->create_perm('edit_item_stock',    $this->lang->line( 'edit_item_stock' ),        $this->lang->line( 'edit_item_stock_details' ));
-        $this->aauth->create_perm('delete_item_stock',    $this->lang->line( 'delete_item_stock' ),        $this->lang->line( 'delete_item_stock_details' ));
-
-		// Taxes
-        $this->aauth->create_perm('create_taxes',    __( 'Créer des taxes', 'nexo' ),       __( 'Donne la capcité de créer des taxes.', 'nexo' ));
-        $this->aauth->create_perm('edit_taxes',    __( 'Modifier des taxes', 'nexo' ),        __( 'Donne la capacité de modifier des taxes.', 'nexo' ));
-        $this->aauth->create_perm('delete_taxes',    __( 'Supprimer des taxes', 'nexo' ),        __( 'Donne la capacité de supprimer des taxes.', 'nexo' ));
-
-        /**
-         * Permission for Cashier
-        **/
-
-        // Orders
-        $this->aauth->allow_group('shop_cashier', 'create_shop_orders');
-        $this->aauth->allow_group('shop_cashier', 'edit_shop_orders');
-        $this->aauth->allow_group('shop_cashier', 'delete_shop_orders');
-
-        // Customers
-        $this->aauth->allow_group('shop_cashier', 'create_shop_customers');
-        $this->aauth->allow_group('shop_cashier', 'delete_shop_customers');
-        $this->aauth->allow_group('shop_cashier', 'edit_shop_customers');
-
-        // Customers Groups
-        $this->aauth->allow_group('shop_cashier', 'create_shop_customers_groups');
-        $this->aauth->allow_group('shop_cashier', 'delete_shop_customers_groups');
-        $this->aauth->allow_group('shop_cashier', 'edit_shop_customers_groups');
-
-        // Profile
-        $this->aauth->allow_group('shop_cashier', 'edit_profile');
-
-		// Registers
-		$this->aauth->allow_group('shop_cashier', 'view_shop_registers');
-
-		// Shop
-		$this->aauth->allow_group('shop_cashier', 'enter_shop');
-
-		// @since 3.0.1 coupons
-		$this->aauth->allow_group( 'shop_cashier', 'create_coupons');
-		$this->aauth->allow_group( 'shop_cashier', 'edit_coupons');
-		$this->aauth->allow_group( 'shop_cashier', 'delete_coupons');
-
-		/**
-		* Permission for Shop Manager
-		**/
-
-        	// Orders
-		$this->aauth->allow_group('shop_manager', 'create_shop_orders');
-		$this->aauth->allow_group('shop_manager', 'edit_shop_orders');
-		$this->aauth->allow_group('shop_manager', 'delete_shop_orders');
-
-		// Customers
-		$this->aauth->allow_group('shop_manager', 'create_shop_customers');
-		$this->aauth->allow_group('shop_manager', 'delete_shop_customers');
-		$this->aauth->allow_group('shop_manager', 'edit_shop_customers');
-
-		// Customers Groups
-		$this->aauth->allow_group('shop_manager', 'create_shop_customers_groups');
-		$this->aauth->allow_group('shop_manager', 'delete_shop_customers_groups');
-		$this->aauth->allow_group('shop_manager', 'edit_shop_customers_groups');
-
-		// Shop items
-		$this->aauth->allow_group('shop_manager', 'create_shop_items');
-		$this->aauth->allow_group('shop_manager', 'edit_shop_items');
-		$this->aauth->allow_group('shop_manager', 'delete_shop_items');
-
-		// Shop categories
-		$this->aauth->allow_group('shop_manager', 'create_shop_categories');
-		$this->aauth->allow_group('shop_manager', 'edit_shop_categories');
-		$this->aauth->allow_group('shop_manager', 'delete_shop_categories');
-
-		// Shop Radius
-		$this->aauth->allow_group('shop_manager', 'create_shop_radius');
-		$this->aauth->allow_group('shop_manager', 'edit_shop_radius');
-		$this->aauth->allow_group('shop_manager', 'delete_shop_radius');
-
-		// Shop Shipping
-		$this->aauth->allow_group('shop_manager', 'create_shop_shippings');
-		$this->aauth->allow_group('shop_manager', 'edit_shop_shippings');
-		$this->aauth->allow_group('shop_manager', 'delete_shop_shippings');
-
-		// Shop Provider
-		$this->aauth->allow_group('shop_manager', 'create_shop_providers');
-		$this->aauth->allow_group('shop_manager', 'edit_shop_providers');
-		$this->aauth->allow_group('shop_manager', 'delete_shop_providers');
-
-		// Shop Options
-		$this->aauth->allow_group('shop_manager', 'create_options');
-		$this->aauth->allow_group('shop_manager', 'edit_options');
-		$this->aauth->allow_group('shop_manager', 'delete_options');
-
-		// Shop Purchase Invoices
-		$this->aauth->allow_group('shop_manager', 'create_shop_purchases_invoices');
-		$this->aauth->allow_group('shop_manager', 'edit_shop_purchases_invoices');
-		$this->aauth->allow_group('shop_manager', 'delete_shop_purchases_invoices');
-
-		// Shop Backup
-		$this->aauth->allow_group('shop_manager', 'create_shop_backup');
-		$this->aauth->allow_group('shop_manager', 'edit_shop_backup');
-		$this->aauth->allow_group('shop_manager', 'delete_shop_backup');
-
-		// Shop Track User Activity
-		$this->aauth->allow_group('shop_manager', 'read_shop_user_tracker');
-		$this->aauth->allow_group('shop_manager', 'delete_shop_user_tracker');
-
-		// Stock Entry
-		$this->aauth->allow_group('shop_manager', 'create_item_stock');
-		$this->aauth->allow_group('shop_manager', 'edit_item_stock');
-		$this->aauth->allow_group('shop_manager', 'delete_item_stock');
-
-		// Taxes
-		$this->aauth->allow_group('shop_manager', 'create_taxes');
-		$this->aauth->allow_group('shop_manager', 'edit_taxes');
-		$this->aauth->allow_group('shop_manager', 'delete_taxes');
-
-		// Read Reports
-		$this->aauth->allow_group('shop_manager', 'read_shop_reports');
-		// Profile
-		$this->aauth->allow_group('shop_manager', 'edit_profile');
-
-		// @since 2.7.5
-		// Creating registers
-		$this->aauth->allow_group('shop_manager', 'create_shop_registers');
-		$this->aauth->allow_group('shop_manager', 'edit_shop_registers');
-		$this->aauth->allow_group('shop_manager', 'delete_shop_registers');
-		$this->aauth->allow_group('shop_manager', 'view_shop_registers');
-
-		// @since 2.8
-		$this->aauth->allow_group('shop_manager', 'enter_shop');
-		$this->aauth->allow_group('shop_manager', 'create_shop');
-		$this->aauth->allow_group('shop_manager', 'delete_shop');
-		$this->aauth->allow_group('shop_manager', 'edit_shop');
-
-		$this->aauth->allow_group( 'shop_manager', 'create_coupons');
-		$this->aauth->allow_group( 'shop_manager', 'edit_coupons');
-		$this->aauth->allow_group( 'shop_manager', 'delete_coupons');
-
-
-		/**
-		* Permission for Master
-		**/
-
-		// Orders
-		$this->aauth->allow_group('master', 'create_shop_orders');
-		$this->aauth->allow_group('master', 'edit_shop_orders');
-		$this->aauth->allow_group('master', 'delete_shop_orders');
-
-		// Customers
-		$this->aauth->allow_group('master', 'create_shop_customers');
-		$this->aauth->allow_group('master', 'delete_shop_customers');
-		$this->aauth->allow_group('master', 'edit_shop_customers');
-
-		// Customers Groups
-		$this->aauth->allow_group('master', 'create_shop_customers_groups');
-		$this->aauth->allow_group('master', 'delete_shop_customers_groups');
-		$this->aauth->allow_group('master', 'edit_shop_customers_groups');
-
-		// Shop items
-		$this->aauth->allow_group('master', 'create_shop_items');
-		$this->aauth->allow_group('master', 'edit_shop_items');
-		$this->aauth->allow_group('master', 'delete_shop_items');
-
-		// Shop categories
-		$this->aauth->allow_group('master', 'create_shop_categories');
-		$this->aauth->allow_group('master', 'edit_shop_categories');
-		$this->aauth->allow_group('master', 'delete_shop_categories');
-
-		// Shop Radius
-		$this->aauth->allow_group('master', 'create_shop_radius');
-		$this->aauth->allow_group('master', 'edit_shop_radius');
-		$this->aauth->allow_group('master', 'delete_shop_radius');
-
-		// Shop Shipping
-		$this->aauth->allow_group('master', 'create_shop_shippings');
-		$this->aauth->allow_group('master', 'edit_shop_shippings');
-		$this->aauth->allow_group('master', 'delete_shop_shippings');
-
-		// Shop Provider
-		$this->aauth->allow_group('master', 'create_shop_providers');
-		$this->aauth->allow_group('master', 'edit_shop_providers');
-		$this->aauth->allow_group('master', 'delete_shop_providers');
-
-		// Shop Purchase Invoices
-		$this->aauth->allow_group('master', 'create_shop_purchases_invoices');
-		$this->aauth->allow_group('master', 'edit_shop_purchases_invoices');
-		$this->aauth->allow_group('master', 'delete_shop_purchases_invoices');
-
-		// Shop Backup
-		$this->aauth->allow_group('master', 'create_shop_backup');
-		$this->aauth->allow_group('master', 'edit_shop_backup');
-		$this->aauth->allow_group('master', 'delete_shop_backup');
-
-		// Shop Track User Activity
-		$this->aauth->allow_group('master', 'read_shop_user_tracker');
-		$this->aauth->allow_group('master', 'delete_shop_user_tracker');
-
-		// Read Reports
-		$this->aauth->allow_group('master', 'read_shop_reports');
-
-		// @since 2.7.5
-		// Creating registers
-		$this->aauth->allow_group('master', 'create_shop_registers');
-		$this->aauth->allow_group('master', 'edit_shop_registers');
-		$this->aauth->allow_group('master', 'delete_shop_registers');
-		$this->aauth->allow_group('master', 'view_shop_registers');
-
-		// @since 2.8
-		$this->aauth->allow_group('master', 'enter_shop');
-		$this->aauth->allow_group('master', 'create_shop');
-		$this->aauth->allow_group('master', 'delete_shop');
-		$this->aauth->allow_group('master', 'edit_shop');
-
-		//@since 3.0.20
-		// Stock Entry
-		$this->aauth->allow_group('master', 'create_item_stock');
-		$this->aauth->allow_group('master', 'edit_item_stock');
-		$this->aauth->allow_group('master', 'delete_item_stock');
-
-		// @since 3.3
-		$this->aauth->allow_group('master', 'create_taxes');
-		$this->aauth->allow_group('master', 'edit_taxes');
-		$this->aauth->allow_group('master', 'delete_taxes');
-
-		$this->aauth->allow_group( 'master', 'create_coupons');
-		$this->aauth->allow_group( 'master', 'edit_coupons');
-		$this->aauth->allow_group( 'master', 'delete_coupons');
-
-		/**
-		* Permission for Shop Test
-		**/
-
-		// Orders
-		$this->aauth->allow_group('shop_tester', 'create_shop_orders');
-		$this->aauth->allow_group('shop_tester', 'edit_shop_orders');
-
-		// Customers
-		$this->aauth->allow_group('shop_tester', 'create_shop_customers');
-		$this->aauth->allow_group('shop_tester', 'edit_shop_customers');
-
-		// Customers Groups
-		$this->aauth->allow_group('shop_tester', 'create_shop_customers_groups');
-		$this->aauth->allow_group('shop_tester', 'edit_shop_customers_groups');
-
-		// Shop items
-		$this->aauth->allow_group('shop_tester', 'create_shop_items');
-		$this->aauth->allow_group('shop_tester', 'edit_shop_items');
-
-		// Shop categories
-		$this->aauth->allow_group('shop_tester', 'create_shop_categories');
-		$this->aauth->allow_group('shop_tester', 'edit_shop_categories');
-
-		// Shop Radius
-		$this->aauth->allow_group('shop_tester', 'create_shop_radius');
-		$this->aauth->allow_group('shop_tester', 'edit_shop_radius');
-
-		// Shop Shipping
-		$this->aauth->allow_group('shop_tester', 'create_shop_shippings');
-		$this->aauth->allow_group('shop_tester', 'edit_shop_shippings');
-
-		// Shop Provider
-		$this->aauth->allow_group('shop_tester', 'create_shop_providers');
-		$this->aauth->allow_group('shop_tester', 'edit_shop_providers');
-
-		// Shop Purchase Invoices
-		$this->aauth->allow_group('shop_tester', 'create_shop_purchases_invoices');
-		$this->aauth->allow_group('shop_tester', 'edit_shop_purchases_invoices');
-
-		// Shop Backup
-		$this->aauth->allow_group('shop_tester', 'create_shop_backup');
-		$this->aauth->allow_group('shop_tester', 'edit_shop_backup');
-
-		// Shop Track User Activity
-		$this->aauth->allow_group('shop_tester', 'read_shop_user_tracker');
-
-		// Read Reports
-		$this->aauth->allow_group('shop_tester', 'read_shop_reports');
-
-		$this->aauth->allow_group('shop_tester', 'create_taxes');
-		$this->aauth->allow_group('shop_tester', 'edit_taxes');
-
-		// @since 2.7.5
-		// Creating registers
-		$this->aauth->allow_group('shop_tester', 'create_shop_registers');
-		$this->aauth->allow_group('shop_tester', 'edit_shop_registers');
-		$this->aauth->allow_group('shop_tester', 'view_shop_registers');
-
-		//@since 3.0.20
-		// Stock Entry
-		$this->aauth->allow_group('shop_tester', 'create_item_stock');
-		$this->aauth->allow_group('shop_tester', 'edit_item_stock');
-
-		// @since 2.8
-		$this->aauth->allow_group('shop_tester', 'enter_shop');
-		$this->aauth->allow_group('shop_tester', 'create_shop');
-		$this->aauth->allow_group('shop_tester', 'edit_shop');
-
-		// Profile
-		// $this->aauth->allow_group('shop_tester', 'edit_profile');
-		$this->aauth->allow_group( 'shop_tester', 'create_coupons');
-		$this->aauth->allow_group( 'shop_tester', 'edit_coupons');
+		// Create Cashier
+		Group::create(
+			'store.cashier',
+			__( 'Caissier', 'nexo' ),
+			true,
+			__( 'Role ayant des permissions limitées à la vente', 'nexo' )
+		);
+
+		Group::create(
+			'store.manager',
+			__( 'Gérant de la boutique', 'nexo' ),
+			true,
+			__( 'Role ayant des permissions de gestion de la boutique.', 'nexo' )
+		);
+
+		Group::create(
+			'store.demo',
+			__( 'Role test', 'nexo' ),
+			true,
+			__( 'Role ayant des permissions pour tester les fonctionnalités de NexoPOS.', 'nexo' )
+		);
+
+		$permissions 								=	[];
+		$permissions[ 'nexo.create.orders' ] 			=	__( 'Créer des commandes', 'nexo' );
+		$permissions[ 'nexo.view.orders' ] 			=	__( 'Voir la liste des commandes', 'nexo' );
+		$permissions[ 'nexo.edit.orders' ] 			=	__( 'Modifier des commandes', 'nexo' );
+		$permissions[ 'nexo.delete.orders' ] 			=	__( 'Supprimer des commandes', 'nexo' );
+
+		$permissions[ 'nexo.create.items' ] 			=	__( 'Créer des articles', 'nexo' );
+		$permissions[ 'nexo.view.items' ] 				=	__( 'Voir la liste des produits', 'nexo' );
+		$permissions[ 'nexo.edit.items' ] 				=	__( 'Modifier des articles', 'nexo' );
+		$permissions[ 'nexo.delete.items' ] 			=	__( 'Supprimer des articles', 'nexo' );
+
+		$permissions[ 'nexo.create.categories' ] 		=	__( 'Créer des catégories', 'nexo' );
+		$permissions[ 'nexo.view.categories' ] 			=	__( 'Voir la liste des catégories', 'nexo' );
+		$permissions[ 'nexo.edit.categories' ] 			=	__( 'Modifier des catégories', 'nexo' );
+		$permissions[ 'nexo.delete.categories' ] 		=	__( 'Supprimer des catégories', 'nexo' );
+
+		$permissions[ 'nexo.create.departments' ] 		=	__( 'Créer des départements', 'nexo' );
+		$permissions[ 'nexo.view.departments' ] 		=	__( 'Voir la liste des départements', 'nexo' );
+		$permissions[ 'nexo.edit.departments' ] 		=	__( 'Modifier des départements', 'nexo' );
+		$permissions[ 'nexo.delete.departments' ] 		=	__( 'Supprimer des départements', 'nexo' );
+
+		$permissions[ 'nexo.create.providers' ] 		=	__( 'Créer des fournisseurs', 'nexo' );
+		$permissions[ 'nexo.view.providers' ] 			=	__( 'Voir la liste des fournisseurs', 'nexo' );
+		$permissions[ 'nexo.edit.providers' ] 			=	__( 'Modifier des fournisseurs', 'nexo' );
+		$permissions[ 'nexo.delete.providers' ] 		=	__( 'Supprimer des fournisseurs', 'nexo' );
+
+		$permissions[ 'nexo.create.supplies' ] 			=	__( 'Créer des approvisionnements', 'nexo' );
+		$permissions[ 'nexo.view.supplies' ] 			=	__( 'Voir la liste des approvisionnements', 'nexo' );
+		$permissions[ 'nexo.edit.supplies' ] 			=	__( 'Modifier des approvisionnements', 'nexo' );
+		$permissions[ 'nexo.delete.supplies' ] 			=	__( 'Supprimer des approvisionnements', 'nexo' );
+
+		$permissions[ 'nexo.create.customers-groups' ] 	=	__( 'Créer Groupes de clients', 'nexo' );
+		$permissions[ 'nexo.view.customers-groups' ] 	=	__( 'Voir la liste des groupes de clients', 'nexo' );
+		$permissions[ 'nexo.edit.customers-groups' ] 	=	__( 'Modifier Groupes de clients', 'nexo' );
+		$permissions[ 'nexo.delete.customers-groups' ] 	=	__( 'Supprimer Groupes de clients', 'nexo' );
+
+		$permissions[ 'nexo.create.invoices' ] 			=	__( 'Créer Factures', 'nexo' );
+		$permissions[ 'nexo.view.invoices' ] 			=	__( 'Voir la liste des factures', 'nexo' );
+		$permissions[ 'nexo.edit.invoices' ] 			=	__( 'Modifier Factures', 'nexo' );
+		$permissions[ 'nexo.delete.invoices' ] 			=	__( 'Supprimer Factures', 'nexo' );
+
+		$permissions[ 'nexo.create.registers' ] 		=	__( 'Créer une caisse enregistreuse', 'nexo' );
+		$permissions[ 'nexo.view.registers' ] 			=	__( 'Voir la liste des caisses enregistreuse', 'nexo' );
+		$permissions[ 'nexo.edit.registers' ] 			=	__( 'Modifier une caisse enregistreuse', 'nexo' );
+		$permissions[ 'nexo.delete.registers' ] 		=	__( 'Supprimer une caisse enregistreuse', 'nexo' );
+		$permissions[ 'nexo.use.registers' ] 			=	__( 'Utiliser une caisse enregistreuse', 'nexo' );
+
+		$permissions[ 'nexo.create.backups' ] 			=	__( 'Créer des sauvegardes', 'nexo' );
+		$permissions[ 'nexo.view.backups' ] 			=	__( 'Voir la liste des sauvegardes', 'nexo' );
+		$permissions[ 'nexo.edit.backups' ] 			=	__( 'Modifier des sauvegardes', 'nexo' );
+		$permissions[ 'nexo.delete.backups' ] 			= 	__( 'Supprimer des sauvegardes', 'nexo' );
+
+		$permissions[ 'nexo.create.stores' ] 			=	__( 'Créer des boutiques', 'nexo' );
+		$permissions[ 'nexo.view.stores' ] 			=	__( 'Voir la liste des boutiques', 'nexo' );
+		$permissions[ 'nexo.edit.stores' ] 			=	__( 'Modifier des boutiques', 'nexo' );
+		$permissions[ 'nexo.delete.stores' ] 			=	__( 'Supprimer des boutiques', 'nexo' );
+		$permissions[ 'nexo.enter.stores' ] 			=	__( 'Utiliser une boutique', 'nexo' );
+
+		$permissions[ 'nexo.create.coupons' ] 			=	__( 'Créer Coupons', 'nexo' );
+		$permissions[ 'nexo.view.coupons' ] 			=	__( 'Voir la liste des coupons', 'nexo' );
+		$permissions[ 'nexo.edit.coupons' ] 			=	__( 'Modifier Coupons', 'nexo' );
+		$permissions[ 'nexo.delete.coupons' ] 			=	__( 'Supprimer Coupons', 'nexo' );		
+
+		$permissions[ 'nexo.read.detailed-report' ] 		=	__( 'Lire ventes détaillés', 'nexo' );
+		$permissions[ 'nexo.read.best-sales' ] 			=	__( 'Lire meilleures ventes', 'nexo' );
+		$permissions[ 'nexo.read.daily-sales' ] 		=	__( 'Lire ventes journalières', 'nexo' );
+		$permissions[ 'nexo.read.incomes-losses' ] 		=	__( 'Lire bénéfices et pertes', 'nexo' );
+		$permissions[ 'nexo.read.expenses-listings' ] 	=	__( 'Lire liste des dépenses', 'nexo' );
+		$permissions[ 'nexo.read.cash-flow' ] 			=	__( 'Lire flux de la trésorerie', 'nexo' );
+		$permissions[ 'nexo.read.annual-sales' ] 		=	__( 'Lire income and losses', 'nexo' );
+		$permissions[ 'nexo.read.cashier-performances' ] 	=	__( 'Lire performances des caissiers', 'nexo' );
+		$permissions[ 'nexo.read.customer-statistics' ] 	=	__( 'Lire statistics des clients', 'nexo' );
+		$permissions[ 'nexo.read.inventory-tracking' ] 	=	__( 'Lire suivi du stock', 'nexo' );
+		$permissions[ 'nexo.create.refund' ] 			=	__( 'Effectuer un rembourssement', 'nexo' );
+		$permissions[ 'nexo.manage.settings' ] 			=	__( 'Réglages des options', 'nexo' );
+
+		foreach( $permissions as $namespace => $perm ) {
+			$this->aauth->create_perm( 
+				$namespace,
+				$perm
+			);
+		}
+
+		foreach([ 
+			'coupons',
+			'stores',
+			'orders',
+			'items',
+			'categories',
+			'departments',
+			'providers',
+			'supplies',
+			'customers-groups',
+			'invoices',
+			'registers',
+			'backup',
+			'stores',
+			'coupons'
+		] as $component ) {
+			foreach([ 'create.', 'edit.', 'delete.', 'view.' ] as $action ) {
+				$this->aauth->allow_group( 'store.manager', 'nexo.' . $action . $component );
+				$this->aauth->allow_group( 'master', 'nexo.' . $action . $component );
+				$this->aauth->allow_group( 'admin', 'nexo.' . $action . $component );
+			}
+		}
 	}
 }
 new Nexo_Install;

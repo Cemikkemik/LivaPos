@@ -1,4 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
+use Pecee\SimpleRouter\SimpleRouter;
 
 class Gui extends CI_Model
 {
@@ -56,10 +57,31 @@ class Gui extends CI_Model
     public function load_page($page_slug, $params)
     {
         // load created pages
-        $this->events->do_action_ref_array('create_dashboard_pages', $params);
+        $this->events->do_action_ref_array('create_dashboard_pages', $params); // ??
         // output pages
+        // array_unshift( $params, $page_slug );
+        
+        // SimpleRouter::get('/dashboard/nexo/taxes', function() {
+        //     echo 'Hello';
+        // });
+        
+        // if( Modules::get( $page_slug ) ) {
+        //     if( is_file( MODULESPATH . '/' . $page_slug . '/route.php' ) ) {
+        //         include_once( MODULESPATH . '/' . $page_slug . '/route.php' );
+
+                
+        //     }
+        // }
+
+        // var_dump( 'dashboard/' . implode( '/', $params ) );
+
+        // die;
+        
+        // $menus      =   $this->events->apply_filters( 'admin_menus', []);
+        // var_dump( Menu::parse( $menus ) );die;
 
         if (riake($page_slug, $this->created_page)) {
+
             // loading page content
             if ($function    =    riake('function', $this->created_page[ $page_slug ])) {
                 call_user_func_array($function, $params);
@@ -82,6 +104,8 @@ class Gui extends CI_Model
                 'msg'    =>    $msg
             ));
         } else {
+            
+
             $this->load_page_objet( $page_slug, $params );
         }
     }

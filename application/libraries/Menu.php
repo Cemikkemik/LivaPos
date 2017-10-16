@@ -52,69 +52,37 @@ class Menu
                     $custom_style        =    (riake('href', $menu) == current_url()) ? 'style="color:#fff"' : '';
                     if ($loop_index == 0) {
                         // First child, set a default page and first sub-menu.
-
                     ?>
-                        <a <?php echo $custom_style;
-                        ?> href="javascript:void(0)" class="<?php echo $menu_status;
-                        ?>"> 
-                            <i class="<?php echo riake('icon', $menu, 'fa fa-star');
-                        ?>"></i> 
-                            <span><?php echo riake('title', $menu);
-                        ?></span>
+                        <a <?php echo $custom_style;?> href="javascript:void(0)" class="<?php echo $menu_status;?>"> 
+                            <i class="<?php echo riake('icon', $menu, 'fa fa-star');?>"></i> 
+                            <span><?php echo riake('title', $menu);?></span>
                             <i class="fa fa-angle-left pull-right"></i>
-                            <?php
-                             if ($parent_notice_count > 0) {
-                                 ?>
-                             <small class="label pull-right bg-yellow"><?php echo $parent_notice_count;
-                                 ?></small>
-                             <?php
-
-                             }
-                        ?> 
+                            <?php if ($parent_notice_count > 0):?>
+                            <small class="label pull-right bg-yellow"><?php echo $parent_notice_count;?></small>
+                            <?php endif;?>
                         </a>
-                        <ul <?php echo $custom_ul_style;
-                        ?> class="treeview-menu">
-                            <?php if (riake('disable', $menu) === false) : // is used to disable menu title showed as first submenu.?>
+                        <ul <?php echo $custom_ul_style;?> class="treeview-menu">
+                            <?php if ( @$menu[ 'disable' ] === false) : // is used to disable menu title showed as first submenu.?>
                             <li> 
-                                <a <?php echo $custom_style;
-                        ?> href="<?php echo riake('href', $menu, '#');
-                        ?>">
-                                    <span><?php echo riake('title', $menu);
-                        ?></span>
-                                    <?php
-                                     if (riake('notices_nbr', $menu) == true) {
-                                         ?>
-                                     <small class="label pull-right bg-yellow"><?php echo riake('notices_nbr', $menu);
-                                         ?></small>
-                                     <?php
-
-                                     }
-                        ?>                                        
+                                <a <?php echo $custom_style;?> href="<?php echo @$menu[ 'route' ] ? site_url( 'dashboard' . implode('/', $menu[ 'route' ] ) ) : @$menu[ 'href' ];?>">
+                                    <span><?php echo @$menu[ 'title'];?></span>
+                                    <?php if ( @$menu[ 'notices_nbr' ] == true):?>
+                                    <small class="label pull-right bg-yellow"><?php echo $menu[ 'notices_nbr' ];?></small>
+                                    <?php endif;?>                 
                                 </a> 
                             </li>	
-                            <?php endif;
-                        ?>
+                            <?php endif;?>
                     <?php
 
                     } else {
                         // after the first child, all are included as sub-menu
-
                         ?>
                         <li> 
-                            <a <?php echo $custom_style;
-                        ?> href="<?php echo riake('href', $menu, '#');
-                        ?>">
-                                <span><?php echo riake('title', $menu);
-                        ?></span>
-                                <?php
-                                 if (riake('notices_nbr', $menu) == true) {
-                                     ?>
-                                 <small class="label pull-right bg-yellow"><?php echo riake('notices_nbr', $menu);
-                                     ?></small>
-                                 <?php
-
-                                 }
-                        ?>
+                            <a <?php echo $custom_style;?> href="<?php echo @$menu[ 'route' ] ? site_url( 'dashboard' . implode('/', $menu[ 'route' ] ) ) : @$menu[ 'href' ];?>">
+                                <span><?php echo riake('title', $menu);?></span>
+                                <?php if( @$menu[ 'notices_nbr' ] ):?>
+                                 <small class="label pull-right bg-yellow"><?php echo riake('notices_nbr', $menu);?></small>
+                                <?php endif;?>
                             </a> 
                         </li>	
                         <?php
@@ -122,30 +90,18 @@ class Menu
                     }
                     if ($loop_index == (count($current_menu) - 1)) {
                         // we're at the end of the loop, so we close the "ul"
-
                         ?>
                         </ul>
                         <?php
-
                     }
-                } else {
-                    ?>
-                     <a href="<?php echo riake('href', $menu, '#');
-                    ?>"> 
-                        <i class="<?php echo riake('icon', $menu, 'fa fa-star');
-                    ?>"></i> 
-                         <span><?php echo riake('title', $menu);
-                    ?></span> 
-                         <?php
-                         if (riake('notices_nbr', $menu) == true) {
-                             ?>
-                         <small class="label pull-right bg-yellow"><?php echo riake('notices_nbr', $menu);
-                             ?></small>
-                         <?php
-
-                         }
-                    ?>
-                     </a>
+                } else { ?>
+                    <a href="<?php echo riake('href', $menu, '#');?>"> 
+                        <i class="<?php echo riake('icon', $menu, 'fa fa-star');?>"></i> 
+                        <span><?php echo riake('title', $menu);?></span> 
+                        <?php if( @$menu[ 'notices_nbr' ] ):?>
+                            <small class="label pull-right bg-yellow"><?php echo riake('notices_nbr', $menu);?></small>
+                        <?php endif;?>
+                    </a>
                     <?php	
                 }
                 $loop_index++; // increment loop_index
@@ -155,5 +111,22 @@ class Menu
             <?php
 
         }
+    }
+
+    /**
+     * Parse Menu
+     */
+    public static function parse( $menuHeaders )
+    {
+        $menusList      =   [];
+        foreach( $menuHeaders as &$menus ) {
+            foreach( $menus as &$menu ) {
+                if( is_array( @$menu[ 'route' ] ) ) {
+                    $menu[ 'route' ]    =   site_url( 'dashboard' . implode( '/', $menu[ 'route' ] ) );
+                }
+                $menusList[]     =   $menu;
+            }
+        }
+        return $menusList;
     }
 }

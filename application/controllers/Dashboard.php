@@ -119,7 +119,7 @@ class Dashboard extends Tendoo_Controller
         if (method_exists($this, $page)) {
             return call_user_func_array(array( $this, $page ), $params);
         } else {
-            $this->Gui->load_page($page, $params);
+            $this->Gui->load_page( $page, $params );
         }
     }
 

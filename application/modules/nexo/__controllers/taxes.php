@@ -15,20 +15,6 @@ class Nexo_Taxes_Controller extends Tendoo_Module
     
     public function crud_header()
     {
-        // if (
-        //     ! User::can('create_shop_registers')  &&
-        //     ! User::can('edit_shop_registers') &&
-        //     ! User::can('delete_shop_registers') &&
-		// 	! User::can( 'view_shop_registers' )
-        // ) {
-        //     redirect(array( 'dashboard', 'access-denied' ));
-        // }
-
-		/**
-		 * This feature is not more accessible on main site when
-		 * multistore is enabled
-		**/
-
 		if( ( multistore_enabled() && ! is_multistore() ) && $this->events->add_filter( 'force_show_inventory', false ) == false ) {
 			redirect( array( 'dashboard', 'feature-disabled' ) );
 		}

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "19e92a09c4316285f46ce463e4f7db9d",
+    "content-hash": "4e31eb11629ebeb091e5037d9d56062a",
     "packages": [
         {
             "name": "league/csv",
@@ -109,6 +109,54 @@
                 "time"
             ],
             "time": "2015-11-04T20:07:17+00:00"
+        },
+        {
+            "name": "pecee/simple-router",
+            "version": "3.4.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/skipperbent/simple-php-router.git",
+                "reference": "f7ce440c56395b48650aa44977f5edfc3d152133"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/skipperbent/simple-php-router/zipball/f7ce440c56395b48650aa44977f5edfc3d152133",
+                "reference": "f7ce440c56395b48650aa44977f5edfc3d152133",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.7.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pecee\\": "src/Pecee/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Simon Sessingø",
+                    "email": "simon.sessingoe@gmail.com"
+                }
+            ],
+            "description": "Simple, fast PHP router that is easy to get integrated and in almost any project. Heavily inspired by the Laravel router.",
+            "keywords": [
+                "laravel",
+                "pecee",
+                "php",
+                "route",
+                "router",
+                "routing",
+                "simple-php-router"
+            ],
+            "time": "2017-10-07T15:53:17+00:00"
         },
         {
             "name": "rmccue/requests",

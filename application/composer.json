@@ -1,6 +1,7 @@
 {
     "require": {
         "league/csv": "^8.1",
-        "rmccue/requests": "^1.7"
+        "rmccue/requests": "^1.7",
+        "pecee/simple-router": "3.4.5.2"
     }
 }

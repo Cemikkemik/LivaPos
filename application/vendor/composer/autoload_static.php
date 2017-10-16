@@ -16,6 +16,10 @@ class ComposerStaticInit3c672232a8167007c93c9ca364a5ad3e
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Translation\\' => 30,
         ),
+        'P' => 
+        array (
+            'Pecee\\' => 6,
+        ),
         'L' => 
         array (
             'League\\Csv\\' => 11,
@@ -34,6 +38,10 @@ class ComposerStaticInit3c672232a8167007c93c9ca364a5ad3e
         'Symfony\\Component\\Translation\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/translation',
+        ),
+        'Pecee\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pecee/simple-router/src/Pecee',
         ),
         'League\\Csv\\' => 
         array (

@@ -489,14 +489,14 @@ class Nexo_Premium_Controller extends CI_Model
             $config['next_tag_open']    =    $config['prev_tag_open']    =    $config['num_tag_open']        =    $config['first_tag_open']    =    $config['last_tag_open']    =    '<li>';
             $config['next_tag_close']    =    $config['prev_tag_close']    =    $config['num_tag_close']    =    $config['first_tag_close']      =    $config['last_tag_close']    =    '</li>';
             $config['cur_tag_open']         =    '<li class="active"><a href="#">';
-        $config['cur_tag_close']            =    '</a></li>';
+            $config['cur_tag_close']            =    '</a></li>';
 
 
             $this->pagination->initialize($config);
 
             $this->events->add_filter('gui_page_title', function ($title) {
-            return '<section class="content-header"><h1>' . strip_tags($title) . ' <span class="pull-right"><a class="btn btn-primary btn-sm" href="' . site_url(array( 'dashboard', 'nexo_premium', 'Controller_Clear_History' )) . '?refresh=true">' . __('Supprimer l\'historique', 'nexo_premium') . '</a></span></h1></section>';
-        });
+                return '<section class="content-header"><h1>' . strip_tags($title) . ' <span class="pull-right"><a class="btn btn-primary btn-sm" href="' . site_url(array( 'dashboard', 'nexo_premium', 'Controller_Clear_History' )) . '?refresh=true">' . __('Supprimer l\'historique', 'nexo_premium') . '</a></span></h1></section>';
+            });
 
             $history                    =    $this->Nexo_Misc->history_get($page - 1, $config['per_page']);
 

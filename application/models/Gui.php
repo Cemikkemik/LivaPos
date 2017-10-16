@@ -59,26 +59,26 @@ class Gui extends CI_Model
         // load created pages
         $this->events->do_action_ref_array('create_dashboard_pages', $params); // ??
         // output pages
-        // array_unshift( $params, $page_slug );
+        array_unshift( $params, $page_slug );
         
-        // SimpleRouter::get('/dashboard/nexo/taxes', function() {
-        //     echo 'Hello';
-        // });
+        SimpleRouter::get('/dashboard/nexo/taxes', function() {
+            echo 'Hello';
+        });
         
-        // if( Modules::get( $page_slug ) ) {
-        //     if( is_file( MODULESPATH . '/' . $page_slug . '/route.php' ) ) {
-        //         include_once( MODULESPATH . '/' . $page_slug . '/route.php' );
+        if( Modules::get( $page_slug ) ) {
+            if( is_file( MODULESPATH . '/' . $page_slug . '/route.php' ) ) {
+                include_once( MODULESPATH . '/' . $page_slug . '/route.php' );
 
                 
-        //     }
-        // }
+            }
+        }
 
-        // var_dump( 'dashboard/' . implode( '/', $params ) );
+        var_dump( 'dashboard/' . implode( '/', $params ) );
 
-        // die;
+        die;
         
-        // $menus      =   $this->events->apply_filters( 'admin_menus', []);
-        // var_dump( Menu::parse( $menus ) );die;
+        $menus      =   $this->events->apply_filters( 'admin_menus', []);
+        var_dump( Menu::parse( $menus ) );die;
 
         if (riake($page_slug, $this->created_page)) {
 

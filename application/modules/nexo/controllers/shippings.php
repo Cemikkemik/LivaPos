@@ -1,5 +1,5 @@
 <?php
-class Nexo_Arrivages extends CI_Model
+class NexoShippingsController extends CI_Model
 {
     public function __construct($args)
     {
@@ -358,4 +358,3 @@ class Nexo_Arrivages extends CI_Model
     }
 
 }
-new Nexo_Arrivages($this->args);

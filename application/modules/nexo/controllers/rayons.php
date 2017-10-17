@@ -1,5 +1,5 @@
 <?php
-class Nexo_Rayons extends CI_Model
+class NexoRayons extends CI_Model
 {
     public function __construct($args)
     {
@@ -107,4 +107,3 @@ class Nexo_Rayons extends CI_Model
         $this->lists();
     }
 }
-new Nexo_Rayons($this->args);

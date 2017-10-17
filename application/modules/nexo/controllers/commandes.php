@@ -1,19 +1,6 @@
 <?php
-class Nexo_Commandes extends CI_Model
+class NexoCommandesController extends CI_Model
 {
-    public function __construct($args)
-    {
-        parent::__construct();
-        if (is_array($args) && count($args) > 1) {
-            if (method_exists($this, $args[1])) {
-                return call_user_func_array(array( $this, $args[1] ), array_slice($args, 2));
-            } else {
-                return $this->defaults();
-            }
-        }
-        return $this->defaults();
-    }
-
     public function crud_header()
     {
         if (
@@ -370,35 +357,8 @@ class Nexo_Commandes extends CI_Model
 		$this->load->config('rest');
 		global $Options;
 		if( ( $this->uri->segment( 4 ) == 'lists' && $this->uri->segment( 4 ) != '__use' ) || ( $this->uri->segment( 6 ) == 'lists' && $this->uri->segment( 6 ) != '__use' ) ) {
-?>
-<?php if (@$Options[ store_prefix() . 'nexo_enable_stripe' ] != 'no'):?>
-<script type="text/javascript" src="https://checkout.stripe.com/checkout.js"></script>
-<script type="text/javascript">
-	'use strict';
-	// Close Checkout on page navigation:
-	$(window).on('popstate', function() {
-		// alert( 'POP' );
-		//get your angular element
-		  var elem = angular.element(document.querySelector('[ng-controller="nexo_order_list"]'));
-
-		  //get the injector.
-		  var injector = elem.injector();
-
-		  //get the service.
-		  // var __stripeCheckout = injector.get( '__stripeCheckout' );
-
-		  //update the service.
-		  // __stripeCheckout.handler.close();
-
-		  // elem.scope().$apply();
-	});
-</script>
-<?php endif;?>
-
-<?php include_once( MODULESPATH . '/nexo/inc/angular/order-list/include.php' );?>
-<?php
+            $this->load->module_view( 'nexo', 'footer/sales-list' );
 		}
 	}
 
 }
-new Nexo_Commandes($this->args);

@@ -1,19 +1,9 @@
 <?php
-class Nexo_Stores_Controller extends CI_Model
-{
-    public function __construct($args)
-    {
-        parent::__construct();
-        if (is_array($args) && count($args) > 1) {
-            if (method_exists($this, $args[1])) {
-                return call_user_func_array(array( $this, $args[1] ), array_slice($args, 2));
-            } else {
-                return $this->defaults();
-            }
-        }
-        return $this->defaults();
-    }
-    
+
+use Pecee\SimpleRouter\SimpleRouter as Route;
+
+class NexoStoreController extends CI_Model
+{ 
     public function crud_header()
     {
         if (
@@ -149,7 +139,95 @@ class Nexo_Stores_Controller extends CI_Model
 		
 		$this->Gui->set_title( store_title( __('Toutes les boutiques &mdash; NexoPOS', 'nexo') ));
         $this->load->view('../modules/nexo/views/stores/all-stores.php', $data);
+    }
+    
+    /**
+	 * Store
+	**/
+
+	public function stores()
+	{
+		global	$store_id,
+				$CurrentStore,
+				$Options;
+
+		if( @$Options[ 'nexo_store' ] == 'enabled' ) {
+
+			$urls 				=	func_get_args();
+			$store_id 			=	@$urls[0];
+            $slug_namespace 	= 	@$urls[1];
+			$urls	 			=	array_splice( $urls, 2 );
+
+			// if store is closed, then no one can access to that
+			if( $CurrentStore[0][ 'STATUS' ] == 'closed' ) {
+				redirect( 'dashboard/store-closed' );
+			}
+
+			if( $CurrentStore ) {
+
+
+
+				$this->args    =    $urls;
+
+				if (is_array($this->args) && count($this->args) > 0) {
+					$file_name		=	$this->args[0];
+				} else {
+					$file_name		=	'dashboard';
+				}
+
+				$file    =    dirname(__FILE__) . '/../__controllers/' . $file_name . '.php';
+
+				if ( is_file( $file ) && in_array( $slug_namespace, array( 'nexo', null ) ) ) {
+
+					include_once($file);
+
+				} else {
+
+					$callback			=	$this->events->apply_filters( 'stores_controller_callback', array() );
+
+					if( $callback ) {
+
+						/**
+						 * Saved Callback
+						**/
+
+						$slug_namespace	=	@array_slice(func_get_args(), 1, 1);
+
+						if( @$callback[ $slug_namespace[0] ] != null ) {
+							if( is_array( $callback[ $slug_namespace[0] ] ) ) {
+								$method                             =   array_slice(func_get_args(), 2, 1);
+								$callback[ $slug_namespace[0] ][]   =   str_replace( '-', '_', $method[0] );
+								if( method_exists( $callback[ $slug_namespace[0] ][0], $callback[ $slug_namespace[0] ][1] ) ) {
+									// var_dump( $callback );die;
+										call_user_func_array( $callback[ $slug_namespace[0] ], array_slice(func_get_args(), 3));
+								} else {
+									show_404();
+								}
+							} else {
+								$method             =   array_slice(func_get_args(), 2, 1);
+								$finalArray         =   array( $callback[ $slug_namespace[0] ] );
+								$finalArray[]       =   str_replace( '-', '_', @$method[0] );
+										$finalArray[1] 		=	empty( @$finalArray[1] ) ? 'index' : $finalArray[1];
+
+								if( method_exists( @$finalArray[0], $finalArray[1] ) ) {
+										call_user_func_array( $finalArray, array_slice(func_get_args(), 3));
+								} else {
+									show_404();
+								}
+							}
+						} else {
+							show_404();
+						}
+
+					} else {
+						show_404();
+					}
+				}
+			} else {
+				show_error( __( 'Boutique introuvable.', 'nexo' ) );
+			}
+		} else {
+			show_error( __( 'Fonctionnalité indisponible ou désactivée.', 'nexo' ) );
+		}
 	}
 }
-
-new Nexo_Stores_Controller($this->args);

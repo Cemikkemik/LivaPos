@@ -1,5 +1,5 @@
 <?php
-class Nexo_Templates_Controller extends Tendoo_Module
+class NexoTemplateController extends Tendoo_Module
 {
     /**
      * Load Template for Customers

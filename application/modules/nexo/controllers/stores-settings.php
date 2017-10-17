@@ -1,5 +1,5 @@
 <?php
-class Nexo_Stores_Settings_Controller extends CI_Model
+class NexoStoreSettingsController extends CI_Model
 {
     public function __construct($args)
     {
@@ -34,4 +34,3 @@ class Nexo_Stores_Settings_Controller extends CI_Model
 		}
     }
 }
-new Nexo_Stores_Settings_Controller($this->args);

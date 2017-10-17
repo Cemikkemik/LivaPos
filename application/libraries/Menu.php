@@ -112,21 +112,4 @@ class Menu
 
         }
     }
-
-    /**
-     * Parse Menu
-     */
-    public static function parse( $menuHeaders )
-    {
-        $menusList      =   [];
-        foreach( $menuHeaders as &$menus ) {
-            foreach( $menus as &$menu ) {
-                if( is_array( @$menu[ 'route' ] ) ) {
-                    $menu[ 'route' ]    =   site_url( 'dashboard' . implode( '/', $menu[ 'route' ] ) );
-                }
-                $menusList[]     =   $menu;
-            }
-        }
-        return $menusList;
-    }
 }

@@ -1,5 +1,5 @@
 <?php
-class Nexo_Clients extends CI_Model
+class NexoCustomersController extends CI_Model
 {
     public function __construct($args)
     {
@@ -378,4 +378,3 @@ class Nexo_Clients extends CI_Model
         $this->lists();
     }
 }
-new Nexo_Clients($this->args);

@@ -1,5 +1,5 @@
 <?php
-class Nexo_Taxes_Controller extends Tendoo_Module
+class NexoTaxesController extends Tendoo_Module
 {
     public function __construct()
     {

@@ -1,5 +1,5 @@
 <?php
-class Reset_Shop extends CI_Model
+class NexoResetController extends CI_Model
 {
     public function __construct($args)
     {
@@ -72,4 +72,3 @@ class Reset_Shop extends CI_Model
         }
     }
 }
-new Reset_Shop($this->args);

@@ -1,5 +1,5 @@
 <?php
-class Nexo_Produits extends CI_Model
+class NexoProduitsController extends CI_Model
 {
     public function __construct($args)
     {
@@ -647,4 +647,3 @@ class Nexo_Produits extends CI_Model
         $this->load->module_view( 'nexo', 'items.history.gui' );
     }
 }
-new Nexo_Produits($this->args);

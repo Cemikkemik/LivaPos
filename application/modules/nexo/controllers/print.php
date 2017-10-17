@@ -1,7 +1,7 @@
 <?php
 use Dompdf\Dompdf;
 
-class Nexo_Print extends CI_Model
+class NexoPrintController extends CI_Model
 {
     public function __construct($args)
     {
@@ -231,4 +231,3 @@ class Nexo_Print extends CI_Model
 
     }
 }
-new Nexo_Print($this->args);

@@ -1,5 +1,5 @@
 <?php
-class Nexo_Dashboard extends CI_Model
+class NexoDashboardController extends CI_Model
 {
     public function __construct($args)
     {
@@ -28,4 +28,3 @@ class Nexo_Dashboard extends CI_Model
 		$this->load->module_view( 'nexo', 'stores/dashboard' );
     }
 }
-new Nexo_Dashboard($this->args);

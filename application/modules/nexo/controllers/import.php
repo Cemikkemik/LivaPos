@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use League\Csv\Reader;
 
-class Import extends CI_Model{
+class NexoImportController extends CI_Model{
 
     public function __construct()
     {

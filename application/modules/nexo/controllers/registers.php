@@ -1,19 +1,6 @@
 <?php
-class Nexo_Settings_Controller extends CI_Model
+class NexoRegistersController extends CI_Model
 {
-    public function __construct($args)
-    {
-         parent::__construct();
-        if (is_array($args) && count($args) > 1) {
-            if (method_exists($this, $args[1])) {
-                return call_user_func_array(array( $this, $args[1] ), array_slice($args, 2));
-            } else {
-                return $this->index();
-            }
-        }
-        return $this->index();
-    }
-
 	public function index()
 	{
 		$this->lists();
@@ -226,7 +213,7 @@ class Nexo_Settings_Controller extends CI_Model
 	 * Use Register
 	**/
 
-	public function __use( $reg_id, $order_id = null )
+	public function __use( $reg_id = 'default', $order_id = null )
 	{
 		global $Options, $store_id, $PageNow, $register_id;
 
@@ -505,4 +492,3 @@ class Nexo_Settings_Controller extends CI_Model
 		$this->load->module_view( 'nexo', 'registers/for_cashiers' );
 	}
 }
-new Nexo_Settings_Controller($this->args);

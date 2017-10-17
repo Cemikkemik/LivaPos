@@ -1,7 +1,7 @@
 <?php
 use Carbon\Carbon;
 
-class Nexo_Reports extends CI_Model
+class NexoReportsController extends CI_Model
 {
     public function __construct($args)
     {
@@ -94,5 +94,3 @@ class Nexo_Reports extends CI_Model
         $this->load->view("../modules/nexo/views/reports/daily.php", $data);
     }
 }
-
-new Nexo_Reports($this->args);

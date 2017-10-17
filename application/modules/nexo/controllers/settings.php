@@ -1,19 +1,6 @@
 <?php
-class Nexo_Settings_Controller extends CI_Model
+class NexoSettingsController extends CI_Model
 {
-    public function __construct($args)
-    {
-        parent::__construct();
-        if (is_array($args) && count($args) > 0) {
-            if (method_exists($this, $args[0])) {
-                return call_user_func_array(array( $this, $args[0] ), array_slice($args, 1));
-            } else {
-                return $this->index();
-            }
-        }
-        return $this->index();
-    }
-    
     public function settings($page = 'home')
     {
 		global $PageNow;		
@@ -57,6 +44,9 @@ class Nexo_Settings_Controller extends CI_Model
             } elseif ($page == 'orders') { // @since 3.8.8
                 $this->Gui->set_title( store_title( __('Commandes', 'nexo')));
                 $this->load->view("../modules/nexo/views/settings/{$page}.php");
+            } elseif ($page == 'stores') { // @since 3.8.8
+                $this->Gui->set_title( store_title( __('Boutiques', 'nexo')));
+                $this->load->view("../modules/nexo/views/settings/{$page}.php");
             }
 			// Settings are now handled by another module
 			 elseif ($page == 'stripe') {
@@ -70,4 +60,3 @@ class Nexo_Settings_Controller extends CI_Model
         }
     }
 }
-new Nexo_Settings_Controller($this->args);

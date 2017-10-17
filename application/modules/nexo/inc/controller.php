@@ -38,13 +38,13 @@ class Nexo_Controller extends CI_Model
 			// Create a new store
 			$Nexo_Menus[ 'nexo_shop' ][]	=	array(
 				'title'		=>        __('Liste des boutiques', 'nexo'), // menu title
-				'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'lists' ) ),
+				'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores' ) ),
 				'permission' 	=>		'nexo.view.stores'
 			);
 
 			$Nexo_Menus[ 'nexo_shop' ][]	=	array(
 				'title'		=>        __('Ajouter une boutique', 'nexo'), // menu title
-				'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'lists', 'add' ) ),
+				'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'add' ) ),
 				'permission' 	=>		'nexo.create.store'
 			);
 
@@ -66,7 +66,7 @@ class Nexo_Controller extends CI_Model
 			// @since 2.8
 
 			if( @$Options[ 'nexo_store' ] == 'enabled' && $this->config->item( 'nexo_multi_store_enabled' ) ) {
-				$store_uri	=	'stores/' . $this->uri->segment( 3, 0 ) . '/';
+				$store_uri	=	'nexo/stores/' . $this->uri->segment( 3, 0 ) . '/';
 			}
 
 			if( @$Options[ store_prefix() . 'nexo_enable_registers' ] == 'oui' ) {
@@ -470,27 +470,27 @@ class Nexo_Controller extends CI_Model
 
     public function load_dashboard()
     {
-		$this->load->model('Nexo_Misc');
-		include_once( dirname( __FILE__ ) . '/../__controllers/import.php' );
-		include_once( dirname( __FILE__ ) . '/../__controllers/coupons.php' );
-		include_once( dirname( __FILE__ ) . '/../__controllers/templates.php' ); // @since 3.1
-		include_once( dirname( __FILE__ ) . '/../__controllers/taxes.php' );
+		// $this->load->model('Nexo_Misc');
+		// include_once( dirname( __FILE__ ) . '/../__controllers/import.php' );
+		// include_once( dirname( __FILE__ ) . '/../__controllers/coupons.php' );
+		// include_once( dirname( __FILE__ ) . '/../__controllers/templates.php' ); // @since 3.1
+		// include_once( dirname( __FILE__ ) . '/../__controllers/taxes.php' );
 
-		$this->Gui->register_page( 'nexo', array( $this, 'load_controller' ));
-		$this->Gui->register_page( 'stores', array( $this, 'stores' ) );
-		$this->Gui->register_page_object( 'nexo_import', 	new Import );
-		$this->Gui->register_page_object( 'nexo_coupons', 	new NexoCouponController );
-		$this->Gui->register_page_object( 'nexo_templates', new Nexo_Templates_Controller ); // @since 3.1
-		$this->Gui->register_page_object( 'nexo_taxes', 	new Nexo_Taxes_Controller ); // @since 3.3
+		// $this->Gui->register_page( 'nexo', array( $this, 'load_controller' ));
+		// $this->Gui->register_page( 'stores', array( $this, 'stores' ) );
+		// $this->Gui->register_page_object( 'nexo_import', 	new Import );
+		// $this->Gui->register_page_object( 'nexo_coupons', 	new NexoCouponController );
+		// $this->Gui->register_page_object( 'nexo_templates', new Nexo_Templates_Controller ); // @since 3.1
+		// $this->Gui->register_page_object( 'nexo_taxes', 	new Nexo_Taxes_Controller ); // @since 3.3
 
-		// @since 2.10.1
-		$this->events->add_filter( 'stores_controller_callback', function( $action ) {
-			$action[ 'nexo_import' ]    	=   new Import;
-				$action[ 'nexo_coupons' ]    	=   new NexoCouponController;
-				$action[ 'nexo_templates' ]    	=   new Nexo_Templates_Controller; // @since 3.1
-				$action[ 'nexo_taxes' ] 		=	new Nexo_Taxes_Controller; // @since 3.3
-			return $action;
-		});
+		// // @since 2.10.1
+		// $this->events->add_filter( 'stores_controller_callback', function( $action ) {
+		// 	$action[ 'nexo_import' ]    	=   new Import;
+		// 		$action[ 'nexo_coupons' ]    	=   new NexoCouponController;
+		// 		$action[ 'nexo_templates' ]    	=   new Nexo_Templates_Controller; // @since 3.1
+		// 		$action[ 'nexo_taxes' ] 		=	new Nexo_Taxes_Controller; // @since 3.3
+		// 	return $action;
+		// });
 
 		// @since 3.0.16
 		$store_menus    =   get_instance()->events->apply_filters( 'nexo_store_menus', $this->load->module_view( 'nexo', 'header/store-menus', null, true ) );
@@ -512,92 +512,6 @@ class Nexo_Controller extends CI_Model
 		}
     	}
 
-	/**
-	 * Store
-	**/
-
-	public function stores()
-	{
-		global	$store_id,
-				$CurrentStore,
-				$Options;
-
-		if( @$Options[ 'nexo_store' ] == 'enabled' ) {
-
-			$urls 			=	func_get_args();
-			$store_id 		=	@$urls[0];
-            	$slug_namespace 	= 	@$urls[1];
-			$urls	 		=	array_splice( $urls, 2 );
-
-			// if store is closed, then no one can access to that
-			if( $CurrentStore[0][ 'STATUS' ] == 'closed' ) {
-				redirect( 'dashboard/store-closed' );
-			}
-
-			if( $CurrentStore ) {
-
-				$this->args    =    $urls;
-
-				if (is_array($this->args) && count($this->args) > 0) {
-					$file_name		=	$this->args[0];
-				} else {
-					$file_name		=	'dashboard';
-				}
-
-				$file    =    dirname(__FILE__) . '/../__controllers/' . $file_name . '.php';
-
-				if ( is_file( $file ) && in_array( $slug_namespace, array( 'nexo', null ) ) ) {
-
-					include_once($file);
-
-				} else {
-
-					$callback			=	$this->events->apply_filters( 'stores_controller_callback', array() );
-
-					if( $callback ) {
-
-						/**
-						 * Saved Callback
-						**/
-
-						$slug_namespace	=	@array_slice(func_get_args(), 1, 1);
-
-						if( @$callback[ $slug_namespace[0] ] != null ) {
-							if( is_array( $callback[ $slug_namespace[0] ] ) ) {
-								$method                             =   array_slice(func_get_args(), 2, 1);
-								$callback[ $slug_namespace[0] ][]   =   str_replace( '-', '_', $method[0] );
-								if( method_exists( $callback[ $slug_namespace[0] ][0], $callback[ $slug_namespace[0] ][1] ) ) {
-									// var_dump( $callback );die;
-										call_user_func_array( $callback[ $slug_namespace[0] ], array_slice(func_get_args(), 3));
-								} else {
-									show_404();
-								}
-							} else {
-								$method             =   array_slice(func_get_args(), 2, 1);
-								$finalArray         =   array( $callback[ $slug_namespace[0] ] );
-								$finalArray[]       =   str_replace( '-', '_', @$method[0] );
-										$finalArray[1] 		=	empty( @$finalArray[1] ) ? 'index' : $finalArray[1];
-
-								if( method_exists( @$finalArray[0], $finalArray[1] ) ) {
-										call_user_func_array( $finalArray, array_slice(func_get_args(), 3));
-								} else {
-									show_404();
-								}
-							}
-						} else {
-							show_404();
-						}
-
-					} else {
-						show_404();
-					}
-				}
-			} else {
-				redirect( array( 'dashboard', 'unknow-store' ) );
-			}
-		} else {
-			redirect( array( 'dashboard', 'nexo-feature-unavailable' ) );
-		}
-	}
+	
 }
 new Nexo_Controller;

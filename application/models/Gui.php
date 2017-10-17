@@ -1,5 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
-use Pecee\SimpleRouter\SimpleRouter;
+
+use Pecee\SimpleRouter\SimpleRouter as Route;
+use Pecee\Handlers\IExceptionHandler;
+use Pecee\Http\Request;
+use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
 
 class Gui extends CI_Model
 {
@@ -61,53 +65,71 @@ class Gui extends CI_Model
         // output pages
         array_unshift( $params, $page_slug );
         
-        SimpleRouter::get('/dashboard/nexo/taxes', function() {
-            echo 'Hello';
-        });
         
+        // var_dump( 
+        //     substr( request()->getHeader( 'script-name' ), 0, -10 ), 
+        //     request()->getHeader( 'request_uri' ) 
+        // );
+        // var_dump( get_class_methods( request() ) );
+        // var_dump( similar_text( 
+        //     request()->getHeader( 'script-name' ), 
+        //     request()->getHeader( 'request_uri' ) 
+        // ) );
+
         if( Modules::get( $page_slug ) ) {
-            if( is_file( MODULESPATH . '/' . $page_slug . '/route.php' ) ) {
-                include_once( MODULESPATH . '/' . $page_slug . '/route.php' );
 
+            Route::group([ 'prefix' => substr( request()->getHeader( 'script-name' ), 0, -10 ) . '/dashboard' ], function() use ( $page_slug ) {
                 
-            }
-        }
+                if( is_dir( $dir = MODULESPATH . $page_slug . '/controllers/' ) ) {
+                    foreach( glob( $dir . "*.php") as $filename) {
+                        include_once( $filename );
+                    }
+                }
 
-        var_dump( 'dashboard/' . implode( '/', $params ) );
-
-        die;
-        
-        $menus      =   $this->events->apply_filters( 'admin_menus', []);
-        var_dump( Menu::parse( $menus ) );die;
-
-        if (riake($page_slug, $this->created_page)) {
-
-            // loading page content
-            if ($function    =    riake('function', $this->created_page[ $page_slug ])) {
-                call_user_func_array($function, $params);
-            } else {
-                // page doesn't exists load 404 internal page error
-                Html::set_title(sprintf(__('Error : Output Not Found &mdash; %s'), get('core_signature')));
-                Html::set_description(__('Error page'));
-                $this->load->view('dashboard/error/output-not-found');
-            }
-        }
-        // We do convert page slug into error code key form
-        elseif (in_array($page_code    =    str_replace('_', '-', $page_slug), array_keys($this->lang->language))) {
-            $title            =    sprintf(__('Error : An error occured &mdash; %s'), get('core_signature'));
-            $description    =    __('An Error occured');
-            $msg            =    riake($page_code, $this->lang->language);
-            // page doesn't exists load 404 internal page error
-            Html::set_title($title);
-            // Html::set_description( $description );
-            $this->load->view('dashboard/error/custom', array(
-                'msg'    =>    $msg
-            ));
-        } else {
+                if( is_file( MODULESPATH . $page_slug . '/route.php' ) ) {
+                    include_once( MODULESPATH . $page_slug . '/route.php' );
+                }
             
+            });
 
-            $this->load_page_objet( $page_slug, $params );
+            Route::error(function($request, \Exception $exception) {
+                if($exception instanceof NotFoundHttpException && $exception->getCode() == 404) {
+                    show_error( __( 'Page not found : 404<br>&mdash; ' . $exception->getMessage() ) );
+                }
+            });
+            
+            Route::start();
+        } else {
+            if (riake($page_slug, $this->created_page)) {
+    
+                // loading page content
+                if ($function    =    riake('function', $this->created_page[ $page_slug ])) {
+                    call_user_func_array($function, $params);
+                } else {
+                    // page doesn't exists load 404 internal page error
+                    Html::set_title(sprintf(__('Error : Output Not Found &mdash; %s'), get('core_signature')));
+                    Html::set_description(__('Error page'));
+                    $this->load->view('dashboard/error/output-not-found');
+                }
+            }
+            // We do convert page slug into error code key form
+            elseif (in_array($page_code    =    str_replace('_', '-', $page_slug), array_keys($this->lang->language))) {
+                $title            =    sprintf(__('Error : An error occured &mdash; %s'), get('core_signature'));
+                $description    =    __('An Error occured');
+                $msg            =    riake($page_code, $this->lang->language);
+                // page doesn't exists load 404 internal page error
+                Html::set_title($title);
+                // Html::set_description( $description );
+                $this->load->view('dashboard/error/custom', array(
+                    'msg'    =>    $msg
+                ));
+            } else {
+                
+    
+                $this->load_page_objet( $page_slug, $params );
+            }
         }
+
     }
 
 	/**

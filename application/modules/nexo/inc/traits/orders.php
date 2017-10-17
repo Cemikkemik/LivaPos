@@ -462,11 +462,13 @@ trait Nexo_orders
             $old_customer             =    $query->result_array();
 
             // Le nombre de commande ne peut pas être inférieur à 0;
-            $this->db
-            ->set('NBR_COMMANDES',  intval($old_customer[0][ 'NBR_COMMANDES' ]) == 0 ? 0 : intval($old_customer[0][ 'NBR_COMMANDES' ]) - 1)
-            ->set('OVERALL_COMMANDES',  intval($old_customer[0][ 'OVERALL_COMMANDES' ]) == 0 ? 0 : intval($old_customer[0][ 'OVERALL_COMMANDES' ]) - 1)
-            ->where('ID', $old_order['order'][0][ 'REF_CLIENT' ])
-            ->update( store_prefix() . 'nexo_clients');
+            if( $old_customer ) {
+                $this->db
+                ->set('NBR_COMMANDES',  intval($old_customer[0][ 'NBR_COMMANDES' ]) == 0 ? 0 : intval($old_customer[0][ 'NBR_COMMANDES' ]) - 1)
+                ->set('OVERALL_COMMANDES',  intval($old_customer[0][ 'OVERALL_COMMANDES' ]) == 0 ? 0 : intval($old_customer[0][ 'OVERALL_COMMANDES' ]) - 1)
+                ->where('ID', $old_order['order'][0][ 'REF_CLIENT' ])
+                ->update( store_prefix() . 'nexo_clients');
+            }
         }
 
         // Restore Bought items 

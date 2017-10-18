@@ -1,6 +1,45 @@
 <?php
 
 use Pecee\SimpleRouter\SimpleRouter as Route;
+use \Pecee\SimpleRouter\Router;
+use \Pecee\SimpleRouter\Route\RouteUrl;
+use Pecee\Http\Request;
+use Pecee\SimpleRouter\IRouterBootManager;
+use Pecee\Http\Middleware\IMiddleware;
+use Pecee\SimpleRouter\Route\RouteController;
+	
+class NexoStoreRouter implements IRouterBootManager  {
+	public function __construct($routes) 
+	{
+		$this->routes 		=	$routes;
+		$this->store_id 	=	get_store_id();
+		$this->path 		=	substr( request()->getHeader( 'script-name' ), 0, -10 );
+	}
+	
+	public function boot(Request $request) {
+		$current_path 	=	$this->path . '/dashboard/stores/' . $this->store_id . '/';
+
+		foreach( $this->routes as $route ) {
+			Route::router()->addRoute( $route );
+		}
+
+		if( ! $route->matchRoute( Route::getUrl(), $request ) ) {
+			return show_404();
+		}
+		
+		// // var_dump( Route::router()->getRoutes() );
+		// foreach($this->routes as $schema => $controller ) {
+
+		// 	// If the current uri matches the url, we use our custom route
+		// 	if( Router::matchRoute( $current_path . $schema . '/', $request ) ) {
+		// 		$request->setRewriteCallback( $controller );
+		// 		return $request;
+		// 	}
+		// }
+		// return show_404();
+	}
+}
+
 
 class NexoStoreController extends CI_Model
 { 
@@ -44,7 +83,7 @@ class NexoStoreController extends CI_Model
 		$crud->set_field_upload('IMAGE', 'public/upload/stores');
         
         // Liste des produits
-        $crud->add_action(__('Accéder à la boutique', 'nexo'), '', site_url(array( 'dashboard', 'stores' )) . '/', 'btn btn-success fa fa-sign-in');
+        $crud->add_action(__('Accéder à la boutique', 'nexo'), '', site_url(array( 'dashboard', 'nexo', 'stores' )) . '/', 'btn btn-success fa fa-sign-in');
 		
 		$crud->callback_before_insert(array( $this->Nexo_Stores, '__insert_store' ));
 		$crud->callback_before_update(array( $this->Nexo_Stores, '__update_store' ));
@@ -165,64 +204,17 @@ class NexoStoreController extends CI_Model
 
 			if( $CurrentStore ) {
 
-
-
-				$this->args    =    $urls;
-
-				if (is_array($this->args) && count($this->args) > 0) {
-					$file_name		=	$this->args[0];
-				} else {
-					$file_name		=	'dashboard';
-				}
-
-				$file    =    dirname(__FILE__) . '/../__controllers/' . $file_name . '.php';
-
-				if ( is_file( $file ) && in_array( $slug_namespace, array( 'nexo', null ) ) ) {
-
-					include_once($file);
-
-				} else {
-
-					$callback			=	$this->events->apply_filters( 'stores_controller_callback', array() );
-
-					if( $callback ) {
-
-						/**
-						 * Saved Callback
-						**/
-
-						$slug_namespace	=	@array_slice(func_get_args(), 1, 1);
-
-						if( @$callback[ $slug_namespace[0] ] != null ) {
-							if( is_array( $callback[ $slug_namespace[0] ] ) ) {
-								$method                             =   array_slice(func_get_args(), 2, 1);
-								$callback[ $slug_namespace[0] ][]   =   str_replace( '-', '_', $method[0] );
-								if( method_exists( $callback[ $slug_namespace[0] ][0], $callback[ $slug_namespace[0] ][1] ) ) {
-									// var_dump( $callback );die;
-										call_user_func_array( $callback[ $slug_namespace[0] ], array_slice(func_get_args(), 3));
-								} else {
-									show_404();
-								}
-							} else {
-								$method             =   array_slice(func_get_args(), 2, 1);
-								$finalArray         =   array( $callback[ $slug_namespace[0] ] );
-								$finalArray[]       =   str_replace( '-', '_', @$method[0] );
-										$finalArray[1] 		=	empty( @$finalArray[1] ) ? 'index' : $finalArray[1];
-
-								if( method_exists( @$finalArray[0], $finalArray[1] ) ) {
-										call_user_func_array( $finalArray, array_slice(func_get_args(), 3));
-								} else {
-									show_404();
-								}
-							}
-						} else {
-							show_404();
-						}
-
-					} else {
-						show_404();
-					}
-				}
+				$this->events->add_action( 'store_route', function( $routes ) {
+					$routes[] 	=	register_store_route( 'nexo/settings', 'NexoSettingsController@settings' );
+					$routes[] 	=	register_store_route( 'nexo/settings/{param?}', 'NexoSettingsController@settings' );
+					return $routes;
+				});
+				
+				$routes 			=		$this->events->apply_filters( 'store_route', []);
+				$Rules 				=		new NexoStoreRouter( $routes );
+				Route::router()->reset();
+				Route::addBootManager( $Rules );
+				Route::start();
 			} else {
 				show_error( __( 'Boutique introuvable.', 'nexo' ) );
 			}

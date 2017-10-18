@@ -356,5 +356,6 @@ function nexo_convert_raw( $raw, $key, $value = null) {
 
 function register_store_route( $path, $callback ) {
     $current_path 	=	substr( request()->getHeader( 'script-name' ), 0, -10 ) . '/dashboard/stores/' . get_store_id() . '/';
-    return new RouteUrl( rtrim( $current_path . $path ) . '/', $callback );
+    $final_path     =   ! empty( $path ) ? rtrim( $current_path . $path ) : rtrim( $current_path . $path );
+    return new RouteUrl( $final_path, $callback );
 }

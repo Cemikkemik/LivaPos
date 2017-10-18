@@ -24,7 +24,7 @@ class NexoStoreRouter implements IRouterBootManager  {
 		}
 
 		if( ! $route->matchRoute( Route::getUrl(), $request ) ) {
-			return show_404();
+			// return show_404();
 		}
 		
 		// // var_dump( Route::router()->getRoutes() );
@@ -202,14 +202,7 @@ class NexoStoreController extends CI_Model
 				redirect( 'dashboard/store-closed' );
 			}
 
-			if( $CurrentStore ) {
-
-				$this->events->add_action( 'store_route', function( $routes ) {
-					$routes[] 	=	register_store_route( 'nexo/settings', 'NexoSettingsController@settings' );
-					$routes[] 	=	register_store_route( 'nexo/settings/{param?}', 'NexoSettingsController@settings' );
-					return $routes;
-				});
-				
+			if( $CurrentStore ) {				
 				$routes 			=		$this->events->apply_filters( 'store_route', []);
 				$Rules 				=		new NexoStoreRouter( $routes );
 				Route::router()->reset();

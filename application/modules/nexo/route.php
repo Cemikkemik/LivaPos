@@ -17,6 +17,15 @@ $Route->get( 'stores/{id}/{any}', 'NexoStoreController@stores' )->where([
 ]);
 $Route->match([ 'post' ], '/nexo/stores/{param}', 'NexoStoreController@lists' );
 
+$this->events->add_action( 'store_route', function( $routes ) {
+     $routes[] 	=	register_store_route( '', 'NexoDashboardController@index' );
+     $routes[] 	=	register_store_route( 'pos', 'NexoRegistersController@__use' );
+     $routes[] 	=	register_store_route( 'settings', 'NexoSettingsController@settings' );
+     $routes[] 	=	register_store_route( 'settings/{param?}', 'NexoSettingsController@settings' );
+     $routes[] 	=	register_store_route( 'about', 'NexoAboutController@index' );
+     return $routes;
+});
+
 // $Route->get( 'nexo/about', 'NexoAboutController@index' );
 // $Route->get( 'nexo/about', 'NexoAboutController@index' );
 // $Route->get( 'nexo/about', 'NexoAboutController@index' );

@@ -1,20 +1,7 @@
 <?php
 class NexoDashboardController extends CI_Model
 {
-    public function __construct($args)
-    {
-        parent::__construct();
-        if (is_array($args) && count($args) > 1) {
-            if (method_exists($this, $args[1])) {
-                return call_user_func_array(array( $this, $args[1] ), array_slice($args, 2));
-            } else {
-                return $this->defaults();
-            }
-        }
-        return $this->defaults();
-    }
-    
-    public function defaults()
+    public function index()
     {
 		// load widget model here only
 		$this->load->model('Dashboard_Model', 'dashboard');

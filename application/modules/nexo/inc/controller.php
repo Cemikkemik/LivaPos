@@ -113,7 +113,7 @@ class Nexo_Controller extends CI_Model
 				$Nexo_Menus[ 'caisse' ][]		=	array(
 					'title'       =>    __('Ouvrir le PDV', 'nexo'), // menu title
 					'icon'        =>    'fa fa-shopping-cart', // menu icon
-					'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/registers/__use/default'), // url to the page,
+					'href'        =>    site_url('dashboard/' . $store_uri . 'pos'), // url to the page,
 					'permission' 	=>	'nexo.use.registers'
 				);
 			}

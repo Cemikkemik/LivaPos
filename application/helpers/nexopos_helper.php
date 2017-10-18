@@ -7,6 +7,7 @@
 **/
 
 use Carbon\Carbon;
+use \Pecee\SimpleRouter\Route\RouteUrl;
 
 if (! function_exists('nexo_permission_check')) {
     /**
@@ -351,4 +352,9 @@ function nexo_convert_raw( $raw, $key, $value = null) {
         $new[ $data[ $key ] ]      =   ( $value == null ) ? $data : $data[ $value ];
     }
     return $new;
+}
+
+function register_store_route( $path, $callback ) {
+    $current_path 	=	substr( request()->getHeader( 'script-name' ), 0, -10 ) . '/dashboard/stores/' . get_store_id() . '/';
+    return new RouteUrl( rtrim( $current_path . $path ) . '/', $callback );
 }

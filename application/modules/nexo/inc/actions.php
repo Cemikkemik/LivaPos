@@ -197,8 +197,8 @@ class Nexo_Actions extends Tendoo_Module
 
 			$this->load->model( 'Nexo_Stores' );
 
-			$store_uri	=	'nexo/stores/' . $this->uri->segment( 4, 0 ) . '/';
-            $store_id	=	$this->uri->segment( 4, 0 );
+			$store_uri	=	'nexo/stores/' . $this->uri->segment( 3, 0 ) . '/';
+            $store_id	=	$this->uri->segment( 3, 0 );
 
 			if( ! $CurrentStore	=	$this->Nexo_Stores->get( $store_id ) ) {
 				$store_id = null;

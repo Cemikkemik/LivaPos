@@ -45,6 +45,92 @@ class Dashboard extends Tendoo_Controller
     }
 
     /**
+     * Load dashboard widgets
+     * @return void
+    **/
+
+    private function load_widgets()
+    {
+        // get global widget and cols
+        global $AdminWidgets;
+        global $AdminWidgetsCols;
+
+        $SavedAdminWidgetsCols        =    $this->options->get('admin_widgets', User::id());
+        $FinalAdminWidgetsPosition    =    array_merge($AdminWidgetsCols, force_array($SavedAdminWidgetsCols));
+
+        // looping cols
+        unset($this->Gui->cols[ 4 ]);
+        // var_dump( $this->Gui->cols );die;
+
+        for ($i = 1; $i <= count($this->Gui->cols); $i++) {
+            $widgets_namespace    =    $this->dashboard_widgets->col_widgets($i);
+
+            $this->Gui->col_width(1, 1);
+            $this->Gui->col_width(2, 1);
+            $this->Gui->col_width(3, 1);
+
+            foreach ($widgets_namespace as $widget_namespace) {
+                // get widget
+                $widget_options    =    $this->dashboard_widgets->get($widget_namespace, User::id());
+                // create meta
+                $meta_array        =    array(
+                    'col_id'    =>    $i,
+                    'namespace'    =>    $widget_namespace,
+                    'type'        =>    riake('type', $widget_options),
+                    'title'        =>    riake('title', $widget_options)
+                );
+
+                $meta_array        =    array_merge($widget_options, $meta_array);
+                $this->Gui->add_meta($meta_array);
+                // create dom
+                $this->Gui->add_item(array(
+                    'type'        =>    'dom',
+                    'content'    =>    riake('content', $widget_options) // $this->load->view( riake( 'content', $widget_options, '[empty_widget]' ), array(), true )
+                ), $widget_namespace, $i);
+            }
+        }
+    }
+
+    /**
+     * Dashboard Home Load
+     *
+     * @return void
+    **/
+
+    public function index()
+    {
+        // load widget model here only
+        $this->load->model('Dashboard_Widgets_Model', 'dashboard_widgets');
+
+        // trigger action while loading home (for registering widgets)
+        $this->events->do_action('load_dashboard_home');
+        $this->load_widgets();
+
+        $this->Gui->set_title(sprintf(__('Dashboard &mdash; %s'), get('core_signature')));
+        $this->load->view('dashboard/index/body');
+    }
+
+    /**
+     * Load Tendoo Setting Page
+     * [New Permission Ready]
+     * @return void
+    **/
+
+    public function settings()
+    {
+        // Can user access modules ?
+        if (! User::can('create_options') &&
+            ! User::can('edit_options') &&
+            ! User::can('delete_options')
+        ) {
+            redirect(array( 'dashboard', 'access-denied' ));
+        }
+
+        $this->Gui->set_title(sprintf(__('Settings &mdash; %s'), get('core_signature')));
+        $this->load->view('dashboard/settings/body');
+    }
+
+    /**
      *  Dashboard Footer
      *  @param void
      *  @return void

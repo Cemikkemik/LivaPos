@@ -235,23 +235,6 @@ class NexoCommandesController extends CI_Model
     }
 
     /**
-     * Proceed order
-     * @param int order int
-     * @return void
-    **/
-
-    public function proceed($order_id)
-    {
-        $this->load->model('Nexo_Checkout');
-
-        if ($this->Nexo_Checkout->proceed_order($order_id)) {
-            redirect(array( 'dashboard', 'nexo', 'commandes', 'lists?notice=order_proceeded' ));
-        }
-
-        redirect(array( 'dashboard', 'nexo', 'commandes', 'lists?notice=advanced_required' ));
-    }
-
-    /**
      * filter_grocery_list_item_class
      *
      * @param string

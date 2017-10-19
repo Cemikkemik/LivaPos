@@ -5,7 +5,19 @@ $Route->get( 'nexo/about', 'NexoAboutController@index' );
 $Route->get( 'nexo/pos', 'NexoRegistersController@__use' );
 $Route->get( 'nexo/settings/{page}', 'NexoSettingsController@settings' );
 $Route->get( 'nexo/settings', 'NexoSettingsController@settings' );
-$Route->get( 'nexo/sales', 'NexoCommandesController@lists' );
+$Route->get( 'nexo/orders', 'NexoCommandesController@lists' );
+
+$Route->get( 'nexo/customers', 'NexoCustomersController@lists' );
+$Route->get( 'nexo/customers/add', 'NexoCustomersController@add' );
+$Route->get( 'nexo/customers/edit/{id}', 'NexoCustomersController@edit' );
+$Route->get( 'nexo/customers/delete/{id}', 'NexoCustomersController@lists' );
+$Route->post( 'nexo/customers/{param}', 'NexoCustomersController@lists' );
+
+$Route->get( 'nexo/customers-groups/add', 'NexoCustomersController@edit' );
+$Route->get( 'nexo/customers-groups/edit/{id}', 'NexoCustomersController@edit' );
+
+$Route->get( 'nexo/templates/customers-main', 'NexoTemplateController@customers_main' );
+$Route->get( 'nexo/templates/customers-form', 'NexoTemplateController@customers_form' );
 
 $Route->get( 'nexo/stores', 'NexoStoreController@lists' );
 $Route->get( 'nexo/stores/add', 'NexoStoreController@add' );

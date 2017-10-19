@@ -85,7 +85,7 @@ let customersMain    =   function(
                         $scope.getCustomers();
                         $( '[data-bb-handler="ok"]' ).trigger( 'click' );
                     } else {
-                        document.location   =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'clients', 'lists', 'success', $client_id ]);?>';
+                        document.location   =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'customers?notice=success' ]);?>';
                         tendoo.loader.hide();
                     }                
                 }, ( returned ) => {
@@ -146,7 +146,7 @@ customersMain.$inject    =   [ '$scope', '$http', '$compile', '$rootScope' ];
 tendooApp.directive( 'customersMain', function() {
     return {
         restrict    :   'E',
-        templateUrl     :   '<?php echo site_url( [ 'dashboard', store_slug(), 'nexo_templates', 'customers_main' ]);?>',
+        templateUrl     :   '<?php echo site_url( [ 'dashboard', store_slug(), 'nexo', 'templates', 'customers-main' ]);?>',
         controller      :   customersMain
     }
 });
@@ -330,7 +330,7 @@ tendooApp.directive( 'customersForm', function( $rootScope ){
             tendoo.loader.hide();
         }],
         templateUrl     :      ( element, attrs, scope ) => {
-            let template    =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo_templates', 'customers_form' ]);?>';
+            let template    =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'templates', 'customers-form' ]);?>';
             return template;
         }
     }

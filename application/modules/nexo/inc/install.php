@@ -752,6 +752,11 @@ class Nexo_Install extends CI_Model
 		$permissions[ 'nexo.view.customers-groups' ] 	=	__( 'Voir la liste des groupes de clients', 'nexo' );
 		$permissions[ 'nexo.edit.customers-groups' ] 	=	__( 'Modifier Groupes de clients', 'nexo' );
 		$permissions[ 'nexo.delete.customers-groups' ] 	=	__( 'Supprimer Groupes de clients', 'nexo' );
+		
+		$permissions[ 'nexo.create.customers' ] 		=	__( 'Créer des clients', 'nexo' );
+		$permissions[ 'nexo.view.customers' ] 			=	__( 'Voir la liste des clients', 'nexo' );
+		$permissions[ 'nexo.edit.customers' ] 			=	__( 'Modifier les clients', 'nexo' );
+		$permissions[ 'nexo.delete.customers' ] 		=	__( 'Supprimer les clients', 'nexo' );
 
 		$permissions[ 'nexo.create.invoices' ] 			=	__( 'Créer Factures', 'nexo' );
 		$permissions[ 'nexo.view.invoices' ] 			=	__( 'Voir la liste des factures', 'nexo' );
@@ -816,6 +821,7 @@ class Nexo_Install extends CI_Model
 			'providers',
 			'supplies',
 			'customers-groups',
+			'customers',
 			'invoices',
 			'registers',
 			'backups',

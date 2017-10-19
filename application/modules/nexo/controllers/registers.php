@@ -1,11 +1,6 @@
 <?php
 class NexoRegistersController extends CI_Model
 {
-	public function index()
-	{
-		$this->lists();
-	}
-
     public function crud_header()
     {
         if (
@@ -14,7 +9,7 @@ class NexoRegistersController extends CI_Model
             ! User::can('delete_shop_registers') &&
 			! User::can( 'view_shop_registers' )
         ) {
-            redirect(array( 'dashboard', 'access-denied' ));
+            show_error( __( 'Vous n\'avez pas accès à cette page.', 'nexo' ) );
         }
 
 		/**
@@ -222,19 +217,10 @@ class NexoRegistersController extends CI_Model
 		$PageNow			=	'nexo/registers/__use';
 
 		/// If current user can open registers
-		if( ! User::can( 'view_shop_registers' ) && ! User::can('create_shop_orders') ){
-			redirect( array( 'dashboard', 'access-denied' ) );
+		if( ! User::can( 'nexo.create.orders' ) ){
+			return show_error( __( 'Vous n\'êtes pas autorisé à effectuer une vente.', 'nexo' ) );
 		}
-
-		$this->events->add_action( 'dashboard_header', function(){
-			?>
-            <script type="text/javascript" src="<?php echo module_url( 'nexo' ) . '/js/jmarquee.js';?>"></script>
-			<script src="<?php echo module_url('nexo') . '/bower_components/slick-carousel/slick/slick.js';?>"></script>
-			<link rel="stylesheet" href="<?php echo module_url('nexo') . '/bower_components/slick-carousel/slick/slick.css';?>" media="screen" />
-			<link rel="stylesheet" href="<?php echo module_url('nexo') . '/bower_components/slick-carousel/slick/slick-theme.css';?>" media="screen" />
-			<?php
-		});
-
+		
         $this->events->add_filter( 'gui_wrapper_attrs', function( $attrs ) {
             $attrs          =   'ng-controller="posTabs"';
             return $attrs;
@@ -373,19 +359,18 @@ class NexoRegistersController extends CI_Model
 			$order        =    $this->Nexo_Checkout->get_order_products($order_id, true);
 
 			if ($order) {
-
-				if (! User::can('edit_shop_orders')) {
-					redirect(array( 'dashboard', 'access-denied' ));
+				if (! User::can('nexo.create.orders' )) {
+					return show_error( 'access_denied' );
 				}
 
 				if (in_array($order[ 'order' ][0][ 'TYPE' ], $this->events->apply_filters( 'order_type_locked', array( 'nexo_order_comptant', 'nexo_order_advance' )))) {
-					redirect(array( 'dashboard', store_slug(), 'nexo', 'commandes', 'lists?notice=order_edit_not_allowed' ));
+					redirect(array( 'dashboard', store_slug(), 'nexo', 'orders?notice=order_edit_not_allowed' ));
 				}
 
 				$data[ 'order' ]    =    $order;
 
 			} else {
-				redirect(array( 'dashboard', store_slug(), 'nexo', 'commandes', 'lists?notice=order_not_found' ));
+				redirect(array( 'dashboard', store_slug(), 'nexo', 'orders?notice=order_not_found' ));
 			}
 		}
 

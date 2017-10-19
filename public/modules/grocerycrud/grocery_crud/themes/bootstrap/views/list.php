@@ -51,14 +51,14 @@ if (!empty($list)) : ?>
                                 <div class='tools'>
                                     <?php if (!$unset_delete) { 
                                         ob_start();?>
-                                        <a href='<?php echo $row->delete_url?>' title='<?php echo $this->l(' list_delete ')?> <?php echo $subject?>' class="delete-row"> <span class='fa fa-remove btn btn-danger'></span> </a>
+                                        <a href='<?php echo $row->delete_url?>' title='<?php echo $this->l('list_delete')?> <?php echo $subject?>' class="delete-row"> <span class='fa fa-remove btn btn-danger'></span> </a>
                                         <?php echo get_instance()->events->apply_filters('grocery_filter_delete_button', ob_get_clean(), $row, $this->l('list_delete'), $subject);
                                     }
 
                                     if (!$unset_edit) {
                                         ob_start();
                                         ?>
-                                        <a href='<?php echo $row->edit_url?>' title='<?php echo $this->l(' list_edit ')?> <?php echo $subject?>'> <span class='edit-icon fa fa-edit btn-default btn'></span> </a>
+                                        <a href='<?php echo $row->edit_url?>' title='<?php echo $this->l('list_edit')?> <?php echo $subject?>'> <span class='edit-icon fa fa-edit btn-default btn'></span> </a>
                                         <?php
                                         echo get_instance()->events->apply_filters('grocery_filter_edit_button', ob_get_clean(), $row, $this->l('list_edit'), $subject);
                                     }

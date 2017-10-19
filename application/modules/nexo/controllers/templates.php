@@ -7,14 +7,14 @@ class NexoTemplateController extends Tendoo_Module
      * @return string
     **/
     
-    public function customers_form( )
+    public function customers_form()
     {
-        return $this->load->module_view( 'nexo', 'customers.form-template' );
+        return $this->load->module_view( 'nexo', 'customers.form-template', null, true );
     }
 
     public function customers_main()
     {
-        return $this->load->module_view( 'nexo', 'customers.main-template' );
+        return $this->load->module_view( 'nexo', 'customers.main-template', null, true );
     }
 
     public function load( $view )

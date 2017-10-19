@@ -1,27 +1,15 @@
 <?php
 class NexoCustomersController extends CI_Model
 {
-    public function __construct($args)
-    {
-        parent::__construct();
-        if (is_array($args) && count($args) > 1) {
-            if (method_exists($this, $args[1])) {
-                return call_user_func_array(array( $this, $args[1] ), array_slice($args, 2));
-            } else {
-                return $this->defaults();
-            }
-        }
-        return $this->defaults();
-    }
-
     public function crud_header()
     {
         if (
-            ! User::can('create_shop_customers')  &&
-            ! User::can('edit_shop_customers') &&
-            ! User::can('delete_shop_customers')
+            ! User::can('nexo.create.customers')  &&
+            ! User::can('nexo.edit.customers') &&
+            ! User::can('nexo.delete.customers') && 
+            ! User::can('nexo.view.customers')
         ) {
-            redirect(array( 'dashboard', 'access-denied' ));
+            return show_error( __( 'Vous n\'avez pas accès à cette fonctionnalité.', 'nexo' ) );
         }
 
 		/**
@@ -30,7 +18,7 @@ class NexoCustomersController extends CI_Model
 		**/
 
 		if( multistore_enabled() && ! is_multistore() ) {
-			redirect( array( 'dashboard', 'feature-disabled' ) );
+			return show_error( __( 'Cette fonctionnalité a été désactivée', 'nexo' ) );
 		}
 
         $crud = new grocery_CRUD();
@@ -59,8 +47,7 @@ class NexoCustomersController extends CI_Model
             'DATE_MOD'
 		);
 
-        $fields         =   $this->events->apply_filters( 'nexo_clients_fields', $fields );
-
+        $fields             =   $this->events->apply_filters( 'nexo_clients_fields', $fields );
         $customer_columns   =   $this->events->apply_filters( 'nexo_clients_columns', [ 'NOM', 'EMAIL', 'TEL', 'OVERALL_COMMANDES', 'TOTAL_SEND', 'REF_GROUP', 'AUTHOR', 'DATE_CREATION', 'DATE_MOD' ] );
 
 		$crud->set_theme('bootstrap');
@@ -129,12 +116,12 @@ class NexoCustomersController extends CI_Model
         $this->events->add_filter( 'grocery_header_buttons', function( $menus ) {
             $menus[]        =   [
                 'text'      =>  __( 'Ajouter un client', 'nexo' ),
-                'url'       =>  site_url([ 'dashboard', store_slug(), 'nexo', 'clients', 'add' ])
+                'url'       =>  site_url([ 'dashboard', store_slug(), 'nexo', 'customers', 'add' ])
             ];
             return $menus;
         });
 
-        $crud->add_action( __( 'Modifier', 'nexo' ), null, site_url([ 'dashboard', store_slug(), 'nexo', 'clients', 'edit/' ] ), 'fa fa-edit btn btn-default' );
+        $crud->add_action( __( 'Modifier', 'nexo' ), null, site_url([ 'dashboard', store_slug(), 'nexo', 'customers', 'edit' ] ) . '/', 'fa fa-edit btn btn-default' );
 
         // Load Nexo Customer Clients Crud
         $crud   =   $this->events->apply_filters( 'customers_crud_loaded', $crud );
@@ -201,8 +188,8 @@ class NexoCustomersController extends CI_Model
 		global $PageNow;
 		$PageNow			=	'nexo/clients/add';
 
-        if (! User::can('create_shop_customers')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if ( ! User::can('nexo.create.customers')) {
+            nexo_access_denied();
         }
 
         $data                   =   [];        
@@ -230,8 +217,8 @@ class NexoCustomersController extends CI_Model
         global $PageNow;
 		$PageNow			=	'nexo/clients/add';
 
-        if (! User::can('create_shop_customers')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if (! User::can('nexo.edit.customers')) {
+            nexo_access_denied();
         }
 
         $this->load->module_model( 'nexo', 'nexo_customers' );

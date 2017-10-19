@@ -3,6 +3,7 @@
 require_once(dirname(__FILE__) . '/vendor/autoload.php');
 include_once(dirname(__FILE__) . '/inc/actions.php');
 include_once(dirname(__FILE__) . '/inc/filters.php');
+include_once(dirname(__FILE__) . '/inc/helpers.php');
 
 if (get_instance()->setup->is_installed()) {
     include_once(dirname(__FILE__) . '/inc/controller.php');

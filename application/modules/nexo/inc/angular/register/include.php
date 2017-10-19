@@ -18,3 +18,7 @@
 <?php include_once( MODULESPATH . '/nexo/inc/angular/cart-tool-box/controllers/cart-tool-box.php' );?>
 <!-- Tab feature -->
 <?php include_once( MODULESPATH . '/nexo/inc/angular/pos-tabs/controllers/pos-tabs.php' );?>
+<script type="text/javascript" src="<?php echo module_url( 'nexo' ) . '/js/jmarquee.js';?>"></script>
+<script src="<?php echo module_url('nexo') . '/bower_components/slick-carousel/slick/slick.js';?>"></script>
+<link rel="stylesheet" href="<?php echo module_url('nexo') . '/bower_components/slick-carousel/slick/slick.css';?>" media="screen" />
+<link rel="stylesheet" href="<?php echo module_url('nexo') . '/bower_components/slick-carousel/slick/slick-theme.css';?>" media="screen" />

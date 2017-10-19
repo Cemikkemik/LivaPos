@@ -10,3 +10,7 @@ function insertBeforeKey($array, $key, $data = null)
 
     return array_merge(array_slice($array, 0, $offset), (array) $data, array_slice($array, $offset));
 }
+
+function nexo_access_denied() {
+    return show_error( __( 'Vous n\'avez pas accès à cette page.', 'nexo' ) );
+}

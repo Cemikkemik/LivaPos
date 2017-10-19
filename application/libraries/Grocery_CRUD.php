@@ -2146,6 +2146,12 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
         if ($field_info->extras == 'text_editor') {
             $editor = $this->config->default_text_editor;
             switch ($editor) {
+
+                case 'summernote': 
+                    $this->set_js_lib($this->default_texteditor_path.'/summernote/summernote.js');
+                    $this->set_css($this->default_texteditor_path.'/summernote/summernote.css');
+                break;
+
                 case 'ckeditor':
                     $this->set_js_lib($this->default_texteditor_path.'/ckeditor/ckeditor.js');
                     $this->set_js_lib($this->default_texteditor_path.'/ckeditor/adapters/jquery.js');
@@ -2166,11 +2172,11 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
                 break;
             }
 
-            $class_name = $this->config->text_editor_type == 'minimal' ? 'mini-texteditor' : 'texteditor';
+            $class_name = $this->config->text_editor_type == 'minimal form-control' ? 'mini-texteditor' : 'texteditor form-control ' . $this->config->default_text_editor;
 
             $input = "<textarea id='field-{$field_info->name}' name='{$field_info->name}' class='$class_name' >$value</textarea>";
         } else {
-            $input = "<textarea id='field-{$field_info->name}' name='{$field_info->name}'>$value</textarea>";
+            $input = "<textarea id='field-{$field_info->name}' class=\"form-control\" name='{$field_info->name}'>$value</textarea>";
         }
         return $input;
     }

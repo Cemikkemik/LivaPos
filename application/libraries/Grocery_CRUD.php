@@ -37,6 +37,20 @@ use Goodby\CSV\Export\Standard\ExporterConfig;
  */
 class grocery_CRUD_Field_Types
 {
+    public function __construct()
+    {
+        get_instance()->events->add_action( 'dashboard_footer', function(){
+            ?>
+            <script>
+            $(document).ready(function() {
+                $('.summernote').summernote({
+                    height: 300,                 // set editor height   
+                });
+            });
+            </script>
+            <?php
+        });
+    }
     /**
      * Gets the field types of the main table.
      * @return array

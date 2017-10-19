@@ -779,6 +779,11 @@ class Nexo_Install extends CI_Model
 		$permissions[ 'nexo.view.coupons' ] 			=	__( 'Voir la liste des coupons', 'nexo' );
 		$permissions[ 'nexo.edit.coupons' ] 			=	__( 'Modifier Coupons', 'nexo' );
 		$permissions[ 'nexo.delete.coupons' ] 			=	__( 'Supprimer Coupons', 'nexo' );		
+		
+		$permissions[ 'nexo.view.refund' ] 			=	__( 'Consulter un rembourssement', 'nexo' );
+		$permissions[ 'nexo.create.refund' ] 			=	__( 'Créer un rembourssement', 'nexo' );
+		$permissions[ 'nexo.edit.refund' ] 			=	__( 'Modifier un rembourssement', 'nexo' );
+		$permissions[ 'nexo.delete.refund' ] 			=	__( 'Supprimer un rembourssement', 'nexo' );
 
 		$permissions[ 'nexo.read.detailed-report' ] 		=	__( 'Lire ventes détaillés', 'nexo' );
 		$permissions[ 'nexo.read.best-sales' ] 			=	__( 'Lire meilleures ventes', 'nexo' );
@@ -790,7 +795,6 @@ class Nexo_Install extends CI_Model
 		$permissions[ 'nexo.read.cashier-performances' ] 	=	__( 'Lire performances des caissiers', 'nexo' );
 		$permissions[ 'nexo.read.customer-statistics' ] 	=	__( 'Lire statistics des clients', 'nexo' );
 		$permissions[ 'nexo.read.inventory-tracking' ] 	=	__( 'Lire suivi du stock', 'nexo' );
-		$permissions[ 'nexo.create.refund' ] 			=	__( 'Effectuer un rembourssement', 'nexo' );
 		$permissions[ 'nexo.manage.settings' ] 			=	__( 'Réglages des options', 'nexo' );
 
 		foreach( $permissions as $namespace => $perm ) {
@@ -799,6 +803,8 @@ class Nexo_Install extends CI_Model
 				$perm
 			);
 		}
+
+		// all permissions with CRUD actions
 
 		foreach([ 
 			'coupons',
@@ -812,15 +818,34 @@ class Nexo_Install extends CI_Model
 			'customers-groups',
 			'invoices',
 			'registers',
-			'backup',
-			'stores',
-			'coupons'
+			'backups',
+			'refund'
 		] as $component ) {
 			foreach([ 'create.', 'edit.', 'delete.', 'view.' ] as $action ) {
 				$this->aauth->allow_group( 'store.manager', 'nexo.' . $action . $component );
 				$this->aauth->allow_group( 'master', 'nexo.' . $action . $component );
 				$this->aauth->allow_group( 'admin', 'nexo.' . $action . $component );
 			}
+		}
+
+		// All reports
+
+		foreach([
+			'nexo.read.detailed-report',
+			'nexo.read.best-sales',
+			'nexo.read.daily-sales',
+			'nexo.read.incomes-losses',
+			'nexo.read.expenses-listings',
+			'nexo.read.cash-flow',
+			'nexo.read.annual-sales',
+			'nexo.read.cashier-performances',
+			'nexo.read.customer-statistics',
+			'nexo.read.inventory-tracking',
+			'nexo.manage.settings',
+		] as $reportPermission ) {
+			$this->aauth->allow_group( 'store.manager', $reportPermission );
+			$this->aauth->allow_group( 'master', $reportPermission );
+			$this->aauth->allow_group( 'admin', $reportPermission );
 		}
 	}
 }

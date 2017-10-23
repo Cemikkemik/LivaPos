@@ -1,0 +1,48 @@
+==================
+Support Conditions
+==================
+
+The basic software is provided in its current state. 
+The client that accepts the software in this state accepts all of the features offered by the program, 
+unless one of the features is not working properly, as the feature is described in 
+the product description on CodeCanyon (not such That it should according to the customer's assessment, 
+the correction of the bugs and carried out free of charge within the time of the initial 
+assistance (confers purchase invoice of Envato).
+
+Under no circumstances does the software have a future compatibility guarantee on 
+undeclared devices that are compatible. It is the customer's responsibility to 
+require more information about compatibility with various devices. 
+The software "should" therefore not function as the customer appreciates, 
+but as described in the product description.
+
+Given the error correction waiting list, the correction of an error can take between 5 to 7 days 
+depending on the availability.
+
+==============================================
+What you need to know about separated projects
+==============================================
+
+The separate project Disqualifys the customer from any automatic updating. 
+From the moment the client requests that the work be separated, any changes made to his 
+project are subject to a chargeable customization request.
+
+The correction of the bugs on the changes made to the customer's request are carried out fresh.
+
+The modification of a need by the customer can only be requested once. 
+Beyond that, the client will have to submit a chargeable customization request.
+
+Support for bug fixes on customer-requested customizations is limited to 3 months. 
+Customizations must be considered as separate entities unless it has the same elements or features.
+
+=============
+What is a bug
+=============
+
+A bug is a failure that leads to partial or total inuse of a feature. 
+The failure is appreciated according to the description offered by the developer on 
+the functionality and not according to other criteria.
+
+----------------
+NexoPOS Dev Team
+----------------
+Copyright(c) 2017 - NexoPOS Solutions

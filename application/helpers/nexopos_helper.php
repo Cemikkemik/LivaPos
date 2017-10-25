@@ -359,3 +359,23 @@ function register_store_route( $path, $callback ) {
     $final_path     =   ! empty( $path ) ? rtrim( $current_path . $path ) : rtrim( $current_path . $path );
     return new RouteUrl( $final_path, $callback );
 }
+
+/**
+ * Return dashboard URL
+ * @param array current route schem
+ * @return string;
+ */
+
+function dashboard_url( $url ) {
+    return site_url( array_merge([ 'dashboard', store_slug() ], $url ) );
+}
+
+/**
+ * Return api URL
+ * @param array current route schem
+ * @return string;
+ */
+
+function api_url( $url ) {
+    return site_url( array_merge([ 'api' ], $url ) ) . store_get_param('?');
+}

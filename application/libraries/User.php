@@ -101,6 +101,16 @@ class User
     }
 
     /**
+     * User cannot 
+     * @alias User::can
+     */
+
+    public static function cannot($permission)
+    {
+        return ! User::can( $permission );
+    }
+
+    /**
      * Create User Permission
      *
      * @param string permission

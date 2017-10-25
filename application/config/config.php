@@ -449,6 +449,7 @@ $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = false;
 $config['csrf_exclude_uris'] = array(
     'rest/(.+)',
+    'api/(.+)',
     'Nexo_premium/(.+)',
     'Nexo_bills/(.+)',
     'Nexo_checkout/(.+)'

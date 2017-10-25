@@ -9,25 +9,11 @@ class PermManagerModule extends Tendoo_Module
     public function __construct() 
     {
         parent::__construct();
-        $this->events->add_action( 'load_dashboard', [ $this, 'dashboard_loader' ] );
-        $this->events->add_filter( 'admin_menus', [ $this, 'menus' ], 20);
         $this->events->add_filter( 'admin_menus', [ $this, 'menus' ], 20);
         $this->events->add_filter( 'dashboard_dependencies', [ $this, 'dependencies' ] );
-        
         $this->register();
     }
 
-    /**
-     * Load Dashboard
-     **/
-
-    public function dashboard_loader()
-    {
-        if( User::can( 'manage_core' ) ) {
-            include_once( dirname( __FILE__ ) . '/inc/controller.php' );
-            $this->Gui->register_page_object( 'perm_manager', new PermManagerController );
-        }
-    }
 
     /**
      * Setting module Menu

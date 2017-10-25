@@ -105,7 +105,7 @@ class Tendoo_Controller extends CI_Controller
                 'tendoo',
                 'skins/_all-skins.min',
                 'font-awesome.min',
-                '../plugins/iCheck/square/blue',
+                '../plugins/iCheck/skins/square/blue',
                 'toast'
             ) );
 

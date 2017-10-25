@@ -61,21 +61,8 @@ class Gui extends CI_Model
     public function load_page($page_slug, $params)
     {
         // load created pages
-        $this->events->do_action_ref_array('create_dashboard_pages', $params); // ??
-        // output pages
-        array_unshift( $params, $page_slug );
-        
-        
-        // var_dump( 
-        //     substr( request()->getHeader( 'script-name' ), 0, -10 ), 
-        //     request()->getHeader( 'request_uri' ) 
-        // );
-        // var_dump( get_class_methods( request() ) );
-        // var_dump( similar_text( 
-        //     request()->getHeader( 'script-name' ), 
-        //     request()->getHeader( 'request_uri' ) 
-        // ) );
-        
+        // $this->events->do_action_ref_array('create_dashboard_pages', $params); // ??
+
         global $Route;
         
         $Route          =   new Route();
@@ -89,94 +76,22 @@ class Gui extends CI_Model
                     }
                 }
     
-                if( is_file( MODULESPATH . $namespace . '/route.php' ) ) {
-                    include_once( MODULESPATH . $namespace . '/route.php' );
+                if( is_file( MODULESPATH . $namespace . '/routes.php' ) ) {
+                    include_once( MODULESPATH . $namespace . '/routes.php' );
                 }
             }
         });
 
         $Route->error(function($request, \Exception $exception) {
             if($exception instanceof NotFoundHttpException && $exception->getCode() == 404) {
-                show_error( __( 'Page not found : 404<br>&mdash; ' . $exception->getMessage() ) );
+                Html::set_title(sprintf(__('Error : 404 &mdash; %s'), get('core_signature')));
+                Html::set_description(__('Error page'));
+                $this->load->view('dashboard/error/404');
             }
         });
         
         $Route->start();
-
-        // if (riake($page_slug, $this->created_page)) {
-            
-        //     // loading page content
-        //     if ($function    =    riake('function', $this->created_page[ $page_slug ])) {
-        //         call_user_func_array($function, $params);
-        //     } else {
-        //         // page doesn't exists load 404 internal page error
-        //         Html::set_title(sprintf(__('Error : Output Not Found &mdash; %s'), get('core_signature')));
-        //         Html::set_description(__('Error page'));
-        //         $this->load->view('dashboard/error/output-not-found');
-        //     }
-        // }
-        // // We do convert page slug into error code key form
-        // elseif (in_array($page_code    =    str_replace('_', '-', $page_slug), array_keys($this->lang->language))) {
-        //     $title            =    sprintf(__('Error : An error occured &mdash; %s'), get('core_signature'));
-        //     $description    =    __('An Error occured');
-        //     $msg            =    riake($page_code, $this->lang->language);
-        //     // page doesn't exists load 404 internal page error
-        //     Html::set_title($title);
-        //     // Html::set_description( $description );
-        //     $this->load->view('dashboard/error/custom', array(
-        //         'msg'    =>    $msg
-        //     ));
-        // } else {
-        //     $this->load_page_objet( $page_slug, $params );
-        // }
-
     }
-
-	/**
-	 * Load Page objet
-	 * @param string page slug
-	 * @return void
-	**/
-
-	public function load_page_objet( $page_slug, $params )
-	{
-        $with_dashes    =   str_replace( '_', '-', $page_slug );
-
-        if ( @$this->created_page_objet[ $page_slug ] != null || @$this->created_page_objet[ $with_dashes ] != null ) {
-
-            // loading page content
-            $page_with_dashes	=	@$this->created_page_objet[ $with_dashes ][ 'object' ];
-            $page_objet	        =	@$this->created_page_objet[ $page_slug ][ 'object' ];
-            if ( $page_objet || $page_with_dashes ) {
-                // @since 3.1.6
-                $page_objet     =   $page_objet == null ? $page_with_dashes : $page_objet;
-
-				if( method_exists( $page_objet, @$params[0] == null ? 'index' : $params[0] ) ){
-                    $method     =   @$params[0];
-                    $params		=	array_splice( $params, 1 );
-					call_user_func_array( array( $page_objet, @$method == null ? 'index' : $method ), $params );
-				} else if( method_exists( $page_objet, '__default' ) ) {
-                    call_user_func_array( array( $page_objet, '__default' ), $params );
-                } else {
-					// page doesn't exists load 404 internal page error
-					Html::set_title(sprintf(__('Error : 404 &mdash; %s'), get('core_signature')));
-					Html::set_description(__('Error page'));
-					$this->load->view('dashboard/error/404');
-				}
-
-            } else {
-                // page doesn't exists load 404 internal page error
-                Html::set_title(sprintf(__('Error : Output Not Found &mdash; %s'), get('core_signature')));
-                Html::set_description(__('Error page'));
-                $this->load->view('dashboard/error/output-not-found');
-            }
-        } else {
-            // page doesn't exists load 404 internal page error
-            Html::set_title(sprintf(__('Error : 404 &mdash; %s'), get('core_signature')));
-            Html::set_description(__('Error page'));
-            $this->load->view('dashboard/error/404');
-        }
-	}
 
     /**
      * Page title

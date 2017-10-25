@@ -3,12 +3,8 @@ class NexoCommandesController extends CI_Model
 {
     public function crud_header()
     {
-        if (
-            ! User::can('edit_shop_orders')    &&
-            ! User::can('create_shop_orders')    &&
-            ! User::can('delete_shop_orders')
-        ) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if( ! User::can( 'nexo.view.orders' ) ) {
+            return nexo_access_denied();
         }
 
 		/**
@@ -17,7 +13,7 @@ class NexoCommandesController extends CI_Model
 		**/
 
 		if( multistore_enabled() && ! is_multistore() ) {
-			redirect( array( 'dashboard', 'feature-disabled' ) );
+			return show_error( __( 'Cette fonctionnalité a été déasctivée', 'nexo' ) );
 		}
 
         global $Options;

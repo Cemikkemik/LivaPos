@@ -773,6 +773,11 @@ class Nexo_Install extends CI_Model
 		$permissions[ 'nexo.view.backups' ] 			=	__( 'Voir la liste des sauvegardes', 'nexo' );
 		$permissions[ 'nexo.edit.backups' ] 			=	__( 'Modifier des sauvegardes', 'nexo' );
 		$permissions[ 'nexo.delete.backups' ] 			= 	__( 'Supprimer des sauvegardes', 'nexo' );
+		
+		$permissions[ 'nexo.create.stock-adjustment' ]	=	__( 'Créer des ajustements du stock', 'nexo' );
+		$permissions[ 'nexo.view.stock-adjustment' ]		=	__( 'Voir la liste des ajustements', 'nexo' );
+		$permissions[ 'nexo.edit.stock-adjustment' ]		=	__( 'Modifier des ajustments', 'nexo' );
+		$permissions[ 'nexo.delete.stock-adjustment' ]	= 	__( 'Supprimer des ajustements', 'nexo' );
 
 		$permissions[ 'nexo.create.stores' ] 			=	__( 'Créer des boutiques', 'nexo' );
 		$permissions[ 'nexo.view.stores' ] 			=	__( 'Voir la liste des boutiques', 'nexo' );
@@ -825,7 +830,8 @@ class Nexo_Install extends CI_Model
 			'invoices',
 			'registers',
 			'backups',
-			'refund'
+			'refund',
+			'stock-adjustment'
 		] as $component ) {
 			foreach([ 'create.', 'edit.', 'delete.', 'view.' ] as $action ) {
 				$this->aauth->allow_group( 'store.manager', 'nexo.' . $action . $component );

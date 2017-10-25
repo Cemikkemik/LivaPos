@@ -3,8 +3,8 @@ class Nexo_Controller extends CI_Model
 {
     public function __construct()
     {
-        parent::__construct();
-        $this->events->add_action( 'load_dashboard', array( $this, 'load_dashboard' ), 20 );
+		parent::__construct();
+		$this->events->add_action( 'load_dashboard', array( $this, 'load_dashboard' ), 20 );
 		$this->events->add_filter( 'admin_menus', array( $this, 'menus' ), 15);
     }
 
@@ -89,21 +89,21 @@ class Nexo_Controller extends CI_Model
 				$Nexo_Menus[ 'caisse' ][]		=	array(
 					'title'       =>    __('Liste des caisses', 'nexo'), // menu title
 					'icon'        =>    'fa fa-shopping-basket', // menu icon
-					'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/registers/for_cashiers'), // url to the page,
+					'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/registers-list'), // url to the page,
 					'permission'	=>	'nexo.view.registers'
 				);
 
 				$Nexo_Menus[ 'caisse' ][]		=	array(
 					'title'       	=>    __('Liste des caisses', 'nexo'), // menu title
 					'icon'        	=>    'fa fa-shopping-basket', // menu icon
-					'href'        	=>    site_url('dashboard/' . $store_uri . 'nexo/registers/lists'), // url to the page,
+					'href'        	=>    site_url('dashboard/' . $store_uri . 'nexo/registers'), // url to the page,
 					'permission'	=>	'nexo.view.registers'
 				);
 
 				$Nexo_Menus[ 'caisse' ][]		=	array(
 					'title'       	=>    __('Ajouter une caisse', 'nexo'), // menu title
 					'icon'        	=>    'fa fa-shopping-basket', // menu icon
-					'href'        	=>    site_url('dashboard/' . $store_uri . 'nexo/registers/lists/add'), // url to the page,,
+					'href'        	=>    site_url('dashboard/' . $store_uri . 'nexo/registers/add'), // url to the page,,
 					'permission'	=>	'nexo.create.registers'
 				);
 			}
@@ -124,7 +124,7 @@ class Nexo_Controller extends CI_Model
 				array(
 					'title'       	=>    __('Ventes', 'nexo'), // menu title
 					'icon'        	=>    'fa fa-shopping-basket', // menu icon
-					'href'        	=>    site_url('dashboard/' . $store_uri . 'nexo/commandes/lists'), // url to the page,
+					'href'        	=>    site_url('dashboard/' . $store_uri . 'nexo/orders'), // url to the page,
 					'permission'	=>	'nexo.view.registers'
 				)
 			);
@@ -148,12 +148,12 @@ class Nexo_Controller extends CI_Model
 				),
 				array(
 				    'title'            =>    __('Liste des coupons', 'nexo'),
-					'href'            =>    site_url( array( 'dashboard', $store_uri . 'nexo_coupons', 'lists' )),
+					'href'            =>    site_url( array( 'dashboard', $store_uri . 'nexo', 'coupons' )),
 					'permission'		=>	'nexo.view.coupons'
 				),
 				[
 					'title'            =>    __('Ajouter un coupon', 'nexo'),
-					'href'            =>    site_url( array( 'dashboard', $store_uri . 'nexo_coupons', 'lists', 'add' )),
+					'href'            =>    site_url([ 'dashboard', $store_uri . 'nexo', 'coupons', 'add' ]),
 					'permission'		=>	'newo.create.coupons'
 				]
 			]);
@@ -189,54 +189,44 @@ class Nexo_Controller extends CI_Model
 			),
 			array(
 				'title'        =>    __('Approvisionnements', 'nexo'),
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/arrivages/lists'),
+				'href'        =>    site_url([ 'dashboard', store_slug(), 'nexo', 'supplies' ])
 			),
-			// @since 3.7
 			array(
-				'title'			=>	__( 'Nouvel Approvisionnement', 'nexo' ),
-				'href'		 	=>	site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'add_supply' ])
+				'title'        =>    __('Nouvel Approvisionnement', 'nexo'),
+				'href'        =>    site_url([ 'dashboard', store_slug(), 'nexo', 'supplies', 'add' ])
 			),
 			// @since 3.0.20
 			array(
 				'title'		=>	__( 'Ajustement des quantités', 'nexo' ),
-				'href'		=>	site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'stock_supply' ] )
+				'href'		=>	site_url([ 'dashboard', store_slug(), 'nexo', 'items', 'stock-adjustment' ] )
 			),
 			array(
 				'title'        =>    __('Liste des articles', 'nexo'),
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/produits/lists'),
+				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/items'),
 			),
 			array(
 				'title'        =>    __('Ajouter un article', 'nexo'),
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/produits/lists/add'),
+				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/items/add'),
 			),
 			array(
 				'title'         =>  __( 'Importer les articles', 'nexo' ),
-				'href'          =>  site_url( array( 'dashboard', store_slug(), 'nexo_import', 'items' ) )
+				'href'          =>  site_url([ 'dashboard', store_slug(), 'nexo', 'items', 'import' ])
 			),
 			array(
 				'title'        =>    __('Liste des taxes', 'nexo'),
-				'route'		=>	 [ store_slug(), 'nexo', 'taxes' ],
-				'controller'	=>	'Nexo_Taxes_Controller@index'
+				'href'		=>	dashboard_url([ 'nexo', 'taxes'])
 			),
 			array(
 				'title'        =>    __('Ajouter une taxe', 'nexo'),
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo_taxes/add'),
-			),
-			array(
-				'title'        =>    __('Liste des départements', 'nexo'),
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/rayons/lists'),
-			),
-			array(
-				'title'        =>    __('Ajouter un département', 'nexo'),
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/rayons/lists/add'),
+				'href'        =>    dashboard_url([ 'nexo', 'taxes', 'add' ])
 			),
 			array(
 				'title'        =>    __('Liste des catégories', 'nexo'),
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/categories/lists'),
+				'href'        =>    dashboard_url([ 'nexo', 'categories'])
 			),
 			array(
 				'title'        =>    __('Ajouter une catégorie', 'nexo'),
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/categories/lists/add'),
+				'href'        	=>    dashboard_url([ 'nexo', 'categories', 'add' ])
 			)
 		));
 
@@ -254,12 +244,12 @@ class Nexo_Controller extends CI_Model
 			),
 			array(
 				'title'        =>    __('Liste des fournisseurs', 'nexo'),
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/fournisseurs/lists'),
+				'href'        =>     dashboard_url([ 'nexo', 'suppliers' ]),
 				'permission'	=>	'nexo.view.suppliers'
 			),
 			array(
 				'title'        =>    __('Ajouter un fournisseur', 'nexo'),
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/fournisseurs/lists/add'),
+				'href'        =>     dashboard_url([ 'nexo', 'suppliers', 'add' ]),
 				'permission'	=>	'nexo.create.suppliers'
 			),
 		);
@@ -284,22 +274,22 @@ class Nexo_Controller extends CI_Model
 			),
 			array(
 				'title'        =>    __('Liste des clients', 'nexo'),
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/clients/lists'),
+				'href'        =>    dashboard_url([ 'nexo', 'customers' ]),
 				'permission'	=>	'nexo.view.customers'
 			),
 			array(
 				'title'        =>    __('Ajouter un client', 'nexo'),
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/clients/add'),
+				'href'        =>    dashboard_url([ 'nexo', 'customers', 'add']),
 				'permission'	=>	'nexo.create.customers'
 			),
 			array(
 				'title'        =>    __('Groupes', 'nexo'),
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/clients/groups/list'),
+				'href'        =>    dashboard_url([ 'nexo', 'customers', 'groups' ]),
 				'permission'	=>	'nexo.view.customers-groups'
 			),
 			array(
 				'title'        =>    __('Ajouter un groupe', 'nexo'),
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/clients/groups/list/add'),
+				'href'        =>    dashboard_url([ 'nexo', 'customers', 'groups', 'add' ]),
 				'permission'	=>	'nexo.create.customers-groups'
 			)
 		));
@@ -316,7 +306,7 @@ class Nexo_Controller extends CI_Model
 			),
 			array(
 				'title'       =>    __('Ventes journalières', 'nexo'), // menu title
-				'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/rapports/journalier'), // url to the page,,
+				'href'        =>    dashboard_url([ 'nexo', 'reports', 'daily-sales' ]), // url to the page,,
 				'permission'	=>	'nexo.read.daily-sales'
 			),			
 		));
@@ -407,7 +397,7 @@ class Nexo_Controller extends CI_Model
 			$Nexo_Menus[ 'nexo_store_settings' ]	=	array(
 				array(
 					'title'			=>	__( 'Réglages des boutiques', 'nexo' ),
-					'href'			=>	site_url( array( 'dashboard', 'nexo', 'stores-settings' ) ),
+					'href'			=>	dashboard_url([ 'nexo', 'stores', 'settings']),
 					'icon'			=>	'fa fa-wrench',
 					'permission' 		=>	'nexo.manage.settings'
 				)
@@ -418,7 +408,7 @@ class Nexo_Controller extends CI_Model
 			if( User::can( 'create_shop' ) && User::can( 'create_shop' ) && User::can( 'create_shop' ) ) {
 				$Nexo_Menus[ 'nexo_settings' ][]	=	array(
 					'title'			=>	__( 'Réglages des boutiques', 'nexo' ),
-					'href'			=>	site_url( array( 'dashboard', 'nexo', 'stores-settings' ) ),
+					'href'			=>	dashboard_url([ 'nexo', 'stores', 'settings']),
 					'icon'			=>	'fa fa-wrench',
 					'permission'		=>	'nexo.manage.settings'
 				);
@@ -470,28 +460,6 @@ class Nexo_Controller extends CI_Model
 
     public function load_dashboard()
     {
-		// $this->load->model('Nexo_Misc');
-		// include_once( dirname( __FILE__ ) . '/../__controllers/import.php' );
-		// include_once( dirname( __FILE__ ) . '/../__controllers/coupons.php' );
-		// include_once( dirname( __FILE__ ) . '/../__controllers/templates.php' ); // @since 3.1
-		// include_once( dirname( __FILE__ ) . '/../__controllers/taxes.php' );
-
-		// $this->Gui->register_page( 'nexo', array( $this, 'load_controller' ));
-		// $this->Gui->register_page( 'stores', array( $this, 'stores' ) );
-		// $this->Gui->register_page_object( 'nexo_import', 	new Import );
-		// $this->Gui->register_page_object( 'nexo_coupons', 	new NexoCouponController );
-		// $this->Gui->register_page_object( 'nexo_templates', new Nexo_Templates_Controller ); // @since 3.1
-		// $this->Gui->register_page_object( 'nexo_taxes', 	new Nexo_Taxes_Controller ); // @since 3.3
-
-		// // @since 2.10.1
-		// $this->events->add_filter( 'stores_controller_callback', function( $action ) {
-		// 	$action[ 'nexo_import' ]    	=   new Import;
-		// 		$action[ 'nexo_coupons' ]    	=   new NexoCouponController;
-		// 		$action[ 'nexo_templates' ]    	=   new Nexo_Templates_Controller; // @since 3.1
-		// 		$action[ 'nexo_taxes' ] 		=	new Nexo_Taxes_Controller; // @since 3.3
-		// 	return $action;
-		// });
-
 		// @since 3.0.16
 		$store_menus    =   get_instance()->events->apply_filters( 'nexo_store_menus', $this->load->module_view( 'nexo', 'header/store-menus', null, true ) );
 
@@ -499,19 +467,5 @@ class Nexo_Controller extends CI_Model
             echo $store_menus;
 		});
     	}
-	public function load_controller()
-	{
-		$this->args    =    func_get_args();
-		if (is_array($this->args) && count($this->args) > 0) {
-			$file    =    dirname(__FILE__) . '/../__controllers/' . $this->args[0] . '.php';
-			if (is_file($file)) {
-				include_once($file);
-			} else {
-				show_404();
-			}
-		}
-    	}
-
-	
 }
 new Nexo_Controller;

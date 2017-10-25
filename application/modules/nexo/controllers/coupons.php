@@ -1,5 +1,5 @@
 <?php
-class NexoCouponController extends Tendoo_Module
+class NexoCouponsController extends Tendoo_Module
 {
     public function __construct()
     {
@@ -14,12 +14,8 @@ class NexoCouponController extends Tendoo_Module
 
     public function crud_header()
     {
-        if (
-            ! User::can('create_coupons') &&
-            ! User::can('edit_coupons') &&
-            ! User::can('delete_coupons')
-        ) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if( ! User::can( 'nexo.view.coupons' ) ) {
+            return nexo_access_denied();
         }
 
 		/**

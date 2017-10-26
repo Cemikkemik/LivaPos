@@ -670,7 +670,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 		__stripeCheckout.run( CartToPayLong, $scope.order.CODE, $scope );
 
 		__stripeCheckout.handler.open({
-			name			: 	'<?php echo @$Options[ store_prefix() . 'site_name' ];?>',
+			name			: 	'<?php echo addslashes( @$Options[ store_prefix() . 'site_name' ] );?>',
 			description		: 	'<?php echo _s( 'Compléter le paiement d\'une commande : ', 'nexo' );?>' + $scope.order.CODE,
 			amount			: 	CartToPayLong,
 			currency		: 	'<?php echo @$Options[ store_prefix() . 'nexo_currency_iso' ];?>'

@@ -223,7 +223,7 @@ tendooApp.directive( 'stripePayment', function() {
 <script type="text/javascript">
 	tendooApp.directive( 'refundInvoice', function(){
   		HTML.add( 'div.angular-cache>div.container-fluid>div.row>div.col-md-12.receipt-wrapper' );
-		HTML.query( '.receipt-wrapper' ).add( 'h3.text-center').textContent 	=	'<?php echo @$Options[ 'site_name' ];?>';
+		HTML.query( '.receipt-wrapper' ).add( 'h3.text-center').textContent 	=	'<?php echo addslashes( @$Options[ 'site_name' ] );?>';
 		HTML.query( '.receipt-wrapper' ).add( 'h4.refund-title.text-center' );
 		HTML.query( '.refund-title' ).textContent 	=	'<?php echo _s( 'Facture de remboursement : ', 'nexo' );?>' + '{{ order.CODE }}';
 

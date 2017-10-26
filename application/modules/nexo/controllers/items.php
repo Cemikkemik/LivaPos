@@ -3,7 +3,7 @@ class NexoItemsController extends CI_Model
 {
     public function crud_header()
     {
-        if( User::can( 'nexo.view.items' ) ) {
+        if( User::cannot( 'nexo.view.items' ) ) {
             return nexo_access_denied();
         }
 
@@ -174,7 +174,7 @@ class NexoItemsController extends CI_Model
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
 
-        $crud->add_action( __( 'Historique d\'approvisionnement', 'nexo' ), null, site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'stock_supply' ] ), 'btn btn-default fa fa-truck', [ $this, 'stock_supply_link' ] );
+        $crud->add_action( __( 'Historique d\'approvisionnement', 'nexo' ), null, dashboard_url(['nexo', 'items', 'history' ]), 'btn btn-default fa fa-truck', [ $this, 'stock_supply_link' ] );
         $crud->add_action( __( 'Historique du produit', 'nexo' ), null, site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'stock_supply' ] ), 'btn btn-default fa fa-list', [ $this, 'item_history_link' ] );
 
         $required_fields    =   array(
@@ -235,8 +235,8 @@ class NexoItemsController extends CI_Model
 
         $this->events->add_filter( 'grocery_header_buttons', function( $actions ) {
             $actions[]      =   [
-                'text'       =>  __( 'Faire un approvisionnement', 'nexo' ),
-                'url'       =>  site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'add_supply' ] )  
+                'text'      =>  __( 'Faire un approvisionnement', 'nexo' ),
+                'url'       =>  dashboard_url([ 'nexo', 'supplies', 'add' ])  
             ];
 
             return $actions;
@@ -568,7 +568,7 @@ class NexoItemsController extends CI_Model
 
     public function supply( $barcode = null, $as = 'BARCODE' )
     {
-        if( User::cannot( 'nexo.create.supply' ) ) {
+        if( User::cannot( 'nexo.create.stock-adjustment' ) ) {
             return nexo_access_denied();
         }
 
@@ -588,7 +588,7 @@ class NexoItemsController extends CI_Model
         // Redirect if multistore is enabled but not in use
 
         if( ( multistore_enabled() && ! is_multistore() ) && $this->events->apply_filters( 'force_show_inventory', false ) == false ) {
-			redirect( array( 'dashboard', 'feature-disabled' ) );
+			return show_error( __( 'Cette fonctionnalité a été désactivée', 'nexo' ) );
 		}
 
         $this->load->model( 'Nexo_Shipping' );

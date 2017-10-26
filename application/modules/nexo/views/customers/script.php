@@ -119,7 +119,7 @@ let customersMain    =   function(
                         $scope.getCustomers();
                         $( '[data-bb-handler="ok"]' ).trigger( 'click' );
                     } else {
-                        document.location   =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'clients', 'lists', 'success' ]);?>';
+                        document.location   =   '<?php echo dashboard_url([ 'nexo', 'customers?notice=success']);?>';
                         tendoo.loader.hide();
                     }   
                 }, ( returned ) => {

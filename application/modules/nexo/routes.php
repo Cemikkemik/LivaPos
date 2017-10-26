@@ -14,8 +14,14 @@ $Route->get( 'nexo/supplies/{param}/{id?}', 'NexoSuppliesController@lists' );
 $Route->get( 'nexo/supplies/', 'NexoSuppliesController@lists' );
 
 $Route->get( 'nexo/items/stock-adjustment/', 'NexoItemsController@supply' );
+$Route->get( 'nexo/items', 'NexoItemsController@lists' );
+$Route->get( 'nexo/items/history', 'NexoItemsController@lists' );
+$Route->match([ 'get', 'post' ], 'nexo/items/{action?}/{id?}', 'NexoItemsController@lists' );
 
-$Route->get( 'nexo/taxes', 'NexoTaxesController@index' );
+$Route->match([ 'get', 'post'], 'nexo/taxes/{param?}/{id?}', 'NexoTaxesController@index' );
+
+$Route->get( 'nexo/suppliers', 'NexoProvidersController@lists' );
+$Route->get( 'nexo/suppliers/add', 'NexoProvidersController@add' );
 
 $Route->get( 'nexo/customers', 'NexoCustomersController@lists' );
 $Route->get( 'nexo/customers/add', 'NexoCustomersController@add' );

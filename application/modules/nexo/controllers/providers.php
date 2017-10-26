@@ -1,36 +1,19 @@
 <?php
 class NexoProvidersController extends CI_Model
 {
-    public function __construct($args)
-    {
-        parent::__construct();
-        if (is_array($args) && count($args) > 1) {
-            if (method_exists($this, $args[1])) {
-                return call_user_func_array(array( $this, $args[1] ), array_slice($args, 2));
-            } else {
-                return $this->defaults();
-            }
-        }
-        return $this->defaults();
-    }
-    
     public function crud_header()
     {
-        if (
-            ! User::can('edit_shop_providers')    &&
-            ! User::can('create_shop_providers')    &&
-            ! User::can('delete_shop_providers')
-        ) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if( User::cannot( 'nexo.view.providers' ) ) {
+            return nexo_access_denied();
         }
-		
+
 		/**
 		 * This feature is not more accessible on main site when
 		 * multistore is enabled
 		**/
 		
 		if( ( multistore_enabled() && ! is_multistore() ) && $this->events->add_filter( 'force_show_inventory', false ) == false ) {
-			redirect( array( 'dashboard', 'feature-disabled' ) );
+			return show_error( __( 'Cette fonctionnalité a été désactivée', 'nexo' ) );
 		}
         
         $crud = new grocery_CRUD();
@@ -207,8 +190,8 @@ class NexoProvidersController extends CI_Model
 		global $PageNow;
 		$PageNow			=	'nexo/fournisseurs/add';
 		
-        if (! User::can('create_shop_providers')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if( User::cannot( 'nexo.create.providers' ) ) {
+            return nexo_access_denied();
         }
         
         $data[ 'crud_content' ]    =    $this->crud_header();

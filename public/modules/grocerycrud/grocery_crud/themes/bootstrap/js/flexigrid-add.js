@@ -35,6 +35,8 @@ $(function(){
 				form_data[ $( this ).attr( 'name' ) ] 	=	$( this ).val();
 			});
 
+			form_data 		=	_.extend( form_data, tendoo.csrf_data );
+
 			$.ajax({
 				url			: validation_url,
 				dataType		: 'json',

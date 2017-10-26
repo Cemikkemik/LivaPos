@@ -25,7 +25,7 @@ class PermManagerModule extends Tendoo_Module
             if( @$menus[ 'users' ] != null ) {
                 $menus[ 'users' ][]     =   [
                     'title'  => 'Manage permission',
-                    'href'   =>  site_url( array( 'dashboard', 'perm_manager', 'mainboard' ) ),
+                    'href'   =>  site_url( array( 'dashboard', 'users/permissions' ) ),
                 ];
             }            
         }

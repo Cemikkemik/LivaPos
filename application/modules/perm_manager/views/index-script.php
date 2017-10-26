@@ -37,7 +37,10 @@ tendooApp.controller( 'permManagerController', [ '$scope', '$http', function( $s
                     '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
                }
           }).then( ( result ) => {
-               
+               $.notify({
+                   title    :   '<?php echo _s( 'Successful', 'perm_manager' );?>',
+                   message  :   '<?php echo _s( 'The Permissions has been updated.', 'perm_manager' );?>'
+               })
           })
      }
 }])

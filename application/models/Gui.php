@@ -68,16 +68,34 @@ class Gui extends CI_Model
         $Route          =   new Route();
         
         $Route->group([ 'prefix' => substr( request()->getHeader( 'script-name' ), 0, -10 ) . '/dashboard' ], function() use ( $page_slug ) {
-            $modules        =   Modules::get();
+            
+            $modules                =   Modules::get();
+            
             foreach( $modules as $namespace => $module ) {
-                if( is_dir( $dir = MODULESPATH . $namespace . '/controllers/' ) ) {
+                if( Modules::is_active( $namespace ) ) {
+                    if( is_dir( $dir = MODULESPATH . $namespace . '/controllers/' ) ) {
+                        foreach( glob( $dir . "*.php") as $filename) {
+                            include_once( $filename );
+                        }
+                    }
+        
+                    if( is_file( MODULESPATH . $namespace . '/routes.php' ) ) {
+                        include_once( MODULESPATH . $namespace . '/routes.php' );
+                    }
+                }
+            }
+
+            $mu_modules             =   Modules::get( null, 'mu-modules' );
+
+            foreach( $mu_modules as $namespace => $module ) {
+                if( is_dir( $dir = MU_MODULESPATH . $namespace . '/controllers/' ) ) {
                     foreach( glob( $dir . "*.php") as $filename) {
                         include_once( $filename );
                     }
                 }
     
-                if( is_file( MODULESPATH . $namespace . '/routes.php' ) ) {
-                    include_once( MODULESPATH . $namespace . '/routes.php' );
+                if( is_file( MU_MODULESPATH . $namespace . '/routes.php' ) ) {
+                    include_once( MU_MODULESPATH . $namespace . '/routes.php' );
                 }
             }
         });

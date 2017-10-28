@@ -81,11 +81,11 @@ class NexoItemsController extends CI_Model
 			'DESIGN',
 			'REF_CATEGORIE',
             'PRIX_DE_VENTE_TTC',
-			'PRIX_DACHAT', // item purchase price is hidden and only available on the supply history
+			'PRIX_DACHAT', 
             'REF_TAXE',
 			'QUANTITE_RESTANTE',
-			'QUANTITE_VENDU',
-			'DEFECTUEUX',			
+			// 'QUANTITE_VENDU',
+			// 'DEFECTUEUX',			
 			'TYPE',
 			'STATUS',
 			'CODEBAR'
@@ -312,8 +312,8 @@ class NexoItemsController extends CI_Model
 		$PageNow			=	'nexo/produits/add';
 
         // Protecting
-        if (! User::can('create_shop_items')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if ( ! User::can('nexo.create.items')) {
+            return nexo_access_denied();
         }
 
         $data[ 'crud_content' ]    =    $this->crud_header();

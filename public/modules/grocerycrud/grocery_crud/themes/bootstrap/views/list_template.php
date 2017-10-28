@@ -147,14 +147,14 @@ if ($success_message !== null) {
                     </div>
 
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="input-group">
                         <div class="input-group-addon"><?php echo $this->l('list_page'); ?> </div>
                         <input name='page' type="text" value="1" size="4" id='crud_page' class="crud_page form-control">
                         <div class="input-group-addon"><?php echo $this->l('list_paging_of'); ?> <span id='last-page-number' class="last-page-number"><?php echo ceil($total_results / $default_per_page)?></span></div>
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <div class="input-group">
                         <div class="input-group-addon">
                             <?php list($show_lang_string, $entries_lang_string) = explode('{paging}', $this->l('list_show_entries')); ?>
@@ -176,20 +176,8 @@ if ($success_message !== null) {
                     <input type="hidden" name="order_by[0]" id="hidden-sorting" class="hidden-sorting" value="">
                     <input type="hidden" name="order_by[1]" id="hidden-ordering" class="hidden-ordering" value="">
                 </div>
-            </div>
-            
-        	<div class="row">
-                
-            	<div class="col-lg-2 col-md-2 col-xs-3">
-                    
-				</div>
-            	<div class="col-lg-3 col-md-3 col-xs-3">
-                    
-				</div>
-                <div class="col-lg-3 col-md-3 col-xs-3">
-                	
-                	<!-- 
-                    <p class="pPageStat">
+                <div class="col-md-2">
+                    <p class="pPageStat" style="line-height: 30px;">
 						<?php $paging_starts_from = "<span id='page-starts-from' class='page-starts-from'>1</span>"; ?>
                         <?php $paging_ends_to = "<span id='page-ends-to' class='page-ends-to'>". ($total_results < $default_per_page ? $total_results : $default_per_page) ."</span>"; ?>
                         <?php $paging_total_results = "<span id='total_items' class='total_items'>$total_results</span>"?>
@@ -198,7 +186,6 @@ if ($success_message !== null) {
                         $this->l('list_displaying')
                        ); ?> 
                     </p>
-                    -->
                 </div>
             </div>
         </div>

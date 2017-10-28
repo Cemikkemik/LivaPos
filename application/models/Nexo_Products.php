@@ -196,8 +196,12 @@ class Nexo_Products extends CI_Model
     public function product_save($param)
     {
         // Protecting
-        if (! User::can('create_shop_items')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if (! User::can('nexo.edit.items')) {
+            echo json_encode([
+                'error_message'     =>  __( 'Access Denied', 'nexo' ),
+                'success'           =>  false
+            ]);
+            return;
         }
 
         global $Options;
@@ -267,8 +271,12 @@ class Nexo_Products extends CI_Model
     public function product_update($param)
     {
         // Protecting
-        if (! User::can('edit_shop_items')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if (! User::can('nexo.edit.items')) {
+            echo json_encode([
+                'error_message'     =>  __( 'Access Denied', 'nexo' ),
+                'success'           =>  false
+            ]);
+            return;
         }
 
         global $Options;

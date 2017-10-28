@@ -242,12 +242,8 @@ class NexoCustomersController extends CI_Model
 
     public function groups_header()
     {
-        if (
-            ! User::can('create_shop_customers_groups')  &&
-            ! User::can('edit_shop_customers_groups') &&
-            ! User::can('delete_shop_customers_groups')
-        ) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if( User::cannot( 'nexo.view.customers-groups' ) ) {
+            return nexo_access_denied();
         }
 
 		/**
@@ -256,7 +252,7 @@ class NexoCustomersController extends CI_Model
 		**/
 
 		if( multistore_enabled() && ! is_multistore() ) {
-			redirect( array( 'dashboard', 'feature-disabled' ) );
+			return show_error( __( 'Cette fonctionnalité a été désactivée.', 'nexo' ) );
 		}
 
         $crud = new grocery_CRUD();

@@ -1,27 +1,10 @@
 <?php
 class NexoCategoriesController extends CI_Model
 {
-    public function __construct($args)
-    {
-        parent::__construct();
-        if (is_array($args) && count($args) > 1) {
-            if (method_exists($this, $args[1])) {
-                return call_user_func_array(array( $this, $args[1] ), array_slice($args, 2));
-            } else {
-                return $this->defaults();
-            }
-        }
-        return $this->defaults();
-    }
-    
     public function crud_header()
     {
-        if (
-            ! User::can('create_shop_categories')  &&
-            ! User::can('edit_shop_categories') &&
-            ! User::can('delete_shop_categories')
-        ) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if( User::cannot( 'nexo.view.categories' ) ) {
+            return nexo_access_denied();
         }
 		
 		/**
@@ -30,14 +13,14 @@ class NexoCategoriesController extends CI_Model
 		**/
 		
 		if( ( multistore_enabled() && ! is_multistore() ) && $this->events->add_filter( 'force_show_inventory', false ) == false ) {
-			redirect( array( 'dashboard', 'feature-disabled' ) );
+			return show_error( __( 'Cette fonctionnalité a été désactivée.', 'nexo' ) );
 		}
         
         $crud = new grocery_CRUD();
 
         $crud->set_theme('bootstrap');
         $crud->set_subject(__('Catégorie', 'nexo'));
-		$crud->set_table( $this->db->dbprefix( store_prefix() . 'nexo_categories' ) );
+        $crud->set_table( $this->db->dbprefix( store_prefix() . 'nexo_categories' ) );
 		
 		// If Multi store is enabled
 		// @since 2.8		
@@ -47,7 +30,7 @@ class NexoCategoriesController extends CI_Model
         
         $state = $crud->getState();
         
-		if ($state == 'add' || $state == 'edit' || $state == 'read') {
+		if( in_array( $state, [ 'add', 'edit', 'read', 'success', 'list' ] ) ) {
 			
 			$crud->set_relation('PARENT_REF_ID', store_prefix() . 'nexo_categories', 'NOM' );
 
@@ -58,7 +41,17 @@ class NexoCategoriesController extends CI_Model
         $crud->display_as('DESCRIPTION', __('Description de la catégorie', 'nexo'));
         $crud->display_as('PARENT_REF_ID', __('Catégorie parente', 'nexo'));
 
-		$crud->set_field_upload('THUMB', get_store_upload_path() . '/categories');
+        $crud->set_field_upload('THUMB', get_store_upload_path() . '/categories');
+
+        $crud->callback_before_update( function( $data, $id ) {
+            if( $data[ 'PARENT_REF_ID' ] == $id ) {
+                echo json_encode([
+                    'status'    =>  'failed',
+                    'message'   =>  'wrong_category'
+                ]);
+                return false;
+            }
+        });
         
         // XSS Cleaner
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));

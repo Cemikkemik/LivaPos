@@ -687,7 +687,7 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
         $unique_fields 		=	$this->_unique_fields;
         $add_fields 		=  	get_instance()->events->apply_filters( 'grocery_registered_fields', $this->get_add_fields() );
 
-        if (!empty($required_fields)) {
+        if ( ! empty( $required_fields ) ) {
             foreach ($add_fields as $add_field) {
                 $field_name = $add_field->field_name;
                 if (!isset($this->validation_rules[$field_name]) && in_array($field_name, $required_fields)) {
@@ -4352,6 +4352,42 @@ class Grocery_CRUD extends grocery_CRUD_States
     }
 
     /**
+     * Register Permisisons
+     * @param array permission array
+     * @return void
+     */
+    private $permissions                    =   [];
+    public function register_permissions( $permissions ) 
+    {
+        $this->permissions[ 'create' ]      =   @$permissions[ 'create' ];
+        $this->permissions[ 'read' ]        =   @$permissions[ 'read' ];
+        $this->permissions[ 'update' ]      =   @$permissions[ 'update' ];
+        $this->permissions[ 'delete' ]      =   @$permissions[ 'delete' ];
+        $this->permissions[ 'view' ]        =   @$permissions[ 'view' ];
+    }
+
+    /**
+     * Action Allowed
+     * @param string permissions
+     * @return array of errors
+     */
+    public function action_allowed( $screen )
+    {
+        if( ! empty( @$this->permissions[ $screen ] ) ) {
+            if( User::cannot( @$this->permissions[ $screen ] ) ) {
+                return [
+                    'status'    =>  'failed',
+                    'message'   =>  'access_denied'
+                ];
+            }
+        }
+        return [
+            'status'    =>  'success',
+            'message'   =>  'access_granted'
+        ];
+    }
+
+    /**
      *
      * Or else ... make it work! The web application takes decision of what to do and show it to the final user.
      * Without this function nothing works. Here is the core of grocery CRUD project.
@@ -4372,6 +4408,14 @@ class Grocery_CRUD extends grocery_CRUD_States
         switch ($this->state_code) {
             case 15://success
             case 1://list
+
+                // check for view permissions
+                if( ! empty( @$this->permissions[ 'view' ] ) ) {
+                    if( User::cannot( @$this->permissions[ 'view' ] ) ) {
+                        return show_error( $this->config->item( 'grocery-access-denied' ) );
+                    }
+                }
+
                 if ($this->unset_list) {
                     throw new Exception('You don\'t have permissions for this operation', 14);
                     die();
@@ -4391,6 +4435,14 @@ class Grocery_CRUD extends grocery_CRUD_States
             break;
 
             case 2://add
+
+                // check for view permissions
+                if( ! empty( @$this->permissions[ 'create' ] ) ) {
+                    if( User::cannot( @$this->permissions[ 'create' ] ) ) {
+                        return show_error( $this->config->item( 'grocery-access-denied' ) );
+                    }
+                }
+
                 if ($this->unset_add) {
                     throw new Exception('You don\'t have permissions for this operation', 14);
                     die();
@@ -4408,6 +4460,14 @@ class Grocery_CRUD extends grocery_CRUD_States
             break;
 
             case 3://edit
+
+                // check for view permissions
+                if( ! empty( @$this->permissions[ 'edit' ] ) ) {
+                    if( User::cannot( @$this->permissions[ 'edit' ] ) ) {
+                        return show_error( $this->config->item( 'grocery-access-denied' ) );
+                    }
+                }
+
                 if ($this->unset_edit) {
                     throw new Exception('You don\'t have permissions for this operation', 14);
                     die();
@@ -4427,6 +4487,16 @@ class Grocery_CRUD extends grocery_CRUD_States
             break;
 
             case 4://delete
+                
+                /**
+                 * Restrict Access If permission is not granted.
+                 */
+                $permission    =   $this->action_allowed( 'delete' );
+                if( $permission[ 'status' ] == 'failed' ) {
+                    echo json_encode( $permission );
+                    return false;
+                }
+                
                 if ($this->unset_delete) {
                     throw new Exception('This user is not allowed to do this operation', 14);
                     die();
@@ -4439,6 +4509,14 @@ class Grocery_CRUD extends grocery_CRUD_States
             break;
 
             case 5://insert
+
+                // check for view permissions
+                if( ! empty( @$this->permissions[ 'create' ] ) ) {
+                    if( User::cannot( @$this->permissions[ 'create' ] ) ) {
+                        return show_error( $this->config->item( 'grocery-access-denied' ) );
+                    }
+                }
+
                 if ($this->unset_add) {
                     throw new Exception('This user is not allowed to do this operation', 14);
                     die();
@@ -4451,6 +4529,14 @@ class Grocery_CRUD extends grocery_CRUD_States
             break;
 
             case 6://update
+                
+                // check for view permissions
+                if( ! empty( @$this->permissions[ 'update' ] ) ) {
+                    if( User::cannot( @$this->permissions[ 'update' ] ) ) {
+                        return show_error( $this->config->item( 'grocery-access-denied' ) );
+                    }
+                }
+                
                 if ($this->unset_edit) {
                     throw new Exception('This user is not allowed to do this operation', 14);
                     die();

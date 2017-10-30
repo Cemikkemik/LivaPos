@@ -120,11 +120,14 @@ if ($success_message !== null) {
                         </select>
                         <span class="input-group-btn">
                         <button type="button" class="btn btn-primary search_clear" id="search_clear"><?php echo $this->l('list_clear_filtering');?></button>
-                        </span> </div>
+                        </span> 
+                    </div>
                 </div>
             </div>
         </div>
-        <div id='ajax_list' class="ajax_list" style="border-top:solid 1px #EEE;"><?php echo $list_view?> </div>
+        <div id='ajax_list' class="ajax_list" style="border-top:solid 1px #EEE;">
+            <?php echo $list_view?> 
+        </div>
         <div class="box-footer clearfix">
             <div class="row">
                 <div class="col-md-4">
@@ -154,29 +157,29 @@ if ($success_message !== null) {
                         <div class="input-group-addon"><?php echo $this->l('list_paging_of'); ?> <span id='last-page-number' class="last-page-number"><?php echo ceil($total_results / $default_per_page)?></span></div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="input-group">
                         <div class="input-group-addon">
                             <?php list($show_lang_string, $entries_lang_string) = explode('{paging}', $this->l('list_show_entries')); ?>
                             <?php echo $show_lang_string; ?></div>
                             <select name="per_page" id='per_page' class="per_page form-control">
                                 <?php foreach ($paging_options as $option) {
-            ?>
+                                ?>
                                 <option value="<?php echo $option;
-            ?>" <?php if ($option == $default_per_page) {
-            ?>selected="selected"<?php 
-            }
-            ?>><?php echo $option;
-            ?>&nbsp;&nbsp;</option>
+                                    ?>" <?php if ($option == $default_per_page) {
+                                ?>selected="selected"<?php 
+                                }
+                                ?>><?php echo $option;
+                                ?>&nbsp;&nbsp;</option>
                                 <?php 
-            }?>
+                                }?>
                             </select>
                         <div class="input-group-addon"><?php echo $entries_lang_string; ?></div>
                     </div>
                     <input type="hidden" name="order_by[0]" id="hidden-sorting" class="hidden-sorting" value="">
                     <input type="hidden" name="order_by[1]" id="hidden-ordering" class="hidden-ordering" value="">
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <p class="pPageStat" style="line-height: 30px;">
 						<?php $paging_starts_from = "<span id='page-starts-from' class='page-starts-from'>1</span>"; ?>
                         <?php $paging_ends_to = "<span id='page-ends-to' class='page-ends-to'>". ($total_results < $default_per_page ? $total_results : $default_per_page) ."</span>"; ?>

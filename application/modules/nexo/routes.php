@@ -10,6 +10,7 @@ $Route->get( 'nexo/orders', 'NexoCommandesController@lists' );
 $Route->get( 'nexo/coupons/{param?}/{id?}', 'NexoCouponsController@lists' );
 
 $Route->get( 'nexo/supplies/add', 'NexoItemsController@add_supply' );
+$Route->match([ 'get', 'post' ], 'nexo/supplies/{action?}/{id?}', 'NexoSuppliesController@lists' );
 $Route->get( 'nexo/supplies/{param}/{id?}', 'NexoSuppliesController@lists' );
 $Route->get( 'nexo/supplies/', 'NexoSuppliesController@lists' );
 
@@ -22,6 +23,7 @@ $Route->match([ 'get', 'post'], 'nexo/taxes/{param?}/{id?}', 'NexoTaxesControlle
 
 $Route->get( 'nexo/suppliers', 'NexoProvidersController@lists' );
 $Route->get( 'nexo/suppliers/add', 'NexoProvidersController@add' );
+$Route->match([ 'get', 'post' ], 'nexo/suppliers/{action?}/{id?}', 'NexoProvidersController@lists' );
 
 $Route->get( 'nexo/customers', 'NexoCustomersController@lists' );
 $Route->get( 'nexo/customers/add', 'NexoCustomersController@add' );

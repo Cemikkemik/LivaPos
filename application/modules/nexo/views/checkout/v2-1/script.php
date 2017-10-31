@@ -532,7 +532,7 @@ var v2Checkout					=	new function(){
 			infinite			: 	false,
 			arrows			:	false,
 			slidesToShow		: 	4,
-			slidesToScroll	: 	4,
+			slidesToScroll	: 	2,
 			variableWidth : true
 		});
 

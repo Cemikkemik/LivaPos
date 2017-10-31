@@ -22,41 +22,41 @@ class Nexo_Actions extends Tendoo_Module
 
 		} else {
 
-			$this->dashboard_widgets->add( store_prefix() . 'nexo_profile', array(
-				'title'                    =>    __('Profil', 'nexo'),
-				'type'                    =>    'unwrapped',
-				'hide_body_wrapper'        =>    true,
-				'position'                =>    1,
-				'content'                =>    $this->load->view('../modules/nexo/inc/widgets/profile', array(), true)
-			));
+			// $this->dashboard_widgets->add( store_prefix() . 'nexo_profile', array(
+			// 	'title'                    =>    __('Profil', 'nexo'),
+			// 	'type'                    =>    'unwrapped',
+			// 	'hide_body_wrapper'        =>    true,
+			// 	'position'                =>    1,
+			// 	'content'                =>    $this->load->view('../modules/nexo/inc/widgets/profile', array(), true)
+			// ));
 
-			if( User::in_group( 'master' ) || User::in_group( 'shop_manager' ) ) {
+			// if( User::in_group( 'master' ) || User::in_group( 'shop_manager' ) ) {
 
-				// $this->dashboard_widgets->add( store_prefix() . 'nexo_sales_new', array(
-				// 	'title'                    =>    __('Meilleurs articles', 'nexo'),
-				// 	'type'                    =>    'unwrapped',
-				// 	'hide_body_wrapper'        =>    true,
-				// 	'position'                =>    1,
-				// 	'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sales-new', array(), true)
-				// ));
+			// 	// $this->dashboard_widgets->add( store_prefix() . 'nexo_sales_new', array(
+			// 	// 	'title'                    =>    __('Meilleurs articles', 'nexo'),
+			// 	// 	'type'                    =>    'unwrapped',
+			// 	// 	'hide_body_wrapper'        =>    true,
+			// 	// 	'position'                =>    1,
+			// 	// 	'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sales-new', array(), true)
+			// 	// ));
 
-				$this->dashboard_widgets->add( store_prefix() . 'nexo_sales_income', array(
-					'title'                    =>    __('Chiffre d\'affaire', 'nexo'),
-					'type'                    =>    'unwrapped',
-					'hide_body_wrapper'        =>    true,
-					'position'                =>    2,
-					'content'                =>    $this->load->view('../modules/nexo/inc/widgets/income', array(), true)
-				));
+			// 	$this->dashboard_widgets->add( store_prefix() . 'nexo_sales_income', array(
+			// 		'title'                    =>    __('Chiffre d\'affaire', 'nexo'),
+			// 		'type'                    =>    'unwrapped',
+			// 		'hide_body_wrapper'        =>    true,
+			// 		'position'                =>    2,
+			// 		'content'                =>    $this->load->view('../modules/nexo/inc/widgets/income', array(), true)
+			// 	));
 
-				$this->dashboard_widgets->add( store_prefix() . 'sale_type_new', array(
-					'title'                    =>    __('Types de commades', 'nexo'),
-					'type'                    =>    'unwrapped',
-					'hide_body_wrapper'        =>    true,
-					'position'                =>    3,
-					'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sale_type_new', array(), true)
-				));
+			// 	$this->dashboard_widgets->add( store_prefix() . 'sale_type_new', array(
+			// 		'title'                    =>    __('Types de commades', 'nexo'),
+			// 		'type'                    =>    'unwrapped',
+			// 		'hide_body_wrapper'        =>    true,
+			// 		'position'                =>    3,
+			// 		'content'                =>    $this->load->view('../modules/nexo/inc/widgets/sale_type_new', array(), true)
+			// 	));
 
-			}
+			// }
 		}
     }
 

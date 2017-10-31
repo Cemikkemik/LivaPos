@@ -20,7 +20,7 @@ if (!empty($list)) : ?>
                     </th>
                     <?php endforeach; ?>
                     <?php if (!$unset_delete || !$unset_edit || !empty($actions)): ?>
-                    <th align="left" abbr="tools" axis="col1" class="" width='20%'>
+                    <th align="left" abbr="tools" axis="col1" class="" width='10%'>
                         <div class="text-right">
                             <?php echo $this->l('list_actions');?> </div>
                     </th>
@@ -47,20 +47,24 @@ if (!empty($list)) : ?>
                         <?php endforeach;?>
                         
                         <?php if (!$unset_delete || !$unset_edit || !empty($actions)):?>
-                            <td align="left" width='20%'>
-                                <div class='tools'>
+                            <td align="left" width='10%'>
+                                <div class="dropdown">
+                                    <a class="btn btn-default dropdown-toggle btn-sm" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <?php echo get_instance()->config->item( 'options' );?>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
                                     <?php if (!$unset_delete) { 
-                                        ob_start();?>
-                                        <a href='<?php echo $row->delete_url?>' title='<?php echo $this->l('list_delete')?> <?php echo $subject?>' class="delete-row"> <span class='fa fa-remove btn btn-danger'></span> </a>
-                                        <?php echo get_instance()->events->apply_filters('grocery_filter_delete_button', ob_get_clean(), $row, $this->l('list_delete'), $subject);
+                                        ob_start();?><a href='<?php echo $row->delete_url?>' class="delete-row fa fa-remove"> <?php echo $this->l('list_delete')?> <?php echo $subject?></a><?php 
+                                        echo '<li>' . get_instance()->events->apply_filters('grocery_filter_delete_button', ob_get_clean(), $row, $this->l('list_delete'), $subject) . '</li>';
                                     }
 
                                     if (!$unset_edit) {
                                         ob_start();
                                         ?>
-                                        <a href='<?php echo $row->edit_url?>' title='<?php echo $this->l('list_edit')?> <?php echo $subject?>'> <span class='edit-icon fa fa-edit btn-default btn'></span> </a>
+                                        <a href='<?php echo $row->edit_url?>' class="fa fa-edit"> <?php echo $this->l('list_edit')?> <?php echo $subject?></a>
                                         <?php
-                                        echo get_instance()->events->apply_filters('grocery_filter_edit_button', ob_get_clean(), $row, $this->l('list_edit'), $subject);
+                                        echo '<li>' . get_instance()->events->apply_filters('grocery_filter_edit_button', ob_get_clean(), $row, $this->l('list_edit'), $subject) . '</li>';
                                     }
 
                                     if (!empty($row->action_urls)) {
@@ -71,20 +75,20 @@ if (!empty($list)) : ?>
 
                                         foreach ($row->action_urls as $action_unique_id => $action_url) {
                                             $action        = $actions[$action_unique_id];?>
-                                            <a href="<?php echo $action_url;?>" data-item-id="<?php echo $row->ID;?>" class="<?php echo $action->css_class;?> crud-action" title="<?php echo $action->label?>">
-                                            <?php
-                                                echo @$action->text;
-                                                if (!empty($action->image_url)):?>
-                                                                                    <img src="<?php echo $action->image_url;
-                                                ?>" alt="<?php echo $action->label?>" />
-                                                <?php endif; ?>
+                                        <li>
+                                            <a 
+                                            href="<?php echo $action_url;?>" 
+                                            data-item-id="<?php echo $row->ID;?>" 
+                                            class="<?php echo $action->css_class;?> crud-action" >
+                                                <?php echo $action->label?>
                                             </a>
-                                            <?php
+                                        </li>
+                                    <?php
                                         }
                                     }
-
-                                    echo get_instance()->events->apply_filters('grocery_row_actions_output', '', $row, $this->l('list_edit'), $subject);?>
-                                    <div class='clear'></div>
+                                    echo get_instance()->events->apply_filters('grocery_row_actions_output', '', $row, $this->l('list_edit'), $subject);
+                                    ?>
+                                    </ul>
                                 </div>
                             </td>
                         <?php endif;?>

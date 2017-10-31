@@ -163,16 +163,15 @@ if ($success_message !== null) {
                             <?php list($show_lang_string, $entries_lang_string) = explode('{paging}', $this->l('list_show_entries')); ?>
                             <?php echo $show_lang_string; ?></div>
                             <select name="per_page" id='per_page' class="per_page form-control">
-                                <?php foreach ($paging_options as $option) {
-                                ?>
-                                <option value="<?php echo $option;
-                                    ?>" <?php if ($option == $default_per_page) {
-                                ?>selected="selected"<?php 
-                                }
-                                ?>><?php echo $option;
-                                ?>&nbsp;&nbsp;</option>
-                                <?php 
-                                }?>
+                                <?php foreach ($paging_options as $option) :?>
+                                    <option value="<?php echo $option;?>" 
+                                        <?php if ($option == $default_per_page):?>
+                                        selected="selected"
+                                        <?php endif;?>
+                                    >
+                                        <?php echo $option;?>
+                                    </option>
+                                <?php endforeach;?>
                             </select>
                         <div class="input-group-addon"><?php echo $entries_lang_string; ?></div>
                     </div>
@@ -180,7 +179,7 @@ if ($success_message !== null) {
                     <input type="hidden" name="order_by[1]" id="hidden-ordering" class="hidden-ordering" value="">
                 </div>
                 <div class="col-md-3">
-                    <p class="pPageStat" style="line-height: 30px;">
+                    <span class="pPageStat" style="line-height: 34px;">
 						<?php $paging_starts_from = "<span id='page-starts-from' class='page-starts-from'>1</span>"; ?>
                         <?php $paging_ends_to = "<span id='page-ends-to' class='page-ends-to'>". ($total_results < $default_per_page ? $total_results : $default_per_page) ."</span>"; ?>
                         <?php $paging_total_results = "<span id='total_items' class='total_items'>$total_results</span>"?>
@@ -188,7 +187,7 @@ if ($success_message !== null) {
                         array($paging_starts_from, $paging_ends_to, $paging_total_results),
                         $this->l('list_displaying')
                        ); ?> 
-                    </p>
+                    </span>
                 </div>
             </div>
         </div>

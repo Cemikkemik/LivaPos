@@ -10,7 +10,7 @@ class Nexo_Updater_Filters extends Tendoo_Module
           if( @$menus[ 'nexo_settings' ] ) {
                $menus[ 'nexo_settings' ][]   =    [
                     'title'        =>   __( 'Activate Your Licence', 'nexo' ),
-                    'href'         =>   site_url([ 'dashboard', 'nexo-updater', 'activate' ])
+                    'href'         =>   site_url([ 'dashboard', 'nexo', 'licence' ])
                ];
           }
           return $menus;

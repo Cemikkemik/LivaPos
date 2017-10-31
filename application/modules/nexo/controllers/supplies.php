@@ -52,9 +52,9 @@ class NexoSuppliesController extends CI_Model
         $crud->set_relation('AUTHOR', 'aauth_users', 'name');
 
         // Liste des produits
-        $crud->add_action(__('Liste des produits', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'arrivages', 'delivery_items' )) . '/', 'btn btn-info fa fa-list-ol');
-        $crud->add_action(__('Etiquettes des articles', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'shipping_item_codebar' )) . '/', 'btn btn-success fa fa-tags');
-        $crud->add_action(__('Facture de l\'arrivage', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'arrivages', 'delivery_invoice' )) . '/', 'btn btn-info fa fa-file');
+        $crud->add_action(__('Liste des produits', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'arrivages', 'delivery_items' )) . '/', 'fa fa-list-ol');
+        $crud->add_action(__('Etiquettes des articles', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'shipping_item_codebar' )) . '/', 'fa fa-tags');
+        $crud->add_action(__('Facture de l\'arrivage', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'arrivages', 'delivery_invoice' )) . '/', 'fa fa-file');
 
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
@@ -202,7 +202,7 @@ class NexoSuppliesController extends CI_Model
         // $crud->or_where( store_prefix() . 'nexo_articles_stock_flow.TYPE', 'transfert_canceled' );
         // $crud->or_where( store_prefix() . 'nexo_articles_stock_flow.TYPE', 'transfert_rejected' );
 
-        $crud->add_action( __('Historique d\'approvisionnement', 'nexo'), '', '', 'btn btn-default fa fa-eye', [ $this, 'supply_link' ]);
+        $crud->add_action( __('Historique d\'approvisionnement', 'nexo'), '', '', 'fa fa-eye', [ $this, 'supply_link' ]);
 
         $crud->columns( 'REF_ARTICLE_BARCODE', 'TYPE', 'QUANTITE', 'UNIT_PRICE', 'REF_PROVIDER', 'REF_SHIPPING', 'DATE_CREATION', 'AUTHOR' );
 

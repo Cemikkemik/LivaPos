@@ -1,7 +1,4 @@
 <?php
-
-include_once( dirname( __FILE__ ) . '/controller.php' );
-
 class Nexo_Updater_Actions extends Tendoo_Module
 {
      public function __construct()
@@ -17,7 +14,7 @@ class Nexo_Updater_Actions extends Tendoo_Module
      public function load_dashboard()
      {
         if( $this->uri->uri_string() != 'dashboard/nexo/about' && $this->uri->segment(5) != 'about' && $this->uri->uri_string() != 'dashboard/modules' ) {
-            if( get_option( 'updater_validated', 'no' ) === 'no' && $this->uri->uri_string() !== 'dashboard/nexo-updater/activate' ) {
+            if( get_option( 'updater_validated', 'no' ) === 'no' && $this->uri->uri_string() !== 'dashboard/nexo/licence' ) {
                 $this->notice->push_notice( 
                 '<div class="container-fluid">
                     <div class="jumbotron">
@@ -28,7 +25,6 @@ class Nexo_Updater_Actions extends Tendoo_Module
                 </div>' );
             }
         }
-        $this->Gui->register_page_object( 'nexo-updater', new Nexo_Updater_Controller );
      }
 
      /**
@@ -39,7 +35,7 @@ class Nexo_Updater_Actions extends Tendoo_Module
     public function do_enable_module( $namespace )
     {
         if( $namespace == 'nexo-updater' ) {
-            return redirect([ 'dashboard', 'nexo-updater', 'activate' ]);
+            return redirect([ 'dashboard', 'nexo', 'licence' ]);
         }
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-include_once( dirname( __FILE__ ) . '/inc/controller.php' );
-
 class Nexo_Sms extends CI_Model
 {
     public function __construct()
@@ -30,15 +28,7 @@ class Nexo_Sms extends CI_Model
         $this->lang->load_lines(dirname(__FILE__) . '/language/lines.php');
 
         // Load Config
-        $this->load->config('nexo_sms');
-
-        // Register Page
-        $this->Gui->register_page_object( 'nexo_sms', new NexoSMS_Controller );
-
-        $this->events->add_filter( 'stores_controller_callback', function( $controllers ) {
-            $controllers[ 'nexo_sms' ]      =       new NexoSMS_Controller;
-            return $controllers;
-        });
+        $this->load->module_config('nexo_sms');
     }
 
     /**
@@ -85,7 +75,7 @@ class Nexo_Sms extends CI_Model
         $array    		=	array_insert_after(2, $array, count($array), array(
             'title'     =>	__('SMS', 'nexo'),
             'icon'      =>	'fa fa-gear',
-            'href'      =>	site_url(array( 'dashboard', store_slug(), 'nexo_sms', $store_uri . 'settings' ))
+            'href'      =>	site_url(array( 'dashboard', store_slug(), 'nexo', $store_uri . 'settings', 'sms' ))
         ));
 
         return $array;

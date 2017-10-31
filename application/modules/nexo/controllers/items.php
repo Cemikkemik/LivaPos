@@ -174,8 +174,8 @@ class NexoItemsController extends CI_Model
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
 
-        $crud->add_action( __( 'Historique d\'approvisionnement', 'nexo' ), null, dashboard_url(['nexo', 'items', 'history' ]), 'btn btn-default fa fa-truck', [ $this, 'stock_supply_link' ] );
-        $crud->add_action( __( 'Historique du produit', 'nexo' ), null, site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'stock_supply' ] ), 'btn btn-default fa fa-list', [ $this, 'item_history_link' ] );
+        $crud->add_action( __( 'Historique d\'approvisionnement', 'nexo' ), null, null, 'fa fa-truck', [ $this, 'stock_supply_link' ] );
+        $crud->add_action( __( 'Historique du produit', 'nexo' ), null, null, 'fa fa-list', [ $this, 'item_history_link' ] );
 
         $required_fields    =   array(
             'DESIGN',
@@ -264,7 +264,7 @@ class NexoItemsController extends CI_Model
 
     public function stock_supply_link( $primary_key, $row ) 
     {
-        return site_url( [ 'dashboard', store_slug(), 'nexo', 'produits', 'supply', $row->CODEBAR ] );
+        return site_url( [ 'dashboard', store_slug(), 'nexo', 'items', 'supply-history', $row->CODEBAR ] );
     }
 
     /**
@@ -274,7 +274,7 @@ class NexoItemsController extends CI_Model
 
     public function item_history_link( $primary_key, $row )
     {
-        return site_url( [ 'dashboard', store_slug(), 'nexo', 'produits', 'history', $row->CODEBAR ] );
+        return site_url( [ 'dashboard', store_slug(), 'nexo', 'items', 'history', $row->CODEBAR ] );
     }
 
     public function lists($page = 'index', $id = null)
@@ -388,12 +388,9 @@ class NexoItemsController extends CI_Model
 
     public function stock_supply()
     {
-        if (
-            ! User::can('edit_item_stock') &&
-            ! User::can('create_item_stock')
-        ) {
-            redirect(array( 'dashboard', 'access-denied' ));
-        }
+        // if( User::cannot( 'nexo.view.supplies' ) ) {
+        //     return nexo_access_denied();
+        // }
 
         if( ( multistore_enabled() && ! is_multistore() ) && $this->events->apply_filters( 'force_show_inventory', false ) == false ) {
 			redirect( array( 'dashboard', 'feature-disabled' ) );

@@ -23,7 +23,7 @@
                     </thead>
                     <tbody>
                          <tr ng-repeat="permission in permissions | filter:search">
-                              <td>{{ permission.definition }}</td>
+                              <td>{{ permission.definition }} <small>({{ permission.name }})</small></td>
                               <td ng-repeat="group in groups" class="details">
                                    <label>
                                         <input value="{{ permission.name }}" ng-model="permissions_data[ group.name ][ permission.name ]" type="checkbox">

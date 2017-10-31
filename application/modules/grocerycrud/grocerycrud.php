@@ -17,6 +17,7 @@ class GroceryCrudModule extends CI_Model
         
         $this->config->load('grocery_crud');
         $this->config->set_item('grocery_crud_default_language', $language);
+        $this->config->set_item( 'options', __( 'Options', 'grocerycrud' ) );
         $this->load->library('Grocery_CRUD');
         $this->load->library('GroceryCrudCleaner');
     }

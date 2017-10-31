@@ -806,6 +806,7 @@ class Nexo_Install extends CI_Model
 		$permissions[ 'nexo.read.customer-statistics' ] 	=	__( 'Lire statistics des clients', 'nexo' );
 		$permissions[ 'nexo.read.inventory-tracking' ] 	=	__( 'Lire suivi du stock', 'nexo' );
 		$permissions[ 'nexo.manage.settings' ] 			=	__( 'Réglages des options', 'nexo' );
+		$permissions[ 'nexo.manage.stores-settings' ] 			=	__( 'Réglages des boutiques', 'nexo' );
 
 		foreach( $permissions as $namespace => $perm ) {
 			$this->aauth->create_perm( 
@@ -854,6 +855,7 @@ class Nexo_Install extends CI_Model
 			'nexo.read.customer-statistics',
 			'nexo.read.inventory-tracking',
 			'nexo.manage.settings',
+			'nexo.manage.stores-settings',
 		] as $reportPermission ) {
 			$this->aauth->allow_group( 'store.manager', $reportPermission );
 			$this->aauth->allow_group( 'master', $reportPermission );

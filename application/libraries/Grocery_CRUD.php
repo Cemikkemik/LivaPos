@@ -3430,17 +3430,6 @@ class Grocery_CRUD extends grocery_CRUD_States
      */
     public function __construct()
     {
-        get_instance()->events->add_action( 'dashboard_footer', function(){
-            ?>
-            <script>
-            $(document).ready(function() {
-                $('.summernote').summernote({
-                    height: 300,                 // set editor height   
-                });
-            });
-            </script>
-            <?php
-        });
     }
 
     /**
@@ -4363,7 +4352,6 @@ class Grocery_CRUD extends grocery_CRUD_States
         $this->permissions[ 'read' ]        =   @$permissions[ 'read' ];
         $this->permissions[ 'update' ]      =   @$permissions[ 'update' ];
         $this->permissions[ 'delete' ]      =   @$permissions[ 'delete' ];
-        $this->permissions[ 'view' ]        =   @$permissions[ 'view' ];
     }
 
     /**
@@ -4409,9 +4397,9 @@ class Grocery_CRUD extends grocery_CRUD_States
             case 15://success
             case 1://list
 
-                // check for view permissions
-                if( ! empty( @$this->permissions[ 'view' ] ) ) {
-                    if( User::cannot( @$this->permissions[ 'view' ] ) ) {
+                // check for read permissions
+                if( ! empty( @$this->permissions[ 'read' ] ) ) {
+                    if( User::cannot( @$this->permissions[ 'read' ] ) ) {
                         return show_error( $this->config->item( 'grocery-access-denied' ) );
                     }
                 }

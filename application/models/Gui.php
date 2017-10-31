@@ -101,11 +101,11 @@ class Gui extends CI_Model
         });
 
         $Route->error(function($request, \Exception $exception) {
-            if($exception instanceof NotFoundHttpException && $exception->getCode() == 404) {
-                Html::set_title(sprintf(__('Error : 404 &mdash; %s'), get('core_signature')));
-                Html::set_description(__('Error page'));
-                $this->load->view('dashboard/error/404');
-            }
+            return show_error( sprintf( 
+                __( 'The request returned the following message : %s<br>Code : %s'  ),
+                $exception->getMessage(),
+                $exception->getCode()
+            ), intval( $exception->getCode() ) );
         });
         
         $Route->start();

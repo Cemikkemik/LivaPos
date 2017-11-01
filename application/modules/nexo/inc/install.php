@@ -711,16 +711,23 @@ class Nexo_Install extends CI_Model
 		);
 
 		Group::create(
+			'sub-store.manager',
+			__( 'Gérant de sous-boutique', 'nexo' ),
+			true,
+			__( 'Role ayant des permissions de gestion d\'une sous-boutique.', 'nexo' )
+		);
+
+		Group::create(
 			'store.demo',
 			__( 'Role test', 'nexo' ),
 			true,
 			__( 'Role ayant des permissions pour tester les fonctionnalités de NexoPOS.', 'nexo' )
 		);
 
-		$permissions 								=	[];
+		$permissions 									=	[];
 		$permissions[ 'nexo.create.orders' ] 			=	__( 'Créer des commandes', 'nexo' );
-		$permissions[ 'nexo.view.orders' ] 			=	__( 'Voir la liste des commandes', 'nexo' );
-		$permissions[ 'nexo.edit.orders' ] 			=	__( 'Modifier des commandes', 'nexo' );
+		$permissions[ 'nexo.view.orders' ] 				=	__( 'Voir la liste des commandes', 'nexo' );
+		$permissions[ 'nexo.edit.orders' ] 				=	__( 'Modifier des commandes', 'nexo' );
 		$permissions[ 'nexo.delete.orders' ] 			=	__( 'Supprimer des commandes', 'nexo' );
 
 		$permissions[ 'nexo.create.items' ] 			=	__( 'Créer des articles', 'nexo' );

@@ -91,7 +91,7 @@ class Nexo_Sms extends CI_Model
         // Load Languages Lines
         $this->lang->load_lines(dirname(__FILE__) . '/language/lines.php');
 
-        $this->load->config('nexo_sms');
+        $this->load->module_config( 'nexo_sms', 'nexo_sms');
         // Set default SMS invoice
         $this->options->set('nexo_sms_invoice_template', $this->config->item('default_sms_invoice_template'));
     }

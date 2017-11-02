@@ -770,6 +770,11 @@ class Nexo_Install extends CI_Model
 		$permissions[ 'nexo.edit.invoices' ] 			=	__( 'Modifier Factures', 'nexo' );
 		$permissions[ 'nexo.delete.invoices' ] 			=	__( 'Supprimer Factures', 'nexo' );
 
+		$permissions[ 'nexo.create.taxes' ] 			=	__( 'Créer des taxes', 'nexo' );
+		$permissions[ 'nexo.view.taxes' ] 				=	__( 'Voir la liste des taxes', 'nexo' );
+		$permissions[ 'nexo.edit.taxes' ] 				=	__( 'Modifier des taxes', 'nexo' );
+		$permissions[ 'nexo.delete.taxes' ] 			=	__( 'Supprimer des taxes', 'nexo' );
+
 		$permissions[ 'nexo.create.registers' ] 		=	__( 'Créer une caisse enregistreuse', 'nexo' );
 		$permissions[ 'nexo.view.registers' ] 			=	__( 'Voir la liste des caisses enregistreuse', 'nexo' );
 		$permissions[ 'nexo.edit.registers' ] 			=	__( 'Modifier une caisse enregistreuse', 'nexo' );

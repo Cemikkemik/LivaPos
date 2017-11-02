@@ -72,7 +72,6 @@ class Nexo_Premium_Main extends CI_Model
         if ($this->can_run) {
             // Include UI
             include_once(dirname(__FILE__) . '/inc/UI.php');
-            include_once(dirname(__FILE__) . '/inc/Controller.php');
             include_once(dirname(__FILE__) . '/inc/Filters.php');
             include_once(dirname(__FILE__) . '/inc/Actions.php');
 
@@ -106,27 +105,7 @@ class Nexo_Premium_Main extends CI_Model
                 $this->events->add_action('nexo_edit_order', array( $this->Actions, 'Edit_Order_History' ));
                 $this->events->add_action('nexo_delete_order', array( $this->Actions, 'Delete_Order_History' ));
             }
-
-            // Register Pages
-            // $this->Gui->register_page('nexo_premium', array( $this->Controller, 'index' ));
-            $this->Gui->register_page_object( 'nexo_premium', new Nexo_Premium_Controller );
-
-			// Registers for Multistore
-			$this->events->add_filter( 'stores_controller_callback', array( $this, 'multistore' ) );
         }
     }
-
-	/**
-	 * Register for Multistore
-	**/
-
-	public function multistore( $array )
-	{
-		// to match this uri
-		// dashboard/stores/../nexo_premium/*
-		$array[ 'nexo_premium' ]	=	new Nexo_Premium_Controller;
-
-		return $array;
-	}
 }
 new Nexo_Premium_Main;

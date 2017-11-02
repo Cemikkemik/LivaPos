@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use Pecee\SimpleRouter\SimpleRouter as Route;
+use Pecee\Handlers\IExceptionHandler;
+use Pecee\Http\Request;
+use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
+
 class Dashboard extends Tendoo_Controller
 {
     /**
@@ -202,10 +207,60 @@ class Dashboard extends Tendoo_Controller
 
     public function _remap($page, $params = array())
     {
+        global $Route;
         if (method_exists($this, $page)) {
             return call_user_func_array(array( $this, $page ), $params);
         } else {
-            $this->Gui->load_page( $page, $params );
+            // Init Route
+            $Route          =   new Route();
+
+            // Route Prefix
+            $Route->group([ 
+                'prefix' => substr( request()->getHeader( 'script-name' ), 0, -10 ) . '/dashboard' 
+            ], function() use ( $page ) {
+                
+                $modules                =   Modules::get();
+                
+                foreach( $modules as $namespace => $module ) {
+                    if( Modules::is_active( $namespace ) ) {
+                        if( is_dir( $dir = MODULESPATH . $namespace . '/controllers/' ) ) {
+                            foreach( glob( $dir . "*.php") as $filename) {
+                                include_once( $filename );
+                            }
+                        }
+            
+                        if( is_file( MODULESPATH . $namespace . '/routes.php' ) ) {
+                            include_once( MODULESPATH . $namespace . '/routes.php' );
+                        }
+                    }
+                }
+    
+                $mu_modules             =   Modules::get( null, 'mu-modules' );
+    
+                foreach( $mu_modules as $namespace => $module ) {
+                    if( is_dir( $dir = MU_MODULESPATH . $namespace . '/controllers/' ) ) {
+                        foreach( glob( $dir . "*.php") as $filename) {
+                            include_once( $filename );
+                        }
+                    }
+        
+                    if( is_file( MU_MODULESPATH . $namespace . '/routes.php' ) ) {
+                        include_once( MU_MODULESPATH . $namespace . '/routes.php' );
+                    }
+                }
+            });
+    
+            // Show Errors
+            $Route->error(function($request, \Exception $exception) {
+                return show_error( sprintf( 
+                    __( 'The request returned the following message : %s<br>Code : %s'  ),
+                    $exception->getMessage(),
+                    $exception->getCode()
+                ), intval( $exception->getCode() ) );
+            });
+            
+            // Start Route
+            $Route->start();
         }
     }
 

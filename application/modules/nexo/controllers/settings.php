@@ -17,6 +17,14 @@ class NexoSettingsController extends CI_Model
         $this->load->view("../modules/nexo/views/settings/checkout.php");
     }
 
+    public function customers()
+    {
+        global $PageNow;		
+		$PageNow 	=	'nexo/checkout';
+        $this->Gui->set_title( store_title( __('Réglages des clients', 'nexo')));
+        $this->load->view("../modules/nexo/views/settings/customers.php");
+    }
+
     public function items()
     {
         global $PageNow;		

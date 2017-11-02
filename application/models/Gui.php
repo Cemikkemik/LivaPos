@@ -1,10 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-use Pecee\SimpleRouter\SimpleRouter as Route;
-use Pecee\Handlers\IExceptionHandler;
-use Pecee\Http\Request;
-use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
-
 class Gui extends CI_Model
 {
     public $cols    				=    array(
@@ -20,95 +15,6 @@ class Gui extends CI_Model
     public function __construct()
     {
         parent::__construct();
-    }
-
-    /**
-     * Register page for dashboard
-     * @param string Page Slug
-     * @param Function
-     * @return void
-    **/
-
-    public function register_page($page_slug, $function)
-    {
-        $this->created_page[ $page_slug ]    =    array(
-            'page-slug'        =>    $page_slug,
-            'function'        =>    $function
-        );
-    }
-
-	/**
-	 * Regsiter Page Object
-	 * @param string page slug
-	 * @param obj page obj
-	 * return void
-	**/
-
-	public function register_page_object($page_slug, $obj)
-    {
-        $this->created_page_objet[ $page_slug ]    =    array(
-            'page-slug' 	=>    $page_slug,
-            'object'       	=>    $obj
-        );
-    }
-
-    /**
-     * Load created page
-     * @param String page slug
-     * @param Array params
-    **/
-
-    public function load_page($page_slug, $params)
-    {
-        // load created pages
-        // $this->events->do_action_ref_array('create_dashboard_pages', $params); // ??
-
-        global $Route;
-        
-        $Route          =   new Route();
-        
-        $Route->group([ 'prefix' => substr( request()->getHeader( 'script-name' ), 0, -10 ) . '/dashboard' ], function() use ( $page_slug ) {
-            
-            $modules                =   Modules::get();
-            
-            foreach( $modules as $namespace => $module ) {
-                if( Modules::is_active( $namespace ) ) {
-                    if( is_dir( $dir = MODULESPATH . $namespace . '/controllers/' ) ) {
-                        foreach( glob( $dir . "*.php") as $filename) {
-                            include_once( $filename );
-                        }
-                    }
-        
-                    if( is_file( MODULESPATH . $namespace . '/routes.php' ) ) {
-                        include_once( MODULESPATH . $namespace . '/routes.php' );
-                    }
-                }
-            }
-
-            $mu_modules             =   Modules::get( null, 'mu-modules' );
-
-            foreach( $mu_modules as $namespace => $module ) {
-                if( is_dir( $dir = MU_MODULESPATH . $namespace . '/controllers/' ) ) {
-                    foreach( glob( $dir . "*.php") as $filename) {
-                        include_once( $filename );
-                    }
-                }
-    
-                if( is_file( MU_MODULESPATH . $namespace . '/routes.php' ) ) {
-                    include_once( MU_MODULESPATH . $namespace . '/routes.php' );
-                }
-            }
-        });
-
-        $Route->error(function($request, \Exception $exception) {
-            return show_error( sprintf( 
-                __( 'The request returned the following message : %s<br>Code : %s'  ),
-                $exception->getMessage(),
-                $exception->getCode()
-            ), intval( $exception->getCode() ) );
-        });
-        
-        $Route->start();
     }
 
     /**

@@ -1,8 +1,6 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-class elFinderController extends CI_Model{
-
+class ElFinderController extends Tendoo_Module
+{
     public function __construct()
     {
         parent::__construct();
@@ -21,5 +19,4 @@ class elFinderController extends CI_Model{
         $this->Gui->set_title( __( 'File Manager', 'elfinder' ) );
         $this->load->mu_module_view( 'elfinder', 'elFinderGui' );
     }
-
 }

@@ -194,7 +194,14 @@ tendooApp.directive( 'customersForm', function( $rootScope ){
                 return data;
             }
 
-            $scope.groups               =   $scope.rawToOptoions( $scope.rawGroups, 'ID', 'NAME' );
+            $scope.groups               =   [];
+            
+            _.each( $scope.rawGroups, ( group ) => {
+                $scope.groups.push({
+                    name    :   group.NAME,
+                    value   :   group.ID
+                });
+            });;
 
             $scope.schema               =   new Object;
             $scope.schema[ 'basic' ]    =   {
@@ -287,11 +294,11 @@ tendooApp.directive( 'customersForm', function( $rootScope ){
             ];
             $basic_fields   =   $this->events->apply_filters( 'nexo_customers_basic_fields', $basic_fields );
             ?>
-
+            console.log( $scope.groups );
             // Basic
             $scope.form[ 'basic' ]                  =   <?php echo json_encode( $basic_fields );?>;
             $scope.form[ 'basic' ].forEach( ( $field, key ) => {
-                if( $field.type == 'ref_group' ) {
+                if( $field.key == 'ref_group' ) {
                     $scope.form[ 'basic' ][key].titleMap      =   $scope.groups;
                 }
             });            

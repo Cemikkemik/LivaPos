@@ -102,3 +102,12 @@ if (!empty($list)) : ?>
     <?php echo $this->l('list_no_items');?> <br/>
     <br/>
 <?php endif;?>
+<script type="text/javascript">
+$('.table-responsive').on('show.bs.dropdown', function () {
+     $('.table-responsive').css( "overflow", "inherit" );
+});
+
+$('.table-responsive').on('hide.bs.dropdown', function () {
+     $('.table-responsive').css( "overflow", "auto" );
+})
+</script>

@@ -1,60 +1,37 @@
 <?php
-! defined('APPPATH') ? die() : null;
 
 use Carbon\Carbon;
 
-/**
- * Nexo Premium UI
- *
- * @author Blair Jersyer
- * @version 1.0
-**/
-
-class Nexo_Premium_Controller extends CI_Model
+class NexoPremiumController extends Tendoo_Module
 {
     public function __construct()
     {
         parent::__construct();
-
+        
         /**
          * Create Backup Folder
         **/
-
+    
         if (! is_dir(PUBLICPATH . '/upload/nexo_premium_backups')) {
             @mkdir(PUBLICPATH . '/upload/nexo_premium_backups');
         }
-
+    
         if (! is_dir(PUBLICPATH . '/upload/nexo_premium_backups/temp')) {
             @mkdir(PUBLICPATH . '/upload/nexo_premium_backups/temp');
         }
     }
-
+    
     /**
-     * Index Page
-     * @param string
-     * @deprecated
-     * @return void
-    **/
-
-    public function index($page)
-    {
-        if (method_exists($this, $page)) {
-            call_user_func_array(array( $this, $page ), array_slice(func_get_args(), 1));
-        } else {
-            show_error(__('Cette page est introuvable', 'nexo_premium'));
-        }
-    }
-
-    /**
-     * Rapport Journalier Detaillé
+     * Daily Report
      * @param string date
-    **/
-
-    public function Controller_Rapport_Journalier_Detaille($report_date)
+     * @return void
+     */
+    public function daily( $report_date )
     {
-        if (! User::can('read_shop_reports')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if( User::cannot( 'nexo.read.daily-sales' ) ) {
+            return nexo_access_denied();
         }
+
         // if repport date is sup than current day
         $CarbonCurrent                =    Carbon::parse(date_now());
         $CarbonReportDate            =    Carbon::parse($report_date);
@@ -86,14 +63,14 @@ class Nexo_Premium_Controller extends CI_Model
     }
 
     /**
-     * Mouvement Annuel de la trésorerie
-     * @param string/NULL year
-    **/
-
-    public function Controller_Mouvement_Annuel_Tresorerie($year = null)
+     * Cash Flow
+     * @param string year
+     * @return void
+     */
+    public function cash_flow( $year = null ) 
     {
-        if (! User::can('read_shop_reports')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if( User::cannot( 'nexo.read.cash-flow' ) ) {
+            return nexo_access_denied();
         }
 
         $year                        =    $year == null ? Carbon::parse(date_now())->year : intval($year);
@@ -123,16 +100,14 @@ class Nexo_Premium_Controller extends CI_Model
     }
 
     /**
-     * Sales statistics
-     *
-     * @author  Blair Jersyer
-     * @param string/NULL year
-    **/
-
-    public function Controller_Stats_Des_Ventes($year = null)
+     * Sales Statistics
+     * @param string year
+     * @return void
+     */
+    public function sales_stats( $year = null ) 
     {
-        if (! User::can('read_shop_reports')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if( User::cannot( 'nexo.read.annual-sales' ) ) {
+            return nexo_access_denied();
         }
 
         $this->load->model('Nexo_Categories');
@@ -173,17 +148,15 @@ class Nexo_Premium_Controller extends CI_Model
     }
 
     /**
-     * Fiche de suivi
-     *
-     * @param int Shipping Int
-     * @param int Shipping Int
+     * Stock Tracking Sheet
+     * @param string shipping 1
+     * @param string shipping 2
      * @return void
-    **/
-
-    public function Controller_Fiche_De_Suivi($shipping_one = null, $shipping_two = null)
+     */
+    public function stock_tracking( $shipping1 = null, $shipping2 = null ) 
     {
-        if (! User::can('read_shop_reports')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if( User::cannot( 'nexo.read.inventory-tracking' ) ) {
+            return nexo_access_denied();
         }
 
         $this->load->model('Nexo_Shipping');
@@ -195,24 +168,10 @@ class Nexo_Premium_Controller extends CI_Model
         $this->load->view('../modules/nexo_premium/views/fiche-de-suivi', $data);
     }
 
-    /**
-     * Controller Factures
-     *
-     * @return void
-    **/
-
-    private function Controller_Header( $page, $index )
+    private function invoice_header( $page, $index )
     {
-        if (
-         ! User::can('create_shop_purchases_invoices ') &&
-         ! User::can('edit_shop_purchases_invoices') &&
-         ! User::can('delete_shop_purchases_invoices')
-        ) {
-            redirect(array( 'dashboard', 'access-denied' ));
-        }
-
         $crud = new grocery_CRUD();
-
+        
         $crud->set_theme('bootstrap');
         $crud->set_subject(__('Factures', 'nexo_premium'));
         $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_premium_factures'));
@@ -315,7 +274,7 @@ class Nexo_Premium_Controller extends CI_Model
      * @return void
     **/
 
-    public function Controller_Factures($page = 'lists', $index = null )
+    public function invoices($page = 'lists', $index = null )
     {
         if ($page == 'list') {
             $this->Gui->set_title( store_title( __('Liste des factures', 'nexo_premium') ));
@@ -387,7 +346,7 @@ class Nexo_Premium_Controller extends CI_Model
      * @return void
     **/
 
-    public function Controller_Clear_Cache($id)
+    public function clear_cache($id)
     {
         if ($id == 'dashboard_card') {
             foreach (glob(APPPATH . 'cache/app/nexo_premium_dashboard_card_' . store_prefix() . '*') as $filename) {
@@ -411,9 +370,9 @@ class Nexo_Premium_Controller extends CI_Model
      *
     **/
 
-    public function Controller_Stats_Caissier($start_date = null, $end_date = null)
+    public function cashiers_report($start_date = null, $end_date = null)
     {
-        if (! User::can('read_shop_reports')) {
+        if (! User::can('nexo.read.cashier-performances')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
 
@@ -435,16 +394,14 @@ class Nexo_Premium_Controller extends CI_Model
     }
 
     /**
-     * Statistique des clients
-     *
+     * Customer Report
      * @param string start date
-     * @param end date
+     * @param string end date
      * @return void
-    **/
-
-    public function Controller_Stats_Clients($start_date = null, $end_date = null)
+     */
+    public function customers_report($start_date = null, $end_date = null)
     {
-        if (! User::can('read_shop_reports')) {
+        if (! User::can('nexo.read.customer-statistics')) {
             redirect(array( 'dashboard', 'access-denied' ));
         }
 
@@ -472,7 +429,7 @@ class Nexo_Premium_Controller extends CI_Model
      *
     **/
 
-    public function Controller_Historique($page = 1)
+    public function log($page = 1)
     {
         if (
             User::can('read_shop_user_tracker') ||
@@ -514,7 +471,7 @@ class Nexo_Premium_Controller extends CI_Model
 
     /**
      * Clear History
-     *
+     * @unused
     **/
 
     public function Controller_Clear_History()
@@ -536,254 +493,13 @@ class Nexo_Premium_Controller extends CI_Model
     }
 
     /**
-     * Backup Controller Header
-    **/
-
-    private function Backup_Controller_Header()
-    {
-        if (
-            ! User::can('create_shop_backup') &&
-            ! User::can('edit_shop_backup') &&
-            ! User::can('delete_shop_backup')
-        ) {
-            redirect(array( 'dashboard', 'access-denied' ));
-        }
-
-        $crud = new grocery_CRUD();
-
-        $crud->set_theme('bootstrap');
-        $crud->set_subject(__('Sauvegardes', 'nexo_premium'));
-        $crud->set_table($this->db->dbprefix('nexo_premium_backups'));
-
-        $columns    =   [ 'NAME', 'FILE_LOCATION', 'AUTHOR', 'DATE_CREATION' ];
-        $fields     =   [ 'NAME', 'FILE_LOCATION', 'AUTHOR', 'DATE_CREATION', 'DATE_MODIFICATION' ];
-
-        $crud->columns( $columns );
-        $crud->fields( $fields );
-        $crud->set_relation('AUTHOR', 'aauth_users', 'name');
-        // Display
-        $crud->display_as('NAME', __('Titre de la sauvegarde', 'nexo_premium'));
-        $crud->display_as('FILE_LOCATION', __('Emplacement du fichier', 'nexo_premium'));
-        $crud->display_as('AUTHOR', __('Auteur', 'nexo_premium'));
-        $crud->display_as('DATE_CREATION', __('Date de création', 'nexo_premium'));
-        $crud->display_as('DATE_MODIFICATION', __('Date de modification', 'nexo_premium'));
-
-        // XSS Cleaner
-        $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
-        $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
-
-        $crud->change_field_type('FILE_LOCATION', 'invisible');
-        $crud->change_field_type('AUTHOR', 'invisible');
-        $crud->change_field_type('DATE_CREATION', 'invisible');
-        $crud->change_field_type('DATE_MODIFICATION', 'invisible');
-
-        $crud->callback_before_insert(array( $this, '__Callback_Backup_Create' ));
-        $crud->callback_before_update(array( $this, '__Callback_Backup_Update' ));
-        $crud->callback_before_delete(array( $this, '__Callback_Backup_Delete' ));
-
-        $crud->add_action(__('Télécharger la sauvegarde', 'nexo_premium'), '', site_url(array( 'dashboard', 'nexo_premium', 'Controller_Download_Backup' )) . '/', 'btn btn-success fa fa-archive');
-
-        /**
-        * Filter for actions
-        **/
-
-        $this->events->add_filter('grocery_actions', array( $this, '__Filter_action_url' ), 10, 2);
-
-        $crud->unset_jquery();
-        $output = $crud->render();
-
-        foreach ($output->js_files as $files) {
-            $this->enqueue->js(substr($files, 0, -3), '');
-        }
-        foreach ($output->css_files as $files) {
-            $this->enqueue->css(substr($files, 0, -4), '');
-        }
-        return $output;
-    }
-
-    /**
-     * Backup
-    **/
-
-    public function Controller_Backup($page = 'list')
-    {
-        if (in_array($page, array( 'list', 'success' ))) {
-            $this->Gui->set_title( store_title( __('Liste des sauvegardes', 'nexo_premium') ) );
-        } elseif ($page == 'add') {
-            if (! User::can('create_shop_backup')) {
-                redirect(array( 'dashboard', 'access-denied' ));
-            }
-            $this->Gui->set_title( store_title( __('Ajouter une sauvegarde', 'nexo_premium') ) );
-        } elseif ($page == 'delete') {
-            nexo_permission_check('delete_shop_backup');
-        } else {
-            if (! User::can('edit_shop_backup')) {
-                redirect(array( 'dashboard', 'access-denied' ));
-            }
-            $this->Gui->set_title( store_title( __('Edition une sauvegarde', 'nexo_premium') ) );
-        }
-        $data[ 'crud_content' ]    =    $this->Backup_Controller_Header();
-        $this->load->view('../modules/nexo_premium/views/backups.php', $data);
-    }
-
-    /**
-     * Callback for Backup creation
-     *
-     * @param Array post data
-     * @return Array
-    **/
-
-    public function __Callback_Backup_Create($data)
-    {
-        $data[ 'NAME' ]                =    empty($data[ 'NAME' ]) ? __('Sauvegarde Base de donnée Nexo POS', 'nexo_premium') : $data[ 'NAME' ];
-        $data[ 'AUTHOR'    ]            =    User::id();
-        $data[ 'DATE_CREATION' ]    =    date_now();
-        $data[ 'FILE_LOCATION' ]    =    $this->__backupName();
-
-        $this->__doBackup($data);
-
-        return $data;
-    }
-
-    /**
-     * Callback for Backup update
-     *
-     * @param Array post data
-     * @return Array
-    **/
-
-    public function __Callback_Backup_Update($data)
-    {
-        $segments    =    $this->uri->segment_array();
-        $query        =    $this->db->where('ID', end($segments))->get('nexo_premium_backups');
-        $result        =    $query->result_array();
-
-        $data[ 'NAME' ]                    =    empty($data[ 'NAME' ]) ? __('Sauvegarde Base de donnée Nexo POS', 'nexo_premium') : $data[ 'NAME' ];
-        $data[ 'AUTHOR'    ]                =    User::id();
-        $data[ 'DATE_MODIFICATION' ]    =    date_now();
-        $data[ 'FILE_LOCATION' ]        =    $result[0][ 'FILE_LOCATION' ];
-
-        @unlink(PUBLICPATH . '/upload/nexo_premium_backups/' . $data[ 'FILE_LOCATION' ]);
-
-        $this->__doBackup($data);
-
-        return $data;
-    }
-
-    /**
-     * Callback for Backup deletion
-     *
-     * @param Array post data
-     * @return Array
-    **/
-
-    public function __Callback_Backup_Delete($data)
-    {
-        $query    =    $this->db->where('ID', $data)->get('nexo_premium_backups');
-        $result    =    $query->result_array();
-
-        if ($result) {
-            @unlink(PUBLICPATH . '/upload/nexo_premium_backups/' . $result[0][ 'FILE_LOCATION' ] . '.zip');
-        }
-
-        return $data;
-    }
-
-    /**
-     * get backup names
-     *
-     * @return string
-    **/
-
-    private function __backupName()
-    {
-        $date        =    Carbon::parse(date_now());
-        return 'nexo_premium_backup_' . $date->year . $date->month . $date->day . $date->hour . $date->minute . $date->second . '-' . $date->micro;
-    }
-
-    /**
-     * Do backup
-    **/
-
-    private function __doBackup($data)
-    {
-        $this->config->load('nexo_premium');
-        $this->load->dbutil();
-        $tables_tobackup        =    $this->config->item('tables_to_backup');
-        if ($tables_tobackup) {
-            foreach ($tables_tobackup as &$table) {
-                $table            =    $this->db->dbprefix($table);
-            }
-            // Complete backup
-            $backup = $this->dbutil->backup(array(
-                    'tables'        => $tables_tobackup,   // Array of tables to backup.
-                    // 'ignore'        => array(),                     // List of tables to omit from the backup
-                    'format'        => 'zip',                       // gzip, zip, txt
-                    'filename'      => $data[ 'FILE_LOCATION' ] . '.sql',              // File name - NEEDED ONLY WITH ZIP FILES
-                    'add_drop'      => true,                        // Whether to add DROP TABLE statements to backup file
-                    'add_insert'    => true,                        // Whether to add INSERT data to backup file
-                    'newline'       => "\n"                         // Newline character used in backup file
-            ));
-
-            $this->load->helper('file');
-
-            write_file(PUBLICPATH . 'upload/nexo_premium_backups/' . $data[ 'FILE_LOCATION' ] . '.zip', $backup);
-        }
-    }
-
-    /**
-     * Download Backup
-    **/
-
-    public function Controller_Download_Backup($id)
-    {
-        $query    =    $this->db->where('ID', $id)->get('nexo_premium_backups');
-        $result    =    $query->result_array();
-        if ($result) {
-            $this->load->helper('download');
-            force_download($result[0][ 'FILE_LOCATION' ] . '.zip', file_get_contents(PUBLICPATH . '/upload/nexo_premium_backups/' . $result[0][ 'FILE_LOCATION' ] . '.zip'));
-        } else {
-            redirect(array( 'dashboard', 'nexo_premium', 'Controller_Backup?notice=nexo-premium-unable-to-locate-backup' ));
-        }
-    }
-
-    /**
-     * Restaure
-     *
-    **/
-
-    public function Controller_Restore()
-    {
-        $this->load->model('Nexo_Misc');
-
-        $config['upload_path']            =    PUBLICPATH . '/upload/nexo_premium_backups/temp';
-        $config['allowed_types']        =     'zip';
-
-        $this->load->library('upload', $config);
-
-        $data                            =    array();
-
-        if ($this->upload->do_upload('restore_file')) {
-            $data    =    $this->upload->data();
-            if ($queries_nbr            =    $this->Nexo_Misc->do_restore($data)) {
-                $data[ 'queries_nbr' ]    =    $queries_nbr;
-                $data[ 'table_prefix' ]    =    $this->input->post('db_prefix');
-            }
-        }
-
-        $this->Gui->set_title( store_title( __('Restauration', 'nexo_premium') ) );
-
-        $this->load->module_view('nexo_premium', 'restore', $data);
-    }
-
-    /**
      * Best Of Controller
     **/
 
-    public function Controller_Best_Of($filter = 'items', $start_date = null, $end_date = null)
+    public function best_sellers($filter = 'items', $start_date = null, $end_date = null)
     {
-        if (! User::can('read_shop_reports')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if (! User::can('nexo.read.best-sales')) {
+            return nexo_access_denied();
         }
 
         $data    =    array();
@@ -814,7 +530,7 @@ class Nexo_Premium_Controller extends CI_Model
      *
     **/
 
-    public function Controller_Quote_Cleaner()
+    public function quotes_cleaner()
     {
         $this->load->model('Nexo_Checkout');
         $this->load->model('Nexo_Misc');
@@ -880,42 +596,50 @@ class Nexo_Premium_Controller extends CI_Model
     }
 
     /**
-    *
-    * Profit and Lost
-    *
-    * @param string date (optional) 4
-    * @param string date end date (optional)
-    * @return void
-    */
-
-    public function rapports( $rapport_namespace = '', $start = null, $end = null )
+     * Profit and losses
+     * @param string start date
+     * @param string end date
+     * @return void
+     */
+    public function profit_and_losses( $start = null, $end = null )
     {
-        global $Options;
-        if( $rapport_namespace == 'profits_and_losses' ){
-
-            $this->enqueue->css( 'datepicker3', base_url() . 'public/plugins/datepicker/' );
-            $this->enqueue->js( 'bootstrap-datepicker', base_url() . 'public/plugins/datepicker/' );
-
-            $this->Gui->set_title( sprintf( __( 'Bénéfices et Pertes &mdash; %s', 'nexo_premium' ), @$Options[ store_prefix() . 'site_name' ] ) );
-
-            $this->events->add_action( 'dashboard_footer', function(){
-                get_instance()->load->module_view( 'nexo_premium', 'profit_and_lost_script' );
-            });
-
-            $this->load->module_view( 'nexo_premium', 'profit_and_lost' );
-
-        } else if( $rapport_namespace == 'expenses_listing' ) {
-            $this->enqueue->css( 'datepicker3', base_url() . 'public/plugins/datepicker/' );
-            $this->enqueue->js( 'bootstrap-datepicker', base_url() . 'public/plugins/datepicker/' );
-
-            $this->Gui->set_title( sprintf( __( 'Liste des dépenses &mdash; %s', 'nexo_premium' ), @$Options[ store_prefix() . 'site_name' ] ) );
-
-            $this->events->add_action( 'dashboard_footer', function(){
-                get_instance()->load->module_view( 'nexo_premium', 'expenses_listing_script' );
-            });
-
-            $this->load->module_view( 'nexo_premium', 'expenses_listing' );
+        if( User::cannot( 'nexo.read.incomes-losses' ) ) {
+            return nexo_access_denied();
         }
+
+        $this->enqueue->css( 'datepicker3', base_url() . 'public/plugins/datepicker/' );
+        $this->enqueue->js( 'bootstrap-datepicker', base_url() . 'public/plugins/datepicker/' );
+
+        $this->Gui->set_title( sprintf( __( 'Bénéfices et Pertes &mdash; %s', 'nexo_premium' ), @$Options[ store_prefix() . 'site_name' ] ) );
+
+        $this->events->add_action( 'dashboard_footer', function(){
+            get_instance()->load->module_view( 'nexo_premium', 'profit_and_lost_script' );
+        });
+
+        $this->load->module_view( 'nexo_premium', 'profit_and_lost' );
+    }
+
+    /**
+     * Expenses Listing
+     * @param string start
+     * @param string end
+     * @return void
+     */
+    public function expense_listing( $start = null, $end = null )
+    {
+        if( User::cannot( 'nexo.read.expenses-listings' ) ) {
+            return nexo_access_denied();
+        }
+        $this->enqueue->css( 'datepicker3', base_url() . 'public/plugins/datepicker/' );
+        $this->enqueue->js( 'bootstrap-datepicker', base_url() . 'public/plugins/datepicker/' );
+
+        $this->Gui->set_title( sprintf( __( 'Liste des dépenses &mdash; %s', 'nexo_premium' ), @$Options[ store_prefix() . 'site_name' ] ) );
+
+        $this->events->add_action( 'dashboard_footer', function(){
+            get_instance()->load->module_view( 'nexo_premium', 'expenses_listing_script' );
+        });
+
+        $this->load->module_view( 'nexo_premium', 'expenses_listing' );
     }
 
     /**
@@ -926,6 +650,10 @@ class Nexo_Premium_Controller extends CI_Model
 
     public function detailed_sales( $start = null, $end = null )
     {
+        if( User::cannot( 'nexo.read.detailed-report' ) ) {
+            return nexo_access_denied();
+        }
+
         global $Options;
         $today          =   date_now();
         $start          =   $start == null ? $startOfDate   =   Carbon::parse( $today )->startOfDay() : $start;
@@ -964,6 +692,7 @@ class Nexo_Premium_Controller extends CI_Model
 
     /**
      * Expense Category Header
+     * @unused
     **/
 
     private function expenses_list_crud()
@@ -1029,7 +758,8 @@ class Nexo_Premium_Controller extends CI_Model
     }
 
     /**
-     * Expense Category Insert
+     * Expense Category Insert7
+     * @unused
     **/
 
     public function expenses_category_insert( $data ) 
@@ -1041,6 +771,7 @@ class Nexo_Premium_Controller extends CI_Model
 
     /**
      * Expense Category Update
+     * @unused
     **/
 
     public function expenses_category_update( $data )
@@ -1049,6 +780,4 @@ class Nexo_Premium_Controller extends CI_Model
         $data[ 'AUTHOR' ]               =   User::id();
         return $data;
     }
-
-
 }

@@ -113,7 +113,7 @@ class Nexo_Controller extends CI_Model
 				$Nexo_Menus[ 'caisse' ][]		=	array(
 					'title'       =>    __('Ouvrir le PDV', 'nexo'), // menu title
 					'icon'        =>    'fa fa-shopping-cart', // menu icon
-					'href'        =>    site_url('dashboard/' . $store_uri . 'pos'), // url to the page,
+					'href'        =>    site_url('dashboard/' . $store_uri . 'nexo/pos'), // url to the page,
 					'permission' 	=>	'nexo.use.registers'
 				);
 			}
@@ -125,7 +125,7 @@ class Nexo_Controller extends CI_Model
 					'title'       	=>    __('Ventes', 'nexo'), // menu title
 					'icon'        	=>    'fa fa-shopping-basket', // menu icon
 					'href'        	=>    site_url('dashboard/' . $store_uri . 'nexo/orders'), // url to the page,
-					'permission'	=>	'nexo.view.registers'
+					'permission'	=>	'nexo.view.orders'
 				)
 			);
 
@@ -140,9 +140,6 @@ class Nexo_Controller extends CI_Model
 					'icon'            =>    'fa fa-ticket',
 					'disable'           =>  true,
 					'permission'		=>	[
-						'nexo.create.coupons', 
-						'nexo.delete.coupons', 
-						'nexo.edit.coupons', 
 						'nexo.view.coupons'
 					]
 				),
@@ -170,21 +167,11 @@ class Nexo_Controller extends CI_Model
 				'disable'    =>    true,
 				'icon'        =>    'fa fa-archive',
 				'permission'	=>	[
-					'nexo.create.items',
-					'nexo.edit.items',
-					'nexo.delete.items',
-					'nexo.create.categories',
-					'nexo.edit.categories',
-					'nexo.delete.categories',
-					'nexo.create.departments',
-					'nexo.edit.departments',
-					'nexo.delete.departments',
-					'nexo.create.supplies',
-					'nexo.edit.supplies',
-					'nexo.delete.supplies',
-					'nexo.create.taxes',
-					'nexo.edit.taxes',
-					'nexo.delete.taxes',
+					'nexo.view.items',
+					'nexo.view.categories',
+					'nexo.view.departments',
+					'nexo.view.supplies',
+					'nexo.view.taxes',
 				]
 			),
 			array(
@@ -236,11 +223,7 @@ class Nexo_Controller extends CI_Model
 				'disable'        =>  true,
 				'href'			=>	'#',
 				'icon'			=>	'fa fa-truck',
-				'permission'		=>	[
-					'nexo.create.suppliers',
-					'nexo.edit.suppliers',
-					'nexo.delete.suppliers',
-				]
+				'permission'		=>	'nexo.view.suppliers'
 			),
 			array(
 				'title'        =>    __('Liste des fournisseurs', 'nexo'),
@@ -253,7 +236,6 @@ class Nexo_Controller extends CI_Model
 				'permission'	=>	'nexo.create.suppliers'
 			),
 		);
-				
 
 		$this->events->do_action('nexo_before_customers', $Nexo_Menus);
 
@@ -264,12 +246,8 @@ class Nexo_Controller extends CI_Model
 				'disable'    =>    true,
 				'icon'        =>    'fa fa-users',
 				'permission'	=>	[
-					'nexo.create.customers',
-					'nexo.edit.customers',
-					'nexo.delete.customers',
-					'nexo.create.customers-groups',
-					'nexo.edit.customers-groups',
-					'nexo.delete.customers-groups',
+					'nexo.view.customers',
+					'nexo.view.customers-groups',
 				]
 			),
 			array(
@@ -301,14 +279,8 @@ class Nexo_Controller extends CI_Model
 				'title'        =>    __('Rapports', 'nexo'),
 				'href'        =>    '#',
 				'disable'    =>    true,
-				'icon'        =>    'fa fa-bar-chart',
-				'permission'	=>	'nexo.read.*'
-			),
-			array(
-				'title'       =>    __('Ventes journalières', 'nexo'), // menu title
-				'href'        =>    dashboard_url([ 'nexo', 'reports', 'daily-sales' ]), // url to the page,,
-				'permission'	=>	'nexo.read.daily-sales'
-			),			
+				'icon'        =>    'fa fa-bar-chart'
+			)
 		));
 
 		$this->events->do_action('nexo_before_accounting', $Nexo_Menus);
@@ -381,8 +353,7 @@ class Nexo_Controller extends CI_Model
 				'title'				=>	__( 'A propos', 'nexo' ),
 				'icon' 				=>	'fa fa-help',
 				'href'				=>	site_url([ 'dashboard', store_slug(), 'nexo', 'about' ]),
-				'permission'			=>	'nexo.manage.settings',
-				'controller'			=>	''
+				'permission'			=>	'nexo.manage.settings'
 			)
 		));
 	}

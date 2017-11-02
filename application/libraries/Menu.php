@@ -18,11 +18,12 @@ class Menu
     public static function load()
     {
         $core_menus    =    self::$admin_menus_core;
+
         foreach ($core_menus as $menu_namespace => $current_menu) {
 
-            // check if user has permission to see that
-            if( @$current_menu[ 'permission' ] != null ) {
-                if( ! User::can( $current_menu[ 'permission' ] ) ) {
+            // check if the first menu can be shown
+            if( @$current_menu[0][ 'permission' ] != null ) {
+                if( ! User::can( $current_menu[0][ 'permission' ] ) ) {
                     continue;
                 }
             }
@@ -42,17 +43,19 @@ class Menu
             $class            =    is_array($current_menu) && count($current_menu) > 1 ? 'treeview' : '';
             $loop_index        =    0;
             ?>
-            <li class="<?php echo $class . ' ' . $menu_status . ' namespace-' . $menu_namespace ;
-            ?>">
+            <li class="<?php echo $class . ' ' . $menu_status . ' namespace-' . $menu_namespace ;?>">
             <?php
             foreach ($current_menu as $menu) {
-                if ($class != '') {
-                    // If has more than one child
 
+                // var_dump( $loop_index );
+                if ($class != '') {
+                
+                    // If has more than one child
                     $custom_style        =    (riake('href', $menu) == current_url()) ? 'style="color:#fff"' : '';
+
                     if ($loop_index == 0) {
                         // First child, set a default page and first sub-menu.
-                    ?>
+                        ?>
                         <a <?php echo $custom_style;?> href="javascript:void(0)" class="<?php echo $menu_status;?>"> 
                             <i class="<?php echo riake('icon', $menu, 'fa fa-star');?>"></i> 
                             <span><?php echo riake('title', $menu);?></span>
@@ -72,9 +75,24 @@ class Menu
                                 </a> 
                             </li>	
                             <?php endif;?>
-                    <?php
-
+                        <?php
                     } else {
+                        if( $loop_index > 0 ) {
+                            // check if the first menu can be shown
+                            if( @$current_menu[$loop_index][ 'permission' ] != null ) {
+                                if( ! User::can( $current_menu[$loop_index][ 'permission' ] ) ) {
+
+                                    if ($loop_index == (count($current_menu) - 1)) {
+                                        echo '</ul>';
+                                    }
+
+                                    $loop_index++;
+
+                                    continue;
+                                }
+                            }
+                        }
+
                         // after the first child, all are included as sub-menu
                         ?>
                         <li> 
@@ -88,13 +106,13 @@ class Menu
                         <?php
 
                     }
+                    
                     if ($loop_index == (count($current_menu) - 1)) {
-                        // we're at the end of the loop, so we close the "ul"
-                        ?>
-                        </ul>
-                        <?php
+                        echo '</ul>';
                     }
-                } else { ?>
+
+                } else { 
+                    ?>
                     <a href="<?php echo riake('href', $menu, '#');?>"> 
                         <i class="<?php echo riake('icon', $menu, 'fa fa-star');?>"></i> 
                         <span><?php echo riake('title', $menu);?></span> 

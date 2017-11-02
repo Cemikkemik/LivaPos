@@ -1,8 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-include_once( dirname( __FILE__ ) . '/inc/elFinderController.php' );
-
 class elFinder extends CI_Model{
 
     public function __construct()
@@ -10,7 +8,6 @@ class elFinder extends CI_Model{
         parent::__construct();
         //Codeigniter : Write Less Do More
 
-        $this->events->add_action( 'load_dashboard', array( $this, 'load_dashboard' ) );
         $this->events->add_filter( 'admin_menus', array( $this, 'admin_menus' ), 15 );
         $this->events->add_action( 'do_enable_module', [ $this, 'enable_module' ] );
         $this->events->add_action( 'tendoo_settings_final_config', [ $this, 'final_config' ] );
@@ -37,7 +34,7 @@ class elFinder extends CI_Model{
     {
         if( $namespace == 'elfinder' && get_option( 'elfinder_installed' ) == null ) {
             $this->aauth->create_perm( 'view_file_manager',    __( 'File Manager Access', 'nexo'),            __('Let the use have access to the file manager.', 'nexo'));
-            $this->optiosn->set( 'view_file_manager', 'true', true );
+            $this->options->set( 'view_file_manager', 'true', true );
         }
     }
 
@@ -63,21 +60,6 @@ class elFinder extends CI_Model{
         endif;
         return $menus ? $menus : $backup;
     }
-
-    /**
-    *
-    * Load dashboard
-    *
-    * @return void
-    */
-
-    public function load_dashboard()
-    {
-        if( User::can( 'view_file_manager' ) ) :
-            $this->Gui->register_page_object( 'elfinder', new elFinderController );
-        endif;
-    }
-
 }
 
 new elFinder;

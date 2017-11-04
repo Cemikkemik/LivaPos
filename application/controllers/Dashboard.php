@@ -106,10 +106,15 @@ class Dashboard extends Tendoo_Controller
     {
         $this->load->library( 'DashboardWidgets', null, 'widgets' );
         
-        // $this->widgets->register( 'foo', [
-        //     'title'     =>  'Custom Widget',
-        //     'template'  =>  '<h1>Hello World</h1>'
-        // ]);
+        $this->widgets->register( 'foo', [
+            'title'     =>  'Custom Widget',
+            'template'  =>  '<h1>Hello World</h1>'
+        ]);
+        $this->widgets->register( 'bar', [
+            'title'     =>  'Another Widget',
+            'template'  =>  '<h1>Hello World</h1>'
+        ]);
+        die;
 
         $this->enqueue->js( 'angular-ui-sortable' );
         $this->enqueue->js( 'angular-queue' );

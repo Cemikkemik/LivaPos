@@ -1,3 +1,4 @@
+{{ widget }}
 <div class="box widget-body" ng-if="widget.wrapper">
     <div class="box-header with-border widget-handler">
         {{ widget.title }}

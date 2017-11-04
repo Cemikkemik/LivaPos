@@ -32,27 +32,42 @@ class DashboardWidgets
         $widgetExists       =   false;
         $widgets            =   [];
 
-        for( $i = 0; $i < 2; $i++ ) {
+        for( $i = 0; $i <= 2; $i++ ) {
             $widgets[ $i ]    =   get_option( $this->events->apply_filters( 'column_' . $i . '_widgets', 'column_' . $i . '_widgets' ), [] );
+            
+            // var_dump( 
+            //     'from_db',
+            //     $widgets[ $i ]
+            // );
 
             $widgetsNamespaces     =   [];
             foreach( $widgets[ $i ] as $widget ) {
                 $widgetsNamespaces[]    =   $widget[ 'namespace' ];
             }
 
+            // var_dump( $widgetsNamespaces );die;
+
             if( in_array( $namespace, $widgetsNamespaces ) ) {
                 $widgetsExists      =   true;
             }
         }
 
+        var_dump( $widgetExists );die;
+
         // register widget if it doesn't exist
         if( ! $widgetExists ) {
+            $defaults                   =   [
+                'wrapper'       =>  true,
+            ];
+
             $config[ 'namespace' ]      =   $namespace;
-            $widgets[1][]               =   $config;
+            $widgets[0][]               =   array_merge( $defaults, $config );
+
+            // var_dump( 'final', $widgets[0] );
             
             set_option(
                 $this->events->apply_filters( 'column_0_widgets', 'column_0_widgets' ),
-                $widgets[1]
+                $widgets[0]
             );
         }
     }

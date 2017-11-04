@@ -1,7 +1,6 @@
-.widget-placeholder {
+.widget-holder {
 	border:#999 3px dashed;
-	width:100%;
-	margin-bottom:20px;
+	min-height: 50px;
 }
 .ui-sortable {
 	min-height:100px;

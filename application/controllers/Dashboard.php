@@ -104,12 +104,33 @@ class Dashboard extends Tendoo_Controller
 
     public function index()
     {
+        $this->load->library( 'DashboardWidgets', null, 'widgets' );
+        
+        // $this->widgets->register( 'foo', [
+        //     'title'     =>  'Custom Widget',
+        //     'template'  =>  '<h1>Hello World</h1>'
+        // ]);
+
+        $this->enqueue->js( 'angular-ui-sortable' );
+        $this->enqueue->js( 'angular-queue' );
+
+        $this->events->add_filter( 'dashboard_dependencies', function( $deps ) {
+            $deps[]     =   'ui.sortable';
+            $deps[]     =   'ngQueue';
+            return $deps;
+        });
+
+        $this->events->add_action( 'dashboard_footer', function() {
+            get_instance()->load->view( 'dashboard/index/script' );
+        });
+
         // load widget model here only
-        $this->load->model('Dashboard_Widgets_Model', 'dashboard_widgets');
+        // $this->load->model('Dashboard_Widgets_Model', 'dashboard_widgets');
 
         // trigger action while loading home (for registering widgets)
         $this->events->do_action('load_dashboard_home');
-        $this->load_widgets();
+        
+        // $this->load_widgets();
 
         $this->Gui->set_title(sprintf(__('Dashboard &mdash; %s'), get('core_signature')));
         $this->load->view('dashboard/index/body');

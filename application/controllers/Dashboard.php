@@ -112,9 +112,11 @@ class Dashboard extends Tendoo_Controller
         ]);
         $this->widgets->register( 'bar', [
             'title'     =>  'Another Widget',
-            'template'  =>  '<h1>Hello World</h1>'
+            'template'  =>  'bar Widget'
         ]);
-        die;
+
+        $this->widgets->init();
+        // die;
 
         $this->enqueue->js( 'angular-ui-sortable' );
         $this->enqueue->js( 'angular-queue' );

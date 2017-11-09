@@ -6,7 +6,7 @@
                 'text'  =>  __( 'Tableau de bord', 'nexo' ),
                 'icon'  =>  'home',
                 'attrs' =>  [
-                    'ng-click'  =>  'goTo( \'' . site_url([ 'dashboard', store_slug(), 'nexo', 'commandes', 'lists' ] ) . '\' )'
+                    'ng-click'  =>  'goTo( \'' . site_url([ 'dashboard', store_slug(), 'nexo', 'orders' ] ) . '\' )'
                 ]
             ], [
                 'class' =>  'default calculator-button',

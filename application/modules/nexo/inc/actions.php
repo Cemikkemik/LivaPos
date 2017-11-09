@@ -22,6 +22,15 @@ class Nexo_Actions extends Tendoo_Module
 
 		} else {
 
+            $this->load->library( 'DashboardWidgets', null, 'widgets' );
+            
+            // $this->widgets->register( 'nexo_profile', [
+            //     'title'     =>  'Foo Widget',
+            //     'url'       =>  site_url([ 'api/widgets/foo' ]),
+            //     'directive'    =>  $this->load->view( 'dashboard/_notes/foo', null, true ),
+            //     'returnsJSON'   =>  true
+            // ]);
+
 			// $this->dashboard_widgets->add( store_prefix() . 'nexo_profile', array(
 			// 	'title'                    =>    __('Profil', 'nexo'),
 			// 	'type'                    =>    'unwrapped',

@@ -98,7 +98,7 @@ class DashboardWidgets
                     $widgetConfig[ 'namespace' ]    =   $namespace;
                     $newWidget                      =   array_merge( $defaults, $widgetConfig );
                     $widgets[0][]                   =   $newWidget;
-    
+                    
                     set_option(
                         $this->events->apply_filters( 'column_0_widgets', 'column_0_widgets' ),
                         $widgets[0]
@@ -110,7 +110,15 @@ class DashboardWidgets
             for( $i = 0; $i <= 2; $i++ ) {
                 set_option( $this->events->apply_filters( 'column_' . $i . '_widgets', 'column_' . $i . '_widgets' ), [] );
             }
-        }
-        
+        }        
+    }
+
+    /**
+     * Get all Widgets
+     * @return array of all widgets
+     */
+    public function get()
+    {
+        return $this->widgets;
     }
 }

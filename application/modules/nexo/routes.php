@@ -24,7 +24,7 @@ $Route->get( 'nexo/settings/providers', 'NexoSettingsController@providers' );
 $Route->get( 'nexo/settings/orders', 'NexoSettingsController@orders' );
 $Route->get( 'nexo/settings/stores', 'NexoSettingsController@stores' );
 $Route->get( 'nexo/settings/stripe', 'NexoSettingsController@stripe' );
-$Route->get( 'nexo/settings', 'NexoSettingsController@settings' );
+$Route->get( 'nexo/settings', 'NexoSettingsController@home' );
 $Route->get( 'nexo/stores', 'NexoStoreController@lists' );
 $Route->get( 'nexo/stores/add', 'NexoStoreController@add' );
 $Route->get( 'nexo/stores/all', 'NexoStoreController@all' );

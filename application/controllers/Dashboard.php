@@ -104,26 +104,34 @@ class Dashboard extends Tendoo_Controller
 
     public function index()
     {
-        $this->load->library( 'DashboardWidgets', null, 'widgets' );
+        // $this->load->library( 'DashboardWidgets', null, 'widgets' );
         
-        $this->widgets->register( 'foo', [
-            'title'     =>  'Custom Widget',
-            'template'  =>  '<h1>Hello World</h1>'
-        ]);
-        $this->widgets->register( 'bar', [
-            'title'     =>  'Another Widget',
-            'template'  =>  'bar Widget'
-        ]);
+        // $this->widgets->register( 'foo', [
+        //     'title'     =>  'Foo Widget',
+        //     'url'       =>  site_url([ 'api/widgets/foo' ]),
+        //     'directive'    =>  $this->load->view( 'dashboard/_notes/foo', null, true ),
+        //     'returnsJSON'   =>  true,
+        //     'permission'    =>  'manage_core'
+        // ]);
+        
+        // $this->widgets->register( 'bar', [
+        //     'title'     =>  'Bar Widget',
+        //     'url'       =>  site_url([ 'api/widgets/sample' ]),
+        //     'directive'    =>  $this->load->view( 'dashboard/_notes/bar', null, true ),
+        //     'returnsJSON'   =>  true
+        // ]);
 
-        $this->widgets->init();
+        // $this->widgets->init();
         // die;
 
         $this->enqueue->js( 'angular-ui-sortable' );
         $this->enqueue->js( 'angular-queue' );
+        $this->enqueue->js( 'angular-compile' );
 
         $this->events->add_filter( 'dashboard_dependencies', function( $deps ) {
             $deps[]     =   'ui.sortable';
             $deps[]     =   'ngQueue';
+            $deps[]     =   'angular-bind-html-compile';
             return $deps;
         });
 

@@ -13,7 +13,6 @@ class NexoSuppliesController extends CI_Model
 		**/
 
 		if( ( multistore_enabled() && ! is_multistore() ) && $this->events->apply_filters( 'force_show_inventory', false ) == false ) {
-            // return tendoo_error( 'disabled_feature' );
             return show_error( __( 'Cette fonctionnalité a été désactivée.' ) );
 		}
 
@@ -26,35 +25,32 @@ class NexoSuppliesController extends CI_Model
             return $this->Nexo_Misc->cmoney_format( $price, true );
         });
 
-        $crud->callback_column( 'PROVIDERS', function( $providers ){
-            return empty( $providers ) ? __( 'N/D', 'nexo' ) : $providers;
-        });
-
 		// fields
 		$fields			=	array( 'TITRE', 'DESCRIPTION' );
-        $crud->columns( 'TITRE', 'PROVIDERS', 'VALUE', 'ITEMS', 'AUTHOR', 'DATE_CREATION' );
+        $crud->columns( 'REF_PROVIDER', 'VALUE', 'ITEMS', 'AUTHOR', 'DATE_CREATION' );
         $crud->fields( $fields );
 
-        $crud->order_by('TITRE', 'asc');
+        $crud->order_by('DATE_CREATION', 'asc');
 
         $crud->unset_add();
         $crud->unset_edit();
 
-        $crud->display_as('TITRE', __('Nom de la livraison', 'nexo'));
         $crud->display_as('DATE_CREATION', __('Crée le', 'nexo'));
         $crud->display_as('AUTHOR', __('Auteur', 'nexo'));
         $crud->display_as('VALUE', __('Valeur', 'nexo'));
         $crud->display_as('ITEMS', __('Produits Inclus', 'nexo'));
-        $crud->display_as('PROVIDERS', __('Fournisseurs', 'nexo'));
+        $crud->display_as('REF_PROVIDER', __('Fournisseur', 'nexo'));
         $crud->display_as('DESCRIPTION', __('Description', 'nexo'));
         $crud->display_as('FOURNISSEUR_REF_ID', __('Fournisseur', 'nexo'));
 
         $crud->set_relation('AUTHOR', 'aauth_users', 'name');
+        $crud->set_relation( 'REF_PROVIDER', store_prefix() . 'nexo_fournisseurs', 'NOM' );
+        $crud->callback_before_delete([ $this, '__delete_supplies' ]);
 
         // Liste des produits
-        $crud->add_action(__('Liste des produits', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'arrivages', 'delivery_items' )) . '/', 'fa fa-list-ol');
+        $crud->add_action(__('Liste des produits', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'supplies', 'items' )) . '/', 'fa fa-list-ol');
         $crud->add_action(__('Etiquettes des articles', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'shipping_item_codebar' )) . '/', 'fa fa-tags');
-        $crud->add_action(__('Facture de l\'arrivage', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'arrivages', 'delivery_invoice' )) . '/', 'fa fa-file');
+        $crud->add_action(__('Facture de l\'arrivage', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'supplies', 'invoice' )) . '/', 'fa fa-file');
 
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
@@ -73,6 +69,39 @@ class NexoSuppliesController extends CI_Model
         return $output;
     }
 
+    /**
+     * Delete Supplies
+     * Update all product stock
+     * @param int current supplies
+     * @return void
+     */
+    public function __delete_supplies( $supply_id ) 
+    {
+        $this->load->model( 'Nexo_Products','items' );
+        // get all supplies made with that supplies
+        $supplies   =   $this->db->where( 'REF_SHIPPING', $supply_id )
+        ->get( store_prefix() . 'nexo_articles_stock_flow' )
+        ->result_array();
+
+        // -> update remaining quantity
+        // -> delete supply entry
+        foreach( $supplies as $supply ) {
+            $fresh_item             =   $this->items->get_single( $supply[ 'REF_ARTICLE_BARCODE' ], 'barcode' );
+            $updated_quantity       =   floatval( $fresh_item[ 'QUANTITE_RESTANTE' ] ) - floatval( $supply[ 'QUANTITE' ] );
+            
+            // Update Remaining quantity
+            $this->items->update_single( $fresh_item[ 'ID' ],[
+                'QUANTITE_RESTANTE' =>  $updated_quantity
+            ]);
+
+            // Delete Stock Flow for this item
+            $this->db->where( 'ID', $supply[ 'ID' ])
+            ->delete( store_prefix() . 'nexo_articles_stock_flow' );
+
+            // We might reduce supplier debt
+        }
+    }
+
     public function lists($page = 'index', $id = null)
     {
 		global $PageNow;
@@ -82,12 +111,12 @@ class NexoSuppliesController extends CI_Model
             $this->Gui->set_title( store_title( __('Liste des approvisonnements', 'nexo')) );
         } elseif ($page == 'delete') { // Check Deletion permission
 
-            nexo_permission_check('delete_shop_shippings');
+            nexo_permission_check( 'nexo.delete.supplies' );
 
             // Checks whether an item is in use before delete
             nexo_availability_check($id, array(
                 array( 'col'    =>    'REF_SHIPPING', 'table'    =>    store_prefix() . 'nexo_articles' )
-            ));
+            ) );
         } 
 
         $data[ 'crud_content' ]    =    $this->crud_header();
@@ -158,12 +187,8 @@ class NexoSuppliesController extends CI_Model
 
     public function delivery_items_crud( $delivery_id )
     {
-        if (
-            ! User::can('create_shop_shippings')  &&
-            ! User::can('edit_shop_shippings') &&
-            ! User::can('delete_shop_shippings')
-        ) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if( User::cannot( 'nexo.view.supplies') ) {
+            return nexo_access_denied();
         }
 
 		/**

@@ -125,7 +125,7 @@ if ($success_message !== null) {
                 </div>
             </div>
         </div>
-        <div id='ajax_list' class="ajax_list" style="border-top:solid 1px #EEE;">
+        <div id='ajax_list' class="ajax_list box-body no-padding table-responsive" style="border-top:solid 1px #EEE;">
             <?php echo $list_view?> 
         </div>
         <div class="box-footer clearfix">
@@ -194,3 +194,12 @@ if ($success_message !== null) {
     </div>
     <?php echo form_close(); ?> 
 </div>
+<script type="text/javascript">
+$('.table-responsive').on('show.bs.dropdown', function () {
+     $('.table-responsive').css( "overflow", "inherit" );
+});
+
+$('.table-responsive').on('hide.bs.dropdown', function () {
+     $('.table-responsive').css( "overflow", "auto" );
+})
+</script>

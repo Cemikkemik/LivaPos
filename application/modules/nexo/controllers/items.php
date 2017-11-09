@@ -440,6 +440,7 @@ class NexoItemsController extends CI_Model
 
         $crud->field_type( 'TOTAL_PRICE', 'hidden' );
         $crud->callback_before_update( [ $this, 'before_update_stock_supply' ] );
+        $crud->callback_before_delete( [ $this, 'before_delete_stock_supply' ] );
         
         $crud->display_as('REF_ARTICLE_BARCODE', __('Produit', 'nexo'));
         $crud->display_as('QUANTITE', __('Quantité', 'nexo'));
@@ -464,7 +465,7 @@ class NexoItemsController extends CI_Model
         // add a new button to allow quick access to item
         $this->events->add_filter( 'grocery_header_buttons', function( $buttons ) {
             $buttons[]      =   [
-                'url'       =>  site_url( [ 'dashboard', store_slug(), 'nexo', 'produits', 'lists' ] ),
+                'url'       =>  site_url( [ 'dashboard', store_slug(), 'nexo', 'items' ] ),
                 'text'      =>  __( 'Liste des produits', 'nexo' )
             ];
 
@@ -472,8 +473,6 @@ class NexoItemsController extends CI_Model
         });       
 
         $this->load->model( 'Nexo_Products' );
-        $crud->callback_before_delete( array( $this->Nexo_Products, 'delete_stock_flow' ) );
-
         // $crud->unset_edit();
         $crud->unset_add();
 
@@ -557,6 +556,68 @@ class NexoItemsController extends CI_Model
         ]);
 
         return $stock;
+    }
+
+    /**
+     * Before Delete Stock Supply
+     * @param int stock id
+     * @return void
+     */
+    public function before_delete_stock_supply( $id )
+    {
+        // get supply entry
+        $supply     =   $this->db->where( 'ID', $id )
+        ->get( store_prefix() . 'nexo_articles_stock_flow' )
+        ->result_array();
+
+        // -> reduce item included on the supply
+        // -> reduce remaining quantity
+        $shipping   =   $this->db->where( 'ID', $supply[0][ 'REF_SHIPPING' ] )
+        ->get( store_prefix() . 'nexo_arrivages' )
+        ->result_array();
+
+        // retreive fresh item
+        $item       =   $this->db->where( 'CODEBAR', $supply[0][ 'REF_ARTICLE_BARCODE' ] )
+        ->get( store_prefix() . 'nexo_articles' )
+        ->result_array();
+
+        // if shipping value is not update, default one will be used.
+        $new_shipping_price         =   $shipping[0][ 'VALUE' ];
+
+        if( in_array( $supply[0][ 'TYPE' ], [ 'supply', 'usable' ] ) ) {
+            if( $supply[0][ 'TYPE' ] == 'supply' ) {
+                $new_shipping_items     =   floatval( $shipping[0][ 'ITEMS' ] ) - floatval( $supply[0][ 'QUANTITE' ] );
+                $cost                   =   floatval( $supply[0][ 'QUANTITE' ]) * floatval( $supply[0][ 'UNIT_PRICE' ]);
+                $new_shipping_price     =   floatval( $shipping[0][ 'VALUE' ] ) - $cost;
+            }
+            $new_remaining_qte      =   floatval( $item[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $supply[0][ 'QUANTITE' ] );
+        } else {
+            $new_shipping_items     =   intval( $shipping[0][ 'ITEMS' ] ) + intval( $supply[0][ 'QUANTITE' ] );
+            $new_remaining_qte      =   floatval( $item[0][ 'QUANTITE_RESTANTE' ] ) + floatval( $supply[0][ 'QUANTITE' ] );
+        }
+
+        // block negative suppression
+        // we can also delete all remaining quantity and set remaining quantity to 0;
+        if( $new_remaining_qte < 0 ) {
+            echo json_encode([
+                'success'               =>      false,
+                'error_message'         =>      __( 'Impossible de supprimer la transaction. Cette dernière a probablement déjà été consommé à moitié ou en totalité.', 'nexo' )
+            ]);
+            die;  
+        }
+
+        // update shipping if it's found.
+        if( $shipping ) {
+            $this->db->where( 'ID', $supply[0][ 'ID' ] )->update( store_prefix() . 'nexo_arrivages', [
+                'ITEMS'     =>  $new_shipping_items,
+                'VALUE'     =>  $new_shipping_price
+            ]);
+        }
+
+        // reduce remaining quantity
+        $this->db->where( 'CODEBAR', $supply[0][ 'REF_ARTICLE_BARCODE' ] )->update( store_prefix() . 'nexo_articles', [
+            'QUANTITE_RESTANTE'     =>  $new_remaining_qte
+        ]);
     }
 
     /**

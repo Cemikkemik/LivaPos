@@ -223,17 +223,17 @@ class Nexo_Controller extends CI_Model
 				'disable'        =>  true,
 				'href'			=>	'#',
 				'icon'			=>	'fa fa-truck',
-				'permission'		=>	'nexo.view.suppliers'
+				'permission'		=>	'nexo.view.providers'
 			),
 			array(
 				'title'        =>    __('Liste des fournisseurs', 'nexo'),
-				'href'        =>     dashboard_url([ 'nexo', 'suppliers' ]),
-				'permission'	=>	'nexo.view.suppliers'
+				'href'        =>     dashboard_url([ 'nexo', 'providers' ]),
+				'permission'	=>	'nexo.view.providers'
 			),
 			array(
 				'title'        =>    __('Ajouter un fournisseur', 'nexo'),
-				'href'        =>     dashboard_url([ 'nexo', 'suppliers', 'add' ]),
-				'permission'	=>	'nexo.create.suppliers'
+				'href'        =>     dashboard_url([ 'nexo', 'providers', 'add' ]),
+				'permission'	=>	'nexo.create.providers'
 			),
 		);
 

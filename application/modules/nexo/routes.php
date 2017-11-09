@@ -29,19 +29,23 @@ $Route->get( 'nexo/stores', 'NexoStoreController@lists' );
 $Route->get( 'nexo/stores/add', 'NexoStoreController@add' );
 $Route->get( 'nexo/stores/all', 'NexoStoreController@all' );
 $Route->get( 'nexo/stores/{param}/{id?}', 'NexoStoreController@lists' );
-$Route->get( 'nexo/supplies/add', 'NexoItemsController@add_supply' );
-$Route->get( 'nexo/supplies/{param}/{id?}', 'NexoSuppliesController@lists' );
 $Route->get( 'nexo/supplies/', 'NexoSuppliesController@lists' );
-$Route->get( 'nexo/suppliers', 'NexoProvidersController@lists' );
-$Route->get( 'nexo/suppliers/add', 'NexoProvidersController@add' );
+$Route->get( 'nexo/supplies/add', 'NexoItemsController@add_supply' );
+$Route->get( 'nexo/supplies/invoice/{shipping_id}', 'NexoSuppliesController@delivery_invoice' );
+$Route->get( 'nexo/supplies/items/{shipping_id}', 'NexoSuppliesController@delivery_items' );
+$Route->get( 'nexo/providers', 'NexoProvidersController@lists' );
+$Route->get( 'nexo/providers/add', 'NexoProvidersController@add' );
 $Route->get( 'nexo/orders', 'NexoCommandesController@lists' );
 $Route->get( 'nexo/pos', 'NexoRegistersController@__use' );
 $Route->get( 'nexo/templates/customers-main', 'NexoTemplateController@customers_main' );
 $Route->get( 'nexo/templates/customers-form', 'NexoTemplateController@customers_form' );
 
 
+$Route->match([ 'get', 'post' ], 'nexo/providers/{action?}/{id?}', 'NexoProvidersController@lists' );
 $Route->match([ 'get', 'post' ], 'nexo/supplies/{action?}/{id?}', 'NexoSuppliesController@lists' );
+$Route->match([ 'get', 'post' ], 'nexo/supplies/items/{shipping_id}/{action?}/{id?}', 'NexoSuppliesController@delivery_items' );
 $Route->match([ 'get', 'post' ], 'nexo/items/{action?}/{id?}', 'NexoItemsController@lists' );
+$Route->match([ 'get', 'post' ], 'nexo/items/supply-history/{barcode}/{action?}/{id?}', 'NexoItemsController@supply' );
 $Route->match([ 'get', 'post' ], 'nexo/categories/{action?}/{id?}', 'NexoCategoriesController@lists' );
 $Route->match([ 'get', 'post'], 'nexo/taxes/{param?}/{id?}', 'NexoTaxesController@index' );
 $Route->match([ 'get', 'post' ], 'nexo/suppliers/{action?}/{id?}', 'NexoProvidersController@lists' );

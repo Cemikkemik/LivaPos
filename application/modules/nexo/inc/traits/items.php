@@ -592,6 +592,16 @@ trait Nexo_items
         if( is_array( $this->post( 'items' ) ) ) {
             $delivery_cost                  =   [];
             $provider_amount_due            =   [];
+            $items                          =   $this->post( 'items' );
+            
+            $this->db->insert( store_prefix() . 'nexo_arrivages', [
+                'REF_PROVIDER'      =>  $items[0][ 'ref_provider' ],
+                'AUTHOR'            =>  User::id(),
+                'DATE_CREATION'     =>  date_now()
+            ]);
+
+            $shipping_id        =   $this->db->insert_id();
+            
             foreach( $this->post( 'items' ) as $item ) {
                 // get current item stock
                 $saved_item       =   $this->db->where( 'CODEBAR', $item[ 'item_barcode' ] )->get( store_prefix() . 'nexo_articles' )->result_array();
@@ -621,7 +631,7 @@ trait Nexo_items
                         'TOTAL_PRICE'           =>  ( float ) $item[ 'unit_price' ] * ( int ) $item[ 'item_qte' ],
                         // 'DESCRIPTION'           =>  $this->post( 'description' ) == null ? '' : $this->post( 'description' ),
                         'REF_PROVIDER'          =>  $item[ 'ref_provider' ],
-                        'REF_SHIPPING'          =>  $item[ 'ref_shipping' ],
+                        'REF_SHIPPING'          =>  $shipping_id,
                     ]);
 
                     $updatable_columns          =   $this->events->apply_filters( 'items_columns_updatable_after_supply', [
@@ -635,8 +645,8 @@ trait Nexo_items
                     ->update( store_prefix() . 'nexo_articles', $updatable_columns[1] );
 
                     // Calculating the delivery Cost
-                    if( @$delivery_cost[ $item[ 'ref_shipping' ] ] == null ) {
-                        $delivery_cost[ $item[ 'ref_shipping' ] ]       =   [
+                    if( @$delivery_cost[ $shipping_id ] == null ) {
+                        $delivery_cost[ $shipping_id ]       =   [
                             'cost'          =>  0,
                             'items'         =>  0,
                             'ref_provider'  =>  $item[ 'ref_provider' ]
@@ -645,8 +655,8 @@ trait Nexo_items
 
                     $item_cost          =   floatval( $item[ 'unit_price'] ) * floatval( $item[ 'item_qte' ] ) ;
 
-                    $delivery_cost[ $item[ 'ref_shipping' ] ][ 'cost' ]     +=   $item_cost;
-                    $delivery_cost[ $item[ 'ref_shipping' ] ][ 'items' ]     += floatval( $item[ 'item_qte' ] );
+                    $delivery_cost[ $shipping_id ][ 'cost' ]        +=   $item_cost;
+                    $delivery_cost[ $shipping_id ][ 'items' ]       += floatval( $item[ 'item_qte' ] );
 
                     // update average price
                     $supplies       =   $this->db->where( 'REF_ARTICLE_BARCODE', $item[ 'item_barcode' ] )
@@ -671,7 +681,7 @@ trait Nexo_items
                         if( @$provider_amount_due[ $item[ 'ref_provider' ] ] == null ) {
                             $provider_amount_due[ $item[ 'ref_provider' ] ]     =   [
                                 'cost'          =>  0,
-                                'supply_id'     =>  $item[ 'ref_shipping' ]
+                                'supply_id'     =>  $shipping_id
                             ];
                         }
 
@@ -714,23 +724,14 @@ trait Nexo_items
 
             // Update new values
             foreach( $delivery_cost as $delivery_id => $data ) {
-                $delivery       =   $this->db->where( 'ID', $delivery_id )->get( store_prefix() . 'nexo_arrivages' )
-                ->result_array();
-
-                // adding a new provider
-                $providers       =   array_filter( explode( ',', $delivery[0][ 'REF_PROVIDERS' ] ) );
-                if( ! in_array( $data[ 'ref_provider' ], $providers ) ) {
-                    $providers[]        =   	$data[ 'ref_provider' ];
-                }
-                $providers      =   implode( ',', $providers );
-
                 $this->db->where( store_prefix() . 'nexo_arrivages.ID', $delivery_id )->update( store_prefix() . 'nexo_arrivages', [
-                    'ITEMS'         =>  floatval( $delivery[0][ 'ITEMS' ] ) +   $data[ 'items' ],
-                    'VALUE'         =>  $data[ 'cost' ],
-                    'REF_PROVIDERS' =>  $providers
+                    'ITEMS'         =>  $data[ 'items' ],
+                    'VALUE'         =>  $data[ 'cost' ]
                 ]);
             }
-            return $this->__success();
+            return $this->response([
+                'shipping_id'   =>  $shipping_id
+            ]);
         }
         return $this->__failed();
     }

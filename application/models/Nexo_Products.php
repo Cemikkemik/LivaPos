@@ -7,6 +7,41 @@ class Nexo_Products extends CI_Model
     }
 
     /**
+     * get single
+     * @param string id/barcode
+     * @param string type 
+     * @return array
+     */
+    public function get_single( $param, $filter = 'id' )
+    {
+        if( $filter == 'id' ) {
+            $this->db->where( 'ID', $param );
+        } else {
+            $this->db->where( 'CODEBAR', $param );
+        }
+
+        $item   =   $this->db->get( store_prefix() . 'nexo_articles' )
+        ->result_array();
+
+        if( $item ) {
+            return $item[0];        
+        }
+        return [];
+    }
+
+    /**
+     * Update Single Item
+     * @param string id
+     * @param array data
+     * @return CI Object
+     */
+    public function update_single( $id, $data )
+    {
+        return $this->db->where( 'ID', $id )
+        ->update( store_prefix() . 'nexo_articles', $data );
+    }
+
+    /**
      * Create codebar image
      * @param string code
      * @return void
@@ -404,52 +439,5 @@ class Nexo_Products extends CI_Model
 
         $query    =    $this->db->get( store_prefix() . 'nexo_articles');
         return $query->result_array();
-    }
-
-    /**
-     * Stock Flow
-     * @param int
-     * @return array
-    **/
-
-    public function delete_stock_flow( $int ) 
-    {
-        $stock      =   $this->db->where( 'ID', $int )->get( store_prefix() . 'nexo_articles_stock_flow' )->result_array();
-        if( $stock ) {
-            $item       =   $this->db->where( 'CODEBAR', $stock[0][ 'REF_ARTICLE_BARCODE'] )
-            ->get( store_prefix() . 'nexo_articles' )->result_array();
-
-            if( in_array( $stock[0][ 'TYPE' ], [ 'supply', 'usable' ] ) ) {
-                // can only delete if the stock allow it
-                $result         =   floatval( $item[0][ 'QUANTITE_RESTANTE' ] ) - ( floatval( $stock[0][ 'QUANTITE' ] ) + 100000000 );
-                if( $result >= 0 ) {
-
-                    // update the current quantity
-                    $this->db->where( 'CODEBAR', $stock[0][ 'REF_ARTICLE_BARCODE' ] )->update( store_prefix() . 'nexo_articles', [
-                        'QUANTITE_RESTANTE' =>  $result
-                    ]);
-
-                    return $int;
-                }
-
-                echo json_encode([
-                    'success'               =>      false,
-                    'error_message'         =>      $this->lang->line( 'cant_delete_stock_flow' )
-                ]);
-                die;                
-            } else if( in_array( $stock[0][ 'TYPE' ], [ 'defective', 'adjustment'] ) ) {
-                // can only delete if the stock allow it
-                $result         =   floatval( $item[0][ 'QUANTITE_RESTANTE' ] ) + floatval( $stock[0][ 'QUANTITE' ] );
-                // update the current quantity
-                $this->db->where( 'CODEBAR', $stock[0][ 'REF_ARTICLE_BARCODE' ] )->update( store_prefix() . 'nexo_articles', [
-                    'QUANTITE_RESTANTE' =>  $result
-                ]);
-                
-                return $int;
-            }            
-            
-        }
-
-
     }
 }

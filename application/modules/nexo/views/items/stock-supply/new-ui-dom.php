@@ -1,5 +1,5 @@
 <div class="row" ng-controller="newSupplyUIController">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="box">
             <div class="box-header" np-autocomplete="npAutocompleteOptions">
                 <input np-input-model="searchValue" ng-model-options="{ debounce : 2000 }" type="text" class="search-input form-control input-lg" placeholder="<?php echo __( 'Rechercher le nom du produit, le code barre ou l\'unité de gestion du stock', 'nexo' );?>">
@@ -38,12 +38,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td colspan="2">
-                                <select ng-model="selectedDelivery" class="form-control" ng-options="delivery as delivery.TITRE for delivery in deliveries track by delivery.ID">
-                                    
-                                </select>
-                            </td>
-                            <td colspan="2">
+                            <td colspan="4">
                                 <select ng-model="selectedProvider" class="form-control" ng-options="provider as provider.NOM for provider in providers track by provider.ID">
                                     <option value=""><?php echo __( 'Choisir un fournisseur', 'nexo' );?></option>
                                 </select>
@@ -53,34 +48,6 @@
                     </tfoot>
                 </table>
             </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="box">
-            <div class="box-header with-border">
-                <span ng-show="selectedDelivery.ID == 0"><?php echo __( 'Ajouter un approvisionnement', 'nexo' );?></span>
-                <span ng-show="selectedDelivery.ID != 0"><?php echo __( 'Modifier un approvisionnement', 'nexo' );?></span>
-            </div>
-            <div class="box-body">
-                <div class="form-group">
-                    <label for="supply_name"><?php echo __( 'Titre', 'nexo' );?></label>
-                    <input type="text" ng-model="deliveryTitle" class="form-control" placeholder="<?php echo __( 'Titre de l\'approvisionnement', 'nexo' );?>"/>
-                </div>
-                <div class="form-group">
-                    <label for="supply_description"><?php echo __( 'Description', 'nexo' );?></label>
-                    <textarea ng-model="deliveryDescription" name="" id="" cols="30" rows="10" class="form-control"></textarea>
-                </div>
-                <button ng-class="{ disabled : ( ! canSubmit ) }" ng-click="saveSupply()" class="btn btn-primary" ng-show="selectedDelivery.ID == 0">
-                    <span ><?php echo __( 'Ajouter un approvisionnement', 'nexo' );?></span>
-                </button>
-                <button ng-click="updateSupply()" class="btn btn-default" ng-show="selectedDelivery.ID != 0">
-                    <span ><?php echo __( 'Modifier l\'approvisionnement', 'nexo' );?></span>
-                </button>
-                <button class="btn btn-warning" ng-show="selectedDelivery.ID != 0" ng-click="cancelCreateDelivery()">
-                    <span ><?php echo __( 'Annuler', 'nexo' );?></span>
-                </button>
-            </div>
-
         </div>
     </div>
 </div>

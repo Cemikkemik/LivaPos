@@ -12,16 +12,6 @@
             ID              :   0
         });
 
-        $scope.$watch( 'selectedDelivery', function(){
-            if( $scope.selectedDelivery.ID != 0 ) {
-                $scope.deliveryTitle            =   $scope.selectedDelivery.TITRE;
-                $scope.deliveryDescription      =   $scope.selectedDelivery.DESCRIPTION;
-            } else {
-                $scope.deliveryTitle            =   '';
-                $scope.deliveryDescription      =   '';
-            }
-        });
-
         $scope.selectedDelivery     =   { ID : 0 };
         $scope.selectedProvider     =   {};
 
@@ -96,109 +86,6 @@
                 $scope.cart.push( item );
             }
         }
-        
-
-        /**
-         * Save Supply
-         * @return void
-        **/
-
-        $scope.canSubmit               =   true;
-
-        $scope.saveSupply           =   function(){
-            if( $scope.canSubmit   ==  true ) {
-                canSubmit           =   false;
-                var data                =   {
-                    title               :   $scope.deliveryTitle,
-                    description         :   $scope.deliveryDescription
-                }
-
-                if( $scope.deliveryTitle == '' ) {
-                    return NexoAPI.Bootbox().alert( '<?php echo _s( 'Vous devez remplir un titre', 'nexo' );?>' );
-                }
-
-                $http.post( '<?php echo site_url( array( 'rest', 'nexo', 'deliveries' ) );?>' + '<?php echo store_get_param( '?' );?>', data, {
-                    headers			:	{
-                        '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo get_option( 'rest_key' );?>'
-                    }
-                }).then(function( returned ){
-                    $scope.canSubmit       =   true;
-                    $scope.deliveryTitle        =   '';
-                    $scope.deliveryDescription  =   '';
-                    $scope.refreshDeliveries();
-                    NexoAPI.Toast()( '<?php echo _s( 'Approvisionnement crée', 'nexo' );?>' );
-                }, function(){
-                    NexoAPI.Toast()( '<?php echo _s( 'Une erreur s\'est produit durant l\'operation', 'nexo' );?>' );
-                    $scope.canSubmit       =   true;
-                });
-            }
-        }
-
-        /**
-         *  Get Delivery
-         * @return void
-        **/
-
-        $scope.refreshDeliveries        =   function(){
-            $http.get( '<?php echo site_url( array( 'rest', 'nexo', 'deliveries' ) );?>' + '<?php echo store_get_param( '?' );?>', {
-                headers			:	{
-                    '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo get_option( 'rest_key' );?>'
-                }
-            }).then(function( returned ){
-                $scope.deliveries           =   returned.data;
-                $scope.deliveries.unshift({
-                    TITRE           :   '<?php echo __( 'Ajouter un approvisionnement', 'nexo' );?>',
-                    ID              :   0
-                });
-            });
-        }
-
-        /**
-         *  cancelCreateDelivery
-         * @return void
-        **/
-
-        $scope.cancelCreateDelivery         =   function(){
-            $scope.selectedDelivery         =   {
-                ID  :   0
-            };
-        }
-
-        /**
-         * Update Supply
-         * @return void
-        **/
-
-        $scope.updateSupply                 =   function(){
-            if( $scope.canSubmit   ==  true ) {
-                canSubmit           =   false;
-                var data                =   {
-                    title               :   $scope.deliveryTitle,
-                    description         :   $scope.deliveryDescription
-                }
-
-                if( $scope.deliveryTitle == '' ) {
-                    return NexoAPI.Bootbox().alert( '<?php echo _s( 'Vous devez remplir un titre', 'nexo' );?>' );
-                }
-
-                $http.put( '<?php echo site_url( array( 'rest', 'nexo', 'deliveries' ) );?>' + '/' + $scope.selectedDelivery.ID + '<?php echo store_get_param( '?' );?>', data, {
-                    headers			:	{
-                        '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo get_option( 'rest_key' );?>'
-                    }
-                }).then(function( returned ){
-                    $scope.canSubmit       =   true;
-                    $scope.deliveryTitle        =   '';
-                    $scope.deliveryDescription  =   '';
-                    $scope.refreshDeliveries();
-                    // $scope.getDeliveryInvoice( $scope.selectedDelivery.ID );
-                    $scope.selectedDelivery     =   { ID : 0 };
-                    NexoAPI.Toast()( '<?php echo _s( 'Approvisionnement mis à jour', 'nexo' );?>' );
-                }, function(){
-                    $scope.canSubmit       =   true;
-                    NexoAPI.Toast()( '<?php echo _s( 'Une erreur s\'est produite', 'nexo' );?>' );
-                });
-            }
-        }
 
         /**
          * Get Delivery Invoice
@@ -207,7 +94,7 @@
         **/
 
         $scope.getDeliveryInvoice           =   function( deliveryId ) {
-            $http.get( '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'arrivages', 'delivery_invoice' ]);?>/' + deliveryId + '?exclude_header=true', {
+            $http.get( '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'supplies', 'invoice' ]);?>/' + deliveryId + '?exclude_header=true', {
                 headers			:	{
                     '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo get_option( 'rest_key' );?>'
                 }
@@ -244,50 +131,50 @@
          * @return void
         **/
 
+        $scope.canSubmit        =   true;
+
         $scope.submitSupplying      =   function(){
             if( $scope.canSubmit   ==  true ) {
-                canSubmit           =   false;
 
                 if( $scope.cart.length == 0 ) {
                     return NexoAPI.Bootbox().alert( '<?php echo _s( 'Vous devez avoir au moins un produit dans la liste d\'approvisionnement', 'nexo' );?>' );
                 }
 
-                if( typeof $scope.selectedDelivery.ID == 'undefined' || $scope.selectedDelivery.ID == '0' ) {
-                    return NexoAPI.Bootbox().alert( '<?php echo _s( 'Vous devez choisir un arrivage', 'nexo' );?>' );
-                }
-
                 if( typeof $scope.selectedProvider.ID == 'undefined' || $scope.selectedProvider.ID == '0' ) {
                     return NexoAPI.Bootbox().alert( '<?php echo _s( 'Vous devez choisir un fournisseur', 'nexo' );?>' );
                 }
+                
+                NexoAPI.Bootbox().confirm( '<?php echo _s( 'Souhaitez-vous valider l\'opération ?', 'nexo' );?>', function( action ) {
+                    if( action ) {
+                        $scope.canSubmit           =   false;
+                        var items            =   [];
+                        // Format data to send
+                        _.each( $scope.cart, function( item ) {
+                            items.push({
+                                'item_barcode'  :      item.CODEBAR,
+                                'item_qte'      :      item.SUPPLY_QUANTITY,
+                                'type'          :      'supply',
+                                'unit_price'    :      item.PRIX_DACHAT,
+                                'ref_provider'  :      $scope.selectedProvider.ID
+                            });
+                        });
 
-                var items            =   [];
-                // Format data to send
-                _.each( $scope.cart, function( item ) {
-                    items.push({
-                        'item_barcode'  :      item.CODEBAR,
-                        'item_qte'      :      item.SUPPLY_QUANTITY,
-                        'type'          :      'supply',
-                        'unit_price'    :      item.PRIX_DACHAT,
-                        'ref_provider'  :      $scope.selectedProvider.ID,
-                        'ref_shipping'  :      $scope.selectedDelivery.ID
-                    });
-                });
+                        var data     =  { items };
 
-                var data     =  { items };
-
-                $http.post( '<?php echo site_url( array( 'rest', 'nexo', 'bulk_supply' ) );?>' + '<?php echo store_get_param( '?' );?>', data, {
-                    headers			:	{
-                        '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo get_option( 'rest_key' );?>'
-                    }
-                }).then(function( returned ){
-                    $scope.canSubmit       =   true;
-                    $scope.cart             =   [];
-                    $scope.getDeliveryInvoice( $scope.selectedDelivery.ID );
-                    $scope.selectedProvider     =   { id : 0 };
-                    $scope.selectedDelivery     =   { id : 0 };
-                    NexoAPI.Toast()( '<?php echo _s( 'Approvisionnement effectuée.', 'nexo' );?>' );
-                }, function(){
-                    $scope.canSubmit       =   true;
+                        $http.post( '<?php echo site_url( array( 'rest', 'nexo', 'bulk_supply' ) );?>' + '<?php echo store_get_param( '?' );?>', data, {
+                            headers			:	{
+                                '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo get_option( 'rest_key' );?>'
+                            }
+                        }).then(function( returned ){
+                            let data                =   returned.data;
+                            $scope.getDeliveryInvoice( data.shipping_id );
+                            $scope.canSubmit       =   true;
+                            $scope.cart             =   [];
+                            NexoAPI.Toast()( '<?php echo _s( 'Approvisionnement effectuée.', 'nexo' );?>' );
+                        }, function(){
+                            $scope.canSubmit       =   true;
+                        });
+                    } 
                 });
             }
         }

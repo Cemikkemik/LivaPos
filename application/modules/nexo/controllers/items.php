@@ -236,7 +236,7 @@ class NexoItemsController extends CI_Model
         $this->events->add_filter( 'grocery_header_buttons', function( $actions ) {
             $actions[]      =   [
                 'text'      =>  __( 'Faire un approvisionnement', 'nexo' ),
-                'url'       =>  dashboard_url([ 'nexo', 'supplies', 'add' ])  
+                'url'       =>  dashboard_url([ 'supplies', 'add' ])  
             ];
 
             return $actions;
@@ -286,10 +286,11 @@ class NexoItemsController extends CI_Model
             $this->Gui->set_title( store_title( __('Liste des articles', 'nexo') ) );
         } elseif ($page == 'delete') {
 
-			nexo_permission_check('delete_shop_items');
+			nexo_permission_check( 'nexo.delete.items' );
 
             $this->load->model('Nexo_Products');
             $product    =    $this->Nexo_Products->get_product($id);
+
             if ($product) {
                 // Checks whether an item is in use before delete
                 nexo_availability_check($product[0][ 'CODEBAR' ], array(
@@ -405,7 +406,7 @@ class NexoItemsController extends CI_Model
         $this->Gui->set_title( store_title( __( 'Approvisonnement', 'nexo' ) ) );
 
         // Load View
-        return $this->load->module_view( 'nexo', 'items.stock-supply.gui' );
+        return $this->load->module_view( 'nexo', 'items.stock-supply.gui', null, true );
     }
 
     /**
@@ -601,7 +602,7 @@ class NexoItemsController extends CI_Model
         if( $new_remaining_qte < 0 ) {
             echo json_encode([
                 'success'               =>      false,
-                'error_message'         =>      __( 'Impossible de supprimer la transaction. Cette dernière a probablement déjà été consommé à moitié ou en totalité.', 'nexo' )
+                'error_message'         =>      __( 'Impossible de supprimer la transaction. Cette dernière a probablement déjà été consommé à moitié ou en totalité. Veuillez utiliser l\'ajustement du stock à la place.', 'nexo' )
             ]);
             die;  
         }

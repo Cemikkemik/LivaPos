@@ -3,19 +3,6 @@ use Dompdf\Dompdf;
 
 class NexoPrintController extends CI_Model
 {
-    public function __construct($args)
-    {
-        parent::__construct();
-        if (is_array($args) && count($args) > 1) {
-            if (method_exists($this, $args[1])) {
-                return call_user_func_array(array( $this, $args[1] ),  array_slice($args, 2));
-            } else {
-                return $this->defaults($args);
-            }
-        }
-        return $this->defaults($args);
-    }
-
     public function defaults()
     {
         show_404();
@@ -44,11 +31,11 @@ class NexoPrintController extends CI_Model
 
             // Allow only cash order to be printed
             if ( ! in_array( $data[ 'order' ]['order'][0][ 'TYPE' ], $allowed_order_for_print ) ) {
-                redirect(array( 'dashboard', 'nexo', 'commandes', 'lists?notice=print_disabled' ));
+                redirect(array( 'dashboard', 'nexo', 'orders', '?notice=print_disabled' ));
             }
 
             if (count($data[ 'order' ]) == 0) {
-                die(sprintf(__('Impossible d\'afficher le ticket de caisse. Cette commande ne possède aucun article &mdash; <a href="%s">Retour en arrière</a>', 'nexo'), $_SERVER['HTTP_REFERER']));
+                return show_error(sprintf(__('Impossible d\'afficher le ticket de caisse. Cette commande ne possède aucun article &mdash; <a href="%s">Retour en arrière</a>', 'nexo'), $_SERVER['HTTP_REFERER']));
             }
 
 			// @since 2.7.9
@@ -229,5 +216,39 @@ class NexoPrintController extends CI_Model
         // Output the generated PDF to Browser
         $dompdf->stream();
 
+    }
+
+    /**
+     * Order Invoice
+     * @param int order id
+     * @return view
+     */
+    public function invoice( $order_id ) 
+    {
+        $this->load->library('parser');
+        $this->load->model('Nexo_Checkout');
+
+        global $Options;
+
+        $data                		=   array();
+        $data[ 'order' ]    		=   $this->Nexo_Checkout->get_order_products($order_id, true);
+        $data[ 'shipping' ]         =   $this->db->where( 'ref_order', $order_id )->get( store_prefix() . 'nexo_commandes_shippings' )->result_array();
+        $allowed_order_for_print	=	$this->events->apply_filters( 'allowed_order_for_print', array( 'nexo_order_comptant' ) );
+
+        // Allow only cash order to be printed
+        if ( ! in_array( $data[ 'order' ]['order'][0][ 'TYPE' ], $allowed_order_for_print ) ) {
+            redirect(array( 'dashboard', 'nexo', 'orders', '?notice=print_disabled' ));
+        }
+
+        if (count($data[ 'order' ]) == 0) {
+            return show_error(sprintf(__('Impossible d\'afficher la facture. Cette commande ne possède aucun article &mdash; <a href="%s">Retour en arrière</a>', 'nexo'), $_SERVER['HTTP_REFERER']));
+        }
+
+        $this->events->add_action( 'dashboard_footer', function() use ( $data ) {
+            get_instance()->load->module_view( 'nexo', 'invoices.default-script', $data );
+        });
+
+        $this->Gui->set_title( store_title( __( 'Facture', 'nexo' ) ) );
+        return $this->load->module_view( 'nexo', 'invoices.default', null, true );
     }
 }

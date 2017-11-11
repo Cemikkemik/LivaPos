@@ -7,51 +7,14 @@ use Pecee\Http\Request;
 use Pecee\SimpleRouter\IRouterBootManager;
 use Pecee\Http\Middleware\IMiddleware;
 use Pecee\SimpleRouter\Route\RouteController;
-	
-class NexoStoreRouter implements IRouterBootManager  {
-	public function __construct($routes) 
-	{
-		$this->routes 		=	$routes;
-		$this->store_id 	=	get_store_id();
-		$this->path 		=	substr( request()->getHeader( 'script-name' ), 0, -10 );
-	}
-	
-	public function boot(Request $request) {
-		$current_path 	=	$this->path . '/dashboard/stores/' . $this->store_id . '/';
-
-		foreach( $this->routes as $route ) {
-			Route::router()->addRoute( $route );
-		}
-
-		if( ! $route->matchRoute( Route::getUrl(), $request ) ) {
-			// return show_404();
-		}
-		
-		// // var_dump( Route::router()->getRoutes() );
-		// foreach($this->routes as $schema => $controller ) {
-
-		// 	// If the current uri matches the url, we use our custom route
-		// 	if( Router::matchRoute( $current_path . $schema . '/', $request ) ) {
-		// 		$request->setRewriteCallback( $controller );
-		// 		return $request;
-		// 	}
-		// }
-		// return show_404();
-	}
-}
-
 
 class NexoStoreController extends CI_Model
 { 
     public function crud_header()
     {
-        if (
-            ! User::can('create_shop')  &&
-            ! User::can('edit_shop') &&
-            ! User::can('delete_shop')
-        ) {
-            redirect(array( 'dashboard', 'access-denied' ));
-        }
+        if( User::cannot( 'nexo.view.stores' ) ) {
+			return nexo_access_denied();
+		}
 		
 		$this->load->model( 'Nexo_Stores' );
         
@@ -123,7 +86,7 @@ class NexoStoreController extends CI_Model
 		
 			$PageNow		=	'nexo/stores/delete';
 
-            nexo_permission_check('delete_shop');
+            nexo_permission_check('nexo.delete.store');
             
         } else {
 			
@@ -139,9 +102,9 @@ class NexoStoreController extends CI_Model
     
     public function add()
     {
-        if (! User::can('create_shop')) {
-            redirect(array( 'dashboard', 'access-denied' ));
-        }
+        if( User::cannot( 'nexo.create.stores' ) ) {
+			return nexo_access_denied();
+		}
 		
 		global $PageNow;
 		$PageNow					=	'nexo/stores/add';
@@ -202,12 +165,48 @@ class NexoStoreController extends CI_Model
 				redirect( 'dashboard/store-closed' );
 			}
 
-			if( $CurrentStore ) {				
-				$routes 			=		$this->events->apply_filters( 'store_route', []);
-				$Rules 				=		new NexoStoreRouter( $routes );
-				Route::router()->reset();
-				Route::addBootManager( $Rules );
-				Route::start();
+			if( $CurrentStore ) {
+				// Reset Previous Routing System
+				global $Route;
+				$Route->router()->reset();
+
+				// Start a new Routing System
+				global $StoreRoutes;
+				
+				$StoreRoutes 	=	new Route();
+				$StoreRoutes->group([ 
+					'prefix' => substr( request()->getHeader( 'script-name' ), 0, -10 ) . '/dashboard/stores/{store_id}/' 
+				], function() {
+					
+					$modules                =   Modules::get();
+					
+					foreach( $modules as $namespace => $module ) {
+						if( Modules::is_active( $namespace ) ) {
+							if( is_dir( $dir = MODULESPATH . $namespace . '/controllers/' ) ) {
+								foreach( glob( $dir . "*.php") as $filename) {
+									include_once( $filename );
+								}
+							}
+				
+							if( is_file( MODULESPATH . $namespace . '/store-routes.php' ) ) {
+								include_once( MODULESPATH . $namespace . '/store-routes.php' );
+							}
+						}
+					}
+
+				});		
+
+				// Show Errors
+				$StoreRoutes->error(function($request, \Exception $exception) {
+					return show_error( sprintf( 
+						__( 'The request returned the following message : %s<br>Code : %s'  ),
+						$exception->getMessage(),
+						$exception->getCode()
+					), intval( $exception->getCode() ) );
+				});
+				
+				$StoreRoutes->start();
+
 			} else {
 				show_error( __( 'Boutique introuvable.', 'nexo' ) );
 			}

@@ -29,6 +29,6 @@ class NexoTemplateController extends Tendoo_Module
 
     public function shippings( $template = 'main-template' )
     {
-        return $this->load->module_view( 'nexo', 'shippings.' . $template );
+        return $this->load->module_view( 'nexo', 'shippings.' . $template, null, true );
     }
 }

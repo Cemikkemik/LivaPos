@@ -80,7 +80,7 @@ class NexoCategoriesController extends CI_Model
         if ($page == 'index') {
             $this->Gui->set_title( store_title( __('Liste des catégories', 'nexo')) );
         } elseif ($page == 'delete') {
-            nexo_permission_check('delete_shop_categories');
+            nexo_permission_check('nexo.delete.categories');
             
             // Checks whether an item is in use before delete
             nexo_availability_check($id, array(
@@ -103,8 +103,8 @@ class NexoCategoriesController extends CI_Model
 		global $PageNow;
 		$PageNow			=	'nexo/categories/add';
 		
-        if (! User::can('create_shop_shippings')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if (! User::can('nexo.create.categories')) {
+            return nexo_access_denied();
         }
         
         $data[ 'crud_content' ]    =    $this->crud_header();

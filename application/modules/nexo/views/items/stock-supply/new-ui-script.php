@@ -94,7 +94,7 @@
         **/
 
         $scope.getDeliveryInvoice           =   function( deliveryId ) {
-            $http.get( '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'supplies', 'invoice' ]);?>/' + deliveryId + '?exclude_header=true', {
+            $http.get( '<?php echo dashboard_url([ 'supplies', 'invoice' ]);?>/' + deliveryId + '?exclude_header=true', {
                 headers			:	{
                     '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo get_option( 'rest_key' );?>'
                 }

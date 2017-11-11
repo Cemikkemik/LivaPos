@@ -22,20 +22,28 @@
                         var dom		=	'<h3 class="modal-title"><?php echo _s( 'Ouverture de la caisse', 'nexo' );?></h3><hr style="margin:10px 0px;">';
 
                             dom		+=	'<p><?php echo tendoo_info( sprintf( _s( '%s, vous vous préparez à ouvrir une caisse. Veuillez spécifier le montant initiale de la caisse', 'nexo' ), User::pseudo() ) );?></p>' +
-                                        '<div class="input-group">' +
-                                            '<span class="input-group-addon" id="basic-addon1"><?php echo _s( 'Solde d\'ouverture de la caisse', 'nexo' );?></span>' +
-                                            '<input type="text" class="form-control open_balance" placeholder="<?php echo _s( 'Montant', 'nexo' );?>" aria-describedby="basic-addon1">' +
-                                        '</div>';
+                                        `
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-addon1"><?php echo _s( 'Solde d\'ouverture de la caisse', 'nexo' );?></span>
+                                                <input type="text" class="form-control open_balance" placeholder="<?php echo _s( 'Montant', 'nexo' );?>" aria-describedby="basic-addon1">
+                                            </div>  
+                                        </div>                                
+                                        <div class="form-group">
+                                            <label for="textarea"><?php echo __( 'Remarques', 'nexo' );?></label>
+                                            <textarea name="" id="textarea" class="form-control note" rows="3" required="required"></textarea>
+                                        </div>
+                                        `;
 
                         bootbox.confirm( dom, function( action ) {
                             if( action ) {
                                 $.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'open_register' ) );?>/' + $this.data( 'item-id' ) + '?<?php echo store_get_param( null );?>', {
                                     dataType	:	'json',
                                     type		:	'POST',
-                                    data		:	_.object( [ 'date', 'balance', 'used_by' ], [ '<?php echo date_now();?>', $( '.open_balance' ).val(), '<?php echo User::id();?>' ]),
+                                    data		:	_.object( [ 'date', 'balance', 'used_by', 'note' ], [ '<?php echo date_now();?>', $( '.open_balance' ).val(), '<?php echo User::id();?>', $( '.note' ).val() ]),
                                     success: function( data ){
                                         bootbox.alert( '<?php echo _s( 'La caisse a été ouverte. Veuillez patientez...', 'nexo' );?>' );
-                                        document.location	=	'<?php echo site_url( array( 'dashboard', store_slug(), 'nexo', 'registers', '__use' ) );?>/' + $this.data( 'item-id');
+                                        document.location	=	'<?php echo dashboard_url([ 'use', 'register' ]);?>/' + $this.data( 'item-id');
                                     }
                                 });
                             }
@@ -43,7 +51,7 @@
 
                         // Set custom width
                         $( '.modal-title' ).closest( '.modal-dialog' ).css({
-                            'width'		:	'80%'
+                            'width'		:	'50%'
                         })
                     }
 
@@ -72,17 +80,24 @@
                         var dom		=	'<h3 class="modal-title"><?php echo _s( 'Fermeture de la caisse', 'nexo' );?></h3><hr style="margin:10px 0px;">';
 
                             dom		+=	'<p><?php echo tendoo_info( sprintf( _s( '%s, vous vous préparez à fermer une caisse. Veuillez spécifier le montant finale de la caisse', 'nexo' ), User::pseudo() ) );?></p>' +
-                                        '<div class="input-group">' +
-                                            '<span class="input-group-addon" id="basic-addon1"><?php echo _s( 'Solde de fermeture de la caisse', 'nexo' );?></span>' +
-                                            '<input type="text" class="form-control open_balance" placeholder="<?php echo _s( 'Montant', 'nexo' );?>" aria-describedby="basic-addon1">' +
-                                        '</div>';
+                                        `<div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="basic-addon1"><?php echo _s( 'Solde d\'ouverture de la caisse', 'nexo' );?></span>
+                                                <input type="text" class="form-control open_balance" placeholder="<?php echo _s( 'Montant', 'nexo' );?>" aria-describedby="basic-addon1">
+                                            </div>  
+                                        </div> 
+                                        <div class="form-group">
+                                            <label for="textarea"><?php echo __( 'Remarques', 'nexo' );?></label>
+                                            <textarea name="" id="textarea" class="form-control note" rows="3" required="required"></textarea>
+                                        </div>
+                                        `
 
                         bootbox.confirm( dom, function( action ) {
                             if( action == true ) {
                                 $.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'close_register' ) );?>/' + $this.data( 'item-id' ) + '?<?php echo store_get_param( null );?>', {
                                     dataType	:	'json',
                                     type		:	'POST',
-                                    data		:	_.object( [ 'date', 'balance', 'used_by' ], [ '<?php echo date_now();?>', $( '.open_balance' ).val(), '<?php echo User::id();?>' ]),
+                                    data		:	_.object( [ 'date', 'balance', 'used_by', 'note' ], [ '<?php echo date_now();?>', $( '.open_balance' ).val(), '<?php echo User::id();?>', $( '.note' ).val() ]),
                                     success: function( data ){
                                         bootbox.alert( '<?php echo _s( 'La caisse a été fermée. Veuillez patientez...', 'nexo' );?>' );
                                         document.location	=	'<?php echo current_url();?>';
@@ -93,7 +108,7 @@
 
                         // Set custom width
                         $( '.modal-title' ).closest( '.modal-dialog' ).css({
-                            'width'		:	'80%'
+                            'width'		:	'50%'
                         })
 
                     } else if( data[0].STATUS == 'locked' ) {
@@ -130,11 +145,12 @@
                                 '<td>' + val.name + '</td>' +
                                 '<td>' + ( val.TYPE == 'opening' ? '<?php echo _s( 'Ouvrir', 'nexo' );?>' : '<?php echo _s( 'Fermer', 'nexo' );?>' ) + '</td>' +
                                 '<td>' + NexoAPI.DisplayMoney( val.BALANCE ) + '</td>' +
+                                '<td>' + ( val.NOTE == '' ? '<?php echo __( 'Aucune note.', 'nexo' );?>' : val.NOTE ) + '</td>' +
                                 '<td>' + val.DATE_CREATION + '</td>' +
                             '</tr>';
                         });
                     } else {
-                        lignes	+=	'<tr><td colspan="4"><?php echo _s( 'Aucune historique pour cette caisse', 'nexo' );?></td></tr>';
+                        lignes	+=	'<tr><td colspan="5"><?php echo _s( 'Aucune historique pour cette caisse', 'nexo' );?></td></tr>';
                     }
 
                         dom			+=
@@ -144,6 +160,7 @@
                                 '<td><?php echo _s( 'Auteur', 'nexo' );?></td>' +
                                 '<td><?php echo _s( 'Action', 'nexo' );?></td>' +
                                 '<td><?php echo _s( 'Montant', 'nexo' );?></td>' +
+                                '<td><?php echo _s( 'Remarques', 'nexo' );?></td>' +
                                 '<td><?php echo _e( 'Date', 'nexo' );?></td>' +
                             '</tr>' +
                         '</thead>' +

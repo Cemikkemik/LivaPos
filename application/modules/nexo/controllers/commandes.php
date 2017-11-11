@@ -62,18 +62,18 @@ class NexoCommandesController extends CI_Model
 
         // Add custom Actions
         $crud->add_action(
-			__('Imprimer le ticket de caisse', 'nexo'),
 			'',
-			site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' )) . '/',
-			'btn btn-info fa fa-file'
+			site_url(array( 'dashboard', store_slug(), 'nexo', 'orders', 'receipt' )) . '/',
+			'fa fa-file'
         );
 
         $crud->add_action(
-			__('Imprimer la facture', 'nexo'),
+			__( 'Facture', 'nexo' ),
 			'',
-			site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_invoice' )) . '/',
-			'btn btn-primary fa fa-file'
+			site_url(array( 'dashboard', store_slug(), 'nexo', 'orders', 'invoice' )) . '/',
+			'fa fa-file'
         );
+
 
 		// $crud->add_action(
 		// 	__('Modifier la commande', 'nexo'),
@@ -150,9 +150,9 @@ class NexoCommandesController extends CI_Model
             ->result();
 
             if( in_array( $query[0]->TYPE, $allowed_order_for_edit ) ) {
-                $filter     .=  ' <span class="btn btn-default btn-sm" ng-click="editWithRegister( ' . $row->ID . ', \'' . $edit_link . '\' )">' . __( 'Modifier', 'nexo' ) . '</span>';
+                $filter     .=  '<li><a href="javascript:void(0)" class="fa fa-edit" ng-click="editWithRegister( ' . $row->ID . ', \'' . $edit_link . '\' )"> ' . __( 'Modifier', 'nexo' ) . '</a></li>';
             }
-			$filter     .= ' <span class="btn btn-primary btn-sm" ng-click="openDetails( ' . $row->ID . ', \'' . $row->CODE . '\'  )">' . __( 'Options', 'nexo' ) . '</span>';
+			$filter     .= '<li><a href="javascript:void(0)" class="fa fa-plus" ng-click="openDetails( ' . $row->ID . ', \'' . $row->CODE . '\'  )"> ' . __( 'Options', 'nexo' ) . '</a></li>';
             return $filter;
 		}, 10, 2 );
 
@@ -182,6 +182,7 @@ class NexoCommandesController extends CI_Model
         $NexoAddScreen    	= 	( bool ) preg_match('#dashboard\/nexo/commandes\/lists\/add#', uri_string());
 		$PageNow			=	'nexo/commandes/list';
 
+        // @remove
         $this->events->add_action('dashboard_header', function () use ($NexoAddScreen, $NexoEditScreen) {
             /**
              * We Want to make sure that nothing appear before checkout load
@@ -198,21 +199,24 @@ class NexoCommandesController extends CI_Model
             }
         });
 
-		$this->events->add_action( 'dashboard_footer', array( $this, 'footer' ) );
-
         if ($page == 'delete') {
 
             /**
              * @since 3.0.13
             **/
 
-            nexo_permission_check('delete_shop_orders');
+            nexo_permission_check( 'nexo.delete.orders' );
             $this->events->do_action( 'nexo_delete_order', $id );
             $data[ 'crud_content' ]    	=    $this->crud_header();
 
         } else {
+            // Load Sale List Script
+            $this->events->add_action( 'dashboard_footer', function() {
+                get_instance()->load->module_view( 'nexo', 'footer/sales-list' );
+            });
 
             // Change add url
+            // @remove
             $this->events->add_filter('grocery_add_url', function ($url) {
                 return site_url(array( 'dashboard', 'nexo', 'commandes', 'lists', 'v2_checkout' ));
             });
@@ -325,19 +329,4 @@ class NexoCommandesController extends CI_Model
 
         return [ $grocery_actions_obj, $actions, $row ];
     }
-
-	/**
-	 * Footer
-	 * @since 2.7.1
-	**/
-
-	public function footer()
-	{
-		$this->load->config('rest');
-		global $Options;
-		if( ( $this->uri->segment( 4 ) == 'lists' && $this->uri->segment( 4 ) != '__use' ) || ( $this->uri->segment( 6 ) == 'lists' && $this->uri->segment( 6 ) != '__use' ) ) {
-            $this->load->module_view( 'nexo', 'footer/sales-list' );
-		}
-	}
-
 }

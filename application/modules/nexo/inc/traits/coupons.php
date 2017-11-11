@@ -22,10 +22,10 @@ Trait Nexo_coupons {
      *  @return
     **/
 
-    public function coupon_code_get( $code )
+    public function coupon_code_post()
     {
         $this->response(
-            $this->db->where( 'CODE', $code )->get( store_prefix() . 'nexo_coupons' )->result(),
+            $this->db->where( 'CODE', $this->post( 'code' ) )->get( store_prefix() . 'nexo_coupons' )->result(),
             200
         );
     }

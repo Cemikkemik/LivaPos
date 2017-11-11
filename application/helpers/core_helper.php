@@ -222,7 +222,7 @@ if (!function_exists('translate')) {
      * @return string
     **/
 
-    function _s($code, $templating)
+    function _s($code, $templating = 'tendoo-core' )
     {
         return addslashes(__($code, $templating));
     }

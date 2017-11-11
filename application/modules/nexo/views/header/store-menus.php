@@ -52,7 +52,7 @@ if( @$Options[ 'nexo_store' ] == 'enabled' ) {
                         <?php endforeach;?>
                     <?php else:?>
                 <li>
-                    <a href="<?php echo site_url( array( 'dashboard', 'nexo', 'stores', 'lists', 'add' ) );?>"><?php _e( '+1 Créer une boutique', 'nexo' );?></a>
+                    <a href="<?php echo site_url( array( 'dashboard', 'nexo', 'stores', 'add' ) );?>"><?php _e( '+1 Créer une boutique', 'nexo' );?></a>
                 </li>
             <?php endif;?>
             </ul>

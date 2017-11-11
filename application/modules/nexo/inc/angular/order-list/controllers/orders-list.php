@@ -879,7 +879,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 			$scope.order_items 		=	returned.data;
 
 			$.ajax({
-				url 	:	'<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'print', 'order_refund', store_get_param('?') ] );?>',
+				url 	:	'<?php echo dashboard_url([ 'print', 'order_refund', store_get_param('?') ] );?>',
 				success 	:	function( data ) {
 					// replace template
 					data 	=	data.replace( ':orderCode', $scope.order_items[0].CODE );

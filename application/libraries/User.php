@@ -94,7 +94,9 @@ class User
             )   ==   count( $permission );
         }
 
-        if (in_array($permission, self::$groups_permissions[ $group[0]->name ])) {
+        // var_dump( self::$groups_permissions, $group[0]->name );
+
+        if ( in_array( $permission, self::$groups_permissions[ $group[0]->name ])) {
             return true;
         }
         return false;

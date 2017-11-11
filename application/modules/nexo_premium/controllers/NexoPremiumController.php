@@ -26,15 +26,22 @@ class NexoPremiumController extends Tendoo_Module
      * @param string date
      * @return void
      */
-    public function daily( $report_date )
+    public function daily( $report_date = null )
     {
         if( User::cannot( 'nexo.read.daily-sales' ) ) {
             return nexo_access_denied();
         }
 
+        if(substr($report_date, -1) == '/') {
+            $report_date = substr($report_date, 0, -1);
+        }
+
+        if( $report_date == null ) {
+            $report_date    =   date_now();
+        }
         // if repport date is sup than current day
-        $CarbonCurrent                =    Carbon::parse(date_now());
-        $CarbonReportDate            =    Carbon::parse($report_date);
+        $CarbonCurrent                  =    Carbon::parse(date_now());
+        $CarbonReportDate               =    Carbon::parse($report_date);
 
         if (! $CarbonCurrent->gte($CarbonReportDate)) {
             $this->Gui->set_title(__('Erreur', 'nexo_premium'));
@@ -46,8 +53,8 @@ class NexoPremiumController extends Tendoo_Module
         $data[ 'report_date' ]            =    $report_date;
         $data[ 'report_slug_prefix' ]    =    'nexo_detailed_daily_report_for_';
         $data[ 'report_slug' ]            =    $data[ 'report_date' ];
-        $data[ 'CarbonCurrent' ]        =    $CarbonCurrent;
-        $data[ 'CarbonReportDate' ]        =    $CarbonReportDate;
+        $data[ 'CarbonCurrent' ]            =    $CarbonCurrent;
+        $data[ 'CarbonReportDate' ]         =    $CarbonReportDate;
 
         $this->Gui->set_title( store_title( __('Rapport journalier détaillé', 'nexo_premium') ) );
 
@@ -186,7 +193,7 @@ class NexoPremiumController extends Tendoo_Module
             $crud->set_relation( 'REF_PROVIDER', store_prefix() . 'nexo_fournisseurs', 'NOM' );
             $crud->field_description( 'REF_PROVIDER', sprintf( 
                 __( 'Assigner une dépense à un fournisseur. Assurez-vous <a href="%s">d\'avoir assigné la bonne catégorie</a> pour les comptes créditeurs des fournisseurs.', 'nexo_premium' ) 
-            , site_url([ 'dashboard', store_slug(), 'nexo', 'settings', 'providers' ]) ) );
+            , dashboard_url([ 'settings', 'providers' ]) ) );
         }
 
         $crud->columns( $columns );

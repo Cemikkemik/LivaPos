@@ -139,11 +139,10 @@ trait Nexo_orders
             ->update( store_prefix() . 'nexo_clients');
         } else {
             return $this->response(array(
-                'message'   =>  __( 'Impossible d\'identifier le client', 'nexo' ),
+                'message'   =>  __( 'Impossible d\'identifier le client. Veuillez choisir un client ou définir un client par défaut.', 'nexo' ),
                 'status'    =>  'failed'
             ), 403 );
         }
-        
 
         // Save Order items
 

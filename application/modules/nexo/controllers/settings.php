@@ -93,7 +93,7 @@ class NexoSettingsController extends CI_Model
     {
         global $PageNow;		
 		$PageNow 	=	'nexo/stores';
-        $this->Gui->set_title( store_title( __('Réglages des commandes', 'nexo')));
+        $this->Gui->set_title( store_title( __('Réglages des boutiques', 'nexo')));
         $this->load->view("../modules/nexo/views/settings/stores.php");
     }
 

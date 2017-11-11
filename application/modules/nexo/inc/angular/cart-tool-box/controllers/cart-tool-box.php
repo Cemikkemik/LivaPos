@@ -3,7 +3,7 @@
 tendooApp.directive( 'shipping', function(){
 	return {
 		restrict 		:	'E',
-		templateUrl 	:	'<?php echo site_url([ 'dashboard', store_slug(), 'nexo_templates', 'shippings']);?>',
+		templateUrl 	:	'<?php echo dashboard_url([ 'templates', 'shippings']);?>',
 		controller 		:	[ '$scope', '$compile', '$filter', function( $scope, $compile, $filter ) {
 			$scope.optionShowed 	=	false;
 
@@ -101,7 +101,7 @@ tendooApp.directive( 'shipping', function(){
 tendooApp.directive( 'items', function(){
 	return {
 		restrict 		:	'E',
-		templateUrl 	:	 '<?php echo site_url([ 'dashboard', store_slug(), 'nexo_templates', 'load', 'items.templates.quick-item-form' ]);?>',
+		templateUrl 	:	 '<?php echo dashboard_url([ 'templates', 'load', 'items.templates.quick-item-form' ]);?>',
 		controller 		:	[ '$scope', '$compile', function( $scope, $compile ) {
 			$scope.schema = {
 				type: "object",
@@ -636,10 +636,10 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 
 			angular.element( '.modal-dialog' ).css( 'width', '50%' );
 			angular.element( '.modal-body' ).css( 'height', $scope.wrapperHeight - 100 );
-			angular.element( '.modal-body' ).css( 'background', '#f9f9f9' );
+			angular.element( '.modal-body' ).css( 'background', '#EEE' );
 			angular.element( '.modal-body' ).css( 'overflow-x', 'hidden' );
 			angular.element( '.middle-content' ).attr( 'style', 'border-left:solid 1px #DEDEDE;overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
-			angular.element( '.modal-body' ).attr( 'style', 'overflow-y:scroll;height:' + $scope.wrapperHeight + 'px' );
+			angular.element( '.modal-body' ).attr( 'style', 'overflow-y:scroll;height:' + $scope.wrapperHeight + 'px;background:#EEE' );
 			angular.element( '.middle-content' ).css( 'padding', 0 );
 
 			$( '.shippingwrapper' ).replaceWith( $compile( 

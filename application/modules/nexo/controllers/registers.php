@@ -3,14 +3,9 @@ class NexoRegistersController extends CI_Model
 {
     public function crud_header()
     {
-        if (
-            ! User::can('create_shop_registers')  &&
-            ! User::can('edit_shop_registers') &&
-            ! User::can('delete_shop_registers') &&
-			! User::can( 'view_shop_registers' )
-        ) {
-            show_error( __( 'Vous n\'avez pas accès à cette page.', 'nexo' ) );
-        }
+        if( User::cannot( 'nexo.view.registers' ) ) {
+			return nexo_access_denied();
+		}
 
 		/**
 		 * This feature is not more accessible on main site when
@@ -52,36 +47,36 @@ class NexoRegistersController extends CI_Model
         $crud->add_action(
 			__('Ouvrir la caisse', 'nexo'),
 			'',
-			site_url(array( 'dashboard', store_slug(), 'nexo', 'registers', 'open' )) . '/',
-			'btn open_register btn-success fa fa-unlock'
+			site_url(array( 'dashboard', store_slug(), 'nexo', 'open', 'register' )) . '/',
+			'open_register fa fa-unlock'
 		);
 
 		$crud->add_action(
 			__('Fermer la caisse', 'nexo'),
 			'',
-			site_url(array( 'dashboard', store_slug(), 'nexo', 'registers', 'close' )) . '/',
-			'btn close_register btn-warning fa fa-lock'
+			site_url(array( 'dashboard', store_slug(), 'nexo', 'close', 'register' )) . '/',
+			'close_register fa fa-lock'
 		);
 
 		$crud->add_action(
 			__('Utiliser la caisse', 'nexo'),
 			'',
-			site_url(array( 'dashboard', store_slug(), 'nexo', 'registers', '__use' )) . '/',
-			'btn btn-info fa fa-sign-in'
+			site_url(array( 'dashboard', store_slug(), 'nexo', 'use', 'register' )) . '/',
+			'fa fa-sign-in'
 		);
 
 		$crud->add_action(
 			__('Historique de la caisse', 'nexo'),
 			'',
-			site_url(array( 'dashboard', store_slug(),  'nexo', 'registers', 'history' )) . '/',
-			'register_history btn btn-default fa fa-history'
+			site_url(array( 'dashboard', store_slug(),  'nexo', 'register-history' )) . '/',
+			'register_history fa fa-history'
 		);
 
         $this->events->add_filter( 'grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter( 'grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
 		$this->events->add_filter( 'grocery_filter_actions', array( $this, '__register_grocery_filter_action' ), 10 );
 		$this->events->add_filter( 'grocery_filter_edit_button', array( $this, '__filter_admin_button' ), 10, 4);
-		$this->events->add_filter( 'grocery_filter_delete_button', array( $this, '__filter_admin_button' ), 10, 4);
+		$this->events->add_filter( 'grocery_filter_delete_button', array( $this, '__filter_delete_register' ), 10, 4);
 
         $crud->callback_before_insert(array( $this, '__create_register' ));
         $crud->callback_before_update(array( $this, '__edit_register' ));
@@ -116,7 +111,7 @@ class NexoRegistersController extends CI_Model
 
 	public function __create_register( $post )
 	{
-		nexo_permission_check( 'create_shop_registers' );
+		nexo_permission_check( 'nexo.create.registers' );
 
 		$post[ 'AUTHOR' ]			=	User::id();
 		$post[ 'DATE_CREATION' ]	=	date_now();
@@ -129,7 +124,7 @@ class NexoRegistersController extends CI_Model
 
 	public function __edit_register( $post )
 	{
-		nexo_permission_check( 'edit_shop_registers' );
+		nexo_permission_check( 'nexo.edit.registers' );
 
 		$post[ 'AUTHOR' ]			=	User::id();
 		$post[ 'DATE_MOD' ]			=	date_now();
@@ -142,7 +137,7 @@ class NexoRegistersController extends CI_Model
 
 	public function __delete_register( $post )
 	{
-		nexo_permission_check( 'delete_shop_registers' );
+		nexo_permission_check( 'nexo.delete.registers' );
 
 		// fixed @since 3.0.20
 		$this->db->where( 'REF_REGISTER', $post )->delete( store_prefix() . 'nexo_registers_activities' );
@@ -166,9 +161,8 @@ class NexoRegistersController extends CI_Model
 		});
 
 		if( $page == 'add' ) {
-			// Only for those who can create
-			if( ! User::can('create_shop_registers') ) {
-				redirect( array( 'dashboard', 'access-denied' ) );
+			if( User::cannot( 'nexo.create.registers' ) ) {
+				return nexo_access_denied();
 			}
 
 			$PageNow		=	'nexo/registers/add';
@@ -176,15 +170,15 @@ class NexoRegistersController extends CI_Model
 			$this->Gui->set_title( store_title( __('Ajouter une caisse', 'nexo')) );
 		} elseif( $page == 'edit' ) {
 			// Only for those who can create
-			if( ! User::can('edit_shop_registers') ) {
-				redirect( array( 'dashboard', 'access-denied' ) );
+			if( ! User::can( 'nexo.edit.registers' ) ) {
+				return nexo_access_denied();
 			}
 
 			$PageNow		=	'nexo/registers/edit';
 
 			$this->Gui->set_title( store_title( __('Modifier une caisse', 'nexo')) );
 		} elseif( $page == 'delete' ) {
-			nexo_permission_check('delete_shop_registers');
+			nexo_permission_check( 'nexo.delete.registers' );
 
 			$PageNow		=	'nexo/registers/delete';
 
@@ -323,7 +317,7 @@ class NexoRegistersController extends CI_Model
 			// Does register exists ?
 			$status		=	$this->Nexo_Checkout->get_register( $register_id );
 
-			$register_slug	=	User::in_group( 'shop_cashier' ) ? 'registers/for_cashiers' : 'registers' ;
+			$register_slug	=	'registers';
 
 			switch( @$status[0][ 'STATUS' ] ) {
 				case 'not_found' : redirect( array( 'dashboard', 'nexo', $register_slug . '?notice=register_not_found' ) ); break;
@@ -360,32 +354,24 @@ class NexoRegistersController extends CI_Model
 
 			if ($order) {
 				if (! User::can('nexo.create.orders' )) {
-					return show_error( 'access_denied' );
+					return nexo_access_denied();
 				}
 
 				if (in_array($order[ 'order' ][0][ 'TYPE' ], $this->events->apply_filters( 'order_type_locked', array( 'nexo_order_comptant', 'nexo_order_advance' )))) {
-					redirect(array( 'dashboard', store_slug(), 'nexo', 'orders?notice=order_edit_not_allowed' ));
+					redirect( dashboard_url([ 'orders?notice=order_edit_not_allowed' ]) );
 				}
 
 				$data[ 'order' ]    =    $order;
 
 			} else {
-				redirect(array( 'dashboard', store_slug(), 'nexo', 'orders?notice=order_not_found' ));
+				redirect( dashboard_url([ 'orders?notice=order_not_found' ]) );
 			}
 		}
 
 		if (@$Options[ $options_prefix . 'default_compte_client' ] == null && User::can('edit_options')) {
-
-			redirect(array( 'dashboard', store_slug(), 'nexo', 'settings', 'customers?notice=default-customer-required' ));
-
+			return redirect( dashboard_url([ 'settings', 'customers?notice=default-customer-required' ]) );
 		} elseif (@$Options[ $options_prefix . 'default_compte_client' ] == null) {
-
-			if( $store_id != null ) {
-				redirect(array( 'dashboard', 'stores', $store_id . '?notice=default-customer-required' ));
-			} else {
-				redirect(array( 'dashboard?notice=default-customer-required' ));
-			}
-
+			return show_error( __( 'Il est nécessaire d\'avoir un client par défaut. Veuillez reporter à l\'administrateur de fournir un client par défaut.', 'nexo' ) );
 		}
 
 		// $data[ 'initial_balance_set' ]		=	$this->Nexo_Misc->get_balance_for_date( date_now() );
@@ -426,26 +412,26 @@ class NexoRegistersController extends CI_Model
         // return $grocery_actions_obj;
         foreach ($actions as $key => $action) {
 			$url				=	substr( $action->link_url, 0, -1 );
-			if( $url == site_url( array( 'dashboard', store_slug(), 'nexo', 'registers', 'open' ) ) ) {
+			if( $url == site_url( array( 'dashboard', store_slug(), 'nexo', 'open', 'register' ) ) ) {
 				if ( in_array( $row->STATUS, array( $register_status[ 'opened' ], $register_status[ 'locked' ] ) ) ){
 					unset($grocery_actions_obj[ $key ]);
 				}
 			}
 
-			if( $url == site_url( array( 'dashboard', store_slug(), 'nexo', 'registers', 'history' ) ) ) {
+			if( $url == site_url( array( 'dashboard', store_slug(), 'nexo', 'register-history' ) ) ) {
 				// Only Master & Shop manager can see register history
-				if ( in_array( $row->STATUS, array( $register_status[ 'opened' ] ) ) || ( ! User::in_group( 'master' ) && ! User::in_group( 'shop_manager' ) ) ){
+				if ( in_array( $row->STATUS, array( $register_status[ 'opened' ] ) ) || ( User::cannot( 'nexo.view.registers-history' ) ) ){
 					unset($grocery_actions_obj[ $key ]);
 				}
 			}
 
-			if( $url == site_url( array( 'dashboard', store_slug(), 'nexo', 'registers', '__use' ) ) ) {
+			if( $url == site_url( array( 'dashboard', store_slug(), 'nexo', 'use', 'register' ) ) ) {
 				if ( in_array( $row->STATUS, array( $register_status[ 'closed' ], $register_status[ 'locked' ] ) ) ) {
 					unset($grocery_actions_obj[ $key ]);
 				}
 			}
 
-			if( $url == site_url( array( 'dashboard', store_slug(), 'nexo', 'registers', 'close' ) ) ) {
+			if( $url == site_url( array( 'dashboard', store_slug(), 'nexo', 'close', 'register' ) ) ) {
 				if ( in_array( $row->STATUS, array( $register_status[ 'closed' ], $register_status[ 'locked' ] ) ) ) {
 					unset($grocery_actions_obj[ $key ]);
 				}
@@ -461,19 +447,21 @@ class NexoRegistersController extends CI_Model
 
 	public function __filter_admin_button($string, $row, $edit_text, $subject)
     {
-		if ( ! User::can( 'edit_shop_registers' ) ) {
+		if ( ! User::can( 'nexo.edit.registers' ) ) {
+			return '';
+		}
+        return $string;
+	}
+	
+	/**
+	 * Filter Register Edit Button
+	**/
+
+	public function __filter_delete_register($string, $row, $edit_text, $subject)
+    {
+		if ( ! User::can( 'nexo.delete.registers' ) ) {
 			return '';
 		}
         return $string;
     }
-
-	/**
-	 * For Cashier
-	**/
-
-	public function for_cashiers()
-	{
-		$this->Gui->set_title( store_title( __( 'Caisses enregistreuses', 'nexo' ) ) );
-		$this->load->module_view( 'nexo', 'registers/for_cashiers' );
-	}
 }

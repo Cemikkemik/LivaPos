@@ -53,7 +53,7 @@ class Nexo_Tours extends CI_Model
         ?>', function( action ) {
 						if( action == true ) {
 							tendoo.options.success(function(){
-								document.location = '<?php echo site_url(array( 'dashboard', 'nexo', 'settings', 'reset?hightlight_box=input-group' ));
+								document.location = '<?php echo dashboard_url([ 'settings', 'reset?hightlight_box=input-group' ]);
         ?>';
 							}).set( 'nexo_first_run', true );
 						} else {

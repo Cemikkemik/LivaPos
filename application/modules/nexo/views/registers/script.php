@@ -16,23 +16,30 @@
                             var dom		=	'<h3 class="modal-title"><?php echo _s( 'Fermeture de la caisse', 'nexo' );?></h3><hr style="margin:10px 0px;">';
 
                                 dom		+=	'<p><?php echo tendoo_info( sprintf( _s( '%s, vous vous préparez à fermer une caisse. Veuillez spécifier le montant finale de la caisse', 'nexo' ), User::pseudo() ) );?></p>' +
-                                            '<div class="input-group">' +
-                                                '<span class="input-group-addon" id="basic-addon1"><?php echo _s( 'Solde de fermeture de la caisse', 'nexo' );?></span>' +
-                                                '<input type="text" class="form-control open_balance" placeholder="<?php echo _s( 'Montant', 'nexo' );?>" aria-describedby="basic-addon1">' +
-                                            '</div>';
+                                            `<div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" id="basic-addon1"><?php echo _s( 'Solde d\'ouverture de la caisse', 'nexo' );?></span>
+                                                    <input type="text" class="form-control open_balance" placeholder="<?php echo _s( 'Montant', 'nexo' );?>" aria-describedby="basic-addon1">
+                                                </div>  
+                                            </div> 
+                                            <div class="form-group">
+                                                <label for="textarea"><?php echo __( 'Remarques', 'nexo' );?></label>
+                                                <textarea name="" id="textarea" class="form-control note" rows="3" required="required"></textarea>
+                                            </div>
+                                            `;
 
                             bootbox.confirm( dom, function( action ) {
                                 if( action == true ) {
                                     $.ajax( '<?php echo site_url( array( 'rest', 'nexo', 'close_register' ) );?>/' + $this.data( 'item-id' ) + '?<?php echo store_get_param( null );?>', {
                                         dataType	:	'json',
                                         type		:	'POST',
-                                        data		:	_.object( [ 'date', 'balance', 'used_by' ], [ '<?php echo date_now();?>', $( '.open_balance' ).val(), '<?php echo User::id();?>' ]),
+                                        data		:	_.object( [ 'date', 'balance', 'used_by', 'note' ], [ '<?php echo date_now();?>', $( '.open_balance' ).val(), '<?php echo User::id();?>', $( '.note' ).val() ]),
                                         success: function( data ){
                                             bootbox.alert( '<?php echo _s( 'La caisse a été fermée. Veuillez patientez...', 'nexo' );?>' );
                                             <?php if( User::in_group( 'shop_cashier' ) ):?>
-                                                document.location	=	'<?php echo site_url( array( 'dashboard', store_slug(), 'nexo', 'registers', 'for_cashiers?notice=register_has_been_closed' ) );?>';
+                                                document.location	=	'<?php echo dashboard_url([ 'registers', 'for_cashiers?notice=register_has_been_closed' ]);?>';
                                             <?php else:?>
-                                                document.location	=	'<?php echo site_url( array( 'dashboard', store_slug(), 'nexo', 'registers?notice=register_has_been_closed' ) );?>';
+                                                document.location	=	'<?php echo dashboard_url([ 'dashboard', store_slug(), 'nexo', 'registers?notice=register_has_been_closed' ]);?>';
                                             <?php endif;?>
                                         }
                                     });

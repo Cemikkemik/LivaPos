@@ -367,7 +367,10 @@ function register_store_route( $path, $callback ) {
  */
 
 function dashboard_url( $url ) {
-    return site_url( array_merge([ 'dashboard', store_slug() ], $url ) );
+    if( is_multistore() ) {
+        return site_url( array_merge([ 'dashboard', store_slug() ], $url ) );
+    }
+    return site_url( array_merge([ 'dashboard', store_slug(), 'nexo' ], $url ) );
 }
 
 /**

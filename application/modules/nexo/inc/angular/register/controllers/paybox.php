@@ -479,7 +479,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 									MessageObject.type	=	'success';
 
 									$( '#receipt-wrapper' ).remove();
-									$( 'body' ).append( '<iframe id="receipt-wrapper" style="visibility:hidden;height:0px;width:0px;position:absolute;top:0;" src="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true&autoprint=true"></iframe>' );
+									$( 'body' ).append( '<iframe id="receipt-wrapper" style="visibility:hidden;height:0px;width:0px;position:absolute;top:0;" src="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'orders', 'receipt' ));?>/' + returned.order_id + '?refresh=true&autoprint=true"></iframe>' );
 								}
 								// Remove filter after it's done
 								NexoAPI.events.removeFilter( 'cart_enable_print' );
@@ -534,13 +534,17 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 						// If order is not more editable
 						if( returned.order_type != 'nexo_order_devis' ) {
 							v2Checkout.resetCart();
-							document.location	=	'<?php echo site_url(array( 'dashboard', 'nexo', store_slug(), 'commandes', 'lists' ));?>';
+							document.location	=	'<?php echo dashboard_url([ 'orders' ]);?>';
 						}
 						<?php endif;?>
 					},
-					error			:	function(){
+					error			:	function( data ){
 						v2Checkout.paymentWindow.hideSplash();
-						NexoAPI.Notify().warning( '<?php echo _s('Une erreur s\'est produite', 'nexo');?>', '<?php echo _s('Le paiement n\'a pas pu être effectuée.', 'nexo');?>' );
+						if( data.responseJSON.message ) {
+							NexoAPI.Notify().warning( '<?php echo _s('Une erreur s\'est produite', 'nexo');?>', data.responseJSON.message );
+						} else {
+							NexoAPI.Notify().warning( '<?php echo _s('Une erreur s\'est produite', 'nexo');?>', '<?php echo _s('Le paiement n\'a pas pu être effectuée.', 'nexo');?>' );
+						}
 					}
 				});
 			} else {

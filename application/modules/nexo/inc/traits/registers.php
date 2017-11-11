@@ -33,6 +33,7 @@ trait Nexo_Registers
 		$this->db->insert( store_prefix() . 'nexo_registers_activities', array(
 			'REF_REGISTER'	=>	$register_id,
 			'AUTHOR'		=>	$this->post( 'used_by' ),
+			'NOTE'			=> 	$this->post( 'note' ),
 			'BALANCE'		=>	$this->post( 'balance' ),
 			'DATE_CREATION'	=>	$this->post( 'date' ),
 			'TYPE'			=>	'opening'
@@ -62,6 +63,7 @@ trait Nexo_Registers
 			'REF_REGISTER'	=>	$register_id,
 			'BALANCE'		=>	$this->post( 'balance' ),
 			'AUTHOR'		=>	$this->post( 'used_by' ),
+			'NOTE'			=>	$this->post( 'note' ),
 			'DATE_CREATION'	=>	$this->post( 'date' ),
 			'TYPE'			=>	'closing'
 		) );

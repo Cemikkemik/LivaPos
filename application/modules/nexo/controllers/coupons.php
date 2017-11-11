@@ -113,7 +113,7 @@ class NexoCouponsController extends Tendoo_Module
         if( $page == 'index' ) {
             $this->Gui->set_title( store_title( __('Liste des coupons', 'nexo') ) );
         } else if( $page == 'delete' ) {
-            nexo_permission_check('delete_coupons');
+            nexo_permission_check('nexo.delete.coupons');
             nexo_availability_check( $id, array(
                 array( 'col'    =>    'REF_COUPON', 'table'    =>   store_prefix() . 'nexo_commandes_coupons' )
             ));

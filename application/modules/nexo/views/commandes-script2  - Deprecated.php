@@ -110,7 +110,7 @@ var NexoCommandesEdit	=	new function(){
 		}
 	}
 	var url			=	document.location.href,
-		urlToRemove	=	'<?php echo site_url(array( 'dashboard', 'nexo', 'commandes', 'lists', 'edit' ));?>/',
+		urlToRemove	=	'<?php echo dashboard_url([ 'orders', 'edit' ]);?>/',
 		NexoOrderId	=	url.substr( urlToRemove.length );
 $(document).ready(function(e) {		
 	// Modification de l'écran	

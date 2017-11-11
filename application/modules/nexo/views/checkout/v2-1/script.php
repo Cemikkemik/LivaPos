@@ -205,7 +205,7 @@ var v2Checkout					=	new function(){
 
 				if( currentItem = this.getItem( item.CODEBAR ) ) {
 					// only works for item which are'nt inline
-					console.log( currentItem.LOOP_INDEX );
+					// console.log( currentItem.LOOP_INDEX );
 					if( currentItem.INLINE != '1' || currentItem.INLINE == undefined ) {	
 						index 	=	currentItem.LOOP_INDEX; // provided by this.getItem(...);
 					}
@@ -920,6 +920,7 @@ var v2Checkout					=	new function(){
 				}
 			});
 
+			// @remove
 			if( v2Checkout.CartShadowPriceEnabled == false ) {
 				document.location	=	'<?php echo site_url('dashboard/nexo/produits/lists/edit');?>/' + CurrentItem.ID
 				return;
@@ -1554,7 +1555,7 @@ var v2Checkout					=	new function(){
 				// If order is not more editable
 				if( returned.order_type != 'nexo_order_devis' ) {
 					v2Checkout.resetCart();
-					document.location	=	'<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'commandes', 'lists' ));?>';
+					document.location	=	'<?php echo dashboard_url([ 'orders' ]);?>';
 				}
 				<?php endif;?>
 			},
@@ -1800,7 +1801,7 @@ var v2Checkout					=	new function(){
 					var MainPrice	= NexoAPI.ParseFloat( value.PRIX_DE_VENTE_TTC )
 					var Discounted	= '';
 					var CustomBackground	=	'';
-					var ImagePath			=	value.APERCU == '' ? '<?php echo '../modules/nexo/images/default.png';?>'  : value.APERCU;
+					var ImagePath			=	value.APERCU == '' ? '<?php echo '../../../modules/nexo/images/default.png';?>'  : value.APERCU;
 
 					if( promo_start.isBefore( v2Checkout.CartDateTime ) ) {
 						if( promo_end.isSameOrAfter( v2Checkout.CartDateTime ) ) {

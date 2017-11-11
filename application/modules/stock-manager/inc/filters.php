@@ -81,7 +81,7 @@ class Nexo_Stock_Manager_Filters extends Tendoo_Module
                         // @since 3.0.20
                         array(
                             'title'		=>	__( 'Ajustement des quantités', 'nexo' ),
-                            'href'		=>	site_url([ 'dashboard', store_slug(), 'nexo', 'produits', 'stock_supply' ] )
+                            'href'		=>	dashboard_url([ 'produits', 'stock_supply' ] )
                         ),
                         array(
                             'title'         =>  __( 'Importer les articles', 'nexo' ),

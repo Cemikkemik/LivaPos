@@ -30,7 +30,7 @@ class NexoProvidersController extends CI_Model
         if( store_option( 'enable_providers_account', 'no' ) == 'yes' ) {
             array_splice( $columns, 1, 0, 'PAYABLE' );
 
-            $crud->add_action( __( 'Historique', 'nexo' ), '', site_url([ 'dashboard', store_slug(), 'nexo', 'fournisseurs', 'history' ]) . '/', 'btn btn-default fa fa-line-chart' );
+            $crud->add_action( __( 'Historique', 'nexo' ), '', dashboard_url([ 'fournisseurs', 'history' ]) . '/', 'btn btn-default fa fa-line-chart' );
             $crud->add_action( __( 'Payer le fournisseur', 'nexo' ), '', site_url([ 'dashboard', store_slug(), 'nexo_premium', 'Controller_Factures', 'provider' ]) . '/', 'btn btn-default fa fa-money' );
         }
 		
@@ -92,7 +92,7 @@ class NexoProvidersController extends CI_Model
         $this->data[ 'provider' ]       =   $provider[0];
 
         $this->load->library("pagination");
-        $config["base_url"] = site_url([ 'dashboard', store_slug(), 'nexo', 'fournisseurs', 'history', $provider_id ]);
+        $config["base_url"] = dashboard_url([ 'fournisseurs', 'history', $provider_id ]);
         //EDIT THIS (to get a count of number of rows. Might have to add in a criteria (category etc)
         $config["total_rows"] = 
         $this->db
@@ -170,7 +170,7 @@ class NexoProvidersController extends CI_Model
         if ($page == 'index') {
             $this->Gui->set_title( store_title( __('Liste des fournisseurs', 'nexo' ) ) );
         } elseif ($page == 'delete') {
-            nexo_permission_check('delete_shop_providers');
+            nexo_permission_check('nexo.delete.providers');
             
             // Checks whether an item is in use before delete
             nexo_availability_check($id, array(

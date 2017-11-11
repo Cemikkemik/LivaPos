@@ -126,7 +126,7 @@ class NexoSuppliesController extends CI_Model
 
     public function add()
     {
-        if( ! User::can( 'nexo.create.supplies' ) ) {
+        if( User::cannot( 'nexo.create.supplies' ) ) {
             return nexo_access_denied();
         }
         

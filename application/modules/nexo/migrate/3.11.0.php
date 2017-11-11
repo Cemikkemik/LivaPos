@@ -16,4 +16,11 @@ foreach( $stores as $store ) {
     if( in_array( 'REF_PROVIDERS', $columns ) ) {
         $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_arrivages` CHANGE `REF_PROVIDERS` `REF_PROVIDER` INT(200) NOT NULL;' );
     }
+
+    $columns            =   $this->db->list_fields( $store_prefix . 'nexo_registers_activities' );
+
+    if( ! in_array( 'NOTE', $columns ) ) {
+        $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_registers_activities` 
+        ADD `NOTE` text NOT NULL AFTER `TYPE`;' );
+    }
 }

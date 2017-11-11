@@ -54,7 +54,19 @@ class Nexo_Premium_Filters extends CI_Model
 					'title'        =>    __('Rapports', 'nexo_premium'),
 					'href'        =>    '#',
 					'disable'    =>    true,
-					'icon'        =>    'fa fa-bar-chart'
+					'icon'        =>    'fa fa-bar-chart',
+					'permission'	=>	[
+						'nexo.read.detailed-report',
+						'nexo.read.best-sales',
+						'nexo.read.daily-sales',
+						'nexo.read.incomes-losses',
+						'nexo.read.expenses-listings',
+						'nexo.read.cash-flow',
+						'nexo.read.annual-sales',
+						'nexo.read.cashier-performances',
+						'nexo.read.customer-statistics',
+						'nexo.read.inventory-tracking',
+					]
 				),
 
 				array(

@@ -1438,6 +1438,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
         $data->ajax_list_info_url    = $this->getAjaxListInfoUrl();
         $data->export_url            = $this->getExportToExcelUrl();
         $data->export_csv_url       =   $this->getExportToCSVUrl();
+        $data->bulk_delete_url      =   $this->getBulkDeleteUrl();
         $data->print_url            = $this->getPrintUrl();
         $data->actions                = $this->actions;
         $data->unique_hash            = $this->get_method_hash();
@@ -2053,7 +2054,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
                     'output' => $this->views_as_string,
             );
         } elseif ($this->echo_and_die === true) {
-            echo xss_clean($this->views_as_string);
+            echo $this->views_as_string;
             die();
         }
     }
@@ -2885,6 +2886,7 @@ class grocery_CRUD_States extends grocery_CRUD_Layout
     const STATE_DELETE = 4;
     const STATE_INSERT = 5;
 
+    const STATE_BULK_DELETE = 21;
     const STATE_READ = 18;
     const STATE_DELETE_MULTIPLE = '19';
 
@@ -2909,7 +2911,8 @@ class grocery_CRUD_States extends grocery_CRUD_Layout
         17  => 'print',
         18  => 'read',
         19  => 'delete_multiple',
-        20  =>  'export_csv'
+        20  =>  'export_csv',
+        21 => 'bulk_delete',
     );
 
     public function getStateInfo()
@@ -2955,7 +2958,21 @@ class grocery_CRUD_States extends grocery_CRUD_Layout
                     die();
                 }
                 break;
-
+            
+            case self::STATE_BULK_DELETE:
+                if( ! empty( $_POST[ 'entries' ] ) ) {
+                    $state_info         =   [];
+                    foreach( $_POST[ 'entries' ] as $entry ) {
+                        $state_info[] = (object) array('primary_key' => $entry);
+                    }
+                } else {
+                    echo json_encode([
+                        'status'    =>  'failed',
+                        'message'   =>  'missing_parameter'
+                    ]);
+                    return;
+                }
+            break;
             case self::STATE_INSERT:
                 if (!empty($_POST)) {
                     $state_info = (object)array('unwrapped_data' => $_POST);
@@ -3054,7 +3071,6 @@ class grocery_CRUD_States extends grocery_CRUD_Layout
                 );
                 break;
         }
-
         return $state_info;
     }
 
@@ -3197,6 +3213,11 @@ class grocery_CRUD_States extends grocery_CRUD_Layout
     protected function getAddUrl()
     {
         return $this->state_url('add');
+    }
+
+    protected function getBulkDeleteUrl()
+    {
+        return $this->state_url( 'bulk_delete' );
     }
 
     protected function getInsertUrl()
@@ -4494,6 +4515,31 @@ class Grocery_CRUD extends grocery_CRUD_States
                 $delete_result = $this->db_delete($state_info);
 
                 $this->delete_layout($delete_result);
+            break;
+
+            case 21: // bulk_delete
+                
+                /**
+                 * Restrict Access If permission is not granted.
+                 */
+                $permission    =   $this->action_allowed( 'bulk_delete' );
+                if( $permission[ 'status' ] == 'failed' ) {
+                    echo json_encode( $permission );
+                    return false;
+                }
+
+                $state_info = $this->getStateInfo();
+                $bulk_result    =   [];
+                foreach( $state_info as $state ) {
+                    $bulk_result[]  =   $this->db_delete( $state );
+                }
+
+                echo json_encode([
+                    'success'   =>  true,
+                    'success_message'   =>  'entries has been deleted'
+                ]);
+                die();
+                
             break;
 
             case 5://insert

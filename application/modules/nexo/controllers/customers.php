@@ -116,12 +116,12 @@ class NexoCustomersController extends CI_Model
         $this->events->add_filter( 'grocery_header_buttons', function( $menus ) {
             $menus[]        =   [
                 'text'      =>  __( 'Ajouter un client', 'nexo' ),
-                'url'       =>  site_url([ 'dashboard', store_slug(), 'nexo', 'customers', 'add' ])
+                'url'       =>  dashboard_url([ 'customers', 'add' ])
             ];
             return $menus;
         });
 
-        $crud->add_action( __( 'Modifier', 'nexo' ), null, site_url([ 'dashboard', store_slug(), 'nexo', 'customers', 'edit' ] ) . '/', 'fa fa-edit btn btn-default' );
+        $crud->add_action( __( 'Modifier', 'nexo' ), null, dashboard_url([ 'customers', 'edit' ] ) . '/', 'fa fa-edit btn btn-default' );
 
         // Load Nexo Customer Clients Crud
         $crud   =   $this->events->apply_filters( 'customers_crud_loaded', $crud );
@@ -168,7 +168,7 @@ class NexoCustomersController extends CI_Model
         if ($page == 'index') {
             $this->Gui->set_title( store_title( __('Liste des clients', 'nexo')) );
         } elseif ($page == 'delete') {
-            nexo_permission_check('delete_shop_customers');
+            nexo_permission_check('nexo.delete.customers');
 
             // Checks whether an item is in use before delete
             nexo_availability_check($id, array(
@@ -324,7 +324,7 @@ class NexoCustomersController extends CI_Model
         if ($page == 'index') {
             $this->Gui->set_title( store_title( __('Groupes', 'nexo')) );
         } elseif ($page == 'delete') {
-            nexo_permission_check('delete_shop_customers_groups');
+            nexo_permission_check('nexo.delete.customers-groups');
 
             // Checks whether an item is in use before delete
             nexo_availability_check($id, array(

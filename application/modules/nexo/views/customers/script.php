@@ -85,7 +85,7 @@ let customersMain    =   function(
                         $scope.getCustomers();
                         $( '[data-bb-handler="ok"]' ).trigger( 'click' );
                     } else {
-                        document.location   =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'customers?notice=success' ]);?>';
+                        document.location   =   '<?php echo dashboard_url([ 'customers?notice=success' ]);?>';
                         tendoo.loader.hide();
                     }                
                 }, ( returned ) => {
@@ -119,7 +119,7 @@ let customersMain    =   function(
                         $scope.getCustomers();
                         $( '[data-bb-handler="ok"]' ).trigger( 'click' );
                     } else {
-                        document.location   =   '<?php echo dashboard_url([ 'nexo', 'customers?notice=success']);?>';
+                        document.location   =   '<?php echo dashboard_url([ 'customers?notice=success']);?>';
                         tendoo.loader.hide();
                     }   
                 }, ( returned ) => {
@@ -146,7 +146,7 @@ customersMain.$inject    =   [ '$scope', '$http', '$compile', '$rootScope' ];
 tendooApp.directive( 'customersMain', function() {
     return {
         restrict    :   'E',
-        templateUrl     :   '<?php echo site_url( [ 'dashboard', store_slug(), 'nexo', 'templates', 'customers-main' ]);?>',
+        templateUrl     :   '<?php echo site_url( [ 'dashboard', 'nexo', 'templates', 'customers-main' ]);?>',
         controller      :   customersMain
     }
 });
@@ -337,7 +337,7 @@ tendooApp.directive( 'customersForm', function( $rootScope ){
             tendoo.loader.hide();
         }],
         templateUrl     :      ( element, attrs, scope ) => {
-            let template    =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'templates', 'customers-form' ]);?>';
+            let template    =   '<?php echo site_url([ 'dashboard', 'nexo', 'templates', 'customers-form' ]);?>';
             return template;
         }
     }

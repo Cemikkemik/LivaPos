@@ -545,6 +545,7 @@ class Nexo_Install extends CI_Model
 		  `BALANCE` float NOT NULL,
 		  `DATE_CREATION` datetime NOT NULL,
 		  `DATE_MOD` datetime NOT NULL,
+		  `NOTE` text,
 		  `REF_REGISTER` int(11),
 		  PRIMARY KEY (`ID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
@@ -780,6 +781,7 @@ class Nexo_Install extends CI_Model
 		$permissions[ 'nexo.edit.registers' ] 			=	__( 'Modifier une caisse enregistreuse', 'nexo' );
 		$permissions[ 'nexo.delete.registers' ] 		=	__( 'Supprimer une caisse enregistreuse', 'nexo' );
 		$permissions[ 'nexo.use.registers' ] 			=	__( 'Utiliser une caisse enregistreuse', 'nexo' );
+		$permissions[ 'nexo.view.registers-history' ] 	=	__( 'Consulter l\'historique d\'une caisse', 'nexo' );
 
 		$permissions[ 'nexo.create.backups' ] 			=	__( 'Créer des sauvegardes', 'nexo' );
 		$permissions[ 'nexo.view.backups' ] 			=	__( 'Voir la liste des sauvegardes', 'nexo' );
@@ -792,8 +794,8 @@ class Nexo_Install extends CI_Model
 		$permissions[ 'nexo.delete.stock-adjustment' ]	= 	__( 'Supprimer des ajustements', 'nexo' );
 
 		$permissions[ 'nexo.create.stores' ] 			=	__( 'Créer des boutiques', 'nexo' );
-		$permissions[ 'nexo.view.stores' ] 			=	__( 'Voir la liste des boutiques', 'nexo' );
-		$permissions[ 'nexo.edit.stores' ] 			=	__( 'Modifier des boutiques', 'nexo' );
+		$permissions[ 'nexo.view.stores' ] 				=	__( 'Voir la liste des boutiques', 'nexo' );
+		$permissions[ 'nexo.edit.stores' ] 				=	__( 'Modifier des boutiques', 'nexo' );
 		$permissions[ 'nexo.delete.stores' ] 			=	__( 'Supprimer des boutiques', 'nexo' );
 		$permissions[ 'nexo.enter.stores' ] 			=	__( 'Utiliser une boutique', 'nexo' );
 
@@ -802,9 +804,9 @@ class Nexo_Install extends CI_Model
 		$permissions[ 'nexo.edit.coupons' ] 			=	__( 'Modifier Coupons', 'nexo' );
 		$permissions[ 'nexo.delete.coupons' ] 			=	__( 'Supprimer Coupons', 'nexo' );		
 		
-		$permissions[ 'nexo.view.refund' ] 			=	__( 'Consulter un rembourssement', 'nexo' );
+		$permissions[ 'nexo.view.refund' ] 				=	__( 'Consulter un rembourssement', 'nexo' );
 		$permissions[ 'nexo.create.refund' ] 			=	__( 'Créer un rembourssement', 'nexo' );
-		$permissions[ 'nexo.edit.refund' ] 			=	__( 'Modifier un rembourssement', 'nexo' );
+		$permissions[ 'nexo.edit.refund' ] 				=	__( 'Modifier un rembourssement', 'nexo' );
 		$permissions[ 'nexo.delete.refund' ] 			=	__( 'Supprimer un rembourssement', 'nexo' );
 
 		$permissions[ 'nexo.read.detailed-report' ] 		=	__( 'Lire ventes détaillés', 'nexo' );
@@ -866,6 +868,7 @@ class Nexo_Install extends CI_Model
 			'nexo.read.cashier-performances',
 			'nexo.read.customer-statistics',
 			'nexo.read.inventory-tracking',
+			'nexo.view.registers-history',
 			'nexo.manage.settings',
 			'nexo.manage.stores-settings',
 		] as $reportPermission ) {

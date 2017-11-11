@@ -69,7 +69,9 @@ $scope.cancelCoupon     =   function(){
 
 $scope.checkCoupon      =   function(){
     v2Checkout.paymentWindow.showSplash();
-    $http.get( '<?php echo site_url( array( 'rest', 'nexo', 'coupon_code' ) );?>' + '/' + $scope.couponCode + '<?php echo store_get_param( '?' );?>', {
+    $http.post( '<?php echo site_url( array( 'rest', 'nexo', 'coupon_code' ) );?>' + '<?php echo store_get_param( '?' );?>', {
+        code    :   $scope.couponCode
+    }, {
         headers			:	{
             '<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
         }

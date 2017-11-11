@@ -62,6 +62,7 @@ class NexoCommandesController extends CI_Model
 
         // Add custom Actions
         $crud->add_action(
+			__( 'Reçu de caisse', 'nexo'),
 			'',
 			site_url(array( 'dashboard', store_slug(), 'nexo', 'orders', 'receipt' )) . '/',
 			'fa fa-file'

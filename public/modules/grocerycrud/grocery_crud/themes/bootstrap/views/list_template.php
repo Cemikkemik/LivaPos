@@ -25,31 +25,33 @@
 
     /** Jquery UI */
     $this->load_js_jqueryui();
-
 ?>
+
 <script type='text/javascript'>
 	var base_url = '<?php echo base_url();?>';
 
 	var subject = '<?php echo addslashes($subject); ?>';
 	var ajax_list_info_url = '<?php echo $ajax_list_info_url; ?>';
 	var unique_hash = '<?php echo $unique_hash; ?>';
+    var ajax_list_url   =   '<?php echo $ajax_list_url;?>';
+    var bulk_delete_url   =   '<?php echo $bulk_delete_url;?>';
+    var base_url        =   '<?php echo substr( $ajax_list_url, 0, strlen( $ajax_list_url ) - 9 );?>';
 
 	var message_alert_delete = "<?php echo $this->l('alert_delete'); ?>";
 
 </script>
 
 <div id='list-report-error' class='report-div error'></div>
-<div id='list-report-success' class='report-div success report-list' <?php if ($success_message !== null) {
-    ?>style="display:block"<?php 
-}?>>
+<div id='list-report-success' class='report-div success report-list' <?php if ($success_message !== null) { ?>style="display:block"<?php 
+    }?>>
     <?php
-if ($success_message !== null) {
+    if ($success_message !== null) {
+        ?>
+        <p><?php echo tendoo_success($success_message);
+        ?></p>
+        <?php 
+    }
     ?>
-    <p><?php echo tendoo_success($success_message);
-    ?></p>
-    <?php 
-}
-?>
 </div>
 <div class="flexigrid" style='width: 100%;' data-unique-hash="<?php echo $unique_hash; ?>">
     <div id="hidden-operations" class="hidden-operations"></div>
@@ -61,26 +63,24 @@ if ($success_message !== null) {
     <div id='main-table-box' class="box">
         <div class="box-header">
             <div class="row">
-                <div class="col-lg-5 col-md-5 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-xs-12">
                     <?php if (!$unset_add || !$unset_export || !$unset_print):?>
                     <div class="btn-group btn-group-sm" role="group" aria-label="...">
                         <?php if (!$unset_add):?>
                         <a href='<?php echo get_instance()->events->apply_filters('grocery_add_url', $add_url);
-        ?>' title='<?php echo get_instance()->events->apply_filters('grocery_add_text', $this->l('list_add'));
-        ?> <?php echo $subject?>' class='btn btn-default add-anchor add_button'> <?php echo $this->l('list_add');
-        ?> <?php echo $subject?> </a>
+                        ?>' title='<?php echo get_instance()->events->apply_filters('grocery_add_text', $this->l('list_add'));
+                        ?> <?php echo $subject?>' class='btn btn-default add-anchor add_button'> <?php echo $this->l('list_add');
+                        ?> <?php echo $subject?> </a>
                         <?php endif;?>
                         <?php if (!$unset_export):?>
                         <a class="export-anchor btn btn-default" data-url="<?php echo $export_url;?>" target="_blank">
-                        <div class="fbutton">
-                            <div> <span class="export"><?php echo $this->l('list_export');
-                ?></span> </div>
-                        </div>
+                            <div class="fbutton">
+                                <div> <span class="export"><?php echo $this->l('list_export');
+                    ?></span> </div>
+                            </div>
                         </a>
                         <a class="export-anchor btn btn-default" data-url="<?php echo $export_csv_url;?>" target="_blank">
-                        <div class="fbutton">
-                            <div> <span class="export"><?php echo __( 'Export as CSV' );?></span> </div>
-                        </div>
+                            <span class="export"><?php echo __( 'Export as CSV' );?></span>
                         </a>
                         <?php endif;?>
                         <a class="pReload btn btn-default ajax_refresh_and_loading" id='ajax_refresh_and_loading' title	="<?php _e('Refresh');?>"> <span class="fa fa-refresh"></span>
@@ -99,6 +99,7 @@ if ($success_message !== null) {
                         <?php endif;?>
                     </div>
                     <?php endif;?>
+                    <a href="javascript:void(0)" class="btn btn-danger btn-sm delete_selected"><?php echo __( 'Delete Selected' );?></a>
                 </div>
                 <div class="col-lg-3 col-md-3 col-xs-12">
                     <div class="input-group input-group-sm">
@@ -110,7 +111,7 @@ if ($success_message !== null) {
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-xs-12">
                     <div class="input-group input-group-sm">
                         <select class="form-control" name="search_field" id="search_field">
                             <option value=""><?php echo $this->l('list_search_all');?></option>

@@ -7,9 +7,12 @@ if (!defined('BASEPATH')) {
 
 if (!empty($list)) : ?>
 
-    <table cellspacing="0" cellpadding="0" border="0" id="flex1" class="table table-striped">
+    <table cellspacing="0" cellpadding="0" border="0" id="flex1" class="table table-hovered">
         <thead>
-            <tr>
+            <tr class="active">
+                <td style="width:20px">
+                    <input type="checkbox" class="select_all">
+                </td>
                 <?php foreach ($columns as $column): ?>
                 <th>
                     <div class="text-left field-sorting <?php if (isset($order_by[0]) &&  $column->field_name == $order_by[0]) { ?><?php echo $order_by[1]?><?php } ?>"
@@ -21,7 +24,8 @@ if (!empty($list)) : ?>
                 <?php if (!$unset_delete || !$unset_edit || !empty($actions)): ?>
                 <th align="left" abbr="tools" axis="col1" class="" width='10%'>
                     <div class="text-right">
-                        <?php echo $this->l('list_actions');?> </div>
+                        <?php echo $this->l('list_actions');?> 
+                    </div>
                 </th>
                 <?php endif; ?>
             </tr>
@@ -37,6 +41,9 @@ if (!empty($list)) : ?>
                 $rowID              =   $temp_string[$row_num]; 
                 ?>
                 <tr class="<?php echo ($num_row % 2 == 1) ? 'erow' : null;?> <?php echo $item_class;?>" id="custom_tr_<?php echo $rowID?>">
+                    <td style="width:20px">
+                        <input type="checkbox" class="single_entry" name="entries[]" value="<?php echo $rowID;?>">
+                    </td>
                     <?php foreach ($columns as $column):?>
                         <td class="<?php echo (isset($order_by[0]) &&  $column->field_name == $order_by[0]) ? 'sorted' : null ?>">
                             <div style="width: 100%;" class='text-left'>
@@ -96,7 +103,60 @@ if (!empty($list)) : ?>
         </tbody>
     </table>
 <?php else :?>
-    <br/> 
-    <?php echo $this->l('list_no_items');?> <br/>
-    <br/>
+    <div class="box-body text-center">
+        <h3 style="margin: 5px 0"><?php echo $this->l('list_no_items');?></h3>
+    </div>
 <?php endif;?>
+
+<script>
+$( document ).ready( function(){
+    $('input').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+        increaseArea: '20%' // optional
+    });
+    $( '.select_all' ).on( 'ifChecked', function() {
+        $( '.single_entry' ).each( function() {
+            $( this ).iCheck( 'check' );
+        });
+    });
+    $( '.select_all' ).on( 'ifUnchecked', function() {
+        $( '.single_entry' ).each( function() {
+            $( this ).iCheck( 'uncheck' );
+        });
+    });
+
+    $( '.delete_selected' ).bind( 'click', function(){
+        let countSelected   =  $( '.single_entry:checked' ).length;
+        
+        if( countSelected == 0 ) {
+            return alert( '<?php echo _s( 'You must selected at least one item');?>' );
+        }
+
+        let selectedEntries     =   [];
+        $( '.single_entry:checked' ).each(function(){
+            selectedEntries.push( $( this ).val() );
+        });
+
+        if( confirm( '<?php echo _s( 'Would you like to delete selected entries' );?>' ) ) {
+            $.ajax({
+                url     :   bulk_delete_url,
+                data    :   Object.assign({},{
+                    entries     :   selectedEntries,
+                }, tendoo.csrf_data ),
+                method      :   'POST',
+                beforeSend  :   function(){
+
+                },
+                success     :   function( data ) {
+                    $.notify({
+                        title       :   '<?php echo _s( 'Successful' );?>',
+                        message     :   '<?php echo _s( 'All entries has been deleted' );?>'
+                    });
+                    $( '#ajax_refresh_and_loading' ).trigger( 'click' );
+                }
+            });
+        }        
+    });
+});
+</script>

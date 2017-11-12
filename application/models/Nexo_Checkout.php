@@ -77,8 +77,8 @@ class Nexo_Checkout extends CI_Model
     {
         if (class_exists('User')) {
             // Protecting
-            if (! User::can('delete_shop_orders')) {
-                redirect(array( 'dashboard', 'access-denied' ));
+            if (! User::can('nexo.delete.orders')) {
+                return nexo_access_denied();
             }
         }
 

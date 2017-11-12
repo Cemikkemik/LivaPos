@@ -196,11 +196,16 @@ foreach ($hidden_fields as $hidden_field) {
 
     var message_alert_add_form = "<?php echo $this->l('alert_add_form')?>";
     var message_insert_error = "<?php echo $this->l('insert_error')?>";
+    var grocery_errors      =   {
+        fields         :   '<?php echo __( 'The form fields has an error. Please check it an try again.' );?>'
+    }
 </script>
 <script>
 $(document).ready(function() {
-    $('.summernote').summernote({
-        height: 300,                 // set editor height   
-    });
+	if( $( '.summernote' ).length > 0 ) {
+		$('.summernote').summernote({
+			height: 300,                 // set editor height   
+		});
+	}
 });
 </script>

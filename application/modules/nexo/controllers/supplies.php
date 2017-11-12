@@ -121,6 +121,7 @@ class NexoSuppliesController extends CI_Model
 
         $data[ 'crud_content' ]    =    $this->crud_header();
         $_var1    =    'arrivages';
+        $this->Gui->set_title( store_title( __( 'Liste des approvisionnements', 'nexo' ) ) );
         $this->load->view('../modules/nexo/views/' . $_var1 . '-list.php', $data);
     }
 

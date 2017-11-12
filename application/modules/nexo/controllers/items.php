@@ -231,7 +231,7 @@ class NexoItemsController extends CI_Model
 		$crud->callback_after_insert( array( 	$this->Nexo_Products, 'product_after_save' ) );
 		$crud->callback_before_update( array( 	$this->Nexo_Products, 'product_update' ) );
 		$crud->callback_after_update( array( 	$this->Nexo_Products, 'product_after_update' ) );
-		$crud->callback_before_delete( array( 	$this->Nexo_Products, 'product_before_delete' ) );
+		$crud->callback_before_delete( array( 	$this->Nexo_Products, 'product_delete_related_component' ) );
 
         $this->events->add_filter( 'grocery_header_buttons', function( $actions ) {
             $actions[]      =   [
@@ -264,7 +264,7 @@ class NexoItemsController extends CI_Model
 
     public function stock_supply_link( $primary_key, $row ) 
     {
-        return site_url( [ 'dashboard', store_slug(), 'nexo', 'items', 'supply-history', $row->CODEBAR ] );
+        return dashboard_url([ 'items', 'supply-history', $row->CODEBAR ] );
     }
 
     /**
@@ -274,7 +274,7 @@ class NexoItemsController extends CI_Model
 
     public function item_history_link( $primary_key, $row )
     {
-        return site_url( [ 'dashboard', store_slug(), 'nexo', 'items', 'history', $row->CODEBAR ] );
+        return dashboard_url([ 'items', 'history', $row->CODEBAR ] );
     }
 
     public function lists($page = 'index', $id = null)
@@ -466,7 +466,7 @@ class NexoItemsController extends CI_Model
         // add a new button to allow quick access to item
         $this->events->add_filter( 'grocery_header_buttons', function( $buttons ) {
             $buttons[]      =   [
-                'url'       =>  site_url( [ 'dashboard', store_slug(), 'nexo', 'items' ] ),
+                'url'       =>  dashboard_url([ 'items' ] ),
                 'text'      =>  __( 'Liste des produits', 'nexo' )
             ];
 

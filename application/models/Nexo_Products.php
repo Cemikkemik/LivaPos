@@ -366,11 +366,14 @@ class Nexo_Products extends CI_Model
 	 * @return void
 	**/
 
-	public function product_delete_related_component( $item_id, $barcode )
+	public function product_delete_related_component( $item_id )
 	{
-		$this->where( 'REF_ARTICLE', $item_id )->delete( store_prefix() . 'nexo_articles_meta' );
-		$this->where( 'REF_ARTICLE', $item_id )->delete( store_prefix() . 'nexo_articles_variations' );
-        $this->where( 'REF_ARTICLE_BARCODE', $barcode )->delete( store_prefix() . 'nexo_articles_stock_flow' );
+        $item   =   $this->db->where( 'ID', $item_id )->get( store_prefix() . 'nexo_articles' )
+        ->result_array();
+
+		$this->db->where( 'REF_ARTICLE', $item_id )->delete( store_prefix() . 'nexo_articles_meta' );
+		$this->db->where( 'REF_ARTICLE', $item_id )->delete( store_prefix() . 'nexo_articles_variations' );
+        $this->db->where( 'REF_ARTICLE_BARCODE', $item[0][ 'CODEBAR' ] )->delete( store_prefix() . 'nexo_articles_stock_flow' );
 	}
 
 	/**
@@ -439,5 +442,15 @@ class Nexo_Products extends CI_Model
 
         $query    =    $this->db->get( store_prefix() . 'nexo_articles');
         return $query->result_array();
+    }
+
+    /**
+     * Callback before delete
+     * @param index
+     * @return void
+     */
+    public function product_before_delete( $index ) 
+    {
+        
     }
 }

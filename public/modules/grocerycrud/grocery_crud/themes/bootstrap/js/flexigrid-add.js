@@ -124,7 +124,12 @@ $(function(){
 							$( '#field-' + index ).after( '<p class="help-block error-block">' + value + '<p>' );
 							// $('input[name='+index+']').addClass('field_error');
 						});
-						error_message( 'An error has occured during the operation.' );
+
+						if( data.error_fields ) {
+							return error_message( grocery_errors.fields )
+						} else {
+							error_message( data.error_message );
+						}
 					}
 				},
 				error: function(){

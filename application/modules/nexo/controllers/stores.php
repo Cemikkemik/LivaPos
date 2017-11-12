@@ -160,12 +160,12 @@ class NexoStoreController extends CI_Model
             $slug_namespace 	= 	@$urls[1];
 			$urls	 			=	array_splice( $urls, 2 );
 
-			// if store is closed, then no one can access to that
-			if( $CurrentStore[0][ 'STATUS' ] == 'closed' ) {
-				redirect( 'dashboard/store-closed' );
-			}
-
 			if( $CurrentStore ) {
+
+				// if store is closed, then no one can access to that
+				if( @$CurrentStore[0][ 'STATUS' ] == 'closed' ) {
+					show_error( __( 'Cette boutique est fermée', 'nexo' ) );
+				}
 				// Reset Previous Routing System
 				global $Route;
 				$Route->router()->reset();
@@ -174,9 +174,9 @@ class NexoStoreController extends CI_Model
 				global $StoreRoutes;
 				
 				$StoreRoutes 	=	new Route();
-				$StoreRoutes->group([ 
-					'prefix' => substr( request()->getHeader( 'script-name' ), 0, -10 ) . '/dashboard/stores/{store_id}/' 
-				], function() {
+
+				// Hard Code route to access to the store.
+				$StoreRoutes->partialGroup( substr( request()->getHeader( 'script-name' ), 0, -10 ) . '/dashboard/stores/' . $store_id . '/', function() {
 					
 					$modules                =   Modules::get();
 					

@@ -479,7 +479,7 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 									MessageObject.type	=	'success';
 
 									$( '#receipt-wrapper' ).remove();
-									$( 'body' ).append( '<iframe id="receipt-wrapper" style="visibility:hidden;height:0px;width:0px;position:absolute;top:0;" src="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'orders', 'receipt' ));?>/' + returned.order_id + '?refresh=true&autoprint=true"></iframe>' );
+									$( 'body' ).append( '<iframe id="receipt-wrapper" style="visibility:hidden;height:0px;width:0px;position:absolute;top:0;" src="<?php echo dashboard_url([ 'orders', 'receipt' ]);?>/' + returned.order_id + '?refresh=true&autoprint=true"></iframe>' );
 								}
 								// Remove filter after it's done
 								NexoAPI.events.removeFilter( 'cart_enable_print' );

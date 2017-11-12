@@ -238,11 +238,16 @@ if( $groups ) {
 
 	var message_alert_edit_form = "<?php echo $this->l('alert_edit_form')?>";
 	var message_update_error = "<?php echo $this->l('update_error')?>";
+	var grocery_errors      =   {
+        fields         :   '<?php echo __( 'The form fields has an error. Please check it an try again.' );?>'
+    }
 </script>
 <script>
 $(document).ready(function() {
-    $('.summernote').summernote({
-        height: 300,                 // set editor height   
-    });
+	if( $( '.summernote' ).length > 0 ) {
+		$('.summernote').summernote({
+			height: 300,                 // set editor height   
+		});
+	}
 });
 </script>

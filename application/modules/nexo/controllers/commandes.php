@@ -1,5 +1,5 @@
 <?php
-class NexoCommandesController extends CI_Model
+class NexoOrdersController extends CI_Model
 {
     public function crud_header()
     {

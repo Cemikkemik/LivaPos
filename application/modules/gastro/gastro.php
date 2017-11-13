@@ -33,6 +33,7 @@ class Nexo_Restaurant_Main extends Tendoo_Module
         $this->events->add_filter( 'post_order_item', [ $this->filters, 'post_order_item' ], 10, 2 );
         $this->events->add_filter( 'put_order_item', [ $this->filters, 'put_order_item' ], 10, 2 );
         $this->events->add_filter( 'checkout_header_menus_2', [ $this->filters, 'cart_buttons_2' ]);
+        $this->events->add_filter( 'allowed_order_for_print', [ $this->filters, 'allowed_order_for_print' ]);
     }
 }
 

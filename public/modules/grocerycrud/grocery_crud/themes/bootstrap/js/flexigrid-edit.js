@@ -41,6 +41,20 @@ $(function(){
 			},
 			success: function(data){
 				$("#FormLoading").hide();
+				$( '.chosen-container-multi' ).each( function(){
+					let name 	=	$( this ).siblings( 'select' ).attr( 'name' );
+					let selectValues 	=	[];
+					let value 		=	[];
+					$( this ).siblings( 'select' ).find( 'option' ).each( function(){
+						selectValues.push( $( this ).attr( 'value' ) );
+					})
+					$( '.chosen-container-multi' ).find( '.chosen-choices [data-option-array-index]' ).each( function(){
+						let index 	=	$( this ).attr( 'data-option-array-index' );
+						value.push( selectValues[ index ] );
+					});
+					form_data[ name ] 	=	value;
+				});
+
 				if(data.success)
 				{
 					$.ajax({
@@ -123,4 +137,30 @@ $(function(){
 		});
 
 	}
+
+	$( '.chosen-container-multi' ).each( function(){
+		let currentValue 		=	[];
+		let realValue	 		=	$( this ).siblings( 'select' ).attr( 'data-value' );
+		let valueExploded 		=	realValue.split(',' );
+		let select 			=	$( this ).siblings( 'select' );
+		// $( this ).siblings( 'select' ).html('');
+		_.each( valueExploded, ( value ) => {
+			$( this ).siblings( 'select' ).find( 'option' ).each( function(){
+				if( $( this ).attr( 'value' ) == value ) {
+					let text 	=	$( this ).html();
+					$( select ).append(
+						`
+						<option selected="selected" dont-delete value="${value}">${text}</option>
+						`
+					);
+				}
+			});
+		});
+		$( this ).siblings( 'select' ).find( 'option' ).each( function(){
+			if( $( this ).attr( 'dont-delete' ) == undefined && _.indexOf( valueExploded, $( this ).val() ) != -1 ) {
+				$( this ).remove();
+			}
+		})
+		$( this ).siblings( 'select' ).trigger("chosen:updated");
+	});
 });

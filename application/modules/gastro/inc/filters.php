@@ -448,4 +448,15 @@ class Nexo_Restaurant_Filters extends Tendoo_Module
         }
         return $data;
     }
+
+    /**
+     * Allowed order for print
+     * @param array order
+     * @return array order type
+     */
+    public function allowed_order_for_print( $order_type )
+    {
+        $order_type[]   =   'nexo_order_devis';
+        return $order_type;
+    }
 }

@@ -175,6 +175,7 @@
                             <!-- Everytime and order is paid, make the table available -->
                             <a class="btn btn-info btn-sm" ng-click="addNewItem(order)" ng-show="order.TYPE != 'nexo_order_comptant'"><i class="fa fa-plus"></i> <?php echo __( 'New Item', 'gastro' );?></a>
                             <!-- <a class="btn btn-primary btn-sm" ng-click="setAsServed( order.REF_ORDER )" ng-show="order.RESTAURANT_ORDER_STATUS == 'ready'"><i class="fa fa-cutlery"></i>  <?php echo __( 'Serve', 'gastro' );?></a> -->
+                            <a class="btn btn-default btn-sm" ng-click="printReceipt(order)"><i class="fa fa-print"></i> <?php echo __( 'Print', 'nexo-restaurant' );?></a>
                         </div>
                     </div>
                 </div>

@@ -87,6 +87,11 @@
         $scope.wrapperHeight			=	$scope.windowHeight - ( ( 56 * 2 ) + 30 );
         $scope.reservationPattern       =   <?php echo json_encode( ( array ) explode( ',', @$Options[ store_prefix() . 'reservation_pattern' ] ) );?>;
 
+        $scope.printReceipt 		=	function( order ){
+    		$( '#receipt-wrapper' ).remove();
+            $( 'body' ).append( '<iframe id="receipt-wrapper" style="visibility:hidden;height:0px;width:0px;position:absolute;top:0;" src="<?php echo dashboard_url([ 'orders', 'receipt' ]);?>/' + order.ORDER_ID + '?refresh=true&autoprint=true"></iframe>' );
+        }
+
         /**
          * Compare AMount
          * @param numeric first amount

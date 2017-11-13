@@ -1,7 +1,7 @@
 <script>
 tendooApp.directive( 'readyOrders', function(){
 	return {
-		templateUrl         :    '<?php echo site_url([ 'dashboard', store_slug(), 'gastro', 'templates', 'ready-orders' ] );?>',
+		templateUrl         :    '<?php echo site_url([ 'dashboard', store_slug(), 'gastro', 'templates', 'ready_orders' ] );?>',
 		restrict            :   'E'
 	}
 });
@@ -57,7 +57,7 @@ function( $scope, $timeout, $compile, $rootScope, $interval, $http, $filter ){
 		$( '.ready-orders-box' ).last().find( '.modal-footer' )
 		.prepend( '<a ng-show="selectedOrder != null && selectedOrder.TYPE != \'nexo_order_comptant\'" ng-click="runPayment()" class="btn btn-primary"><?php echo _s( 'Pay that order', 'nexo-restarant' );?></a>' );
 		$( '.ready-orders-box' ).last().find( '.modal-footer' )
-		.prepend( '<a ng-show="selectedOrder != null && selectedOrder.REAL_TYPE == \'delivery\'" ng-click="printReceipt()" class="btn btn-primary"><?php echo _s( 'Print Receipt', 'nexo-restarant' );?></a>' );
+		.prepend( '<a ng-show="selectedOrder != null && ( selectedOrder.REAL_TYPE == \'delivery\' || selectedOrder.REAL_TYPE == \'takeaway\' || selectedOrder.REAL_TYPE == \'dinein\' )" ng-click="printReceipt()" class="btn btn-primary"><?php echo _s( 'Print Receipt', 'nexo-restarant' );?></a>' );
 		// $( '.ready-orders-box' ).last().find( '.modal-footer' )
 		// .prepend( '<a ng-show="selectedOrder.STATUS == \'ready\'" ng-click="setAsServed()" class="btn btn-primary"><?php echo _s( 'Serve', 'nexo-restarant' );?></a>' );
 		
@@ -70,7 +70,7 @@ function( $scope, $timeout, $compile, $rootScope, $interval, $http, $filter ){
 	}
 
 	$scope.printReceipt 		=	function(){
-		$( 'body' ).append( '<iframe id="receipt-wrapper" style="visibility:hidden;height:0px;width:0px;position:absolute;top:0;" src="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + $scope.selectedOrder.ID + '?refresh=true&autoprint=true"></iframe>' );
+		$( 'body' ).append( '<iframe id="receipt-wrapper" style="visibility:hidden;height:0px;width:0px;position:absolute;top:0;" src="<?php echo dashboard_url([ 'orders', 'receipt' ]);?>/' + $scope.selectedOrder.ID + '?refresh=true&autoprint=true"></iframe>' );
 	}
 
 	/**

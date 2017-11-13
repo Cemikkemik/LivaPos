@@ -1,7 +1,7 @@
 <script>
 tendooApp.directive( 'readyItems', function(){
 	return {
-		templateUrl    :    '<?php echo site_url([ 'dashboard', 'gastro', 'templates', 'ready-items']);?>'
+		templateUrl    :    '<?php echo site_url([ 'dashboard', 'gastro', 'templates', 'ready_items']);?>'
 	}
 })
 tendooApp.controller( 'readyMealCTRL', [ '$rootScope', '$scope', '$http', '$interval', '$timeout', '$compile',

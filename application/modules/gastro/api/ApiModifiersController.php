@@ -1,5 +1,6 @@
 <?php
-class ApiModifiersController extends Api_Controller
+
+class ApiModifiersController extends Tendoo_Api
 {
     public function modifiers_by_group_get( $id = null )
     {

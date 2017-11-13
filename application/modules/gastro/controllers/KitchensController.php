@@ -6,20 +6,32 @@ class KitchensController extends Tendoo_Module
         parent::__construct();
     }
 
-    public function kitchens( $page = 'lists', $arg2 = null )
+    public function kitchens( $page = null, $arg2 = null )
 	{
-		$data						=	array();
+        $data						=	array();
 
-		if( in_array( $page, [ 'lists', 'edit' ] ) ) {
+		if( in_array( $page, [ 'lists', 'edit', 'add' ], true ) ) {
 
 			$data[ 'crud_content' ]    =    $this->kitchen_crud_header();
 
-			if( $page == 'lists' && $arg2 != 'add' ) {
-				$this->Gui->set_title( sprintf( __( 'Kitchen &mdash; %s', 'gastro'), get('core_signature')));
-			} elseif( $page == 'lists' && $arg2 == 'add' ) {
-				$this->Gui->set_title( sprintf( __( 'Create a new kitchen &mdash; %s', 'gastro'), get('core_signature')));
+			if( $page == null ) {
+				$this->Gui->set_title( 
+                    store_title( 
+                        sprintf( __( 'Kitchen &mdash; %s', 'gastro'), get('core_signature') )
+                    )
+                );
+			} elseif( $page == 'add' ) {
+				$this->Gui->set_title( 
+                    store_title(
+                        sprintf( __( 'Create a new kitchen &mdash; %s', 'gastro'), get('core_signature'))
+                    )
+                );
 			} else {
-                $this->Gui->set_title( __( 'Edit Kitchen', 'gastro')  );
+                $this->Gui->set_title( 
+                    store_title(
+                        __( 'Edit Kitchen', 'gastro')
+                    )
+                );
             }
 
 			$this->load->module_view( 'gastro', 'kitchens', $data );
@@ -38,57 +50,79 @@ class KitchensController extends Tendoo_Module
 
 			$this->load->module_view( 'gastro', 'open-kitchen-gui', $data );
 
-		} elseif( $page == 'watch' ) {
-            // angular dependencies
-            $this->events->add_filter( 'dashboard_dependencies', function( $array ) {
-                $array[]    =   'angularMoment';
-                return $array;
-            });
-
-            // enqueue new style
-            $this->enqueue->js( 'bower_components/angular-moment/angular-moment.min', module_url( 'gastro' ) );
-
-            // Save Footer
-            $this->events->add_action( 'dashboard_footer', function() {
-                get_instance()->load->module_view( 'gastro', 'watch-kitchen-script' );
-            });
-
-            $this->load->module_model( 'gastro', 'Nexo_Restaurant_Kitchens' );            
-            $data[ 'kitchen' ]      =   $this->Nexo_Restaurant_Kitchens->get( $arg2 );
-
-            if( @$data[ 'kitchen' ][0][ 'NAME' ] ) {
-                $this->Gui->set_title( store_title( sprintf( __( 'Watch Kitchen : %s', 'gastro' ), $data[ 'kitchen' ][0][ 'NAME' ] ) ) );
-            } else {
-                $this->Gui->set_title( store_title( __( 'Watch Kitchen', 'gastro' ) ) );
-            }
-
-            $this->load->module_view( 'gastro', 'watch-kitchen', $data );
-        } else if( $page == 'waiter' ) {
-            // angular dependencies
-            $this->events->add_filter( 'dashboard_dependencies', function( $array ) {
-                $array[]    =   'angularMoment';
-                return $array;
-            });
-
-            // enqueue new style
-            $this->enqueue->js( 'bower_components/angular-moment/angular-moment.min', module_url( 'gastro' ) );
-
-            // Save Footer
-            $this->events->add_action( 'dashboard_footer', function() {
-                get_instance()->load->module_view( 'gastro', 'waiters-screen.script' );
-            });
-
-            $this->Gui->set_title( store_title( __( 'Ready Orders', 'gastro' ) ) );
-            $this->load->module_model( 'gastro', 'Nexo_Restaurant_Kitchens' );
-
-            $data[ 'kitchen' ]      =   $this->Nexo_Restaurant_Kitchens->get( $arg2 );
-
-            $this->load->module_view( 'gastro', 'waiters-screen.gui', $data );
-        } else {
+		} else {
+            $this->Gui->set_title( 
+                store_title( 
+                    sprintf( __( 'Kitchen &mdash; %s', 'gastro'), get('core_signature') )
+                )
+            );
+            
             $data[ 'crud_content' ]    =    $this->kitchen_crud_header();
             $this->load->module_view( 'gastro', 'kitchens', $data );
         }
-	}
+    }
+    
+    /**
+     * Watch Kitchen
+     * @param int kitchen id
+     * @return string view
+     */
+    public function kitchenScreen( $kitchen_id )
+    {
+        // angular dependencies
+        $this->events->add_filter( 'dashboard_dependencies', function( $array ) {
+            $array[]    =   'angularMoment';
+            return $array;
+        });
+
+        // enqueue new style
+        $this->enqueue->js( 'bower_components/angular-moment/angular-moment.min', module_url( 'gastro' ) );
+
+        // Save Footer
+        $this->events->add_action( 'dashboard_footer', function() {
+            get_instance()->load->module_view( 'gastro', 'watch-kitchen-script' );
+        });
+
+        $this->load->module_model( 'gastro', 'Nexo_Restaurant_Kitchens' );            
+        $data[ 'kitchen' ]      =   $this->Nexo_Restaurant_Kitchens->get( $kitchen_id );
+
+        if( @$data[ 'kitchen' ][0][ 'NAME' ] ) {
+            $this->Gui->set_title( store_title( sprintf( __( 'Watch Kitchen : %s', 'gastro' ), $data[ 'kitchen' ][0][ 'NAME' ] ) ) );
+        } else {
+            $this->Gui->set_title( store_title( __( 'Watch Kitchen', 'gastro' ) ) );
+        }
+
+        $this->load->module_view( 'gastro', 'watch-kitchen', $data );
+    }
+
+    /**
+     * Waiter Screen
+     * @param kitchen id
+     * @return string view
+     */
+    public function waiterScreen( $kitchen_id = null )
+    {
+        // angular dependencies
+        $this->events->add_filter( 'dashboard_dependencies', function( $array ) {
+            $array[]    =   'angularMoment';
+            return $array;
+        });
+
+        // enqueue new style
+        $this->enqueue->js( 'bower_components/angular-moment/angular-moment.min', module_url( 'gastro' ) );
+
+        // Save Footer
+        $this->events->add_action( 'dashboard_footer', function() {
+            get_instance()->load->module_view( 'gastro', 'waiters-screen.script' );
+        });
+
+        $this->Gui->set_title( store_title( __( 'Ready Orders', 'gastro' ) ) );
+        $this->load->module_model( 'gastro', 'Nexo_Restaurant_Kitchens' );
+
+        $data[ 'kitchen' ]      =   $this->Nexo_Restaurant_Kitchens->get( $kitchen_id );
+
+        $this->load->module_view( 'gastro', 'waiters-screen.gui', $data );
+    }
 
 	/**
 	 * Kitchen controller CRUD header
@@ -149,7 +183,7 @@ class KitchensController extends Tendoo_Module
         $crud->callback_before_update(array( $this, 'callback_editing_kitchen' ));
 
         // Liste des produits
-        $crud->add_action(__('Open Kitchen', 'nexo_restaurant'), '', site_url(array( 'dashboard', store_slug(), 'gastro', 'kitchens', 'watch' )) . '/', 'btn btn-success fa fa-sign-in');
+        $crud->add_action(__('Open Kitchen', 'nexo_restaurant'), '', site_url(array( 'dashboard', store_slug(), 'gastro', 'kitchen-screen' )) . '/', 'fa fa-sign-in');
 
         // $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         // $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));

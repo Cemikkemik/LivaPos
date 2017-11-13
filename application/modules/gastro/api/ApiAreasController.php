@@ -1,6 +1,5 @@
 <?php
-
-class ApiAreasController extends Api_Controller
+class ApiAreasController extends Tendoo_Api
 {
     /**
      *  get Rooms

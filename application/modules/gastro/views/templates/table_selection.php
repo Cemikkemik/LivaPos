@@ -141,7 +141,8 @@
                                 <?php echo __( 'Unpaid', 'gastro' );?>
                             </span>
                             <span style="margin-left:10px">{{ order.CODE }} </span>
-                            <span class="pull-right">{{ order.RESTAURANT_ORDER_STATUS | capitalize }} - {{ order.WAITER_NAME | capitalize }}</span></div>
+                            <span class="pull-right">{{ order.RESTAURANT_ORDER_STATUS | capitalize }} - {{ order.WAITER_NAME | capitalize }}</span>
+                        </div>
                         <div class="box-body" style="padding:0px 10px">
                             <div class="row">
                                 <div class="col-md-6" ng-repeat="item in order.items">
@@ -169,7 +170,7 @@
                             </div>
                             
                         </div>
-                        <div class="box-footer" ng-init="sessionOrder = order">
+                        <div class="box-footer" ng-show="order.TYPE != 'nexo_order_comptant' && compareAmount( order.SOMME_PERCU, '<', order.TOTAL  )" ng-init="sessionOrder = order">
                             <a class="btn btn-success btn-sm" ng-click="openCheckout(order)" ng-show="compareAmount( order.SOMME_PERCU, '<', order.TOTAL  )"><i class="fa fa-shopping-cart"></i> <?php echo __( 'Checkout', 'gastro' );?></a>
                             <!-- Everytime and order is paid, make the table available -->
                             <a class="btn btn-info btn-sm" ng-click="addNewItem(order)" ng-show="order.TYPE != 'nexo_order_comptant'"><i class="fa fa-plus"></i> <?php echo __( 'New Item', 'gastro' );?></a>

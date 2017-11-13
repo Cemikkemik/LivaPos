@@ -65,7 +65,7 @@ class Nexo_Restaurant_Filters extends Tendoo_Module
                 // Waiter screen
                 $menus[ 'restaurant' ][]    =   [
                     'title'     =>      __( 'Waiter Screen', 'gastro' ),
-                    'href'      =>      site_url([ 'dashboard', store_slug(), 'gastro', 'kitchens', 'waiter' ]),
+                    'href'      =>      site_url([ 'dashboard', store_slug(), 'gastro', 'waiters-screen' ]),
                     'disable'   =>      true
                 ]; 
             }

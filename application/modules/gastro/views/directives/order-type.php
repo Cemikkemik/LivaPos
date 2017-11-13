@@ -1,7 +1,7 @@
 <script>
      tendooApp.directive( 'orderTypes', function(){
         return {
-            templateUrl        :  '<?php echo site_url([ 'dashboard', store_slug(), 'gastro', 'templates', 'order-types' ] );?>',
+            templateUrl        :  '<?php echo site_url([ 'dashboard', store_slug(), 'gastro', 'templates', 'order_types' ] );?>',
             restrict            :   'E',
             controller          :   [ '$scope', '$timeout', function( $scope, $timeout ) {
                 $timeout( function(){

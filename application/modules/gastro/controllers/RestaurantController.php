@@ -58,6 +58,6 @@ class RestaurantController extends Tendoo_Module
 
     public function templates( $template )
     {
-        return $this->load->module_view( 'gastro', 'templates.' . $template );
+        return $this->load->module_view( 'gastro', 'templates.' . $template, null, true );
     }
 }

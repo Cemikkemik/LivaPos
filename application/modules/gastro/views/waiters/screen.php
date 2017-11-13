@@ -204,7 +204,7 @@ function( $scope, $timeout, $compile, $rootScope, $interval, $http, $filter ){
 	$scope.ordersCodes  		=	[];
 	
 	$interval( function(){
-		$http.get( '<?php echo site_url([ 'dashboard', store_slug(), 'gastro', 'get_orders_with_meals' ]);?>' )
+		$http.get( '<?php echo site_url([ 'api', 'gastro', 'tables', 'orders' ]);?>' )
 		.then( function( returned ){
 			
 			// filter only ready items

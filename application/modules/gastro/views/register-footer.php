@@ -650,7 +650,7 @@
                 } else {
                     if( type.active ) {
                         if( type.namespace == 'return' ) {
-                            document.location   =   '<?php echo site_url([ 'dashboard', store_slug(), 'nexo', 'commandes', 'lists' ]);?>';
+                            document.location   =   '<?php echo dashboard_url([ 'orders' ]);?>';
                         } else if( type.namespace == 'readyorders' ) {
                             bootbox.hideAll();
                             $rootScope.$broadcast( 'open-ready-orders' );

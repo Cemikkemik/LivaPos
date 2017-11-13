@@ -846,7 +846,8 @@ class Nexo_Install extends CI_Model
 			'registers',
 			'backups',
 			'refund',
-			'stock-adjustment'
+			'stock-adjustment',
+			'taxes',
 		] as $component ) {
 			foreach([ 'create.', 'edit.', 'delete.', 'view.' ] as $action ) {
 				$this->aauth->allow_group( 'store.manager', 'nexo.' . $action . $component );

@@ -116,7 +116,7 @@
 
         $scope.fetchOrders      =   function( callback = null ) {
 
-            $http.get( '<?php echo site_url([ 'dashboard', store_slug(), 'gastro', 'get_orders' ]);?>?from-kitchen=true&takeaway_kitchen=<?php echo store_option( 'takeaway_kitchen' );?>&current_kitchen=' + $scope.kitchen_id )
+            $http.get( '<?php echo site_url([ 'api', 'gastro', 'kitchens', 'orders' ]);?>?from-kitchen=true&takeaway_kitchen=<?php echo store_option( 'takeaway_kitchen' );?>&current_kitchen=' + $scope.kitchen_id )
             .then( function( returned ){
                 // if nothing is returned, then crash here
                 if( returned.data.length == 0 ) {

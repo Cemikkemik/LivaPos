@@ -85,7 +85,6 @@ $this->load->config( 'rest' );
                     // item.DESIGN         +=  modifiersLabels;
                     item.PRIX_DE_VENTE      =  parseFloat( item.PRIX_DE_VENTE ) + $scope.currentItem.modifiersPrice;
                     item.PRIX_DE_VENTE_TTC  =  parseFloat( item.PRIX_DE_VENTE_TTC ) + $scope.currentItem.modifiersPrice;
-                    item.STATUS             =   '0';
                     item.INLINE             =   true; // this item become inline since it's should be singular
                     item.CODEBAR            =   $scope.get_unique_id() + '-barcode-' + item.CODEBAR; // it definitely has to be 
                     // item.QTE_ADDED          =   1;
@@ -102,7 +101,7 @@ $this->load->config( 'rest' );
                     v2Checkout.addToCart({
                         item, 
                         index       :   $attrs.index,
-                        increase    :   true
+                        increase    :   false
                     });
                     // v2Checkout.addOnCart([item], $attrs.barcode, $attrs.qte, $attrs.increase == 'true' ? true : false );
                     $( '[data-bb-handler="confirm"]' ).trigger( 'click' );

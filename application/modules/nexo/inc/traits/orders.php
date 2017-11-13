@@ -228,18 +228,24 @@ trait Nexo_orders
             }
 
             // Add history for this item on stock flow
-            $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
+            $stock_flow     =   [
                 'REF_ARTICLE_BARCODE'       =>  $item[ 'codebar' ],
-                'BEFORE_QUANTITE'           =>  $fresh_item[0][ 'QUANTITE_RESTANTE' ],
                 'QUANTITE'                  =>  $item[ 'qte_added' ],
-                'AFTER_QUANTITE'            =>  floatval( $fresh_item[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $item[ 'qte_added' ] ),
                 'UNIT_PRICE'                =>  $item[ 'sale_price' ],
                 'TOTAL_PRICE'               =>  ( __floatval($item[ 'qte_added' ]) * __floatval($item[ 'sale_price' ]) ) - $discount_amount,
                 'REF_COMMAND_CODE'          =>  $order_details[ 'CODE' ],
                 'AUTHOR'                    =>  User::id(),
                 'DATE_CREATION'             =>  date_now(),
                 'TYPE'                      =>  'sale'
-            ]);
+            ];
+
+            // if item is a physical item, than we can consider using before and after quantity
+            if( @$fresh_item[0][ 'TYPE' ] === '1' ) {
+                $stock_flow[ 'BEFORE_QUANTITE' ]    =   $fresh_item[0][ 'QUANTITE_RESTANTE' ];
+                $stock_flow[ 'AFTER_QUANTITE' ]     =   floatval( $fresh_item[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $item[ 'qte_added' ] );
+            }
+            
+            $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', $stock_flow);
 
             // update current remaining quantity
 
@@ -569,19 +575,25 @@ trait Nexo_orders
                 ->insert( store_prefix() . 'nexo_commandes_produits_meta', $meta );
             }
 
-            // Add history for this item on stock flow
-            $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
+            $stock_flow     =   [
                 'REF_ARTICLE_BARCODE'       =>  $item[ 'codebar' ],
-                'BEFORE_QUANTITE'           =>  $fresh_item[0][ 'QUANTITE_RESTANTE' ],
                 'QUANTITE'                  =>  $item[ 'qte_added' ],
-                'AFTER_QUANTITE'            =>  floatval( $fresh_item[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $item[ 'qte_added' ] ),
                 'UNIT_PRICE'                =>  $item[ 'sale_price' ],
                 'TOTAL_PRICE'               =>  ( __floatval($item[ 'qte_added' ]) * __floatval($item[ 'sale_price' ]) ) - $discount_amount,
                 'REF_COMMAND_CODE'          =>  $old_order[ 'order' ][0][ 'CODE' ],
                 'AUTHOR'                    =>  User::id(),
                 'DATE_CREATION'             =>  date_now(),
                 'TYPE'                      =>  'sale'
-            ]);
+            ];
+
+            // If item is a physical item
+            if( @$fresh_item[0][ 'TYPE' ] === '1' ) {
+                $stock_flow[ 'BEFORE_QUANTITE' ]    =   $fresh_item[0][ 'QUANTITE_RESTANTE' ];
+                $stock_flow[ 'AFTER_QUANTITE' ]     =   floatval( $fresh_item[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $item[ 'qte_added' ] );
+            }
+
+            // Add history for this item on stock flow
+            $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', $stock_flow );
         }
 
         $this->db->where( 'ID', $order_id )

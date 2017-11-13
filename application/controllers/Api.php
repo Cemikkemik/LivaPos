@@ -1,16 +1,14 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-! is_file(APPPATH . '/libraries/REST_Controller.php') ? die('CodeIgniter RestServer is missing') : null;
-
-include_once(APPPATH . '/libraries/REST_Controller.php'); // Include Rest Controller
+include_once( APPPATH . '/core/Api_Controller.php' );
 
 use Pecee\SimpleRouter\SimpleRouter as Route;
 use Pecee\Handlers\IExceptionHandler;
 use Pecee\Http\Request;
 use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
 
-class Api extends Tendoo_Controller 
+class Api extends Api_Controller 
 {
 	public function __construct()
 	{

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+    <name>Gastro</name>
+    <namespace>gastro</namespace>
+    <version>2.0</version>
+    <author>Blair Jersyer</author>
+    <description>Add feature for restaurant to NexoPOS.</description>
+    <language>/language</language>
+    <main>gastro.php</main>
+</application>

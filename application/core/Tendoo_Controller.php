@@ -11,6 +11,7 @@ class Tendoo_Controller extends CI_Controller
         include_once( LIBPATH . '/UI.php');
         include_once( LIBPATH . '/SimpleFileManager.php');
         include_once( APPPATH . 'core/Tendoo_Module.php' );
+        include_once( APPPATH . 'core/Tendoo_Api.php' );
         include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/InterfaceHandler.php');
         include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/FileHandler.php');
         include_once( APPPATH . 'third_party/PHP-po-parser-master/src/Sepia/PoParser.php');

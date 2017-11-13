@@ -368,7 +368,7 @@ function register_store_route( $path, $callback ) {
 
 function dashboard_url( $url ) {
     if( is_multistore() ) {
-        return site_url( array_merge([ 'dashboard', store_slug() ], $url ) );
+        return site_url( array_merge([ 'dashboard', store_slug(), 'nexo' ], $url ) );
     }
     return site_url( array_merge([ 'dashboard', store_slug(), 'nexo' ], $url ) );
 }

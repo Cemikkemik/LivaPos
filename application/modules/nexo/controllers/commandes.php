@@ -13,7 +13,7 @@ class NexoOrdersController extends CI_Model
 		**/
 
 		if( multistore_enabled() && ! is_multistore() ) {
-			return show_error( __( 'Cette fonctionnalité a été déasctivée', 'nexo' ) );
+			return show_error( __( 'Cette fonctionnalité a été désactivée', 'nexo' ) );
 		}
 
         global $Options;

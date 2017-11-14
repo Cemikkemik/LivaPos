@@ -326,7 +326,7 @@ class Nexo_Controller extends CI_Model
 				array(// @since 2.7.9
 					'title'            =>    __('Factures & Reçus', 'nexo'),
 					'icon'            =>    'fa fa-gear',
-					'href'            =>    dashboard_url([ 'settings', 'invoice' ]),
+					'href'            =>    dashboard_url([ 'settings', 'invoices' ]),
 					'permission'		=>	'nexo.manage.settings'
 				),
 				array(// @since 3.0.19

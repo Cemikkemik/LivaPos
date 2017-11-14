@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nexo\n"
 "POT-Creation-Date: 2017-09-29 19:37+0100\n"
-"PO-Revision-Date: 2017-09-29 19:57+0100\n"
+"PO-Revision-Date: 2017-11-14 11:25+0100\n"
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: es_ES\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: __controllers/about.php:20
 #, fuzzy
 msgid "Bienvenue sur NexoPOS"
-msgstr "<h4 class=\"text-center\">Bienvenido a NexoPOS</h4>"
+msgstr "NexoPOS de bienvenida"
 
 #: __controllers/arrivages.php:39 inc/controller.php:209
 #, fuzzy
@@ -59,7 +59,7 @@ msgstr "Valor"
 #: __controllers/arrivages.php:64
 #, fuzzy
 msgid "Produits Inclus"
-msgstr "Productos incluidos"
+msgstr "productos incluidos"
 
 #: __controllers/arrivages.php:65 __controllers/fournisseurs.php:37
 #: __controllers/settings.php:55 inc/controller.php:262 inc/controller.php:422
@@ -97,12 +97,12 @@ msgstr "Etiqueta Producto"
 #: __controllers/arrivages.php:74
 #, fuzzy
 msgid "Facture de l'arrivage"
-msgstr "La factura de envío"
+msgstr "Carta de porte"
 
 #: __controllers/arrivages.php:99
 #, fuzzy
 msgid "Liste des approvisonnements"
-msgstr "La lista"
+msgstr "Lista de suministro PWGSC"
 
 #: __controllers/arrivages.php:126
 msgid "Ajouter une nouvelle livraison"
@@ -749,7 +749,7 @@ msgstr "Tasa"
 #: __controllers/produits.php:137
 #, fuzzy
 msgid "Prix de vente(*)"
-msgstr "Precio de venta IVA incluido"
+msgstr "Precio Venta Ficticia"
 
 #: __controllers/produits.php:138
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:112
@@ -959,8 +959,7 @@ msgstr ""
 msgid ""
 "Il s'agit ici de la quantité initiale qui sera considérée comme quantité "
 "d'approvisionnement."
-msgstr ""
-"Aquí es la cantidad inicial que se considerará la cantidad de la fuente."
+msgstr "Esta es la cantidad inicial de considerarse la cantidad de suministro."
 
 #: __controllers/produits.php:183
 msgid ""
@@ -1036,7 +1035,7 @@ msgstr ""
 #: __controllers/produits.php:624
 #, fuzzy
 msgid "Approvisonnement du stock"
-msgstr "Compra de stock"
+msgstr "abastecimiento de"
 
 #: __controllers/rapports.php:72
 msgid "Le rapport ne peut être affiché, la date spécifiée est incorrecte"
@@ -1201,7 +1200,7 @@ msgstr "configuración del teclado"
 #: __controllers/settings.php:58 inc/controller.php:418
 #, fuzzy
 msgid "Commandes"
-msgstr "Number of Orders"
+msgstr "Nbr Pedidos"
 
 #: __controllers/settings.php:63
 msgid "Réglages Stripe"
@@ -1610,7 +1609,7 @@ msgstr "Sí"
 #: Deprecated.php:128
 #, fuzzy
 msgid "Non"
-msgstr "Envío no definido"
+msgstr "El valor predeterminado es \"No.\""
 
 #: inc/angular/items/factories/barcode-options.php:6
 #, fuzzy
@@ -1664,7 +1663,7 @@ msgstr "Activar Promoción"
 #: inc/angular/items/factories/fields.php:46
 #, fuzzy
 msgid "Vous permet de vendre le produit à un prix spéciale."
-msgstr "Usted puede vender el producto a un precio especial."
+msgstr "Le permite vender el producto a un precio especial."
 
 #: inc/angular/items/factories/fields.php:53
 #, fuzzy
@@ -1684,7 +1683,7 @@ msgstr "Fecha salida"
 #: inc/angular/items/factories/fields.php:63
 #, fuzzy
 msgid "Vous permet de définir la date de début de la promotion."
-msgstr "Puede establecer la fecha de inicio de la promoción."
+msgstr "Le permite establecer la fecha de inicio de la promoción."
 
 #: inc/angular/items/factories/fields.php:82
 #, fuzzy
@@ -1694,7 +1693,7 @@ msgstr "Fecha de finalización"
 #: inc/angular/items/factories/fields.php:84
 #, fuzzy
 msgid "Vous permet de définir la date de fin de la promotion."
-msgstr "Sirve para establecer la fecha de finalización de la promoción."
+msgstr "Le permite establecer la fecha de finalización de la promoción."
 
 #: inc/angular/items/factories/fields.php:112
 #, fuzzy
@@ -1740,7 +1739,7 @@ msgstr "Si el producto a una capacidad de líquido, puede especificar aquí."
 #: inc/angular/items/factories/tabs.php:24
 #, fuzzy
 msgid "Stock"
-msgstr "Stock defectuoso"
+msgstr "Gestión Stock"
 
 #: inc/angular/items/factories/fields.php:171
 #, fuzzy
@@ -2149,7 +2148,7 @@ msgstr "Suma deducida"
 #: inc/angular/order-list/directives/payment-options.php:160
 #, fuzzy
 msgid "Valider"
-msgstr "Validar la operación"
+msgstr "Confirmar Transferencia"
 
 #: inc/angular/order-list/directives/payment-options.php:153
 #, fuzzy
@@ -2172,7 +2171,7 @@ msgstr "factura de pago:"
 #: inc/angular/order-list/directives/payment-options.php:259
 #, fuzzy
 msgid "Aucun article à afficher"
-msgstr "No hay ningún elemento para mostrar"
+msgstr "No hay artículos para mostrar"
 
 #: inc/angular/order-list/directives/payment-options.php:268
 #, fuzzy
@@ -2263,7 +2262,7 @@ msgstr "No se pueden reconocer los medios de pago."
 #: inc/angular/register/controllers/paybox.php:439
 #, fuzzy
 msgid "Les commandes partielles ont été déscactivées."
-msgstr "Órdenes parciales fueron descactivees."
+msgstr "pedidos parciales fueron déscactivées."
 
 #: inc/angular/register/controllers/paybox.php:477
 #: inc/angular/register/controllers/paybox.php:519
@@ -2695,12 +2694,12 @@ msgstr "Ventas"
 #: inc/controller.php:214
 #, fuzzy
 msgid "Nouvel Approvisionnement"
-msgstr "Nuevas fuentes de alimentación"
+msgstr "La nueva oferta"
 
 #: inc/controller.php:219
 #, fuzzy
 msgid "Ajustement des quantités"
-msgstr "Ajuste de cantidades"
+msgstr "Modulación de los importes"
 
 #: inc/controller.php:227 inc/widgets/guides.php:6
 msgid "Ajouter un article"
@@ -3067,7 +3066,7 @@ msgstr "Can modify products"
 #: inc/install.php:730
 #, fuzzy
 msgid "Supprimer des articles"
-msgstr "Quitar elementos"
+msgstr "eliminar elementos"
 
 #: inc/install.php:730
 msgid "Peut supprimer des produits"
@@ -3891,27 +3890,27 @@ msgstr "No se puede eliminar esta entrada, porque el inventario no lo permite."
 #: language/nexo_lang.php:117
 #, fuzzy
 msgid "Stock Accepté"
-msgstr "Valores aceptados"
+msgstr "Stock Aceptado"
 
 #: language/nexo_lang.php:118
 #, fuzzy
 msgid "Stock Transféré"
-msgstr "Valores transferidos"
+msgstr "Stock transferido"
 
 #: language/nexo_lang.php:119
 #, fuzzy
 msgid "Transfert Rejeté"
-msgstr "Transferencia rechazada"
+msgstr "transferencia rechazada"
 
 #: language/nexo_lang.php:120
 #, fuzzy
 msgid "Transfert Annulé"
-msgstr "Transferencia cancelada"
+msgstr "La transferencia fue cancelada"
 
 #: language/nexo_lang.php:123
 #, fuzzy
 msgid "Retour Stock"
-msgstr "Retorno de valores"
+msgstr "Volver Stock"
 
 #: language/nexo_lang.php:124
 msgid "Réduction"
@@ -3989,7 +3988,7 @@ msgstr "Neto excluido IVA"
 #: views/checkout/v2-1/col_1.php:101
 #, fuzzy
 msgid "Total des taxes"
-msgstr "Total de los impuestos"
+msgstr "Total de impuestos"
 
 #: views/checkout/v2-1/col_1.php:117 views/checkout/v2-1/col_1.php:129
 #: views/checkout/v2-1/col_1.php:185 views/checkout/v2/col_1.php:80
@@ -4735,7 +4734,7 @@ msgstr "Nombre del cliente"
 #: views/items/templates/coupon.php:12 views/settings/orders.php:11
 #, fuzzy
 msgid "Enregistrer"
-msgstr "Registrar"
+msgstr "Grabar"
 
 #: views/customers/main-template.php:11
 #, fuzzy
@@ -4835,7 +4834,7 @@ msgstr "Gastos"
 #: views/deliveries/invoice.php:43
 #, fuzzy
 msgid "Facture d'approvisionnement"
-msgstr "Proyecto de ley de alimentación"
+msgstr "proyecto de ley de la oferta"
 
 #: views/deliveries/invoice.php:53 views/import/items-dom.php:16
 #: views/import/script.php:8
@@ -5094,7 +5093,7 @@ msgstr "Creación de envíos y categorías"
 #: views/items/history/dom.php:3
 #, fuzzy
 msgid "Historique d'activité sur le produit"
-msgstr "Actividad sobre la historia del producto"
+msgstr "historial de actividades Producto"
 
 #: views/items/parts.php:17
 #, fuzzy
@@ -5204,7 +5203,7 @@ msgstr "Más información"
 msgid ""
 "Rechercher le nom du produit, le code barre ou l'unité de gestion du stock"
 msgstr ""
-"Encontrar el nombre del producto, el código de barras o la unidad de gestión "
+"Encontrar el nombre del producto, la unidad de código de barras o la gestión "
 "de stocks"
 
 #: views/items/stock-supply/new-ui-dom.php:15
@@ -5225,7 +5224,7 @@ msgstr "Debe seleccionar un proveedor"
 #: views/items/stock-supply/new-ui-dom.php:51
 #, fuzzy
 msgid "Terminer l'opération"
-msgstr "Completar la operación de"
+msgstr "Completar la operación"
 
 #: views/items/stock-supply/new-ui-dom.php:61
 #: views/items/stock-supply/new-ui-dom.php:74
@@ -5234,64 +5233,64 @@ msgstr "Completar la operación de"
 #: views/items/stock-supply/new-ui-script.php:236
 #, fuzzy
 msgid "Ajouter un approvisionnement"
-msgstr "Agregar una fuente de"
+msgstr "Añadir abastecimiento"
 
 #: views/items/stock-supply/new-ui-dom.php:62
 #, fuzzy
 msgid "Modifier un approvisionnement"
-msgstr "Cambiar una fuente de"
+msgstr "Editar suministros"
 
 #: views/items/stock-supply/new-ui-dom.php:67
 #, fuzzy
 msgid "Titre de l'approvisionnement"
-msgstr "Fuente título"
+msgstr "Título de la oferta"
 
 #: views/items/stock-supply/new-ui-dom.php:77
 #, fuzzy
 msgid "Modifier l'approvisionnement"
-msgstr "Modificar fuente"
+msgstr "suministro de edición"
 
 #: views/items/stock-supply/new-ui-script.php:117
 #: views/items/stock-supply/new-ui-script.php:181
 #, fuzzy
 msgid "Vous devez remplir un titre"
-msgstr "Usted debe completar un título"
+msgstr "Usted también necesitará un título"
 
 #: views/items/stock-supply/new-ui-script.php:129
 #, fuzzy
 msgid "Approvisionnement crée"
-msgstr "La oferta crea"
+msgstr "la oferta crea"
 
 #: views/items/stock-supply/new-ui-script.php:131
 #, fuzzy
 msgid "Une erreur s'est produit durant l'operation"
-msgstr "Ocurrió un error durante la operación"
+msgstr "Se ha producido un error durante la operación"
 
 #: views/items/stock-supply/new-ui-script.php:195
 #, fuzzy
 msgid "Approvisionnement mis à jour"
-msgstr "Fuente actualizada al día"
+msgstr "Suministro actualiza"
 
 #: views/items/stock-supply/new-ui-script.php:216
 #: views/settings/invoices.php:111
 #, fuzzy
 msgid "Reçu d'approvisionnement"
-msgstr "Recibo de suministro de"
+msgstr "alimentación recibida"
 
 #: views/items/stock-supply/new-ui-script.php:254
 #, fuzzy
 msgid "Vous devez avoir au moins un produit dans la liste d'approvisionnement"
-msgstr "Debe tener al menos un producto en la lista"
+msgstr "Debe tener al menos un producto en la lista de suministro"
 
 #: views/items/stock-supply/new-ui-script.php:258
 #, fuzzy
 msgid "Vous devez choisir un arrivage"
-msgstr "Usted debe elegir un envío"
+msgstr "Debe elegir un envío"
 
 #: views/items/stock-supply/new-ui-script.php:290
 #, fuzzy
 msgid "Approvisionnement effectuée."
-msgstr "La fuente es hecha."
+msgstr "Suministro a cabo."
 
 #: views/items/stock-supply/script.php:53
 msgid "Suppression"
@@ -5334,7 +5333,7 @@ msgstr "Para asignar una categoría a un producto"
 #: views/items/templates/clothes.php:52 views/items/templates/coupon.php:52
 #, fuzzy
 msgid "Unité"
-msgstr "Referencia"
+msgstr "Unidad"
 
 #: views/items/templates/clothes.php:59 views/items/templates/coupon.php:59
 #, fuzzy
@@ -5376,7 +5375,9 @@ msgstr "Gestión y Creación de medios de pago"
 msgid ""
 "Un produit avec ce nom existe déjà, souhaitez-vous pré-remplir ce "
 "formulaire ?"
-msgstr "Un producto con ese nombre ya existe, ¿desea llenar este formulario?"
+msgstr ""
+"Un producto con este nombre ya existe, ¿desea comprobar la validez de llenar "
+"este formulario?"
 
 #: views/product-script.php:39
 msgid ""
@@ -5475,7 +5476,7 @@ msgstr "Pedido ID : %s - Nexo Shop Receipt"
 #: views/receipts/default.php:60 views/receipts/light.php:60
 #, fuzzy
 msgid "Reçu de vente"
-msgstr "Recibo de venta"
+msgstr "recibo de compra"
 
 #: views/receipts/default.php:168 views/receipts/light.php:158
 #: views/receipts/simple.php:142
@@ -5566,7 +5567,7 @@ msgstr "Total entregas:"
 #: views/receipts/light.php:285
 #, fuzzy
 msgid "à rendre :"
-msgstr "para hacer:"
+msgstr "a devolver :"
 
 #: views/receipts/simple.php:61
 msgid "Ticket de caisse"
@@ -6061,7 +6062,7 @@ msgstr ""
 #: views/settings/checkout.php:299
 #, fuzzy
 msgid "Désactiver les commandes incomplètes ?"
-msgstr "¿Desactivar las órdenes incompletas?"
+msgstr "Desactivar las órdenes incompletas?"
 
 #: views/settings/checkout.php:300
 #, fuzzy
@@ -6069,13 +6070,12 @@ msgid ""
 "Cette option permettra de désactiver l'enregistrement des commandes "
 "incomplètes dans le système."
 msgstr ""
-"Esta opción permite para desactivar la grabación de pedidos incompletos en "
-"el sistema."
+"Esta opción desactivará la grabación de pedidos incompletos en el sistema."
 
 #: views/settings/checkout.php:311
 #, fuzzy
 msgid "Afficher le prix hors taxe"
-msgstr "Mostrar el precio sin impuestos"
+msgstr "Ver el precio sin impuestos"
 
 #: views/settings/checkout.php:312
 #, fuzzy
@@ -6084,8 +6084,8 @@ msgid ""
 "afficher le prix hors taxe et afficher la charge fiscale total sur tout les "
 "produits."
 msgstr ""
-"Impuestos sobre los productos se calculan automáticamente. Puede ver el "
-"precio, excluyendo impuestos y mostrar el total de impuestos de la carga en "
+"Impuestos sobre los productos se calculan automáticamente. Se puede "
+"visualizar el precio del impuesto y mostrar la carga fiscal total sobre "
 "todos los productos."
 
 #: views/settings/customers.php:33
@@ -6254,7 +6254,7 @@ msgstr "Configuración de recibos de caja registradora"
 #: views/settings/invoices.php:44
 #, fuzzy
 msgid "Url logo"
-msgstr "Url"
+msgstr "URL del logotipo"
 
 #: views/settings/invoices.php:45
 #, fuzzy
@@ -6262,13 +6262,13 @@ msgid ""
 "Si ce champ est rempli, l'image sera affichée sur le reçu de vente à la "
 "place du nom de la boutique."
 msgstr ""
-"Si rellena este campo, la imagen aparecerá en el recibo de venta en lugar "
-"del nombre de la tienda."
+"Si se llena este campo, la imagen se mostrará en la factura en lugar del "
+"nombre de la tienda."
 
 #: views/settings/invoices.php:51
 #, fuzzy
 msgid "Hauteur Logo(px)"
-msgstr "Logo de altura (px)"
+msgstr "Logotipo de altura (px)"
 
 #: views/settings/invoices.php:52
 #, fuzzy
@@ -6276,8 +6276,8 @@ msgid ""
 "Forcer la hauteur du logo. Veuillez définir une valeur numérique, par "
 "exemple : \"30\" et non \"30px\""
 msgstr ""
-"La altura de la insignia de la fuerza. Por favor, defina un valor numérico, "
-"por ejemplo: \"30\" y no \"30px\""
+"Fuerce el ancho del logotipo. Por favor, establezca un valor numérico, por "
+"ejemplo: \"30\" y no \"30px\""
 
 #: views/settings/invoices.php:58
 msgid "Largeur Logo(px)"
@@ -6503,7 +6503,7 @@ msgid ""
 "pas prisent en charge."
 msgstr ""
 "Los valores por defecto serán utilizados en los campos omitidos. Puede "
-"utilier como un acceso directo \"Ctrl   A\" o \"shift   p\". Las letras "
+"utilier como un acceso directo \"Ctrl + A\" o \"shift + p\". Las letras "
 "mayúsculas no están soportados tabaco."
 
 #: views/settings/keyboard.php:26
@@ -6524,7 +6524,7 @@ msgstr "A una orden pendiente"
 #: views/settings/keyboard.php:31
 #, fuzzy
 msgid "Par défaut : shift+h"
-msgstr "Por defecto: Shift   h"
+msgstr "Por defecto: Shift + h"
 
 #: views/settings/keyboard.php:34
 #, fuzzy
@@ -6554,7 +6554,7 @@ msgstr "Añadir la entrega"
 #: views/settings/keyboard.php:43
 #, fuzzy
 msgid "Par défaut : shift+d"
-msgstr "Por omisión: Mayúsculas   d"
+msgstr "Por omisión: Mayúsculas + d"
 
 #: views/settings/keyboard.php:46
 #, fuzzy
@@ -6574,7 +6574,7 @@ msgstr "Abrir la calculadora"
 #: views/settings/keyboard.php:51
 #, fuzzy
 msgid "Par défaut : shift+w"
-msgstr "Por omisión: Mayúsculas   w"
+msgstr "Por omisión: Mayúsculas + w"
 
 #: views/settings/keyboard.php:54
 #, fuzzy
@@ -6589,7 +6589,7 @@ msgstr "Por defecto: shift   n"
 #: views/settings/keyboard.php:59
 #, fuzzy
 msgid "Par défaut : shift+c"
-msgstr "Por defecto: shift   c"
+msgstr "Por defecto: shift + c"
 
 #: views/settings/keyboard.php:62
 #, fuzzy
@@ -6614,7 +6614,7 @@ msgstr "Ver en pantalla completa"
 #: views/settings/keyboard.php:71
 #, fuzzy
 msgid "Par défaut: shift+0"
-msgstr "Por defecto: Shift   0"
+msgstr "Por defecto: Shift + 0"
 
 #: views/settings/keyboard.php:74
 #, fuzzy
@@ -6624,7 +6624,7 @@ msgstr "Eliminar un descuento"
 #: views/settings/keyboard.php:75
 #, fuzzy
 msgid "Par défaut : shift+del"
-msgstr "Por defecto: Shift   Del"
+msgstr "Por defecto: Shift + Del"
 
 #: views/settings/orders.php:19 views/settings/orders.php:31
 msgid "Choisissez une option"
@@ -6911,7 +6911,7 @@ msgstr "Lista Grupo Clientes"
 #: views/welcome/dom.php:7
 #, fuzzy
 msgid "Activer la démo"
-msgstr "Activar la demo"
+msgstr "Activar demostración"
 
 #: views/welcome/dom.php:8
 msgid "Non, Merci !"

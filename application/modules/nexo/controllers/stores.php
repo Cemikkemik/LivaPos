@@ -46,7 +46,7 @@ class NexoStoreController extends CI_Model
 		$crud->set_field_upload('IMAGE', 'public/upload/stores');
         
         // Liste des produits
-        $crud->add_action(__('Accéder à la boutique', 'nexo'), '', site_url(array( 'dashboard', 'nexo', 'stores' )) . '/', 'btn btn-success fa fa-sign-in');
+        $crud->add_action(__('Accéder à la boutique', 'nexo'), '', site_url(array( 'dashboard', 'stores' )) . '/', 'fa fa-sign-in');
 		
 		$crud->callback_before_insert(array( $this->Nexo_Stores, '__insert_store' ));
 		$crud->callback_before_update(array( $this->Nexo_Stores, '__update_store' ));

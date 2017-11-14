@@ -42,7 +42,7 @@ class Nexo_Controller extends CI_Model
 			$Nexo_Menus[ 'nexo_shop' ][]	=	array(
 				'title'		=>        __('Ajouter une boutique', 'nexo'), // menu title
 				'href'		=>		site_url( array( 'dashboard', 'nexo', 'stores', 'add' ) ),
-				'permission' 	=>		'nexo.create.store'
+				'permission' 	=>		'nexo.create.stores'
 			);
 
 			$Nexo_Menus[ 'nexo_shop' ][]	=	array(

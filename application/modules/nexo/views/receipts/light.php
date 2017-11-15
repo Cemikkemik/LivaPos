@@ -346,6 +346,10 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 		font-size: 2.8vw;
 	}
 }
+/* @page{
+    margin-left: 5px;
+    margin-right: 10px;
+} */
 </style>
 <?php include( dirname( __FILE__ ) . '/receipt-footer.php' );?>
 <?php if( @$_GET[ 'ignore_header' ] != 'true' ):?>

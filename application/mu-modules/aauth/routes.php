@@ -1,7 +1,7 @@
 <?php
 global $Route;
 
-$Route->match([ 'get', 'post' ], 'users/{page_id?}', 'UsersController@list' )
+$Route->match([ 'get', 'post' ], 'users/{page_id?}', 'UsersController@list_users' )
 ->where([ 'page_id' => '[0-9]+' ]);
 
 $Route->match([ 'get', 'post' ], 'users/create', 'UsersController@create' );

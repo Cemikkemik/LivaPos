@@ -11,8 +11,31 @@ class Api extends Tendoo_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		// var_dump( get_instance() );
-		// get_instance()->load->helper( 'request_helper' );
+		// check if api key is correct
+		$api 		=	$this->db->where( 'key', $this->input->server( 'HTTP_X_API_KEY' ) )
+		->get( 'restapi_keys' )
+		->result_array();
+
+		if( ! $api ) {
+			return response()->httpCode( 403 )->json([
+				'status'	=> 	'failed',
+				'message'	=> 	'access_denied'
+			]);
+		} else {
+			// check whether the user is connected or not
+			if( User::id() === 0 ) {
+				// if user is not connected, we're using the API user id if it's provider
+				if( $api[0][ 'user' ] != '0' ) {
+					// login using using provide API
+					$this->auth->login_fast( $api[0][ 'user' ] );
+				} else { // the API is being accessed from external app, and the user is using system API
+					return response()->httpCode( 403 )->json([
+						'status'	=>	'failed',
+						'message'	=> 	'core_keys_access_denied'
+					]);
+				}
+			}
+		}
 	}
 	
 	/**

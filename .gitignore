@@ -9,3 +9,4 @@ application/config/database.php
 application/temp/*
 public/upload/*
 nexopos.zip
+application/modules/gastro/views/waiters/screen.php

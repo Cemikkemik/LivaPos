@@ -78,7 +78,7 @@ class UsersController extends Tendoo_Module
      * List users
      * @return response
      */
-    public function list( $index = 1 )
+    public function list_users( $index = 1 )
     {
         if (
             ! User::can('edit_users') &&

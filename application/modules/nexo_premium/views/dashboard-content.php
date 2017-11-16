@@ -28,7 +28,7 @@
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="<?php echo site_url('dashboard/' . store_slug() . '/nexo/rapports/journalier');?>" class="small-box-footer">
+                <a href="<?php echo dashboard_url([ 'reports', 'daily-sales' ]);?>" class="small-box-footer">
                   <?php _e('Plus de détails', 'nexo_premium');?> <i class="fa fa-arrow-circle-right"></i>
                 </a>
               </div>
@@ -62,7 +62,7 @@
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="<?php echo site_url('dashboard/' . store_slug() . '/nexo_premium/Controller_Stats_Des_Ventes');?>" class="small-box-footer">
+                <a href="<?php echo dashboard_url([ 'reports', 'sales-stats' ]);?>" class="small-box-footer">
                   <?php _e('Plus de détails', 'nexo_premium');?> <i class="fa fa-arrow-circle-right"></i>
                 </a>
               </div>
@@ -94,7 +94,7 @@
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="<?php echo site_url('dashboard/' . store_slug() . '/nexo/clients/lists');?>" class="small-box-footer">
+                <a href="<?php echo dashboard_url([ 'customers' ]);?>" class="small-box-footer">
                   <?php _e('Plus de détails', 'nexo_premium');?> <i class="fa fa-arrow-circle-right"></i>
                 </a>
               </div>
@@ -125,7 +125,7 @@
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="<?php echo site_url('dashboard/' . store_slug() . '/nexo/rapports/journalier');?>" class="small-box-footer">
+                <a href="<?php echo dashboard_url([ 'reports', 'expenses' ]);?>" class="small-box-footer">
                   <?php _e('Plus de détails', 'nexo_premium');?> <i class="fa fa-arrow-circle-right"></i>
                 </a>
               </div>

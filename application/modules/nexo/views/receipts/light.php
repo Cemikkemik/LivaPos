@@ -299,13 +299,19 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         </tr>
                     </tbody>
                 </table>
+                <div class="text-center">
+                    <?php
+                    $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
+                    echo '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode( $order[ 'order' ][0][ 'CODE' ], $generator::TYPE_CODE_128)) . '">';
+                    ?>
+                </div>
                 <p class="text-center"><?php echo xss_clean( $order[ 'order' ][0][ 'DESCRIPTION' ] );?></p>
 				<p class="text-center"><?php echo xss_clean( $this->parser->parse_string( @$Options[ store_prefix() . 'nexo_bills_notices' ], $template , true ) );?></p>
                 <?php if( @$_GET[ 'is-pdf' ] == null ):?>
                 <div class="container-fluid hideOnPrint">
                     <div class="row hideOnPrint">
                         <div class="col-lg-12">
-                            <a href="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'commandes', 'lists' ));?>" class="btn btn-success btn-lg btn-block"><?php _e('Revenir à la liste des commandes', 'nexo');?></a>
+                            <a href="<?php echo dashboard_url([ 'orders' ]);?>" class="btn btn-success btn-lg btn-block"><?php _e('Revenir à la liste des commandes', 'nexo');?></a>
                         </div>
                     </div>
                 </div>
@@ -319,7 +325,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 <div class="container-fluid hideOnPrint">
     <div class="row hideOnPrint">
         <div class="col-lg-12">
-            <a href="<?php echo site_url(array( 'dashboard', 'nexo', 'commandes', 'lists' ));?>" class="btn btn-success btn-lg btn-block"><?php _e('Revenir à la liste des commandes', 'nexo');?></a>
+            <a href="<?php echo dashboard_url([ 'orders' ]);?>" class="btn btn-success btn-lg btn-block"><?php _e('Revenir à la liste des commandes', 'nexo');?></a>
         </div>
     </div>
 </div>

@@ -45,6 +45,13 @@
                             <input type="text" ng-model="name" class="form-control"  placeholder="<?php echo __( 'Nom', 'nexo' );?>">
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><?php echo __( 'Email', 'nexo' );?></div>
+                            <input type="text" ng-model="email" class="form-control"  placeholder="<?php echo __( 'Email', 'nexo' );?>">
+                        </div>
+                    </div>
                     
                     <div class="form-group">
                         <div class="input-group">
@@ -80,6 +87,13 @@
                         <div class="input-group">
                             <div class="input-group-addon"><?php echo __( 'Prénom', 'nexo' );?></div>
                             <input type="text" ng-model="surname" class="form-control" placeholder="<?php echo __( 'Prénom', 'nexo' );?>">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><?php echo __( 'Phone', 'nexo' );?></div>
+                            <input type="text" ng-model="phone" class="form-control"  placeholder="<?php echo __( 'Phone', 'nexo' );?>">
                         </div>
                     </div>
 

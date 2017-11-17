@@ -9,20 +9,30 @@
 		</div>
 		<!-- info row -->
 		<div class="row invoice-info">
-			<div class="col-sm-6 col-xs-6">
-				<?php echo __( 'Addrese de livraison', 'nexo' );?><br>
+			<div class="col-lg-12 col-xs-12 col-sm-12 col-md-12">
+				<?php if( store_option( 'url_to_logo' ) != null ):?>
+					<div class="text-center">
+						<img src="<?php echo store_option( 'url_to_logo' );?>" 
+						style="display:inline-block;<?php echo store_option( 'logo_height' ) != null ? 'height:' . store_option( 'logo_height' ) . 'px' : '';?>
+						;<?php echo store_option( 'logo_width' ) != null ? 'width:' . store_option( 'logo_width' ) . 'px' : '';?>"/>
+					</div>
+				<?php else:?>
+					<h2 class="text-center"><?php echo store_option( 'site_name' );?></h2>
+				<?php endif;?>
+			</div>
+			<div class="col-sm-4 col-xs-4">
+				<strong><?php echo __( 'Addrese de facturation', 'nexo' );?></strong><br>
 				<address>
 					<strong><?php echo __( 'Customer :', 'nexo' );?></strong> {{ data.order[0].customer_name }}
-					<br ng-show="shipping[0].address1"> {{ shipping[0].address_1 ? shipping[0].address_1 + ',' : '' }}
-					<br ng-show="shipping[0].address2"> {{ shipping[0].address_2 ? shipping[0].address_2 + ',' : '' }}
-					<br ng-show="shipping[0].city"> {{ shipping[0].city ? shipping[0].city + ',' : '' }} {{ shipping[0].pobox ? shipping[0].pobox + ',' : '' }}
-					<br> <?php echo __( 'Téléphone', 'nexo' );?>: (555) 539-1444
-					<br/> Email: mekoya@example.com
+					<br> <strong><?php echo __( 'Téléphone', 'nexo' );?>:</strong> {{ billing.phone }}
+					<br/> <strong><?php echo __( 'Email', 'nexo' );?>:</strong> {{ billing.email }}
+					<br ng-if="billing.address_1 != null && billing.address_1 != ''"> {{ billing.address_1 ? billing.address_1 + ',' : '' }}
+					<br ng-if="billing.address_2 != null && billing.address_2 != ''"> {{ billing.address_2 ? billing.address_2 + ',' : '' }}
+					<br ng-if="billing.city != null && billing.city != ''"> {{ billing.city ? billing.city + ',' : '' }} {{ billing.pobox ? billing.pobox + ',' : '' }}
 				</address>
 			</div>
 
-			<div class="col-sm-6 col-xs-6">
-				<?php echo __( 'Addrese de facturation', 'nexo' );?><br>
+			<div class="col-sm-4 col-xs-4">
 				<b>
 					<?php echo __( 'Facture N°:', 'nexo' );?> </b>{{ ( "00000" + data.order[0].ID ).slice(-6) }}
 				<br/>
@@ -30,9 +40,21 @@
 					<?php echo __( 'Code :', 'nexo' );?>
 				</b> {{ data.order[0].CODE }}
 				<br/>
-				<b>Payment Due:</b> 2/22/2014
-				<br/>
-				<b>Account:</b> 968-34567
+				<b><?php echo __( 'Date', 'nexo' );?>:</b> {{ data.order[0].DATE_CREATION | date }}
+			</div>
+
+			<div class="col-sm-4 col-xs-4">
+				<strong><?php echo __( 'Addrese de livraison', 'nexo' );?></strong><br>
+				<address>
+					<strong><?php echo __( 'Customer :', 'nexo' );?></strong> {{ data.order[0].customer_name }}
+					<br> 
+					<strong><?php echo __( 'Téléphone', 'nexo' );?>:</strong> {{ shipping.phone }}
+					<br/> <strong><?php echo __( 'Email', 'nexo' );?>:</strong> {{ shipping.email }}
+					<br ng-if="shipping.address_1 != null && shipping.address_1 != ''"> {{ shipping.address_1 ? shipping.address_1 + ',' : '' }}
+					<br ng-if="shipping.address_2 != null && shipping.address_2 != ''"> {{ shipping.address_2 ? shipping.address_2 + ',' : '' }}
+					<br ng-if="shipping.city != null && shipping.city != ''"> {{ shipping.city ? shipping.city + ',' : '' }} {{ shipping.pobox ? shipping.pobox + ',' : '' }}
+
+				</address>
 			</div>
 			<!-- /.col -->
 		</div>
@@ -64,8 +86,8 @@
 					<tbody>
 						<tr ng-repeat="item in data.products">
 							<td>{{ item.DESIGN }}</td>
-							<td>{{ item.PRIX | moneyFormat }}</td>
-							<td>{{ item.PRIX | moneyFormat }}</td>
+							<td>{{ item.PRIX_BRUT | moneyFormat }}</td>
+							<td>{{ '-' + ( item.PRIX_BRUT - item.PRIX ) | moneyFormat }}</td>
 							<td>{{ item.QUANTITE }}</td>
 							<td>{{ item.PRIX * item.QUANTITE | moneyFormat }}</td>
 						</tr>
@@ -91,7 +113,7 @@
 						</tr>
 						<tr>
 							<th><?php echo __( 'Total', 'nexo' );?></th>
-							<td>{{ total()}}</td>
+							<td>{{ total() | moneyFormat }}</td>
 						</tr>
 					</table>
 				</div>
@@ -107,8 +129,6 @@
 			<div class="col-xs-12">
 				<a href="javascript:void(0)" print-item=".invoice-container" class="btn btn-default">
 					<i class="fa fa-print"></i> <?php echo __( 'Imprimer', 'nexo' );?></a>
-				<button class="btn btn-primary pull-right" style="margin-right: 5px;">
-					<i class="fa fa-download"></i> Generate PDF</button>
 			</div>
 		</div>
 	</div>

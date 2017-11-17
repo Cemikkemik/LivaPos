@@ -39,7 +39,7 @@ tendooApp.directive( 'shipping', function(){
 					'name', 'enterprise', 'address_1',
 					'city', 'country', 'pobox',
 					'state', 'surname', 'title',
-					'address_2',
+					'address_2', 'phone', 'email',
 					'id'
 				], ( field ) => {
 					$scope[ field ] 	=	'';
@@ -69,7 +69,7 @@ tendooApp.directive( 'shipping', function(){
 							'name', 'enterprise', 'address_1',
 							'city', 'country', 'pobox', 'price',
 							'state', 'surname', 'title',
-							'address_2',
+							'address_2', 'email', 'phone',
 							'id'
 						], key.substr( 9 ) ) != -1 ) {
 							$scope[ key.substr( 9 ) ] 	=	customer_fields;
@@ -719,7 +719,7 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 		_.each([ 
 			'name', 'enterprise', 'address_1', 'price',
 			'city', 'country', 'pobox', 'title',
-			'state', 'surname', 
+			'state', 'surname', 'email', 'phone',
 			'address_2', 
 			'id'
 		], ( field ) => {

@@ -191,7 +191,8 @@ trait Nexo_orders
 			$item_data		=	array(
 				'REF_PRODUCT_CODEBAR'  =>    $item[ 'codebar' ],
 				'REF_COMMAND_CODE'     =>    $order_details[ 'CODE' ],
-				'QUANTITE'             =>    $item[ 'qte_added' ],
+                'QUANTITE'             =>    $item[ 'qte_added' ],
+                'PRIX_BRUT'            =>    $item[ 'sale_price' ],
 				'PRIX'                 =>    floatval( $item[ 'sale_price' ] ) - $discount_amount,
 				'PRIX_TOTAL'           =>    ( __floatval($item[ 'qte_added' ]) * __floatval($item[ 'sale_price' ]) ) - $discount_amount,
 				// @since 2.9.0
@@ -543,6 +544,7 @@ trait Nexo_orders
                 'REF_PRODUCT_CODEBAR'       =>    $item[ 'codebar' ],
                 'REF_COMMAND_CODE'          =>    $old_order[ 'order' ][0][ 'CODE' ],
                 'QUANTITE'                  =>    $item[ 'qte_added' ],
+                'PRIX_BRUT'                 =>    $item[ 'sale_price' ],
                 'PRIX'                      =>    floatval( $item[ 'sale_price' ] ) - $discount_amount,
                 'PRIX_TOTAL'                =>    ( __floatval($item[ 'qte_added' ]) * __floatval($item[ 'sale_price' ]) ) - $discount_amount,
 				// @since 2.9.0

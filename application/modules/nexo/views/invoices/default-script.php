@@ -2,7 +2,8 @@
 <script>
 tendooApp.controller( 'invoiceCTRL', [ '$scope', function( $scope ) {
     $scope.data         =   <?php echo json_encode( $order );?>;
-    $scope.shipping     =   <?php echo json_encode( $shipping );?>;
+    $scope.shipping     =   <?php echo json_encode( $shipping[0] );?>;
+    $scope.billing     =   <?php echo json_encode( $billing[0] );?>;
     
     /**
      * Sub Total
@@ -11,7 +12,7 @@ tendooApp.controller( 'invoiceCTRL', [ '$scope', function( $scope ) {
      */
      $scope.subTotal        =   function( items ) {
         var subTotal       =   0;
-        console.log( items );
+
         _.each( items, ( item ) => {
             console.log( item );
             subTotal        +=  ( parseFloat( item.PRIX ) * parseFloat( item.QUANTITE ) );
@@ -26,6 +27,7 @@ tendooApp.controller( 'invoiceCTRL', [ '$scope', function( $scope ) {
     $scope.total        =   function(){
         let totalItems          =   parseFloat( $scope.subTotal( $scope.data.products ) );
         let totalShipping       =   parseFloat( $scope.data.order[0].SHIPPING_AMOUNT );
+        return totalItems   +   totalShipping;
     }
 }])
 </script>

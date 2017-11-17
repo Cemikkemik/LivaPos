@@ -14,7 +14,7 @@ foreach( $stores as $store ) {
     $columns            =   $this->db->list_fields( $store_prefix . 'nexo_arrivages' );
 
     if( in_array( 'REF_PROVIDERS', $columns ) ) {
-        $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_arrivages` CHANGE `REF_PROVIDERS` `REF_PROVIDER` INT(200) NOT NULL;' );
+        $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_arrivages` CHANGE `REF_PROVIDERS` `REF_PROVIDER` INT(11) NOT NULL;' );
     }
 
     $columns            =   $this->db->list_fields( $store_prefix . 'nexo_registers_activities' );

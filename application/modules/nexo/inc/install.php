@@ -143,6 +143,8 @@ class Nexo_Install extends CI_Model
 			`pobox` varchar(200) NOT NULL,
 			`country` varchar(200) NOT NULL,
 			`state` varchar(200) NOT NULL,
+			`phone` varchar(200) NOT NULL,
+			`email` varchar(200) NOT NULL,
             `ref_client` int(11) NOT NULL,
             PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
@@ -225,6 +227,7 @@ class Nexo_Install extends CI_Model
 		  `REF_COMMAND_CODE` varchar(250) NOT NULL,
 		  `QUANTITE` int(11) NOT NULL,
 		  `PRIX` float NOT NULL,
+		  `PRIX_BRUT` float NOT NULL,
 		  `PRIX_TOTAL` float NOT NULL,
 		  `DISCOUNT_TYPE` varchar(200) NOT NULL,
 		  `DISCOUNT_AMOUNT` float NOT NULL,

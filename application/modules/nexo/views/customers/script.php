@@ -249,7 +249,7 @@ tendooApp.directive( 'customersForm', function( $rootScope ){
 
                 $scope.schema[ tab ].properties     =   new Object;
 
-                _.each( [ 'name', 'surname', 'city', 'country', 'state', 'address_1', 'address_2', 'pobox', 'enterprise' ], ( field ) => {
+                _.each( [ 'name', 'surname', 'city', 'country', 'state', 'address_1', 'address_2', 'pobox', 'enterprise', 'email', 'phone' ], ( field ) => {
                     $scope.schema[ tab ].properties[ tab + '_' + field ]    =   {
                         type    :   "string"
                     }
@@ -294,7 +294,6 @@ tendooApp.directive( 'customersForm', function( $rootScope ){
             ];
             $basic_fields   =   $this->events->apply_filters( 'nexo_customers_basic_fields', $basic_fields );
             ?>
-            console.log( $scope.groups );
             // Basic
             $scope.form[ 'basic' ]                  =   <?php echo json_encode( $basic_fields );?>;
             $scope.form[ 'basic' ].forEach( ( $field, key ) => {
@@ -328,6 +327,12 @@ tendooApp.directive( 'customersForm', function( $rootScope ){
                 },{
                     key     :   tab + '_' + "country",
                     title   :   "<?php echo _s( 'Pays', 'nexo' );?>"
+                },{
+                    key     :   tab + '_' + "email",
+                    title   :   "<?php echo _s( 'Email', 'nexo' );?>"
+                },{
+                    key     :   tab + '_' + "phone",
+                    title   :   "<?php echo _s( 'Téléphone', 'nexo' );?>"
                 },{
                     key     :   tab + '_' + "state",
                     title   :   "<?php echo _s( 'Etat / Comté', 'nexo' );?>"

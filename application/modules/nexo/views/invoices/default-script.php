@@ -2,8 +2,8 @@
 <script>
 tendooApp.controller( 'invoiceCTRL', [ '$scope', function( $scope ) {
     $scope.data         =   <?php echo json_encode( $order );?>;
-    $scope.shipping     =   <?php echo json_encode( $shipping[0] );?>;
-    $scope.billing     =   <?php echo json_encode( $billing[0] );?>;
+    $scope.shipping     =   <?php echo json_encode( ( array ) @$shipping[0] );?>;
+    $scope.billing     =   <?php echo json_encode( ( array ) @$billing[0] );?>;
     
     /**
      * Sub Total

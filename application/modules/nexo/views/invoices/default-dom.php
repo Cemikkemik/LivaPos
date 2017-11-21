@@ -21,7 +21,7 @@
 				<?php endif;?>
 			</div>
 			<div class="col-sm-4 col-xs-4">
-				<strong><?php echo __( 'Addrese de facturation', 'nexo' );?></strong><br>
+				<strong><?php echo __( 'Addresse de facturation', 'nexo' );?></strong><br>
 				<address>
 					<strong><?php echo __( 'Customer :', 'nexo' );?></strong> {{ data.order[0].customer_name }}
 					<br> <strong><?php echo __( 'Téléphone', 'nexo' );?>:</strong> {{ billing.phone }}
@@ -44,7 +44,7 @@
 			</div>
 
 			<div class="col-sm-4 col-xs-4">
-				<strong><?php echo __( 'Addrese de livraison', 'nexo' );?></strong><br>
+				<strong><?php echo __( 'Addresse de livraison', 'nexo' );?></strong><br>
 				<address>
 					<strong><?php echo __( 'Customer :', 'nexo' );?></strong> {{ data.order[0].customer_name }}
 					<br> 

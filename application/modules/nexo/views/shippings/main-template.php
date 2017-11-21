@@ -62,7 +62,7 @@
 
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon"><?php echo __( 'Address 1', 'nexo' );?></div>
+                            <div class="input-group-addon"><?php echo __( 'Addresse 1', 'nexo' );?></div>
                             <input type="text" ng-model="address_1" class="form-control" placeholder="<?php echo __( 'Address 1', 'nexo' );?>">
                         </div>
                     </div>
@@ -92,14 +92,14 @@
 
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon"><?php echo __( 'Phone', 'nexo' );?></div>
-                            <input type="text" ng-model="phone" class="form-control"  placeholder="<?php echo __( 'Phone', 'nexo' );?>">
+                            <div class="input-group-addon"><?php echo __( 'Téléphone', 'nexo' );?></div>
+                            <input type="text" ng-model="phone" class="form-control"  placeholder="<?php echo __( 'Téléphone', 'nexo' );?>">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="input-group">
-                            <div class="input-group-addon"><?php echo __( 'Address 2', 'nexo' );?></div>
+                            <div class="input-group-addon"><?php echo __( 'Addresse 2', 'nexo' );?></div>
                             <input type="text" ng-model="address_2" class="form-control" placeholder="<?php echo __( 'Address 2', 'nexo' );?>">
                         </div>
                     </div>

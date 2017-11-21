@@ -17,3 +17,6 @@ $Route->get( '/nexo/invoices', 'NexoPremiumController@invoices' );
 $Route->get( '/nexo/clear-cache', 'NexoPremiumController@clear_cache' );
 $Route->get( '/nexo/log', 'NexoPremiumController@log' );
 $Route->get( '/nexo/quotes-cleaner', 'NexoPremiumController@quotes_cleaner' );
+
+$Route->match([ 'get', 'post' ], '/nexo/expenses-categories/{action?}/{id?}', 'NexoPremiumController@expenses_list' );
+$Route->match([ 'get', 'post' ], '/nexo/expenses/{action?}/{id?}', 'NexoPremiumController@invoices' );

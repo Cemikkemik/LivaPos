@@ -125,6 +125,31 @@ class Nexo_Premium_Filters extends CI_Model
 					'permission'	=>		'nexo.read.inventory-tracking'
 				),
 			));
+
+			$menus[ 'factures' ]    =    array(
+                array(
+                    'title'            =>    __('Dépenses', 'nexo_premium'),
+                    'href'            =>    '#',
+					'icon'			=>	'fa fa-sticky-note-o',
+                    'disable'        =>    true
+                ),
+                array(
+                    'title'            =>    __('Liste des dépenses', 'nexo_premium'),
+                    'href'            =>    dashboard_url([ 'expenses' ]),
+                ),
+                array(
+                    'title'            =>    __('Nouvelle dépense', 'nexo_premium'),
+                    'href'            =>    dashboard_url([ 'expenses', 'add' ])
+                ),
+				// @since 2.6.6
+				[
+					'title'		=>	__( 'Categories', 'nexo_premium' ),
+					'href'		=>	dashboard_url([ 'expenses-categories' ])
+				], [
+					'title'		=>	__( 'Ajouter une categorie', 'nexo_premium' ),
+					'href'		=>	dashboard_url([ 'expenses-categories', 'add' ])
+				]
+            );
 		}
 
         return $menus;

@@ -17,50 +17,6 @@ class Nexo_Premium_Actions extends CI_Model
     }
 
     /**
-     * New controller
-     *
-     * @return void
-    **/
-
-    public function Menu_Accounting()
-    {
-        if (
-         User::can('create_shop_purchases_invoices ') ||
-         User::can('edit_shop_purchases_invoices') ||
-         User::can('delete_shop_purchases_invoices')
-        ) {
-            global $Nexo_Menus;
-
-            $Nexo_Menus[ 'factures' ]    =    array(
-                array(
-                    'title'            =>    __('Dépenses', 'nexo_premium'),
-                    'href'            =>    '#',
-					'icon'			=>	'fa fa-sticky-note-o',
-                    'disable'        =>    true
-                ),
-                array(
-                    'title'            =>    __('Liste des dépenses', 'nexo_premium'),
-                    'href'            =>    site_url(array( 'dashboard', store_slug(), 'nexo_premium', 'Controller_Factures', 'list' )),
-                    'disable'        =>    true
-                ),
-                array(
-                    'title'            =>    __('Nouvelle dépense', 'nexo_premium'),
-                    'href'            =>    site_url(array( 'dashboard', store_slug(), 'nexo_premium', 'Controller_Factures', 'add' )),
-                    'disable'        =>    true
-                ),
-				// @since 2.6.6
-				[
-					'title'		=>	__( 'Categories', 'nexo_premium' ),
-					'href'		=>	site_url([ 'dashboard', store_slug(), 'nexo_premium', 'expenses_list' ] )
-				], [
-					'title'		=>	__( 'Ajouter une categorie', 'nexo_premium' ),
-					'href'		=>	site_url([ 'dashboard', store_slug(), 'nexo_premium', 'expenses_list', 'add' ] )
-				]
-            );
-        }
-    }
-
-    /**
      * Dashboard Home
      *
      * @return void

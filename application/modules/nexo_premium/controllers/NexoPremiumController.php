@@ -336,14 +336,14 @@ class NexoPremiumController extends Tendoo_Module
 
             return $this->load->module_view( 'nexo_premium', 'providers.pay-gui' );
         } else {
-            if (! User::can('create_shop_purchases_invoices')) {
-                redirect(array( 'dashboard', 'access-denied' ));
+            if (! User::can('nexo.view.invoices')) {
+                return nexo_access_denied();
             }
 
             $this->Gui->set_title( store_title( __('Ajouter/modifier une facture', 'nexo_premium') ) );
         }
 
-        $data[ 'crud_content' ]    =    $this->Controller_Header( $page, $index );
+        $data[ 'crud_content' ]    =    $this->invoice_header( $page, $index );
         $this->load->view('../modules/nexo_premium/views/factures.php', $data);
     }
 
@@ -637,6 +637,7 @@ class NexoPremiumController extends Tendoo_Module
         if( User::cannot( 'nexo.read.expenses-listings' ) ) {
             return nexo_access_denied();
         }
+
         $this->enqueue->css( 'datepicker3', base_url() . 'public/plugins/datepicker/' );
         $this->enqueue->js( 'bootstrap-datepicker', base_url() . 'public/plugins/datepicker/' );
 
@@ -705,11 +706,9 @@ class NexoPremiumController extends Tendoo_Module
     private function expenses_list_crud()
     {
         if (
-         ! User::can('create_shop_purchases_invoices ') &&
-         ! User::can('edit_shop_purchases_invoices') &&
-         ! User::can('delete_shop_purchases_invoices')
+            ! User::can( 'nexo.view.invoices' )
         ) {
-            redirect(array( 'dashboard', 'access-denied' ));
+            return nexo_access_denied();
         }
 
         $crud = new grocery_CRUD();

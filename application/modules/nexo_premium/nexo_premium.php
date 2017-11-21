@@ -91,7 +91,7 @@ class Nexo_Premium_Main extends CI_Model
 
 
             $this->events->add_action('load_dashboard_home', array( $this->Actions, 'dashboard_home' ));
-            $this->events->add_action('nexo_before_accounting', array( $this->Actions, 'Menu_Accounting' ));
+            // $this->events->add_action('nexo_before_accounting', array( $this->Actions, 'Menu_Accounting' ));
             
             // $this->events->add_action( 'nexo_checkout_footer', array( $this->UI, 'Checkout_Script' ) );
             $this->events->add_action('dashboard_footer', array( $this->Actions, 'Clean_Quote_Orders' ));

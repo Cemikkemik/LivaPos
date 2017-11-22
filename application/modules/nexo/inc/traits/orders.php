@@ -164,7 +164,7 @@ trait Nexo_orders
              * stock enable is not checked for inline items
             **/
             
-			if( intval( $item[ 'stock_enabled' ] ) == '1' && $item[ 'inline' ] != '1' ) {
+			if( intval( $item[ 'stock_enabled' ] ) == '1' && ! in_array( $item[ 'inline' ], [ 'true', '1' ]) ) {
 
                 $data                       =   [];
                 $data[ 'QUANTITE_VENDU' ]   =   intval( $fresh_item[0][ 'QUANTITE_VENDU' ]) + intval($item[ 'qte_added' ]);
@@ -523,7 +523,7 @@ trait Nexo_orders
 			 * If Stock Enabled is active
 			**/
 
-			if( intval( $item['stock_enabled'] ) == 1 && $item[ 'inline' ] != '1' ) {
+			if( intval( $item['stock_enabled'] ) == 1 && ! in_array( $item[ 'inline' ], [ 'true', '1' ]) ) {
 				$this->db->where('CODEBAR', $item['codebar'])->update( store_prefix() . 'nexo_articles', array(
 					'QUANTITE_RESTANTE'        =>    intval($fresh_item[0][ 'QUANTITE_RESTANTE' ]) - intval($item['qte_added']),
 					'QUANTITE_VENDU'        =>    intval($fresh_item[0][ 'QUANTITE_VENDU' ]) + intval($item['qte_added'])

@@ -44,7 +44,7 @@ class NexoOrdersController extends CI_Model
                 }
             }
             
-			$edit_link		=	site_url( array( 'dashboard',  store_slug(), 'nexo', 'registers', '__use', 'default' ) ) . '/';
+			$edit_link		=	site_url( array( 'dashboard',  store_slug(), 'nexo', 'use', 'register', 'default' ) ) . '/';
 			$edit_class		=	'';
 		}
 

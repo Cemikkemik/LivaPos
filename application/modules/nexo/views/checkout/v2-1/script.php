@@ -531,7 +531,7 @@ var v2Checkout					=	new function(){
 		$('.slick').slick({
 			infinite			: 	false,
 			arrows			:	false,
-			slidesToShow		: 	4,
+			slidesToShow		: 	2,
 			slidesToScroll	: 	2,
 			variableWidth : true
 		});

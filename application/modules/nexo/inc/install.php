@@ -218,6 +218,8 @@ class Nexo_Install extends CI_Model
 			`enterprise` varchar( 200 ) NOT NULL,
 			`title` varchar(200) NOT NULL,
 			`price` float(11) NOT NULL,
+			`email` varchar(200) NOT NULL,
+			`phone` varchar(200) NOT NULL,
 		  	PRIMARY KEY (`id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;' );
 

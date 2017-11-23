@@ -317,3 +317,8 @@ Filtres:
  * nexo_filter_receipt_template
  * Filter customer details
 **/
+
+/**
+ * pos_edited_items
+ * Filtre les produis ajoutés durant la modification d'une commande
+**/

@@ -44,11 +44,11 @@ class Api extends Tendoo_Controller
 	*/
 	public function index( $page_slug ) 
 	{
-		global $Route;
+		global $Routes;
 		
-		$Route          =   new Route();
+		$Routes          =   new Route();
 		
-		$Route->group([ 'prefix' => substr( request()->getHeader( 'script-name' ), 0, -10 ) . '/api' ], function() use ( $page_slug, $Route ) {
+		$Routes->group([ 'prefix' => substr( request()->getHeader( 'script-name' ), 0, -10 ) . '/api' ], function() use ( $page_slug, $Routes ) {
 			$modules        =   Modules::get();
 			foreach( $modules as $namespace => $module ) {
 
@@ -74,7 +74,7 @@ class Api extends Tendoo_Controller
 			// $Route->get( '/widgets/foo', 'TendooWidgetsController@foo' );
 		});
 
-		$Route->error(function($request, \Exception $exception) {
+		$Routes->error(function($request, \Exception $exception) {
 			if($exception instanceof NotFoundHttpException && $exception->getCode() == 404) {
 				return response()->httpCode( 404 )->json([
 					'status'  	=>   'failed',
@@ -83,6 +83,6 @@ class Api extends Tendoo_Controller
 			}
 		});
 		
-		$Route->start();    
+		$Routes->start();    
 	}
 }

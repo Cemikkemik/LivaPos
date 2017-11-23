@@ -2,7 +2,6 @@
 
 include_once( dirname( __FILE__ ) . '/inc/actions.php' );
 include_once( dirname( __FILE__ ) . '/inc/filters.php' );
-include_once( dirname( __FILE__ ) . '/inc/controller.php' );
 
 class Nexo_Stock_Manager_Module extends Tendoo_Module
 {

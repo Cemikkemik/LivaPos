@@ -150,3 +150,9 @@ Regroupe toutes les actions de la boutique
  * update_supply_history
  * S'exécute lorsque l'on met à jour l'historique d'approvisionnement
 **/
+
+/** 
+ * edit_loaded_order
+ * Permet de modifier une commande qui vient d'être chargée et d'injecter du contenu dans l'objet 
+ * v2Checkout
+**/

@@ -17,14 +17,7 @@ class Nexo_Stock_Manager_Actions extends Tendoo_Module
 
     public function load_dashboard()
     {
-        if( multistore_enabled() ) {
-            // $this->Gui->register_page_object( 'stock-manager', new Nexo_Stock_Manager_Controller );
-            $this->Gui->register_page_object( 'stock-transfert', new Nexo_Stock_Manager_Controller );
-            $this->events->add_filter( 'stores_controller_callback', function( $action ) {
-                $action[ 'stock-transfert' ]     =   new Nexo_Stock_Manager_Controller;
-                return $action;
-            });
-        } else {
+        if( ! multistore_enabled() ) {
             nexo_notices([
                 'user_id'       =>  User::id(),
                 'link'          =>  site_url([ 'dashboard', 'nexo', 'stores-settings' ]),

@@ -387,11 +387,17 @@ var	Nexo_Daily_Report	=	new function(){
 		this.DisplayModal();
 		var tableItemId		=	this.Dates[0];
 		
-		$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'get', 'nexo_commandes', 'DATE_CREATION', 'filter_date_interval',  store_get_param( '?' ) ));
-    ?>', {
-			data			:	_.extend( tendoo.csrf_data, _.object( [ 'key' ], [ this.Dates[0] ] ) ),
+		$.ajax( '<?php echo site_url( array( 'api', 'nexopos', 'reports', 'monthly-sales',  store_get_param( '?' ) ));?>', {
+			data			:	{
+				'key' 			:	[ this.Dates[0] ],
+				'start_date' 	:	$( '[name="start"]' ).val(),
+				'end_date' 		:	$( '[name="end"]' ).val(),
+			},
 			type			:	'POST',
 			dataType		:	'json',
+			headers 		:	{
+				[ tendoo.rest.key ] :	tendoo.rest.value
+			},
 			success			:	function( json ){
 				if( json.length > 0 ) {	
 					

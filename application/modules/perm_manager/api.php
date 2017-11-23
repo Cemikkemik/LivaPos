@@ -1,4 +1,4 @@
 <?php
-global $Route;
+global $Routes;
 
-$Route->post( 'permissions/save', 'PermissionsController@post' );
+$Routes->post( 'permissions/save', 'PermissionsController@post' );

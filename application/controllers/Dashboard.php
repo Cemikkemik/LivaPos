@@ -243,15 +243,15 @@ class Dashboard extends Tendoo_Controller
 
     public function _remap($page, $params = array())
     {
-        global $Route;
+        global $Routes;
         if (method_exists($this, $page)) {
             return call_user_func_array(array( $this, $page ), $params);
         } else {
-            // Init Route
-            $Route          =   new Route();
+            // Init Routes
+            $Routes          =   new Route();
 
             // Route Prefix
-            $Route->group([ 
+            $Routes->group([ 
                 'prefix' => substr( request()->getHeader( 'script-name' ), 0, -10 ) . '/dashboard' 
             ], function() use ( $page ) {
                 
@@ -287,7 +287,7 @@ class Dashboard extends Tendoo_Controller
             });
     
             // Show Errors
-            $Route->error(function($request, \Exception $exception) {
+            $Routes->error(function($request, \Exception $exception) {
                 return show_error( sprintf( 
                     __( 'The request returned the following message : %s<br>Code : %s'  ),
                     $exception->getMessage(),
@@ -296,7 +296,7 @@ class Dashboard extends Tendoo_Controller
             });
             
             // Start Route
-            $Route->start();
+            $Routes->start();
         }
     }
 

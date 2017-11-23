@@ -1,4 +1,4 @@
 <?php
-global $Route;
+global $Routes;
 
-$Route->get( 'nexo/settings/sms', 'NexoSMSController@index' );
+$Routes->get( 'nexo/settings/sms', 'NexoSMSController@index' );

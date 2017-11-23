@@ -1,7 +1,7 @@
 <?php
-global $Route;
+global $Routes;
 
-$Route->get( '/nexo/reports/daily-sales/{date?}', 'NexoPremiumController@daily' )->where([
+$Routes->get( '/nexo/reports/daily-sales/{date?}', 'NexoPremiumController@daily' )->where([
     'date'      =>  '(.+)'
 ]);
 $Routes->get( '/nexo/reports/cashiers/{start_date?}/{end_date?}', 'NexoPremiumController@cashiers_report' );
@@ -14,9 +14,13 @@ $Routes->get( '/nexo/reports/profit-and-losses/{start_date?}/{end_date?}', 'Nexo
 $Routes->get( '/nexo/reports/expenses/{start_date?}/{end_date?}', 'NexoPremiumController@expense_listing' );
 $Routes->get( '/nexo/reports/detailed-sales/{start_date?}/{end_date?}', 'NexoPremiumController@detailed_sales' );
 $Routes->get( '/nexo/invoices', 'NexoPremiumController@invoices' );
+<<<<<<< HEAD
 $Routes->get( '/nexo/cache-clear/dashboard-card', 'NexoPremiumController@clear_cache' );
+=======
+$Routes->get( '/nexo/clear-cache', 'NexoPremiumController@clear_cache' );
+>>>>>>> 652b558... Update
 $Routes->get( '/nexo/log', 'NexoPremiumController@log' );
 $Routes->get( '/nexo/quotes-cleaner', 'NexoPremiumController@quotes_cleaner' );
 
-$Route->match([ 'get', 'post' ], '/nexo/expenses-categories/{action?}/{id?}', 'NexoPremiumController@expenses_list' );
-$Route->match([ 'get', 'post' ], '/nexo/expenses/{action?}/{id?}', 'NexoPremiumController@invoices' );
+$Routes->match([ 'get', 'post' ], '/nexo/expenses-categories/{action?}/{id?}', 'NexoPremiumController@expenses_list' );
+$Routes->match([ 'get', 'post' ], '/nexo/expenses/{action?}/{id?}', 'NexoPremiumController@invoices' );

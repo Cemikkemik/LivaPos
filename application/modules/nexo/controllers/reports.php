@@ -11,8 +11,8 @@ class NexoReportsController extends CI_Model
     // @remove
     public function journalier($start_date = null, $end_date = null)
     {
-        if (! User::can('read_shop_reports')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+        if (! User::can('nexo.read.annual-sales' ) ) {
+            return nexo_access_denied();
         }
 
         global $Options;

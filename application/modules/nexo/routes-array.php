@@ -38,10 +38,11 @@ $getRoutes[]        =   [ 'nexo/orders/receipt/{order_id}', 'NexoPrintController
 $getRoutes[]        =   [ 'nexo/orders/invoice/{order_id}', 'NexoPrintController@invoice' ];
 $getRoutes[]        =   [ 'nexo/orders/delete/{order_id}', 'NexoOrdersController@lists' ];
 $getRoutes[]        =   [ 'nexo/pos', 'NexoRegistersController@__use' ];
-$getRoutes[]        =   [ 'nexo/use/register/{register_id}', 'NexoRegistersController@__use' ];
+$getRoutes[]        =   [ 'nexo/use/register/{register_id}/{order_id?}', 'NexoRegistersController@__use' ];
 $getRoutes[]        =   [ 'nexo/close/register/{register_id}', 'NexoRegistersController@__use' ];
 $getRoutes[]        =   [ 'nexo/open/register/{register_id}', 'NexoRegistersController@__use' ];
 $getRoutes[]        =   [ 'nexo/register-history/{register_id}', 'NexoRegistersController@__use' ];
+$getRoutes[]        =   [ 'nexo/reports/monthly-sales', 'NexoReportsController@journalier' ];
 
 $getPost            =   [];
 $getPost[]          =   [ [ 'get', 'post' ], 'nexo/registers/{action?}/{id?}', 'NexoRegistersController@lists' ];

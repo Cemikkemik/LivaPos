@@ -1,4 +1,4 @@
 <?php
-global $Route;
+global $Routes;
 
-$Route->get( '/users/permissions', 'PermissionsManagerController@index' );
+$Routes->get( '/users/permissions', 'PermissionsManagerController@index' );

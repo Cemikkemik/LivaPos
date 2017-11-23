@@ -2547,8 +2547,11 @@ var v2Checkout					=	new function(){
 			<?php if (isset($order)):?>
 			this.emptyCartItemTable();
 			<?php foreach ($order[ 'products' ] as $product):?>
+			// Filter Product Items
+			<?php $product = $this->events->apply_filters( 'pos_edited_items', $product );?>
 			this.CartItems.push( <?php echo json_encode($product);?> );
 			<?php endforeach;?>
+			console.log( this.CartItems );
 
 			<?php if ( ! empty( $order[ 'order' ][0][ 'REMISE_TYPE' ] ) ):?>
 			this.CartRemiseType			=	'<?php echo $order[ 'order' ][0][ 'REMISE_TYPE' ];?>';
@@ -2571,6 +2574,11 @@ var v2Checkout					=	new function(){
 
 			// @since 2.9.1
 			this.CartTitle						=	'<?php echo $order[ 'order'][0][ 'TITRE' ];?>';
+			
+			/**
+			 * Let use customer v2Checkout object when an order is loaded
+			 */
+			<?php $this->events->do_action( 'edit_loaded_order', $order );?>
 
 			// Restore Custom Ristourne
 			this.restoreCustomRistourne();

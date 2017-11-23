@@ -167,8 +167,8 @@ class NexoStoreController extends CI_Model
 					show_error( __( 'Cette boutique est fermée', 'nexo' ) );
 				}
 				// Reset Previous Routing System
-				global $Route;
-				$Route->router()->reset();
+				global $Routes;
+				$Routes->router()->reset();
 
 				// Start a new Routing System
 				global $StoreRoutes;

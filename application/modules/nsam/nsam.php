@@ -1,8 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-include_once(dirname(__FILE__) . '/inc/NsamController.php');
-
 class NexoAdvancedStoreManagerApp extends CI_Model {
 
     public function __construct()
@@ -24,9 +22,9 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
 
     public function load_dashboard()
     {
-        if( User::can( 'manage_core' ) ) {
-            $this->Gui->register_page_object( 'nsam', new NsamController );
-        }
+        // if( User::can( 'manage_core' ) ) {
+        //     $this->Gui->register_page_object( 'nsam', new NsamController );
+        // }
 
         $this->lang->load_lines(dirname(__FILE__) . '/language/lang.php');
 
@@ -86,23 +84,23 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
     {
         if( multistore_enabled() && is_multistore() && User::in_group([ 'master', 'shop_manager' ] ) ) {
             $menus[ 'nexo_settings' ][]   =   array(
-                'href'      =>  site_url( array( 'dashboard', store_slug(), 'nsam', 'content_management' ) ),
+                'href'      =>  site_url( array( 'dashboard', store_slug(), 'nexo', 'content-manager' ) ),
                 'title'     =>  __( 'Content Copy', 'nsam' ),
             );
 
             $menus[ 'nsam_users' ]      =   [
                 array(
-                    'href'      =>  site_url( array( 'dashboard', store_slug(), 'nsam', 'users' ) ),
+                    'href'      =>  site_url( array( 'dashboard', store_slug(), 'nexo', 'users' ) ),
                     'title'     =>  __( 'Users List', 'nsam' ),
                     'icon'      =>  'fa fa-users',
                     'disable'   =>  true
                 ),
                 array(
-                    'href'      =>  site_url( array( 'dashboard', store_slug(), 'nsam', 'users' ) ),
+                    'href'      =>  site_url( array( 'dashboard', store_slug(), 'nexo', 'users' ) ),
                     'title'     =>  __( 'All users', 'nsam' )
                 ),
                 array(
-                    'href'      =>  site_url( array( 'dashboard', store_slug(), 'nsam', 'users', 'add' ) ),
+                    'href'      =>  site_url( array( 'dashboard', store_slug(), 'nexo', 'users', 'add' ) ),
                     'title'     =>  __( 'New User', 'nsam' )
                 )
             ];
@@ -115,7 +113,7 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
                 // );
 
                 $menus[ 'nexo_store_settings' ][]   =   array(
-                    'href'      =>  site_url( array( 'dashboard', 'nsam', 'users_control' ) ),
+                    'href'      =>  site_url( array( 'dashboard', 'nexo', 'settings', 'access-manager' ) ),
                     'title'     =>  __( 'Access Manager', 'nsam' )
                 );
 

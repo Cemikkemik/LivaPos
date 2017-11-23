@@ -1,3 +1,3 @@
 <?php
-global $Route;
-$Route->get( 'files', 'ElFinderController@index' );
+global $Routes;
+$Routes->get( 'files', 'ElFinderController@index' );

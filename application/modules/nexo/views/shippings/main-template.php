@@ -28,6 +28,12 @@
             </label>
         </div>
 
+        <!-- <div class="checkbox">
+            <label>
+            <input type="checkbox" ng-model="createCustomer"> <?php echo __( 'Créer un utilisateur avec les informations suivantes.', 'nexo' );?>
+            </label>
+        </div> -->
+
         <div class="form-group" ng-show="! isAddressValid">
             <br>
             <div class="bg-info text-center" style="padding:10px">

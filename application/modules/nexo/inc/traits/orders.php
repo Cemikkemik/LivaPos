@@ -330,11 +330,15 @@ trait Nexo_orders
             $this->db->insert( store_prefix() . 'nexo_commandes_shippings', $shipping );
         }
 
-        $this->response(array(
+        // filter post response
+        $this->response( $this->events->apply_filters( 'post_order_response', array(
             'order_id'          =>    $current_order[0][ 'ID' ],
             'order_type'        =>    $order_details[ 'TYPE' ],
             'order_code'        =>    $current_order[0][ 'CODE' ]
-        ), 200);
+        ), [
+            'order_details'     =>  $order_details,
+            'current_order'     =>  $current_order[0]
+        ]), 200 );
     }
 
     /**
@@ -683,11 +687,15 @@ trait Nexo_orders
             $this->db->where( 'ref_order', $order_id )->update( store_prefix() . 'nexo_commandes_shippings', $shipping );
         }
 
-        $this->response(array(
+        // filter put response
+        $this->response( $this->events->apply_filters( 'put_order_response', array(
             'order_id'          =>    $order_id,
             'order_type'        =>    $order_details[ 'TYPE' ],
             'order_code'        =>    $current_order[0][ 'CODE' ]
-        ), 200);
+        ), [
+            'order_details'     =>  $order_details,
+            'current_order'     =>  $current_order[0]
+        ]), 200 );
     }
 
     /**

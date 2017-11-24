@@ -33,7 +33,7 @@ let checkoutHeaderCTRL      =   function( $scope, hotkeys ) {
 	$scope.openCalculator 		=	function(){
 		let dom 	= 	`
 		<div class="row calculator-dom">
-			<div class="col-lg-3 col-md-4 col-xs-7 col-sm-5" style="position: absolute;top: 50px;left: 100px;z-index: 9;">
+			<div class="col-lg-3 col-md-4 col-xs-7 col-sm-5" style="    position: absolute;top: 40px;left: 46px;width: 337px;z-index: 9;">
 				<div class="box" style="box-shadow:0px 2px 5px 1px #969696;">
 					<div class="box-body">
 						<div class="calculator">
@@ -78,7 +78,7 @@ let checkoutHeaderCTRL      =   function( $scope, hotkeys ) {
 		`;
 
 		if( $( '.calculator-dom' ).length == 0 ) {
-			$( 'body' ).append( dom );
+			$( '[ng-click="openCalculator()"]' ).parent().append( dom );
 		} else {
 			$( '.calculator-dom' ).remove();
 		}

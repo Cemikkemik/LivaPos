@@ -1,8 +1,13 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nexo\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2017-11-21 09:38+0100\n"
 "PO-Revision-Date: 2017-11-21 09:38+0100\n"
+=======
+"POT-Creation-Date: 2017-11-23 20:01+0100\n"
+"PO-Revision-Date: 2017-11-23 20:05+0100\n"
+>>>>>>> fc455fa... Update
 "Last-Translator: \n"
 "Language-Team: Tendoo Dev Team <carlosjohnsonluv2004@gmail.com>\n"
 "Language: en\n"
@@ -151,7 +156,7 @@ msgid "Total"
 msgstr "Total"
 
 #: controllers/commandes.php:109 controllers/registers.php:36
-#: inc/angular/order-list/controllers/orders-list.php:1003
+#: inc/angular/order-list/controllers/orders-list.php:1004
 #: inc/controller.php:305 views/checkout/v2/col_1.php:6 views/commandes-dom -
 #: Deprecated.php:44
 msgid "Caisse"
@@ -412,9 +417,8 @@ msgstr "Nbr Orders (current sess)"
 #: views/customers/script.php:335 views/invoices/default-dom.php:27
 #: views/invoices/default-dom.php:51 views/shippings/main-template.php:95
 #: views/shippings/main-template.php:96
-#, fuzzy
 msgid "Téléphone"
-msgstr "Phone:"
+msgstr "Phone"
 
 #: controllers/customers.php:62 views/checkout/v2/script.php:1337
 #: views/commandes-script - Deprecated.php:31 views/customers/script.php:268
@@ -1198,7 +1202,11 @@ msgid "Réglages des commandes"
 msgstr "Order Settings"
 
 #: controllers/settings.php:96 controllers/stores-settings.php:14
+<<<<<<< HEAD
 #: inc/controller.php:368 inc/controller.php:378 inc/install.php:826
+=======
+#: inc/controller.php:368 inc/controller.php:378 inc/install.php:828
+>>>>>>> fc455fa... Update
 #: views/settings/stores.php:10
 msgid "Réglages des boutiques"
 msgstr "Stores settings"
@@ -1499,7 +1507,7 @@ msgstr "Close"
 #: inc/angular/saveorder/controllers/saveorder.php:15
 #: inc/angular/saveorder/controllers/saveorder.php:36
 #: views/checkout/v2-1/script.php:1026 views/checkout/v2-1/script.php:1413
-#: views/checkout/v2-1/script.php:2627 views/checkout/v2/script.php:723
+#: views/checkout/v2-1/script.php:2635 views/checkout/v2/script.php:723
 #: views/checkout/v2/script.php:1104 views/checkout/v2/script.php:2744
 #: views/coupon-footer.php:81 views/coupon-footer.php:87
 #: views/coupon-footer.php:93 views/coupon-footer.php:100
@@ -2007,7 +2015,11 @@ msgstr "Payment history"
 msgid "Montant"
 msgstr "Amount"
 
+<<<<<<< HEAD
 #: inc/angular/order-list/controllers/orders-list.php:435 inc/install.php:705
+=======
+#: inc/angular/order-list/controllers/orders-list.php:435 inc/install.php:707
+>>>>>>> fc455fa... Update
 #: language/nexo_lang.php:51
 msgid "Caissier"
 msgstr "Cashier"
@@ -2103,29 +2115,29 @@ msgstr ""
 "Please make sure to send at least one item on defective or stock in use, "
 "before proceed to refund."
 
-#: inc/angular/order-list/controllers/orders-list.php:919
+#: inc/angular/order-list/controllers/orders-list.php:920
 #, fuzzy
 msgid "Une erreur s'est produite durant l'opération"
 msgstr "An error occurred during the operation"
 
-#: inc/angular/order-list/controllers/orders-list.php:984
+#: inc/angular/order-list/controllers/orders-list.php:985
 msgid "Utiliser cette caisse"
 msgstr "Use this register"
 
-#: inc/angular/order-list/controllers/orders-list.php:993
+#: inc/angular/order-list/controllers/orders-list.php:994
 msgid "Aucun caisse n'est ouverte."
 msgstr "The cash register is not open"
 
-#: inc/angular/order-list/controllers/orders-list.php:998
+#: inc/angular/order-list/controllers/orders-list.php:999
 msgid "Selectionner une caisse"
 msgstr "Select a register"
 
-#: inc/angular/order-list/controllers/orders-list.php:1004
+#: inc/angular/order-list/controllers/orders-list.php:1005
 #: views/registers/dashboard_footer.php:161
 msgid "Action"
 msgstr "Action"
 
-#: inc/angular/order-list/controllers/orders-list.php:1012
+#: inc/angular/order-list/controllers/orders-list.php:1013
 msgid ""
 "Les caisses affichées sont celles actuellement ouvertes. Assurez-vous de "
 "choisir une caisse ayant une de vos sessions"
@@ -2133,7 +2145,7 @@ msgstr ""
 "Displayed registers are those currently open. Make sure you choose a "
 "register with one of your sessions"
 
-#: inc/angular/order-list/controllers/orders-list.php:1020
+#: inc/angular/order-list/controllers/orders-list.php:1021
 msgid "Une erreur s'est produite durant le chargement des caisses."
 msgstr "An error occurred during the loading registers."
 
@@ -2984,6 +2996,7 @@ msgstr "%s"
 msgid "Vous n'avez pas accès à cette page."
 msgstr "You do not have access to this page"
 
+<<<<<<< HEAD
 #: inc/install.php:707
 msgid "Role ayant des permissions limitées à la vente"
 msgstr "Role with limited permission for sale"
@@ -3029,43 +3042,119 @@ msgid "Supprimer des commandes"
 msgstr "Delete orders"
 
 #: inc/install.php:737
+=======
+#: inc/install.php:709
+msgid "Role ayant des permissions limitées à la vente"
+msgstr "Role with limited permission for sale"
+
+#: inc/install.php:714 language/nexo_lang.php:53
+msgid "Gérant de la boutique"
+msgstr "Shop Manager"
+
+#: inc/install.php:716
+msgid "Role ayant des permissions de gestion de la boutique."
+msgstr "Role with management permissions for the shop."
+
+#: inc/install.php:721
+msgid "Gérant de sous-boutique"
+msgstr "Manager of sub-shop"
+
+#: inc/install.php:723
+msgid "Role ayant des permissions de gestion d'une sous-boutique."
+msgstr "Role with management permissions of a sub-shop."
+
+#: inc/install.php:728
+msgid "Role test"
+msgstr "Role test"
+
+#: inc/install.php:730
+msgid "Role ayant des permissions pour tester les fonctionnalités de NexoPOS."
+msgstr "Role with permissions to test the features of NexoPOS."
+
+#: inc/install.php:734
+msgid "Créer des commandes"
+msgstr "Create orders"
+
+#: inc/install.php:735
+msgid "Voir la liste des commandes"
+msgstr "View order list"
+
+#: inc/install.php:736
+msgid "Modifier des commandes"
+msgstr "Edit orders"
+
+#: inc/install.php:737
+msgid "Supprimer des commandes"
+msgstr "Delete orders"
+
+#: inc/install.php:739
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Créer des articles"
 msgstr "Create articles"
 
+<<<<<<< HEAD
 #: inc/install.php:738
 msgid "Voir la liste des produits"
 msgstr "See products list"
 
 #: inc/install.php:739
+=======
+#: inc/install.php:740
+msgid "Voir la liste des produits"
+msgstr "See products list"
+
+#: inc/install.php:741
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Modifier des articles"
 msgstr "Modifying items"
 
+<<<<<<< HEAD
 #: inc/install.php:740
+=======
+#: inc/install.php:742
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Supprimer des articles"
 msgstr "Delete posts"
 
+<<<<<<< HEAD
 #: inc/install.php:742
+=======
+#: inc/install.php:744
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Créer des catégories"
 msgstr "Creating categories"
 
+<<<<<<< HEAD
 #: inc/install.php:743
 msgid "Voir la liste des catégories"
 msgstr "See the list of categories"
 
 #: inc/install.php:744
+=======
+#: inc/install.php:745
+msgid "Voir la liste des catégories"
+msgstr "See the list of categories"
+
+#: inc/install.php:746
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Modifier des catégories"
 msgstr "Edit categories"
 
+<<<<<<< HEAD
 #: inc/install.php:745
+=======
+#: inc/install.php:747
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Supprimer des catégories"
 msgstr "Delete Categories"
 
+<<<<<<< HEAD
 #: inc/install.php:747
 msgid "Créer des départements"
 msgstr "Create departments"
@@ -3083,24 +3172,56 @@ msgid "Supprimer des départements"
 msgstr "Delete departments"
 
 #: inc/install.php:752
+=======
+#: inc/install.php:749
+msgid "Créer des départements"
+msgstr "Create departments"
+
+#: inc/install.php:750
+msgid "Voir la liste des départements"
+msgstr "See the list of departments"
+
+#: inc/install.php:751
+msgid "Modifier des départements"
+msgstr "Modify departments"
+
+#: inc/install.php:752
+msgid "Supprimer des départements"
+msgstr "Delete departments"
+
+#: inc/install.php:754
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Créer des fournisseurs"
 msgstr "Create suppliers"
 
+<<<<<<< HEAD
 #: inc/install.php:753
 msgid "Voir la liste des fournisseurs"
 msgstr "See the list of suppliers"
 
 #: inc/install.php:754
+=======
+#: inc/install.php:755
+msgid "Voir la liste des fournisseurs"
+msgstr "See the list of suppliers"
+
+#: inc/install.php:756
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Modifier des fournisseurs"
 msgstr "Edit providers"
 
+<<<<<<< HEAD
 #: inc/install.php:755
+=======
+#: inc/install.php:757
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Supprimer des fournisseurs"
 msgstr "Delete providers"
 
+<<<<<<< HEAD
 #: inc/install.php:757
 msgid "Créer des approvisionnements"
 msgstr "Create supplies"
@@ -3122,265 +3243,496 @@ msgid "Créer Groupes de clients"
 msgstr "Create Customer Groups"
 
 #: inc/install.php:763
+=======
+#: inc/install.php:759
+msgid "Créer des approvisionnements"
+msgstr "Create supplies"
+
+#: inc/install.php:760
+msgid "Voir la liste des approvisionnements"
+msgstr "See the list of supplies"
+
+#: inc/install.php:761
+msgid "Modifier des approvisionnements"
+msgstr "Edit supplies"
+
+#: inc/install.php:762
+msgid "Supprimer des approvisionnements"
+msgstr "Delete supplies"
+
+#: inc/install.php:764
+msgid "Créer Groupes de clients"
+msgstr "Create Customer Groups"
+
+#: inc/install.php:765
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Voir la liste des groupes de clients"
 msgstr "Customers groups lists"
 
+<<<<<<< HEAD
 #: inc/install.php:764
+=======
+#: inc/install.php:766
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Modifier Groupes de clients"
 msgstr "Edit Customer Groups"
 
+<<<<<<< HEAD
 #: inc/install.php:765
+=======
+#: inc/install.php:767
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Supprimer Groupes de clients"
 msgstr "Delete Client Groups"
 
+<<<<<<< HEAD
 #: inc/install.php:767
+=======
+#: inc/install.php:769
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Créer des clients"
 msgstr "Create customers"
 
+<<<<<<< HEAD
 #: inc/install.php:768
+=======
+#: inc/install.php:770
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Voir la liste des clients"
 msgstr "See the list of customers"
 
+<<<<<<< HEAD
 #: inc/install.php:769
+=======
+#: inc/install.php:771
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Modifier les clients"
 msgstr "Edit clients"
 
+<<<<<<< HEAD
 #: inc/install.php:770
+=======
+#: inc/install.php:772
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Supprimer les clients"
 msgstr "Delete customers"
 
+<<<<<<< HEAD
 #: inc/install.php:772
+=======
+#: inc/install.php:774
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Créer Factures"
 msgstr "Create Invoices"
 
+<<<<<<< HEAD
 #: inc/install.php:773
+=======
+#: inc/install.php:775
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Voir la liste des factures"
 msgstr "See the list of invoices"
 
+<<<<<<< HEAD
 #: inc/install.php:774
+=======
+#: inc/install.php:776
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Modifier Factures"
 msgstr "Edit Invoices"
 
+<<<<<<< HEAD
 #: inc/install.php:775
+=======
+#: inc/install.php:777
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Supprimer Factures"
 msgstr "Delete Invoices"
 
+<<<<<<< HEAD
 #: inc/install.php:777
+=======
+#: inc/install.php:779
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Créer des taxes"
 msgstr "Create taxes"
 
+<<<<<<< HEAD
 #: inc/install.php:778
+=======
+#: inc/install.php:780
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Voir la liste des taxes"
 msgstr "See the list of taxes"
 
+<<<<<<< HEAD
 #: inc/install.php:779
+=======
+#: inc/install.php:781
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Modifier des taxes"
 msgstr "Change taxes"
 
+<<<<<<< HEAD
 #: inc/install.php:780
+=======
+#: inc/install.php:782
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Supprimer des taxes"
 msgstr "Remove taxes"
 
+<<<<<<< HEAD
 #: inc/install.php:782
+=======
+#: inc/install.php:784
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Créer une caisse enregistreuse"
 msgstr "Create a cash register"
 
+<<<<<<< HEAD
 #: inc/install.php:783
+=======
+#: inc/install.php:785
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Voir la liste des caisses enregistreuse"
 msgstr "See the list of cash registers"
 
+<<<<<<< HEAD
 #: inc/install.php:784
+=======
+#: inc/install.php:786
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Modifier une caisse enregistreuse"
 msgstr "Modify a cash register"
 
+<<<<<<< HEAD
 #: inc/install.php:785
+=======
+#: inc/install.php:787
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Supprimer une caisse enregistreuse"
 msgstr "Delete a cash register"
 
+<<<<<<< HEAD
 #: inc/install.php:786
+=======
+#: inc/install.php:788
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Utiliser une caisse enregistreuse"
 msgstr "Use a cash register"
 
+<<<<<<< HEAD
 #: inc/install.php:787
+=======
+#: inc/install.php:789
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Consulter l'historique d'une caisse"
 msgstr "View the history of a caisse"
 
+<<<<<<< HEAD
 #: inc/install.php:789
+=======
+#: inc/install.php:791
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Créer des sauvegardes"
 msgstr "Create & backups"
 
+<<<<<<< HEAD
 #: inc/install.php:790
+=======
+#: inc/install.php:792
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Voir la liste des sauvegardes"
 msgstr "See the list of backups"
 
+<<<<<<< HEAD
 #: inc/install.php:791
+=======
+#: inc/install.php:793
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Modifier des sauvegardes"
 msgstr "Edit backups"
 
+<<<<<<< HEAD
 #: inc/install.php:792
 msgid "Supprimer des sauvegardes"
 msgstr "Remove backups"
 
 #: inc/install.php:794
+=======
+#: inc/install.php:794
+msgid "Supprimer des sauvegardes"
+msgstr "Remove backups"
+
+#: inc/install.php:796
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Créer des ajustements du stock"
 msgstr "Create stock adjustments"
 
+<<<<<<< HEAD
 #: inc/install.php:795
+=======
+#: inc/install.php:797
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Voir la liste des ajustements"
 msgstr "See the list of adjustments"
 
+<<<<<<< HEAD
 #: inc/install.php:796
+=======
+#: inc/install.php:798
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Modifier des ajustments"
 msgstr "Edit adjustments"
 
+<<<<<<< HEAD
 #: inc/install.php:797
+=======
+#: inc/install.php:799
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Supprimer des ajustements"
 msgstr "Remove adjustments"
 
+<<<<<<< HEAD
 #: inc/install.php:799
+=======
+#: inc/install.php:801
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Créer des boutiques"
 msgstr "Create shops"
 
+<<<<<<< HEAD
 #: inc/install.php:800
+=======
+#: inc/install.php:802
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Voir la liste des boutiques"
 msgstr "See the list of shops"
 
+<<<<<<< HEAD
 #: inc/install.php:801
+=======
+#: inc/install.php:803
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Modifier des boutiques"
 msgstr "Edit shops"
 
+<<<<<<< HEAD
 #: inc/install.php:802
+=======
+#: inc/install.php:804
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Supprimer des boutiques"
 msgstr "Remove shops"
 
+<<<<<<< HEAD
 #: inc/install.php:803
+=======
+#: inc/install.php:805
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Utiliser une boutique"
 msgstr "Use a shop"
 
+<<<<<<< HEAD
 #: inc/install.php:805
+=======
+#: inc/install.php:807
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Créer Coupons"
 msgstr "Create coupons"
 
+<<<<<<< HEAD
 #: inc/install.php:806
+=======
+#: inc/install.php:808
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Voir la liste des coupons"
 msgstr "See the list of coupons"
 
+<<<<<<< HEAD
 #: inc/install.php:807
+=======
+#: inc/install.php:809
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Modifier Coupons"
 msgstr "Edit Coupons"
 
+<<<<<<< HEAD
 #: inc/install.php:808
+=======
+#: inc/install.php:810
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Supprimer Coupons"
 msgstr "Delete Coupons"
 
+<<<<<<< HEAD
 #: inc/install.php:810
+=======
+#: inc/install.php:812
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Consulter un rembourssement"
 msgstr "Consult a refund"
 
+<<<<<<< HEAD
 #: inc/install.php:811
+=======
+#: inc/install.php:813
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Créer un rembourssement"
 msgstr "Create a refund"
 
+<<<<<<< HEAD
 #: inc/install.php:812
+=======
+#: inc/install.php:814
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Modifier un rembourssement"
 msgstr "Edit a refund"
 
+<<<<<<< HEAD
 #: inc/install.php:813
+=======
+#: inc/install.php:815
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Supprimer un rembourssement"
 msgstr "Delete a refund"
 
+<<<<<<< HEAD
 #: inc/install.php:815
+=======
+#: inc/install.php:817
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Lire ventes détaillés"
 msgstr "Read detailed sales"
 
+<<<<<<< HEAD
 #: inc/install.php:816
+=======
+#: inc/install.php:818
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Lire meilleures ventes"
 msgstr "BEST SALES"
 
+<<<<<<< HEAD
 #: inc/install.php:817
+=======
+#: inc/install.php:819
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Lire ventes journalières"
 msgstr "Read daily sales"
 
+<<<<<<< HEAD
 #: inc/install.php:818
+=======
+#: inc/install.php:820
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Lire bénéfices et pertes"
 msgstr "Incomes and Losses"
 
+<<<<<<< HEAD
 #: inc/install.php:819
+=======
+#: inc/install.php:821
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Lire liste des dépenses"
 msgstr "Expenses List"
 
+<<<<<<< HEAD
 #: inc/install.php:820
+=======
+#: inc/install.php:822
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Lire flux de la trésorerie"
 msgstr "flow of cash"
 
+<<<<<<< HEAD
 #: inc/install.php:821
+=======
+#: inc/install.php:823
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Lire income and losses"
 msgstr "Read income and losses"
 
+<<<<<<< HEAD
 #: inc/install.php:822
+=======
+#: inc/install.php:824
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Lire performances des caissiers"
 msgstr "Cashiers performance"
 
+<<<<<<< HEAD
 #: inc/install.php:823
+=======
+#: inc/install.php:825
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Lire statistics des clients"
 msgstr "Read customer statistics"
 
+<<<<<<< HEAD
 #: inc/install.php:824
+=======
+#: inc/install.php:826
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Lire suivi du stock"
 msgstr "Read stock tracking"
 
+<<<<<<< HEAD
 #: inc/install.php:825
+=======
+#: inc/install.php:827
+>>>>>>> fc455fa... Update
 #, fuzzy
 msgid "Réglages des options"
 msgstr "Option settings"
@@ -4252,7 +4604,7 @@ msgstr "Product not found"
 msgid "Le nouveau prix ne peut pas être inférieur au prix minimal (seuil)"
 msgstr "The new price can not be lower than the minimum price (threshold)"
 
-#: views/checkout/v2-1/script.php:1026 views/checkout/v2-1/script.php:2627
+#: views/checkout/v2-1/script.php:1026 views/checkout/v2-1/script.php:2635
 #: views/checkout/v2/script.php:723 views/checkout/v2/script.php:2744
 msgid ""
 "La remise fixe ne peut pas excéder la valeur actuelle du panier. Le montant "
@@ -4309,11 +4661,11 @@ msgstr "-"
 msgid "."
 msgstr "."
 
-#: views/checkout/v2-1/script.php:2635 views/checkout/v2/script.php:2752
+#: views/checkout/v2-1/script.php:2643 views/checkout/v2/script.php:2752
 msgid "Vous devez définir un pourcentage ou une somme."
 msgstr "You set a percentage or an amount."
 
-#: views/checkout/v2-1/script.php:2727 views/checkout/v2/script.php:2816
+#: views/checkout/v2-1/script.php:2735 views/checkout/v2/script.php:2816
 msgid ""
 "Le processus de commande a commencé. Si vous continuez, vous perdrez toutes "
 "les informations non enregistrées"
@@ -4363,8 +4715,9 @@ msgstr ""
 "All other information such as the \"date of birth\" can be filled in later."
 
 #: views/checkout/v2/script.php:1330 views/commandes-script - Deprecated.php:24
+#: views/customers/main-template.php:5
 msgid "Nom du client"
-msgstr "Remind covering"
+msgstr "Customer Name"
 
 #: views/checkout/v2/script.php:1331 views/commandes-script - Deprecated.php:25
 msgid "Name"
@@ -4773,16 +5126,10 @@ msgstr "Load a coupon"
 msgid "Vous ne pouvez pas modifier la valeur d'un coupon."
 msgstr "You can not change the value of a coupon."
 
-#: views/customers/main-template.php:5
-#, fuzzy
-msgid "Customer Name"
-msgstr "Nom de l'acheteur"
-
 #: views/customers/main-template.php:7 views/items/templates/clothes.php:12
 #: views/items/templates/coupon.php:12 views/settings/orders.php:11
-#, fuzzy
 msgid "Enregistrer"
-msgstr "Save Payment"
+msgstr "Save"
 
 #: views/customers/main-template.php:11
 #, fuzzy
@@ -7022,6 +7369,10 @@ msgstr "No Thanks!"
 #: views/welcome/dom.php:11
 msgid "Tutoriels"
 msgstr "Tutorials"
+
+#, fuzzy
+#~ msgid "Customer Name"
+#~ msgstr "Nom de l'acheteur"
 
 #, fuzzy
 #~ msgid "N/D"

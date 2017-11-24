@@ -121,7 +121,7 @@ class NexoCustomersController extends CI_Model
             return $menus;
         });
 
-        $crud->add_action( __( 'Modifier', 'nexo' ), null, dashboard_url([ 'customers', 'edit' ] ) . '/', 'fa fa-edit btn btn-default' );
+        $crud->add_action( __( 'Modifier', 'nexo' ), null, dashboard_url([ 'customers', 'edit' ] ) . '/', 'fa fa-edit' );
 
         // Load Nexo Customer Clients Crud
         $crud   =   $this->events->apply_filters( 'customers_crud_loaded', $crud );

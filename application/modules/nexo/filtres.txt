@@ -322,3 +322,13 @@ Filtres:
  * pos_edited_items
  * Filtre les produis ajoutés durant la modification d'une commande
 **/
+
+/**
+ * post_order_response
+ * Permet de filtrer la réponse lors de la publciation d'une commande
+**/
+
+/**
+ * put_order_response
+ * Permet de filtrer la réponse lors de la modification d'une commande
+**/

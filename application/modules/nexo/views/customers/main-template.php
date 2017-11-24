@@ -2,7 +2,7 @@
     <form name="form" novalidate ng-submit="submitForm()">
         <div class="form-group">
             <div class="input-group input-group-lg name-input-group">
-                <input required type="text" name="name" ng-model="model[ 'name' ]" class="form-control"placeholder="<?php echo __( 'Customer Name', 'nexo' );?>">
+                <input required type="text" name="name" ng-model="model[ 'name' ]" class="form-control"placeholder="<?php echo __( 'Nom du client', 'nexo' );?>">
                 <span class="input-group-btn customer-save-btn">
                     <button type="submit" class="btn btn-default"><?php echo __( 'Enregistrer', 'nexo' );?></button>
                 </span>

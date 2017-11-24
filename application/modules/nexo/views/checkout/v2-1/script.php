@@ -309,8 +309,10 @@ var v2Checkout					=	new function(){
 	**/
 
 	this.retreiveItem 			=	function( barcode, callback = null ) {
+		$( '#product-list-splash' ).show();
 		$.ajax( '<?php echo site_url(array( 'rest', 'nexo', 'item' ));?>/' + barcode + '/sku-barcode<?php echo store_get_param( '?' );?>', { 
 			success 	:	( items ) => {
+				$( '#product-list-splash' ).fadeOut(200);
 				this.treatFoundItem({ item : items[0], callback })
 			}
 		});
@@ -1470,7 +1472,7 @@ var v2Checkout					=	new function(){
 							MessageObject.type	=	'success';
 
 							$.ajax({
-								url 		:	'<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true',
+								url 		:	'<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'orders', 'receipt' ));?>/' + returned.order_id + '?refresh=true',
 								success 		:	function( data ){
 									var params = [
 									'height='+screen.height,

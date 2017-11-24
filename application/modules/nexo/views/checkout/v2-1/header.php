@@ -9,13 +9,6 @@
                     'ng-click'  =>  'goTo( \'' . dashboard_url([ 'orders' ] ) . '\' )'
                 ]
             ], [
-                'class' =>  'default calculator-button',
-                'text'  =>  __( 'Calculatrice', 'nexo' ),
-                'icon'  =>  'calculator',
-                'attrs' =>  [
-                    'ng-click'  =>  'openCalculator()',
-                ]
-            ], [
                 'class' =>  'default history-box-button',
                 'text'  =>  __( 'En Attente', 'nexo' ),
                 'icon'  =>  'history',
@@ -45,7 +38,14 @@
                 'attrs' =>  [
                     'ng-click'  =>  'openFullScreen()'
                 ]
-            ],
+            ],[
+                'class' =>  'default calculator-button',
+                'text'  =>  __( 'Calculatrice', 'nexo' ),
+                'icon'  =>  'calculator',
+                'attrs' =>  [
+                    'ng-click'  =>  'openCalculator()',
+                ]
+            ]
         ]) as $menu ) {
             $attrs      =   '';
             if( is_array( @$menu[ 'attrs' ] ) ) {

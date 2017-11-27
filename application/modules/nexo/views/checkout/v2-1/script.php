@@ -1073,7 +1073,7 @@ var v2Checkout					=	new function(){
 			v2Checkout.CartItemsVAT 	=	0;
 			_.each( this.CartItems, function( value, key ) {
 
-				var promo_start		= 	moment( value.SPECIAL_PRICE_START_DATE );
+				var promo_start			= 	moment( value.SPECIAL_PRICE_START_DATE );
 				var promo_end			= 	moment( value.SPECIAL_PRICE_END_DATE );
 
 				var MainPrice			= 	NexoAPI.ParseFloat( value.PRIX_DE_VENTE_TTC );
@@ -1163,6 +1163,7 @@ var v2Checkout					=	new function(){
 
 		// @since 2.7.3
 		// trigger action when cart is refreshed
+		// console.log( 'do:runHookCartRefreshed' );
 		NexoAPI.events.doAction( 'cart_refreshed', v2Checkout );
 	}
 
@@ -2497,11 +2498,11 @@ var v2Checkout					=	new function(){
 
 
 			<?php if (isset($order[ 'order' ])):?>
-			this.ProcessURL				=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id(), $order[ 'order' ][0][ 'ORDER_ID' ] ));?>?store_id=<?php echo get_store_id();?>";
+			this.ProcessURL					=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id(), $order[ 'order' ][0][ 'ORDER_ID' ] ));?>?store_id=<?php echo get_store_id();?>";
 			this.ProcessType				=	'PUT';
 			this.CartType 					=	'<?php echo $order[ 'order' ][0][ 'TYPE' ];?>';
 			<?php else :?>
-			this.ProcessURL				=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id() ));?>?store_id=<?php echo get_store_id();?>";
+			this.ProcessURL					=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id() ));?>?store_id=<?php echo get_store_id();?>";
 			this.ProcessType				=	'POST';
 			<?php endif;?>
 
@@ -2534,7 +2535,6 @@ var v2Checkout					=	new function(){
 		/**
 		* Run Checkout
 		**/
-
 		this.run							=	function(){
 
 			this.resetCart();
@@ -2542,6 +2542,7 @@ var v2Checkout					=	new function(){
 			this.bindHideItemOptions();
 			// @since 2.7.3
 			this.bindAddNote();
+<<<<<<< HEAD
 
 			<?php if (isset($order)):?>
 			this.emptyCartItemTable();
@@ -2581,157 +2582,220 @@ var v2Checkout					=	new function(){
 			this.refreshCartValues();
 			<?php endif;?>
 
+=======
+>>>>>>> 4c771b5... Update
 			this.CartStartAnimation			=	'<?php echo $this->config->item('nexo_cart_animation');?>';
 
 			$( this.ProductListWrapper ).removeClass( this.CartStartAnimation ).css( 'visibility', 'visible').addClass( this.CartStartAnimation );
 			$( this.CartTableWrapper ).removeClass( this.CartStartAnimation ).css( 'visibility', 'visible').addClass( this.CartStartAnimation );
 
 			/*this.getItems(null, function(){ // ALREADY Loaded while resetting cart
-			v2Checkout.hideSplash( 'right' );
-		});*/
+				v2Checkout.hideSplash( 'right' );
+			});*/
 
-		$( this.CartCancelButton ).bind( 'click', function(){
-			v2Checkout.cartCancel();
-		});
+			$( this.CartCancelButton ).bind( 'click', function(){
+				v2Checkout.cartCancel();
+			});
 
-		$( this.CartDiscountButton ).bind( 'click', function(){
-			v2Checkout.bindAddDiscount({
-				beforeLoad		:	function(){
-					if( v2Checkout.CartRemiseType != null ) {
-						$( '.' + v2Checkout.CartRemiseType + '_discount' ).trigger( 'click' );
+			$( this.CartDiscountButton ).bind( 'click', function(){
+				v2Checkout.bindAddDiscount({
+					beforeLoad		:	function(){
+						if( v2Checkout.CartRemiseType != null ) {
+							$( '.' + v2Checkout.CartRemiseType + '_discount' ).trigger( 'click' );
 
-						if( v2Checkout.CartRemiseType == 'percentage' ) {
-							$( '[name="discount_value"]' ).val( v2Checkout.CartRemisePercent );
-						} else if( v2Checkout.CartRemiseType == 'flat' ) {
-							$( '[name="discount_value"]' ).val( v2Checkout.CartRemise );
+							if( v2Checkout.CartRemiseType == 'percentage' ) {
+								$( '[name="discount_value"]' ).val( v2Checkout.CartRemisePercent );
+							} else if( v2Checkout.CartRemiseType == 'flat' ) {
+								$( '[name="discount_value"]' ).val( v2Checkout.CartRemise );
+							}
+
+						} else {
+							$( '.flat_discount' ).trigger( 'click' );
+						}
+					},
+					onFixedDiscount		:	function(){
+						v2Checkout.CartRemiseType	=	'flat';
+					},
+					onPercentDiscount	:	function(){
+						v2Checkout.CartRemiseType	=	'percentage';
+					},
+					onFieldBlur			:	function(){
+						// console.log( 'Field blur performed' );
+						// Percentage allowed to 100% only
+						if( v2Checkout.CartRemiseType == 'percentage' && NexoAPI.ParseFloat( $( '[name="discount_value"]' ).val() ) > 100 ) {
+							$( this ).val( 100 );
+						} else if( v2Checkout.CartRemiseType == 'flat' && NexoAPI.ParseFloat( $( '[name="discount_value"]' ).val() ) > v2Checkout.CartValue ) {
+							// flat discount cannot exceed cart value
+							$( this ).val( v2Checkout.CartValue );
+							NexoAPI.Notify().info( '<?php echo _s('Attention', 'nexo');?>', '<?php echo _s('La remise fixe ne peut pas excéder la valeur actuelle du panier. Le montant de la remise à été réduite à la valeur du panier.', 'nexo');?>' );
+						}
+					},
+					onExit				:	function( value ){
+
+						var value	=	$( '[name="discount_value"]' ).val();
+
+						if( value  == '' || value == '0' ) {
+							NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous devez définir un pourcentage ou une somme.', 'nexo'));?>' );
+							return false;
 						}
 
-					} else {
-						$( '.flat_discount' ).trigger( 'click' );
+						// console.log( 'Exit discount box	' );
+						// Percentage can't exceed 100%
+						if( v2Checkout.CartRemiseType == 'percentage' && NexoAPI.ParseFloat( value ) > 100 ) {
+							value = 100;
+						} else if( v2Checkout.CartRemiseType == 'flat' && NexoAPI.ParseFloat( value ) > v2Checkout.CartValue ) {
+							// flat discount cannot exceed cart value
+							value	=	v2Checkout.CartValue;
+						}
+
+						$( '[name="discount_value"]' ).focus();
+						$( '[name="discount_value"]' ).blur();
+
+						v2Checkout.CartRemiseEnabled	=	true;
+						v2Checkout.calculateCartDiscount( value );
+						v2Checkout.refreshCartValues();
 					}
-				},
-				onFixedDiscount		:	function(){
-					v2Checkout.CartRemiseType	=	'flat';
-				},
-				onPercentDiscount	:	function(){
-					v2Checkout.CartRemiseType	=	'percentage';
-				},
-				onFieldBlur			:	function(){
-					// console.log( 'Field blur performed' );
-					// Percentage allowed to 100% only
-					if( v2Checkout.CartRemiseType == 'percentage' && NexoAPI.ParseFloat( $( '[name="discount_value"]' ).val() ) > 100 ) {
-						$( this ).val( 100 );
-					} else if( v2Checkout.CartRemiseType == 'flat' && NexoAPI.ParseFloat( $( '[name="discount_value"]' ).val() ) > v2Checkout.CartValue ) {
-						// flat discount cannot exceed cart value
-						$( this ).val( v2Checkout.CartValue );
-						NexoAPI.Notify().info( '<?php echo _s('Attention', 'nexo');?>', '<?php echo _s('La remise fixe ne peut pas excéder la valeur actuelle du panier. Le montant de la remise à été réduite à la valeur du panier.', 'nexo');?>' );
-					}
-				},
-				onExit				:	function( value ){
+				});
+			});
 
-					var value	=	$( '[name="discount_value"]' ).val();
+			/**
+			* Search Item Feature
+			**/
+			$( this.ItemSearchForm ).bind( 'submit', function(){
+				v2Checkout.retreiveItem( $( '[name="item_sku_barcode"]' ).val() );
+				$( '[name="item_sku_barcode"]' ).val('');
+				return false;
+			});
 
-					if( value  == '' || value == '0' ) {
-						NexoAPI.Bootbox().alert( '<?php echo addslashes(__('Vous devez définir un pourcentage ou une somme.', 'nexo'));?>' );
-						return false;
-					}
-
-					// console.log( 'Exit discount box	' );
-					// Percentage can't exceed 100%
-					if( v2Checkout.CartRemiseType == 'percentage' && NexoAPI.ParseFloat( value ) > 100 ) {
-						value = 100;
-					} else if( v2Checkout.CartRemiseType == 'flat' && NexoAPI.ParseFloat( value ) > v2Checkout.CartValue ) {
-						// flat discount cannot exceed cart value
-						value	=	v2Checkout.CartValue;
-					}
-
-					$( '[name="discount_value"]' ).focus();
-					$( '[name="discount_value"]' ).blur();
-
-					v2Checkout.CartRemiseEnabled	=	true;
-					v2Checkout.calculateCartDiscount( value );
-					v2Checkout.refreshCartValues();
+			$( '.enable_barcode_search' ).bind( 'click', function(){
+				if( $( this ).hasClass( 'active' ) ) {
+					$( this ).removeClass( 'active' );
+					v2Checkout.enableBarcodeSearch 	=	false;
+				} else {
+					$( this ).addClass( 'active' );
+					v2Checkout.enableBarcodeSearch 	=	true;
+					$( '[name="item_sku_barcode"]' ).focus();
 				}
 			});
-		});
 
-		/**
-		* Search Item Feature
-		**/
+			// check if the button is clicked
+			<?php if( @$Options[ 'enable_quick_search' ] == 'yes' ):?>
+			$( '.enable_barcode_search' ).trigger( 'click' );
+			<?php endif;?>
 
-		$( this.ItemSearchForm ).bind( 'submit', function(){
-			v2Checkout.retreiveItem( $( '[name="item_sku_barcode"]' ).val() );
-			$( '[name="item_sku_barcode"]' ).val('');
-			return false;
-		});
+			/**
+			* Filter Item
+			**/
+			let addItemTimeout;
 
-		$( '.enable_barcode_search' ).bind( 'click', function(){
-			if( $( this ).hasClass( 'active' ) ) {
-				$( this ).removeClass( 'active' );
-				v2Checkout.enableBarcodeSearch 	=	false;
-			} else {
-				$( this ).addClass( 'active' );
-				v2Checkout.enableBarcodeSearch 	=	true;
-				$( '[name="item_sku_barcode"]' ).focus();
-			}
-		});
-
-		// check if the button is clicked
-		<?php if( @$Options[ 'enable_quick_search' ] == 'yes' ):?>
-		$( '.enable_barcode_search' ).trigger( 'click' );
-		<?php endif;?>
-
-		/**
-		* Filter Item
-		**/
-
-		let addItemTimeout;
-
-		$( this.ItemSearchForm ).bind( 'keyup', function(){
-			if( v2Checkout.enableBarcodeSearch == false ) {
-				v2Checkout.quickItemSearch( $( '[name="item_sku_barcode"]' ).val() );
-			}
-
-			// Add found item on the cart
-			// @since 3.0.19
-			if( typeof this.addItemTimeout == 'undefined' ) {
-				this.addItemTimeout 	=	5;
-			}
-
-			window.clearTimeout( addItemTimeout );
-
-			addItemTimeout 	=	window.setTimeout( () => {
-				if( $( '.filter-add-product.item-visible' ).length == 1 ) {
-					// when i item is found, just blur the field to avoid multiple quantity adding
-					$( '.filter-add-product.item-visible' ).click();
-					$( '[name="item_sku_barcode"]' ).val('');
-					v2Checkout.quickItemSearch( '' );
+			$( this.ItemSearchForm ).bind( 'keyup', function(){
+				if( v2Checkout.enableBarcodeSearch == false ) {
+					v2Checkout.quickItemSearch( $( '[name="item_sku_barcode"]' ).val() );
 				}
-			}, 500 );
-		});
+
+				// Add found item on the cart
+				// @since 3.0.19
+				if( typeof this.addItemTimeout == 'undefined' ) {
+					this.addItemTimeout 	=	5;
+				}
+
+				window.clearTimeout( addItemTimeout );
+
+				addItemTimeout 	=	window.setTimeout( () => {
+					if( $( '.filter-add-product.item-visible' ).length == 1 ) {
+						// when i item is found, just blur the field to avoid multiple quantity adding
+						$( '.filter-add-product.item-visible' ).click();
+						$( '[name="item_sku_barcode"]' ).val('');
+						v2Checkout.quickItemSearch( '' );
+					}
+				}, 500 );
+			});
+
+			/**
+			* Cart Item Settings
+			**/
+			$( this.ItemSettings ).bind( 'click', function(){
+				v2Checkout.itemsSettings();
+			});
+
+			// Bind toggle compact mode
+			this.bindToggleComptactMode();
+
+			/**
+			 * Avoid Closing windows
+			 * If the cart is not empty
+			 */
+			$(window).on("beforeunload", function() {
+				if( ! v2Checkout.isCartEmpty() ) {
+					return "<?php echo addslashes(__('Le processus de commande a commencé. Si vous continuez, vous perdrez toutes les informations non enregistrées', 'nexo'));?>";
+				}
+			})
+
+			/**
+			 * we would like to make sure the dom has loaded
+			 * we can also load order edited
+			 */
+			setTimeout( () => {
+				this.toggleCompactMode(true);
+				this.loadEditedOrder();
+			}, 800 );
+		}
 
 		/**
-		* Cart Item Settings
-		**/
+		 * Load edited order
+		 * @return void
+		 */
+		this.loadEditedOrder 				=	function(){
+			<?php if (isset($order)):?>
+				/***
+				 * Run specific query when order is loading
+				 */
+				NexoAPI.events.doAction( 'pos_load_order', <?php echo json_encode( $order );?> );
 
-		$( this.ItemSettings ).bind( 'click', function(){
-			v2Checkout.itemsSettings();
-		});
+				this.emptyCartItemTable();
+				<?php foreach ($order[ 'products' ] as $product):?>
+					// Filter Product Items
+					<?php $product = $this->events->apply_filters( 'pos_edited_items', $product );?>
+					this.CartItems.push( <?php echo json_encode($product);?> );
+				<?php endforeach;?>
 
-		// Bind toggle compact mode
-		this.bindToggleComptactMode();
+				<?php if ( ! empty( $order[ 'order' ][0][ 'REMISE_TYPE' ] ) ):?>
+				this.CartRemiseType			=	'<?php echo $order[ 'order' ][0][ 'REMISE_TYPE' ];?>';
+				this.CartRemise				=	NexoAPI.ParseFloat( <?php echo $order[ 'order' ][0][ 'REMISE' ];?> );
+				this.CartRemisePercent		=	<?php echo $order[ 'order' ][0][ 'REMISE_PERCENT' ];?>;
+				this.CartRemiseEnabled		=	true;
+				<?php endif;?>
 
-		//
-		$(window).on("beforeunload", function() {
-			if( ! v2Checkout.isCartEmpty() ) {
-				return "<?php echo addslashes(__('Le processus de commande a commencé. Si vous continuez, vous perdrez toutes les informations non enregistrées', 'nexo'));?>";
-			}
-		})
+				<?php if (floatval($order[ 'order' ][0][ 'GROUP_DISCOUNT' ]) > 0):?>
+				this.CartGroupDiscount				=	<?php echo floatval($order[ 'order' ][0][ 'GROUP_DISCOUNT' ]);?>; // final amount
+				this.CartGroupDiscountAmount		=	<?php echo floatval($order[ 'order' ][0][ 'GROUP_DISCOUNT' ]);?>; // Amount set on each group
+				this.CartGroupDiscountType			=	'amount'; // Discount type
+				this.CartGroupDiscountEnabled		=	true;
+				<?php endif;?>
 
-		setTimeout( function(){
-			v2Checkout.toggleCompactMode(true);
-		}, 800 );
-	}
+				this.CartCustomerID					=	<?php echo $order[ 'order' ][0][ 'REF_CLIENT' ];?>;
+
+				// @since 2.7.3
+				this.CartNote						=	'<?php echo $order[ 'order'][0][ 'DESCRIPTION' ];?>';
+
+				// @since 2.9.1
+				this.CartTitle						=	'<?php echo $order[ 'order'][0][ 'TITRE' ];?>';
+				
+				/**
+				 * Let use customer v2Checkout object when an order is loaded
+				 */
+				<?php $this->events->do_action( 'edit_loaded_order', $order );?>
+
+				// Restore Custom Ristourne
+				this.restoreCustomRistourne();
+
+				// Refresh Cart
+				// Reset Cart state
+				this.refreshCart();
+				this.refreshCartValues();
+				this.buildCartItemTable();
+			<?php endif;?>
+		}
 
 	/**
 	* Toggle Compact Mode

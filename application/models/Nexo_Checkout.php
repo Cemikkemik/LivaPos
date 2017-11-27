@@ -889,7 +889,11 @@ class Nexo_Checkout extends CI_Model
             ->select('*,
             ' . store_prefix() . 'nexo_commandes_produits.ID as ITEM_ID,
 			' . store_prefix() . 'nexo_commandes_produits.QUANTITE as QTE_ADDED,
-			' . store_prefix() . 'nexo_articles.DESIGN as DESIGN')
+			' . store_prefix() . 'nexo_commandes_produits.NAME as DESIGN,
+			' . store_prefix() . 'nexo_commandes_produits.PRIX as PRIX_DE_VENTE,
+			' . store_prefix() . 'nexo_commandes_produits.PRIX as PRIX_DE_VENTE_TTC,
+			' . store_prefix() . 'nexo_commandes_produits.PRIX as PRIX,
+			' . store_prefix() . 'nexo_articles.DESIGN as ORIGINAL_NAME' )
             ->from( store_prefix() . 'nexo_commandes')
             ->join( store_prefix() . 'nexo_commandes_produits', store_prefix() . 'nexo_commandes.CODE = ' . store_prefix() . 'nexo_commandes_produits.REF_COMMAND_CODE', 'inner')
             ->join( store_prefix() . 'nexo_articles', store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_commandes_produits.REF_PRODUCT_CODEBAR', 'left')

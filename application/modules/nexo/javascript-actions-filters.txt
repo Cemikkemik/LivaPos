@@ -209,3 +209,8 @@ close_paybox 	:	{
 	type 	:	action
 	desc 	:	Permet d'exécuter une action lorsque la fenêtre de paiement se ferme
 }
+
+pos_loaded_order : {
+	type 	:	action,
+	desc 	:	contient l'objet ayant les détails de la commande en cours d'édition
+}

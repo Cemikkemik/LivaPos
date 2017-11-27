@@ -2545,6 +2545,7 @@ var v2Checkout					=	new function(){
 			// @since 2.7.3
 			this.bindAddNote();
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 			<?php if (isset($order)):?>
 			this.emptyCartItemTable();
@@ -2594,6 +2595,8 @@ var v2Checkout					=	new function(){
 
 =======
 >>>>>>> 4c771b5... Update
+=======
+>>>>>>> 4c771b5... Update
 			this.CartStartAnimation			=	'<?php echo $this->config->item('nexo_cart_animation');?>';
 
 			$( this.ProductListWrapper ).removeClass( this.CartStartAnimation ).css( 'visibility', 'visible').addClass( this.CartStartAnimation );
@@ -2612,6 +2615,7 @@ var v2Checkout					=	new function(){
 					beforeLoad		:	function(){
 						if( v2Checkout.CartRemiseType != null ) {
 							$( '.' + v2Checkout.CartRemiseType + '_discount' ).trigger( 'click' );
+<<<<<<< HEAD
 
 							if( v2Checkout.CartRemiseType == 'percentage' ) {
 								$( '[name="discount_value"]' ).val( v2Checkout.CartRemisePercent );
@@ -2640,6 +2644,36 @@ var v2Checkout					=	new function(){
 							NexoAPI.Notify().info( '<?php echo _s('Attention', 'nexo');?>', '<?php echo _s('La remise fixe ne peut pas excéder la valeur actuelle du panier. Le montant de la remise à été réduite à la valeur du panier.', 'nexo');?>' );
 						}
 					},
+=======
+
+							if( v2Checkout.CartRemiseType == 'percentage' ) {
+								$( '[name="discount_value"]' ).val( v2Checkout.CartRemisePercent );
+							} else if( v2Checkout.CartRemiseType == 'flat' ) {
+								$( '[name="discount_value"]' ).val( v2Checkout.CartRemise );
+							}
+
+						} else {
+							$( '.flat_discount' ).trigger( 'click' );
+						}
+					},
+					onFixedDiscount		:	function(){
+						v2Checkout.CartRemiseType	=	'flat';
+					},
+					onPercentDiscount	:	function(){
+						v2Checkout.CartRemiseType	=	'percentage';
+					},
+					onFieldBlur			:	function(){
+						// console.log( 'Field blur performed' );
+						// Percentage allowed to 100% only
+						if( v2Checkout.CartRemiseType == 'percentage' && NexoAPI.ParseFloat( $( '[name="discount_value"]' ).val() ) > 100 ) {
+							$( this ).val( 100 );
+						} else if( v2Checkout.CartRemiseType == 'flat' && NexoAPI.ParseFloat( $( '[name="discount_value"]' ).val() ) > v2Checkout.CartValue ) {
+							// flat discount cannot exceed cart value
+							$( this ).val( v2Checkout.CartValue );
+							NexoAPI.Notify().info( '<?php echo _s('Attention', 'nexo');?>', '<?php echo _s('La remise fixe ne peut pas excéder la valeur actuelle du panier. Le montant de la remise à été réduite à la valeur du panier.', 'nexo');?>' );
+						}
+					},
+>>>>>>> 4c771b5... Update
 					onExit				:	function( value ){
 
 						var value	=	$( '[name="discount_value"]' ).val();

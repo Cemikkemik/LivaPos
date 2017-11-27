@@ -17,14 +17,15 @@ class Nexo_Restaurant_Filters extends Tendoo_Module
     {
         $this->load->module_model( 'gastro', 'Nexo_Gastro_Tables_Models', 'table_model' );
         // var_dump( $item );die;
-        $item[ 'DESIGN' ]               =   $item[ 'NAME' ];
-        $item[ 'CODEBAR' ]              =   $item[ 'RESTAURANT_PRODUCT_REAL_BARCODE' ];
-        $item[ 'STATUS' ]               =   '1';
-        $item[ 'QTE_ADDED' ]            =   floatval( $item[ 'QTE_ADDED' ] );
-        $item[ 'PRIX_DE_VENTE' ]        =   $item[ 'PRIX' ];
-        $item[ 'PRIX_DE_VENTE_TTC' ]    =   $item[ 'PRIX' ];
-        $modifier                       =   get_instance()->table_model->get_modifiers( $item[ 'ITEM_ID' ], $item[ 'REF_COMMAND_CODE' ] );
-        $item[ 'metas' ][ 'modifiers' ]     =   $modifier[0];
+        $item[ 'DESIGN' ]                   =   $item[ 'NAME' ];
+        $item[ 'CODEBAR' ]                  =   $item[ 'RESTAURANT_PRODUCT_REAL_BARCODE' ];
+        $item[ 'STATUS' ]                   =   '1';
+        $item[ 'QTE_ADDED' ]                =   floatval( $item[ 'QTE_ADDED' ] );
+        $item[ 'PRIX_DE_VENTE' ]            =   $item[ 'PRIX' ];
+        $item[ 'PRIX_DE_VENTE_TTC' ]        =   $item[ 'PRIX' ];
+        $modifier                           =   get_instance()->table_model->get_modifiers( $item[ 'ITEM_ID' ], $item[ 'REF_COMMAND_CODE' ] );
+        // var_dump( $modifier );die;
+        $item[ 'metas' ][ 'modifiers' ]     =   @$modifier ? json_decode( $modifier, true ) : [];
         return $item;
     }
 
@@ -388,8 +389,8 @@ class Nexo_Restaurant_Filters extends Tendoo_Module
 
     public function put_order_details( $order_details ) 
     {
-        // $order_details[ 'RESTAURANT_ORDER_STATUS' ]         =   $this->input->input_stream( 'RESTAURANT_ORDER_STATUS' );
-        // $order_details[ 'RESTAURANT_ORDER_TYPE' ]           =   $this->input->input_stream( 'RESTAURANT_ORDER_TYPE' );
+        $order_details[ 'RESTAURANT_ORDER_STATUS' ]         =   $this->input->input_stream( 'RESTAURANT_ORDER_STATUS' );
+        $order_details[ 'RESTAURANT_ORDER_TYPE' ]           =   $this->input->input_stream( 'RESTAURANT_ORDER_TYPE' );
         return $order_details;
     }
 
@@ -449,7 +450,7 @@ class Nexo_Restaurant_Filters extends Tendoo_Module
             if( $metas ) {
                 $allPrices              =   0;
                 foreach( @$metas as $meta ) {
-                    $allPrices          +=  floatval( $meta[ 'price' ] );
+                    $allPrices          +=  floatval( @$meta[ 'price' ] );
                 }
                 return  $item_price     - $allPrices;
             }

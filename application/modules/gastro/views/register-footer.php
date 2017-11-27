@@ -1158,39 +1158,39 @@ NexoAPI.showConfirm     =   function({ message, title = '<?php echo _s( 'Would y
                     }
                     return item;
                 });
-                
-                if( $scope.selectedOrderType.namespace == 'delivery' ) {
-                    <?php if( store_option( 'disable_kitchen_screen' ) != 'yes' ):?>
-                    order_details[ 'RESTAURANT_ORDER_TYPE' ]    =   'delivery';
-                    order_details[ 'RESTAURANT_ORDER_STATUS' ]  =   'pending';
-                    order_details[ 'metas' ].order_real_type    =   'delivery';
-                    <?php else:?>
-                    order_details[ 'RESTAURANT_ORDER_TYPE' ]    =   'delivery';
-                    order_details[ 'RESTAURANT_ORDER_STATUS' ]  =   'ready';
-                    order_details[ 'metas' ].order_real_type    =   'delivery';
-                    <?php endif;?>
-                } else if( $scope.selectedOrderType.namespace == 'takeaway' ) {
-                    <?php if( store_option( 'disable_kitchen_screen' ) != 'yes' ):?>
-                    order_details[ 'RESTAURANT_ORDER_TYPE' ]    =   'takeaway';
-                    order_details[ 'RESTAURANT_ORDER_STATUS' ]  =   'pending';
-                    order_details[ 'metas' ].order_real_type    =   'takeaway';
-                    <?php else:?>
-                    order_details[ 'RESTAURANT_ORDER_TYPE' ]    =   'takeaway';
-                    order_details[ 'RESTAURANT_ORDER_STATUS' ]  =   'ready';
-                    order_details[ 'metas' ].order_real_type    =   'takeaway';
-                    <?php endif;?>
-                } else if( $scope.selectedOrderType.namespace == 'dinein' ) {
-                    <?php if( store_option( 'disable_kitchen_screen' ) != 'yes' ):?>
-                    order_details[ 'RESTAURANT_ORDER_TYPE' ]    =   'dinein';
-                    order_details[ 'RESTAURANT_ORDER_STATUS' ]  =   'pending';
-                    order_details[ 'metas' ].order_real_type    =   'dinein';
-                    <?php else:?>
-                    order_details[ 'RESTAURANT_ORDER_TYPE' ]    =   'dinein';
-                    order_details[ 'RESTAURANT_ORDER_STATUS' ]  =   'ready';
-                    order_details[ 'metas' ].order_real_type    =   'dinein';
-                    <?php endif;?>
-                } 
             }
+
+            if( $scope.selectedOrderType.namespace == 'delivery' ) {
+                <?php if( store_option( 'disable_kitchen_screen' ) != 'yes' ):?>
+                order_details[ 'RESTAURANT_ORDER_TYPE' ]    =   'delivery';
+                order_details[ 'RESTAURANT_ORDER_STATUS' ]  =   'pending';
+                order_details[ 'metas' ].order_real_type    =   'delivery';
+                <?php else:?>
+                order_details[ 'RESTAURANT_ORDER_TYPE' ]    =   'delivery';
+                order_details[ 'RESTAURANT_ORDER_STATUS' ]  =   'ready';
+                order_details[ 'metas' ].order_real_type    =   'delivery';
+                <?php endif;?>
+            } else if( $scope.selectedOrderType.namespace == 'takeaway' ) {
+                <?php if( store_option( 'disable_kitchen_screen' ) != 'yes' ):?>
+                order_details[ 'RESTAURANT_ORDER_TYPE' ]    =   'takeaway';
+                order_details[ 'RESTAURANT_ORDER_STATUS' ]  =   'pending';
+                order_details[ 'metas' ].order_real_type    =   'takeaway';
+                <?php else:?>
+                order_details[ 'RESTAURANT_ORDER_TYPE' ]    =   'takeaway';
+                order_details[ 'RESTAURANT_ORDER_STATUS' ]  =   'ready';
+                order_details[ 'metas' ].order_real_type    =   'takeaway';
+                <?php endif;?>
+            } else if( $scope.selectedOrderType.namespace == 'dinein' ) {
+                <?php if( store_option( 'disable_kitchen_screen' ) != 'yes' ):?>
+                order_details[ 'RESTAURANT_ORDER_TYPE' ]    =   'dinein';
+                order_details[ 'RESTAURANT_ORDER_STATUS' ]  =   'pending';
+                order_details[ 'metas' ].order_real_type    =   'dinein';
+                <?php else:?>
+                order_details[ 'RESTAURANT_ORDER_TYPE' ]    =   'dinein';
+                order_details[ 'RESTAURANT_ORDER_STATUS' ]  =   'ready';
+                order_details[ 'metas' ].order_real_type    =   'dinein';
+                <?php endif;?>
+            } 
 
             return order_details;
         });
@@ -1299,7 +1299,7 @@ NexoAPI.showConfirm     =   function({ message, title = '<?php echo _s( 'Would y
                     }
                 }
             }); 
-        }) ;
+        });
 
         $scope.runModifierPromise       =   function({ ids, index, increase, quantity, item, modifierIndex, proceed }) {
             let modifierPromise     =   new Promise( ( resolve, reject ) => {
@@ -1372,6 +1372,9 @@ NexoAPI.showConfirm     =   function({ message, title = '<?php echo _s( 'Would y
             $scope.modifiers    =   [];
         });
 
+        NexoAPI.events.addAction( 'pos_load_order', function( data ){
+            $scope.switchOrderType( data.order[0].RESTAURANT_ORDER_TYPE );
+        })
         /** 
          * Reset SelectedOrderType
         **/

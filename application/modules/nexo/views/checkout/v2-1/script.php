@@ -1448,107 +1448,71 @@ var v2Checkout					=	new function(){
 			data			:	order_details,
 			beforeSend		: function(){
 				v2Checkout.paymentWindow.showSplash();
-				NexoAPI.Notify().info( '<?php echo _s('Veuillez patienter', 'nexo');?>', '<?php echo _s('Paiement en cours...', 'nexo');?>' );
 			},
 			success			:	function( returned ) {
 				v2Checkout.paymentWindow.hideSplash();
 				v2Checkout.paymentWindow.close();
 
 				if( _.isObject( returned ) ) {
-					// Init Message Object
-					var MessageObject	=	new Object;
+					/// else an error is returned and the "error" callback is run
+					if( _.isObject( returned ) ) {
+						// Init Message Object
+						var MessageObject	=	new Object;
 
-					var data	=	NexoAPI.events.applyFilters( 'test_order_type', [ ( returned.order_type == 'nexo_order_comptant' ), returned ] );
-					var test_order	=	data[0];
+						var data	=	NexoAPI.events.applyFilters( 'test_order_type', [ ( returned.order_type == 'nexo_order_comptant' ), returned ] );
+						var test_order	=	data[0];
 
-					if( test_order == true ) {
+						if( test_order == true ) {
 
-						<?php if (@$Options[ store_prefix() . 'nexo_enable_autoprint' ] == 'yes'):?>
+							<?php if (@$Options[ store_prefix() . 'nexo_enable_autoprint' ] == 'yes'):?>
 
-						if( NexoAPI.events.applyFilters( 'cart_enable_print', true ) ) {
+							if( NexoAPI.events.applyFilters( 'cart_enable_print', true ) ) {
+
+								MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
+								MessageObject.msg	=	'<?php echo _s('La commande est en cours d\'impression.', 'nexo');?>';
+								MessageObject.type	=	'success';
+
+								$( '#receipt-wrapper' ).remove();
+								$( 'body' ).append( '<iframe id="receipt-wrapper" style="visibility:hidden;height:0px;width:0px;position:absolute;top:0;" src="<?php echo dashboard_url([ 'orders', 'receipt' ]);?>/' + returned.order_id + '?refresh=true&autoprint=true"></iframe>' );
+							}
+							// Remove filter after it's done
+							NexoAPI.events.removeFilter( 'cart_enable_print' );
+
+							<?php else:?>
 
 							MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
-							MessageObject.msg	=	'<?php echo _s('La commande est en cours d\'impression.', 'nexo');?>';
+							MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée.', 'nexo');?>';
 							MessageObject.type	=	'success';
 
-							$.ajax({
-								url 		:	'<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'orders', 'receipt' ));?>/' + returned.order_id + '?refresh=true',
-								success 		:	function( data ){
-									var params = [
-									'height='+screen.height,
-									'width='+screen.width,
-									'fullscreen=yes' // only works in IE, but here for completeness
-									].join(',');
-									var mywindow = window.open('', 'my div', params );
-									mywindow.document.write('<html><head><title>Store A &rsaquo; Proceed a sale &mdash; Store A</title>');
-									mywindow.document.write('</head><body >');
-									mywindow.document.write(data);
-									mywindow.document.write('</body></html>');
+							<?php endif;?>
 
-									mywindow.document.close(); // necessary for IE >= 10
-									mywindow.focus(); // necessary for IE >= 10
-									setTimeout( function(){
-										mywindow.print();
-										mywindow.close();
-									}, 600 );
-								}
-							})
+							<?php if (@$Options[ store_prefix() . 'nexo_enable_smsinvoice' ] == 'yes'):?>
+							/**
+							* Send SMS
+							**/
+							// Do Action when order is complete and submited
+							NexoAPI.events.doAction( 'is_cash_order', [ v2Checkout, returned ] );
+							<?php endif;?>
+						} else if ( test_order != null ) { // let the user customize the response
+							<?php if (@$Options[ store_prefix() . 'nexo_enable_autoprint' ] == 'yes'):?>
+							MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
+							MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée, mais ne peut pas être imprimée tant qu\'elle n\'est pas complète.', 'nexo');?>';
+							MessageObject.type	=	'info';
 
-							// $( 'body' ).append( '<iframe style="display:none;" id="CurrentReceipt" name="CurrentReceipt" src="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'order_receipt' ));?>/' + returned.order_id + '?refresh=true"></iframe>' );
+							<?php else:?>
+							MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
+							MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée', 'nexo');?>';
+							MessageObject.type	=	'info';
+							<?php endif;?>
+						} 
+						
+						// Filter Message Callback
+						// add filtred data to callback message
+						var data				=	NexoAPI.events.applyFilters( 'callback_message', [ MessageObject, returned, data[0] ] );
+						MessageObject		=	data[0];
 
-							// window.frames["CurrentReceipt"].focus();
-							// window.frames["CurrentReceipt"].print();
-
-							// setTimeout( function(){
-							// 	$( '#CurrentReceipt' ).remove();
-							// }, 5000 );
-
-						}
-						// Remove filter after it's done
-						NexoAPI.events.removeFilter( 'cart_enable_print' );
-
-						<?php else:?>
-
-						MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
-						MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée.', 'nexo');?>';
-						MessageObject.type	=	'success';
-
-						<?php endif;?>
-
-						<?php if (@$Options[ store_prefix() . 'nexo_enable_smsinvoice' ] == 'yes'):?>
-						/**
-						* Send SMS
-						**/
-						// Do Action when order is complete and submited
-						NexoAPI.events.doAction( 'is_cash_order', [ v2Checkout, returned ] );
-						<?php endif;?>
-					} else {
-						<?php if (@$Options[ store_prefix() . 'nexo_enable_autoprint' ] == 'yes'):?>
-						MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
-						MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée, mais ne peut pas être imprimée tant qu\'elle n\'est pas complète.', 'nexo');?>';
-						MessageObject.type	=	'info';
-
-						<?php else:?>
-						MessageObject.title	=	'<?php echo _s('Effectué', 'nexo');?>';
-						MessageObject.msg	=	'<?php echo _s('La commande a été enregistrée', 'nexo');?>';
-						MessageObject.type	=	'info';
-						<?php endif;?>
-					}
-
-					// Filter Message Callback
-					var data				=	NexoAPI.events.applyFilters( 'callback_message', [ MessageObject, returned ] );
-					MessageObject		=	data[0];
-
-					// For Success
-					if( MessageObject.type == 'success' ) {
-
-						NexoAPI.Notify().success( MessageObject.title, MessageObject.msg );
-
-						// For Info
-					} else if( MessageObject.type == 'info' ) {
-
-						NexoAPI.Notify().info( MessageObject.title, MessageObject.msg );
-
+						// show message
+						NexoAPI.Toast()( MessageObject.msg );
 					}
 				}
 
@@ -1562,9 +1526,13 @@ var v2Checkout					=	new function(){
 				}
 				<?php endif;?>
 			},
-			error			:	function(){
+			error			:	function( data ){
 				v2Checkout.paymentWindow.hideSplash();
-				NexoAPI.Notify().warning( '<?php echo _s('Une erreur s\'est produite', 'nexo');?>', '<?php echo _s('Le paiement n\'a pas pu être effectuée.', 'nexo');?>' );
+				if( data.responseJSON.message ) {
+					NexoAPI.Notify().warning( '<?php echo _s('Une erreur s\'est produite', 'nexo');?>', data.responseJSON.message );
+				} else {
+					NexoAPI.Notify().warning( '<?php echo _s('Une erreur s\'est produite', 'nexo');?>', '<?php echo _s('Le paiement n\'a pas pu être effectuée.', 'nexo');?>' );
+				}
 			}
 		});
 	};
@@ -2429,7 +2397,7 @@ var v2Checkout					=	new function(){
 
 		this.restoreCustomRistourne			=	function(){
 			<?php if (isset($order)):?>
-			<?php if (floatval($order[ 'order' ][0][ 'RISTOURNE' ]) > 0):?>
+			<?php if (floatval( ( int ) @$order[ 'order' ][0][ 'RISTOURNE' ]) > 0):?>
 			this.CartRistourneEnabled		=	true;
 			this.CartRistourneType			=	'amount';
 			this.CartRistourneAmount		=	NexoAPI.ParseFloat( <?php echo floatval($order[ 'order' ][0][ 'RISTOURNE' ]);?> );

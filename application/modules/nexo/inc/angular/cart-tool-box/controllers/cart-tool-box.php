@@ -377,13 +377,18 @@ tendooApp.controller( 'cartToolBox', [ '$http', '$filter', '$compile', '$scope',
 
 	$scope.openOrderDetails			=	function( order_id ) {
 		$scope.theSpinner[ 'rspinner' ]			=	true;
-		$http.get( '<?php echo site_url( array( 'rest', 'nexo', 'order_with_item' ) );?>' + '/' + order_id + '?<?php echo store_get_param( null );?>', {
+		$http.get( '<?php echo site_url( array( 'api', 'nexopos', 'full-order' ) );?>' + '/' + order_id + '?<?php echo store_get_param( null );?>', {
 			headers			:	{
 				'<?php echo $this->config->item('rest_key_name');?>'	:	'<?php echo @$Options[ 'rest_key' ];?>'
 			}
 		}).then(function( returned ){
 			$scope.theSpinner[ 'rspinner' ]		=	false;
-			$scope.orderDetails					=	returned.data;
+			$scope.orderDetails					=	{
+				'order'  		:	returned.data.order[0],
+				'items' 		:	returned.data.products
+			};
+
+			console.log( $scope.orderDetails );
 		});
 	};
 

@@ -332,3 +332,8 @@ Filtres:
  * put_order_response
  * Permet de filtrer la réponse lors de la modification d'une commande
 **/
+
+/**
+ * loaded_order
+ * permet de filtrer la commande chargée pour modifiation
+**/

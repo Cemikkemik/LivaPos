@@ -124,20 +124,6 @@ class Nexo_Restaurant_Filters extends Tendoo_Module
     public function cart_buttons( $menus )
     {
         $menus[]            =   [
-            'class' =>  'default dinein-button show-tables-button',
-            'text'  =>  __( 'Dine in', 'gastro' ),
-            'icon'  =>  'table',
-            'attrs' =>  [
-                'ng-click'  =>  'openTables()',
-                'ng-controller' => 'selectTableCTRL',
-                'ng-class'  =>  '{
-                    \'btn-primary btn-no-border\'       :   selectedOrderType.namespace == \'dinein\',
-                    \'btn-default\'                     :   selectedOrderType.namespace != \'dinein\'
-                }'
-            ]
-        ];
-
-        $menus[]            =   [
             'class' =>  'default takeaway-button',
             'text'  =>  __( 'Take Away', 'gastro' ),
             'icon'  =>  'shopping-bag',
@@ -159,6 +145,20 @@ class Nexo_Restaurant_Filters extends Tendoo_Module
                 'ng-class'  =>  '{
                     \'btn-primary btn-no-border\'       :   selectedOrderType.namespace == \'delivery\',
                     \'btn-default\'                     :   selectedOrderType.namespace != \'delivery\'
+                }'
+            ]
+        ];
+
+        $menus[]            =   [
+            'class' =>  'default dinein-button show-tables-button',
+            'text'  =>  __( 'Dine in', 'gastro' ) . ' <span ng-show="selectedTable != false">' . sprintf( __( 'on %s', 'gastro' ), '<strong>{{ selectedTable.TABLE_NAME }}</strong>' ) . '</span>',
+            'icon'  =>  'table',
+            'attrs' =>  [
+                'ng-click'  =>  'openTables()',
+                'ng-controller' => 'selectTableCTRL',
+                'ng-class'  =>  '{
+                    \'btn-primary btn-no-border\'       :   selectedOrderType.namespace == \'dinein\',
+                    \'btn-default\'                     :   selectedOrderType.namespace != \'dinein\'
                 }'
             ]
         ];
@@ -368,13 +368,12 @@ class Nexo_Restaurant_Filters extends Tendoo_Module
                 'RESTAURANT_ORDER_STATUS'   =>  'pending' // change the order status
             ]);
 
-            echo json_encode([
+            return response()->json([
                 'status'        =>  'success',
                 'message'       =>  'item_added',
                 'order_code'    =>  $order[0][ 'CODE' ],
                 'order_id'      =>  $order[0][ 'ID' ]
             ]);
-            die;
         }
         $order_details[ 'RESTAURANT_ORDER_STATUS' ]         =   $this->input->post( 'RESTAURANT_ORDER_STATUS' );
         $order_details[ 'RESTAURANT_ORDER_TYPE' ]           =   $this->input->post( 'RESTAURANT_ORDER_TYPE' );
@@ -387,10 +386,53 @@ class Nexo_Restaurant_Filters extends Tendoo_Module
      * @return array
     **/
 
-    public function put_order_details( $order_details ) 
+    public function put_order_details( $order_details, $order_id ) 
     {
+        // check if the order is still editable
+        $this->load->module_model( 'gastro', 'Nexo_Gastro_Tables_Models', 'gastro_model' );
+        $this->load->module_model( 'nexo', 'Nexo_Orders_Model', 'nexo_orders' );
+        $order              =   get_instance()->nexo_orders->get( $order_id );
+        $table_used         =   get_instance()->gastro_model->get_table_used( $order_id );
+
+        // var_dump( $table_used, $order );
+
+        if( $order ) {
+            if( $order[ 'RESTAURANT_ORDER_STATUS' ] != 'pending' ) {
+                return response()->httpCode( 403 )->json(array(
+                    'message'   =>  __( 'Unable to edit this order, the cooking proceess may have started or the order is now "Ready".', 'gastro' ),
+                    'status'    =>  'failed'
+                ) );
+            }
+        } else {
+            return response()->httpCode( 403 )->json(array(
+                'message'   =>  __( 'Unable to identifiy this order.', 'gastro' ),
+                'status'    =>  'failed'
+            ) );
+        }
+
+        if( $order[ 'RESTAURANT_ORDER_TYPE' ] == 'dinein' ) {
+            // set previous table as available.
+            if( $table_used ) {
+                $result                     =   get_instance()->gastro_model->table_status([
+                    'ORDER_ID'              =>  $order_id,
+                    'STATUS'                =>  'available',
+                    'CURRENT_SESSION_ID'    =>  @$table_used[0][ 'CURRENT_SESSION_ID' ],
+                    'TABLE_ID'              =>  @$table_used[0][ 'ID' ],
+                    'CURRENT_SEATS_USED'    =>  0,
+                ]);
+
+                // Remove order form intory in order to avoid same order on multiple history
+                get_instance()->gastro_model->unbind_order(
+                    $order_id, 
+                    $table_used[0][ 'ID' ]
+                );
+            }
+        }
+
         $order_details[ 'RESTAURANT_ORDER_STATUS' ]         =   $this->input->input_stream( 'RESTAURANT_ORDER_STATUS' );
         $order_details[ 'RESTAURANT_ORDER_TYPE' ]           =   $this->input->input_stream( 'RESTAURANT_ORDER_TYPE' );
+        // var_dump( $order_details, $table_used );
+
         return $order_details;
     }
 
@@ -523,5 +565,28 @@ class Nexo_Restaurant_Filters extends Tendoo_Module
     {
         $response[ 'restaurant_type' ]      =   $data[ 'current_order' ][ 'RESTAURANT_ORDER_TYPE' ];
         return $response;
+    }
+
+    /**
+     * Filter loaded order for modification
+     * @param object order
+     * @return object
+     */
+    public function loaded_order( $order )
+    {
+        if( ! $order ) {
+            return $order;
+        }
+        
+        $this->load->module_model( 'gastro', 'Nexo_Gastro_Tables_Models', 'gastro_model' );
+        $table          =   get_instance()->gastro_model->get_table_used( $order[ 'order' ][0][ 'ORDER_ID' ] );
+        $area           =   [];
+        if( $table ) {
+            $area           =   get_instance()->gastro_model->get_table_area( @$table[0][ 'TABLE_ID' ] );
+        }
+
+        $order[ 'order' ][0][ 'USED_TABLE' ]    =   ( array ) @$table[0];
+        $order[ 'order' ][0][ 'USED_AREA' ]     =   $area;
+        return $order;
     }
 }

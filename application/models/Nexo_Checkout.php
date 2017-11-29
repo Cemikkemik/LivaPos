@@ -874,9 +874,11 @@ class Nexo_Checkout extends CI_Model
         ' . store_prefix() . 'nexo_clients.NOM as customer_name,
         ' . store_prefix() . 'nexo_clients.TEL as customer_phone,
         ' . store_prefix() . 'nexo_commandes.ID as ORDER_ID,
+        ' . store_prefix() . 'nexo_commandes.ID as ID,
         ' . store_prefix() . 'nexo_commandes.DESCRIPTION as DESCRIPTION,
         ' . store_prefix() . 'nexo_commandes.AUTHOR as AUTHOR,
-        aauth_users.name as author_name' )
+        aauth_users.name as author_name,
+        aauth_users.name as AUTHOR_NAME,' )
         ->from( store_prefix() . 'nexo_commandes' )
         ->join( store_prefix() . 'nexo_clients', store_prefix() . 'nexo_commandes.REF_CLIENT = ' . store_prefix() . 'nexo_clients.ID' )
         ->join( 'aauth_users', 'aauth_users.id = ' . store_prefix() . 'nexo_commandes.AUTHOR' )
@@ -901,6 +903,20 @@ class Nexo_Checkout extends CI_Model
             ->get();
 
             $sub_data    = $sub_query->result_array();
+
+            // load items meta
+            foreach( $sub_data as $key => $item ) {
+                $metas      =   $this->db->where( store_prefix() . 'nexo_commandes_produits_meta.REF_COMMAND_PRODUCT', $item[ 'ITEM_ID' ] )
+                ->get( store_prefix() . 'nexo_commandes_produits_meta' )->result();
+
+                if( $metas ) {
+                    $sub_data[ $key ][ 'metas' ]    =   [];
+                }
+
+                foreach( $metas as $meta ) {
+                    $sub_data[ $key ][ 'metas' ][ $meta->KEY ]      =   $meta->VALUE;
+                }
+            }
 
             if ($sub_data) {
                 if ($return_all) {

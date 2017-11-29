@@ -53,6 +53,7 @@
         <!-- Everytime and order is paid, make the table available -->
         <a class="btn btn-info btn-sm" ng-click="addNewItem( sessionOrder )" ng-show="sessionOrder.TYPE != 'nexo_order_comptant'"><i class="fa fa-plus"></i> <?php echo __( 'New Item', 'gastro' );?></a>
         <a class="btn btn-default btn-sm" ng-click="printReceipt( sessionOrder )"><i class="fa fa-print"></i> <?php echo __( 'Print', 'nexo-restaurant' );?></a>
+        <!-- <a class="btn btn-default btn-sm" ng-click="moveOrder( sessionOrder )"><i class="fa fa-arrow"></i> <?php echo __( 'Move', 'nexo-restaurant' );?></a> -->
     </div>
     <hr style="margin:10px 0;">
     <div ng-show="selectedTable.STATUS != 'out_of_use'">

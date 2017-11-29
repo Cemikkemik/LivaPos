@@ -22,7 +22,7 @@ class Nexo_Restaurant_Main extends Tendoo_Module
         $this->events->add_action( 'nexo_enable_demo', [ $this->actions, 'enable_demo' ]);
         $this->events->add_action( 'edit_loaded_order', [ $this->actions, 'edit_loaded_order' ]);
         $this->events->add_filter( 'post_order_details', [ $this->filters, 'post_order_details' ], 10, 1 );
-        $this->events->add_filter( 'put_order_details', [ $this->filters, 'put_order_details' ], 10, 1 );
+        $this->events->add_filter( 'put_order_details', [ $this->filters, 'put_order_details' ], 10, 2 );
         $this->events->add_filter( 'nexo_demo_list', [ $this->filters, 'restaurant_demo' ] );
         $this->events->add_filter( 'load_product_crud', [ $this->filters, 'load_product_crud' ] );
         $this->events->add_filter( 'dashboard_dependencies', [ $this->filters, 'dashboard_dependencies' ] );
@@ -38,6 +38,7 @@ class Nexo_Restaurant_Main extends Tendoo_Module
         $this->events->add_filter( 'pos_edited_items', [ $this->filters, 'pos_edited_items' ]);
         $this->events->add_filter( 'post_order_response', [ $this->filters, 'post_order_response' ], 10, 2 );
         $this->events->add_filter( 'put_order_response', [ $this->filters, 'put_order_response' ], 10, 2 );
+        $this->events->add_filter( 'loaded_order', [ $this->filters, 'loaded_order' ]);
     }
 }
 

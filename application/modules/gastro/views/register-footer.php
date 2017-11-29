@@ -180,7 +180,6 @@ NexoAPI.showConfirm     =   function({ message, title = '<?php echo _s( 'Would y
                 } else {
                     v2Checkout.CartMetas        =   _.extend( v2Checkout.CartMetas, {
                         table_id            :   $scope.selectedTable.TABLE_ID,
-                        room_id             :   $scope.selectedRoom.ID,
                         area_id             :   $scope.selectedArea.AREA_ID,
                         seat_used           :   $scope.seatToUse > parseInt( $scope.selectedTable.MAX_SEATS ) ? $scope.selectedTable.MAX_SEATS  : $scope.seatToUse
                     });
@@ -249,7 +248,6 @@ NexoAPI.showConfirm     =   function({ message, title = '<?php echo _s( 'Would y
             $scope.seatToUse                =   0;
             $scope.areas                    =   [];
             $scope.tables                   =   [];
-            $scope.selectedRoom             =   false;
             $scope.selectedArea             =   false;
             $scope.selectedTable            =   false;
 
@@ -560,7 +558,6 @@ NexoAPI.showConfirm     =   function({ message, title = '<?php echo _s( 'Would y
             } else {
                 v2Checkout.CartMetas        =   _.extend( v2Checkout.CartMetas, {
                     table_id            :   $scope.selectedTable.TABLE_ID,
-                    room_id             :   $scope.selectedRoom.ID,
                     area_id             :   $scope.selectedArea.AREA_ID,
                     seat_used           :   $scope.selectedTable.CURRENT_SEATS_USED,
                     add_on              :   order.REF_ORDER
@@ -608,6 +605,8 @@ NexoAPI.showConfirm     =   function({ message, title = '<?php echo _s( 'Would y
         ];
 
         $scope.switchOrderType              =   function( order_type = null ){
+            // cancel seleced Table
+            $scope.selectedTable            =   false;
             // check if there is one selected
             var selected        =   false;
             _.each( $scope.types, function( type ) {
@@ -618,7 +617,6 @@ NexoAPI.showConfirm     =   function({ message, title = '<?php echo _s( 'Would y
                             $scope.selectedOrderType    =   type;
                         } 
                     } else {
-                        console.log( 'has switched ordertype with no "type" provided as argument' );
                         if( type.active ) {
                             selected    =   true;
                             $scope.selectedOrderType    =   type;
@@ -1212,7 +1210,6 @@ NexoAPI.showConfirm     =   function({ message, title = '<?php echo _s( 'Would y
             if( angular.element( '.table-selection-box' ).length == 0 ) {
                 $scope.selectedTable            =   false;
                 $scope.selectedArea             =   false;
-                $scope.selectedRoom             =   false;
             }
 
             $scope.wasOpenFromTableHistory  =   false;
@@ -1373,7 +1370,45 @@ NexoAPI.showConfirm     =   function({ message, title = '<?php echo _s( 'Would y
         });
 
         NexoAPI.events.addAction( 'pos_load_order', function( data ){
-            $scope.switchOrderType( data.order[0].RESTAURANT_ORDER_TYPE );
+            $scope.selectedTable    =   data.order[0].USED_TABLE; 
+            $scope.selectedArea     =   data.order[0].USED_AREA;
+
+            if( data.order[0].RESTAURANT_ORDER_TYPE == 'dinein' ) {
+                let order_type      =   data.order[0].RESTAURANT_ORDER_TYPE;
+                _.each( $scope.types, function( type ) {
+                    if( _.indexOf( $scope.realOrderType, type.namespace ) != -1 ) {
+                        if( order_type != null ) {
+                            if( type.namespace == order_type ) {
+                                selected    =   true;
+                                $scope.selectedOrderType    =   type;
+                            } 
+                        } else {
+                            console.log( 'has switched ordertype with no "type" provided as argument' );
+                            if( type.active ) {
+                                selected    =   true;
+                                $scope.selectedOrderType    =   type;
+                            }
+                        }
+                    // for any custom action that we add on the order type array
+                    } else {
+                        if( type.active ) {
+                            if( type.namespace == 'return' ) {
+                                document.location   =   '<?php echo dashboard_url([ 'orders' ]);?>';
+                            } else if( type.namespace == 'readyorders' ) {
+                                bootbox.hideAll();
+                                $rootScope.$broadcast( 'open-ready-orders' );
+                            } else if( type.namespace == 'pendingorders' ) {
+                                $rootScope.$broadcast( 'open-history-box' );
+                            } else if( type.namespace == 'waiter' ) {
+                                $rootScope.$broadcast( 'open-waiter-screen' );
+                            }
+                            type.active     =   false;
+                        }
+                    }
+                });
+            } else {
+                $scope.switchOrderType( data.order[0].RESTAURANT_ORDER_TYPE );
+            }
         })
         /** 
          * Reset SelectedOrderType
@@ -1393,8 +1428,9 @@ NexoAPI.showConfirm     =   function({ message, title = '<?php echo _s( 'Would y
          * Closing Order Type Selection in specific cases
         **/
 
-        // NexoAPI.events.addAction( 'open_order_on_pos', function(){
-        // });
+        NexoAPI.events.addAction( 'open_order_on_pos', function(){
+            // alert( 'ok' );
+        });
 
         NexoAPI.events.addAction( 'close_paybox', function(){
             if( $scope.wasOpenFromTableHistory ) {

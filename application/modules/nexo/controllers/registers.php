@@ -350,7 +350,10 @@ class NexoRegistersController extends CI_Model
 		if ( $order_id != null) {
 			$this->load->model('Nexo_Checkout');
 
-			$order        =    $this->Nexo_Checkout->get_order_products($order_id, true);
+			$order        =    $this->events->apply_filters( 
+				'loaded_order', 
+				$this->Nexo_Checkout->get_order_products($order_id, true) 
+			);
 
 			if ($order) {
 				if (! User::can('nexo.create.orders' )) {

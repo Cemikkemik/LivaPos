@@ -358,9 +358,19 @@ trait Nexo_orders
         ->get( store_prefix() . 'nexo_commandes')
         ->result_array();
 
+        if( ! $current_order ) {
+            return response()->httpCode( 403 )->json(array(
+                'message'   =>  __( 'Impossible de retrouver la commande dans la base de données. Il est probable que la commande n\'existe plus', 'nexo' ),
+                'status'    =>  'failed'
+            ) );
+        }
+
         // Only incomplete order can be edited
         if ( ! in_array( $current_order[0][ 'TYPE' ], $this->events->apply_filters( 'order_editable', [ 'nexo_order_devis' ] ) ) ) { // $this->put( 'EDITABLE_ORDERS' )
-            $this->__failed();
+            return response()->httpCode( 403 )->json(array(
+                'message'   =>  __( 'Impossible de modifier cette commande. Son statut ayant changé, cette commande n\'est plus modifiable.', 'nexo' ),
+                'status'    =>  'failed'
+            ) );
         }
 
         $shipping                   =   ( array ) $this->put( 'shipping' );
@@ -392,7 +402,7 @@ trait Nexo_orders
         );
 
         // filter order details
-        $order_details          =   $this->events->apply_filters( 'put_order_details', $order_details );
+        $order_details          =   $this->events->apply_filters( 'put_order_details', $order_details, $order_id );
 
         // Order Type
 		// @since 2.7.1 if a custom type is submited this type replace default order type

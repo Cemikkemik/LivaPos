@@ -28,7 +28,7 @@ class Nexo_Premium_Actions extends CI_Model
 			$this->events->add_filter('gui_before_cols', array( $this, 'create_cards' ));
 			$this->events->add_filter('gui_page_title', function ($title) {
 
-				return '<section class="content-header"><h1>' . strip_tags($title) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url(array( 'dashboard', store_slug(), 'nexo_premium', 'Controller_Clear_Cache', 'dashboard_card' )) . '">' . __('Supprimer le cache', 'nexo_premium') . '</a></h1></section>';
+				return '<section class="content-header"><h1>' . strip_tags($title) . ' <a class="btn btn-primary btn-sm pull-right" href="' . site_url(array( 'dashboard', store_slug(), 'nexopos', 'cache-clear', 'dashboard-cards' )) . '">' . __('Supprimer le cache', 'nexo_premium') . '</a></h1></section>';
 
 			});
 		}

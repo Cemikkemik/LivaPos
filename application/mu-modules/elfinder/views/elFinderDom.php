@@ -12,7 +12,11 @@ $key            =    @$Options[ 'rest_key' ];
                 '<?php echo $header_key;?>' :  '<?php echo $key;?>'
             },
             height      :   $( '.content-wrapper' ).height() - 75
-        }).elfinder('instance');
+        }, ( fm, extraObj ) => {
+            fm.bind( 'init', () => {
+                console.log( 'hA Run' );
+            })
+        })
     });
 </script>
 

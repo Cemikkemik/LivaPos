@@ -9,7 +9,7 @@ class ElFinderController extends Tendoo_Module
 
     public function index()
     {
-        $this->enqueue->js( 'elfinder.min', module_url( 'elfinder/js' ) );
+        $this->enqueue->js( 'elfinder.full', module_url( 'elfinder/js' ) );
         // $this->enqueue->js( '//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min', '' );
         // $this->enqueue->js( '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min', '' );
         $this->enqueue->js( 'i18n/elfinder.uk', module_url( 'elfinder/js' ) );

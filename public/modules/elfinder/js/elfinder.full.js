@@ -1786,7 +1786,7 @@ window.elFinder = function(node, opts) {
 					curId = curRoot? curRoot.volumeid : null,
 					phash = self.cwd().phash,
 					isroot,pdir;
-				
+				console.log( phash );
 				while(phash) {
 					if (pdir = self.file(phash)) {
 						if (phash.indexOf(curId) !== 0) {

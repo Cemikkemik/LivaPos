@@ -17,4 +17,4 @@ class Awesome_Crud_Module extends Tendoo_Module
     }
 }
 
-new Awesome_Crud_Module;
+// new Awesome_Crud_Module;

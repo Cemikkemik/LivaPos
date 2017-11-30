@@ -32,7 +32,7 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
             nexo_notices([
                 'user_id'   =>  User::id(),
                 'message'   =>  __( 'Nexo Store Advanced Manager, is not active, since NexoPOS multi Store feature is not active.', 'nsam' ),
-                'link'      =>  site_url( array( 'dashboard', 'nexo', 'stores-settings' ) ),
+                'link'      =>  site_url( array( 'dashboard', 'nexo', 'settings', 'stores' ) ),
                 'icon'      =>  'fa fa-info'
             ]);
         }

@@ -20,7 +20,7 @@ class Nexo_Stock_Manager_Actions extends Tendoo_Module
         if( ! multistore_enabled() ) {
             nexo_notices([
                 'user_id'       =>  User::id(),
-                'link'          =>  site_url([ 'dashboard', 'nexo', 'stores-settings' ]),
+                'link'          =>  site_url([ 'dashboard', 'nexo', 'settings', 'stores' ]),
                 'icon'          =>  'fa fa-info',
                 'type'          =>  'text-warning',
                 'message'       =>  sprintf( __( 'The multistore feature should be enable in order to use the stock manager.', 'stock-manager' ) )

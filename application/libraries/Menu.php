@@ -65,7 +65,7 @@ class Menu
                             <?php endif;?>
                         </a>
                         <ul <?php echo $custom_ul_style;?> class="treeview-menu">
-                            <?php if ( @$menu[ 'disable' ] === false) : // is used to disable menu title showed as first submenu.?>
+                            <?php if ( @$menu[ 'disable' ] == null ) : // is used to disable menu title showed as first submenu.?>
                             <li> 
                                 <a <?php echo $custom_style;?> href="<?php echo @$menu[ 'route' ] ? site_url( 'dashboard' . implode('/', $menu[ 'route' ] ) ) : @$menu[ 'href' ];?>">
                                     <span><?php echo @$menu[ 'title'];?></span>

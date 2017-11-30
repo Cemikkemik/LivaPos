@@ -10,7 +10,7 @@
 <?php endforeach;?>
 </select>
 <span class="input-group-btn">
-<button class="btn btn-default" type="button" id="Nexo_restaure"><?php _e('Reinitialiser', 'nexo');?></button>
+<button class="btn btn-default" type="button" id="Nexo_restaure"><?php _e('Réinitialiser', 'nexo');?></button>
 </span>
 </div>
 <br />

@@ -24,7 +24,7 @@
     <!-- /.search form --> 
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu">
-	<?php Menu::load(); ?>
+	    <?php Menu::load(); ?>
     </ul>
   </section>
   <!-- /.sidebar --> 

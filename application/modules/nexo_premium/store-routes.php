@@ -13,7 +13,10 @@ $StoreRoutes->get( '/nexo/reports/best-sellers/{items?}/{start_date?}/{end_date?
 $StoreRoutes->get( '/nexo/reports/profit-and-losses/{start_date?}/{end_date?}', 'NexoPremiumController@profit_and_losses' );
 $StoreRoutes->get( '/nexo/reports/expenses/{start_date?}/{end_date?}', 'NexoPremiumController@expense_listing' );
 $StoreRoutes->get( '/nexo/reports/detailed-sales/{start_date?}/{end_date?}', 'NexoPremiumController@detailed_sales' );
-$StoreRoutes->get( '/nexo/invoices', 'NexoPremiumController@invoices' );
-$StoreRoutes->get( '/nexo/clear-cache', 'NexoPremiumController@clear_cache' );
+// $StoreRoutes->get( '/nexo/invoices', 'NexoPremiumController@invoices' );
+$StoreRoutes->get( '/nexo/cache-clear/{cache}', 'NexoPremiumController@clear_cache' );
 $StoreRoutes->get( '/nexo/log', 'NexoPremiumController@log' );
 $StoreRoutes->get( '/nexo/quotes-cleaner', 'NexoPremiumController@quotes_cleaner' );
+
+$StoreRoutes->match([ 'get', 'post' ], '/nexo/expenses-categories/{action?}/{id?}', 'NexoPremiumController@expenses_list' );
+$StoreRoutes->match([ 'get', 'post' ], '/nexo/expenses/{action?}/{id?}', 'NexoPremiumController@invoices' );

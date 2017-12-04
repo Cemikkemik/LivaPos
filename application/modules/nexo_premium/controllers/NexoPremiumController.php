@@ -355,7 +355,7 @@ class NexoPremiumController extends Tendoo_Module
 
     public function clear_cache($id)
     {
-        if ($id == 'dashboard_card') {
+        if ($id == 'dashboard_cards') {
             foreach (glob(APPPATH . 'cache/app/nexo_premium_dashboard_card_' . store_prefix() . '*') as $filename) {
                 unlink($filename);
             }

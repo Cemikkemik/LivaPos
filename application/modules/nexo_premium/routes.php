@@ -14,7 +14,7 @@ $Routes->get( '/nexo/reports/profit-and-losses/{start_date?}/{end_date?}', 'Nexo
 $Routes->get( '/nexo/reports/expenses/{start_date?}/{end_date?}', 'NexoPremiumController@expense_listing' );
 $Routes->get( '/nexo/reports/detailed-sales/{start_date?}/{end_date?}', 'NexoPremiumController@detailed_sales' );
 $Routes->get( '/nexo/invoices', 'NexoPremiumController@invoices' );
-$Routes->get( '/nexo/cache-clear/dashboard-card', 'NexoPremiumController@clear_cache' );
+$Routes->get( '/nexo/cache-clear/{cache}', 'NexoPremiumController@clear_cache' );
 $Routes->get( '/nexo/log', 'NexoPremiumController@log' );
 $Routes->get( '/nexo/quotes-cleaner', 'NexoPremiumController@quotes_cleaner' );
 

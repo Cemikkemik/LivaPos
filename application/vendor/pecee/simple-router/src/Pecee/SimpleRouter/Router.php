@@ -125,7 +125,6 @@ class Router
 
         $url = ($this->request->getRewriteUrl() !== null) ? $this->request->getRewriteUrl() : $this->request->getUri()->getPath();
 
-        /* @var $route IRoute */
         for ($i = $max; $i >= 0; $i--) {
 
             $route = $routes[$i];
@@ -154,7 +153,7 @@ class Router
                 if ($route->matchRoute($url, $this->request) === true) {
 
                     /* Add exception handlers */
-                    if (count($route->getExceptionHandlers()) > 0) {
+                    if (count($route->getExceptionHandlers()) !== 0) {
                         /** @noinspection AdditionOperationOnArraysInspection */
                         $exceptionHandlers += $route->getExceptionHandlers();
                     }
@@ -181,7 +180,7 @@ class Router
                 $this->processedRoutes[] = $route;
             }
 
-            if (count($this->routeStack) > 0) {
+            if (count($this->routeStack) !== 0) {
 
                 /* Pop and grab the routes added when executing group callback earlier */
                 $stack = $this->routeStack;
@@ -203,7 +202,7 @@ class Router
     public function loadRoutes()
     {
         /* Initialize boot-managers */
-        if (count($this->bootManagers) > 0) {
+        if (count($this->bootManagers) !== 0) {
 
             $max = count($this->bootManagers) - 1;
 
@@ -218,6 +217,14 @@ class Router
         $this->processRoutes($this->routes);
     }
 
+    /**
+     * Routes the request
+     *
+     * @param bool $rewrite
+     * @return string|mixed
+     * @throws HttpException
+     * @throws \Exception
+     */
     public function routeRequest($rewrite = false)
     {
         $routeNotAllowed = false;
@@ -247,7 +254,7 @@ class Router
                 if ($route->matchRoute($url, $this->request) === true) {
 
                     /* Check if request method matches */
-                    if (count($route->getRequestMethods()) > 0 && in_array($this->request->getMethod(), $route->getRequestMethods(), false) === false) {
+                    if (count($route->getRequestMethods()) !== 0 && in_array($this->request->getMethod(), $route->getRequestMethods(), false) === false) {
                         $routeNotAllowed = true;
                         continue;
                     }
@@ -285,7 +292,8 @@ class Router
         }
 
         if ($routeNotAllowed === true) {
-            $this->handleException(new HttpException('Route or method not allowed', 403));
+            $message = sprintf('Route "%s" or method "%s" not allowed.', $this->request->getUri()->getPath(), $this->request->getMethod());
+            $this->handleException(new HttpException($message, 403));
         }
 
         if ($this->request->getLoadedRoute() === null) {
@@ -314,12 +322,8 @@ class Router
     {
         $url = ($this->request->getRewriteUrl() !== null) ? $this->request->getRewriteUrl() : $this->request->getUri()->getPath();
 
-        $max = count($this->exceptionHandlers);
-
         /* @var $handler IExceptionHandler */
-        for ($i = 0; $i < $max; $i++) {
-
-            $handler = $this->exceptionHandlers[$i];
+        foreach ($this->exceptionHandlers as $key => $handler) {
 
             if (is_object($handler) === false) {
                 $handler = new $handler();
@@ -345,7 +349,7 @@ class Router
 
                     /* If the request has changed */
                     if ($rewriteUrl !== null && $rewriteUrl !== $url) {
-                        unset($this->exceptionHandlers[$i]);
+                        unset($this->exceptionHandlers[$key]);
                         $this->exceptionHandlers = array_values($this->exceptionHandlers);
 
                         return $this->routeRequest(true);
@@ -362,7 +366,7 @@ class Router
 
     public function arrayToParams(array $getParams = [], $includeEmpty = true)
     {
-        if (count($getParams) > 0) {
+        if (count($getParams) !== 0) {
 
             if ($includeEmpty === false) {
                 $getParams = array_filter($getParams, function ($item) {
@@ -496,7 +500,7 @@ class Router
                 $route = $this->processedRoutes[$i];
 
                 /* Check if the route contains the name/alias */
-                if ($route->hasName($controller)) {
+                if ($route->hasName($controller) === true) {
                     return $route->findUrl($method, $parameters, $name) . $this->arrayToParams($getParams);
                 }
 
@@ -509,7 +513,7 @@ class Router
         }
 
         /* No result so we assume that someone is using a hardcoded url and join everything together. */
-        $url = trim(join('/', array_merge((array)$name, (array)$parameters)), '/');
+        $url = trim(implode('/', array_merge((array)$name, (array)$parameters)), '/');
 
         return (($url === '') ? '/' : '/' . $url . '/') . $this->arrayToParams($getParams);
     }

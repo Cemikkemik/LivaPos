@@ -1,4 +1,5 @@
 <?php
+
 namespace Pecee\Http\Input;
 
 class InputFile implements IInputItem
@@ -16,7 +17,7 @@ class InputFile implements IInputItem
         $this->index = $index;
 
         // Make the name human friendly, by replace _ with space
-        $this->name = ucfirst(str_replace('_', ' ', $this->index));
+        $this->name = ucfirst(str_replace('_', ' ', strtolower($this->index)));
     }
 
     /**
@@ -28,19 +29,19 @@ class InputFile implements IInputItem
      */
     public static function createFromArray(array $values)
     {
-        if (!isset($values['index'])) {
+        if (isset($values['index']) === false) {
             throw new \InvalidArgumentException('Index key is required');
         }
 
         /* Easy way of ensuring that all indexes-are set and not filling the screen with isset() */
 
-        $values = array_merge([
+        $values += [
             'tmp_name' => null,
             'type'     => null,
             'size'     => null,
             'name'     => null,
             'error'    => null,
-        ], $values);
+        ];
 
         return (new static($values['index']))
             ->setSize($values['size'])
@@ -267,8 +268,9 @@ class InputFile implements IInputItem
             'tmp_name' => $this->tmpName,
             'type'     => $this->type,
             'size'     => $this->size,
-            'name'     => $this->filename,
+            'name'     => $this->name,
             'error'    => $this->error,
+            'filename' => $this->filename,
         ];
     }
 

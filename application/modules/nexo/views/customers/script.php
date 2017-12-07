@@ -95,6 +95,8 @@ let customersMain    =   function(
                                 NexoAPI.Toast()( '<?php echo _s( 'L\'email de cet utilisateurs est déjà utilisé', 'nexo' );?>' );
                             break;
                         }
+                    } else {
+                        NexoAPI.Toast()( '<?php echo _s( 'Une erreur inattendue s\'est produite.', 'nexo' );?>' );
                     }
 
                     tendoo.loader.hide();
@@ -129,6 +131,8 @@ let customersMain    =   function(
                                 NexoAPI.Toast()( '<?php echo _s( 'L\'email de cet utilisateurs est déjà utilisé', 'nexo' );?>' );
                             break;
                         }
+                    } else {
+                        NexoAPI.Toast()( '<?php echo _s( 'Une erreur inattendue s\'est produite.', 'nexo' );?>' );
                     }
                     tendoo.loader.hide();
                 });

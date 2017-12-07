@@ -1,5 +1,5 @@
 <?php
-include_once( dirname( __FILE__ ) . '/inc/controllers/gateway.php' );
+// include_once( dirname( __FILE__ ) . '/inc/controllers/gateway.php' );
 include_once( dirname( __FILE__ ) . '/inc/filters.php' );
 include_once( dirname( __FILE__ ) . '/inc/actions.php' );
 
@@ -40,7 +40,7 @@ class Nexo_Payment_Gateway extends CI_Model
 		// Registers for Multistore
 		$this->events->add_filter( 'stores_controller_callback', array( $this, 'multistore' ) );
 
-		$this->Gui->register_page_object( 'nexo_gateway', new Gateway_Controller );
+		// $this->Gui->register_page_object( 'nexo_gateway', new Gateway_Controller );
 	}
 
 	/**
@@ -93,5 +93,4 @@ class Nexo_Payment_Gateway extends CI_Model
 		return $array;
 	}
 }
-
 new Nexo_Payment_Gateway;

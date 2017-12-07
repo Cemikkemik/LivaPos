@@ -59,7 +59,7 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
         $crud->set_relation('FROM_STORE', 'nexo_stores', 'NAME');
         $crud->set_relation('DESTINATION_STORE', 'nexo_stores', 'NAME');
 
-        $crud->add_action(__('Transfert Invoice', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'stock-transfert', 'history', 'report' )) . '/', 'btn btn-info fa fa-file');
+        $crud->add_action(__('Transfert Invoice', 'nexo'), '', dashboard_url([ 'transfert-invoice' ]) . '/', 'fa fa-file');
     
         $crud->callback_column( 'APPROUVED', function( $primary, $row ) {
             if( $row->APPROUVED == '0' ) {
@@ -98,21 +98,21 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
 
             if( intval( $query[0][ 'APPROUVED' ] ) == 0 && intval( $row->DESTINATION_STORE ) == get_store_id() ) { // means pending
 
-                $urls[ 'receive' ]   =   site_url([ 'dashboard', store_slug(), 'stock-transfert', 'receive', $row->ID ]);
+                $urls[ 'receive' ]   =   site_url([ 'dashboard', store_slug(), 'transfert', 'receive', $row->ID ]);
                 $actions[ 'receive' ]                   =   new stdClass;
-                $actions[ 'receive' ]->css_class        =   'btn btn-success fa fa-check';
+                $actions[ 'receive' ]->css_class        =   'fa fa-check';
                 $actions[ 'receive' ]->label            =   __( 'Allow the Transfert', 'stock-manager' );
                 $actions[ 'receive' ]->text             =   __( 'Approuve', 'stock-manager' );
 
-                $urls[ 'refuse' ]                   =   site_url([ 'dashboard', store_slug(), 'stock-transfert', 'reject', $row->ID ]);
+                $urls[ 'refuse' ]                   =   site_url([ 'dashboard', store_slug(), 'transfert', 'reject', $row->ID ]);
                 $actions[ 'refuse' ]                =   new stdClass;
-                $actions[ 'refuse' ]->css_class     =   'btn btn-danger fa fa-remove';
+                $actions[ 'refuse' ]->css_class     =   'fa fa-remove';
                 $actions[ 'refuse' ]->label         =   __( 'Refuse', 'stock-manager' );
                 $actions[ 'refuse' ]->text             =   __( 'Reject', 'stock-manager' );
             } else if( intval( $query[0][ 'APPROUVED' ] ) == 0 && intval( $row->FROM_STORE ) == get_store_id() ) {
-                $urls[ 'void' ]                   =   site_url([ 'dashboard', store_slug(), 'stock-transfert', 'cancel', $row->ID ]);
+                $urls[ 'void' ]                   =   site_url([ 'dashboard', store_slug(), 'transfert', 'cancel', $row->ID ]);
                 $actions[ 'void' ]                =   new stdClass;
-                $actions[ 'void' ]->css_class     =   'btn btn-danger fa fa-remove';
+                $actions[ 'void' ]->css_class     =   'fa fa-remove';
                 $actions[ 'void' ]->label         =   __( 'Cancel', 'stock-manager' );
                 $actions[ 'void' ]->text            =   __( 'Cancel', 'stock-manager' );
             }
@@ -138,6 +138,34 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
     }
 
     /**
+     * Crud
+     * @return void
+     */
+    public function transfert_history()
+    {
+        $crud       =   $this->history_crud();
+        $this->Gui->set_title( store_title( 'Stock Transfer History', 'stock-manager') );
+        $this->load->module_view( 'stock-manager', 'transfert.history-gui', compact( 'crud' ) );
+    }
+
+    /**
+     * New Transfert
+     * @return void
+     */
+    public function new_transfert()
+    {
+        $this->load->model( 'Nexo_Stores' );
+        $this->Gui->set_title( store_title( 'New Stock Transfer', 'stock-manager' ) );
+        
+        $this->events->add_action( 'dashboard_footer', function(){
+            get_instance()->load->module_view( 'stock-manager', 'transfert.script' );
+        });
+
+        return $this->load->module_view( 'stock-manager', 'transfert.gui', null, true );
+
+    }
+
+    /**
      * History Stock Manager
      * @param string 
      * @return void
@@ -145,41 +173,32 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
 
     public function history( $page = 'history', $id = 'null' )
     {
-        if( $page == 'history' ) {
-            $crud       =   $this->history_crud();
-            $this->Gui->set_title( store_title( 'Stock Transfer History', 'stock-manager') );
-            $this->load->module_view( 'stock-manager', 'transfert.history-gui', compact( 'crud' ) );
-        } else if( $page == 'new' ) {
-            $this->load->model( 'Nexo_Stores' );
-            $this->Gui->set_title( store_title( 'New Stock Transfer', 'stock-manager' ) );
-            
-            $this->events->add_action( 'dashboard_footer', function(){
-                get_instance()->load->module_view( 'stock-manager', 'transfert.script' );
-            });
+        $crud       =   $this->history_crud();
+    }
 
-            return $this->load->module_view( 'stock-manager', 'transfert.gui' );
-        } else if( $page == 'new-by-csv' ) {
-            
-        } else if( $page == 'report' ) {
-            $this->load->library( 'parser' );
-            $this->load->module_model( 'stock-manager', 'transfert_model' );
-            $transfert      =   $this->transfert_model->get( $id );
-            if( $transfert ) {
-                $items          =   $this->transfert_model->get_with_items( $id );
-            } else {
-                return redirect([ 'dashbaord', 'error', '404']);
-            }
-
-            // denied access to unauthorized
-            if( ! in_array( get_store_id(), [ $transfert[0][ 'FROM_STORE' ], $transfert[0][ 'DESTINATION_STORE' ] ] ) ) {
-                return redirect([ 'dashboard', 'error', 'access-denied' ]);
-            }
-
-            $this->Gui->set_title( store_title( __( 'Transfert Invoice' ) ) );
-            $this->load->module_view( 'stock-manager', 'transfert.invoice-gui', compact( 'transfert', 'items' ) );
+    /**
+     * Invoice Report
+     * @param void
+     * @return void
+     */
+    public function transfert_invoice()
+    {
+        $this->load->library( 'parser' );
+        $this->load->module_model( 'stock-manager', 'transfert_model' );
+        $transfert      =   $this->transfert_model->get( $id );
+        if( $transfert ) {
+            $items          =   $this->transfert_model->get_with_items( $id );
         } else {
-            $crud       =   $this->history_crud();
+            return redirect([ 'dashboard', 'error', '404']);
         }
+
+        // denied access to unauthorized
+        if( ! in_array( get_store_id(), [ $transfert[0][ 'FROM_STORE' ], $transfert[0][ 'DESTINATION_STORE' ] ] ) ) {
+            return redirect([ 'dashboard', 'error', 'access-denied' ]);
+        }
+
+        $this->Gui->set_title( store_title( __( 'Transfert Invoice' ) ) );
+        $this->load->module_view( 'stock-manager', 'transfert.invoice-gui', compact( 'transfert', 'items' ) );
     }
 
     /**

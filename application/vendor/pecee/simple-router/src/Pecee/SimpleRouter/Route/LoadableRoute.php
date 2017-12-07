@@ -30,22 +30,23 @@ abstract class LoadableRoute extends Route implements ILoadableRoute
     {
         $max = count($this->getMiddlewares());
 
-        if ($max > 0) {
+        if ($max === 0) {
+            return;
+        }
 
-            for ($i = 0; $i < $max; $i++) {
+        for ($i = 0; $i < $max; $i++) {
 
-                $middleware = $this->getMiddlewares()[$i];
+            $middleware = $this->getMiddlewares()[$i];
 
-                if (is_object($middleware) === false) {
-                    $middleware = $this->loadClass($middleware);
-                }
-
-                if (($middleware instanceof IMiddleware) === false) {
-                    throw new HttpException($middleware . ' must be inherit the IMiddleware interface');
-                }
-
-                $middleware->handle($request);
+            if (is_object($middleware) === false) {
+                $middleware = $this->loadClass($middleware);
             }
+
+            if (($middleware instanceof IMiddleware) === false) {
+                throw new HttpException($middleware . ' must be inherit the IMiddleware interface');
+            }
+
+            $middleware->handle($request);
         }
     }
 
@@ -74,7 +75,7 @@ abstract class LoadableRoute extends Route implements ILoadableRoute
 
             $regex = sprintf(static::PARAMETERS_REGEX_FORMAT, $this->paramModifiers[0], $this->paramOptionalSymbol, $this->paramModifiers[1]);
 
-            if (preg_match_all('/' . $regex . '/u', $this->url, $matches)) {
+            if (preg_match_all('/' . $regex . '/u', $this->url, $matches) > 0) {
                 $this->parameters = array_fill_keys($matches[1], null);
             }
         }
@@ -102,7 +103,7 @@ abstract class LoadableRoute extends Route implements ILoadableRoute
 
         $group = $this->getGroup();
 
-        if ($group !== null && count($group->getDomains()) > 0) {
+        if ($group !== null && count($group->getDomains()) !== 0) {
             $url = '//' . $group->getDomains()[0] . $url;
         }
 
@@ -124,7 +125,7 @@ abstract class LoadableRoute extends Route implements ILoadableRoute
         for ($i = $max; $i >= 0; $i--) {
             $param = $keys[$i];
 
-            if ($parameters === '' || (is_array($parameters) && count($parameters) === 0)) {
+            if ($parameters === '' || (is_array($parameters) === true && count($parameters) === 0)) {
                 $value = '';
             } else {
                 $p = (array)$parameters;
@@ -145,7 +146,7 @@ abstract class LoadableRoute extends Route implements ILoadableRoute
         }
 
         $url = '/' . ltrim($url, '/');
-        $url .= join('/', $unknownParams);
+        $url .= implode('/', $unknownParams);
 
         return rtrim($url, '/') . '/';
     }
@@ -229,15 +230,18 @@ abstract class LoadableRoute extends Route implements ILoadableRoute
      */
     public function setSettings(array $values, $merge = false)
     {
-        if (isset($values['as'])) {
+        if (isset($values['as']) === true) {
+
+            $name = $values['as'];
+
             if ($this->name !== null && $merge !== false) {
-                $this->setName($values['as'] . '.' . $this->name);
-            } else {
-                $this->setName($values['as']);
+                $name .= '.' . $this->name;
             }
+
+            $this->setName($name);
         }
 
-        if (isset($values['prefix'])) {
+        if (isset($values['prefix']) === true) {
             $this->setUrl($values['prefix'] . $this->getUrl());
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Pecee\Http\Input;
 
 use Pecee\Http\Request;
@@ -35,7 +36,7 @@ class Input
     public function parseInputs()
     {
         /* Parse get requests */
-        if (count($_GET) > 0) {
+        if (count($_GET) !== 0) {
             $this->get = $this->handleGetPost($_GET);
         }
 
@@ -46,12 +47,12 @@ class Input
             parse_str(file_get_contents('php://input'), $postVars);
         }
 
-        if (count($postVars) > 0) {
+        if (count($postVars) !== 0) {
             $this->post = $this->handleGetPost($postVars);
         }
 
         /* Parse get requests */
-        if (count($_FILES) > 0) {
+        if (count($_FILES) !== 0) {
             $this->file = $this->parseFiles();
         }
     }
@@ -65,15 +66,15 @@ class Input
             // Handle array input
             if (is_array($value['name']) === false) {
                 $values['index'] = $key;
-                $list[$key] = InputFile::createFromArray(array_merge($value, $values));
+                $list[$key] = InputFile::createFromArray($values + $value);
                 continue;
             }
 
-            $keys = [];
+            $keys = [$key];
 
             $files = $this->rearrangeFiles($value['name'], $keys, $value);
 
-            if (isset($list[$key])) {
+            if (isset($list[$key]) === true) {
                 $list[$key][] = $files;
             } else {
                 $list[$key] = $files;
@@ -87,40 +88,30 @@ class Input
     protected function rearrangeFiles(array $values, &$index, $original)
     {
 
+        $originalIndex = $index[0];
+        array_shift($index);
+
         $output = [];
-
-        $getItem = function ($key, $property = 'name') use ($original, $index) {
-
-            $path = $original[$property];
-
-            $fileValues = array_values($index);
-
-            foreach ($fileValues as $i) {
-                $path = $path[$i];
-            }
-
-            return $path[$key];
-        };
 
         foreach ($values as $key => $value) {
 
-            if (is_array($getItem($key)) === false) {
+            if (is_array($original['name'][$key]) === false) {
 
                 $file = InputFile::createFromArray([
-                    'index'    => $key,
-                    'filename' => $getItem($key),
-                    'error'    => $getItem($key, 'error'),
-                    'tmp_name' => $getItem($key, 'tmp_name'),
-                    'type'     => $getItem($key, 'type'),
-                    'size'     => $getItem($key, 'size'),
+                    'index'    => (empty($key) === true && empty($originalIndex) === false) ? $originalIndex : $key,
+                    'name'     => $original['name'][$key],
+                    'error'    => $original['error'][$key],
+                    'tmp_name' => $original['tmp_name'][$key],
+                    'type'     => $original['type'][$key],
+                    'size'     => $original['size'][$key],
                 ]);
 
-                if (isset($output[$key])) {
+                if (isset($output[$key]) === true) {
                     $output[$key][] = $file;
-                } else {
-                    $output[$key] = $file;
+                    continue;
                 }
 
+                $output[$key] = $file;
                 continue;
             }
 
@@ -128,7 +119,7 @@ class Input
 
             $files = $this->rearrangeFiles($value, $index, $original);
 
-            if (isset($output[$key])) {
+            if (isset($output[$key]) === true) {
                 $output[$key][] = $files;
             } else {
                 $output[$key] = $files;
@@ -143,13 +134,7 @@ class Input
     {
         $list = [];
 
-        $max = count($array) - 1;
-        $keys = array_keys($array);
-
-        for ($i = $max; $i >= 0; $i--) {
-
-            $key = $keys[$i];
-            $value = $array[$key];
+        foreach ($array as $key => $value) {
 
             // Handle array input
             if (is_array($value) === false) {
@@ -217,15 +202,15 @@ class Input
 
         $element = null;
 
-        if ($methods === null || in_array('get', $methods)) {
+        if ($methods === null || in_array('get', $methods, false) === true) {
             $element = $this->findGet($index);
         }
 
-        if (($element === null && $methods === null) || ($methods !== null && in_array('post', $methods))) {
+        if (($element === null && $methods === null) || ($methods !== null && in_array('post', $methods, false) === true)) {
             $element = $this->findPost($index);
         }
 
-        if (($element === null && $methods === null) || ($methods !== null && in_array('file', $methods))) {
+        if (($element === null && $methods === null) || ($methods !== null && in_array('file', $methods, false) === true)) {
             $element = $this->findFile($index);
         }
 

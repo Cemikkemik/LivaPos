@@ -1,4 +1,5 @@
 <?php
+
 namespace Pecee\SimpleRouter\Route;
 
 use Pecee\Http\Request;
@@ -76,11 +77,11 @@ class RouteController extends LoadableRoute implements IControllerRoute
 
         $group = $this->getGroup();
 
-        if ($group !== null && count($group->getDomains()) > 0) {
+        if ($group !== null && count($group->getDomains()) !== 0) {
             $url .= '//' . $group->getDomains()[0];
         }
 
-        $url .= '/' . trim($this->getUrl(), '/') . '/' . strtolower($method) . join('/', $parameters);
+        $url .= '/' . trim($this->getUrl(), '/') . '/' . strtolower($method) . implode('/', $parameters);
 
         return '/' . trim($url, '/') . '/';
     }
@@ -97,7 +98,7 @@ class RouteController extends LoadableRoute implements IControllerRoute
         $strippedUrl = trim(str_ireplace($this->url, '/', $url), '/');
         $path = explode('/', $strippedUrl);
 
-        if (count($path) > 0) {
+        if (count($path) !== 0) {
 
             $method = (isset($path[0]) === false || trim($path[0]) === '') ? $this->defaultMethod : $path[0];
             $this->method = $request->getMethod() . ucfirst($method);
@@ -168,7 +169,7 @@ class RouteController extends LoadableRoute implements IControllerRoute
      */
     public function setSettings(array $values, $merge = false)
     {
-        if (isset($values['names'])) {
+        if (isset($values['names']) === true) {
             $this->names = $values['names'];
         }
 

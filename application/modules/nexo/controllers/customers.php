@@ -6,7 +6,7 @@ class NexoCustomersController extends CI_Model
         if (
             ! User::can('nexo.create.customers')  &&
             ! User::can('nexo.edit.customers') &&
-            ! User::can('nexo.delete.customers') && 
+            ! User::can('nexo.delete.customers') &&
             ! User::can('nexo.view.customers')
         ) {
             return show_error( __( 'Vous n\'avez pas accès à cette fonctionnalité.', 'nexo' ) );
@@ -192,7 +192,7 @@ class NexoCustomersController extends CI_Model
             nexo_access_denied();
         }
 
-        $data                   =   [];        
+        $data                   =   [];
         $data[ 'clients' ]      =   [];
         $data[ 'client_id' ]    =   0;
         $data[ 'groups' ]       =   $this->Nexo_Misc->customers_groups();
@@ -205,14 +205,14 @@ class NexoCustomersController extends CI_Model
         $this->Gui->set_title( store_title( __( 'Add a new customer', 'nexo' ) ) );
         $this->load->module_view( 'nexo', 'customers.gui' );
     }
-    
+
     /**
      * Edit customer
      * @param int customer id
      * @return void
     **/
 
-    public function edit( $customer_id ) 
+    public function edit( $customer_id )
     {
         global $PageNow;
 		$PageNow			=	'nexo/clients/add';
@@ -318,6 +318,7 @@ class NexoCustomersController extends CI_Model
 
     public function groups($page = 'index', $id = null)
     {
+        die('test');
 		global $PageNow;
 		$PageNow			=	'nexo/clients_groups/list';
 

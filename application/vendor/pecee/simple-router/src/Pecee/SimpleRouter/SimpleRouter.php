@@ -45,8 +45,7 @@ class SimpleRouter
     /**
      * Start/route request
      *
-     * @throws HttpException
-     * @throws NotFoundHttpException
+     * @throws HttpException|NotFoundHttpException|\Exception
      */
     public static function start()
     {
@@ -420,14 +419,14 @@ class SimpleRouter
      * @param IRoute $route
      * @return IRoute
      */
-    protected static function addDefaultNamespace(IRoute $route)
+    public static function addDefaultNamespace(IRoute $route)
     {
         if (static::$defaultNamespace !== null) {
 
             $callback = $route->getCallback();
 
             /* Only add default namespace on relative callbacks */
-            if ($callback === null || $callback[0] !== '\\') {
+            if ($callback === null || (is_string($callback) === true && $callback[0] !== '\\')) {
 
                 $namespace = static::$defaultNamespace;
 

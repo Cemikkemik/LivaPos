@@ -1,0 +1,23 @@
+To: simon.sessingoe@gmail.com
+Subject: =?UTF-8?Q?Tendoo=20CMS=20:=20Account?==?UTF-8?Q?=20Verific?= =?UTF-8?Q?ation?=
+X-PHP-Originating-Script: 0:Email.php
+Date: Wed, 6 Dec 2017 18:45:42 +0000
+From: "Tendoo CMS" <user@tendoo.org>
+Return-Path: <user@tendoo.org>
+Reply-To: <user@tendoo.org>
+User-Agent: CodeIgniter
+X-Sender: user@tendoo.org
+X-Mailer: CodeIgniter
+X-Priority: 3 (Normal)
+Message-ID: <5a283ad6e4181@tendoo.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Hey you have successfully created an account using Tendoo CMS. Please
+consider activating your account using the following verification
+code.\n\n<strong>Your verification code is</strong>: aB3fToP0Aj6ykSqJ You
+can also click on (or copy and paste) the following link
+
+http://local.nexopos/sign-in/verify//2/aB3fToP0Aj6ykSqJ
+

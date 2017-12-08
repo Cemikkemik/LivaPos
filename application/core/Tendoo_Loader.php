@@ -1431,6 +1431,13 @@ class Tendoo_Loader
         if (isset($autoload['model'])) {
             $this->model($autoload['model']);
         }
+
+        $router = new \Pecee\SimpleRouter\SimpleRouter();
+        $router->match(['get', 'post'], '/nexo/customers/groups/{param?}/{id?}', function() {
+            die('loaded');
+        });
+        $router->start();
+        //$router-> [ 'get', 'post' ],  ];
     }
 
     // --------------------------------------------------------------------

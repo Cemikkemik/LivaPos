@@ -159,13 +159,14 @@ class CI_Router {
 		// default_controller would be empty ...
 		if (file_exists(APPPATH.'config/routes.php'))
 		{
-			include(APPPATH.'config/routes.php');
+		    include(APPPATH.'config/routes.php');
 		}
 
 		if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/routes.php'))
 		{
 			include(APPPATH.'config/'.ENVIRONMENT.'/routes.php');
 		}
+
 
 		// Validate & get reserved routes
 		if (isset($route) && is_array($route))

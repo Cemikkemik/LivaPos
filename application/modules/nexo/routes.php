@@ -7,9 +7,9 @@ $Routes->get( 'nexo/templates/customers-main', 'NexoTemplateController@customers
 $Routes->get( 'nexo/templates/customers-form', 'NexoTemplateController@customers_form' );
 $Routes->get( 'nexo/templates/shippings', 'NexoTemplateController@shippings' );
 $Routes->get( 'nexo/template/{name}', 'NexoTemplateController@template' );
-$Routes->match([ 'get', 'post' ], 'stores/{id}/{any}', 'NexoStoreController@stores' )->where([ 
-    'id'      => '[0-9]+', 
-    'any'     =>   '.*' 
+$Routes->match([ 'get', 'post' ], 'stores/{id}/{any}', 'NexoStoreController@stores' )->where([
+    'id'      => '[0-9]+',
+    'any'     =>   '.*'
 ]);
 
 foreach( $getRoutes as $r ) {

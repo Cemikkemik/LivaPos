@@ -1,9 +1,11 @@
 <?php
+
 namespace Pecee\Http\Middleware;
 
-use Pecee\CsrfToken;
 use Pecee\Http\Middleware\Exceptions\TokenMismatchException;
 use Pecee\Http\Request;
+use Pecee\Http\Security\CookieTokenProvider;
+use Pecee\Http\Security\ITokenProvider;
 
 class BaseCsrfVerifier implements IMiddleware
 {
@@ -11,15 +13,11 @@ class BaseCsrfVerifier implements IMiddleware
     const HEADER_KEY = 'X-CSRF-TOKEN';
 
     protected $except;
-    protected $csrfToken;
-    protected $token;
+    protected $tokenProvider;
 
     public function __construct()
     {
-        $this->csrfToken = new CsrfToken();
-
-        // Generate or get the CSRF-Token from Cookie.
-        $this->token = ($this->hasToken() === false) ? $this->generateToken() : $this->csrfToken->getToken();
+        $this->tokenProvider = new CookieTokenProvider();
     }
 
     /**
@@ -29,7 +27,7 @@ class BaseCsrfVerifier implements IMiddleware
      */
     protected function skip(Request $request)
     {
-        if ($this->except === null || is_array($this->except) === false) {
+        if ($this->except === null || count($this->except) === 0) {
             return false;
         }
 
@@ -54,6 +52,12 @@ class BaseCsrfVerifier implements IMiddleware
         return false;
     }
 
+    /**
+     * Handle request
+     *
+     * @param Request $request
+     * @throws TokenMismatchException
+     */
     public function handle(Request $request)
     {
 
@@ -66,34 +70,29 @@ class BaseCsrfVerifier implements IMiddleware
                 $token = $request->getHeader(static::HEADER_KEY);
             }
 
-            if ($this->csrfToken->validate($token) === false) {
-                throw new TokenMismatchException('Invalid csrf-token.');
+            if ($this->tokenProvider->validate($token) === false) {
+                throw new TokenMismatchException('Invalid CSRF-token.');
             }
 
         }
 
+        // Refresh existing token
+        $this->tokenProvider->refresh();
+
     }
 
-    public function generateToken()
+    public function getTokenProvider()
     {
-        $token = CsrfToken::generateToken();
-        $this->csrfToken->setToken($token);
-
-        return $token;
+        return $this->tokenProvider;
     }
 
-    public function hasToken()
+    /**
+     * Set token provider
+     * @param ITokenProvider $provider
+     */
+    public function setTokenProvider(ITokenProvider $provider)
     {
-        if ($this->token !== null) {
-            return true;
-        }
-
-        return $this->csrfToken->hasToken();
-    }
-
-    public function getToken()
-    {
-        return $this->token;
+        $this->tokenProvider = $provider;
     }
 
 }

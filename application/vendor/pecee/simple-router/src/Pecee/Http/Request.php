@@ -1,4 +1,5 @@
 <?php
+
 namespace Pecee\Http;
 
 use Pecee\Http\Input\Input;
@@ -42,13 +43,7 @@ class Request
     {
         $this->headers = [];
 
-        $max = count($_SERVER) - 1;
-        $keys = array_keys($_SERVER);
-
-        for ($i = $max; $i >= 0; $i--) {
-            $key = $keys[$i];
-            $value = $_SERVER[$key];
-
+        foreach ($_SERVER as $key => $value) {
             $this->headers[strtolower($key)] = $value;
             $this->headers[strtolower(str_replace('_', '-', $key))] = $value;
         }
@@ -167,24 +162,7 @@ class Request
      */
     public function getHeader($name, $defaultValue = null)
     {
-        if (array_key_exists(strtolower($name), $this->headers) === true) {
-            return $this->headers[strtolower($name)];
-        }
-
-        $max = count($_SERVER) - 1;
-        $keys = array_keys($_SERVER);
-
-        for ($i = $max; $i >= 0; $i--) {
-
-            $key = $keys[$i];
-            $name = $_SERVER[$key];
-
-            if ($key === $name) {
-                return $name;
-            }
-        }
-
-        return $defaultValue;
+        return isset($this->headers[strtolower($name)]) ? $this->headers[strtolower($name)] : $defaultValue;
     }
 
     /**
@@ -249,26 +227,7 @@ class Request
      */
     public function setRewriteRoute(ILoadableRoute $route)
     {
-        $this->rewriteRoute = $route;
-
-        $callback = $route->getCallback();
-
-        /* Only add default namespace on relative callbacks */
-        if ($callback === null || $callback[0] !== '\\') {
-
-            $namespace = SimpleRouter::getDefaultNamespace();
-
-            if ($namespace !== null) {
-
-                if ($this->rewriteRoute->getNamespace() !== null) {
-                    $namespace .= '\\' . $this->rewriteRoute->getNamespace();
-                }
-
-                $this->rewriteRoute->setDefaultNamespace($namespace);
-
-            }
-
-        }
+        $this->rewriteRoute = SimpleRouter::addDefaultNamespace($route);
 
         return $this;
     }

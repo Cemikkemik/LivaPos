@@ -1,5 +1,5 @@
 <?php
-class transfert_model extends Tendoo_Module
+class Transfert_model extends Tendoo_Module
 {
     /**
      * Stock Transfert

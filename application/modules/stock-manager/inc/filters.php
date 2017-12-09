@@ -109,17 +109,17 @@ class Nexo_Stock_Manager_Filters extends Tendoo_Module
                     $menus                      =   array_insert_after( 'arrivages', $menus, 'warehouse-settings', array(
                         array(
                             'title'        =>    __('Warehouse Settings', 'stock-manager'),
-                            'href'			=>	site_url([ 'dashboard', 'stock-manager', 'settings' ]),
+                            'href'			=>	dashboard_url([ 'settings' ]),
                             'icon'			=>	'fa fa-wrench'
                         ),
                         array(
                             'title'        =>    __('Others Settings', 'stock-manager'),
-                            'href'			=>	site_url([ 'dashboard', 'stock-manager', 'settings', 'checkout' ]),
+                            'href'			=>	dashboard_url([ 'settings', 'checkout' ]),
                             'icon'			=>	'fa fa-wrench'
                         ),
                         array(
                             'title'        =>    __('Receipt & Invoice', 'stock-manager'),
-                            'href'			=>	site_url([ 'dashboard', 'stock-manager', 'settings', 'invoices' ]),
+                            'href'			=>	dashboard_url([ 'settings', 'invoices' ]),
                             'icon'			=>	'fa fa-wrench'
                         )
                     ) );

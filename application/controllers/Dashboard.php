@@ -253,8 +253,8 @@ class Dashboard extends Tendoo_Controller
             // Route Prefix
             $Routes->group([ 
                 'prefix' => substr( request()->getHeader( 'script-name' ), 0, -10 ) . '/dashboard' 
-            ], function() use ( $page ) {
-                
+            ], function() use ( $page, $Routes ) {
+
                 $modules                =   Modules::get();
                 
                 foreach( $modules as $namespace => $module ) {

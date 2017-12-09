@@ -2831,6 +2831,17 @@ NexoAPI.events.addFilter( 'cart_item_name', ( data ) => {
 	return data;
 });
 
+var counter         =   0;
+setInterval( function(){
+	if( _.indexOf([ 'TEXTAREA', 'INPUT', 'SELECT'], $( ':focus' ).prop( 'tagName' ) ) == -1 || $( ':focus' ).prop( 'tagName' ) == undefined ) {                
+		if( counter == 1 ) {
+			$( '[name="item_sku_barcode"]' ).focus();
+			counter     =   0;
+		}
+		counter++;
+	} 
+}, 1000 );
+
 function htmlEntities(str) {
     return $( '<div/>' ).text( str ).html()
 }

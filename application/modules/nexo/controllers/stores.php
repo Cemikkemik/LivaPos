@@ -177,7 +177,7 @@ class NexoStoreController extends CI_Model
 
 				// Hard Code route to access to the store.
 				$StoreRoutes->partialGroup( substr( request()->getHeader( 'script-name' ), 0, -10 ) . '/dashboard/stores/' . $store_id . '/', function() {
-					
+
 					$modules                =   Modules::get();
 					
 					foreach( $modules as $namespace => $module ) {

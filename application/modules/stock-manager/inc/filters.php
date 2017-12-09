@@ -41,85 +41,85 @@ class Nexo_Stock_Manager_Filters extends Tendoo_Module
                 ) {
                     $menus                      =   array_insert_after( 'stock-manager', $menus, 'arrivages', array(
                         array(
-                            'title'        =>    __('Inventaire', 'nexo'),
+                            'title'        =>    __('Inventory', 'stock-manager'),
                             'href'        =>    '#',
                             'disable'    =>    true,
                             'icon'        =>    'fa fa-archive'
                         ),
                         array(
-                            'title'        =>    __('Liste des livraisons', 'nexo'),
-                            'href'        =>    site_url('dashboard/' . store_slug() . 'nexo/supplies'),
+                            'title'        =>    __('Supplies', 'stock-manager'),
+                            'href'        =>    dashboard_url([ 'supplies' ]),
                         ),
                         array(
-                            'title'        =>    __('Nouvelle livraison', 'nexo'),
-                            'href'        =>    site_url('dashboard/' . store_slug() . 'nexo/supplies/add'),
+                            'title'        =>    __('New Supply', 'stock-manager'),
+                            'href'        =>    dashboard_url([ 'supplies', 'add' ]),
                         ),
                         array(
-                            'title'        =>    __('Liste des articles', 'nexo'),
-                            'href'        =>    site_url('dashboard/' . store_slug() . 'nexo/items'),
+                            'title'        =>    __('Items List', 'stock-manager'),
+                            'href'        =>    dashboard_url([ 'items' ]),
                         ),
                         array(
-                            'title'        =>    __('Ajouter un article', 'nexo'),
-                            'href'        =>    site_url('dashboard/' . store_slug() . 'nexo/items/add'),
+                            'title'        =>    __('Add Item', 'stock-manager'),
+                            'href'        =>    dashboard_url([ 'items', 'add' ]),
                         ),
                         // @since 3.0.20
                         array(
-                            'title'		=>	__( 'Ajustement des quantités', 'nexo' ),
+                            'title'		=>	__( 'Quantity Adjustment', 'stock-manager' ),
                             'href'		=>	dashboard_url([ 'items-stock-adjustment' ] )
                         ),
                         array(
-                            'title'         =>  __( 'Importer les articles', 'nexo' ),
+                            'title'         =>  __( 'Import Items', 'stock-manager' ),
                             'href'          =>  dashboard_url([ 'items', 'import' ])
                         ),
                         array(
-                            'title'        =>    __('Liste des taxes', 'nexo'),
-                            'href'        =>    site_url('dashboard/' . store_slug() . '/nexo/taxes'),
+                            'title'        =>    __('Tax List', 'stock-manager'),
+                            'href'        =>    dashboard_url([ 'taxes' ]),
                         ),
                         array(
-                            'title'        =>    __('Ajouter une taxe', 'nexo'),
-                            'href'        =>    site_url('dashboard/' . store_slug() . '/nexo/taxes/add'),
+                            'title'        =>    __('Add a tax', 'stock-manager'),
+                            'href'        =>    dashboard_url([ 'taxes', 'add' ]),
                         ),
                         array(
-                            'title'        =>    __('Liste des catégories', 'nexo'),
-                            'href'        =>    site_url('dashboard/' . store_slug() . '/nexo/categories'),
+                            'title'        =>    __('Categories List', 'stock-manager'),
+                            'href'        =>    dashboard_url([ 'categories' ]),
                         ),
                         array(
-                            'title'        =>    __('Ajouter une catégorie', 'nexo'),
-                            'href'        =>    site_url('dashboard/' . store_slug() . '/nexo/categories/add'),
+                            'title'        =>    __('Add a categories', 'stock-manager'),
+                            'href'        =>    dashboard_url([ 'categories', 'add' ]),
                         )
                     ));
                     
                     $menus                      =   array_insert_after( 'arrivages', $menus, 'vendors', array(
                         array(
-                            'title'        =>    __('Fournisseurs', 'nexo'),
+                            'title'        =>    __('Suppliers', 'stock-manager'),
                             'disable'        =>  true,
                             'href'			=>	'#',
                             'icon'			=>	'fa fa-truck'
                         ),
                         array(
-                            'title'        =>    __('Liste des fournisseurs', 'nexo'),
+                            'title'        =>    __('Suppliers List', 'stock-manager'),
                             'href'        =>    dashboard_url([ 'providers']),
                         ),
                         array(
-                            'title'        =>    __('Ajouter un fournisseur', 'nexo'),
+                            'title'        =>    __('Add a supplier', 'stock-manager'),
                             'href'        =>    dashboard_url([ 'providers', 'add' ]),
                         ),
                     ) );
 
                     $menus                      =   array_insert_after( 'arrivages', $menus, 'warehouse-settings', array(
                         array(
-                            'title'        =>    __('Warehouse Settings', 'nexo'),
-                            'href'			=>	site_url([ 'dashboard', 'nexo', 'settings' ]),
+                            'title'        =>    __('Warehouse Settings', 'stock-manager'),
+                            'href'			=>	site_url([ 'dashboard', 'stock-manager', 'settings' ]),
                             'icon'			=>	'fa fa-wrench'
                         ),
                         array(
-                            'title'        =>    __('Others Settings', 'nexo'),
-                            'href'			=>	site_url([ 'dashboard', 'nexo', 'settings', 'checkout' ]),
+                            'title'        =>    __('Others Settings', 'stock-manager'),
+                            'href'			=>	site_url([ 'dashboard', 'stock-manager', 'settings', 'checkout' ]),
                             'icon'			=>	'fa fa-wrench'
                         ),
                         array(
-                            'title'        =>    __('Receipt & Invoice', 'nexo'),
-                            'href'			=>	site_url([ 'dashboard', 'nexo', 'settings', 'invoices' ]),
+                            'title'        =>    __('Receipt & Invoice', 'stock-manager'),
+                            'href'			=>	site_url([ 'dashboard', 'stock-manager', 'settings', 'invoices' ]),
                             'icon'			=>	'fa fa-wrench'
                         )
                     ) );

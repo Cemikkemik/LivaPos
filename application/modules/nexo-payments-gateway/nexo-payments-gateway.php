@@ -38,8 +38,7 @@ class Nexo_Payment_Gateway extends CI_Model
 		$this->events->add_filter( 'nexo_settings_menu_array', array( 'Nexo_Gateway_Filters', 'admin_menus' ) );
 		$this->events->add_filter( 'paybox_dependencies', array( 'Nexo_Gateway_Filters', 'paybox_dependencies' ) );
 		// Registers for Multistore
-		$this->events->add_filter( 'stores_controller_callback', array( $this, 'multistore' ) );
-
+		// $this->events->add_filter( 'stores_controller_callback', array( $this, 'multistore' ) );
 		// $this->Gui->register_page_object( 'nexo_gateway', new Gateway_Controller );
 	}
 
@@ -88,7 +87,7 @@ class Nexo_Payment_Gateway extends CI_Model
 	{
 		// to match this uri
 		// dashboard/stores/nexo_premium/*
-		$array[ 'nexo_gateway' ]	=	new Gateway_Controller;
+		// $array[ 'nexo_gateway' ]	=	new Gateway_Controller;
 
 		return $array;
 	}

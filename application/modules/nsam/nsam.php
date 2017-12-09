@@ -84,7 +84,7 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
     {
         if( multistore_enabled() && is_multistore() && User::in_group([ 'master', 'shop.manager' ] ) ) {
             $menus[ 'nexo_settings' ][]   =   array(
-                'href'      =>  site_url( array( 'dashboard', store_slug(), 'nexo', 'content-manager' ) ),
+                'href'      =>  dashboard_url([ 'content-manager' ]),
                 'title'     =>  __( 'Content Copy', 'nsam' ),
             );
 

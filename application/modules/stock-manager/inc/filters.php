@@ -98,11 +98,11 @@ class Nexo_Stock_Manager_Filters extends Tendoo_Module
                         ),
                         array(
                             'title'        =>    __('Liste des fournisseurs', 'nexo'),
-                            'href'        =>    site_url('dashboard/' . store_slug() . '/nexo/providers'),
+                            'href'        =>    dashboard_url([ 'providers']),
                         ),
                         array(
                             'title'        =>    __('Ajouter un fournisseur', 'nexo'),
-                            'href'        =>    site_url('dashboard/' . store_slug() . '/nexo/providers/add'),
+                            'href'        =>    dashboard_url([ 'providers', 'add' ]),
                         ),
                     ) );
 

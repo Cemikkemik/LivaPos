@@ -861,8 +861,17 @@ class Nexo_Install extends CI_Model
 			}
 		}
 
-		// All reports
+		// Cashier Permissions
+		foreach([
+			'nexo.create.orders',
+			'nexo.use.registers',
+			'nexo.view.stores',
+			'nexo.enter.stores'
+		] as $permission ) {
+			$this->aauth->allow_group( 'store.cashier', $permission );
+		}
 
+		// All reports
 		foreach([
 			'nexo.read.detailed-report',
 			'nexo.read.best-sales',

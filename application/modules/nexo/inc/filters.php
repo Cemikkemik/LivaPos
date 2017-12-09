@@ -47,7 +47,7 @@ class Nexo_Filters extends Tendoo_Module
 
     public function login_redirection( $redirection ) 
     {
-        if( User::in_group( 'shop_cashier' ) || User::in_group( 'shop_tester' ) ) {
+        if( User::in_group( 'shop.cashier' ) || User::in_group( 'shop.demo' ) ) {
             return site_url( array( 'dashboard', 'nexo', 'stores', 'all' ) );
         }
         return $redirection;

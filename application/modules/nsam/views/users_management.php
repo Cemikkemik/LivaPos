@@ -7,7 +7,7 @@ $this->load->model( 'Nexo_Stores' );
 
 $Stores     =   $this->Nexo_Stores->get();
 
-$Users      =   $this->auth->list_users([ 'shop_cashier', 'shop_manager', 'shop_tester' ]);
+$Users      =   $this->auth->list_users([ 'store.cashier', 'store.manager', 'store.demo' ]);
 
 $col_id     =   1;
 

@@ -35,14 +35,14 @@ $this->aauth->create_perm('enter_shop',    	$this->lang->line( 'view_shop' ),   
 
 // Cashier Allow
 // Shop
-$this->aauth->allow_group('shop_cashier', 'enter_shop');
+$this->aauth->allow_group('shop.cashier', 'enter_shop');
 
 // Shop Manager
 // @since 2.8
-$this->aauth->allow_group('shop_manager', 'enter_shop');
-$this->aauth->allow_group('shop_manager', 'create_shop');
-$this->aauth->allow_group('shop_manager', 'delete_shop');
-$this->aauth->allow_group('shop_manager', 'edit_shop');
+$this->aauth->allow_group('shop.manager', 'enter_shop');
+$this->aauth->allow_group('shop.manager', 'create_shop');
+$this->aauth->allow_group('shop.manager', 'delete_shop');
+$this->aauth->allow_group('shop.manager', 'edit_shop');
 
 // Master
 // @since 2.8

@@ -36,7 +36,7 @@
                                         data		:	_.object( [ 'date', 'balance', 'used_by', 'note' ], [ '<?php echo date_now();?>', $( '.open_balance' ).val(), '<?php echo User::id();?>', $( '.note' ).val() ]),
                                         success: function( data ){
                                             bootbox.alert( '<?php echo _s( 'La caisse a été fermée. Veuillez patientez...', 'nexo' );?>' );
-                                            <?php if( User::in_group( 'shop_cashier' ) ):?>
+                                            <?php if( User::in_group( 'shop.cashier' ) ):?>
                                                 document.location	=	'<?php echo dashboard_url([ 'registers', 'for_cashiers?notice=register_has_been_closed' ]);?>';
                                             <?php else:?>
                                                 document.location	=	'<?php echo dashboard_url([ 'dashboard', store_slug(), 'nexo', 'registers?notice=register_has_been_closed' ]);?>';

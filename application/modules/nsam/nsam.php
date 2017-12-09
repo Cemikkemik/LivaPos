@@ -39,7 +39,7 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
 
         global $Options;
 
-        if( is_multistore() && User::in_group([ 'shop_cashier', 'shop_manager', 'shop_tester']  ) ) {
+        if( is_multistore() && User::in_group([ 'shop.cashier', 'shop.manager', 'shop.demo']  ) ) {
             $store_id   =   get_store_id();
             if( @$Options[ 'store_access_' . User::id() . '_' . $store_id ] != 'yes' ) {
                 redirect([ 'dashboard', 'not-allowed-to-access-to-that-store' ]);
@@ -82,7 +82,7 @@ class NexoAdvancedStoreManagerApp extends CI_Model {
 
     public function menus( $menus )
     {
-        if( multistore_enabled() && is_multistore() && User::in_group([ 'master', 'shop_manager' ] ) ) {
+        if( multistore_enabled() && is_multistore() && User::in_group([ 'master', 'shop.manager' ] ) ) {
             $menus[ 'nexo_settings' ][]   =   array(
                 'href'      =>  site_url( array( 'dashboard', store_slug(), 'nexo', 'content-manager' ) ),
                 'title'     =>  __( 'Content Copy', 'nsam' ),

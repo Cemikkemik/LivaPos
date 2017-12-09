@@ -21,7 +21,7 @@ class Nsam_Users_model extends grocery_CRUD_model
                ' . $this->db->dbprefix( 'aauth_users' ) . '.`id` = ' . $this->db->dbprefix( 'aauth_user_to_group' ) . '.`user_id` 
                JOIN ' . $this->db->dbprefix( 'aauth_groups' ) . 
                ' ON ' . $this->db->dbprefix( 'aauth_groups' ) . '.`id` = ' . $this->db->dbprefix( 'aauth_user_to_group' ) . '.`group_id`
-          WHERE `' . $this->db->dbprefix( 'aauth_groups' ) . '`.`name` = \'shop_cashier\' 
+          WHERE `' . $this->db->dbprefix( 'aauth_groups' ) . '`.`name` = \'shop.cashier\' 
           AND ( 
                SELECT `value` FROM ' . $this->db->dbprefix( 'options' ) . ' 
                WHERE ' . $this->db->dbprefix( 'options' ) . '.key = CONCAT( \'store_access_\', ' . $this->db->dbprefix( 'aauth_users' ) . '.`id`, "_'. get_store_id() .'" )

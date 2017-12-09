@@ -1,6 +1,6 @@
 <?php
 // Creating Index Cards
-if( User::in_group( 'shop_manager' ) || User::in_group( 'master' ) || User::in_group( 'shop_tester' ) ) {
+if( User::in_group( 'shop.manager' ) || User::in_group( 'master' ) || User::in_group( 'shop.demo' ) ) {
     ?>
 <div class="content">
     <div class="row">
@@ -172,7 +172,7 @@ var MainStats		=	new function(){
 			$( '.global_expense_card .info-box-number' ).html( NexoAPI.DisplayMoney( MainStats.Expenses ) );
 		});
 
-		$( '.global_cashiers_card .info-box-number' ).html( '<?php echo count( $this->auth->list_users( 'shop_cashier' ) );?>' );
+		$( '.global_cashiers_card .info-box-number' ).html( '<?php echo count( $this->auth->list_users( 'shop.cashier' ) );?>' );
 	}
 };
 

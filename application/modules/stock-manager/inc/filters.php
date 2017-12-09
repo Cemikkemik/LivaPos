@@ -9,7 +9,7 @@ class Nexo_Stock_Manager_Filters extends Tendoo_Module
 
     public function admin_menus( $menus )
     {
-        if( multistore_enabled() && ( User::in_group( 'shop_manager' ) || User::in_group( 'shop_tester' ) || User::in_group( 'master' ) ) ) {
+        if( multistore_enabled() && ( User::in_group( 'shop.manager' ) || User::in_group( 'shop.demo' ) || User::in_group( 'master' ) ) ) {
             if( ! is_multistore() ) {
 
                 $menus          =   array_insert_after( 'nexo_shop', $menus, 'stock-manager', [

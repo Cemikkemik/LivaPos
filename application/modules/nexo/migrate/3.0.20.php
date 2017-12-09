@@ -27,11 +27,11 @@ $this->auth->create_perm('create_item_stock',    $this->lang->line( 'create_item
 $this->auth->create_perm('edit_item_stock',    $this->lang->line( 'edit_item_stock' ),        $this->lang->line( 'edit_item_stock_details' ));
 $this->auth->create_perm('delete_item_stock',    $this->lang->line( 'delete_item_stock' ),        $this->lang->line( 'delete_item_stock_details' ));
 
-foreach( [ 'shop_manager', 'master', 'shop_tester' ] as $role ) {
+foreach( [ 'shop.manager', 'master', 'shop.demo' ] as $role ) {
     $this->auth->allow_group( $role, 'create_item_stock');
     $this->auth->allow_group( $role, 'edit_item_stock');
     
-    if( $role != 'shop_tester' ) {
+    if( $role != 'shop.demo' ) {
         $this->auth->allow_group( $role, 'delete_item_stock');
     }
 }

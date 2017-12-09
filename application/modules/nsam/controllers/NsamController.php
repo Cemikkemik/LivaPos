@@ -282,7 +282,7 @@ class NsamController extends
         ]);
 
         // add user to cashier
-        $this->auth->add_member( $primary, 'shop_cashier' );
+        $this->auth->add_member( $primary, 'shop.cashier' );
 
         // assign user to current store on options
         set_option( 'store_access_' . $primary . '_' . get_store_id(), 'yes', true );

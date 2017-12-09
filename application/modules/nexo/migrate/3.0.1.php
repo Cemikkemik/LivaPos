@@ -68,18 +68,18 @@ $this->aauth->create_perm('edit_coupons',    $this->lang->line( 'edit_coupons' )
 $this->aauth->create_perm('delete_coupons',    $this->lang->line( 'delete_coupons' ),        $this->lang->line( 'delete_coupons_details' ));
 
 // Coupons
-$this->aauth->allow_group( 'shop_cashier', 'create_coupons');
-$this->aauth->allow_group( 'shop_cashier', 'edit_coupons');
-$this->aauth->allow_group( 'shop_cashier', 'delete_coupons');
+$this->aauth->allow_group( 'shop.cashier', 'create_coupons');
+$this->aauth->allow_group( 'shop.cashier', 'edit_coupons');
+$this->aauth->allow_group( 'shop.cashier', 'delete_coupons');
 
-$this->aauth->allow_group( 'shop_manager', 'create_coupons');
-$this->aauth->allow_group( 'shop_manager', 'edit_coupons');
-$this->aauth->allow_group( 'shop_manager', 'delete_coupons');
+$this->aauth->allow_group( 'shop.manager', 'create_coupons');
+$this->aauth->allow_group( 'shop.manager', 'edit_coupons');
+$this->aauth->allow_group( 'shop.manager', 'delete_coupons');
 
 $this->aauth->allow_group( 'master', 'create_coupons');
 $this->aauth->allow_group( 'master', 'edit_coupons');
 $this->aauth->allow_group( 'master', 'delete_coupons');
 
-$this->aauth->allow_group( 'shop_tester', 'create_coupons');
-$this->aauth->allow_group( 'shop_tester', 'edit_coupons');
-$this->aauth->allow_group( 'shop_tester', 'delete_coupons');
+$this->aauth->allow_group( 'shop.demo', 'create_coupons');
+$this->aauth->allow_group( 'shop.demo', 'edit_coupons');
+$this->aauth->allow_group( 'shop.demo', 'delete_coupons');

@@ -9,7 +9,7 @@ if( @$Options[ 'nexo_store' ] == 'enabled' ) {
 ?>
 <li class="messages-menu">
     <?php
-    if( User::in_group( 'shop_cashier' ) || User::in_group( 'shop_tester' ) ) {
+    if( User::in_group( 'shop.cashier' ) || User::in_group( 'shop.demo' ) ) {
         $store_url	=	site_url( array( 'dashboard', 'nexo', 'stores', 'all' ) );
     } else {
         $store_url	=	site_url( array( 'dashboard', 'nexo', 'stores', 'lists' ) );

@@ -39,7 +39,7 @@ class Nexo_Actions extends Tendoo_Module
 			// 	'content'                =>    $this->load->view('../modules/nexo/inc/widgets/profile', array(), true)
 			// ));
 
-			// if( User::in_group( 'master' ) || User::in_group( 'shop_manager' ) ) {
+			// if( User::in_group( 'master' ) || User::in_group( 'shop.manager' ) ) {
 
 			// 	// $this->dashboard_widgets->add( store_prefix() . 'nexo_sales_new', array(
 			// 	// 	'title'                    =>    __('Meilleurs articles', 'nexo'),

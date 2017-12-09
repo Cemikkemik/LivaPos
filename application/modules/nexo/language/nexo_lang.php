@@ -50,8 +50,8 @@ $lang[ 'register_locked' ]			=	__( 'Verrouillé', 'nexo' );
 
 $lang[ 'nexo_cashier' ]				=	__('Caissier', 'nexo');
 $lang[ 'nexo_cashier_details' ]		=	__('Permet de gérer la vente des articles, la gestion des clients.', 'nexo');
-$lang[ 'nexo_shop_manager' ]		=	__('Gérant de la boutique', 'nexo');
-$lang[ 'nexo_shop_manager_details' ]=	__('Permet de gérer la vente des articles, la gestion des clients, la modification des réglages et accède aux rapports.', 'nexo');
+$lang[ 'nexo_shop.manager' ]		=	__('Gérant de la boutique', 'nexo');
+$lang[ 'nexo_shop.manager_details' ]=	__('Permet de gérer la vente des articles, la gestion des clients, la modification des réglages et accède aux rapports.', 'nexo');
 $lang[ 'nexo_tester' ]				=	__('Privilège pour testeur', 'nexo');
 $lang[ 'nexo_tester_details' ]		=	__('Effectue toutes tâches d\'ajout et de modification. Ne peux pas supprimer du contenu.', 'nexo');
 

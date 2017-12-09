@@ -24,7 +24,7 @@ global $Options;
                     <div class="col-sm-12">
                         <div class="description-block">
                         <?php
-						if( ( User::in_group( 'shop_cashier' ) || User::in_group( 'shop_tester' ) ) ) {
+						if( ( User::in_group( 'shop.cashier' ) || User::in_group( 'shop.demo' ) ) ) {
 							if( $register_enabled == 'oui' ) {
 								$store_url	=	site_url( 
 									array( 'dashboard', 'stores', $store[ 'ID' ], 'nexo', 'registers', 'lists' ) 

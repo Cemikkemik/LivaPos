@@ -2830,16 +2830,51 @@ NexoAPI.events.addFilter( 'cart_item_name', ( data ) => {
 	data.displayed 		=	data.displayed.length > 23 ? data.displayed.substr( 0, 18 ) + '...' : data.displayed;
 	return data;
 });
-
-var counter         =   0;
-setInterval( function(){
-	if( _.indexOf([ 'TEXTAREA', 'INPUT', 'SELECT'], $( ':focus' ).prop( 'tagName' ) ) == -1 || $( ':focus' ).prop( 'tagName' ) == undefined ) {                
-		if( counter == 1 ) {
-			$( '[name="item_sku_barcode"]' ).focus();
-			counter     =   0;
+var Responsive 			=  function(){
+	this.screenIs 		=   '';
+	this.detect 		=	function(){
+		if ( window.innerWidth < 544 ) {
+			this.screenIs         =   'xs';
+		} else if ( window.innerWidth >= 544 && window.innerWidth < 768 ) {
+			this.screenIs         =   'sm';
+		} else if ( window.innerWidth >= 768 && window.innerWidth < 992 ) {
+			this.screenIs         =   'md';
+		} else if ( window.innerWidth >= 992 && window.innerWidth < 1200 ) {
+			this.screenIs         =   'lg';
+		} else if ( window.innerWidth >= 1200 ) {
+			this.screenIs         =   'xg';
 		}
-		counter++;
-	} 
+		console.log( 'Screen is : ' + this.screenIs );
+	}
+
+	this.is 			=   function( value ) {
+		if ( value === undefined ) {
+			return this.screenIs;
+		} else {
+			return this.screenIs === value;
+		}
+	}
+
+	$( window ).resize( () => {
+		this.detect();
+	});
+
+	this.detect();
+}
+var counter         =   0;
+var layout 			=	new Responsive();
+setInterval( function(){
+	if( $( '.enable_barcode_search' ).hasClass( 'active' ) ) {
+		if( layout.is( 'md' ) || layout.is( 'lg' ) || layout.is( 'xg' ) ) {
+			if( _.indexOf([ 'TEXTAREA', 'INPUT', 'SELECT'], $( ':focus' ).prop( 'tagName' ) ) == -1 || $( ':focus' ).prop( 'tagName' ) == undefined ) {                
+				if( counter == 1 ) {
+					$( '[name="item_sku_barcode"]' ).focus();
+					counter     =   0;
+				}
+				counter++;
+			} 
+		}
+	}
 }, 1000 );
 
 function htmlEntities(str) {

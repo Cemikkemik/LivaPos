@@ -31,4 +31,16 @@ class ApiNexoOrders extends Tendoo_Api
 
 		$this->__empty();
     }
+
+    /**
+     * get Orders
+     * @return json
+     */
+    public function orders()
+    {
+        $orders     =   $this->db->get( store_prefix() . 'nexo_commandes' )
+        ->result_array();
+
+        return $this->response( $orders );
+    }
 }

@@ -17,6 +17,7 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 <meta charset="utf-8">
 <title><?php echo sprintf(__('Order ID : %s &mdash; Nexo Shop Receipt', 'nexo'), $order[ 'order' ][0][ 'CODE' ]);?></title>
 <link rel="stylesheet" media="all" href="<?php echo css_url('nexo') . '/bootstrap.min.css';?>" />
+<link rel="stylesheet" media="all" href="<?php echo module_url( 'nexo' ) . 'fonts/receipt-stylesheet.css';?>" />
 </head>
 
 <body>
@@ -390,9 +391,14 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 </div>
 <?php endif;?>
 <style>
+* {
+    font-family: 'fake_receiptregular';
+    text-transform: uppercase;
+}
 @media print {
 	* {
-		font-family:Verdana, Geneva, sans-serif;
+		font-family: 'fake_receiptregular';
+        text-transform: uppercase;
 	}
 	.hideOnPrint {
 		display:none !important;

@@ -331,9 +331,13 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
 </div>
 <?php endif;?>
 <style>
+* {
+    text-transform: uppercase;
+}
 @media print {
 	* {
 		font-family:Verdana, Geneva, sans-serif;
+        text-transform: uppercase;
 	}
 	.hideOnPrint {
 		display:none !important;

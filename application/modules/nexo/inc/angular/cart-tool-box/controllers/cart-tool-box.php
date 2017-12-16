@@ -3,7 +3,7 @@
 tendooApp.directive( 'shipping', function(){
 	return {
 		restrict 		:	'E',
-		templateUrl 	:	'<?php echo dashboard_url([ 'templates', 'shippings']);?>',
+		templateUrl 	:	'<?php echo site_url([ 'dashboard', 'nexo', 'templates', 'shippings']);?>',
 		controller 		:	[ '$scope', '$compile', '$filter', function( $scope, $compile, $filter ) {
 			$scope.optionShowed 	=	false;
 
@@ -101,7 +101,7 @@ tendooApp.directive( 'shipping', function(){
 tendooApp.directive( 'items', function(){
 	return {
 		restrict 		:	'E',
-		templateUrl 	:	 '<?php echo dashboard_url([ 'templates', 'load', 'items.templates.quick-item-form' ]);?>',
+		templateUrl 	:	 '<?php echo site_url([ 'dashboard', 'nexo', 'template', 'quick_item_form' ]);?>',
 		controller 		:	[ '$scope', '$compile', function( $scope, $compile ) {
 			$scope.schema = {
 				type: "object",

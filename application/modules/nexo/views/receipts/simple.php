@@ -352,11 +352,15 @@ body {
     </div>
 </div>
 <?php endif;?>
-<style media="screen, print"    >
+<style media="screen, print">
+* {
+    text-transform: uppercase;
+}
 @media print {
 	* {
 		font-family:"Courier New", Courier, monospace;
         font-weight:800;
+        text-transform: uppercase;
 	}
 	.hideOnPrint {
 		display:none !important;

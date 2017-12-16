@@ -75,7 +75,6 @@ class NexoOrdersController extends CI_Model
 			'fa fa-file'
         );
 
-
 		// $crud->add_action(
 		// 	__('Modifier la commande', 'nexo'),
 		// 	'',

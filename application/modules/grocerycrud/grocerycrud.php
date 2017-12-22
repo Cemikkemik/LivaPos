@@ -13,6 +13,9 @@ class GroceryCrudModule extends CI_Model
         switch (@$Options[ 'site_language' ]) {
             case 'en_US' : $language    =    'english'; break;
             case 'fr_FR' : $language    =    'french'; break;
+            case 'tr_TR' : $language    =    'turkish'; break;
+            case 'de_DE' : $language    =    'dutch'; break;
+            case 'es_ES' : $language    =    'spanish'; break;
         }
         
         $this->config->load('grocery_crud');

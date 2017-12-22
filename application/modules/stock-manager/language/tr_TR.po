@@ -1,0 +1,493 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-12-10 14:59+0100\n"
+"PO-Revision-Date: 2017-12-11 17:52+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: tr_TR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_s;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: inc/actions.php:33
+msgid ""
+"The multistore feature should be enable in order to use the stock manager."
+msgstr ""
+"Stok yöneticisini kullanmak için çok aşamalı özellik etkinleştirilmelidir."
+
+#: inc/controller.php:29
+#, fuzzy
+msgid "Historique de transfert de stock"
+msgstr "Historique de nakletmek de hisse senedi"
+
+#: inc/controller.php:48
+#, fuzzy
+msgid "Name"
+msgstr "Adınız"
+
+#: inc/controller.php:49
+#, fuzzy
+msgid "Status"
+msgstr "Durum"
+
+#: inc/controller.php:50
+#, fuzzy
+msgid "Edited by"
+msgstr "Düzenleyen"
+
+#: inc/controller.php:51
+#, fuzzy
+msgid "From"
+msgstr "Fiyat:"
+
+#: inc/controller.php:52 views/transfert/dom.php:16
+#, fuzzy
+msgid "Send To"
+msgstr "Şuraya Gönder"
+
+#: inc/controller.php:53
+#, fuzzy
+msgid "Type"
+msgstr "Tür"
+
+#: inc/controller.php:54
+#, fuzzy
+msgid "Created on"
+msgstr "Oluşturulma"
+
+#: inc/controller.php:55
+#, fuzzy
+msgid "Author"
+msgstr "Yazar"
+
+#: inc/controller.php:62 inc/controller.php:178
+#, fuzzy
+msgid "Transfert Invoice"
+msgstr "Nakletmek fatura"
+
+#: inc/controller.php:66
+#, fuzzy
+msgid "Pending"
+msgstr "Onay Bekleyen"
+
+#: inc/controller.php:68
+msgid "Approuved"
+msgstr "onaylı"
+
+#: inc/controller.php:70
+#, fuzzy
+msgid "Refused"
+msgstr "Reddetti"
+
+#: inc/controller.php:72
+#, fuzzy
+msgid "Canceled"
+msgstr "İptal Edildi"
+
+#: inc/controller.php:79
+#, fuzzy
+msgid "N/A"
+msgstr "Uygulanabilir değil"
+
+#: inc/controller.php:83 inc/controller.php:87 views/transfert/script.php:21
+#, fuzzy
+msgid "Main Warehouse"
+msgstr "Depo"
+
+#: inc/controller.php:104
+#, fuzzy
+msgid "Allow the Transfert"
+msgstr "Nakletmek izin"
+
+#: inc/controller.php:105
+msgid "Approuve"
+msgstr "onaylamak"
+
+#: inc/controller.php:110
+#, fuzzy
+msgid "Refuse"
+msgstr "Reddetmek"
+
+#: inc/controller.php:111
+#, fuzzy
+msgid "Reject"
+msgstr "Reddet"
+
+#: inc/controller.php:116 inc/controller.php:117
+#, fuzzy
+msgid "Cancel"
+msgstr "İptal Edin"
+
+#: inc/controller.php:192 inc/filters.php:36 inc/filters.php:168
+#, fuzzy
+msgid "Transfert Settings"
+msgstr "Nakletmek ayarları"
+
+#: inc/controller.php:208
+msgid ""
+"You cannot approuve this transfert. It may have been canceled or yet "
+"approuved."
+msgstr ""
+"Bu transferi onaylayamazsın. İptal edilmiş veya henüz onaylanmış olabilir."
+
+#: inc/controller.php:365
+#, fuzzy
+msgid "You cannot cancel this transfert, it may have yet been approuved."
+msgstr "Bu nakletmek iptal edemezsiniz, henüz approuved olabilir."
+
+#: inc/controller.php:392
+#, fuzzy, php-format
+msgid "Canceling Transfert : %s"
+msgstr "Nakletmek iptal etme: %s"
+
+#: inc/controller.php:497
+#, fuzzy
+msgid ""
+"You cannot reject this transfert, it may have yet been approuved or canceled."
+msgstr ""
+"Bu nakletmek reddetmek değil, o henüz approuved veya olabilir iptal edildi."
+
+#: inc/controller.php:534
+#, fuzzy, php-format
+msgid "Rejecting Transfert : %s"
+msgstr "Nakletmek reddetme: %s"
+
+#: inc/filters.php:22 inc/filters.php:154
+msgid "Stock Transfert"
+msgstr "Stok Transferi"
+
+#: inc/filters.php:28 inc/filters.php:160
+#, fuzzy
+msgid "Transfert History"
+msgstr "Nakletmek geçmiş"
+
+#: inc/filters.php:32 inc/filters.php:164
+msgid "New Transfert"
+msgstr "Yeni Transfer"
+
+#: inc/filters.php:60
+msgid "Inventaire"
+msgstr "envanter"
+
+#: inc/filters.php:66
+#, fuzzy
+msgid "Liste des livraisons"
+msgstr "Liste des livraisons"
+
+#: inc/filters.php:70
+msgid "Nouvelle livraison"
+msgstr "Yeni teslimat"
+
+#: inc/filters.php:74
+msgid "Liste des articles"
+msgstr "Makalelerin listesi"
+
+#: inc/filters.php:78
+msgid "Ajouter un article"
+msgstr "Bir makale ekle"
+
+#: inc/filters.php:83
+msgid "Ajustement des quantités"
+msgstr "Miktarların ayarlanması"
+
+#: inc/filters.php:87
+#, fuzzy
+msgid "Importer les articles"
+msgstr "İthalatçı les Makaleler"
+
+#: inc/filters.php:91
+#, fuzzy
+msgid "Liste des taxes"
+msgstr "Liste des vergiler"
+
+#: inc/filters.php:95
+msgid "Ajouter une taxe"
+msgstr "Vergi ekle"
+
+#: inc/filters.php:99
+msgid "Liste des départements"
+msgstr "Bölümlerin Listesi"
+
+#: inc/filters.php:103
+msgid "Ajouter un département"
+msgstr "Bölüm ekle"
+
+#: inc/filters.php:107
+#, fuzzy
+msgid "Liste des catégories"
+msgstr "Liste des catégories"
+
+#: inc/filters.php:111
+msgid "Ajouter une catégorie"
+msgstr "Kategori ekle"
+
+#: inc/filters.php:118
+msgid "Fournisseurs"
+msgstr "tedarikçileri"
+
+#: inc/filters.php:124
+#, fuzzy
+msgid "Liste des fournisseurs"
+msgstr "Liste des fournisseurs"
+
+#: inc/filters.php:128
+msgid "Ajouter un fournisseur"
+msgstr "Tedarikçi ekle"
+
+#: inc/filters.php:135
+#, fuzzy
+msgid "Warehouse Settings"
+msgstr "Ambar ayarlarını"
+
+#: inc/filters.php:140
+#, fuzzy
+msgid "Others Settings"
+msgstr "Diğer Ayarlar"
+
+#: inc/filters.php:145
+#, fuzzy
+msgid "Receipt & Invoice"
+msgstr "Alış irsaliyesi ve fatura"
+
+#: views/settings/dom.php:1
+#, fuzzy
+msgid "You can use the following tag"
+msgstr "Aşağıdaki etiketi kullanabilirsiniz"
+
+#: views/settings/dom.php:3
+#, fuzzy
+msgid "For the store which send the stock"
+msgstr "Sigara almak için hisse senedi göndermesi"
+
+#: views/settings/dom.php:4
+msgid "{provider_store_name} : To display provider store name."
+msgstr "{provider_store_name}: Sağlayıcı mağaza adını görüntülemek için."
+
+#: views/settings/dom.php:5
+msgid "{provider_store_email} : To display provider store email."
+msgstr ""
+"{provider_store_email}: Sağlayıcı mağazası e-postasını görüntülemek için."
+
+#: views/settings/dom.php:6
+#, fuzzy
+msgid "{provider_store_phone} : To display provider store phone."
+msgstr "{provider_store_phone}: sağlayıcı mağaza telefon görüntülemek için."
+
+#: views/settings/dom.php:7
+msgid "{provider_store_fax} : To display provider store fax number."
+msgstr ""
+"{provider_store_fax}: Sağlayıcı mağaza faks numarasını görüntülemek için."
+
+#: views/settings/dom.php:8
+msgid "{provider_store_address} : To display provider store address."
+msgstr "{provider_store_address}: Sağlayıcı mağaza adresini görüntülemek için."
+
+#: views/settings/dom.php:9
+#, fuzzy
+msgid "{provider_store_pobox} : To display provider store PO.box."
+msgstr "{provider_store_pobox}: sağlayıcı mağaza PO.box görüntülemek için."
+
+#: views/settings/dom.php:10
+#, fuzzy
+msgid "For the store which receive the stock"
+msgstr "Hisse senedi almak için mağaza"
+
+#: views/settings/dom.php:11
+#, fuzzy
+msgid "{receiver_store_name} : To display receiver store name."
+msgstr "{receiver_store_name}: alıcı mağaza adını görüntülemek için."
+
+#: views/settings/dom.php:12
+#, fuzzy
+msgid "{receiver_store_email} : To display receiver store email."
+msgstr "{receiver_store_email}: alıcı deposu e-posta görüntülemek için."
+
+#: views/settings/dom.php:13
+#, fuzzy
+msgid "{receiver_store_phone} : To display receiver store phone."
+msgstr "{receiver_store_phone}: alıcı mağaza telefon görüntülemek için."
+
+#: views/settings/dom.php:14
+msgid "{receiver_store_fax} : To display receiver store fax number."
+msgstr "{receiver_store_fax}: Alıcı mağaza faks numarasını görüntülemek için."
+
+#: views/settings/dom.php:15
+#, fuzzy
+msgid "{receiver_store_address} : To display receiver store address."
+msgstr "{receiver_store_address}: alıcı mağaza adresini görüntülemek için."
+
+#: views/settings/dom.php:16
+#, fuzzy
+msgid "{receiver_store_pobox} : To display receiver store PO.box."
+msgstr "{receiver_store_pobox}: alıcı mağaza PO.box görüntülemek için."
+
+#: views/settings/gui.php:12
+#, fuzzy
+msgid "Save the settings"
+msgstr "Ayarlarını kaydet"
+
+#: views/settings/gui.php:27
+#, fuzzy
+msgid "Left Column Settings"
+msgstr "Sütun ayarları"
+
+#: views/settings/gui.php:28
+#, fuzzy
+msgid "Customize the left column section for the transfert invoice."
+msgstr "Sol sütun bölümü nakletmek fatura için özelleştirin."
+
+#: views/settings/gui.php:34
+#, fuzzy
+msgid "Right Column Settings"
+msgstr "Sağ sütun ayarları"
+
+#: views/settings/gui.php:35
+#, fuzzy
+msgid "Customize the right column section for the transfert invoice."
+msgstr "Sağ sütun bölümü nakletmek fatura için özelleştirmek."
+
+#: views/settings/gui.php:41
+#, fuzzy
+msgid "Deduct Stock"
+msgstr "Hisse senedi düşeriz"
+
+#: views/settings/gui.php:42
+#, fuzzy
+msgid ""
+"All item send won't be available when the stock is being send. Default Yes"
+msgstr ""
+"Tüm öğe gönder alışkanlık var olmak elde edilebilir ne zaman hisse senedi "
+"gönder ediliyor. Varsayılan Evet"
+
+#: views/settings/gui.php:44
+#, fuzzy
+msgid "Yes"
+msgstr "Evet"
+
+#: views/settings/gui.php:45
+#, fuzzy
+msgid "No"
+msgstr "Hayır"
+
+#: views/transfert/dom.php:7
+msgid "Titre"
+msgstr "başlık"
+
+#: views/transfert/dom.php:10
+#, fuzzy
+msgid "This will help you identifiy the transfert."
+msgstr "Bu identifiy nakletmek yardımcı olacaktır."
+
+#: views/transfert/dom.php:20
+#, fuzzy
+msgid "Select where you would like to send the transfert."
+msgstr "Nerede nakletmek göndermek istediğinizi seçin."
+
+#: views/transfert/dom.php:27
+#, fuzzy
+msgid ""
+"Rechercher le nom du produit, le code barre ou l'unité de gestion du stock"
+msgstr ""
+"Rechercher le nom du produit, le No barre ou l'unité de gestion du hisse "
+"senedi"
+
+#: views/transfert/dom.php:31
+#, fuzzy
+msgid "Item Barcode"
+msgstr "Barkod"
+
+#: views/transfert/dom.php:35
+#, fuzzy
+msgid "Item List"
+msgstr "Öğe Listesi"
+
+#: views/transfert/dom.php:40 views/transfert/invoice-dom.php:34
+#, fuzzy
+msgid "Item Name"
+msgstr "Ürün Adı"
+
+#: views/transfert/dom.php:41 views/transfert/invoice-dom.php:35
+#, fuzzy
+msgid "Price"
+msgstr "Fiyat"
+
+#: views/transfert/dom.php:42 views/transfert/invoice-dom.php:36
+#, fuzzy
+msgid "Quantity"
+msgstr "Miktar"
+
+#: views/transfert/dom.php:43 views/transfert/invoice-dom.php:37
+#, fuzzy
+msgid "Total"
+msgstr "Toplam"
+
+#: views/transfert/dom.php:74
+msgid "No item has been added"
+msgstr "Hiçbir öğe eklenmedi"
+
+#: views/transfert/dom.php:80
+#, fuzzy
+msgid "Send The Stock"
+msgstr "Stok göndermek"
+
+#: views/transfert/invoice-dom.php:25
+#, fuzzy
+msgid "Transfert Summary"
+msgstr "Nakletmek Özeti"
+
+#: views/transfert/invoice-dom.php:26
+#, fuzzy, php-format
+msgid "Type : %s"
+msgstr "Tip: %s"
+
+#: views/transfert/invoice-dom.php:76
+#, fuzzy
+msgid "Print"
+msgstr "Yazdır"
+
+#: views/transfert/script.php:57
+#, fuzzy
+msgid "Unable to find this product"
+msgstr "Bu ürün bulunamadı"
+
+#: views/transfert/script.php:85 views/transfert/script.php:91
+#, fuzzy
+msgid "Out of stock, unable to add the product."
+msgstr "Stokta ürün ekleyemiyor."
+
+#: views/transfert/script.php:109
+#, fuzzy
+msgid "Would you like to remove this item"
+msgstr "Bu öğeyi kaldırmak ister misiniz"
+
+#: views/transfert/script.php:186
+#, fuzzy
+msgid "You must provide a title"
+msgstr "Bir başlık sağlamanız gerekir"
+
+#: views/transfert/script.php:191
+#, fuzzy
+msgid "You must select a store"
+msgstr "Bir mağaza seçmeniz gerekir"
+
+#: views/transfert/script.php:194
+#, fuzzy
+msgid "Would you like to confirm this transfert ?"
+msgstr "Bu nakletmek onaylamak ister misiniz?"
+
+#: views/transfert/script.php:202
+#, fuzzy
+msgid "The stock has been successfully send !"
+msgstr "Stok edilmiş başarıyla göndermek vardır!"
+
+#: views/transfert/script.php:249
+#, fuzzy
+msgid "Unable to find this item"
+msgstr "Bu öğe bulunamadı"

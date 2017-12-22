@@ -1,0 +1,1965 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-12-10 01:20+0100\n"
+"PO-Revision-Date: 2017-12-10 01:31+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: tr_TR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_s\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: vendor\n"
+"X-Poedit-SearchPathExcluded-1: modules\n"
+"X-Poedit-SearchPathExcluded-2: cache\n"
+
+#: config/nexo.php:46
+#, fuzzy
+msgid "Pourcentage"
+msgstr "Pourcentage"
+
+#: config/nexo.php:47
+#, fuzzy
+msgid "Montant Fixe"
+msgstr "Montant Fixe"
+
+#: config/oauth.php:11
+#, fuzzy
+msgid "Access user details"
+msgstr "Erişim kullanıcı ayrıntıları"
+
+#: config/oauth.php:12
+#, fuzzy
+msgid ""
+"The current request would like to access user informations such as name, "
+"email, except password"
+msgstr ""
+"Geçerli isteğin kullanıcı bilgileri ad, e-posta, şifre dışında gibi erişmek "
+"ister misiniz"
+
+#: config/oauth.php:19
+#, fuzzy
+msgid "Control Tendoo CMS"
+msgstr "Denetim Tendoo CMS"
+
+#: config/oauth.php:20
+#, fuzzy
+msgid "Give full access to modules, users and options on Tendoo CMS."
+msgstr "Dersleri, kullanıcılar ve Tendoo CMS seçenekleri tam erişim sağlar."
+
+#: controllers/Dashboard.php:150
+#, fuzzy, php-format
+msgid "Dashboard &mdash; %s"
+msgstr "Pano &mdash; %s"
+
+#: controllers/Dashboard.php:170
+#, fuzzy, php-format
+msgid "Settings &mdash; %s"
+msgstr "Ayarları &mdash; %s"
+
+#: controllers/Dashboard.php:292
+#, fuzzy, php-format
+msgid "The request returned the following message : %s<br>Code : %s"
+msgstr "İstek aşağıdaki iletisini verdi: %s<br>Kod: %s"
+
+#: controllers/Dashboard.php:328
+#, fuzzy
+msgid "Upload a zip file"
+msgstr "Dosya yükle"
+
+#: controllers/Dashboard.php:333
+#, fuzzy
+msgid ""
+"An error occured during module installation. There was a file conflict "
+"during module installation process.<br>This file seems to be already "
+"installed : "
+msgstr ""
+"Modül yüklemesi sırasında bir hata oluştu. Modül yükleme işlemi sırasında "
+"dosya çakışması oldu.<br>Bu dosya zaten yüklü olması gibi görünüyor:"
+
+#: controllers/Dashboard.php:336
+#, fuzzy, php-format
+msgid "Module List &mdash; %s"
+msgstr "Modül listesi &mdash; %s"
+
+#: controllers/Dashboard.php:349
+#, fuzzy
+msgid "Back to modules list"
+msgstr "Modüllere dön"
+
+#: controllers/Dashboard.php:369
+#, fuzzy, php-format
+msgid "Add a new extension &mdash; %s"
+msgstr "Yeni uzantı eklemek &mdash; %s"
+
+#: controllers/Dashboard.php:447
+#, fuzzy, php-format
+msgid "Migration &mdash; %s"
+msgstr "Geçiş &mdash; %s"
+
+#: controllers/Dashboard.php:464
+#, fuzzy
+msgid "Unknow module"
+msgstr "Modül bilinmeyen"
+
+#: controllers/Dashboard.php:494 views/dashboard/modules/migrate.php:57
+#, fuzzy
+msgid "Migration done."
+msgstr "Geçiş yapılır."
+
+#: controllers/Dashboard.php:501
+#, fuzzy
+msgid "File not found or incorrect executable provided."
+msgstr "Sağlanan değil bulunamadı veya yanlış çalıştırılabilir dosya."
+
+#: controllers/Dashboard.php:506
+#, fuzzy
+msgid "An error occured"
+msgstr "Bir hata oluştu"
+
+#: controllers/Dashboard.php:513
+#, fuzzy
+msgid "Migration File not found."
+msgstr "Geçiş dosyası bulunamadı."
+
+#: controllers/Dashboard.php:707
+#, fuzzy, php-format
+msgid "Updating... &mdash; %s"
+msgstr "Güncelleme... &mdash; %s"
+
+#: controllers/Dashboard.php:719
+#, fuzzy, php-format
+msgid "Update Center &mdash; %s"
+msgstr "Güncelleştirme Merkezi &mdash; %s"
+
+#: controllers/Dashboard.php:744
+#, fuzzy, php-format
+msgid "About &mdash; %s"
+msgstr "Hakkında &mdash; %s"
+
+#: controllers/Do_setup.php:43
+#, fuzzy, php-format
+msgid "Welcome Page &mdash; %s"
+msgstr "Karşılama sayfası &mdash; %s"
+
+#: controllers/Do_setup.php:55 views/do-setup/database.php:21
+#: views/do-setup/database.php:22
+#, fuzzy
+msgid "Host Name"
+msgstr "Sunucu Adı"
+
+#: controllers/Do_setup.php:56
+#: mu-modules/aauth/controllers/UsersController.php:209
+#: mu-modules/aauth/inc/fields.php:40 mu-modules/aauth/inc/fields.php:109
+#: mu-modules/aauth/inc/rules.php:17 mu-modules/aauth/views/users/create.php:30
+#: mu-modules/aauth/views/users/edit.php:29
+#: mu-modules/aauth/views/users/profile.php:41 views/do-setup/database.php:38
+#: views/do-setup/database.php:39
+#, fuzzy
+msgid "User Name"
+msgstr "Kullanıcı Adı"
+
+#: controllers/Do_setup.php:57 views/do-setup/database.php:26
+#: views/do-setup/database.php:27
+#, fuzzy
+msgid "Database Name"
+msgstr "Veri tabanı ismi"
+
+#: controllers/Do_setup.php:58 views/do-setup/database.php:48
+#: views/do-setup/database.php:49
+#, fuzzy
+msgid "Database Driver"
+msgstr "Qt veritabanı sürücüsü:"
+
+#: controllers/Do_setup.php:59 views/do-setup/database.php:31
+#: views/do-setup/database.php:32
+#, fuzzy
+msgid "Database Prefix"
+msgstr "Veritabanı öneki"
+
+#: controllers/Do_setup.php:78
+#, fuzzy, php-format
+msgid "Database config &mdash; %s"
+msgstr "Veritabanı yapılandırma &mdash; %s"
+
+#: controllers/Do_setup.php:95 views/dashboard/settings/body.php:31
+#: views/do-setup/site.php:15
+#, fuzzy
+msgid "Site Name"
+msgstr "Site Adı"
+
+#: controllers/Do_setup.php:110
+#, fuzzy, php-format
+msgid "Site & Master account &mdash; %s"
+msgstr "Site ve ana hesap &mdash; %s"
+
+#: controllers/Oauth.php:34
+#, fuzzy
+msgid "Scopes"
+msgstr "Kapsamları"
+
+#: controllers/Oauth.php:50
+#, fuzzy, php-format
+msgid "%s &mdash; Request permissions"
+msgstr "%s &mdash; istek izinler"
+
+#: controllers/Page_403.php:30
+#, fuzzy
+msgid "You don't have access to this page."
+msgstr "Bu Menüye erişmek için izniniz yok."
+
+#: controllers/Sign_in.php:33
+#, fuzzy
+msgid "Submit button"
+msgstr "Gönder Butonu"
+
+#: controllers/Sign_in.php:52
+#, fuzzy, php-format
+msgid "Sign In &mdash; %s"
+msgstr "Oturum &mdash; %s"
+
+#: controllers/Sign_in.php:67
+#: mu-modules/aauth/controllers/UsersController.php:25
+#: mu-modules/aauth/controllers/UsersController.php:164
+#: mu-modules/aauth/controllers/UsersController.php:210
+#: mu-modules/aauth/views/users/create.php:38
+#: mu-modules/aauth/views/users/edit.php:39
+#: mu-modules/aauth/views/users/profile.php:51
+#, fuzzy
+msgid "User Email"
+msgstr "Kullanıcı E posta"
+
+#: controllers/Sign_in.php:75
+#, fuzzy, php-format
+msgid "Recover Password &mdash; %s"
+msgstr "Yeniden elde etmek parola &mdash; %s"
+
+#: controllers/Sign_up.php:41
+#, fuzzy, php-format
+msgid "Sign Up &mdash; %s"
+msgstr "Üye ol &mdash; %s"
+
+#: controllers/TablesController.php:37
+#, fuzzy
+msgid "Tables"
+msgstr "Tablolar"
+
+#: controllers/TablesController.php:52
+#, fuzzy
+msgid "Name"
+msgstr "İsim"
+
+#: controllers/TablesController.php:53
+#: mu-modules/aauth/views/groups/body.php:46
+#, fuzzy
+msgid "Description"
+msgstr "Açıklama"
+
+#: controllers/TablesController.php:54 mu-modules/aauth/views/users/body.php:35
+#, fuzzy
+msgid "Status"
+msgstr "Durum"
+
+#: controllers/TablesController.php:55
+#, fuzzy
+msgid "Author"
+msgstr "Yazar"
+
+#: controllers/TablesController.php:56
+#, fuzzy
+msgid "Maximum Seats"
+msgstr "Maksimum Koltuk Sayısı"
+
+#: controllers/TablesController.php:57
+#, fuzzy
+msgid "Created On"
+msgstr "Oluşturuldu"
+
+#: controllers/TablesController.php:58
+#, fuzzy
+msgid "Edited On"
+msgstr "Düzenlenmiş"
+
+#: controllers/TablesController.php:59
+#, fuzzy
+msgid "Area"
+msgstr "Bölge"
+
+#: controllers/TablesController.php:93
+#, fuzzy
+msgid "Tables Lists"
+msgstr "Tabloları listeler"
+
+#: core/Tendoo_Lang.php:166 core/Tendoo_Lang.php:173
+#, fuzzy
+msgid "Unable to load the requested lang file"
+msgstr "İstenen lang dosyası yüklenemiyor"
+
+#: helpers/nexopos_helper.php:105
+#, fuzzy, php-format
+msgid "%s &rsaquo; %s &mdash; %s"
+msgstr "%s &rsaquo; %s &mdash; %s"
+
+#: helpers/nexopos_helper.php:105
+#, fuzzy
+msgid "NexoPOS"
+msgstr "NexoPOS"
+
+#: helpers/nexopos_helper.php:108
+#, fuzzy, php-format
+msgid "%s &rsaquo; %s"
+msgstr "%s &rsaquo; %s"
+
+#: language/system_lang.php:3
+#, fuzzy
+msgid "Database has been installed."
+msgstr "Veritabanı yüklü."
+
+#: language/system_lang.php:4
+#, fuzzy
+msgid "Tendoo can't access to the database."
+msgstr "Tendoo veritabanına erişemiyor."
+
+#: language/system_lang.php:5
+#, fuzzy
+msgid "Tendoo cannot connect to your database host."
+msgstr "Tendoo veritabanı ana bilgisayara bağlanamıyor."
+
+#: language/system_lang.php:6
+#, fuzzy
+msgid "An error occured."
+msgstr "Bir hata oluştu."
+
+#: language/system_lang.php:7
+#, fuzzy
+msgid "An unexpected error occured."
+msgstr "Beklenmeyen bir hata oluştu!"
+
+#: language/system_lang.php:8
+#, fuzzy
+msgid "Access Denied."
+msgstr "Erişim engellendi."
+
+#: language/system_lang.php:9
+#, fuzzy
+msgid "Option was successfully saved."
+msgstr "Seçeneği başarıyla kaydedildi."
+
+#: language/system_lang.php:10
+#, fuzzy
+msgid "Unable to find this item. It may have been deleted or moved."
+msgstr "Bu öğeyi bulmak yapamaz. Silinmiş veya taşınmış."
+
+#: language/system_lang.php:12
+#, fuzzy
+msgid "Sign in to start your session"
+msgstr "Oturumunu başlatmak için oturum aç"
+
+#: language/system_lang.php:13
+#, fuzzy
+msgid "Please enter your email addresse. A recovery email will be send to you."
+msgstr "Lütfen e-posta adres girin. Bir kurtarma e-posta size gönderilecektir."
+
+#: language/system_lang.php:14
+#, fuzzy
+msgid "You logged in successfully."
+msgstr "Başarıyla giriş yaptınız."
+
+#: language/system_lang.php:15
+#, fuzzy
+msgid "Wrong Password or User Name"
+msgstr "Yanlış şifre ya da kullanıcı adı"
+
+#: language/system_lang.php:16
+#, fuzzy
+msgid "Login is required."
+msgstr "Kullanıcının oturum açması gerekli."
+
+#: language/system_lang.php:18
+#, fuzzy
+msgid "Username is already used by another user."
+msgstr "Kullanıcı adı zaten başka bir kullanıcı tarafından kullanılıyor."
+
+#: language/system_lang.php:19
+#, fuzzy
+msgid "This email is already used."
+msgstr "Bu e-posta zaten kullanılıyor."
+
+#: language/system_lang.php:20
+#, fuzzy
+msgid "This email seems to be already taken."
+msgstr "Bu e-posta zaten alınması gibi görünüyor."
+
+#: language/system_lang.php:21
+#, fuzzy
+msgid "This username seems to be already taken."
+msgstr "Bu kullanıcı adı zaten alınması gibi görünüyor."
+
+#: language/system_lang.php:22
+#, fuzzy
+msgid "The user has been successfully created."
+msgstr "Kullanıcı başarıyla oluşturuldu."
+
+#: language/system_lang.php:23
+#, fuzzy
+msgid "Your Account has been activated. Please Sign-up"
+msgstr "Hesabınızı aktive edildi. Kayıt lütfen"
+
+#: language/system_lang.php:25
+#, fuzzy
+msgid "Unknow email address"
+msgstr "E-posta adresi bilinmeyen"
+
+#: language/system_lang.php:26
+#, fuzzy
+msgid ""
+"The recovery email has been send. Please check your email, open the recovery "
+"email and follow the instructions."
+msgstr ""
+"Kurtarma e-posta göndermek olmuştur. Lütfen e-posta kontrol, kurtarma e-"
+"postayı açın ve yönergeleri izleyin."
+
+#: language/system_lang.php:28
+#, fuzzy
+msgid "You must logout first to access that page."
+msgstr "İlk önce bu sayfaya erişmek için oturum kapatma gerekir."
+
+#: language/system_lang.php:30
+#, fuzzy
+msgid ""
+"A new password has been created for your account. Check your email to get it."
+msgstr ""
+"Hesabınız için yeni bir parola oluşturuldu. Onu almak için e-postanızı "
+"kontrol edin."
+
+#: language/system_lang.php:31
+#, fuzzy
+msgid "The module has been enabled."
+msgstr "Modül etkinleştirildi."
+
+#: language/system_lang.php:32
+#, fuzzy
+msgid "The module has been disabled."
+msgstr "Modül devre dışı bırakıldı."
+
+#: language/system_lang.php:33
+#, fuzzy
+msgid "The module has been removed."
+msgstr "Modülü kaldırıldı."
+
+#: language/system_lang.php:34
+#, fuzzy
+msgid "The module has been extracted."
+msgstr "Modülün elde edilmiştir."
+
+#: language/system_lang.php:35
+#, fuzzy
+msgid "The module has been updated."
+msgstr "Modül güncelleştirildi."
+
+#: language/system_lang.php:36
+#, fuzzy
+msgid "The version installed is already up to date."
+msgstr "Yüklü sürüm zaten güncel durumda."
+
+#: language/system_lang.php:37
+#, fuzzy
+msgid "An error occured during update."
+msgstr "Güncelleştirme sırasında bir hata oluştu."
+
+#: language/system_lang.php:38
+#, fuzzy
+msgid ""
+"Config file hasn't been found. This file is not a valid module. Installation "
+"aborded !!!"
+msgstr ""
+"Yapılandırma dosyası bulamadı. Bu dosya geçerli bir modül değil. Yükleme "
+"aborded!!!"
+
+#: language/system_lang.php:53
+#, fuzzy
+msgid "A migration is not required or has already been done."
+msgstr "Bir geçiş gerekli değildir veya zaten yapılmıştır."
+
+#: libraries/CustomQuery.php:81
+#, fuzzy
+msgid "Unamed Custom Post"
+msgstr "Unamed Özel Mesaj"
+
+#: libraries/CustomQuery.php:132
+#, fuzzy
+msgid "Untitled"
+msgstr "Başlıksız"
+
+#: libraries/CustomQuery.php:516 libraries/PostType.php:101
+#, fuzzy, php-format
+msgid "New %s"
+msgstr "Yeni %s"
+
+#: libraries/CustomQuery.php:517 libraries/PostType.php:15
+#, fuzzy, php-format
+msgid "Edit %s"
+msgstr "Düzenle %s"
+
+#: libraries/CustomQuery.php:518 libraries/PostType.php:17
+#: libraries/PostType.php:96
+#, fuzzy, php-format
+msgid "%s list"
+msgstr "% s Listesi"
+
+#: libraries/CustomQuery.php:878 libraries/CustomQuery.php:879
+#, fuzzy
+msgid "Not Set"
+msgstr "Ayarlanmadı"
+
+#: libraries/CustomQuery.php:959
+#, fuzzy
+msgid "Draft"
+msgstr "Taslak"
+
+#: libraries/CustomQuery.php:962
+#, fuzzy
+msgid "Published"
+msgstr "Yayınlanan"
+
+#: libraries/CustomQuery.php:965
+#, fuzzy
+msgid "Pending"
+msgstr "Onay Bekleyen"
+
+#: libraries/CustomQuery.php:968
+#, fuzzy
+msgid "Trash"
+msgstr "Çöp"
+
+#: libraries/CustomQuery.php:971
+#, fuzzy
+msgid "Disapproved"
+msgstr "Onaylanmadı"
+
+#: libraries/CustomQuery.php:975
+#, fuzzy
+msgid "Unknow status"
+msgstr "Bilinmeyen durum"
+
+#: libraries/Modules.php:288
+#, fuzzy, php-format
+msgid ""
+"<strong>%s</strong> has been disabled. This module require <strong>%s</"
+"strong> to work properly."
+msgstr ""
+"<strong>%s</strong> devre dışı bırakıldı. Bu modül düzgün çalışması için "
+"<strong>%s</strong> gerektirir."
+
+#: libraries/PostType.php:13
+#, fuzzy, php-format
+msgid "Create a new %s"
+msgstr "Yeni Oluştur :"
+
+#: libraries/PostType.php:19
+#, fuzzy, php-format
+msgid "delete %s"
+msgstr "Sınıflandırma koşullarını Sil %s"
+
+#: libraries/PostType.php:29
+#, fuzzy
+msgid "Comments"
+msgstr "Yorumlar"
+
+#: libraries/PostType.php:31
+#, fuzzy, php-format
+msgid "%s comments"
+msgstr "%s Yorumlar"
+
+#: libraries/Theme.php:125
+#, fuzzy
+msgid "Unable to load \"index.php\" from current theme."
+msgstr "Geçerli temanın \"index.php\" yüklenemiyor."
+
+#: libraries/Theme.php:135
+#, fuzzy
+msgid "Unable to load \"blog.php\" from current theme."
+msgstr "\"Blog.php\" geçerli Tema yüklenemedi."
+
+#: libraries/Theme.php:145
+#, fuzzy
+msgid "Unable to load \"single.php\" from current theme."
+msgstr "Geçerli temanın \"single.php\" yüklenemiyor."
+
+#: libraries/Theme.php:155
+#, fuzzy
+msgid "Unable to load \"404.php\" from current theme."
+msgstr "\"404.php\" geçerli Tema yüklenemedi."
+
+#: libraries/Theme.php:161
+#, fuzzy, php-format
+msgid ""
+"Post Type module is not enabled. <a href=\"%s\">Please log in and install/"
+"enable</a> the module first"
+msgstr ""
+"Yazı tipi modülünün etkinleştirilmemiş. <a href=\"%s\">Lütfen giriş yapın ve "
+"yükleme/enable</a> modülü ilk"
+
+#: libraries/User.php:56
+#, fuzzy
+msgid "N/A"
+msgstr "Uygulanabilir değil"
+
+#: models/Dashboard_Model.php:44
+#, fuzzy
+msgid "Dashboard"
+msgstr "Gösterge Paneli"
+
+#: models/Dashboard_Model.php:51
+#, fuzzy
+msgid "Update Center"
+msgstr "Güncelleştirme Merkezi"
+
+#: models/Dashboard_Model.php:58
+#, fuzzy
+msgid "About"
+msgstr "Hakkında"
+
+#: models/Dashboard_Model.php:70
+#, fuzzy
+msgid "Modules"
+msgstr "Modüller"
+
+#: models/Dashboard_Model.php:83
+#, fuzzy
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: models/Login_Model.php:44 mu-modules/aauth/inc/fields.php:90
+#: views/sign-in/recovery.php:31
+#, fuzzy
+msgid "Sign In"
+msgstr "Oturum Aç"
+
+#: models/Nexo_Misc.php:82 models/Nexo_Misc.php:86
+#, fuzzy
+msgid "Votre licence expire le %d-%m-%Y à %h:%i"
+msgstr "Votre ruhsat tarihi: le %d-%m-%Y à % h: %i"
+
+#: models/Nexo_Misc.php:380
+#, fuzzy
+msgid "Le client a été correctement crée."
+msgstr "Le istemci été correctement crée."
+
+#: models/Nexo_Misc.php:385
+msgid "Une erreur s'est produite."
+msgstr "Bir hata oluştu."
+
+#: models/Nexo_Misc.php:792
+msgid "Paiement du fournisseur"
+msgstr "Satıcı ödeme"
+
+#: models/Nexo_Products.php:236 models/Nexo_Products.php:311
+#, fuzzy
+msgid "Access Denied"
+msgstr "Erişim Engellendi"
+
+#: models/Update_Model.php:76
+#, fuzzy, php-format
+msgid ""
+"An update is ready to be installed. <a href=\"%s\">Click here to install it</"
+"a>"
+msgstr ""
+"Bir güncelleştirme yüklemeye hazırdır. <a href=\"%s\">Yüklemek için burayı "
+"tıklatın</a>"
+
+#: models/Users_Model.php:93
+#, fuzzy
+msgid "Master Group"
+msgstr "Ana grup"
+
+#: models/Users_Model.php:93
+#, fuzzy
+msgid "Can create users, install modules, manage options"
+msgstr "Kullanıcılar oluşturmak, modülleri yüklemek, seçeneklerini yönetmek"
+
+#: models/Users_Model.php:98
+#, fuzzy
+msgid "Admin Group"
+msgstr "Yönetim grubu"
+
+#: models/Users_Model.php:98
+#, fuzzy
+msgid "Can install modules, manage options"
+msgstr "Modülleri yüklemek, seçeneklerini yönetmek"
+
+#: models/Users_Model.php:103
+#, fuzzy
+msgid "User Group"
+msgstr "Kullanıcı Grubu"
+
+#: models/Users_Model.php:103
+#, fuzzy
+msgid "Just a user"
+msgstr "Sadece bir kullanıcı"
+
+#: models/Users_Model.php:297
+#, fuzzy
+msgid "Manage Core"
+msgstr "Çekirdek yönetmek"
+
+#: models/Users_Model.php:297
+#, fuzzy
+msgid "Allow core management"
+msgstr "Çekirdek yönetimine izin ver"
+
+#: models/Users_Model.php:303 models/Users_Model.php:330
+#, fuzzy
+msgid "Create Options"
+msgstr "Oluşturma seçenekleri"
+
+#: models/Users_Model.php:303 models/Users_Model.php:330
+#, fuzzy
+msgid "Allow option creation"
+msgstr "Seçenek oluşturmaya izin verme"
+
+#: models/Users_Model.php:304
+#, fuzzy
+msgid "Edit Options"
+msgstr "Seçenekleri Düzenle"
+
+#: models/Users_Model.php:304
+#, fuzzy
+msgid "Allow option edition"
+msgstr "Seçenek baskı izin"
+
+#: models/Users_Model.php:305
+#, fuzzy
+msgid "Read Options"
+msgstr "Okuma seçenekleri"
+
+#: models/Users_Model.php:305
+#, fuzzy
+msgid "Allow option read"
+msgstr "Oku seçeneği izin ver"
+
+#: models/Users_Model.php:306
+#, fuzzy
+msgid "Delete Options"
+msgstr "Seçenekleri Sil"
+
+#: models/Users_Model.php:306
+#, fuzzy
+msgid "Allow option deletion."
+msgstr "Seçenek silmeye izin."
+
+#: models/Users_Model.php:312
+#, fuzzy
+msgid "Install Modules"
+msgstr "Modülleri yüklemek"
+
+#: models/Users_Model.php:312
+#, fuzzy
+msgid "Let user install modules."
+msgstr "Kullanıcı modülleri yüklemek izin."
+
+#: models/Users_Model.php:313
+#, fuzzy
+msgid "Update Modules"
+msgstr "Güncelleştirme modülleri"
+
+#: models/Users_Model.php:313
+#, fuzzy
+msgid "Let user update modules"
+msgstr "Kullanıcı güncelleştirmeyi modülleri izin"
+
+#: models/Users_Model.php:314
+#, fuzzy
+msgid "Delete Modules"
+msgstr "Modülleri silme"
+
+#: models/Users_Model.php:314
+#, fuzzy
+msgid "Let user delete modules"
+msgstr "Kullanıcı Sil modülleri izin"
+
+#: models/Users_Model.php:315
+#, fuzzy
+msgid "Enable/Disable Modules"
+msgstr "Modülleri etkinleştir/devre dışı bırak"
+
+#: models/Users_Model.php:315
+#, fuzzy
+msgid "Let user enable/disable modules"
+msgstr "Kullanıcı etkinleştir/devre dışı bırak modülleri izin"
+
+#: models/Users_Model.php:316
+#, fuzzy
+msgid "Extract Modules"
+msgstr "Modülleri ayıklamak"
+
+#: models/Users_Model.php:316
+#, fuzzy
+msgid "Let user extract modules"
+msgstr "Kullanıcı özü modülleri izin"
+
+#: models/Users_Model.php:322
+#, fuzzy
+msgid "Create Users"
+msgstr "Kullanıcıları oluşturun"
+
+#: models/Users_Model.php:322
+#, fuzzy
+msgid "Allow create users."
+msgstr "İzin kullanıcılar oluşturun."
+
+#: models/Users_Model.php:323
+#, fuzzy
+msgid "Edit Users"
+msgstr "Kullanıcıları Düzenle"
+
+#: models/Users_Model.php:323
+#, fuzzy
+msgid "Allow edit users."
+msgstr "Düzenle, kullanıcıların."
+
+#: models/Users_Model.php:324
+#, fuzzy
+msgid "Delete Users"
+msgstr "Kullanıcıları Sil"
+
+#: models/Users_Model.php:324
+#, fuzzy
+msgid "Allow delete users."
+msgstr "Sil, kullanıcıların."
+
+#: mu-modules/aauth/controllers/UsersController.php:26
+#: mu-modules/aauth/controllers/UsersController.php:166
+#: mu-modules/aauth/controllers/UsersController.php:211
+#: mu-modules/aauth/inc/fields.php:52 mu-modules/aauth/inc/fields.php:77
+#: mu-modules/aauth/inc/fields.php:121 mu-modules/aauth/inc/rules.php:19
+#: mu-modules/aauth/views/users/create.php:46
+#, fuzzy
+msgid "Password"
+msgstr "Parola"
+
+#: mu-modules/aauth/controllers/UsersController.php:27
+#: mu-modules/aauth/controllers/UsersController.php:167
+#: mu-modules/aauth/controllers/UsersController.php:212
+#: mu-modules/aauth/inc/fields.php:126 mu-modules/aauth/inc/rules.php:20
+#: mu-modules/aauth/views/users/create.php:54
+#, fuzzy
+msgid "Confirm"
+msgstr "Onayla"
+
+#: mu-modules/aauth/controllers/UsersController.php:28
+#: mu-modules/aauth/controllers/UsersController.php:213
+#, fuzzy
+msgid "User Privilege"
+msgstr "Kullanıcı ayrıcalık"
+
+#: mu-modules/aauth/controllers/UsersController.php:62
+#: mu-modules/aauth/controllers/UsersController.php:245
+#, fuzzy
+msgid "Return to the list"
+msgstr "Listeye dön"
+
+#: mu-modules/aauth/controllers/UsersController.php:69
+#, fuzzy, php-format
+msgid "Edit user &mdash; %s"
+msgstr "Kullanıcı düzenleme &mdash; %s"
+
+#: mu-modules/aauth/controllers/UsersController.php:112
+#, fuzzy
+msgid "Add A user"
+msgstr "Kullanıcı Ekle"
+
+#: mu-modules/aauth/controllers/UsersController.php:119
+#, fuzzy, php-format
+msgid "Users &mdash; %s"
+msgstr "Kullanıcılar &mdash; %s"
+
+#: mu-modules/aauth/controllers/UsersController.php:165
+#, fuzzy
+msgid "Old Pass"
+msgstr "Eski Pass"
+
+#: mu-modules/aauth/controllers/UsersController.php:192
+#, fuzzy, php-format
+msgid "My Profile &mdash; %s"
+msgstr "Profilimi &mdash; %s"
+
+#: mu-modules/aauth/controllers/UsersController.php:252
+#, fuzzy, php-format
+msgid "Create a new user &mdash; %s"
+msgstr "Yeni bir kullanıcı oluşturmak &mdash; %s"
+
+#: mu-modules/aauth/controllers/UsersController.php:275
+#, fuzzy, php-format
+msgid "Roles &mdash; %s"
+msgstr "Roller &mdash; %s"
+
+#: mu-modules/aauth/inc/aauth_lang.php:8
+#, fuzzy
+msgid "Tendoo CMS : Account Verification"
+msgstr "Tendoo CMS: Hesap doğrulama"
+
+#: mu-modules/aauth/inc/aauth_lang.php:9
+#, fuzzy
+msgid ""
+"Hey you have successfully created an account using Tendoo CMS. Please "
+"consider activating your account using the following verification code.\\n"
+"\\n<strong>Your verification code is</strong>: "
+msgstr ""
+"Hey Tendoo CMS kullanarak hesabı başarıyla oluşturdunuz. Lütfen aşağıdaki "
+"doğrulama code.\\n\\n<strong>doğrulama kodunuz</strong>kullanarak hesabınızı "
+"aktif hale getirilmesi göz önünde bulundurun:"
+
+#: mu-modules/aauth/inc/aauth_lang.php:10
+#, fuzzy, php-format
+msgid ""
+" You can also click on (or copy and paste) the following link\n"
+"\n"
+"%s"
+msgstr ""
+"Ayrıca tıklayın (veya kopyalayın ve yapıştırın) aşağıdaki bağlantıyı %s"
+
+#: mu-modules/aauth/inc/aauth_lang.php:13
+#, fuzzy
+msgid "Tendoo CMS : Reset Password"
+msgstr "Tendoo CMS: Parolayı Sıfırla"
+
+#: mu-modules/aauth/inc/aauth_lang.php:14
+#, fuzzy, php-format
+msgid ""
+"To reset your password click on (or copy and paste in your browser address "
+"bar) the link below:\n"
+"\n"
+"%s"
+msgstr ""
+"Aşağıdaki linki üzerinde parola tıklama sıfırlamak (veya kopyalayıp "
+"tarayıcınızın adres çubuğuna yapıştırın için): %s"
+
+#: mu-modules/aauth/inc/aauth_lang.php:17
+#, fuzzy
+msgid "Tendoo CMS : Successful Pasword Reset"
+msgstr "Tendoo CMS: Başarılı Pasword sıfırlama"
+
+#: mu-modules/aauth/inc/aauth_lang.php:18
+#, fuzzy
+msgid "Your password has successfully been reset. Your new password is : "
+msgstr "Parolanızı başarıyla sıfırlandı. Yeni şifrenizi geçerli:"
+
+#: mu-modules/aauth/inc/aauth_lang.php:24
+#, fuzzy
+msgid ""
+"Email address already exists on the system. If you forgot your password, you "
+"can click the link below."
+msgstr ""
+"E-posta adresi zaten sistemde var. Şifrenizi unuttuysanız, aşağıdaki "
+"bağlantıyı tıklatabilirsiniz."
+
+#: mu-modules/aauth/inc/aauth_lang.php:26
+#, fuzzy
+msgid "Invalid e-mail address"
+msgstr "Geçersiz e-posta adresi"
+
+#: mu-modules/aauth/inc/aauth_lang.php:27
+#, fuzzy
+msgid "Invalid password"
+msgstr "Geçersiz şifre"
+
+#: mu-modules/aauth/inc/aauth_lang.php:28
+#, fuzzy
+msgid "Invalid Username"
+msgstr "Hatalı kullanıcı adı"
+
+#: mu-modules/aauth/inc/aauth_lang.php:29
+#, fuzzy
+msgid "Username required"
+msgstr "Kullanıcı Adı Zorunludur"
+
+#: mu-modules/aauth/inc/aauth_lang.php:32
+#, fuzzy
+msgid "Sorry, you do not have access to the resource you requested."
+msgstr "Üzgünüz, istenen kaynağa erişim izni yok."
+
+#: mu-modules/aauth/inc/aauth_lang.php:33
+#, fuzzy
+msgid "E-mail Address and Password do not match."
+msgstr "E-posta adresi ve parola eşleşmiyor."
+
+#: mu-modules/aauth/inc/aauth_lang.php:34
+#, fuzzy
+msgid ""
+"You have exceeded your login attempts, your account has now been locked."
+msgstr "Oturum açma girişimleri aştınız, hesabınızı şimdi kilitli."
+
+#: mu-modules/aauth/inc/aauth_lang.php:35
+#, fuzzy
+msgid "Sorry, the reCAPTCHA text entered was incorrect."
+msgstr "Üzgünüz, girilen reCAPTCHA metin yanlış."
+
+#: mu-modules/aauth/inc/aauth_lang.php:39
+#, fuzzy
+msgid "User does not exist"
+msgstr "Kullanıcı mevcut değil!"
+
+#: mu-modules/aauth/inc/aauth_lang.php:40
+#, fuzzy
+msgid ""
+"Your account has not been verified. Please check your e-mail and verify your "
+"account."
+msgstr ""
+"Hesap doğrulandı değil. Lütfen e-postanızı denetleyin ve hesabınızı "
+"doğrulayın."
+
+#: mu-modules/aauth/inc/aauth_lang.php:41
+#, fuzzy
+msgid "Group does not exist"
+msgstr "Grubu kayıtlı değil"
+
+#: mu-modules/aauth/inc/aauth_lang.php:42
+#, fuzzy
+msgid "It is not possible to send a Message to yourself."
+msgstr "Kendinize bir mesaj göndermek mümkün değildir."
+
+#: mu-modules/aauth/inc/aauth_lang.php:43
+#, fuzzy
+msgid "Private Message not found"
+msgstr "Özel ileti bulunamadı"
+
+#: mu-modules/aauth/inc/aauth_lang.php:47
+#, fuzzy
+msgid "User is already member of group"
+msgstr "Kullanıcı zaten grubunun üyesidir"
+
+#: mu-modules/aauth/inc/aauth_lang.php:48
+#, fuzzy
+msgid "Group name already exists"
+msgstr "Grup adı zaten var!"
+
+#: mu-modules/aauth/inc/aauth_lang.php:49
+#, fuzzy
+msgid "Permission name already exists"
+msgstr "İzin adı zaten var"
+
+#: mu-modules/aauth/inc/aauth_lang.php:51
+#, fuzzy
+msgid "The group has been updated"
+msgstr "Grup güncellendi"
+
+#: mu-modules/aauth/inc/aauth_lang.php:64
+#, fuzzy
+msgid "User settings's has been updated."
+msgstr "Kullanıcı ayarları 's güncellenmiştir."
+
+#: mu-modules/aauth/inc/aauth_lang.php:65
+#, fuzzy
+msgid "The user has been deleted."
+msgstr "Kullanıcı Silindi."
+
+#: mu-modules/aauth/inc/aauth_lang.php:66
+#, fuzzy
+msgid "The new password cannot match the old one, please use another password."
+msgstr "Yeni parolayı eski bir maç olamaz lütfen başka bir parola kullanın."
+
+#: mu-modules/aauth/inc/aauth_lang.php:67
+#, fuzzy
+msgid "Your old password is not correct."
+msgstr "Eski şifreni yanlış"
+
+#: mu-modules/aauth/inc/aauth_lang.php:70
+#, fuzzy
+msgid "A group with this name already exists. Please choose another name."
+msgstr "Bu adı taşıyan bir grup zaten var. Lütfen başka bir ad seçin."
+
+#: mu-modules/aauth/inc/aauth_lang.php:71
+#, fuzzy
+msgid "Group has been created."
+msgstr "Grup başarıyla oluşturuldu."
+
+#: mu-modules/aauth/inc/aauth_lang.php:72
+#, fuzzy
+msgid "This group does'nt exists or has been deleted."
+msgstr "Bu grup doesnt'yok veya silinmiş."
+
+#: mu-modules/aauth/inc/aauth_lang.php:73
+#, fuzzy
+msgid "Unknow group."
+msgstr "Grup bilinmeyen."
+
+#: mu-modules/aauth/inc/aauth_lang.php:74
+#, fuzzy
+msgid "Group has been updated."
+msgstr "Grup başarıyla güncellendi."
+
+#: mu-modules/aauth/inc/aauth_lang.php:75
+#, fuzzy
+msgid "You can't delete your own  account."
+msgstr "Kendi hesabınızı silemezsiniz."
+
+#: mu-modules/aauth/inc/dashboard.php:45
+#, fuzzy
+msgid "Users"
+msgstr "Kullanıcılar"
+
+#: mu-modules/aauth/inc/dashboard.php:63
+#, fuzzy
+msgid "Manage Users"
+msgstr "Kullanıcıları Yönet"
+
+#: mu-modules/aauth/inc/dashboard.php:69
+#, fuzzy
+msgid "Users List"
+msgstr "Kullanıcı listesi"
+
+#: mu-modules/aauth/inc/dashboard.php:75
+#, fuzzy
+msgid "Create a new User"
+msgstr "Yeni kullanıcı oluştur"
+
+#: mu-modules/aauth/inc/dashboard.php:82
+#, fuzzy
+msgid "Groups"
+msgstr "Gruplar"
+
+#: mu-modules/aauth/inc/dashboard.php:90
+#, fuzzy
+msgid "My profile"
+msgstr "Profilim"
+
+#: mu-modules/aauth/inc/fields.php:20
+#, fuzzy
+msgid "Please provide your user email in order to get recovery email"
+msgstr "Kullanıcı e-posta kurtarma e-posta almak için veriniz"
+
+#: mu-modules/aauth/inc/fields.php:23 mu-modules/aauth/inc/fields.php:25
+#, fuzzy
+msgid "User email or Pseudo"
+msgstr "Kullanıcı e-posta veya sözde"
+
+#: mu-modules/aauth/inc/fields.php:28
+#, fuzzy
+msgid "Get recovery Email"
+msgstr "Kurtarma e-posta almak"
+
+#: mu-modules/aauth/inc/fields.php:46 mu-modules/aauth/inc/fields.php:115
+#: mu-modules/aauth/inc/rules.php:18 mu-modules/aauth/views/users/body.php:35
+#, fuzzy
+msgid "Email"
+msgstr "E-Posta"
+
+#: mu-modules/aauth/inc/fields.php:58
+#, fuzzy
+msgid "Password confirm"
+msgstr "Parola Doğrulama"
+
+#: mu-modules/aauth/inc/fields.php:72 mu-modules/aauth/inc/rules.php:12
+#: mu-modules/aauth/inc/rules.php:13
+#, fuzzy
+msgid "Email or User Name"
+msgstr "Kullanıcı adı veya e-posta"
+
+#: mu-modules/aauth/inc/fields.php:85
+#, fuzzy
+msgid "Remember me"
+msgstr "Beni Hatırla"
+
+#: mu-modules/aauth/inc/fields.php:136 views/sign-in/body.php:42
+#: views/sign-in/recovery.php:35
+#, fuzzy
+msgid "Sign Up"
+msgstr "Kayıt"
+
+#: mu-modules/aauth/inc/fields.php:157
+#, fuzzy
+msgid "First Name"
+msgstr "Adı"
+
+#: mu-modules/aauth/inc/fields.php:164
+#, fuzzy
+msgid "Last Name"
+msgstr "Soyisim"
+
+#: mu-modules/aauth/inc/fields.php:171
+#, fuzzy
+msgid "Select a theme"
+msgstr "Bir tema seçin..."
+
+#: mu-modules/aauth/inc/fields.php:179
+#, fuzzy
+msgid "Blue"
+msgstr "Mavi"
+
+#: mu-modules/aauth/inc/fields.php:187
+#, fuzzy
+msgid "Black"
+msgstr "Siyah"
+
+#: mu-modules/aauth/inc/fields.php:195
+#, fuzzy
+msgid "Purple"
+msgstr "Mor"
+
+#: mu-modules/aauth/inc/fields.php:203
+#, fuzzy
+msgid "Green"
+msgstr "Yeşil"
+
+#: mu-modules/aauth/inc/fields.php:211
+#, fuzzy
+msgid "Red"
+msgstr "Kırmızı"
+
+#: mu-modules/aauth/inc/fields.php:219
+#, fuzzy
+msgid "Yellow"
+msgstr "Sarı"
+
+#: mu-modules/aauth/inc/fields.php:227
+#, fuzzy
+msgid "Blue Light"
+msgstr "Mavi Işık"
+
+#: mu-modules/aauth/inc/fields.php:235
+#, fuzzy
+msgid "Black Light"
+msgstr "Siyah ışık"
+
+#: mu-modules/aauth/inc/fields.php:243
+#, fuzzy
+msgid "Purple Light"
+msgstr "Mor ışık"
+
+#: mu-modules/aauth/inc/fields.php:251
+#, fuzzy
+msgid "Green Light"
+msgstr "Açık Yeşil"
+
+#: mu-modules/aauth/inc/fields.php:259
+#, fuzzy
+msgid "Red Light"
+msgstr "Kırmızı ışık"
+
+#: mu-modules/aauth/inc/fields.php:267
+#, fuzzy
+msgid "Yellow Light"
+msgstr "Sarı ışık"
+
+#: mu-modules/aauth/views/groups/body.php:14
+#, fuzzy
+msgid "Role List"
+msgstr "Rol Seç"
+
+#: mu-modules/aauth/views/groups/body.php:39
+#: views/dashboard/settings/body.php:88 views/dashboard/settings/body.php:98
+#: views/dashboard/settings/body.php:111
+#, fuzzy
+msgid "Yes"
+msgstr "Evet"
+
+#: mu-modules/aauth/views/groups/body.php:39
+#: views/dashboard/settings/body.php:87 views/dashboard/settings/body.php:97
+#: views/dashboard/settings/body.php:110
+#, fuzzy
+msgid "No"
+msgstr "Hayır"
+
+#: mu-modules/aauth/views/groups/body.php:46
+#, fuzzy
+msgid "Role name"
+msgstr "Rol ismi"
+
+#: mu-modules/aauth/views/groups/body.php:46
+#: mu-modules/aauth/views/groups/create.php:42
+#: mu-modules/aauth/views/groups/edit.php:45
+#, fuzzy
+msgid "Admin"
+msgstr "Yönetim"
+
+#: mu-modules/aauth/views/groups/body.php:46
+#, fuzzy
+msgid "Permissions"
+msgstr "İzinler"
+
+#: mu-modules/aauth/views/groups/create.php:13
+#, fuzzy
+msgid "Create a new role"
+msgstr "Yeni bir Rol Oluştur"
+
+#: mu-modules/aauth/views/groups/create.php:18
+#, fuzzy
+msgid "Create the role"
+msgstr "Rolü oluşturmak"
+
+#: mu-modules/aauth/views/groups/create.php:31
+#, fuzzy
+msgid "Enter role name"
+msgstr "Rol adını girin:"
+
+#: mu-modules/aauth/views/groups/create.php:32
+#: mu-modules/aauth/views/groups/create.php:33
+#: mu-modules/aauth/views/groups/edit.php:34
+#: mu-modules/aauth/views/groups/edit.php:35
+#, fuzzy
+msgid "Role Name"
+msgstr "Rol Adı"
+
+#: mu-modules/aauth/views/groups/create.php:41
+#: mu-modules/aauth/views/groups/edit.php:44
+#, fuzzy
+msgid "Public"
+msgstr "Herkese Açık"
+
+#: mu-modules/aauth/views/groups/create.php:44
+#: mu-modules/aauth/views/groups/create.php:45
+#: mu-modules/aauth/views/groups/edit.php:47
+#: mu-modules/aauth/views/groups/edit.php:48
+#, fuzzy
+msgid "Role Type"
+msgstr "Rol türü"
+
+#: mu-modules/aauth/views/groups/edit.php:15
+#, fuzzy
+msgid "Edit a new role"
+msgstr "Yeni bir rolü Düzenle"
+
+#: mu-modules/aauth/views/groups/edit.php:20
+#: mu-modules/aauth/views/groups/permissions.php:20
+#, fuzzy
+msgid "Edit the role"
+msgstr "Rolü Düzenle"
+
+#: mu-modules/aauth/views/groups/edit.php:33
+#, fuzzy
+msgid "Edit role name"
+msgstr "Rol Adı Düzenle"
+
+#: mu-modules/aauth/views/groups/permissions.php:15
+#, fuzzy
+msgid "Groups permissions"
+msgstr "Grup izinleri"
+
+#: mu-modules/aauth/views/users/app-list.php:5
+msgid "App Keys"
+msgstr "Uygulama tuşları"
+
+#: mu-modules/aauth/views/users/app-list.php:10
+#, fuzzy
+msgid "Click on any key to revoke it"
+msgstr "Bunu iptal etmek için herhangi bir tuşa basın"
+
+#: mu-modules/aauth/views/users/app-list.php:17
+#, fuzzy, php-format
+msgid "Scopes : %s"
+msgstr "Kapsamlar: %s"
+
+#: mu-modules/aauth/views/users/app-list.php:18
+#, fuzzy, php-format
+msgid "Created on : %s"
+msgstr "Tarihinde yaratılmıştır: %s"
+
+#: mu-modules/aauth/views/users/app-list.php:19
+#, fuzzy, php-format
+msgid "Expire on : %s"
+msgstr "Doğum tarihi:: %s"
+
+#: mu-modules/aauth/views/users/app-list.php:20
+#, fuzzy, php-format
+msgid "Keys : %s"
+msgstr "Anahtarlar: %s"
+
+#: mu-modules/aauth/views/users/app-list.php:27
+#, fuzzy
+msgid "No application is linked to this account."
+msgstr "Hiçbir uygulama bu hesaba bağlıdır."
+
+#: mu-modules/aauth/views/users/app-list.php:36
+#, fuzzy
+msgid "Would you like to revoke this App key ?"
+msgstr "Bu App anahtar iptal etmek ister misiniz?"
+
+#: mu-modules/aauth/views/users/body.php:17
+#: mu-modules/aauth/views/users/create.php:65
+#: mu-modules/aauth/views/users/edit.php:83
+msgid "Unactive"
+msgstr "Etkin değil"
+
+#: mu-modules/aauth/views/users/body.php:17
+#: mu-modules/aauth/views/users/create.php:64
+#: mu-modules/aauth/views/users/edit.php:82
+#, fuzzy
+msgid "Active"
+msgstr "Aktif"
+
+#: mu-modules/aauth/views/users/body.php:18
+#, fuzzy
+msgid "Would you like to delete this account ?"
+msgstr "Bu hesab² silmek ister misiniz?"
+
+#: mu-modules/aauth/views/users/body.php:18
+#, fuzzy
+msgid "Delete"
+msgstr "Sil"
+
+#: mu-modules/aauth/views/users/body.php:26
+#, fuzzy
+msgid "List"
+msgstr "Liste"
+
+#: mu-modules/aauth/views/users/body.php:35
+#, fuzzy
+msgid "Id"
+msgstr "Id"
+
+#: mu-modules/aauth/views/users/body.php:35
+#, fuzzy
+msgid "Username"
+msgstr "Kullanıcı Adı"
+
+#: mu-modules/aauth/views/users/body.php:35
+#, fuzzy
+msgid "Role"
+msgstr "Rol"
+
+#: mu-modules/aauth/views/users/body.php:35
+#, fuzzy
+msgid "Activity"
+msgstr "Faaliyet"
+
+#: mu-modules/aauth/views/users/body.php:35
+#, fuzzy
+msgid "Actions"
+msgstr "Aksiyon"
+
+#: mu-modules/aauth/views/users/create.php:21
+#, fuzzy
+msgid "Create User"
+msgstr "Kullanıcı Oluştur"
+
+#: mu-modules/aauth/views/users/create.php:61
+#: mu-modules/aauth/views/users/edit.php:79
+#, fuzzy
+msgid "User Status"
+msgstr "Kullanıcı durumu"
+
+#: mu-modules/aauth/views/users/create.php:63
+#: mu-modules/aauth/views/users/edit.php:81
+#, fuzzy
+msgid "Default"
+msgstr "Varsayılan"
+
+#: mu-modules/aauth/views/users/create.php:79
+#: mu-modules/aauth/views/users/edit.php:70
+#, fuzzy
+msgid "Add to a group"
+msgstr "Bir gruba eklemek"
+
+#: mu-modules/aauth/views/users/edit.php:20
+#: mu-modules/aauth/views/users/profile.php:20
+#, fuzzy
+msgid "Edit User"
+msgstr "Kullanıcı Editle"
+
+#: mu-modules/aauth/views/users/edit.php:48
+#: mu-modules/aauth/views/users/profile.php:66
+#, fuzzy
+msgid "New Password"
+msgstr "Yeni Şifre"
+
+#: mu-modules/aauth/views/users/edit.php:56
+#: mu-modules/aauth/views/users/profile.php:74
+#, fuzzy
+msgid "Confirm New"
+msgstr "Yeni onaylamak"
+
+#: mu-modules/aauth/views/users/profile.php:29
+#, fuzzy
+msgid "Connected Applications"
+msgstr "Bağlantılı Uygulamalar"
+
+#: mu-modules/aauth/views/users/profile.php:60
+#, fuzzy
+msgid "Old Password"
+msgstr "Eski Şifre"
+
+#: mu-modules/codeigniter_restful/CodeIgniter_restful.php:63
+#: views/do-setup/database.php:4 views/do-setup/index.php:4
+#: views/do-setup/site.php:4 views/oauth/body.php:12 views/sign-in/body.php:14
+#: views/sign-in/recovery.php:14 views/sign-up/body.php:5
+#, fuzzy
+msgid "Tendoo CMS"
+msgstr "Tendoo CMS"
+
+#: mu-modules/elfinder/controllers/ElFinderController.php:19
+#: mu-modules/elfinder/elfinder.php:55
+#: mu-modules/elfinder/views/elFinderGui.php:11
+#, fuzzy
+msgid "File Manager"
+msgstr "Dosya Yöneticisi"
+
+#: mu-modules/elfinder/elfinder.php:24 mu-modules/elfinder/elfinder.php:36
+#: mu-modules/elfinder/migrate.php:5
+#, fuzzy
+msgid "File Manager Access"
+msgstr "Dosya Yöneticisi erişim"
+
+#: mu-modules/elfinder/elfinder.php:24 mu-modules/elfinder/elfinder.php:36
+#: mu-modules/elfinder/migrate.php:5
+#, fuzzy
+msgid "Let the use have access to the file manager."
+msgstr "Dosya Yöneticisi erişimi kullanım izin."
+
+#: themes/hello/404.php:11 themes/hello/404.php:15
+#, fuzzy, php-format
+msgid "This is not de page you're looking for &mdash; %s"
+msgstr "Bu Aradığınız de sayfa değil &mdash; %s"
+
+#: themes/hello/blog.php:40
+#, fuzzy
+msgid "Read More"
+msgstr "İncele"
+
+#: themes/hello/blog.php:58
+#, fuzzy
+msgid "No Posts"
+msgstr "Yazı Yok"
+
+#: themes/hello/blog.php:61
+#, fuzzy, php-format
+msgid "No posts yet. Get to dashboard and <a href=\"%s\">start writing</a>"
+msgstr ""
+"Henüz mesaj yok. Pano ve <a href=\"%s\">yazmaya başlamak</a> için olsun"
+
+#: themes/hello/blog.php:66
+#, fuzzy
+msgid "Start Writing"
+msgstr "Yazmaya başlayın"
+
+#: themes/hello/blog.php:73
+#, fuzzy
+msgid "Get To dashboard"
+msgstr "Pano için"
+
+#: themes/hello/blog.php:74
+#, fuzzy
+msgid "Get To Home"
+msgstr "Ev için alın"
+
+#: themes/hello/index.php:22
+#, fuzzy
+msgid "Hello !!!"
+msgstr "Merhaba"
+
+#: themes/hello/index.php:28
+#, fuzzy, php-format
+msgid ""
+"This is the first Tendoo Theme. We still working on this feature to let "
+"people create better blog With tendoo. <a href=\"%s\">Get to blog here</a>. "
+"<br>This theme use \"Post_Type\" and \"Blog\" modules."
+msgstr ""
+"Bu ilk Tendoo temasıdır. Biz hala tendoo ile daha iyi blog oluşturmak "
+"insanlar için bu özelliği üzerinde çalışıyor. <a href=\"%s\">Blog burada "
+"olsun</a>.<br>Bu tema \"Post_Type\" ve \"Blog\" modülleri kullanın."
+
+#: themes/hello/single.php:28
+#, fuzzy, php-format
+msgid "%s &mdash; %s"
+msgstr "%s &mdash; %s"
+
+#: themes/hello/single.php:35
+#, fuzzy, php-format
+msgid "By %s"
+msgstr "Tarafınfan %s"
+
+#: themes/hello/single.php:35
+#, fuzzy
+msgid "Go Back"
+msgstr "Geri git"
+
+#: views/dashboard/error/404.php:12
+#, fuzzy
+msgid "Error : 404"
+msgstr "Hata 404 Sayfa Bulunamadı"
+
+#: views/dashboard/error/404.php:19
+#, fuzzy
+msgid "Oops ! An error occured"
+msgstr "Bir hata oluştu!"
+
+#: views/dashboard/error/404.php:20
+#, fuzzy
+msgid "404"
+msgstr "404"
+
+#: views/dashboard/error/404.php:21
+#, fuzzy
+msgid ""
+"We could not locate this page. You can go back to the dashboard and try again"
+msgstr "Bu sayfa bulunamadı. Panoya geri dönün ve yeniden deneyin"
+
+#: views/dashboard/footer.php:11
+#, fuzzy, php-format
+msgid "You're using <b>%s</b> %s"
+msgstr "<b>%s</b> %s kullandığınız"
+
+#: views/dashboard/footer.php:13
+#, fuzzy, php-format
+msgid "Thank you for using Tendoo CMS &mdash; %s in %s seconds"
+msgstr "Tendoo CMS kullanarak için teşekkürler &mdash; %s %s saniye"
+
+#: views/dashboard/gui/gui-items.php:324
+#, fuzzy
+msgid "Empty table"
+msgstr "Masayı boşalt"
+
+#: views/dashboard/horizontal-menu.php:52
+#, fuzzy, php-format
+msgid "You have %s notices"
+msgstr "%s uyarılar var"
+
+#: views/dashboard/horizontal-menu.php:118
+#, fuzzy
+msgid "Profile"
+msgstr "Profil"
+
+#: views/dashboard/horizontal-menu.php:119
+#, fuzzy
+msgid "Sign Out"
+msgstr "Çıkış Yap"
+
+#: views/dashboard/modules/after_install.php:12
+#: views/dashboard/modules/install.php:12
+#: views/dashboard/modules/migrate.php:12
+#, fuzzy
+msgid "Add new extension using ZIP file"
+msgstr "ZIP dosyası kullanarak yeni uzantı Ekle"
+
+#: views/dashboard/modules/after_install.php:17
+#, fuzzy
+msgid "Enable the extension"
+msgstr "Uzantıyı etkinleştir"
+
+#: views/dashboard/modules/after_install.php:28
+#: views/dashboard/modules/install.php:28
+#, fuzzy
+msgid "Choose the extension zip file"
+msgstr "Uzantısı zip dosyası seçin"
+
+#: views/dashboard/modules/install.php:17
+#, fuzzy
+msgid "Add the extension"
+msgstr "Uzantı Ekle"
+
+#: views/dashboard/modules/list-dom.php:20
+#, fuzzy
+msgid "Tendoo Extension"
+msgstr "Tendoo uzantısı"
+
+#: views/dashboard/modules/list-dom.php:63
+#, fuzzy
+msgid "Remove"
+msgstr "Kaldır"
+
+#: views/dashboard/modules/list-dom.php:68
+#, fuzzy
+msgid "Extract"
+msgstr "& Aç"
+
+#: views/dashboard/modules/list-dom.php:89
+#, fuzzy
+msgid "Do you really want to delete this module ? "
+msgstr "Gerçekten bu öğeyi silmek istidiğinize emin misiniz?"
+
+#: views/dashboard/modules/list-dom.php:96
+#, fuzzy
+msgid ""
+"Do you really want to make a migration ? You should always have a backup of "
+"the current system."
+msgstr ""
+"Bir geçiş yapmak istiyor musunuz? Her zaman geçerli sistem yedeğini sahip "
+"olmalıdır."
+
+#: views/dashboard/modules/list.php:12
+#, fuzzy
+msgid "Module List"
+msgstr "Modül listesi"
+
+#: views/dashboard/modules/migrate.php:23
+#, fuzzy
+msgid "Migration has started"
+msgstr "Geçiş başladı"
+
+#: views/dashboard/modules/migrate.php:41
+#, fuzzy
+msgid "Migrating to"
+msgstr "Geçirme"
+
+#: views/dashboard/modules/migrate.php:46
+msgid "done."
+msgstr "Bitti."
+
+#: views/dashboard/modules/migrate.php:51
+#, fuzzy
+msgid "An error occured :"
+msgstr "Bir hata oluştu:"
+
+#: views/dashboard/modules/migrate.php:60
+#, fuzzy
+msgid "Go back to modules"
+msgstr "Modüllere dön"
+
+#: views/dashboard/modules/migrate.php:68
+#, fuzzy
+msgid "No migration content available"
+msgstr "Kullanılabilir geçiş içerik yok"
+
+#: views/dashboard/modules/migrate.php:80
+#, fuzzy
+msgid "Migrate not available for this module."
+msgstr "Bu modül için kullanılabilir geçirmez."
+
+#: views/dashboard/settings/body.php:16
+#, fuzzy
+msgid "General Settings"
+msgstr "Genel Ayarlar"
+
+#: views/dashboard/settings/body.php:22 views/do-setup/database.php:65
+#, fuzzy
+msgid "Save Settings"
+msgstr "Ayarları Kaydet"
+
+#: views/dashboard/settings/body.php:32
+#, fuzzy
+msgid "Enter your site name"
+msgstr "Adınızı Giriniz"
+
+#: views/dashboard/settings/body.php:38
+#, fuzzy
+msgid "Site Description"
+msgstr "Site Açıklaması"
+
+#: views/dashboard/settings/body.php:39
+#, fuzzy
+msgid "Enter your site description"
+msgstr "Açıklama girin"
+
+#: views/dashboard/settings/body.php:45
+#, fuzzy
+msgid "Timezone"
+msgstr "Saat dilimi"
+
+#: views/dashboard/settings/body.php:46
+#, fuzzy
+msgid "Enter your site timezone"
+msgstr "Site zaman girin"
+
+#: views/dashboard/settings/body.php:54
+#, fuzzy
+msgid "Language"
+msgstr "Dil"
+
+#: views/dashboard/settings/body.php:55
+#, fuzzy
+msgid "Choose a language"
+msgstr "Bir dil seçin"
+
+#: views/dashboard/settings/body.php:69
+#, fuzzy
+msgid "Advanced Settings"
+msgstr "Yönetim Paneli Ayarları"
+
+#: views/dashboard/settings/body.php:75
+#, fuzzy
+msgid "Save Advanced"
+msgstr "Gelişmiş kaydetmek"
+
+#: views/dashboard/settings/body.php:84
+#, fuzzy
+msgid "Open registration"
+msgstr "Açık kayıt"
+
+#: views/dashboard/settings/body.php:85
+#, fuzzy
+msgid "Open Registration ?"
+msgstr "Açık kayıt?"
+
+#: views/dashboard/settings/body.php:95
+#, fuzzy
+msgid "Require validation"
+msgstr "Doğrulama gerektirir"
+
+#: views/dashboard/settings/body.php:100
+#, fuzzy
+msgid ""
+"Each new account will have to check the verification email in order to "
+"validate their account."
+msgstr ""
+"Her yeni hesap doğrulama e-posta hesaplarına karşılaştırarak doğrulamak için "
+"kontrol etmek olacaktır."
+
+#: views/dashboard/settings/body.php:106
+#, fuzzy
+msgid "Enable Developer mode ?"
+msgstr "Geliştirici kipini etkinleştir"
+
+#: views/dashboard/settings/body.php:107
+#, fuzzy
+msgid "Enable developer mode"
+msgstr "Geliştirici kipini etkinleştir"
+
+#: views/dashboard/settings/body.php:108
+#, fuzzy
+msgid "Tools like module package will be enabled."
+msgstr "Modül paketi gibi araçlar etkinleştirilir."
+
+#: views/dashboard/update/core-content.php:6
+#, fuzzy, php-format
+msgid "Unknow Release : %s"
+msgstr "Bilinmeyen sürüm: %s"
+
+#: views/dashboard/update/core-content.php:8
+#: views/dashboard/update/core-content.php:16
+#, fuzzy
+msgid "Update has been aborded...!!!"
+msgstr "Güncelleştirme aborded... oldu!"
+
+#: views/dashboard/update/core-content.php:14
+#, fuzzy, php-format
+msgid "Old Release : %s"
+msgstr "Eski sürüm: %s"
+
+#: views/dashboard/update/core-content.php:29
+#, fuzzy
+msgid "Downloading Zip file..."
+msgstr "Zip dosyası yükleniyor..."
+
+#: views/dashboard/update/core-content.php:37
+#, fuzzy
+msgid "An error occured during download..."
+msgstr "Karşıdan yükleme sırasında bir hata oluştu."
+
+#: views/dashboard/update/core-content.php:48
+#, fuzzy
+msgid "Extracting the new release..."
+msgstr "Yeni sürüm ayıklama..."
+
+#: views/dashboard/update/core-content.php:56
+#: views/dashboard/update/core-content.php:76
+#, fuzzy
+msgid "An error occured during extraction..."
+msgstr "Hata ayıklama sırasında oluştu..."
+
+#: views/dashboard/update/core-content.php:67
+#, fuzzy
+msgid "Installing the new release..."
+msgstr "Yeni sürümü yükleniyor..."
+
+#: views/dashboard/update/home-content.php:7
+#, fuzzy, php-format
+msgid "Tendoo CMS : %s is available"
+msgstr "Tendoo CMS: %s mevcuttur"
+
+#: views/dashboard/update/home-content.php:12
+#, fuzzy
+msgid "Click Here to Update"
+msgstr "Burada için Güncelleştir'i tıklatın"
+
+#: views/dashboard/update/home-content.php:18
+#, fuzzy
+msgid "You're up to date"
+msgstr "Güncel"
+
+#: views/do-setup/database.php:8
+#, fuzzy
+msgid ""
+"Please enter your database details in order to proceed to installation. "
+msgstr "Lütfen yüklemeye devam etmek için veritabanı ayrıntıları girin."
+
+#: views/do-setup/database.php:43 views/do-setup/database.php:44
+#, fuzzy
+msgid "User Password"
+msgstr "Kullanıcı & Parolası"
+
+#: views/do-setup/database.php:50
+#, fuzzy
+msgid "Select database driver"
+msgstr "Veritabanı sürücüsünü seçin"
+
+#: views/do-setup/database.php:51
+#, fuzzy
+msgid "MySQLi"
+msgstr "MySQLi"
+
+#: views/do-setup/index.php:8
+#, fuzzy
+msgid ""
+"Thank for having chosen Tendoo to host your project. Here is the "
+"installation wizard. This wizard has 2 more pages : Database configuration "
+"and Site configuration. If you're ready, let's go !!!"
+msgstr ""
+"Tendoo seçtiğiniz için projenizi barındırmak için teşekkür ederiz. Yükleme "
+"Sihirbazı'nı burada. Bu sihirbaz 2 daha fazla sayfa vardır: veritabanı "
+"yapılandırma ve Site yapılandırma. Eğer hazırsanız, gidelim!"
+
+#: views/do-setup/index.php:13 views/do-setup/site.php:19
+#, fuzzy
+msgid "Select your language"
+msgstr "Dilinizi seçin"
+
+#: views/do-setup/index.php:32
+#, fuzzy
+msgid "Define Database configuration"
+msgstr "Veritabanı yapılandırmasını tanımlayan"
+
+#: views/do-setup/site.php:8
+#, fuzzy
+msgid "Define site settings"
+msgstr "Site ayarları tanımlamak"
+
+#: views/do-setup/site.php:41
+#, fuzzy
+msgid "Continue to dashboard"
+msgstr "Hesap Tablosuna Devam Et"
+
+#: views/oauth/body.php:15
+#, fuzzy
+msgid "Permission request"
+msgstr "İzin isteği"
+
+#: views/oauth/body.php:46
+#, fuzzy
+msgid "Callback url is not defined."
+msgstr "Geri arama url tanımlanmadı."
+
+#: views/oauth/body.php:48
+#, fuzzy
+msgid "One or two permissions are not available."
+msgstr "Bir ya da iki izinleri kullanılabilir değil."
+
+#: views/oauth/body.php:53
+#, fuzzy
+msgid "Allow"
+msgstr "İzin ver"
+
+#: views/oauth/body.php:54
+#, fuzzy
+msgid "Refuse"
+msgstr "Reddetmek"
+
+#: views/sign-in/body.php:36 views/sign-up/body.php:20
+#, fuzzy
+msgid "I Lost My Password"
+msgstr "Şifremi unuttum"
+
+#: views/sign-up/body.php:10
+#, fuzzy
+msgid "Sign up to"
+msgstr "İçin giriş yap"
+
+#: views/sign-up/body.php:24
+#, fuzzy
+msgid "I Already Have An Account"
+msgstr "Zaten hesabım var"

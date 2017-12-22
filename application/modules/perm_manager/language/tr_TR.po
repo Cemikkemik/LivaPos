@@ -1,0 +1,101 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-12-10 14:55+0100\n"
+"PO-Revision-Date: 2017-12-11 17:46+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: tr_TR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_s\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: controllers/PermissionsManagerController.php:21
+#, fuzzy
+msgid "Role & Permissions Manager"
+msgstr "Rol ve izinler Yöneticisi"
+
+#: views/index-dom.php:10
+#, fuzzy
+msgid "Search Permission"
+msgstr "Arama izni"
+
+#: views/index-dom.php:12
+#, fuzzy
+msgid "Save Permissions"
+msgstr "İzinleri Kaydet"
+
+#: views/index-script.php:41
+#, fuzzy
+msgid "Successful"
+msgstr "Başarılı"
+
+#: views/index-script.php:42
+#, fuzzy
+msgid "The Permissions has been updated."
+msgstr "İzinleri güncellendi."
+
+#: views/mainboard_footer.php:58
+#, fuzzy
+msgid "Confirm your action"
+msgstr "Eyleminizi onaylayın"
+
+#: views/mainboard_footer.php:78
+#, fuzzy
+msgid "Warning"
+msgstr "Uyarı"
+
+#: views/mainboard_footer.php:154
+#, fuzzy
+msgid "Select an item"
+msgstr "Bir öğe seçin"
+
+#: views/mainboard_footer.php:156
+#, fuzzy
+msgid "Would you like to delete all these elements?"
+msgstr "Bu öğeleri silmek istiyor musunuz?"
+
+#: views/mainboard_footer.php:160
+#, fuzzy
+msgid "All permissions has been deleted !"
+msgstr "Tüm izinleri sildi!"
+
+#: views/mainboard_footer.php:163
+#, fuzzy
+msgid "An error occured."
+msgstr "Bir hata oluştu."
+
+#: views/mainboard_footer.php:177
+#, fuzzy
+msgid "Would you like to delete this ?"
+msgstr "Bunu silmek ister misiniz?"
+
+#: views/mainboard_footer.php:181
+#, fuzzy
+msgid "The permission has been delete."
+msgstr "İzin silme olmuştur."
+
+#: views/mainboard_footer.php:186
+#, fuzzy
+msgid "An error occured"
+msgstr "Bir hata oluştu"
+
+#: views/mainboard_footer.php:202
+msgid "The modification has been made"
+msgstr "Değişiklik yapılmıştır"
+
+#: views/mainboard_footer.php:209
+#, fuzzy
+msgid "This role already has this permission !"
+msgstr "Bu rolü zaten bu izni var!"
+
+#: views/mainboard_footer.php:213
+#, fuzzy
+msgid "An error occured during the operation."
+msgstr "İşlemi sırasında bir hata oluştu."

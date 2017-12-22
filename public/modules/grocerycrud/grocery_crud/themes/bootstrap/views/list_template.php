@@ -133,18 +133,18 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="btn-group btn-group-justified">
-                        <div class="pFirst btn btn-default first-button" title="<?php _e('First Page');?>"> <span>
+                        <div class="pFirst btn btn-default first-button" title="<?php echo $this->l( 'list_paging_first' );?>"> <span>
                         <?php _e('&laquo;');?>
                         </span> </div>
-                        <div class="pPrev btn btn-default prev-button" title="<?php _e('Previous Page');?>"> <span>
-                            <?php _e('Previous');?>
+                        <div class="pPrev btn btn-default prev-button" title="<?php echo $this->l( 'list_paging_previous' );?>"> <span>
+                            <?php echo $this->l( 'list_paging_previous' );?>
                             </span> 
                         </div>
-                        <div class="pNext btn btn-default next-button" title="<?php _e('Next Page');?>"> <span>
-                            <?php _e('Next');?>
+                        <div class="pNext btn btn-default next-button" title="<?php echo $this->l( 'list_paging_next' );?>"> <span>
+                            <?php echo $this->l( 'list_paging_next' );?>
                             </span> 
                         </div>
-                        <div class="pLast btn btn-default last-button" title="<?php _e('Last Page');?>"> <span>
+                        <div class="pLast btn btn-default last-button" title="<?php echo $this->l( 'list_paging_last' );?>" > <span>
                             <?php _e('&raquo;');?>
                             </span> 
                         </div>

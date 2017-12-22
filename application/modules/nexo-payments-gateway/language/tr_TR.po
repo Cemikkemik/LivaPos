@@ -1,0 +1,172 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: •\n"
+"POT-Creation-Date: 2017-12-10 14:51+0100\n"
+"PO-Revision-Date: 2017-12-11 17:44+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: tr_TR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_s\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: inc/angular/register/directives/stripe-payment.php:9
+#, fuzzy
+msgid "Stripe Payment"
+msgstr "Şerit ödeme"
+
+#: inc/angular/register/directives/stripe-payment.php:17
+#, fuzzy
+msgid "Montant du paiement"
+msgstr "Ödeme Miktarı"
+
+#: inc/angular/register/directives/stripe-payment.php:23
+#, fuzzy
+msgid "Définir un montant"
+msgstr "bir miktar ayarlama"
+
+#: inc/angular/register/directives/stripe-payment.php:43
+msgid ""
+"Vous devez facturer une carte avec Stripe, avant de l'ajouter comme paiement"
+msgstr "Ödeme olarak eklemeden önce Stripe ile bir kartı şarj etmeniz gerekir"
+
+#: inc/filters.php:8 nexo-payments-gateway.php:25 nexo-payments-gateway.php:29
+#: views/dashboard-footer.php:13
+#, fuzzy
+msgid "Stripe"
+msgstr "şerit"
+
+#: inc/filters.php:21
+#, fuzzy
+msgid "Payment Gateway"
+msgstr "Ödeme ağ geçidi"
+
+#: views/angular-paybox-controller.php:13 views/dashboard-footer.php:46
+#, fuzzy
+msgid "Attention"
+msgstr "Dikkat"
+
+#: views/angular-paybox-controller.php:13
+#, fuzzy
+msgid "Le montant spécifié est incorrecte."
+msgstr "Belirtilen doğru değil."
+
+#: views/angular-paybox-controller.php:28
+msgid "Paiement d'une commande"
+msgstr "Bir siparişin ödenmesi"
+
+#: views/angular-paybox-controller.php:29
+#, fuzzy, php-format
+msgid "Vous venez d'effectuer un paiement dans la boutique %s. Merci"
+msgstr "Size sadece mağaza %s. teşekkür ederim içinde bir ödeme yapmak"
+
+#: views/angular-paybox-controller.php:54
+#, fuzzy
+msgid "Veuillez patienter"
+msgstr "Bekliyor"
+
+#: views/angular-paybox-controller.php:54
+#, fuzzy
+msgid "Paiement en cours..."
+msgstr "İşleme ödeme ..."
+
+#: views/angular-paybox-controller.php:66
+#, fuzzy
+msgid "Paiement effectué"
+msgstr "ödeme"
+
+#: views/angular-paybox-controller.php:66
+#, fuzzy
+msgid "Le paiement a été effectué."
+msgstr "Ödemenin yapıldığı."
+
+#: views/angular-paybox-controller.php:82
+#, fuzzy
+msgid "Une erreur s'est produite"
+msgstr "Bir Hata Oluştu"
+
+#: views/angular-paybox-controller.php:82
+#, fuzzy
+msgid ""
+"Le paiement n'a pu être effectuée. Une erreur s'est produite durant la "
+"facturation de la carte de crédit.<br>Le serveur à retourner cette erreur : "
+msgstr ""
+"Ödeme yapılmış olabilir. Bir hata fatura kredi kartı sırasında meydana "
+"geldi. <br> Sunucu bu hatayı dönmek için:"
+
+#: views/dashboard-footer.php:36
+#, fuzzy
+msgid "Facturer une carte"
+msgstr "Şarj kartı"
+
+#: views/dashboard-footer.php:46
+#, fuzzy
+msgid ""
+"Vous ne pouvez pas modifier un paiement déjà effectué, car une carte a déjà "
+"été débitée."
+msgstr "Bir kart zaten ücret vardır çünkü bir ödeme yapmış, değiştiremezsiniz."
+
+#: views/gateway-settings.php:19
+#, fuzzy
+msgid "Réglages Stripe"
+msgstr "Şerit ayarları"
+
+#: views/gateway-settings.php:26
+#, fuzzy
+msgid "Sauvegarder les réglages"
+msgstr "ayarlarını kaydet"
+
+#: views/gateway-settings.php:34
+#, fuzzy
+msgid "Activer Stripe"
+msgstr "Şerit etkinleştirmek"
+
+#: views/gateway-settings.php:36
+#, fuzzy
+msgid "Non"
+msgstr "Hayır"
+
+#: views/gateway-settings.php:37
+#, fuzzy
+msgid "Oui"
+msgstr "Evet"
+
+#: views/gateway-settings.php:39
+#, fuzzy
+msgid ""
+"Désactiver Stripe empêchera au ressource de ce dernier de se charger dans "
+"l'interface de la caisse."
+msgstr ""
+"Devre dışı bırakmak şerit kaynak ikinci fon arabiriminde almak için engeller."
+
+#: views/gateway-settings.php:46
+#, fuzzy
+msgid "Publishable Key"
+msgstr "Yayınlanabilir anahtar"
+
+#: views/gateway-settings.php:47
+#, fuzzy, php-format
+msgid ""
+"Récupérez les informations de votre \"publishable key\" sur votre compte <a "
+"href=\"%s\">Stripe</a>."
+msgstr ""
+"<a href=\"%s\">Şerit</a>hesabınızdaki \"yayınlanabilir anahtar\" bilgi almak."
+
+#: views/gateway-settings.php:54
+#, fuzzy
+msgid "Secret Key"
+msgstr "SECRET"
+
+#: views/gateway-settings.php:55
+#, php-format
+msgid ""
+"Récupérez les informations de votre clé secrete sur votre compte <a href=\"%s"
+"\">Stripe</a>."
+msgstr ""
+"Gizli anahtar bilgilerinizi <a href=\"%s\"> Şerit </a> hesabınızdan alın."

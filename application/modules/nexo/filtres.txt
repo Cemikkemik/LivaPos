@@ -337,3 +337,8 @@ Filtres:
  * loaded_order
  * permet de filtrer la commande chargée pour modifiation
 **/
+
+/**
+ * receipt_items
+ * Permet de filtrer la liste des produits
+**/

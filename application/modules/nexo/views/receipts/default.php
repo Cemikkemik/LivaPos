@@ -78,285 +78,299 @@ if (! $order_cache = $cache->get($order[ 'order' ][0][ 'ID' ]) || @$_GET[ 'refre
                         $total_unitaire    =    0;
                         $total_quantite    =    0;
 						$total_discount		=	0;
+                        $products       =   $this->events->apply_filters( 'receipt_items', $order[ 'products' ] );
 
-                        foreach ($order[ 'products' ] as $_produit) {
-                            // $total_global        +=    __floatval($_produit[ 'PRIX_TOTAL' ]);
-                            $total_unitaire      	+=    __floatval($_produit[ 'PRIX' ]);
-                            $total_quantite   	 	+=    __floatval($_produit[ 'QUANTITE' ]);
-							$total_global        	+=    ( __floatval($_produit[ 'PRIX_TOTAL' ]) );
-                            ?>
-                            <tr>
-                                <td class="">
-                                    <?php echo empty( $_produit[ 'DESIGN' ] ) ? $_produit[ 'NAME' ] : $_produit[ 'DESIGN' ];
-                                ?></td>
-                                <td class="text-right">
-    							<?php echo $this->Nexo_Misc->cmoney_format( __floatval($_produit[ 'PRIX' ]) );
+                        if( $products ) {
+                            foreach ( $products as $_produit) {
+
+                                // $total_global        +=    __floatval($_produit[ 'PRIX_TOTAL' ]);
+                                $total_unitaire      	+=    __floatval($_produit[ 'PRIX' ]);
+                                $total_quantite   	 	+=    __floatval($_produit[ 'QUANTITE' ]);
+                                $total_global        	+=    ( __floatval($_produit[ 'PRIX_TOTAL' ]) );
                                 ?>
+                                <tr>
+                                    <td class="">
+                                        <?php echo empty( $_produit[ 'DESIGN' ] ) ? $_produit[ 'NAME' ] : $_produit[ 'DESIGN' ];
+                                    ?></td>
+                                    <td class="text-right">
+                                    <?php echo $this->Nexo_Misc->cmoney_format( __floatval($_produit[ 'PRIX' ]) );
+                                    ?>
+                                    </td>
+                                    <td class="" style="text-align: right"> <?php echo $_produit[ 'QUANTITE' ];
+                                    ?> </td>
+                                    <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                                    <td  class="" style="text-align: right">
+                                    <?php
+                                    $discount_amount			=	0;
+                                    if( $_produit[ 'DISCOUNT_TYPE' ] == 'percentage' ) {
+                                        $discount_amount		=	__floatval( ( ( floatval( $_produit[ 'PRIX' ] ) * intval( $_produit[ 'QUANTITE' ] ) ) * floatval( $_produit[ 'DISCOUNT_PERCENT' ] ) ) / 100 );
+                                        echo $this->Nexo_Misc->cmoney_format( __floatval( $discount_amount ) );
+                                    } else if( $_produit[ 'DISCOUNT_TYPE' ] == 'flat' ) {
+                                        $discount_amount		=	floatval( $_produit[ 'DISCOUNT_AMOUNT' ] );
+                                        echo $this->Nexo_Misc->cmoney_format( __floatval( $discount_amount ) );
+                                    }
+    
+                                    $total_discount			+=	$discount_amount;
+    
+                                    ?> </td>
+                                    <?php endif;?>
+                                    <td class="text-right">
+                                        <?php echo $this->Nexo_Misc->cmoney_format( __floatval( $_produit[ 'PRIX_TOTAL' ] ) );?>
+                                    </td>
+                                </tr>
+                            
+                            <?php
+                            }
+    
+                            ?>
+                            
+                            <tr>
+                                
+                                <td class=""><strong><?php _e('Sous Total', 'nexo');?></strong></td>
+    
+                                <td class="text-right">
+                                <?php /*echo sprintf(
+                                    __( '%s %s %s', 'nexo' ),
+                                    $this->Nexo_Misc->display_currency( 'before' ),
+                                    __floatval( $total_unitaire ),
+                                    $this->Nexo_Misc->display_currency( 'after' )
+                                )*/;?>
                                 </td>
-                                <td class="" style="text-align: right"> <?php echo $_produit[ 'QUANTITE' ];
-                                ?> </td>
+                                <td class="" style="text-align: right"><?php echo $total_quantite;?></td>
                                 <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-                                <td  class="" style="text-align: right">
-    							<?php
-    							$discount_amount			=	0;
-    							if( $_produit[ 'DISCOUNT_TYPE' ] == 'percentage' ) {
-    								$discount_amount		=	__floatval( ( ( floatval( $_produit[ 'PRIX' ] ) * intval( $_produit[ 'QUANTITE' ] ) ) * floatval( $_produit[ 'DISCOUNT_PERCENT' ] ) ) / 100 );
-    								echo $this->Nexo_Misc->cmoney_format( __floatval( $discount_amount ) );
-    							} else if( $_produit[ 'DISCOUNT_TYPE' ] == 'flat' ) {
-    								$discount_amount		=	floatval( $_produit[ 'DISCOUNT_AMOUNT' ] );
-    								echo $this->Nexo_Misc->cmoney_format( __floatval( $discount_amount ) );
-    							}
-
-    							$total_discount			+=	$discount_amount;
-
-    							?> </td>
+                                <td class="" style="text-align: right"><?php echo $this->Nexo_Misc->cmoney_format( __floatval( $total_discount ) );?></td>
                                 <?php endif;?>
                                 <td class="text-right">
-    								<?php echo $this->Nexo_Misc->cmoney_format( __floatval( $_produit[ 'PRIX_TOTAL' ] ) );?>
+                                <?php echo $this->Nexo_Misc->cmoney_format(
+                                    __floatval($total_global)
+                                );?>
                                 </td>
                             </tr>
-                        
-                        <?php
-                        }
-
-                        ?>
-                        
-                        <tr>
                             
-                            <td class=""><strong><?php _e('Sous Total', 'nexo');?></strong></td>
-
-                            <td class="text-right">
-                            <?php /*echo sprintf(
-                                __( '%s %s %s', 'nexo' ),
-                                $this->Nexo_Misc->display_currency( 'before' ),
-                                __floatval( $total_unitaire ),
-                                $this->Nexo_Misc->display_currency( 'after' )
-                            )*/;?>
-                            </td>
-                            <td class="" style="text-align: right"><?php echo $total_quantite;?></td>
-                            <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-                            <td class="" style="text-align: right"><?php echo $this->Nexo_Misc->cmoney_format( __floatval( $total_discount ) );?></td>
-                            <?php endif;?>
-                            <td class="text-right">
-                            <?php echo $this->Nexo_Misc->cmoney_format(
-                                __floatval($total_global)
-                            );?>
-                            </td>
-                        </tr>
-                        
-                        <?php
-                        if( ! empty( $order[ 'order' ][0][ 'SHIPPING_AMOUNT' ] ) ):
-                        ?>
-                        
-                        <tr>
-                            <td><?php echo __( 'Livraison', 'nexo' );?></td>
-                            <td></td>
-                            <td></td>
-                            <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-                            <td></td>
-                            <?php endif;?>
-                            <td class="text-right">
-                            <?php echo $this->Nexo_Misc->cmoney_format(
-                                __floatval( $order[ 'order' ][0][ 'SHIPPING_AMOUNT' ] )
-                            );?>
-                            </td>
-                        </tr>
-
-                        <?php endif;?>
+                            <?php
+                            if( ! empty( $order[ 'order' ][0][ 'SHIPPING_AMOUNT' ] ) ):
+                            ?>
+                            
+                            <tr>
+                                <td><?php echo __( 'Livraison', 'nexo' );?></td>
+                                <td></td>
+                                <td></td>
+                                <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                                <td></td>
+                                <?php endif;?>
+                                <td class="text-right">
+                                <?php echo $this->Nexo_Misc->cmoney_format(
+                                    __floatval( $order[ 'order' ][0][ 'SHIPPING_AMOUNT' ] )
+                                );?>
+                                </td>
+                            </tr>
     
-                        <?php if (__floatval($_produit[ 'RISTOURNE' ])):?>
-                        <tr>
-                            <td class=""><?php _e('Remise automatique', 'nexo');?></td>
-                            <td class="" style="text-align: right"> </td>
-                            <td class="text-right">(-)</td>
-                            <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-                            <td class="text-right"></td>
                             <?php endif;?>
-                            <td class="text-right">
-                            <?php echo $this->Nexo_Misc->cmoney_format(
-                                __floatval($_produit[ 'RISTOURNE' ])
-                            );?>
-                            </td>
-                        </tr>
-                        <?php endif;?>
-                        <?php if ( $_produit[ 'REMISE_TYPE' ] == 'flat' ):?>
-                        <tr>
-                            <td class=""><?php _e('Remise expresse', 'nexo');?></td>
-                            <td class="" style="text-align: right"> </td>
-                            <td class="text-right">(-)</td>
-                            <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-                            <td class="text-right"></td>
+        
+                            <?php if (__floatval($_produit[ 'RISTOURNE' ])):?>
+                            <tr>
+                                <td class=""><?php _e('Remise automatique', 'nexo');?></td>
+                                <td class="" style="text-align: right"> </td>
+                                <td class="text-right">(-)</td>
+                                <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                                <td class="text-right"></td>
+                                <?php endif;?>
+                                <td class="text-right">
+                                <?php echo $this->Nexo_Misc->cmoney_format(
+                                    __floatval($_produit[ 'RISTOURNE' ])
+                                );?>
+                                </td>
+                            </tr>
                             <?php endif;?>
-                            <td class="text-right">
-                            <?php echo $this->Nexo_Misc->cmoney_format(
-                                __floatval($_produit[ 'REMISE' ])
-                            );?>
-                            </td>
-                        </tr>
-                        <?php endif;?>
-                        <?php if ( $_produit[ 'REMISE_TYPE' ] == 'percentage' ):?>
-                        <tr>
-                            <td class=""><?php echo sprintf( __('Remise (%s%%)', 'nexo'), $_produit[ 'REMISE_PERCENT' ] );?></td>
-                            <td class="" style="text-align: right"> </td>
-                            <td class="text-right">(-)</td>
-                            <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-                            <td class="text-right"></td>
+                            <?php if ( $_produit[ 'REMISE_TYPE' ] == 'flat' ):?>
+                            <tr>
+                                <td class=""><?php _e('Remise expresse', 'nexo');?></td>
+                                <td class="" style="text-align: right"> </td>
+                                <td class="text-right">(-)</td>
+                                <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                                <td class="text-right"></td>
+                                <?php endif;?>
+                                <td class="text-right">
+                                <?php echo $this->Nexo_Misc->cmoney_format(
+                                    __floatval($_produit[ 'REMISE' ])
+                                );?>
+                                </td>
+                            </tr>
                             <?php endif;?>
-                            <td class="text-right">
-                            <?php echo $this->Nexo_Misc->cmoney_format(
-                                ( nexoCartGrossValue( $order[ 'products' ] ) * floatval( $_produit[ 'REMISE_PERCENT' ] ) ) / 100
-                            );?>
-                            </td>
-                        </tr>
-                        <?php endif;?>
-                        <?php if ( $order[ 'order' ][0][ 'GROUP_DISCOUNT' ] != '0' ):?>
-                        <tr>
-                            <td class=""><?php _e('Remise de groupe', 'nexo');?></td>
-                            <td class="" style="text-align: right"> </td>
-                            <td class="text-right">(-)</td>
-                            <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-                            <td class="text-right"></td>
+                            <?php if ( $_produit[ 'REMISE_TYPE' ] == 'percentage' ):?>
+                            <tr>
+                                <td class=""><?php echo sprintf( __('Remise (%s%%)', 'nexo'), $_produit[ 'REMISE_PERCENT' ] );?></td>
+                                <td class="" style="text-align: right"> </td>
+                                <td class="text-right">(-)</td>
+                                <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                                <td class="text-right"></td>
+                                <?php endif;?>
+                                <td class="text-right">
+                                <?php echo $this->Nexo_Misc->cmoney_format(
+                                    ( nexoCartGrossValue( $order[ 'products' ] ) * floatval( $_produit[ 'REMISE_PERCENT' ] ) ) / 100
+                                );?>
+                                </td>
+                            </tr>
                             <?php endif;?>
-                            <td class="text-right">
-                            <?php echo $this->Nexo_Misc->cmoney_format(
-                                __floatval( $order[ 'order' ][0][ 'GROUP_DISCOUNT' ] )
-                            );?>
-                            </td>
-                        </tr>
-                        <?php endif;?>
-                        <?php if ( @$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui'):?>
-                        <tr>
-                            <td class=""><?php _e('Net Hors Taxe', 'nexo');?></td>
-                            <td class="text-right"></td>
-                            <td class="" style="text-align: right">(=)</td>
-                            <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-                            <td class="text-right"></td>
+                            <?php if ( $order[ 'order' ][0][ 'GROUP_DISCOUNT' ] != '0' ):?>
+                            <tr>
+                                <td class=""><?php _e('Remise de groupe', 'nexo');?></td>
+                                <td class="" style="text-align: right"> </td>
+                                <td class="text-right">(-)</td>
+                                <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                                <td class="text-right"></td>
+                                <?php endif;?>
+                                <td class="text-right">
+                                <?php echo $this->Nexo_Misc->cmoney_format(
+                                    __floatval( $order[ 'order' ][0][ 'GROUP_DISCOUNT' ] )
+                                );?>
+                                </td>
+                            </tr>
                             <?php endif;?>
-                            <td class="text-right">
-                            <?php echo $this->Nexo_Misc->cmoney_format(
-							bcsub(
-								__floatval($total_global) + __floatval($order[ 'order'][0][ 'SHIPPING_AMOUNT' ]),
-								(
-									__floatval(@$_produit[ 'RISTOURNE' ]) +
-									__floatval(@$_produit[ 'RABAIS' ]) +
-									__floatval(@$_produit[ 'REMISE' ]) +
-                                    nexoCartPercentageDiscount( $order[ 'products' ], $_produit ) +
-									__floatval(@$_produit[ 'GROUP_DISCOUNT' ])
-								), 2
-							) );?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class=""><?php _e('TVA', 'nexo');?> (<?php echo @$Options[ store_prefix() . 'nexo_vat_percent' ];?>%)</td>
-                            <td class="text-right"></td>
-                            <td class="" style="text-align: right">(+)</td>
-                            <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-                            <td class="text-right"></td>
-                            <?php endif;?>
-                            <td class="text-right">
-                            <?php echo $this->Nexo_Misc->cmoney_format(
-                                $_produit[ 'TVA' ]
-                            );?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class=""><strong><?php _e('TTC', 'nexo');?></strong></td>
-                            <td class="text-right"></td>
-                            <td class="" style="text-align: right">(=)</td>
-                            <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-                            <td class="text-right"></td>
-                            <?php endif;?>
-                            <td class="text-right">
-                            <?php echo sprintf(
-                                __('%s %s %s', 'nexo'),
-                                $this->Nexo_Misc->display_currency('before'),
+                            <?php if ( @$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui'):?>
+                            <tr>
+                                <td class=""><?php _e('Net Hors Taxe', 'nexo');?></td>
+                                <td class="text-right"></td>
+                                <td class="" style="text-align: right">(=)</td>
+                                <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                                <td class="text-right"></td>
+                                <?php endif;?>
+                                <td class="text-right">
+                                <?php echo $this->Nexo_Misc->cmoney_format(
                                 bcsub(
-                                    __floatval($total_global) + __floatval($_produit[ 'TVA' ]) + __floatval($order[ 'order'][0][ 'SHIPPING_AMOUNT' ]),
+                                    __floatval($total_global) + __floatval($order[ 'order'][0][ 'SHIPPING_AMOUNT' ]),
                                     (
                                         __floatval(@$_produit[ 'RISTOURNE' ]) +
                                         __floatval(@$_produit[ 'RABAIS' ]) +
                                         __floatval(@$_produit[ 'REMISE' ]) +
                                         nexoCartPercentageDiscount( $order[ 'products' ], $_produit ) +
-										__floatval(@$_produit[ 'GROUP_DISCOUNT' ])
+                                        __floatval(@$_produit[ 'GROUP_DISCOUNT' ])
                                     ), 2
-                                ),
-                                $this->Nexo_Misc->display_currency('after')
-                            );?>
-                            </td>
-                        </tr>
-                        <?php else:?>
-                        <tr>
-                            <td class=""><strong><?php _e('Net à Payer', 'nexo');?></strong></td>
-                            <td class="text-right"></td>
-                            <td class="" style="text-align: right">(=)</td>
-                            <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-                            <td class="text-right"></td>
-                            <?php endif;?>
-                            <td class="text-right">
-                            <?php
-                            echo $this->Nexo_Misc->cmoney_format( bcsub(
-                                __floatval($total_global) + __floatval($_produit[ 'TVA' ]) + __floatval($order[ 'order'][0][ 'SHIPPING_AMOUNT' ]),
-                                (
-                                    __floatval(@$_produit[ 'RISTOURNE' ]) +
-                                    __floatval(@$_produit[ 'RABAIS' ]) +
-                                    __floatval(@$_produit[ 'REMISE' ]) +
-                                    ( ( __floatval( @$_produit[ 'REMISE_PERCENT' ] ) * $total_global ) / 100 ) +
-                                    __floatval(@$_produit[ 'GROUP_DISCOUNT' ])
-                                ), 2
-                            ) )?>
-                            </td>
-                        </tr>
-                        <?php endif;?>
-
-                        <?php
-                        $order_payments         =   $this->Nexo_Misc->order_payments( $order[ 'order' ][0][ 'CODE' ] );
-                        $payment_types          =   $this->events->apply_filters( 'nexo_payments_types', $this->config->item( 'nexo_payments_types' ) );
-
-                        foreach( $order_payments as $payment ) {
-                            ?>
+                                ) );?>
+                                </td>
+                            </tr>
                             <tr>
-                                <td class="">
-                                    <?php echo @$payment_types[ $payment[ 'PAYMENT_TYPE' ] ] == null ? __( 'Type de paiement inconnu', 'nexo' ) : @$payment_types[ $payment[ 'PAYMENT_TYPE' ] ]; ?></td>
+                                <td class=""><?php _e('TVA', 'nexo');?> (<?php echo @$Options[ store_prefix() . 'nexo_vat_percent' ];?>%)</td>
+                                <td class="text-right"></td>
+                                <td class="" style="text-align: right">(+)</td>
+                                <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                                <td class="text-right"></td>
+                                <?php endif;?>
+                                <td class="text-right">
+                                <?php echo $this->Nexo_Misc->cmoney_format(
+                                    $_produit[ 'TVA' ]
+                                );?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class=""><strong><?php _e('TTC', 'nexo');?></strong></td>
+                                <td class="text-right"></td>
+                                <td class="" style="text-align: right">(=)</td>
+                                <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                                <td class="text-right"></td>
+                                <?php endif;?>
+                                <td class="text-right">
+                                <?php echo sprintf(
+                                    __('%s %s %s', 'nexo'),
+                                    $this->Nexo_Misc->display_currency('before'),
+                                    bcsub(
+                                        __floatval($total_global) + __floatval($_produit[ 'TVA' ]) + __floatval($order[ 'order'][0][ 'SHIPPING_AMOUNT' ]),
+                                        (
+                                            __floatval(@$_produit[ 'RISTOURNE' ]) +
+                                            __floatval(@$_produit[ 'RABAIS' ]) +
+                                            __floatval(@$_produit[ 'REMISE' ]) +
+                                            nexoCartPercentageDiscount( $order[ 'products' ], $_produit ) +
+                                            __floatval(@$_produit[ 'GROUP_DISCOUNT' ])
+                                        ), 2
+                                    ),
+                                    $this->Nexo_Misc->display_currency('after')
+                                );?>
+                                </td>
+                            </tr>
+                            <?php else:?>
+                            <tr>
+                                <td class=""><strong><?php _e('Net à Payer', 'nexo');?></strong></td>
+                                <td class="text-right"></td>
+                                <td class="" style="text-align: right">(=)</td>
+                                <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                                <td class="text-right"></td>
+                                <?php endif;?>
+                                <td class="text-right">
+                                <?php
+                                echo $this->Nexo_Misc->cmoney_format( bcsub(
+                                    __floatval($total_global) + __floatval($_produit[ 'TVA' ]) + __floatval($order[ 'order'][0][ 'SHIPPING_AMOUNT' ]),
+                                    (
+                                        __floatval(@$_produit[ 'RISTOURNE' ]) +
+                                        __floatval(@$_produit[ 'RABAIS' ]) +
+                                        __floatval(@$_produit[ 'REMISE' ]) +
+                                        ( ( __floatval( @$_produit[ 'REMISE_PERCENT' ] ) * $total_global ) / 100 ) +
+                                        __floatval(@$_produit[ 'GROUP_DISCOUNT' ])
+                                    ), 2
+                                ) )?>
+                                </td>
+                            </tr>
+                            <?php endif;?>
+    
+                            <?php
+                            $order_payments         =   $this->Nexo_Misc->order_payments( $order[ 'order' ][0][ 'CODE' ] );
+                            $payment_types          =   $this->events->apply_filters( 'nexo_payments_types', $this->config->item( 'nexo_payments_types' ) );
+    
+                            foreach( $order_payments as $payment ) {
+                                ?>
+                                <tr>
+                                    <td class="">
+                                        <?php echo @$payment_types[ $payment[ 'PAYMENT_TYPE' ] ] == null ? __( 'Type de paiement inconnu', 'nexo' ) : @$payment_types[ $payment[ 'PAYMENT_TYPE' ] ]; ?></td>
+                                    <td class="" style="text-align: right"> </td>
+                                    <td class="text-right"></td>
+                                    <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
+                                    <td class="text-right"></td>
+                                    <?php endif;?>
+                                    <td class="text-right">
+                                    <?php echo $this->Nexo_Misc->cmoney_format( __floatval( $payment[ 'MONTANT' ] ) );?>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+    
+                            <tr>
+                                <td class=""><?php _e('Somme Total Perçue', 'nexo');?></td>
                                 <td class="" style="text-align: right"> </td>
                                 <td class="text-right"></td>
                                 <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
                                 <td class="text-right"></td>
                                 <?php endif;?>
                                 <td class="text-right">
-                                <?php echo $this->Nexo_Misc->cmoney_format( __floatval( $payment[ 'MONTANT' ] ) );?>
+                                <?php echo $this->Nexo_Misc->cmoney_format( __floatval( $_produit[ 'SOMME_PERCU' ] ) );?>
+                                </td>
+                            </tr>
+                            <?php
+                            $terme        =    __floatval( $_produit[ 'SOMME_PERCU' ] ) >= floatval( $order[ 'order' ][0][ 'TOTAL' ] ) ? __('Monnaie :', 'nexo') : __('&Agrave; percevoir :', 'nexo');
+                            ?>
+                            <tr>
+                                <td class="text-right" colspan="<?php echo @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ? 4 : 3;?>"><h4><strong><?php echo $terme;?></strong></h4></td>
+                                <td class="text-right text-danger"><h4><strong>
+                                    <?php
+                                    echo $this->Nexo_Misc->cmoney_format( abs(bcsub(
+                                        __floatval($order[ 'order' ][0][ 'TOTAL' ]),
+                                        __floatval($order[ 'order' ][0][ 'SOMME_PERCU' ]),
+                                        2
+                                    )) );
+                                    ;?>
+                                </strong>
+                                </h4></td>
+                            </tr>
+                            <?php
+                        } else {
+                            ?>
+                            <tr>
+                                <td colspan="5">
+                                    <?php echo __( 'Aucun produit à afficher', 'nexo' );?>
                                 </td>
                             </tr>
                             <?php
                         }
                         ?>
-
-                        <tr>
-                            <td class=""><?php _e('Somme Total Perçue', 'nexo');?></td>
-                            <td class="" style="text-align: right"> </td>
-                            <td class="text-right"></td>
-                            <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
-                            <td class="text-right"></td>
-                            <?php endif;?>
-                            <td class="text-right">
-                            <?php echo $this->Nexo_Misc->cmoney_format( __floatval( $_produit[ 'SOMME_PERCU' ] ) );?>
-                            </td>
-                        </tr>
-                        <?php
-                        $terme        =    __floatval( $_produit[ 'SOMME_PERCU' ] ) >= floatval( $order[ 'order' ][0][ 'TOTAL' ] ) ? __('Monnaie :', 'nexo') : __('&Agrave; percevoir :', 'nexo');
-                        ?>
-                        <tr>
-                            <td class="text-right" colspan="<?php echo @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ? 4 : 3;?>"><h4><strong><?php echo $terme;?></strong></h4></td>
-                            <td class="text-right text-danger"><h4><strong>
-								<?php
-                                echo $this->Nexo_Misc->cmoney_format( abs(bcsub(
-                                    __floatval($order[ 'order' ][0][ 'TOTAL' ]),
-                                    __floatval($order[ 'order' ][0][ 'SOMME_PERCU' ]),
-                                    2
-                                )) );
-                                ;?>
-                            </strong>
-                            </h4></td>
-                        </tr>
                     </tbody>
                 </table>
                 <div class="text-center">

@@ -30,7 +30,7 @@ if (is_file($migrate_file)) {
         $module[ 'application'][ 'namespace' ], 
         $from, 
         $module[ 'application'][ 'version' ] 
-    ) ) );
+	) ) );
     ?>;
 	var Migration		=	new function(){
 		this.Do			=	function() {

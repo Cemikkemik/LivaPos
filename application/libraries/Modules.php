@@ -31,6 +31,7 @@ class Modules
                     self::load($module_path . '/' .$file, $deepness + 1, $type ); // Only top folder are parsed
                 }
             }
+
             // Adding Valid init file to module array
             // only namespace is required for a module to be valid
             if (isset($config[ 'application' ][ 'namespace' ])) {
@@ -54,7 +55,7 @@ class Modules
 					self::$mu_modules[ $namespace ][ 'application' ][ 'namespace' ]    =    strtolower(self::$mu_modules[ $namespace ][ 'application' ][ 'namespace' ]);
 				} else {
 					self::$modules[ $namespace ][ 'application' ][ 'namespace' ]    =    strtolower(self::$modules[ $namespace ][ 'application' ][ 'namespace' ]);
-				}
+                }
             }
 
             // Check for language directory

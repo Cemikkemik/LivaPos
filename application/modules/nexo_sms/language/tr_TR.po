@@ -1,0 +1,221 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-12-10 14:47+0100\n"
+"PO-Revision-Date: 2017-12-11 13:46+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: tr_TR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_s\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: controllers/NexoSMSController.php:15
+#, fuzzy
+msgid "Réglages SMS &mdash; NexoPOS"
+msgstr "SMS ayarları &mdash; NexoPOS"
+
+#: language/lines.php:6
+#, fuzzy
+msgid "Service SMS Twilio"
+msgstr "Twilio SMS Servisi"
+
+#: language/lines.php:7
+#, fuzzy
+msgid "Service SMS Plivo"
+msgstr "Plivo SMS Servisi"
+
+#: language/lines.php:8
+#, fuzzy
+msgid "Service SMS BulkSMS"
+msgstr "BulkSMS SMS Servisi"
+
+#: language/lines.php:10
+#, fuzzy
+msgid "Désactiver"
+msgstr "Pasifleştir"
+
+#: language/lines.php:12
+#, fuzzy
+msgid ""
+"{{ site_name }} \\n \n"
+"Bonjour {{ name }}, votre commande {{ order_code }} est prête. \\n\n"
+"Total {{ order_topay }} \\n \n"
+"Merci pour votre confiance"
+msgstr ""
+"{{site_name}} \\n Merhaba {{name}}, {{order_code}} sipariş hazırdır. Toplam "
+"\\n {{order_topay}} \\n senin güven için teşekkür ederiz"
+
+#: main.php:76
+#, fuzzy
+msgid "SMS"
+msgstr "SMS"
+
+#: views/home.php:22
+#, fuzzy
+msgid "Réglages SMS"
+msgstr "SMS ayarları"
+
+#: views/home.php:29 views/home.php:50 views/home.php:74 views/home.php:109
+#: views/home.php:137
+#, fuzzy
+msgid "Sauvegarder les réglages"
+msgstr "ayarlarını kaydet"
+
+#: views/home.php:38
+msgid "Veuillez choisir votre fournisseurs SMS"
+msgstr "Lütfen SMS sağlayıcılarınızı seçin"
+
+#: views/home.php:43
+#, fuzzy
+msgid "Template SMS"
+msgstr "Şablon SMS"
+
+#: views/home.php:58
+#, fuzzy
+msgid "Facture par SMS"
+msgstr "Fatura SMS"
+
+#: views/home.php:59
+#, fuzzy
+msgid ""
+"<br><h4>Utilisez les variables suivante pour afficher des données "
+"personnalisée : </H4><br><strong>{{ site_name }}</strong> : Affichera le nom "
+"de la boutique.<br><strong>{{ name }}</strong> : Affichera le nom du client."
+"<br><strong>{{ order_topay }}</strong> : Affichera la valeur de la commande."
+"<br><strong>{{ order_code }}</strong> : Affichera le code de la commande"
+msgstr ""
+"<br><h4>Aşağıdaki değişkenleri kişiselleştirilmiş verileri görüntülemek için "
+"kullanın:</h4><br><strong>{{site_name}}</strong> : dükkan adı görüntülenir."
+"<br><strong>{{name}}</strong> : müşterinin adını görüntüler."
+"<br><strong>{{order_topay}}</strong> : sipariş değeri görüntüler."
+"<br><strong>{{order_code}}</strong> : sipariş kodunu görüntüler"
+
+#: views/home.php:67
+#, fuzzy
+msgid "Réglages Twilio"
+msgstr "Twilio ayarları"
+
+#: views/home.php:82
+msgid "SID du compte"
+msgstr "Hesap SID"
+
+#: views/home.php:83 views/home.php:90 views/home.php:97
+#, php-format
+msgid ""
+"Récupérer les informations relatives aux clés sur votre <a href=\"%s"
+"\">compte Twilio</a>."
+msgstr "Anahtar bilgilerinizi <a href=\"%s\"> Twilio hesabınızdan </a> alın."
+
+#: views/home.php:89 views/home.php:124
+#, fuzzy
+msgid "Jeton d'accès"
+msgstr "Erişim belirteci"
+
+#: views/home.php:96
+#, fuzzy
+msgid "Numéro d'envoi"
+msgstr "İrsaliye numarası"
+
+#: views/home.php:102
+msgid "Réglages Plivo"
+msgstr "Plivo Ayarları"
+
+#: views/home.php:117
+#, fuzzy
+msgid "ID d'accès"
+msgstr "Erişim kimliği"
+
+#: views/home.php:130
+#, fuzzy
+msgid "Réglages BulkSMS"
+msgstr "BulkSMS ayarları"
+
+#: views/home.php:145
+#, fuzzy
+msgid "Nom d'utilisateur"
+msgstr "Kullanıcı İsmi"
+
+#: views/home.php:152
+#, fuzzy
+msgid "Mot de passe"
+msgstr "Şifre"
+
+#: views/home.php:159
+#, fuzzy
+msgid "Url d'accès"
+msgstr "Erişim URL'si"
+
+#: views/home.php:160
+#, fuzzy
+msgid ""
+"Généralement cette adresse est : \"https://bulksms.vsms.net/eapi/submission/"
+"send_sms/2/2.0\". Consultez la FAQ BulkSMS pour en savoir plus"
+msgstr ""
+"Genellikle bu adresidir: \"https://bulksms.vsms.net/eapi/submission/"
+"send_sms/2/2.0\". BulkSMS SSS daha fazla bilgi için bkz:"
+
+#: views/home.php:166
+#, fuzzy
+msgid "Port d'accès"
+msgstr "Erişim bağlantı noktası"
+
+#: views/home.php:167
+#, fuzzy
+msgid "Le port <strong>443</strong> est celui utilisé par défaut."
+msgstr "Bağlantı noktası <strong>443'ü</strong> varsayılan olarak kullanılır."
+
+#: views/script.php:31 views/script.php:84
+#, fuzzy
+msgid ": produit(s) acheté(s)"
+msgstr ": Ürün (ler) satın alındı ​​(ler)"
+
+#: views/script.php:59 views/script.php:123
+msgid "La facture par SMS a été envoyée"
+msgstr "SMS faturası gönderildi"
+
+#: views/script.php:59 views/script.php:123
+#, fuzzy
+msgid "Un exemplaire de la facture a été envoyée au numéro spécifié."
+msgstr "Belirtilen sayıya gönderilen fatura kopyası."
+
+#: views/script.php:65 views/script.php:71 views/script.php:129
+#: views/script.php:135
+#, fuzzy
+msgid "Une erreur s'est produite."
+msgstr "Bir hata oluştu."
+
+#: views/script.php:65 views/script.php:129
+#, fuzzy
+msgid "Le serveur à renvoyé une erreur durant l'envoi du SMS :"
+msgstr "SMS gönderme sırasında bir hata geri dönmek için sunucu:"
+
+#: views/script.php:71 views/script.php:135
+#, fuzzy
+msgid ""
+"Vous devez specifier un numéro de téléphone. La facture par SMS n'a pas pu "
+"être envoyée."
+msgstr ""
+"Bir telefon numarası belirtmeniz gerekir. Kısa mesaj yoluyla fatura "
+"gönderilemedi."
+
+#: views/script.php:167
+#, fuzzy
+msgid "Activer les SMS"
+msgstr "SMS etkinleştirmek"
+
+#: views/script.php:168
+#, fuzzy
+msgid "Désactiver les SMS"
+msgstr "SMS devre dışı bırakma"
+
+#: views/script.php:176
+#, fuzzy
+msgid "Veuillez définir le numéro à utiliser pour la facture par SMS"
+msgstr "Lütfen faturayı SMS tarafından kullanılmak üzere ayarlamak"

@@ -1,0 +1,1192 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-12-10 14:43+0100\n"
+"PO-Revision-Date: 2017-12-11 13:45+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: tr_TR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_s\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: controllers/NexoPremiumController.php:47
+#: controllers/NexoPremiumController.php:90
+#, fuzzy
+msgid "Erreur"
+msgstr "Hata"
+
+#: controllers/NexoPremiumController.php:48
+#: controllers/NexoPremiumController.php:91
+#, fuzzy
+msgid ""
+"La date mentionnée est invalide. Le rapport sollicité ne peut se faire pour "
+"les jours à venir."
+msgstr "Bu tarih geçersiz. İstenen rapor önümüzdeki günler için yapılabilir."
+
+#: controllers/NexoPremiumController.php:59
+msgid "Rapport journalier détaillé"
+msgstr "Detaylı günlük raporu"
+
+#: controllers/NexoPremiumController.php:63
+#, fuzzy
+msgid "Revenir en arrière"
+msgstr "Geriye Git"
+
+#: controllers/NexoPremiumController.php:66 views/flux-de-la-tresorerie.php:7
+#: views/stats-des-ventes.php:14
+#, fuzzy
+msgid "Vider le cache"
+msgstr "Önbelleği boşalt"
+
+#: controllers/NexoPremiumController.php:104 inc/Filters.php:99
+#, fuzzy
+msgid "Flux de trésorerie"
+msgstr "Nakit Akışı"
+
+#: controllers/NexoPremiumController.php:152
+msgid "Rapport des Ventes Annuelles"
+msgstr "Yıllık satış raporu"
+
+#: controllers/NexoPremiumController.php:174
+msgid "Fiche de suivi de stock &mdash; Nexo POS"
+msgstr "Stok &mdash; NexoPOS izleme kartı"
+
+#: controllers/NexoPremiumController.php:183 views/factures.php:10
+#, fuzzy
+msgid "Factures"
+msgstr "Faturalar"
+
+#: controllers/NexoPremiumController.php:195
+#, fuzzy, php-format
+msgid ""
+"Assigner une dépense à un fournisseur. Assurez-vous <a href=\"%s\">d'avoir "
+"assigné la bonne catégorie</a> pour les comptes créditeurs des fournisseurs."
+msgstr ""
+"Bir maliyet için bir tedarikçi atayın. Emin <a href=\"%s\">sağ Kategori "
+"atamış olduğunuz için</a> tedarikçiler için borç hesapları olması."
+
+#: controllers/NexoPremiumController.php:205
+#: controllers/NexoPremiumController.php:725
+#, fuzzy
+msgid "Nom"
+msgstr "Soyadı"
+
+#: controllers/NexoPremiumController.php:206 views/expenses_listing_dom.php:41
+#, fuzzy
+msgid "Catégorie"
+msgstr "Kategori"
+
+#: controllers/NexoPremiumController.php:207
+#, fuzzy
+msgid "Prix de la facture"
+msgstr "Fatura fiyatı"
+
+#: controllers/NexoPremiumController.php:208
+#, fuzzy
+msgid "Référence"
+msgstr "Dil Bilgisi"
+
+#: controllers/NexoPremiumController.php:209
+#: controllers/NexoPremiumController.php:726 views/historique.php:33
+#, fuzzy
+msgid "Description"
+msgstr "Açıklama"
+
+#: controllers/NexoPremiumController.php:210
+#, fuzzy
+msgid "Image"
+msgstr "Resim"
+
+#: controllers/NexoPremiumController.php:211
+#: controllers/NexoPremiumController.php:727
+#, fuzzy
+msgid "Auteur"
+msgstr "Yazar"
+
+#: controllers/NexoPremiumController.php:212
+#: controllers/NexoPremiumController.php:728
+#, fuzzy
+msgid "Date de création"
+msgstr "Oluşturulma Tarihi"
+
+#: controllers/NexoPremiumController.php:213
+#: controllers/NexoPremiumController.php:729
+#, fuzzy
+msgid "Date de modification"
+msgstr "Değiştirilme Tarihi"
+
+#: controllers/NexoPremiumController.php:214
+#, fuzzy
+msgid "Fournisseur"
+msgstr "Sağlayıcı"
+
+#: controllers/NexoPremiumController.php:216
+#, fuzzy
+msgid "Assigner la dépense à une categorie."
+msgstr "Gider bir kategoriye atayın."
+
+#: controllers/NexoPremiumController.php:217
+#, fuzzy
+msgid "Si la dépense à une valeur, vous pouvez le définir sur ce champ."
+msgstr "Masraf için bir değer bu alan için ayarlayabilirsiniz Eğer."
+
+#: controllers/NexoPremiumController.php:218
+msgid ""
+"La référence peut être le numéro d'une facture ou toute information qui "
+"permettrait d'identifier l'opération."
+msgstr ""
+"Başvuru, bir faturanın veya hareketi tanımlayacak herhangi bir bilginin "
+"numarası olabilir."
+
+#: controllers/NexoPremiumController.php:287
+#, fuzzy
+msgid "Liste des factures"
+msgstr "Faturaların listesi"
+
+#: controllers/NexoPremiumController.php:307
+#, fuzzy, php-format
+msgid "<a href=\"%s\">Return</a>"
+msgstr "<a href=\"%s\">Dönüş</a>"
+
+#: controllers/NexoPremiumController.php:311
+#, fuzzy, php-format
+msgid "Unable to locate the provider. %s"
+msgstr "Sağlayıcı bulmak oluşturulamıyor. %s"
+
+#: controllers/NexoPremiumController.php:317 views/expenses_listing_dom.php:51
+#: views/sales_detailed_dom.php:44 views/sales_detailed_dom.php:127
+#, fuzzy
+msgid "Montant"
+msgstr "Toplam"
+
+#: controllers/NexoPremiumController.php:333
+#, fuzzy, php-format
+msgid "Paiement d'un fournisseur : %s"
+msgstr "Bir sağlayıcı için ödeme: %s"
+
+#: controllers/NexoPremiumController.php:343
+#, fuzzy
+msgid "Ajouter/modifier une facture"
+msgstr "Bir fatura Ekle/Düzenle"
+
+#: controllers/NexoPremiumController.php:398 inc/Filters.php:111
+#, fuzzy
+msgid "Performances des caissiers"
+msgstr "Kasa performansını"
+
+#: controllers/NexoPremiumController.php:429
+#, fuzzy
+msgid "Statistiques des clients"
+msgstr "Müşteri istatistikleri"
+
+#: controllers/NexoPremiumController.php:462
+#, fuzzy
+msgid "Supprimer l'historique"
+msgstr "Tarih kaldırmak"
+
+#: controllers/NexoPremiumController.php:467
+#, fuzzy
+msgid "Historique des activités"
+msgstr "Etkinlik geçmişi"
+
+#: controllers/NexoPremiumController.php:492
+msgid "Réinitialisation de l'historique"
+msgstr "Geçmişi sıfırlama"
+
+#: controllers/NexoPremiumController.php:493
+#, php-format
+msgid ""
+"L'utilisateur <strong>%s</strong> à supprimé le contenu de l'historique des "
+"activités."
+msgstr "Kullanıcı <strong>% s </strong> etkinlik geçmişin içeriğini kaldırdı."
+
+#: controllers/NexoPremiumController.php:530
+#, fuzzy
+msgid "Les Meilleurs"
+msgstr "En iyisi"
+
+#: controllers/NexoPremiumController.php:620
+#, php-format
+msgid "Bénéfices et Pertes &mdash; %s"
+msgstr "Kâr ve zararlar &mdash;% s"
+
+#: controllers/NexoPremiumController.php:644
+#, fuzzy, php-format
+msgid "Liste des dépenses &mdash; %s"
+msgstr "Giderleri listesi &mdash; %s"
+
+#: controllers/NexoPremiumController.php:677
+#, fuzzy, php-format
+msgid "Rapport des ventes détaillés &mdash; %s"
+msgstr "Ayrıntılı satış rapor &mdash; %s"
+
+#: controllers/NexoPremiumController.php:697
+msgid "Catégories des dépenses"
+msgstr "Gönderi & Kategorileri"
+
+#: controllers/NexoPremiumController.php:717
+msgid "Catégories des factures"
+msgstr "Gönderi & Kategorileri"
+
+#: inc/Actions.php:31
+msgid "Supprimer le cache"
+msgstr "Önbelleği kaldır"
+
+#: inc/Actions.php:214
+#, fuzzy
+msgid "Création d'une nouvelle commande"
+msgstr "Yeni bir emir oluşturmak"
+
+#: inc/Actions.php:216
+#, php-format
+msgid "L'utilisateur %s a crée une nouvelle commande avec pour code : %s"
+msgstr "%s kullanıcısı kod ile yeni bir komut oluşturdu:%s"
+
+#: inc/Actions.php:232
+#, fuzzy
+msgid "Modification d'une commande"
+msgstr "Sipariş Modifikasyon"
+
+#: inc/Actions.php:234
+#, php-format
+msgid "L'utilisateur %s a modifié une commande avec pour code : %s"
+msgstr "%s kullanıcısı kod ile bir komut değiştirdi:%s"
+
+#: inc/Actions.php:251
+#, fuzzy
+msgid "Suppréssion d'une commande"
+msgstr "Bir komut kaldırmak"
+
+#: inc/Actions.php:253
+#, fuzzy, php-format
+msgid "L'utilisateur %s a supprimé une commande avec pour identifiant : %s"
+msgstr "Kullanıcı %s ile sipariş kimliği için silinmiş: %s"
+
+#: inc/Actions.php:269
+#, fuzzy
+msgid "Historique des utilisateurs"
+msgstr "Kullanıcı öyküsü"
+
+#: inc/Actions.php:274
+#, fuzzy
+msgid "Sauvegarder les réglages"
+msgstr "ayarlarını kaydet"
+
+#: inc/Actions.php:288
+msgid "Souhaitez-vous activer l'historique des activités ?"
+msgstr "Etkinlik geçmişini etkinleştirmek istiyor musunuz?"
+
+#: inc/Actions.php:289
+#, fuzzy
+msgid ""
+"Ceci peut très légèrement ralentir l'application, et prendre plus d'espace "
+"dans votre base de données."
+msgstr "Bu biraz uygulama yavaş ve veritabanınızdaki daha fazla yer kaplar."
+
+#: inc/Actions.php:291
+#, fuzzy
+msgid "Veuillez choisir une option"
+msgstr "Lütfen bir seçenek"
+
+#: inc/Actions.php:292
+#, fuzzy
+msgid "Oui"
+msgstr "Evet"
+
+#: inc/Actions.php:293
+#, fuzzy
+msgid "Non"
+msgstr "Hayır"
+
+#: inc/Filters.php:54
+#, fuzzy
+msgid "Rapports"
+msgstr "Raporlar"
+
+#: inc/Filters.php:73
+#, fuzzy
+msgid "Rapport Détaillés"
+msgstr "Ayrıntılı rapor"
+
+#: inc/Filters.php:79
+#, fuzzy
+msgid "Les meilleurs"
+msgstr "En iyisi"
+
+#: inc/Filters.php:84
+msgid "Journalier"
+msgstr "Günlük"
+
+#: inc/Filters.php:89
+#, fuzzy
+msgid "Bénéfices et Pertes"
+msgstr "Kar ve zararlar"
+
+#: inc/Filters.php:94
+#, fuzzy
+msgid "Listing des dépenses"
+msgstr "Harcamaları listesi"
+
+#: inc/Filters.php:105
+#, fuzzy
+msgid "Ventes Annuelles"
+msgstr "Yıllık satış"
+
+#: inc/Filters.php:117
+#, fuzzy
+msgid "Statistique des clients"
+msgstr "Müşteri istatistikleri"
+
+#: inc/Filters.php:123
+msgid "Fiche de Suivi de Stocks"
+msgstr "Stok izleme sayfası"
+
+#: inc/Filters.php:131
+#, fuzzy
+msgid "Dépenses"
+msgstr "GiderNoun, a transfer of money between two accounts"
+
+#: inc/Filters.php:137
+msgid "Liste des dépenses"
+msgstr "Gider listesi"
+
+#: inc/Filters.php:141
+#, fuzzy
+msgid "Nouvelle dépense"
+msgstr "Yeni gider"
+
+#: inc/Filters.php:146 views/fiche-de-suivi/by-categories.php:28
+msgid "Categories"
+msgstr "Kategoriler"
+
+#: inc/Filters.php:149
+msgid "Ajouter une categorie"
+msgstr "Kategori ekleme"
+
+#: inc/UI.php:24
+#, fuzzy
+msgid "Name"
+msgstr "Uygulama adı"
+
+#: language/lines.php:2
+#, fuzzy
+msgid "Impossible de retrouver le fichier de sauvegarde."
+msgstr "Yedekleme dosyası bulunamıyor."
+
+#: language/lines.php:3
+msgid "La restauration s'est déroulé correctement."
+msgstr "Restorasyon doğru gerçekleşti."
+
+#: language/lines.php:4
+msgid ""
+"Vous devez fournir une catégorie pour les dépenses relatives au paiement des "
+"fournisseurs."
+msgstr ""
+"Tedarikçilerin ödenmesi ile ilgili giderler için bir kategori sağlamalısınız."
+
+#: nexo_premium.php:43
+msgid "Nexo doit être installé pour que ce module fonctionne correctement."
+msgstr "NEXO bu modül için düzgün çalışabilmesi için yüklü olmalıdır."
+
+#: nexo_premium.php:52
+msgid "Nexo doit être activé pour que ce module fonctionne correctement."
+msgstr "NEXO Bu modülün düzgün çalışabilmesi için etkinleştirilmiş olmalıdır."
+
+#: views/best_of/content.php:3 views/cashier-performances.php:35
+#: views/customers-statistics.php:35 views/expenses_listing_dom.php:9
+#: views/profit_and_lost_dom.php:167 views/sales_detailed_dom.php:9
+#, fuzzy
+msgid "Date de départ"
+msgstr "Çıkış tarihi"
+
+#: views/best_of/content.php:8 views/cashier-performances.php:40
+#: views/customers-statistics.php:40 views/expenses_listing_dom.php:16
+#: views/profit_and_lost_dom.php:174 views/sales_detailed_dom.php:14
+#, fuzzy
+msgid "Date de fin"
+msgstr "Bitiş tarihi"
+
+#: views/best_of/content.php:12 views/cashier-performances.php:44
+#: views/customers-statistics.php:44 views/sales_detailed_dom.php:25
+#, fuzzy
+msgid "Afficher les résultats"
+msgstr "Önceki arama sonuçlarını göster"
+
+#: views/best_of/content.php:15
+msgid "Filter par"
+msgstr "Filtre Uygula"
+
+#: views/best_of/content.php:18
+#, fuzzy
+msgid "quantité"
+msgstr "miktar"
+
+#: views/best_of/content.php:19
+msgid "par chiffre d'affaire"
+msgstr "ciro ile"
+
+#: views/best_of/content.php:26
+msgid "Disable Cache"
+msgstr "Önbelleği devre dışı bırak"
+
+#: views/best_of/content.php:35
+#, fuzzy
+msgid "Produits"
+msgstr "Çıktılar"
+
+#: views/best_of/content.php:37
+#, fuzzy
+msgid "Catégories"
+msgstr "Anımsatıcı oluştur"
+
+#: views/best_of/content.php:38
+msgid "Livraisons"
+msgstr "Teslimatlar"
+
+#: views/best_of/content.php:60
+#, fuzzy
+msgid "Chargement..."
+msgstr "Yükleniyor..."
+
+#: views/best_of/content.php:68
+#, fuzzy
+msgid "Une erreur s'est produite durant le chargement ! Veuillez recommencer"
+msgstr "Yükleme sırasında bir hata oluştu! Lütfen yeniden deneyin"
+
+#: views/cashier-performances.php:14
+#, fuzzy
+msgid ""
+"Ne récupère que les caissiers et non tous les utilisateurs qui ont la "
+"permission de vendre."
+msgstr "O kasiyeri ve satmak için izni olan tüm kullanıcıların alamadım."
+
+#: views/cashier-performances.php:18
+msgid "Veuillez choisir un caissier"
+msgstr "Lütfen bir kasiyer seçin"
+
+#: views/cashier-performances.php:27
+#, fuzzy
+msgid "Aucun caissier n'est disponible"
+msgstr "Hiçbir kasiyer mevcuttur"
+
+#: views/cashier-performances.php:92 views/customers-statistics.php:92
+#, fuzzy
+msgid "Impossible d'afficher les données pour cette sélection."
+msgstr "Bu seçim için verileri görüntüleyemiyor."
+
+#: views/cashier-performances.php:104
+#, fuzzy
+msgid "Une erreur s'est produite durant l'affichage du rapport"
+msgstr "Rapor görüntüleme sırasında bir hata oluştu"
+
+#: views/customers-statistics.php:14
+#, fuzzy
+msgid "Affiche les achats réalisées par un client par mois"
+msgstr "Aylık bir müşteri tarafından yapılan satınalmalar görüntüler"
+
+#: views/customers-statistics.php:18
+#, fuzzy
+msgid "Veuillez choisir un client"
+msgstr "Bir müşteri seçin"
+
+#: views/customers-statistics.php:27
+msgid "Aucun client disponible"
+msgstr "Kullanılabilir müşteri yok"
+
+#: views/customers-statistics.php:104
+#, fuzzy
+msgid ""
+"Une erreur s'est produite durant l'affichage du rapport. Assurez-vous de "
+"choisir un bon interval de temps. Il doit y avoir au minimum 1 mois "
+"d'intervale entre les dates."
+msgstr ""
+"Rapor görüntüleme sırasında bir hata oluştu. İyi zaman aralığı seçtiğinizden "
+"emin olun. Tarihleri arasında en az 1 ay zaman aralığı olmalıdır."
+
+#: views/dashboard-content.php:8
+#, fuzzy
+msgid "Ventes réalisées"
+msgstr "Satış"
+
+#: views/dashboard-content.php:10 views/dashboard-content.php:43
+#: views/dashboard-content.php:77 views/dashboard-content.php:108
+#, fuzzy
+msgid "Aujourd'hui"
+msgstr "Bugün"
+
+#: views/dashboard-content.php:17 views/dashboard-content.php:51
+#: views/dashboard-content.php:83 views/dashboard-content.php:114
+#, fuzzy
+msgid "Hier"
+msgstr "Dün"
+
+#: views/dashboard-content.php:22 views/dashboard-content.php:56
+#: views/dashboard-content.php:88 views/dashboard-content.php:119
+#: views/fiche-de-suivi/by-categories.php:41
+#: views/flux-de-la-tresorerie.php:126 views/profit_and_lost_dom.php:8
+#: views/profit_and_lost_script.php:8 views/rapport-journalier-detaille.php:125
+#: views/sales_detailed_dom.php:116 views/sales_detailed_dom.php:126
+#: views/stats-des-ventes.php:124 views/stats-des-ventes.php:137
+#, fuzzy
+msgid "Total"
+msgstr "Toplam"
+
+#: views/dashboard-content.php:32 views/dashboard-content.php:66
+#: views/dashboard-content.php:98 views/dashboard-content.php:129
+#, fuzzy
+msgid "Plus de détails"
+msgstr "Daha fazla detay"
+
+#: views/dashboard-content.php:41
+#, fuzzy
+msgid "Chiffre d'affaire globale"
+msgstr "Küresel cirosu"
+
+#: views/dashboard-content.php:75
+#, fuzzy
+msgid "Clients"
+msgstr "Müşteriler"
+
+#: views/dashboard-content.php:107
+msgid "Créances"
+msgstr "İddia"
+
+#: views/expenses_listing_dom.php:24 views/profit_and_lost_dom.php:182
+#, fuzzy
+msgid "Charger"
+msgstr "Yükle"
+
+#: views/expenses_listing_dom.php:28 views/flux-de-la-tresorerie.php:7
+#: views/profit_and_lost_dom.php:186 views/sales_detailed_dom.php:28
+#: views/stats-des-ventes.php:14
+#, fuzzy
+msgid "Imprimer"
+msgstr "Yazdır"
+
+#: views/expenses_listing_dom.php:38
+#, fuzzy
+msgid "Dates"
+msgstr "Gün"
+
+#: views/expenses_listing_dom.php:45 views/profit_and_lost_dom.php:64
+#: views/profit_and_lost_script.php:64
+#, fuzzy
+msgid "Nom du produit"
+msgstr "Ürün adı"
+
+#: views/expenses_listing_dom.php:48
+#, fuzzy
+msgid "Références"
+msgstr "Kaynakça"
+
+#: views/expenses_listing_dom.php:76
+#, fuzzy
+msgid ""
+"Aucun résultat disponible. Veuillez choisir un intervalle de temps différent."
+msgstr "Hiçbir sonuç vardır. Lütfen farklı zaman aralığını seçin."
+
+#: views/expenses_listing_script.php:36 views/profit_and_lost_script.php:388
+#: views/profit_and_lost_script.php:503
+#, fuzzy
+msgid "Attention"
+msgstr "Dikkat"
+
+#: views/expenses_listing_script.php:36
+#, fuzzy
+msgid ""
+"Vous devez définir un intervalle de temps précis pour avoir des résultats"
+msgstr "Belirli bir zaman aralığında sonuçlar için ayarlamanız gerekir"
+
+#: views/fiche-de-suivi-dom.php:6
+#, fuzzy
+msgid "Par catégorie"
+msgstr "Kategoriye Göre"
+
+#: views/fiche-de-suivi/by-categories.php:3
+#, fuzzy
+msgid "Choisir l'arrivage"
+msgstr "Varış seçin"
+
+#: views/fiche-de-suivi/by-categories.php:13
+#, fuzzy
+msgid "Aucun arrivage disponible"
+msgstr "Hiçbir gelenler kullanılabilir"
+
+#: views/fiche-de-suivi/by-categories.php:19
+#, fuzzy
+msgid ""
+"Ce tableau vous permet de suivre les approvisionnements et les sorties d'une "
+"collection, tout en vous permettant de voir les quantités restantes dans le "
+"stock général."
+msgstr ""
+"Bu tablo kaynağı izlemenizi sağlar ve genel stokta kalan miktarları görmek "
+"için izin verirken bir koleksiyon verir."
+
+#: views/fiche-de-suivi/by-categories.php:20
+msgid ""
+"Les stocks affichés ici, ne sont que les stocks des produits dont les "
+"catégories sont situées au fond de la hierarchie des catégories. Les "
+"produits sauvegardés dans des catégories intermédiaires seront ignorés."
+msgstr ""
+"Burada görüntülenen hisse senetleri kategorilerin hiyerarşisinin alt "
+"kısmında bulunan ürünlerin yalnızca hisse senetleri. Ara kategorilerde "
+"kaydedilen ürünler yoksayılır."
+
+#: views/fiche-de-suivi/by-categories.php:25
+#, fuzzy
+msgid "Fiche de suivi de stock"
+msgstr "Hisse senedi İzleyicisi"
+
+#: views/fiche-de-suivi/by-categories.php:29
+#, fuzzy
+msgid "Entrées"
+msgstr "Girişler"
+
+#: views/fiche-de-suivi/by-categories.php:30
+#: views/fiche-de-suivi/by-categories.php:32
+#: views/fiche-de-suivi/by-categories.php:34
+#, fuzzy
+msgid "Valeur"
+msgstr "Değer"
+
+#: views/fiche-de-suivi/by-categories.php:31
+#, fuzzy
+msgid "Sorties"
+msgstr "Çıktılar"
+
+#: views/fiche-de-suivi/by-categories.php:33
+msgid "Stock Final"
+msgstr "Son stok"
+
+#: views/flux-de-la-tresorerie.php:30 views/stats-des-ventes.php:30
+#, fuzzy
+msgid "Janvier"
+msgstr "Ocak"
+
+#: views/flux-de-la-tresorerie.php:31 views/stats-des-ventes.php:31
+#, fuzzy
+msgid "Février"
+msgstr "Şubat"
+
+#: views/flux-de-la-tresorerie.php:32 views/stats-des-ventes.php:32
+#, fuzzy
+msgid "Mars"
+msgstr "Mart"
+
+#: views/flux-de-la-tresorerie.php:33 views/stats-des-ventes.php:33
+#, fuzzy
+msgid "Avril"
+msgstr "Nisan"
+
+#: views/flux-de-la-tresorerie.php:34 views/stats-des-ventes.php:34
+#, fuzzy
+msgid "Mai"
+msgstr "Mayıs"
+
+#: views/flux-de-la-tresorerie.php:35 views/stats-des-ventes.php:35
+#, fuzzy
+msgid "Juin"
+msgstr "Haziran"
+
+#: views/flux-de-la-tresorerie.php:36 views/stats-des-ventes.php:36
+#, fuzzy
+msgid "Juillet"
+msgstr "Temmuz"
+
+#: views/flux-de-la-tresorerie.php:37 views/stats-des-ventes.php:37
+#, fuzzy
+msgid "Aout"
+msgstr "Ağustos"
+
+#: views/flux-de-la-tresorerie.php:38 views/stats-des-ventes.php:38
+#, fuzzy
+msgid "Septembre"
+msgstr "Eylül"
+
+#: views/flux-de-la-tresorerie.php:39 views/stats-des-ventes.php:39
+#, fuzzy
+msgid "Octobre"
+msgstr "Ekim"
+
+#: views/flux-de-la-tresorerie.php:40 views/stats-des-ventes.php:40
+#, fuzzy
+msgid "Novembre"
+msgstr "Kasım"
+
+#: views/flux-de-la-tresorerie.php:41 views/stats-des-ventes.php:41
+#, fuzzy
+msgid "Decembre"
+msgstr "Aralık"
+
+#: views/flux-de-la-tresorerie.php:45
+#, fuzzy
+msgid "Recettes(+)"
+msgstr "Tarifler"
+
+#: views/flux-de-la-tresorerie.php:48
+#, fuzzy
+msgid "Dépenses(-)"
+msgstr "GiderNoun, a transfer of money between two accounts"
+
+#: views/flux-de-la-tresorerie.php:50 views/rapport-journalier-detaille.php:214
+#, fuzzy
+msgid "Solde Final"
+msgstr "Son bakiyeyi"
+
+#: views/flux-de-la-tresorerie.php:62 views/flux-de-la-tresorerie.php:65
+#: views/stats-des-ventes.php:52 views/stats-des-ventes.php:55
+#, fuzzy
+msgid "Spécifier une date"
+msgstr "Bir tarihi belirtin"
+
+#: views/flux-de-la-tresorerie.php:67 views/stats-des-ventes.php:57
+#, fuzzy, php-format
+msgid "Exemple : %s"
+msgstr "Örnek: %s"
+
+#: views/flux-de-la-tresorerie.php:71 views/stats-des-ventes.php:61
+#, fuzzy
+msgid "Afficher le rapport"
+msgstr "Raporu görüntüle"
+
+#: views/flux-de-la-tresorerie.php:85 views/stats-des-ventes.php:75
+#, fuzzy
+msgid "Vous devez spécifier une date"
+msgstr "Bir tarihi belirtmelisiniz"
+
+#: views/flux-de-la-tresorerie.php:94 views/rapport-journalier-detaille.php:25
+#: views/stats-des-ventes.php:84
+#, fuzzy
+msgid "Nom indisponible"
+msgstr "kullanılamaz isim"
+
+#: views/flux-de-la-tresorerie.php:98
+#, fuzzy, php-format
+msgid "Flux de trésorerie pour %s"
+msgstr "%s için nakit akışı"
+
+#: views/flux-de-la-tresorerie.php:103 views/rapport-journalier-detaille.php:33
+#: views/stats-des-ventes.php:92
+#, php-format
+msgid "Document imprimé par : %s"
+msgstr "Yazdırılan belge:%s"
+
+#: views/flux-de-la-tresorerie.php:109
+#, fuzzy
+msgid "Flux de trésorerie des activités opérationnelles."
+msgstr "Faaliyetlerden kaynaklanan nakit akışı."
+
+#: views/flux-de-la-tresorerie.php:115
+#, fuzzy
+msgid "Mouvement annuel de la trésorerie"
+msgstr "Nakit yıllık hareketi"
+
+#: views/flux-de-la-tresorerie.php:118
+#, fuzzy
+msgid "Libellé / Mois"
+msgstr "İfade"
+
+#: views/flux-de-la-tresorerie.php:477 views/stats-des-ventes.php:436
+#, fuzzy
+msgid "Chargement en cours..."
+msgstr "Yükleme İşlemi Sürüyor..."
+
+#: views/historique.php:10
+#, fuzzy
+msgid "Tableau des activités des utilisateurs"
+msgstr "Kullanıcılar tablo faaliyetleri"
+
+#: views/historique.php:28
+#, php-format
+msgid "L'historique des activités n'est pas <a href=\"%s\">activée</a>"
+msgstr "Etkinlik geçmişi <a href=\"%s\"> değil etkin</a> "
+
+#: views/historique.php:33
+#, fuzzy
+msgid "Title"
+msgstr "başlık"
+
+#: views/historique.php:33
+msgid "Effectué le"
+msgstr "yapar mı"
+
+#: views/profit_and_lost_dom.php:59 views/profit_and_lost_script.php:59
+#, fuzzy
+msgid "Date"
+msgstr "Tarih"
+
+#: views/profit_and_lost_dom.php:69 views/profit_and_lost_script.php:69
+#: views/rapport-journalier-detaille.php:69
+#, fuzzy
+msgid "Quantité"
+msgstr "Miktar"
+
+#: views/profit_and_lost_dom.php:74 views/profit_and_lost_script.php:74
+msgid "Prix de vente brut"
+msgstr "Brüt satış fiyatı"
+
+#: views/profit_and_lost_dom.php:79 views/profit_and_lost_script.php:79
+#, fuzzy
+msgid "Remise (%)"
+msgstr "Ödeme"
+
+#: views/profit_and_lost_dom.php:84 views/profit_and_lost_script.php:84
+#, fuzzy
+msgid "Remise"
+msgstr "Ödeme"
+
+#: views/profit_and_lost_dom.php:89 views/profit_and_lost_script.php:89
+msgid "Prix de vente net"
+msgstr "Net satış fiyatı"
+
+#: views/profit_and_lost_dom.php:94 views/profit_and_lost_script.php:94
+#, fuzzy
+msgid "Prix d'achat"
+msgstr "Satın alma fiyatı"
+
+#: views/profit_and_lost_dom.php:99 views/profit_and_lost_script.php:99
+#, fuzzy
+msgid "Bénéfice"
+msgstr "Kâr"
+
+#: views/profit_and_lost_dom.php:190
+#, fuzzy
+msgid "Exporter CSV"
+msgstr "CSV verme"
+
+#: views/profit_and_lost_dom.php:218
+#, fuzzy
+msgid ""
+"Aucun résultat à afficher. Veuillez choisir un interval de temps différent."
+msgstr "Görüntülenecek sonuç yok. Lütfen farklı zaman aralığını seçin."
+
+#: views/profit_and_lost_script.php:383
+#, fuzzy
+msgid "Rapport des bénéfices et des pertes"
+msgstr "Kar ve zararlar raporu"
+
+#: views/profit_and_lost_script.php:388
+msgid ""
+"Aucune données disponible pour l'impression. Veuillez afficher des résultats "
+"en premier"
+msgstr "Yazdırma için mevcut veri yok. Lütfen önce sonuçları göster"
+
+#: views/profit_and_lost_script.php:503
+msgid "Vous devez sélectionner une date valide"
+msgstr "Geçerli bir tarih seçmelisiniz"
+
+#: views/providers/pay-dom.php:7
+msgid "Somme à verser"
+msgstr "Geçerli bir tarih seçmelisiniz"
+
+#: views/providers/pay-dom.php:13
+msgid "Définir la somme qui sera versé pour le compte du fournisseur."
+msgstr "Tedarikçi adına ödenmesi gereken miktarı tanımlayın."
+
+#: views/providers/pay-dom.php:19
+msgid "Fournir des détails sur l'opération"
+msgstr "İşlemle ilgili ayrıntıları sağlayın"
+
+#: views/providers/pay-dom.php:22
+#, fuzzy
+msgid "Enregistrer le paiement"
+msgstr "Ödeme kaydetmek"
+
+#: views/providers/pay-dom.php:23
+#, fuzzy
+msgid "Annuler"
+msgstr "İptal"
+
+#: views/rapport-journalier-detaille.php:28
+#, php-format
+msgid "Rapport journalier détaillé <br> pour le %s"
+msgstr "%s için ayrıntılı günlük rapor"
+
+#: views/rapport-journalier-detaille.php:38
+#, fuzzy
+msgid ""
+"Ensemble des activités effectuées par la caisse durant une période "
+"déterminée."
+msgstr ""
+"Tüm aktiviteleri sırasında belirli bir süre Fonu tarafından yürütülmektedir."
+
+#: views/rapport-journalier-detaille.php:48
+#, fuzzy
+msgid ""
+"Selectionnez la caisse dont vous souhaitez afficher le rapport journalier"
+msgstr "Günlük raporu görmek istiyorum Fonu seçin"
+
+#: views/rapport-journalier-detaille.php:51
+#, fuzzy
+msgid "Faites un choix"
+msgstr "Bir seçim yapmak"
+
+#: views/rapport-journalier-detaille.php:63
+#, fuzzy
+msgid "Récapitulatif des recettes"
+msgstr "Gelirlerinin Özeti"
+
+#: views/rapport-journalier-detaille.php:67
+#, fuzzy
+msgid "Type de documents"
+msgstr "Belge türünü"
+
+#: views/rapport-journalier-detaille.php:71
+#, php-format
+msgid "Chiffre d'affaire collectif (%s)"
+msgstr "Grup cirosu (%s)"
+
+#: views/rapport-journalier-detaille.php:77
+#, fuzzy
+msgid "Commandes Cash"
+msgstr "Nakit siparişler"
+
+#: views/rapport-journalier-detaille.php:83
+#, fuzzy
+msgid "Commandes Avance"
+msgstr "Önceden sipariş"
+
+#: views/rapport-journalier-detaille.php:89
+#, fuzzy
+msgid "Commandes Devis"
+msgstr "Alıntı siparişler"
+
+#: views/rapport-journalier-detaille.php:97
+#, fuzzy
+msgid "Taxes collectées"
+msgstr "Toplanan vergiler"
+
+#: views/rapport-journalier-detaille.php:105
+msgid "Bonus des prix fictifs"
+msgstr "Hayali fiyat bonusu"
+
+#: views/rapport-journalier-detaille.php:113
+#, fuzzy
+msgid "Revenu journalier"
+msgstr "Günlük gelir"
+
+#: views/rapport-journalier-detaille.php:119
+#, fuzzy
+msgid "Revenu exigible"
+msgstr "Ödenecek gelir"
+
+#: views/rapport-journalier-detaille.php:133
+#: views/rapport-journalier-detaille.php:138
+#, fuzzy
+msgid "Récapitulatif des dépenses"
+msgstr "Harcamalarının Özeti"
+
+#: views/rapport-journalier-detaille.php:142
+msgid "Nom des documents"
+msgstr "Belgelerin adı"
+
+#: views/rapport-journalier-detaille.php:144
+#: views/rapport-journalier-detaille.php:174
+#, fuzzy, php-format
+msgid "Montant (%s)"
+msgstr "Tutarı (%s)"
+
+#: views/rapport-journalier-detaille.php:150
+#, fuzzy
+msgid "Remise + Rabais + Ristourne"
+msgstr "İndirim + indirim + indirim"
+
+#: views/rapport-journalier-detaille.php:157
+#, fuzzy
+msgid "Total dépense"
+msgstr "Toplam harcama"
+
+#: views/rapport-journalier-detaille.php:165
+#, fuzzy
+msgid ""
+"Bilan de la trésorerie<br><br>Chiffre d'Affaire Net = ( Commandes Cash -  "
+"( Remise + Rabais + Ristourne ) )"
+msgstr ""
+"Nakit dengesi<br><br>Ciro Net (Siparişler nakit - (indirim + indirim + "
+"indirim)) ="
+
+#: views/rapport-journalier-detaille.php:172
+msgid "Bilan tresorerie"
+msgstr "Nakit dengesi"
+
+#: views/rapport-journalier-detaille.php:189
+#, fuzzy
+msgid "Solde Initial"
+msgstr "Açılış bakiyesi"
+
+#: views/rapport-journalier-detaille.php:197
+#, fuzzy
+msgid "Recettes (+)"
+msgstr "Tarifler"
+
+#: views/rapport-journalier-detaille.php:201
+#, fuzzy
+msgid "Dépenses (-)"
+msgstr "GiderNoun, a transfer of money between two accounts"
+
+#: views/rapport-journalier-detaille.php:221
+#, fuzzy
+msgid "Chiffre d'affaire net (*)"
+msgstr "Net ciro (*)"
+
+#: views/rapport-journalier-detaille.php:297
+msgid "Une erreur s'est produite durant la récupération des caisses"
+msgstr "Ödemenin kurtarılması sırasında bir hata oluştu"
+
+#: views/rapport-journalier-detaille.php:476
+#, fuzzy
+msgid "Cette caisse n'a pas été fermée en ce jour."
+msgstr "Bu günde bu fon kapatılmamış."
+
+#: views/rapport-journalier-detaille.php:480
+#, fuzzy
+msgid "Cette caisse n'a pas été ouverte en ce jour"
+msgstr "Bu günde bu fon açılmadı"
+
+#: views/restore.php:17
+#, fuzzy
+msgid ""
+"La restauration supprime le contenu actuel et le remplace par celui du "
+"fichier de sauvegarde. Vous devez envisager de sauvegarder l'état actuel de "
+"la boutique avant de faire une restauration. Seuls les fichiers au format \"."
+"zip\" sont acceptés."
+msgstr ""
+"Geri yükleme geçerli içeriğini siler ve bir yedek dosyası ile değiştirin. "
+"Bir geri yükleme yapmadan önce Dükkanı geçerli durumunu kaydetmek için "
+"dikkate almanız gerekir. Yalnızca dosyalar \".zip\" biçiminde kabul edilir."
+
+#: views/restore.php:26
+msgid "Prefixe à utiliser"
+msgstr "Kullanılacak önek"
+
+#: views/restore.php:27
+msgid "Prefixe à remplacer"
+msgstr "Yerine koymak için önek"
+
+#: views/restore.php:31
+#, fuzzy
+msgid "Veuillez envoyer le fichier de restauration"
+msgstr "Geri yükleme dosya gönderin"
+
+#: views/restore.php:33
+#, fuzzy
+msgid "Restaurer"
+msgstr "Yeniden yükle"
+
+#: views/sales_detailed_dom.php:19
+#, fuzzy
+msgid "Choisir le format"
+msgstr "Biçimi seçin"
+
+#: views/sales_detailed_dom.php:21
+#, fuzzy
+msgid "Détaillé"
+msgstr "Detaylı"
+
+#: views/sales_detailed_dom.php:22
+#, fuzzy
+msgid "Condensé"
+msgstr "Yoğunlaştırılmış"
+
+#: views/sales_detailed_dom.php:37
+#, fuzzy
+msgid "Rapport des ventes détaillées"
+msgstr "Ayrıntılı satış raporu"
+
+#: views/sales_detailed_dom.php:43
+#, fuzzy
+msgid "Entrée"
+msgstr "Gir"
+
+#: views/sales_detailed_dom.php:58
+#, fuzzy
+msgid "Remise au pourcentage"
+msgstr "İndirim yüzdesi"
+
+#: views/sales_detailed_dom.php:67
+#, fuzzy
+msgid "Remise fixe"
+msgstr "Ödeme"
+
+#: views/sales_detailed_dom.php:81
+#, fuzzy
+msgid ""
+"Il n'y a rien à afficher aujourd'hui, veuillez choisir un interval de temps "
+"différent."
+msgstr ""
+"Bugün göstermek, lütfen farklı zaman aralığını seçmek için bir şey yoktur."
+
+#: views/sales_detailed_dom.php:89
+msgid "Statistiques des ventes"
+msgstr "Satış istatistikleri"
+
+#: views/sales_detailed_dom.php:95
+#, fuzzy
+msgid "Commandes Comptant"
+msgstr "Nakit siparişler"
+
+#: views/sales_detailed_dom.php:104
+#, fuzzy
+msgid "Analyse des ventes"
+msgstr "PEGI: Satış Analizi"
+
+#: views/sales_detailed_dom.php:125
+#, fuzzy
+msgid "Autres Statistiques"
+msgstr "Diğer istatistikler"
+
+#: views/sales_detailed_dom.php:132
+#, fuzzy
+msgid "Moyenne des commandes"
+msgstr "Ortalama sipariş"
+
+#: views/sales_detailed_dom.php:137
+#, fuzzy
+msgid "Articles par commandes"
+msgstr "Emir tarafından Makaleler"
+
+#: views/sales_detailed_dom.php:142
+#, fuzzy
+msgid "Moyenne des prix par articles"
+msgstr "Öğelere göre ortalama fiyatları"
+
+#: views/sales_detailed_dom.php:148 views/sales_detailed_dom.php:166
+#, fuzzy
+msgid ""
+"Aucune information à afficher. Veuillez choisir un interval de date correcte."
+msgstr "Görüntülenecek bilgi yok. Lütfen doğru tarih aralığı seçin."
+
+#: views/sales_detailed_dom.php:156
+msgid "Ventes par Staff"
+msgstr "Personel tarafından yapılan satışlar"
+
+#: views/stats-des-ventes.php:87
+#, fuzzy, php-format
+msgid "Statistiques des ventes <br> pour %s"
+msgstr "Satış istatistikleri<br>%s için"
+
+#: views/stats-des-ventes.php:97
+#, fuzzy
+msgid ""
+"Aperçu mensuel de l'etat des ventes d'articles selon la hierarchie des "
+"catégories. Tous les montants affichés sont brut."
+msgstr ""
+"Bir öğe hiyerarşisine göre kategoriler satış durumunu aylık genel bakış. "
+"Gösterilen tüm tutarlar iğrençtir."
+
+#: views/stats-des-ventes.php:104
+#, fuzzy
+msgid "Statistique des ventes"
+msgstr "Satış istatistikleri"
+
+#: views/stats-des-ventes.php:112
+#, fuzzy, php-format
+msgid "Level %s"
+msgstr "Düzey %s"

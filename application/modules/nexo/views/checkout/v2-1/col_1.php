@@ -203,26 +203,11 @@
 			<?php echo $this->events->apply_filters( 'before_cart_pay_button', '' );?>
             <?php echo $this->events->apply_filters( 'cart_pay_button', $this->load->module_view( 'nexo', 'checkout.v2-1.cart_pay_button', null, true ) );?>
             <?php echo $this->events->apply_filters( 'before_cart_save_button', '' );?>
-            <div class="btn-group" role="group" ng-controller="saveBox">
-                <button type="button" class="hold_btn btn btn-default btn-lg" ng-click="openSaveBox()" style="margin-bottom:0px;"> <i class="fa fa-hand-stop-o"></i>
-                    <span class="hidden-xs"><?php _e('En attente', 'nexo');?></span>
-                </button>
-            </div>
+            <?php echo $this->events->apply_filters( 'cart_hold_button', $this->load->module_view( 'nexo', 'checkout.v2-1.cart_hold_button', null, true ) );?>
             <?php echo $this->events->apply_filters( 'before_cart_discount_button', '' );?>
-            <?php if( @$Options[ store_prefix() . 'hide_discount_button' ] != 'yes' ):?>
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default btn-lg" id="cart-discount-button"  style="margin-bottom:0px;"> <i class="fa fa-gift"></i>
-                    <span class="hidden-xs"><?php _e('Remise', 'nexo');?></span>
-                </button>
-            </div>
-            <?php endif;?>
+            <?php echo $this->events->apply_filters( 'cart_discount_button', $this->load->module_view( 'nexo', 'checkout.v2-1.cart_discount_button', null, true ) );?>
             <?php echo $this->events->apply_filters( 'before_cart_cancel_button', '' );?>
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default btn-lg" id="cart-return-to-order"  style="margin-bottom:0px;"> <!-- btn-app  -->
-                <i class="fa fa-refresh"></i>
-                    <span class="hidden-xs"><?php _e('Annuler', 'nexo');?></span>
-                </button>
-            </div>
+            <?php echo $this->events->apply_filters( 'cart_cancel_button', $this->load->module_view( 'nexo', 'checkout.v2-1.cart_cancel_button', null, true ) );?>
         </div>
     </div>
     <!-- /.box-footer-->

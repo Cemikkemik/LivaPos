@@ -1,0 +1,414 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-12-10 14:59+0100\n"
+"PO-Revision-Date: 2017-12-10 15:10+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_s;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: inc/actions.php:33
+msgid ""
+"The multistore feature should be enable in order to use the stock manager."
+msgstr ""
+
+#: inc/controller.php:29
+msgid "Historique de transfert de stock"
+msgstr ""
+
+#: inc/controller.php:48
+msgid "Name"
+msgstr ""
+
+#: inc/controller.php:49
+msgid "Status"
+msgstr ""
+
+#: inc/controller.php:50
+msgid "Edited by"
+msgstr ""
+
+#: inc/controller.php:51
+msgid "From"
+msgstr ""
+
+#: inc/controller.php:52 views/transfert/dom.php:16
+msgid "Send To"
+msgstr ""
+
+#: inc/controller.php:53
+msgid "Type"
+msgstr ""
+
+#: inc/controller.php:54
+msgid "Created on"
+msgstr ""
+
+#: inc/controller.php:55
+msgid "Author"
+msgstr ""
+
+#: inc/controller.php:62 inc/controller.php:178
+msgid "Transfert Invoice"
+msgstr ""
+
+#: inc/controller.php:66
+msgid "Pending"
+msgstr ""
+
+#: inc/controller.php:68
+msgid "Approuved"
+msgstr ""
+
+#: inc/controller.php:70
+msgid "Refused"
+msgstr ""
+
+#: inc/controller.php:72
+msgid "Canceled"
+msgstr ""
+
+#: inc/controller.php:79
+msgid "N/A"
+msgstr ""
+
+#: inc/controller.php:83 inc/controller.php:87 views/transfert/script.php:21
+msgid "Main Warehouse"
+msgstr ""
+
+#: inc/controller.php:104
+msgid "Allow the Transfert"
+msgstr ""
+
+#: inc/controller.php:105
+msgid "Approuve"
+msgstr ""
+
+#: inc/controller.php:110
+msgid "Refuse"
+msgstr ""
+
+#: inc/controller.php:111
+msgid "Reject"
+msgstr ""
+
+#: inc/controller.php:116 inc/controller.php:117
+msgid "Cancel"
+msgstr ""
+
+#: inc/controller.php:192 inc/filters.php:36 inc/filters.php:168
+msgid "Transfert Settings"
+msgstr ""
+
+#: inc/controller.php:208
+msgid ""
+"You cannot approuve this transfert. It may have been canceled or yet "
+"approuved."
+msgstr ""
+
+#: inc/controller.php:365
+msgid "You cannot cancel this transfert, it may have yet been approuved."
+msgstr ""
+
+#: inc/controller.php:392
+#, php-format
+msgid "Canceling Transfert : %s"
+msgstr ""
+
+#: inc/controller.php:497
+msgid ""
+"You cannot reject this transfert, it may have yet been approuved or canceled."
+msgstr ""
+
+#: inc/controller.php:534
+#, php-format
+msgid "Rejecting Transfert : %s"
+msgstr ""
+
+#: inc/filters.php:22 inc/filters.php:154
+msgid "Stock Transfert"
+msgstr ""
+
+#: inc/filters.php:28 inc/filters.php:160
+msgid "Transfert History"
+msgstr ""
+
+#: inc/filters.php:32 inc/filters.php:164
+msgid "New Transfert"
+msgstr ""
+
+#: inc/filters.php:60
+msgid "Inventaire"
+msgstr ""
+
+#: inc/filters.php:66
+msgid "Liste des livraisons"
+msgstr ""
+
+#: inc/filters.php:70
+msgid "Nouvelle livraison"
+msgstr ""
+
+#: inc/filters.php:74
+msgid "Liste des articles"
+msgstr ""
+
+#: inc/filters.php:78
+msgid "Ajouter un article"
+msgstr ""
+
+#: inc/filters.php:83
+msgid "Ajustement des quantités"
+msgstr ""
+
+#: inc/filters.php:87
+msgid "Importer les articles"
+msgstr ""
+
+#: inc/filters.php:91
+msgid "Liste des taxes"
+msgstr ""
+
+#: inc/filters.php:95
+msgid "Ajouter une taxe"
+msgstr ""
+
+#: inc/filters.php:99
+msgid "Liste des départements"
+msgstr ""
+
+#: inc/filters.php:103
+msgid "Ajouter un département"
+msgstr ""
+
+#: inc/filters.php:107
+msgid "Liste des catégories"
+msgstr ""
+
+#: inc/filters.php:111
+msgid "Ajouter une catégorie"
+msgstr ""
+
+#: inc/filters.php:118
+msgid "Fournisseurs"
+msgstr ""
+
+#: inc/filters.php:124
+msgid "Liste des fournisseurs"
+msgstr ""
+
+#: inc/filters.php:128
+msgid "Ajouter un fournisseur"
+msgstr ""
+
+#: inc/filters.php:135
+msgid "Warehouse Settings"
+msgstr ""
+
+#: inc/filters.php:140
+msgid "Others Settings"
+msgstr ""
+
+#: inc/filters.php:145
+msgid "Receipt & Invoice"
+msgstr ""
+
+#: views/settings/dom.php:1
+msgid "You can use the following tag"
+msgstr ""
+
+#: views/settings/dom.php:3
+msgid "For the store which send the stock"
+msgstr ""
+
+#: views/settings/dom.php:4
+msgid "{provider_store_name} : To display provider store name."
+msgstr ""
+
+#: views/settings/dom.php:5
+msgid "{provider_store_email} : To display provider store email."
+msgstr ""
+
+#: views/settings/dom.php:6
+msgid "{provider_store_phone} : To display provider store phone."
+msgstr ""
+
+#: views/settings/dom.php:7
+msgid "{provider_store_fax} : To display provider store fax number."
+msgstr ""
+
+#: views/settings/dom.php:8
+msgid "{provider_store_address} : To display provider store address."
+msgstr ""
+
+#: views/settings/dom.php:9
+msgid "{provider_store_pobox} : To display provider store PO.box."
+msgstr ""
+
+#: views/settings/dom.php:10
+msgid "For the store which receive the stock"
+msgstr ""
+
+#: views/settings/dom.php:11
+msgid "{receiver_store_name} : To display receiver store name."
+msgstr ""
+
+#: views/settings/dom.php:12
+msgid "{receiver_store_email} : To display receiver store email."
+msgstr ""
+
+#: views/settings/dom.php:13
+msgid "{receiver_store_phone} : To display receiver store phone."
+msgstr ""
+
+#: views/settings/dom.php:14
+msgid "{receiver_store_fax} : To display receiver store fax number."
+msgstr ""
+
+#: views/settings/dom.php:15
+msgid "{receiver_store_address} : To display receiver store address."
+msgstr ""
+
+#: views/settings/dom.php:16
+msgid "{receiver_store_pobox} : To display receiver store PO.box."
+msgstr ""
+
+#: views/settings/gui.php:12
+msgid "Save the settings"
+msgstr ""
+
+#: views/settings/gui.php:27
+msgid "Left Column Settings"
+msgstr ""
+
+#: views/settings/gui.php:28
+msgid "Customize the left column section for the transfert invoice."
+msgstr ""
+
+#: views/settings/gui.php:34
+msgid "Right Column Settings"
+msgstr ""
+
+#: views/settings/gui.php:35
+msgid "Customize the right column section for the transfert invoice."
+msgstr ""
+
+#: views/settings/gui.php:41
+msgid "Deduct Stock"
+msgstr ""
+
+#: views/settings/gui.php:42
+msgid ""
+"All item send won't be available when the stock is being send. Default Yes"
+msgstr ""
+
+#: views/settings/gui.php:44
+msgid "Yes"
+msgstr ""
+
+#: views/settings/gui.php:45
+msgid "No"
+msgstr ""
+
+#: views/transfert/dom.php:7
+msgid "Titre"
+msgstr ""
+
+#: views/transfert/dom.php:10
+msgid "This will help you identifiy the transfert."
+msgstr ""
+
+#: views/transfert/dom.php:20
+msgid "Select where you would like to send the transfert."
+msgstr ""
+
+#: views/transfert/dom.php:27
+msgid ""
+"Rechercher le nom du produit, le code barre ou l'unité de gestion du stock"
+msgstr ""
+
+#: views/transfert/dom.php:31
+msgid "Item Barcode"
+msgstr ""
+
+#: views/transfert/dom.php:35
+msgid "Item List"
+msgstr ""
+
+#: views/transfert/dom.php:40 views/transfert/invoice-dom.php:34
+msgid "Item Name"
+msgstr ""
+
+#: views/transfert/dom.php:41 views/transfert/invoice-dom.php:35
+msgid "Price"
+msgstr ""
+
+#: views/transfert/dom.php:42 views/transfert/invoice-dom.php:36
+msgid "Quantity"
+msgstr ""
+
+#: views/transfert/dom.php:43 views/transfert/invoice-dom.php:37
+msgid "Total"
+msgstr ""
+
+#: views/transfert/dom.php:74
+msgid "No item has been added"
+msgstr ""
+
+#: views/transfert/dom.php:80
+msgid "Send The Stock"
+msgstr ""
+
+#: views/transfert/invoice-dom.php:25
+msgid "Transfert Summary"
+msgstr ""
+
+#: views/transfert/invoice-dom.php:26
+#, php-format
+msgid "Type : %s"
+msgstr ""
+
+#: views/transfert/invoice-dom.php:76
+msgid "Print"
+msgstr ""
+
+#: views/transfert/script.php:57
+msgid "Unable to find this product"
+msgstr ""
+
+#: views/transfert/script.php:85 views/transfert/script.php:91
+msgid "Out of stock, unable to add the product."
+msgstr ""
+
+#: views/transfert/script.php:109
+msgid "Would you like to remove this item"
+msgstr ""
+
+#: views/transfert/script.php:186
+msgid "You must provide a title"
+msgstr ""
+
+#: views/transfert/script.php:191
+msgid "You must select a store"
+msgstr ""
+
+#: views/transfert/script.php:194
+msgid "Would you like to confirm this transfert ?"
+msgstr ""
+
+#: views/transfert/script.php:202
+msgid "The stock has been successfully send !"
+msgstr ""
+
+#: views/transfert/script.php:249
+msgid "Unable to find this item"
+msgstr ""

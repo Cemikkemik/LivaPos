@@ -25,7 +25,7 @@ class Tendoo_Controller extends CI_Controller
         $this->lang->load_lines(APPPATH . '/language/system_lang.php'); // @since 3.0.9
 
         // Load Modules
-		Modules::load( MU_MODULESPATH, 0, 'mu-modules' );
+        Modules::load( MU_MODULESPATH, 0, 'mu-modules' );
         Modules::load( MODULESPATH );
 
         /**
@@ -70,8 +70,8 @@ class Tendoo_Controller extends CI_Controller
 			$this->events->add_action('before_db_setup', function () {
 				// this hook let modules being called during tendoo installation
 				// Only when site name is being defined
-				Modules::init('all');
 				Modules::init( 'all', null, 'mu-modules' );
+				Modules::init('all');
             });
         }
 

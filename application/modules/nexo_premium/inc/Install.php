@@ -91,7 +91,20 @@ class Nexo_Premium_Install extends CI_Model
 		  `DATE_MODIFICATION` datetime NOT NULL,
 		  `AUTHOR` int(11) NOT NULL,
 		  PRIMARY KEY (`ID`)
-		) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
+        
+        $this->db->query('CREATE TABLE IF NOT EXISTS `'.$table_prefix.'nexo_premium_factures_items` (
+            `ID` int(11) NOT NULL AUTO_INCREMENT,
+            `NAME` varchar(200) NOT NULL,
+            `PRICE` float(11) NOT NULL,
+            `QUANTITY` float(11) NOT NULL,
+            `TOTAL` float(11) NOT NULL,
+            `FLAT_DISCOUNT` float(11) NOT NULL,
+            `PERCENTAGE_DISCOUNT` float(11) NOT NULL,
+            `DISCOUNT_TYPE` varchar(200) NOT NULL,
+            `REF_INVOICE` int(11) NOT NULL,
+            PRIMARY KEY (`ID`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
         // Backup
 

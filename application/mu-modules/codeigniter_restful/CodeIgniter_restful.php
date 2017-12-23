@@ -5,6 +5,7 @@ class Nexo_Restful extends CI_Model
     {
         parent::__construct();
         $this->events->add_action('tendoo_settings_tables', array( $this, 'sql' ));
+        $this->events->add_action( 'tendoo_settings_final_config', [ $this, 'final_config' ] );
         $this->events->add_action('do_enable_module', array( $this, 'enable' ));
         $this->events->add_action('do_remove_module', array( $this, 'remove' ));
     }
@@ -56,18 +57,20 @@ class Nexo_Restful extends CI_Model
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
 
         $randomString        =    $this->oauthlibrary->generateKey();
-
-        $this->db->insert('restapi_keys', array(
-            'key'            =>    $randomString,
-            'scopes'        =>    'core',
-            'app_name'        =>    __('Tendoo CMS'),
-            'user'            =>    0,
-            'date_created'    =>    date_now(),
-            'expire'        =>    0
-        ));
-
         // Save Core Key
         $this->options->set('rest_key', $randomString, true);
+    }
+
+    public function final_config()
+    {
+        $this->db->insert('restapi_keys', array(
+            'key'          =>    get_option( 'rest_key' ),
+            'scopes'       =>    'core',
+            'app_name'     =>    __('Tendoo CMS'),
+            'user'         =>    0,
+            'date_created' =>    date_now(),
+            'expire'       =>    0
+        ));
     }
 }
 

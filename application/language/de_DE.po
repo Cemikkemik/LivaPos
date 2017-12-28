@@ -1,18 +1,1268 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-12-23 11:36+0100\n"
-"PO-Revision-Date: 2017-12-23 11:37+0100\n"
+"POT-Creation-Date: 2017-12-28 00:22+0100\n"
+"PO-Revision-Date: 2017-12-28 00:28+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.0.5\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: de_DE\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_s;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: modules\n"
 "X-Poedit-SearchPathExcluded-1: mu-modules\n"
+"X-Poedit-SearchPathExcluded-2: vendor\n"
+"X-Poedit-SearchPathExcluded-3: temp\n"
+
+#: config/nexo.php:46
+#, fuzzy
+msgid "Pourcentage"
+msgstr "Pourcentage"
+
+#: config/nexo.php:47
+#, fuzzy
+msgid "Montant Fixe"
+msgstr "Montant Fixe"
+
+#: config/oauth.php:11
+#, fuzzy
+msgid "Access user details"
+msgstr "Benutzer Zugangsdaten"
+
+#: config/oauth.php:12
+#, fuzzy
+msgid ""
+"The current request would like to access user informations such as name, "
+"email, except password"
+msgstr ""
+"Die aktuelle Anforderung möchte Benutzer Informationen wie Name, e-Mail, "
+"außer Passwort zugreifen"
+
+#: config/oauth.php:19
+#, fuzzy
+msgid "Control Tendoo CMS"
+msgstr "Kontrolle Tendoo CMS"
+
+#: config/oauth.php:20
+#, fuzzy
+msgid "Give full access to modules, users and options on Tendoo CMS."
+msgstr ""
+"Geben Sie Vollzugriff für Module, Anwender und Optionen auf Tendoo CMS."
+
+#: controllers/Dashboard.php:150
+#, fuzzy, php-format
+msgid "Dashboard &mdash; %s"
+msgstr "Dashboard &mdash; %s"
+
+#: controllers/Dashboard.php:170
+#, fuzzy, php-format
+msgid "Settings &mdash; %s"
+msgstr "Einstellungen &mdash; %s"
+
+#: controllers/Dashboard.php:292
+#, fuzzy, php-format
+msgid "The request returned the following message : %s<br>Code : %s"
+msgstr "Die Anforderung zurückgegeben die folgende Meldung: %s<br>Code: %s"
+
+#: controllers/Dashboard.php:328
+#, fuzzy
+msgid "Upload a zip file"
+msgstr "Zip-Datei hochladen"
+
+#: controllers/Dashboard.php:333
+#, fuzzy
+msgid ""
+"An error occured during module installation. There was a file conflict "
+"during module installation process.<br>This file seems to be already "
+"installed : "
+msgstr ""
+"Während der Modulinstallation ist ein Fehler aufgetreten. Es gab ein "
+"Dateikonflikt während Modul-Installation.<br>Diese Datei scheint bereits "
+"installiert werden:"
+
+#: controllers/Dashboard.php:336
+#, fuzzy, php-format
+msgid "Module List &mdash; %s"
+msgstr "Modulliste &mdash; %s"
+
+#: controllers/Dashboard.php:349
+#, fuzzy
+msgid "Back to modules list"
+msgstr "Zurück zu Module"
+
+#: controllers/Dashboard.php:369
+#, fuzzy, php-format
+msgid "Add a new extension &mdash; %s"
+msgstr "Hinzufügen eine neuen Erweiterung &mdash; %s"
+
+#: controllers/Dashboard.php:447
+#, fuzzy, php-format
+msgid "Migration &mdash; %s"
+msgstr "Migration &mdash; %s"
+
+#: controllers/Dashboard.php:464
+#, fuzzy
+msgid "Unknow module"
+msgstr "Unbekannter Modul"
+
+#: controllers/Dashboard.php:494 views/dashboard/modules/migrate.php:57
+#, fuzzy
+msgid "Migration done."
+msgstr "Migration durchgeführt."
+
+#: controllers/Dashboard.php:501
+#, fuzzy
+msgid "File not found or incorrect executable provided."
+msgstr ""
+"Datei nicht gefunden oder nicht korrekt ausführbare Datei zur Verfügung "
+"gestellt."
+
+#: controllers/Dashboard.php:506
+#, fuzzy
+msgid "An error occured"
+msgstr "Es ist ein Fehler aufgetreten"
+
+#: controllers/Dashboard.php:513
+#, fuzzy
+msgid "Migration File not found."
+msgstr "Migrationsdatei nicht gefunden."
+
+#: controllers/Dashboard.php:707
+#, fuzzy, php-format
+msgid "Updating... &mdash; %s"
+msgstr "Aktualisierung... &mdash; %s"
+
+#: controllers/Dashboard.php:719
+#, fuzzy, php-format
+msgid "Update Center &mdash; %s"
+msgstr "Update-Center &mdash; %s"
+
+#: controllers/Dashboard.php:744
+#, fuzzy, php-format
+msgid "About &mdash; %s"
+msgstr "Über &mdash; %s"
+
+#: controllers/Do_setup.php:43
+#, fuzzy, php-format
+msgid "Welcome Page &mdash; %s"
+msgstr "Willkommen-Seite &mdash; %s"
+
+#: controllers/Do_setup.php:55 views/do-setup/database.php:21
+#: views/do-setup/database.php:22
+#, fuzzy
+msgid "Host Name"
+msgstr "Host Name: "
+
+#: controllers/Do_setup.php:56 views/do-setup/database.php:38
+#: views/do-setup/database.php:39
+#, fuzzy
+msgid "User Name"
+msgstr "Benutzername"
+
+#: controllers/Do_setup.php:57 views/do-setup/database.php:26
+#: views/do-setup/database.php:27
+#, fuzzy
+msgid "Database Name"
+msgstr "Datenbankname"
+
+#: controllers/Do_setup.php:58 views/do-setup/database.php:48
+#: views/do-setup/database.php:49
+#, fuzzy
+msgid "Database Driver"
+msgstr "Qt Datenbank-Treiber:"
+
+#: controllers/Do_setup.php:59 views/do-setup/database.php:31
+#: views/do-setup/database.php:32
+#, fuzzy
+msgid "Database Prefix"
+msgstr "Datenbanktabellen-Präfix"
+
+#: controllers/Do_setup.php:78
+#, fuzzy, php-format
+msgid "Database config &mdash; %s"
+msgstr "Datenbank-Config &mdash; %s"
+
+#: controllers/Do_setup.php:95 views/dashboard/settings/body.php:31
+#: views/do-setup/site.php:15
+#, fuzzy
+msgid "Site Name"
+msgstr "Blogname"
+
+#: controllers/Do_setup.php:110
+#, fuzzy, php-format
+msgid "Site & Master account &mdash; %s"
+msgstr "Website & Masteraccount &mdash; %s"
+
+#: controllers/Oauth.php:34
+#, fuzzy
+msgid "Scopes"
+msgstr "Scopes"
+
+#: controllers/Oauth.php:50
+#, fuzzy, php-format
+msgid "%s &mdash; Request permissions"
+msgstr "%s &mdash; Berechtigungen anfordern"
+
+#: controllers/Page_403.php:30
+#, fuzzy
+msgid "You don't have access to this page."
+msgstr "Sie haben keine Zugriffsberechtigung für diese Seite."
+
+#: controllers/Sign_in.php:33
+#, fuzzy
+msgid "Submit button"
+msgstr "﻿Senden Schaltfläche"
+
+#: controllers/Sign_in.php:52
+#, fuzzy, php-format
+msgid "Sign In &mdash; %s"
+msgstr "Melden Sie sich an &mdash; %s"
+
+#: controllers/Sign_in.php:67
+#, fuzzy
+msgid "User Email"
+msgstr "Benutzer E-Mail"
+
+#: controllers/Sign_in.php:75
+#, fuzzy, php-format
+msgid "Recover Password &mdash; %s"
+msgstr "Passwort zurücksetzen &mdash; %s"
+
+#: controllers/Sign_up.php:41
+#, fuzzy, php-format
+msgid "Sign Up &mdash; %s"
+msgstr "Registrieren &mdash; %s"
+
+#: core/Tendoo_Lang.php:166 core/Tendoo_Lang.php:173
+#, fuzzy
+msgid "Unable to load the requested lang file"
+msgstr "Nicht in der Lage, die angeforderte Lang-Datei zu laden"
+
+#: helpers/nexopos_helper.php:105
+#, fuzzy, php-format
+msgid "%s &rsaquo; %s &mdash; %s"
+msgstr "%s &rsaquo; %s &mdash; %s"
+
+#: helpers/nexopos_helper.php:105
+#, fuzzy
+msgid "NexoPOS"
+msgstr "NexoPOS"
+
+#: helpers/nexopos_helper.php:108
+#, fuzzy, php-format
+msgid "%s &rsaquo; %s"
+msgstr "%s &rsaquo; %s"
+
+#: language/system_lang.php:3
+#, fuzzy
+msgid "Database has been installed."
+msgstr "Datenbank wurde installiert :)"
+
+#: language/system_lang.php:4
+#, fuzzy
+msgid "Tendoo can't access to the database."
+msgstr "Tendoo kann nicht auf die Datenbank zugreifen."
+
+#: language/system_lang.php:5
+#, fuzzy
+msgid "Tendoo cannot connect to your database host."
+msgstr "Tendoo Verbindung keine zur Datenbank-Host."
+
+#: language/system_lang.php:6
+#, fuzzy
+msgid "An error occured."
+msgstr "Es ist ein Fehler aufgetreten."
+
+#: language/system_lang.php:7
+#, fuzzy
+msgid "An unexpected error occured."
+msgstr "Ein unerwarteter Fehler ist aufgetreten."
+
+#: language/system_lang.php:8
+#, fuzzy
+msgid "Access Denied."
+msgstr "Zugriff verweigert."
+
+#: language/system_lang.php:9
+#, fuzzy
+msgid "Option was successfully saved."
+msgstr "Option wurde erfolgreich gespeichert."
+
+#: language/system_lang.php:10
+#, fuzzy
+msgid "Unable to find this item. It may have been deleted or moved."
+msgstr ""
+"Nicht in der Lage, diesen Artikel zu finden. Es wurde möglicherweise "
+"verschoben oder gelöscht."
+
+#: language/system_lang.php:12
+#, fuzzy
+msgid "Sign in to start your session"
+msgstr "Melden Sie sich bei Ihrer Sitzung starten"
+
+#: language/system_lang.php:13
+#, fuzzy
+msgid "Please enter your email addresse. A recovery email will be send to you."
+msgstr ""
+"Bitte geben Sie Ihre e-Mail-Adresse. E-Mail für die Wiederherstellung wird "
+"Ihnen zugeschickt."
+
+#: language/system_lang.php:14
+#, fuzzy
+msgid "You logged in successfully."
+msgstr "Sie haben sich erfolgreich angemeldet"
+
+#: language/system_lang.php:15
+#, fuzzy
+msgid "Wrong Password or User Name"
+msgstr "Falsches Passwort oder Benutzername"
+
+#: language/system_lang.php:16
+#, fuzzy
+msgid "Login is required."
+msgstr "Benutzeranmeldung ist erforderlich."
+
+#: language/system_lang.php:18
+#, fuzzy
+msgid "Username is already used by another user."
+msgstr "Benutzername ist bereits von einem anderen Benutzer verwendet."
+
+#: language/system_lang.php:19
+#, fuzzy
+msgid "This email is already used."
+msgstr "E-Mail wird bereits verwendet!"
+
+#: language/system_lang.php:20
+#, fuzzy
+msgid "This email seems to be already taken."
+msgstr "Diese e-Mail scheint bereits getroffen werden."
+
+#: language/system_lang.php:21
+#, fuzzy
+msgid "This username seems to be already taken."
+msgstr "Dieser Benutzername scheint bereits getroffen werden."
+
+#: language/system_lang.php:22
+#, fuzzy
+msgid "The user has been successfully created."
+msgstr "Der Benutzer ~0~ wurde angelegt."
+
+#: language/system_lang.php:23
+#, fuzzy
+msgid "Your Account has been activated. Please Sign-up"
+msgstr "Ihr Konto wurde aktiviert. Bitte melden Sie sich"
+
+#: language/system_lang.php:25
+#, fuzzy
+msgid "Unknow email address"
+msgstr "Unbekannte e-Mail-Adresse"
+
+#: language/system_lang.php:26
+#, fuzzy
+msgid ""
+"The recovery email has been send. Please check your email, open the recovery "
+"email and follow the instructions."
+msgstr ""
+"Die Wiederherstellung e-Mail wurde versandt. Bitte überprüfen Sie Ihre e-"
+"Mail, öffnen Sie die e-Mail für die Wiederherstellung und folgen Sie den "
+"Anweisungen."
+
+#: language/system_lang.php:28
+#, fuzzy
+msgid "You must logout first to access that page."
+msgstr "Sie müssen Logout zuerst um diese Seite zu gelangen."
+
+#: language/system_lang.php:30
+#, fuzzy
+msgid ""
+"A new password has been created for your account. Check your email to get it."
+msgstr ""
+"Ein neues Passwort wurde für Ihr Konto erstellt. Überprüfen Sie Ihre e-Mail-"
+"Adresse, um es zu bekommen."
+
+#: language/system_lang.php:31
+#, fuzzy
+msgid "The module has been enabled."
+msgstr "Das Modul wurde aktiviert."
+
+#: language/system_lang.php:32
+#, fuzzy
+msgid "The module has been disabled."
+msgstr "Das Modul wurde deaktiviert."
+
+#: language/system_lang.php:33
+#, fuzzy
+msgid "The module has been removed."
+msgstr "Das Modul wurde entfernt."
+
+#: language/system_lang.php:34
+#, fuzzy
+msgid "The module has been extracted."
+msgstr "Das Modul wurde extrahiert."
+
+#: language/system_lang.php:35
+#, fuzzy
+msgid "The module has been updated."
+msgstr "Das Modul wurde überarbeitet."
+
+#: language/system_lang.php:36
+#, fuzzy
+msgid "The version installed is already up to date."
+msgstr "Die installierte Version ist bereits auf dem neuesten Stand."
+
+#: language/system_lang.php:37
+#, fuzzy
+msgid "An error occured during update."
+msgstr "Beim Aktualisieren des/der Benutzer/s ist ein Fehler aufgetreten"
+
+#: language/system_lang.php:38
+#, fuzzy
+msgid ""
+"Config file hasn't been found. This file is not a valid module. Installation "
+"aborded !!!"
+msgstr ""
+"Config-Datei nicht gefunden. Diese Datei ist kein gültiges Modul. "
+"Installation man!!!"
+
+#: language/system_lang.php:53
+#, fuzzy
+msgid "A migration is not required or has already been done."
+msgstr "Eine Migration ist nicht erforderlich oder bereits geschehen."
+
+#: libraries/CustomQuery.php:81
+#, fuzzy
+msgid "Unamed Custom Post"
+msgstr "Unamed Custom Post"
+
+#: libraries/CustomQuery.php:132
+#, fuzzy
+msgid "Untitled"
+msgstr "Unbetitelt"
+
+#: libraries/CustomQuery.php:516 libraries/PostType.php:101
+#, fuzzy, php-format
+msgid "New %s"
+msgstr "Neu %s"
+
+#: libraries/CustomQuery.php:517 libraries/PostType.php:15
+#, fuzzy, php-format
+msgid "Edit %s"
+msgstr "Bearbeiten %s"
+
+#: libraries/CustomQuery.php:518 libraries/PostType.php:17
+#: libraries/PostType.php:96
+#, fuzzy, php-format
+msgid "%s list"
+msgstr "%s Liste"
+
+#: libraries/CustomQuery.php:878 libraries/CustomQuery.php:879
+#, fuzzy
+msgid "Not Set"
+msgstr "Nicht gesetzt"
+
+#: libraries/CustomQuery.php:959
+#, fuzzy
+msgid "Draft"
+msgstr "Entwurf"
+
+#: libraries/CustomQuery.php:962
+#, fuzzy
+msgid "Published"
+msgstr "Veröffentlicht"
+
+#: libraries/CustomQuery.php:965
+#, fuzzy
+msgid "Pending"
+msgstr "Ausstehend"
+
+#: libraries/CustomQuery.php:968
+#, fuzzy
+msgid "Trash"
+msgstr "Papierkorb"
+
+#: libraries/CustomQuery.php:971
+#, fuzzy
+msgid "Disapproved"
+msgstr "Abgelehnt"
+
+#: libraries/CustomQuery.php:975
+#, fuzzy
+msgid "Unknow status"
+msgstr "Unbekannter status"
+
+#: libraries/Modules.php:289
+#, fuzzy, php-format
+msgid ""
+"<strong>%s</strong> has been disabled. This module require <strong>%s</"
+"strong> to work properly."
+msgstr ""
+"<strong>%s</strong> wurde deaktiviert. Dieses Modul erfordert <strong>%s</"
+"strong> ordnungsgemäß funktioniert."
+
+#: libraries/PostType.php:13
+#, fuzzy, php-format
+msgid "Create a new %s"
+msgstr "Erstellen Sie eine neue %s"
+
+#: libraries/PostType.php:19
+#, fuzzy, php-format
+msgid "delete %s"
+msgstr "%s löschen"
+
+#: libraries/PostType.php:29
+#, fuzzy
+msgid "Comments"
+msgstr "Kommentare"
+
+#: libraries/PostType.php:31
+#, fuzzy, php-format
+msgid "%s comments"
+msgstr "%s Kommentare"
+
+#: libraries/Theme.php:125
+#, fuzzy
+msgid "Unable to load \"index.php\" from current theme."
+msgstr "Vom aktuellen Thema \"index.php\" Laden nicht möglich."
+
+#: libraries/Theme.php:135
+#, fuzzy
+msgid "Unable to load \"blog.php\" from current theme."
+msgstr "\"Blog.php\" vom aktuellen Thema laden nicht möglich."
+
+#: libraries/Theme.php:145
+#, fuzzy
+msgid "Unable to load \"single.php\" from current theme."
+msgstr "Vom aktuellen Thema \"single.php\" Laden nicht möglich."
+
+#: libraries/Theme.php:155
+#, fuzzy
+msgid "Unable to load \"404.php\" from current theme."
+msgstr "Vom aktuellen Thema \"404.php\" Laden nicht möglich."
+
+#: libraries/Theme.php:161
+#, fuzzy, php-format
+msgid ""
+"Post Type module is not enabled. <a href=\"%s\">Please log in and install/"
+"enable</a> the module first"
+msgstr ""
+"Post-Typ-Modul ist nicht aktiviert. <a href=\"%s\">Bitte melden Sie sich an "
+"und installieren/aktivieren</a> das Modul erste"
+
+#: libraries/User.php:56
+#, fuzzy
+msgid "N/A"
+msgstr "N/A"
+
+#: models/Dashboard_Model.php:44
+#, fuzzy
+msgid "Dashboard"
+msgstr "Kontrollzentrum"
+
+#: models/Dashboard_Model.php:51
+#, fuzzy
+msgid "Update Center"
+msgstr "Update-Center"
+
+#: models/Dashboard_Model.php:58
+#, fuzzy
+msgid "About"
+msgstr "Über"
+
+#: models/Dashboard_Model.php:70
+#, fuzzy
+msgid "Modules"
+msgstr "Module"
+
+#: models/Dashboard_Model.php:83
+#, fuzzy
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: models/Login_Model.php:44 views/sign-in/recovery.php:31
+#, fuzzy
+msgid "Sign In"
+msgstr "Als Mitglied anmelden"
+
+#: models/Nexo_Misc.php:82 models/Nexo_Misc.php:86
+#, fuzzy
+msgid "Votre licence expire le %d-%m-%Y à %h:%i"
+msgstr "Votre Lizenz verfallen le %d %m-%-y À % h: %i"
+
+#: models/Nexo_Misc.php:380
+#, fuzzy
+msgid "Le client a été correctement crée."
+msgstr "Le Client ein Été Correctement Crée."
+
+#: models/Nexo_Misc.php:385
+#, fuzzy
+msgid "Une erreur s'est produite."
+msgstr "Une Erreur s'est Produite."
+
+#: models/Nexo_Misc.php:792
+#, fuzzy
+msgid "Paiement du fournisseur"
+msgstr "Paiement du fournisseur"
+
+#: models/Nexo_Products.php:236 models/Nexo_Products.php:311
+#, fuzzy
+msgid "Access Denied"
+msgstr "Zugriff verweigert"
+
+#: models/Update_Model.php:76
+#, fuzzy, php-format
+msgid ""
+"An update is ready to be installed. <a href=\"%s\">Click here to install it</"
+"a>"
+msgstr ""
+"Ein Update ist zur Installation bereit. <a href=\"%s\">Klicken Sie hier, um "
+"es zu installieren</a>"
+
+#: models/Users_Model.php:93
+#, fuzzy
+msgid "Master Group"
+msgstr "\"Master Group\""
+
+#: models/Users_Model.php:93
+#, fuzzy
+msgid "Can create users, install modules, manage options"
+msgstr "Können Benutzer erstellen, Module zu installieren, Optionen verwalten"
+
+#: models/Users_Model.php:98
+#, fuzzy
+msgid "Admin Group"
+msgstr "Admin-Gruppe"
+
+#: models/Users_Model.php:98
+#, fuzzy
+msgid "Can install modules, manage options"
+msgstr "Module installieren, Optionen verwalten können"
+
+#: models/Users_Model.php:103
+#, fuzzy
+msgid "User Group"
+msgstr "Kullanıcı grubu"
+
+#: models/Users_Model.php:103
+#, fuzzy
+msgid "Just a user"
+msgstr "Nur ein Benutzer"
+
+#: models/Users_Model.php:297
+#, fuzzy
+msgid "Manage Core"
+msgstr "Verwalten von Kern"
+
+#: models/Users_Model.php:297
+#, fuzzy
+msgid "Allow core management"
+msgstr "Kern-Management zu ermöglichen"
+
+#: models/Users_Model.php:303 models/Users_Model.php:330
+#, fuzzy
+msgid "Create Options"
+msgstr "Optionen erstellen"
+
+#: models/Users_Model.php:303 models/Users_Model.php:330
+#, fuzzy
+msgid "Allow option creation"
+msgstr "Option Erstellung zulassen"
+
+#: models/Users_Model.php:304
+#, fuzzy
+msgid "Edit Options"
+msgstr "Optionen bearbeiten"
+
+#: models/Users_Model.php:304
+#, fuzzy
+msgid "Allow option edition"
+msgstr "Lassen Option Ausgabe zu"
+
+#: models/Users_Model.php:305
+#, fuzzy
+msgid "Read Options"
+msgstr "Leseoptionen"
+
+#: models/Users_Model.php:305
+#, fuzzy
+msgid "Allow option read"
+msgstr "Möglichkeit zu lesen"
+
+#: models/Users_Model.php:306
+#, fuzzy
+msgid "Delete Options"
+msgstr "Optionen löschen"
+
+#: models/Users_Model.php:306
+#, fuzzy
+msgid "Allow option deletion."
+msgstr "Option löschen zulassen."
+
+#: models/Users_Model.php:312
+#, fuzzy
+msgid "Install Modules"
+msgstr "Module installieren"
+
+#: models/Users_Model.php:312
+#, fuzzy
+msgid "Let user install modules."
+msgstr "Lassen Sie Benutzer, die Module zu installieren."
+
+#: models/Users_Model.php:313
+#, fuzzy
+msgid "Update Modules"
+msgstr "Update-Module"
+
+#: models/Users_Model.php:313
+#, fuzzy
+msgid "Let user update modules"
+msgstr "Lassen Sie Benutzer Update-Module"
+
+#: models/Users_Model.php:314
+#, fuzzy
+msgid "Delete Modules"
+msgstr "Module zu löschen"
+
+#: models/Users_Model.php:314
+#, fuzzy
+msgid "Let user delete modules"
+msgstr "Lassen Sie Benutzer löschen Module"
+
+#: models/Users_Model.php:315
+#, fuzzy
+msgid "Enable/Disable Modules"
+msgstr "Deaktivieren Sie aktivieren/Module"
+
+#: models/Users_Model.php:315
+#, fuzzy
+msgid "Let user enable/disable modules"
+msgstr "Lassen Sie Benutzer aktivieren/deaktivieren Module"
+
+#: models/Users_Model.php:316
+#, fuzzy
+msgid "Extract Modules"
+msgstr "Module zu extrahieren"
+
+#: models/Users_Model.php:316
+#, fuzzy
+msgid "Let user extract modules"
+msgstr "Lassen Sie Benutzer-Extrakt-Module"
+
+#: models/Users_Model.php:322
+#, fuzzy
+msgid "Create Users"
+msgstr "Anlegen von Benutzern"
+
+#: models/Users_Model.php:322
+#, fuzzy
+msgid "Allow create users."
+msgstr "Lassen Benutzer erstellen."
+
+#: models/Users_Model.php:323
+#, fuzzy
+msgid "Edit Users"
+msgstr "Benutzer bearbeiten"
+
+#: models/Users_Model.php:323
+#, fuzzy
+msgid "Allow edit users."
+msgstr "Benutzern Sie Bearbeiten von."
+
+#: models/Users_Model.php:324
+#, fuzzy
+msgid "Delete Users"
+msgstr "Benutzer löschen"
+
+#: models/Users_Model.php:324
+#, fuzzy
+msgid "Allow delete users."
+msgstr "Benutzern Sie löschen von."
+
+#: themes/hello/404.php:11 themes/hello/404.php:15
+#, fuzzy, php-format
+msgid "This is not de page you're looking for &mdash; %s"
+msgstr "Dies ist nicht de Seite, du bist auf der Suche nach &mdash; %s"
+
+#: themes/hello/blog.php:40
+#, fuzzy
+msgid "Read More"
+msgstr "Weiterlesen"
+
+#: themes/hello/blog.php:58
+#, fuzzy
+msgid "No Posts"
+msgstr "Keine Beiträge"
+
+#: themes/hello/blog.php:61
+#, fuzzy, php-format
+msgid "No posts yet. Get to dashboard and <a href=\"%s\">start writing</a>"
+msgstr ""
+"Noch keine Beiträge. Lernen Sie Dashboard und <a href=\"%s\">mit dem "
+"Schreiben beginnen</a>"
+
+#: themes/hello/blog.php:66
+#, fuzzy
+msgid "Start Writing"
+msgstr "Hier schreiben"
+
+#: themes/hello/blog.php:73
+#, fuzzy
+msgid "Get To dashboard"
+msgstr "Get To dashboard"
+
+#: themes/hello/blog.php:74
+#, fuzzy
+msgid "Get To Home"
+msgstr "Zu Hause lernen"
+
+#: themes/hello/index.php:22
+#, fuzzy
+msgid "Hello !!!"
+msgstr "Hallo"
+
+#: themes/hello/index.php:28
+#, fuzzy, php-format
+msgid ""
+"This is the first Tendoo Theme. We still working on this feature to let "
+"people create better blog With tendoo. <a href=\"%s\">Get to blog here</a>. "
+"<br>This theme use \"Post_Type\" and \"Blog\" modules."
+msgstr ""
+"Dies ist das erste Tendoo Thema. Wir arbeiten noch an dieser Funktion, damit "
+"die Menschen besseren Blog mit Tendoo zu erstellen. <a href=\"%s\">Blog hier "
+"kennenlernen</a>.<br>Dieses Thema verwenden \"Post_Type\" und \"Blog\" "
+"Module."
+
+#: themes/hello/single.php:28
+#, fuzzy, php-format
+msgid "%s &mdash; %s"
+msgstr "&mdash; %s"
+
+#: themes/hello/single.php:35
+#, fuzzy, php-format
+msgid "By %s"
+msgstr "Von %s"
+
+#: themes/hello/single.php:35
+#, fuzzy
+msgid "Go Back"
+msgstr "Zurück"
+
+#: views/dashboard/error/404.php:12
+#, fuzzy
+msgid "Error : 404"
+msgstr "Fehler 404"
+
+#: views/dashboard/error/404.php:19
+#, fuzzy
+msgid "Oops ! An error occured"
+msgstr "Ein Fehler ist aufgetreten!"
+
+#: views/dashboard/error/404.php:20
+#, fuzzy
+msgid "404"
+msgstr "404"
+
+#: views/dashboard/error/404.php:21
+#, fuzzy
+msgid ""
+"We could not locate this page. You can go back to the dashboard and try again"
+msgstr ""
+"Diese Seite konnte nicht gefunden werden. Sie können zurück zum Dashboard "
+"und versuchen Sie es erneut"
+
+#: views/dashboard/footer.php:11
+#, fuzzy, php-format
+msgid "You're using <b>%s</b> %s"
+msgstr "Du verwendest <b>%s</b> %s"
+
+#: views/dashboard/footer.php:13
+#, fuzzy, php-format
+msgid "Thank you for using Tendoo CMS &mdash; %s in %s seconds"
+msgstr "Vielen Dank für die Verwendung von Tendoo CMS &mdash; %s %s Sekunden"
+
+#: views/dashboard/gui/gui-items.php:324
+#, fuzzy
+msgid "Empty table"
+msgstr "Leere Tabelle"
+
+#: views/dashboard/horizontal-menu.php:52
+#, fuzzy, php-format
+msgid "You have %s notices"
+msgstr "Sie haben %s Mitteilungen"
+
+#: views/dashboard/horizontal-menu.php:118
+#, fuzzy
+msgid "Profile"
+msgstr "Profilsichtbarkeit"
+
+#: views/dashboard/horizontal-menu.php:119
+#, fuzzy
+msgid "Sign Out"
+msgstr "Abmelden"
+
+#: views/dashboard/modules/after_install.php:12
+#: views/dashboard/modules/install.php:12
+#: views/dashboard/modules/migrate.php:12
+#, fuzzy
+msgid "Add new extension using ZIP file"
+msgstr "Fügen Sie neue Erweiterung mit ZIP-Datei hinzu"
+
+#: views/dashboard/modules/after_install.php:17
+#, fuzzy
+msgid "Enable the extension"
+msgstr "Pro Erweiterung aktivieren"
+
+#: views/dashboard/modules/after_install.php:28
+#: views/dashboard/modules/install.php:28
+#, fuzzy
+msgid "Choose the extension zip file"
+msgstr "Wählen Sie die Zip-Datei-Erweiterung"
+
+#: views/dashboard/modules/install.php:17
+#, fuzzy
+msgid "Add the extension"
+msgstr "Erweiterung hinzufügen"
+
+#: views/dashboard/modules/list-dom.php:20
+#, fuzzy
+msgid "Tendoo Extension"
+msgstr "Tendoo Erweiterung"
+
+#: views/dashboard/modules/list-dom.php:63
+#, fuzzy
+msgid "Remove"
+msgstr "Löschen"
+
+#: views/dashboard/modules/list-dom.php:68
+#, fuzzy
+msgid "Extract"
+msgstr "Extrahieren"
+
+#: views/dashboard/modules/list-dom.php:89
+#, fuzzy
+msgid "Do you really want to delete this module ? "
+msgstr "Möchten Sie wirklich dieses Modul löschen?"
+
+#: views/dashboard/modules/list-dom.php:96
+#, fuzzy
+msgid ""
+"Do you really want to make a migration ? You should always have a backup of "
+"the current system."
+msgstr ""
+"Möchten Sie wirklich eine Migration zu machen? Sie sollten immer eine "
+"Sicherungskopie des aktuellen Systems haben."
+
+#: views/dashboard/modules/list.php:12
+#, fuzzy
+msgid "Module List"
+msgstr "Modulliste"
+
+#: views/dashboard/modules/migrate.php:23
+#, fuzzy
+msgid "Migration has started"
+msgstr "Migration hat begonnen"
+
+#: views/dashboard/modules/migrate.php:41
+#, fuzzy
+msgid "Migrating to"
+msgstr "Migration zu"
+
+#: views/dashboard/modules/migrate.php:46
+#, fuzzy
+msgid "done."
+msgstr "getan hast."
+
+#: views/dashboard/modules/migrate.php:51
+#, fuzzy
+msgid "An error occured :"
+msgstr "Ein Fehler ist aufgetreten :"
+
+#: views/dashboard/modules/migrate.php:60
+#, fuzzy
+msgid "Go back to modules"
+msgstr "Zurück zu Module"
+
+#: views/dashboard/modules/migrate.php:68
+#, fuzzy
+msgid "No migration content available"
+msgstr "Keine Migration Inhalte verfügbar"
+
+#: views/dashboard/modules/migrate.php:80
+#, fuzzy
+msgid "Migrate not available for this module."
+msgstr "Migration nicht verfügbar für dieses Modul."
+
+#: views/dashboard/settings/body.php:16
+#, fuzzy
+msgid "General Settings"
+msgstr "Allgemeine Einstellungen"
+
+#: views/dashboard/settings/body.php:22 views/do-setup/database.php:65
+#, fuzzy
+msgid "Save Settings"
+msgstr "Einstellungen speichern"
+
+#: views/dashboard/settings/body.php:32
+#, fuzzy
+msgid "Enter your site name"
+msgstr "Geben Sie den Namen Ihrer Seite an"
+
+#: views/dashboard/settings/body.php:38
+#, fuzzy
+msgid "Site Description"
+msgstr "Website-Beschreibung"
+
+#: views/dashboard/settings/body.php:39
+#, fuzzy
+msgid "Enter your site description"
+msgstr "Geben Sie Ihre Website-Beschreibung an"
+
+#: views/dashboard/settings/body.php:45
+#, fuzzy
+msgid "Timezone"
+msgstr "Zeitzone"
+
+#: views/dashboard/settings/body.php:46
+#, fuzzy
+msgid "Enter your site timezone"
+msgstr "Geben Sie Ihre Website-Zeitzone an"
+
+#: views/dashboard/settings/body.php:54
+#, fuzzy
+msgid "Language"
+msgstr "Sprache"
+
+#: views/dashboard/settings/body.php:55
+#, fuzzy
+msgid "Choose a language"
+msgstr "Sprache wählen"
+
+#: views/dashboard/settings/body.php:69
+#, fuzzy
+msgid "Advanced Settings"
+msgstr "Erweitere Einstellungen"
+
+#: views/dashboard/settings/body.php:75
+#, fuzzy
+msgid "Save Advanced"
+msgstr "Erweiterten Einstellungen speichern"
+
+#: views/dashboard/settings/body.php:84
+#, fuzzy
+msgid "Open registration"
+msgstr "Registrierung öffnen"
+
+#: views/dashboard/settings/body.php:85
+#, fuzzy
+msgid "Open Registration ?"
+msgstr "Anmeldung öffnen ?"
+
+#: views/dashboard/settings/body.php:87 views/dashboard/settings/body.php:97
+#: views/dashboard/settings/body.php:110
+#, fuzzy
+msgid "No"
+msgstr "Nein"
+
+#: views/dashboard/settings/body.php:88 views/dashboard/settings/body.php:98
+#: views/dashboard/settings/body.php:111
+#, fuzzy
+msgid "Yes"
+msgstr "Ja"
+
+#: views/dashboard/settings/body.php:95
+#, fuzzy
+msgid "Require validation"
+msgstr "Validierung erforderlich"
+
+#: views/dashboard/settings/body.php:100
+#, fuzzy
+msgid ""
+"Each new account will have to check the verification email in order to "
+"validate their account."
+msgstr ""
+"Jedes neue Konto muss die Bestätigungs-Email überprüfen, um das Konto zu "
+"bestätigen."
+
+#: views/dashboard/settings/body.php:106
+#, fuzzy
+msgid "Enable Developer mode ?"
+msgstr "Entwicklermodus aktivieren"
+
+#: views/dashboard/settings/body.php:107
+#, fuzzy
+msgid "Enable developer mode"
+msgstr "Entwicklermodus aktivieren"
+
+#: views/dashboard/settings/body.php:108
+#, fuzzy
+msgid "Tools like module package will be enabled."
+msgstr "Tools wie Modulpaket werden aktiviert."
+
+#: views/dashboard/update/core-content.php:6
+#, fuzzy, php-format
+msgid "Unknow Release : %s"
+msgstr "Unbekannter Release: %s"
+
+#: views/dashboard/update/core-content.php:8
+#: views/dashboard/update/core-content.php:16
+#, fuzzy
+msgid "Update has been aborded...!!!"
+msgstr "Update wurde abgebrochen...!!!"
+
+#: views/dashboard/update/core-content.php:14
+#, fuzzy, php-format
+msgid "Old Release : %s"
+msgstr "Alte Version: %s"
+
+#: views/dashboard/update/core-content.php:29
+#, fuzzy
+msgid "Downloading Zip file..."
+msgstr "Zip-Datei herunterladen..."
+
+#: views/dashboard/update/core-content.php:37
+#, fuzzy
+msgid "An error occured during download..."
+msgstr "Während des Herunterladens ist ein Fehler aufgetreten."
+
+#: views/dashboard/update/core-content.php:48
+#, fuzzy
+msgid "Extracting the new release..."
+msgstr "Extrahieren die neue Version..."
+
+#: views/dashboard/update/core-content.php:56
+#: views/dashboard/update/core-content.php:76
+#, fuzzy
+msgid "An error occured during extraction..."
+msgstr "Während dem Extrahieren ist ein Fehler aufgetreten..."
+
+#: views/dashboard/update/core-content.php:67
+#, fuzzy
+msgid "Installing the new release..."
+msgstr "Installation der neuen Version..."
+
+#: views/dashboard/update/home-content.php:7
+#, fuzzy, php-format
+msgid "Tendoo CMS : %s is available"
+msgstr "Tendoo CMS: %s ist verfügbar"
+
+#: views/dashboard/update/home-content.php:12
+#, fuzzy
+msgid "Click Here to Update"
+msgstr "Hier geht es zu Update"
+
+#: views/dashboard/update/home-content.php:18
+#, fuzzy
+msgid "You're up to date"
+msgstr "Sie sind auf dem neuesten Stand"
+
+#: views/do-setup/database.php:4 views/do-setup/index.php:4
+#: views/do-setup/site.php:4 views/oauth/body.php:12 views/sign-in/body.php:14
+#: views/sign-in/recovery.php:14 views/sign-up/body.php:5
+#, fuzzy
+msgid "Tendoo CMS"
+msgstr "Tendoo CMS"
+
+#: views/do-setup/database.php:8
+#, fuzzy
+msgid ""
+"Please enter your database details in order to proceed to installation. "
+msgstr ""
+"Bitte geben Sie Ihre Datenbank-Daten ein, um mit der Installation "
+"fortzufahren."
+
+#: views/do-setup/database.php:43 views/do-setup/database.php:44
+#, fuzzy
+msgid "User Password"
+msgstr "Userpasswort"
+
+#: views/do-setup/database.php:50
+#, fuzzy
+msgid "Select database driver"
+msgstr "Wählen Sie Datenbank-Treiber"
+
+#: views/do-setup/database.php:51
+#, fuzzy
+msgid "MySQLi"
+msgstr "MySQLi"
+
+#: views/do-setup/index.php:8
+#, fuzzy
+msgid ""
+"Thank for having chosen Tendoo to host your project. Here is the "
+"installation wizard. This wizard has 2 more pages : Database configuration "
+"and Site configuration. If you're ready, let's go !!!"
+msgstr ""
+"Danke, dass Sie sich für Tendoo entschieden haben um ihr Projekt zu Hosten. "
+"Hier ist der Installations-Assistent. Der Assistent hat 2 weitere Seiten: "
+"Datenbank-Konfiguration und Site-Konfiguration. Wenn du bereit bist, leg "
+"los!!!"
+
+#: views/do-setup/index.php:13 views/do-setup/site.php:19
+#, fuzzy
+msgid "Select your language"
+msgstr "Wählen Sie Ihre Sprache"
+
+#: views/do-setup/index.php:32
+#, fuzzy
+msgid "Define Database configuration"
+msgstr "Datenbank-Konfiguration definieren"
+
+#: views/do-setup/site.php:8
+#, fuzzy
+msgid "Define site settings"
+msgstr "Site-Einstellungen definieren"
+
+#: views/do-setup/site.php:41
+#, fuzzy
+msgid "Continue to dashboard"
+msgstr "Weiter zum dashboard"
+
+#: views/oauth/body.php:15
+#, fuzzy
+msgid "Permission request"
+msgstr "Bitte um Genehmigung"
+
+#: views/oauth/body.php:46
+#, fuzzy
+msgid "Callback url is not defined."
+msgstr "Callback-Url ist nicht definiert."
+
+#: views/oauth/body.php:48
+#, fuzzy
+msgid "One or two permissions are not available."
+msgstr "Ein oder zwei Berechtigungen sind nicht verfügbar."
+
+#: views/oauth/body.php:53
+#, fuzzy
+msgid "Allow"
+msgstr "Zulassen"
+
+#: views/oauth/body.php:54
+#, fuzzy
+msgid "Refuse"
+msgstr "Ablehnen"
+
+#: views/sign-in/body.php:36 views/sign-up/body.php:20
+#, fuzzy
+msgid "I Lost My Password"
+msgstr "Ich habe mein Passwort vergessen"
+
+#: views/sign-in/body.php:42 views/sign-in/recovery.php:35
+#, fuzzy
+msgid "Sign Up"
+msgstr "Registrieren"
+
+#: views/sign-up/body.php:10
+#, fuzzy
+msgid "Sign up to"
+msgstr "Tragen Sie sich ein"
+
+#: views/sign-up/body.php:24
+#, fuzzy
+msgid "I Already Have An Account"
+msgstr "ICH HABE BEREITS EIN KONTO"

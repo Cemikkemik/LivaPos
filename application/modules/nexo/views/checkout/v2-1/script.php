@@ -1104,8 +1104,8 @@ var v2Checkout					=	new function(){
 
 				// :: alert( value.DESIGN.length );
 				var item_design		=	NexoAPI.events.applyFilters( 'cart_item_name', {
-					original 			:	value.DESIGN,
-					displayed 		:	value.DESIGN
+					original 			:	value.DESIGN || value.NAME,
+					displayed 			:	value.DESIGN || value.NAME
 				}); // .length > 20 ? '<span style="text-overflow:hidden">' + value.DESIGN.substr( 0, 20 ) + '</span>' : value.DESIGN ;
 
 				var DiscountAmount	=	value.DISCOUNT_TYPE	== 'percentage' ? value.DISCOUNT_PERCENT + '%' : NexoAPI.DisplayMoney( value.DISCOUNT_AMOUNT );

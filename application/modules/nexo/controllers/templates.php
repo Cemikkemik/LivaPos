@@ -19,7 +19,7 @@ class NexoTemplateController extends Tendoo_Module
 
     public function load( $view )
     {
-        return $this->load->module_view( 'nexo', $view );
+        return $this->load->module_view( 'nexo', 'templates/' . $view, null, true );
     }
 
     /**

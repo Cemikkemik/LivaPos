@@ -5,7 +5,7 @@ include( dirname( __FILE__ ) . '/routes-array.php' );
 $Routes->get( 'nexo/templates/customers-main', 'NexoTemplateController@customers_main' );
 $Routes->get( 'nexo/templates/customers-form', 'NexoTemplateController@customers_form' );
 $Routes->get( 'nexo/templates/shippings', 'NexoTemplateController@shippings' );
-$Routes->get( 'nexo/template/{name}', 'NexoTemplateController@template' );
+$Routes->get( 'nexo/template/{name}', 'NexoTemplateController@load' );
 
 $Routes->match([ 'get', 'post' ], 'stores/{id}/{any?}', 'NexoStoreController@stores' )->where([ 
     'id'      => '[0-9]+', 

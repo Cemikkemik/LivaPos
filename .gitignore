@@ -7,5 +7,9 @@ application/config/database.php
 
 #ignoring unmerged files
 application/temp/*
+!public/upload/items-images
+!public/upload/codebar
+!public/upload/categories
+!public/upload/customers
 public/upload/*
 nexopos.zip

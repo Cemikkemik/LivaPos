@@ -89,7 +89,7 @@
             </div>
 
 <?php if( @$_GET[ 'exclude_header' ] != 'true' ):?>
-            <a href="<?php echo dashboard_url([ 'arrivages']);?>" class="btn btn-primary hidden-print"><?php echo __( 'Revenir en arrière', 'nexo' );?></a>
+            <a href="<?php echo dashboard_url([ 'supplies']);?>" class="btn btn-primary hidden-print"><?php echo __( 'Revenir en arrière', 'nexo' );?></a>
         </div>
     </body>
     <style>

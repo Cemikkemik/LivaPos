@@ -51,6 +51,7 @@ class NexoSuppliesController extends CI_Model
         $crud->add_action(__('Liste des produits', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'supplies', 'items' )) . '/', 'fa fa-list-ol');
         $crud->add_action(__('Etiquettes des articles', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'shipping_item_codebar' )) . '/', 'fa fa-tags');
         $crud->add_action(__('Facture de l\'arrivage', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'supplies', 'invoice' )) . '/', 'fa fa-file');
+        // $crud->add_action(__('Valeur détaillée de l\'arrivage', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'supplies', 'detailed-worth' )) . '/', 'fa fa-file');
 
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));
         $this->events->add_filter('grocery_callback_update', array( $this->grocerycrudcleaner, 'xss_clean' ));
@@ -230,7 +231,7 @@ class NexoSuppliesController extends CI_Model
 
         $crud->add_action( __('Historique d\'approvisionnement', 'nexo'), '', '', 'fa fa-eye', [ $this, 'supply_link' ]);
 
-        $crud->columns( 'REF_ARTICLE_BARCODE', 'TYPE', 'QUANTITE', 'UNIT_PRICE', 'REF_PROVIDER', 'REF_SHIPPING', 'DATE_CREATION', 'AUTHOR' );
+        $crud->columns( 'REF_ARTICLE_BARCODE', 'TYPE', 'QUANTITE', 'UNIT_PRICE', 'REF_PROVIDER', 'DATE_CREATION', 'AUTHOR' );
 
         $crud->callback_column( 'TYPE', function( $type ){
             $config     =   get_instance()->config->item( 'stock-operation' );
@@ -364,6 +365,16 @@ class NexoSuppliesController extends CI_Model
         $crud       =   $this->delivery_items_crud( $delivery_id );
         $this->Gui->set_title( store_title( __( 'Produits de l\'approvisionnement', 'nexo' ) ) );
         $this->load->module_view( 'nexo', 'deliveries.supply-item-gui', compact( 'crud' ) );
+    }
+
+    /**
+     * Detailed Worth Invoice
+     * @return void
+     */
+    public function detailed_worth( $supply_id )
+    {
+        $this->Gui->set_title( store_title( __( 'Valeur détaillé du rapport', 'nexo' ) ) );
+        $this->load->module_view( 'nexo', 'deliveries.detailed-worth-gui' );
     }
 
 }

@@ -6,7 +6,7 @@
   <select name="select_shipping" class="form-control">
     <?php if ($shippings):?>
     <?php foreach ($shippings as $ship):?>
-    <option value="<?php echo @$ship[ 'ID' ];?>"><?php echo $ship[ 'TITRE' ];?></option>
+    <option value="<?php echo @$ship[ 'ID' ];?>"><?php echo $ship[ 'DATE_CREATION' ];?></option>
     <?php endforeach;?>
     <?php else:?>
     <option>

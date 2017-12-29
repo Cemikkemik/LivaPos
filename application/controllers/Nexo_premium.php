@@ -178,10 +178,10 @@ class Nexo_premium extends REST_Controller
         $this->db->select('*')
         ->from( store_prefix() . 'nexo_articles')
         ->join( store_prefix() . 'nexo_articles_stock_flow', store_prefix() . 'nexo_articles.CODEBAR = ' . store_prefix() . 'nexo_articles_stock_flow.REF_ARTICLE_BARCODE' )
-        ->join( store_prefix() . 'nexo_arrivages', store_prefix() . 'nexo_arrivages.ID = ' . store_prefix() . 'nexo_articles.REF_SHIPPING')
+        ->join( store_prefix() . 'nexo_arrivages', store_prefix() . 'nexo_arrivages.ID = ' . store_prefix() . 'nexo_articles_stock_flow.REF_SHIPPING')
         ->join( store_prefix() . 'nexo_categories', store_prefix() . 'nexo_categories.ID = ' . store_prefix() . 'nexo_articles.REF_CATEGORIE');
 
-        $this->db->where( store_prefix() . 'nexo_arrivages.ID <', $shipping_id);
+        // $this->db->where( store_prefix() . 'nexo_arrivages.ID <', $shipping_id);
         $this->db->where( store_prefix() . 'nexo_articles.TYPE', '1' ); // only for physical items
 
         $cats_array        =    array();

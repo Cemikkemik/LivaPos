@@ -380,7 +380,7 @@ class NexoPremiumController extends Tendoo_Module
     public function cashiers_report($start_date = null, $end_date = null)
     {
         if (! User::can('nexo.read.cashier-performances')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+            return show_error( __( 'Vous n\'avez pas accès à ce rapport', 'nexo_premium' ) );
         }
 
         $data[ 'start_date' ]    =    $start_date == null ? Carbon::parse(date_now()) : $start_date;
@@ -409,7 +409,7 @@ class NexoPremiumController extends Tendoo_Module
     public function customers_report($start_date = null, $end_date = null)
     {
         if (! User::can('nexo.read.customer-statistics')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+            return show_error( __( 'Vous n\'avez pas accès à ce rapport', 'nexo_premium' ) );
         }
 
         $this->load->model('Nexo_Misc');
@@ -472,7 +472,7 @@ class NexoPremiumController extends Tendoo_Module
             ));
 
         } else {
-            redirect(array( 'dashboard', 'access-denied' ));
+            return show_error( __( 'Vous n\'avez pas accès à ce rapport', 'nexo_premium' ) );
         }
     }
 
@@ -495,7 +495,7 @@ class NexoPremiumController extends Tendoo_Module
 
             redirect(array( 'dashboard', 'nexo_premium', 'Controller_Historique' ));
         } else {
-            redirect(array( 'dashboard', 'access-denied' ));
+            return show_error( __( 'Vous n\'avez pas accès à cette page', 'nexo_premium' ) );
         }
     }
 

@@ -189,12 +189,12 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
         if( $transfert ) {
             $items          =   $this->transfert_model->get_with_items( $id );
         } else {
-            return redirect([ 'dashboard', 'error', '404']);
+            return show_error( __( 'Page introuvable', 'nexo_premium' ) );
         }
 
         // denied access to unauthorized
         if( ! in_array( get_store_id(), [ $transfert[0][ 'FROM_STORE' ], $transfert[0][ 'DESTINATION_STORE' ] ] ) ) {
-            return redirect([ 'dashboard', 'error', 'access-denied' ]);
+            return show_error( __( 'Vous n\'avez pas accès à cette page', 'nexo_premium' ) );
         }
 
         $this->Gui->set_title( store_title( __( 'Transfert Invoice' ) ) );
@@ -224,12 +224,12 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
         $transfert   =   $this->transfert_model->get( $transfert_id );
 
         if( $transfert[0][ 'APPROUVED' ] != '0' ) {
-            return show_error( __( 'You cannot approuve this transfert. It may have been canceled or yet approuved.', 'nexo' ) );
+            return show_error( __( 'You cannot approuve this transfert. It may have been canceled or yet approuved.', 'stock-manager' ) );
         }
 
         // restrict access to allowed store
         if( intval( $transfert[0][ 'DESTINATION_STORE' ] ) != get_store_id() ) {
-            return redirect([ 'dashboard', 'error', 'access-denied' ] );
+            return show_error( __( 'You don\'t have access to this paeg', 'stock-manager' ) );
         }
 
         $items      =   $this->transfert_model->get_with_items( $transfert_id );
@@ -381,12 +381,12 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
         $transfert   =   $this->transfert_model->get( $transfert_id );
 
         if( $transfert[0][ 'APPROUVED' ] != '0' ) {
-            return show_error( __( 'You cannot cancel this transfert, it may have yet been approuved.', 'nexo' ) );
+            return show_error( __( 'You cannot cancel this transfert, it may have yet been approuved.', 'stock-manager' ) );
         }
 
         // restrict access to FROM store
         if( intval( $transfert[0][ 'FROM_STORE' ] ) != get_store_id() ) {
-            return redirect([ 'dashboard', 'error', 'access-denied' ] );
+            return show_error( __( 'Access Denied', 'stock-manager' ) );
         }
 
         // if the stock hasn't been send, then we don't need to return anything, just change the transfert status.
@@ -518,7 +518,7 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
 
         // restrict access to FROM store
         if( intval( $transfert[0][ 'DESTINATION_STORE' ] ) != get_store_id() ) {
-            return redirect([ 'dashboard', 'error', 'access-denied' ] );
+            return show_error( __( 'Access Denied', 'stock-manager' ) );
         }
 
         // if the stock hasn't been send, then we don't need to return anything, just change the transfert status.

@@ -131,23 +131,33 @@ class Nexo_Premium_Filters extends CI_Model
                     'title'            =>    __('Dépenses', 'nexo_premium'),
                     'href'            =>    '#',
 					'icon'			=>	'fa fa-sticky-note-o',
-                    'disable'        =>    true
+					'disable'        =>    true,
+					'permission' 	=>	[
+						'nexo.create.invoices',
+						'nexo.view.invoices',
+						'nexo.edit.invoices',
+						'nexo.delete.invoices'
+					]
                 ),
                 array(
                     'title'            =>    __('Liste des dépenses', 'nexo_premium'),
-                    'href'            =>    dashboard_url([ 'expenses' ]),
+					'href'            =>    dashboard_url([ 'expenses' ]),
+					'permission' 	=>	'nexo.view.invoices'
                 ),
                 array(
-                    'title'            =>    __('Nouvelle dépense', 'nexo_premium'),
-                    'href'            =>    dashboard_url([ 'expenses', 'add' ])
+                    'title' 		=>    __('Nouvelle dépense', 'nexo_premium'),
+                    'href' 			=>    dashboard_url([ 'expenses', 'add' ]),
+					'permission' 	=>	'nexo.create.invoices'
                 ),
 				// @since 2.6.6
 				[
-					'title'		=>	__( 'Categories', 'nexo_premium' ),
-					'href'		=>	dashboard_url([ 'expenses-categories' ])
+					'title'			=>	__( 'Categories', 'nexo_premium' ),
+					'href'			=>	dashboard_url([ 'expenses-categories' ]),
+					'permission' 	=>	'nexo.view.invoices'
 				], [
-					'title'		=>	__( 'Ajouter une categorie', 'nexo_premium' ),
-					'href'		=>	dashboard_url([ 'expenses-categories', 'add' ])
+					'title'			=>	__( 'Ajouter une categorie', 'nexo_premium' ),
+					'href'			=>	dashboard_url([ 'expenses-categories', 'add' ]),
+					'permission' 	=>	'nexo.create.invoices'
 				]
             );
 		}

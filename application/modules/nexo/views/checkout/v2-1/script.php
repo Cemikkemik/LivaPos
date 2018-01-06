@@ -2829,38 +2829,38 @@ NexoAPI.events.addFilter( 'cart_before_item_name', function( item_name ) {
 NexoAPI.events.addFilter( 'cart_item_name', ( data ) => {
 	data.displayed 		=	data.displayed.length > 23 ? data.displayed.substr( 0, 18 ) + '...' : data.displayed;
 	return data;
-});
-var Responsive 			=  function(){
-	this.screenIs 		=   '';
-	this.detect 		=	function(){
-		if ( window.innerWidth < 544 ) {
-			this.screenIs         =   'xs';
-		} else if ( window.innerWidth >= 544 && window.innerWidth < 768 ) {
-			this.screenIs         =   'sm';
-		} else if ( window.innerWidth >= 768 && window.innerWidth < 992 ) {
-			this.screenIs         =   'md';
-		} else if ( window.innerWidth >= 992 && window.innerWidth < 1200 ) {
-			this.screenIs         =   'lg';
-		} else if ( window.innerWidth >= 1200 ) {
-			this.screenIs         =   'xg';
-		}
-		console.log( 'Screen is : ' + this.screenIs );
-	}
-
-	this.is 			=   function( value ) {
-		if ( value === undefined ) {
-			return this.screenIs;
-		} else {
-			return this.screenIs === value;
-		}
-	}
-
-	$( window ).resize( () => {
-		this.detect();
 	});
+	var Responsive 			=  function(){
+		this.screenIs 		=   '';
+		this.detect 		=	function(){
+			if ( window.innerWidth < 544 ) {
+				this.screenIs         =   'xs';
+			} else if ( window.innerWidth >= 544 && window.innerWidth < 768 ) {
+				this.screenIs         =   'sm';
+			} else if ( window.innerWidth >= 768 && window.innerWidth < 992 ) {
+				this.screenIs         =   'md';
+			} else if ( window.innerWidth >= 992 && window.innerWidth < 1200 ) {
+				this.screenIs         =   'lg';
+			} else if ( window.innerWidth >= 1200 ) {
+				this.screenIs         =   'xg';
+			}
+			console.log( 'Screen is : ' + this.screenIs );
+		}
 
-	this.detect();
-}
+		this.is 			=   function( value ) {
+			if ( value === undefined ) {
+				return this.screenIs;
+			} else {
+				return this.screenIs === value;
+			}
+		}
+
+		$( window ).resize( () => {
+			this.detect();
+		});
+
+		this.detect();
+	}
 var counter         =   0;
 var layout 			=	new Responsive();
 setInterval( function(){

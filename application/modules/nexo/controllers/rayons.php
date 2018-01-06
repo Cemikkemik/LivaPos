@@ -21,7 +21,7 @@ class NexoRayons extends CI_Model
             ! User::can('create_shop_radius') &&
             ! User::can('delete_shop_radius')
         ) {
-            redirect(array( 'dashboard', 'access-denied' ));
+            return show_error( __( 'Vous n\'avez pas accès à cette page', 'nexo_premium' ) );
         }
 
 		/**
@@ -93,7 +93,7 @@ class NexoRayons extends CI_Model
 		$PageNow			=	'nexo/rayons/add';
 
         if (! User::can('create_shop_radius')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+            return show_error( __( 'Vous n\'avez pas accès à cette page', 'nexo_premium' ) );
         }
 
         $data[ 'crud_content' ]    =    $this->crud_header();

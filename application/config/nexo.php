@@ -224,14 +224,16 @@ $config[ 'nexo_yes_no' ]		=	array(
 // 'FRAIS_ACCESSOIRE',
 // 'PRIX_DACHAT', 
 $config[ 'nexo_item_price_group' ]	=	array(
-	'REF_TAXE', 'PRIX_DE_VENTE', 'PRIX_DE_VENTE_TTC', 'SHADOW_PRICE', 'PRIX_PROMOTIONEL', 'SPECIAL_PRICE_START_DATE', 'SPECIAL_PRICE_END_DATE'
+	'REF_TAXE', 'TAX_TYPE', 'PRIX_DE_VENTE', 'PRIX_DE_VENTE_TTC', 
+	// 'SHADOW_PRICE', @deprecated
+	'PRIX_PROMOTIONEL', 'SPECIAL_PRICE_START_DATE', 'SPECIAL_PRICE_END_DATE'
 );
 
 // Stock Group
 // 'DEFECTUEUX',
 $config[ 'nexo_item_stock_group' ]	=	array(
 	// removed 'REF_PROVIDER', 'QUANTITY',
-	'STATUS', 'TYPE', 'STOCK_ENABLED', 'QUANTITE_RESTANTE', 'QUANTITE_VENDU'
+	'STATUS', 'TYPE', 'STOCK_ENABLED', 'STOCK_ALERT', 'ALERT_QUANTITY', 'ON_STOCK_LOW'
 );
 
 // Caracteristiques
@@ -242,7 +244,8 @@ $config[ 'nexo_item_spec_group' ] 	=	array(
 // Details
 $config[ 'nexo_item_details_group' ]=	array(
 	// removed 'REF_SHIPPING', 
-	'DESIGN', 'SKU', 'REF_CATEGORIE', 'REF_RAYON', 'AUTO_BARCODE', 'BARCODE_TYPE', 'CODEBAR'
+	'DESIGN', 'SKU', 'REF_CATEGORIE', 'REF_RAYON', 'AUTO_BARCODE', 'BARCODE_TYPE', 'CODEBAR',
+	'EXPIRATION_DATE', 'ON_EXPIRE_ACTION'
 );
 
 // Barcode Type

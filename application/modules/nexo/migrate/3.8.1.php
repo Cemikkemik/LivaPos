@@ -25,14 +25,23 @@ foreach( $stores as $store ) {
         PRIMARY KEY (`ID`)
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
-    $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_fournisseurs` 
-    ADD `PAYABLE` float(11) NOT NULL AFTER `DESCRIPTION`;' );
+    $columns            =   $this->db->list_fields( $store_prefix . 'nexo_fournisseurs' );
+    if ( ! in_array( 'PAYABLE', $columns ) ) {
+        $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_fournisseurs` 
+        ADD `PAYABLE` float(11) NOT NULL AFTER `DESCRIPTION`;' );
+    }
 
-    $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_articles_stock_flow` 
-    ADD `BEFORE_QUANTITE` float(11) NOT NULL AFTER `REF_ARTICLE_BARCODE`;' );
+    $columns            =   $this->db->list_fields( $store_prefix . 'nexo_articles_stock_flow' );
+    if ( ! in_array( 'BEFORE_QUANTITE', $columns ) ) {
+        $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_articles_stock_flow` 
+        ADD `BEFORE_QUANTITE` float(11) NOT NULL AFTER `REF_ARTICLE_BARCODE`;' );
+    }
 
-    $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_articles_stock_flow` 
-    ADD `AFTER_QUANTITE` float(11) NOT NULL AFTER `QUANTITE`;' );
+    $columns            =   $this->db->list_fields( $store_prefix . 'nexo_articles_stock_flow' );
+    if ( ! in_array( 'AFTER_QUANTITE', $columns ) ) {
+        $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_articles_stock_flow` 
+        ADD `AFTER_QUANTITE` float(11) NOT NULL AFTER `QUANTITE`;' );
+    }
 
     $this->db->query('CREATE TABLE IF NOT EXISTS `'. $this->db->dbprefix . $store_prefix .'nexo_commandes_refunds` (
         `ID` int(11) NOT NULL AUTO_INCREMENT,

@@ -12,6 +12,9 @@ foreach( $stores as $store ) {
 
     $store_prefix       =   $store[ 'ID' ] == 0 ? '' : 'store_' . $store[ 'ID' ] . '_';
 
-    $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_commandes` 
-    ADD `EXPIRATION_DATE` datetime NOT NULL AFTER `SHIPPING_AMOUNT`;' );
+    $columns            =   $this->db->list_fields( $store_prefix . 'nexo_commandes' );
+    if ( ! in_array( 'EXPIRATION_DATE', $columns ) ) {
+        $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_commandes` 
+        ADD `EXPIRATION_DATE` datetime NOT NULL AFTER `SHIPPING_AMOUNT`;' );
+    }
 }

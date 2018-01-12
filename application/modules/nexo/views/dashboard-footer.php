@@ -14,9 +14,9 @@
 ?></title>');
         mywindow.document.write('<link rel="stylesheet" href="<?php echo module_url('nexo') . 'bower_components/bootstrap/dist/css/bootstrap.min.css';
 ?>" type="text/css" />');
-        mywindow.document.write('</head><body >');
+        mywindow.document.write('</' + 'head>' + '<body' + ' >');
         mywindow.document.write(data);
-        mywindow.document.write('</body></html>');
+        mywindow.document.write('</' + 'body>' + '</' + 'html>');
 
         mywindow.document.close(); // necessary for IE >= 10
         mywindow.focus(); // necessary for IE >= 10

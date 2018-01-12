@@ -33,7 +33,7 @@ if (!empty($list)) : ?>
         <tbody>
             <?php foreach ($list as $num_row => $row) : ?>
                 <?php
-                $item_class         =   get_instance()->events->apply_filters('grocery_crud_list_item_class', 'default', $row);
+                $item_class         =   get_instance()->events->apply_filters_ref_array('grocery_crud_list_item_class', [ 'default', $row ]);
                 $row                =   get_instance()->events->apply_filters( 'grocery_filter_row', $row );
                 $temp_string        =   $row->delete_url;
                 $temp_string        =   explode("/", $temp_string);

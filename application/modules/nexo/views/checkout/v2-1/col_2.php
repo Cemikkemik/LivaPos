@@ -135,6 +135,13 @@ div.bootstrap-tab div.bootstrap-tab-content:not(.active){
     box-shadow: 0px 0px 5px -1px #9797be;
     left: 5px;
 }
+.expired-item {
+  background: #ffc1c1;
+}
+.expired-item:hover {
+  background: #ffc1c1;
+  box-shadow: unset;
+}
 </style>
 <script type="text/javascript">
 function toggleFullScreen() {

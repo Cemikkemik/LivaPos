@@ -172,7 +172,6 @@ class NexoItemsController extends CI_Model
         $crud->display_as( 'STOCK_ALERT', __('Activer les alertes pour le stock faible', 'nexo'));
         $crud->display_as( 'ALERT_QUANTITY', __('Seuil pour alerte', 'nexo'));
         $crud->display_as( 'ON_EXPIRE_ACTION', __('Action en cas d\'expiration', 'nexo'));
-        $crud->display_as( 'ON_STOCK_LOW', __('Quand le stock est faible', 'nexo'));
         $crud->display_as( 'EXPIRATION_DATE', __('Date d\'expiration', 'nexo'));
 
 		$crud->field_description( 'AUTO_BARCODE', __( 'Lorsque cette option est activée, Après la création/mise à jour de cet article, une étiquette sera générée en fonction du type de code barre. Si cette option est désactivée, alors le champ "Code barre" sera utilsiée pour générer l\'étiquette de l\'article. Assurez-vous de définir une valeur unique.', 'nexo' ) );
@@ -189,7 +188,6 @@ class NexoItemsController extends CI_Model
         $crud->field_description( 'STOCK_ALERT', __( 'Permet d\'activer l\'alerte lorsque le stock du produit atteint le seuil définit.', 'nexo' ) );
         $crud->field_description( 'EXPIRATION_DATE', __( 'Si le produit expire à un moment précis. Vous pouvez définir la date d\'expiration', 'nexo' ) );
         $crud->field_description( 'ON_EXPIRE_ACTION', __( 'Déterminer l\'action après l\'expiration d\'un produit', 'nexo' ) );
-        $crud->field_description( 'ON_STOCK_LOW', __( 'Déterminer une action lorsque le stock d\'un produit est faible.', 'nexo' ) );
         $crud->field_description( 'STATUS', __( 'Définir si le produit est disponible pour la vente ou pas.', 'nexo' ) );
         $crud->field_description( 'STOCK_ENABLED', __( 'Les produits avec le stock activé, verront leur inventaire affecté par les ventes.', 'nexo' ) );
         
@@ -257,12 +255,6 @@ class NexoItemsController extends CI_Model
         $crud->field_type( 'ON_EXPIRE_ACTION', 'dropdown', [
             'lock_sales'  =>  __( 'Empêcher les ventes', 'nexo' ),
             'allow_sales'   =>  __( 'Autoriser les ventes', 'nexo' )
-        ]);
-
-        $crud->field_type( 'ON_STOCK_LOW', 'dropdown', [
-            'do_nothing'            =>  __( 'Ne rien faire', 'nexo' ),
-            'show_notification'     =>  __( 'Afficher des notifications', 'nexo' ),
-            'send_email'            =>  __( 'Email aux administrateurs', 'nexo' ),
         ]);
 
         $crud->field_type( 'TAX_TYPE', 'dropdown', [

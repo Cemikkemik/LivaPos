@@ -251,24 +251,6 @@ class Nexo_Products extends CI_Model
 			$param[ 'CODEBAR' ]               	=    $this->generate_barcode();
 		}
 
-        //@snice 3.0.20
-        /**
-         * @deprecated
-         * Supply will have his own UI
-        **/
-        // insert as a stock flow
-        // $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', [
-        //     'REF_PROVIDER'          =>  $param[ 'REF_PROVIDER' ],
-        //     'UNIT_PRICE'            =>  $param[ 'PRIX_DACHAT' ],
-        //     'TOTAL_PRICE'           =>  floatval( $param[ 'PRIX_DACHAT' ] )    *  intval( $param[ 'QUANTITY' ] ),
-        //     'AUTHOR'                =>  User::id(),
-        //     'TYPE'                  =>  'supply',
-        //     'REF_ARTICLE_BARCODE'   =>  $param[ 'CODEBAR' ],
-        //     'DATE_CREATION'         =>  $param[ 'DATE_CREATION' ],
-        //     'QUANTITE'              =>  $param[ 'QUANTITY' ],
-        //     'REF_SHIPPING'          =>  $param[ 'REF_SHIPPING' ]
-        // ]);
-
 		// If Multi store is enabled
 		// @since 2.8
 		global $store_id;
@@ -284,8 +266,18 @@ class Nexo_Products extends CI_Model
             $tax    =   $this->db->where( 'ID', $param[ 'REF_TAXE' ] )->get( store_prefix() . 'nexo_taxes' )->result_array();
 
             if( $tax ) {
-                $percent    =   ( floatval( $tax[0][ 'RATE' ] ) * floatval( $param[ 'PRIX_DE_VENTE' ] ) ) / 100;
-                $param[ 'PRIX_DE_VENTE_TTC' ]      =    floatval( $param[ 'PRIX_DE_VENTE' ] ) + $percent;
+                /**
+                 * Adding inclusive and exclusive tax calculation
+                 */
+                if ( $param[ 'TAX_TYPE' ] == 'inclusive' ) {
+                    $percent    =   ( floatval( $tax[0][ 'RATE' ] ) * floatval( $param[ 'PRIX_DE_VENTE' ] ) ) / 100;
+                    $param[ 'PRIX_DE_VENTE_TTC' ]       =    $param[ 'PRIX_DE_VENTE' ];
+                    $param[ 'PRIX_DE_VENTE' ]           =   floatval( $param[ 'PRIX_DE_VENTE' ] ) - $percent;
+                } else {
+                    $percent    =   ( floatval( $tax[0][ 'RATE' ] ) * floatval( $param[ 'PRIX_DE_VENTE' ] ) ) / 100;
+                    $param[ 'PRIX_DE_VENTE_TTC' ]      =    floatval( $param[ 'PRIX_DE_VENTE' ] ) + $percent;
+                }
+
             } else {
                 $param[ 'PRIX_DE_VENTE_TTC' ]       =   $param[ 'PRIX_DE_VENTE' ];
             }
@@ -348,8 +340,17 @@ class Nexo_Products extends CI_Model
             $tax    =   $this->db->where( 'ID', $param[ 'REF_TAXE' ] )->get( store_prefix() . 'nexo_taxes' )->result_array();
 
             if( $tax ) {
-                $percent    =   ( floatval( $tax[0][ 'RATE' ] ) * floatval( $param[ 'PRIX_DE_VENTE' ] ) ) / 100;
-                $param[ 'PRIX_DE_VENTE_TTC' ]      =    floatval( $param[ 'PRIX_DE_VENTE' ] ) + $percent;
+                /**
+                 * Adding inclusive and exclusive tax calculation
+                 */
+                if ( $param[ 'TAX_TYPE' ] == 'inclusive' ) {
+                    $percent    =   ( floatval( $tax[0][ 'RATE' ] ) * floatval( $param[ 'PRIX_DE_VENTE' ] ) ) / 100;
+                    $param[ 'PRIX_DE_VENTE_TTC' ]       =    $param[ 'PRIX_DE_VENTE' ];
+                    $param[ 'PRIX_DE_VENTE' ]           =   floatval( $param[ 'PRIX_DE_VENTE' ] ) - $percent;
+                } else {
+                    $percent    =   ( floatval( $tax[0][ 'RATE' ] ) * floatval( $param[ 'PRIX_DE_VENTE' ] ) ) / 100;
+                    $param[ 'PRIX_DE_VENTE_TTC' ]      =    floatval( $param[ 'PRIX_DE_VENTE' ] ) + $percent;
+                }
             }  else {
                 $param[ 'PRIX_DE_VENTE_TTC' ]       =   $param[ 'PRIX_DE_VENTE' ];
             }

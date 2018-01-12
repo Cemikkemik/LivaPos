@@ -75,40 +75,4 @@ $this->Gui->add_item(array(
     )
 ), 'Nexo_product_settings', 1);
 
-/**
- * Col 2*
-**/
-
-$this->Gui->add_meta( array(
-    'namespace'        =>        $option_prefix . 'nexo_product_col2',
-    'title'            =>        '',
-    'col_id'        =>        2,
-    'gui_saver'        =>        true,
-    'footer'        =>        array(
-        'submit'    =>        array(
-            'label'    =>     __( 'Enregistrer les réglages', 'nexo' )
-        )
-    ),
-    'use_namespace'    =>        false,
-) );
-
-$this->Gui->add_item(array(
-    'type'        =>    'select',
-    'name'        =>    $option_prefix . 'nexo_enable_stock_warning',
-    'label'        =>    __('Activer les alertes de stock', 'nexo'),
-    'options'    =>    array(
-		'default'		=>	__( 'Par défaut', 'nexo' ),
-		'yes'			=>	__( 'Oui', 'nexo' ),
-		'no'			=>	__( 'Non', 'nexo' )
-    )
-), $option_prefix . 'nexo_product_col2', 2 );
-
-$this->Gui->add_item(array(
-    'type'        =>    'text',
-    'label'        =>    __('Pourcentage de Stock Minimale', 'nexo'),
-    'name'        =>    $option_prefix . 'nexo_stock_percentage_warning',
-    'placeholder'    =>    __( 'Veuillez définir une valeur numérique', 'nexo' ),
-	'description'	=>	__( 'Lorsque le pourcentage restant d\'un stock atteindra un seuil, une alerte sera émise pour ce dernier.', 'nexo' )
-), $option_prefix . 'nexo_product_col2', 2 );
-
 $this->Gui->output();

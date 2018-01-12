@@ -46,7 +46,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">
-                                    <?php echo __( 'Categore', 'nexo' );?>
+                                    <?php echo __( 'Categorie', 'nexo' );?>
                                 </div>
                                 <select type="text" selectpicker="{ liveSearch : true }" toggle-dropdown ng-model="form.category_id" class="form-control selectpicker category-dropdown" placeholder="<?php echo __( 'UGS', 'nexo' );?>">
                                     <option value="{{ category.ID }}" ng-repeat="category in categories">{{ category.NOM }}</option>
@@ -56,7 +56,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">
-                                    <?php echo __( 'Tax Type', 'nexo' );?>
+                                    <?php echo __( 'Type de Taxe', 'nexo' );?>
                                 </div>
                                 <select type="text" ng-model="form.tax_type" class="form-control" placeholder="<?php echo __( 'UGS', 'nexo' );?>">
                                     <option value="exclusive"><?php echo __( 'Excluse', 'nexo' );?></option>
@@ -67,7 +67,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">
-                                    <?php echo __( 'Tax', 'nexo' );?>
+                                    <?php echo __( 'Taxe', 'nexo' );?>
                                 </div>
                                 <select type="text" ng-model="form.tax_id" class="form-control" placeholder="<?php echo __( 'UGS', 'nexo' );?>">
                                     <option value="{{ tax.ID }}" ng-repeat="tax in taxes">{{ tax.NAME }}</option>
@@ -173,7 +173,7 @@
                                     <?php echo __( 'Nom', 'nexo' );?>
                                 </td>
                                 <td class="text-right" width="150">
-                                    <?php echo __( 'Codebar', 'nexo' );?>
+                                    <?php echo __( 'Code barre', 'nexo' );?>
                                 </td>
                                 <td class="text-right" width="120">
                                     <?php echo __( 'Prix de vente', 'nexo' );?>

@@ -35,10 +35,12 @@ foreach( $stores as $store ) {
         ADD `TAX_TYPE` VARCHAR(200) NOT NULL AFTER `REF_TAXE`' );
     }
 
-    $columns            =   $this->db->list_fields( $store_prefix . 'nexo_articles' );
-    if( ! array_in([ 'ON_STOCK_LOW' ], $columns ) ) {
+    $columns            =   $this->db->list_fields( $store_prefix . 'nexo_commandes_produits' );
+    if( ! array_in([ 'PRIX_BRUT_TOTAL' ], $columns ) ) {
         // inclusive && exclusive
-        $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_articles` 
-        ADD `ON_STOCK_LOW` VARCHAR(200) NOT NULL AFTER `REF_TAXE`' );
+        $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_commandes_produits` 
+        ADD `PRIX_BRUT_TOTAL` flat(11) NOT NULL AFTER `PRIX_TOTAL`' );
     }
+
+    $this->options->delete( $store_prefix . 'nexo_enable_stock_warning' );
 }

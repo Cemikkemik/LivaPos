@@ -233,7 +233,7 @@ $config[ 'nexo_item_price_group' ]	=	array(
 // 'DEFECTUEUX',
 $config[ 'nexo_item_stock_group' ]	=	array(
 	// removed 'REF_PROVIDER', 'QUANTITY',
-	'STATUS', 'TYPE', 'STOCK_ENABLED', 'STOCK_ALERT', 'ALERT_QUANTITY', 'ON_STOCK_LOW'
+	'STATUS', 'TYPE', 'STOCK_ENABLED', 'STOCK_ALERT', 'ALERT_QUANTITY'
 );
 
 // Caracteristiques

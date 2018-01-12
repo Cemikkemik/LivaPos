@@ -218,24 +218,21 @@ class Nexo_Actions extends Tendoo_Module
         $this->events->do_action( 'nexo_loaded' );
 
         $cache  =   new CI_Cache( array( 'adapter' => 'apc', 'backup' => 'file', 'key_prefix' => 'nexo_' ) );
+        
         // @since 3.1.3
-        if( @$Options[ store_prefix() . 'nexo_enable_stock_warning' ] == 'yes' ) {
-            if( $itemsOutOfStock    =   $cache->get( store_prefix() . 'items_out_of_stock' ) ) {
-                foreach( $itemsOutOfStock as $item ) {
-                    nexo_notices([
-                        'message'   =>  sprintf( __( 'Le stock du produit <strong>%s</strong> est faible. Cliquez-ici pour accéder au produit.', 'nexo' ), @$item[ 'design' ] ),
-                        'user_id'   =>  User::id(),
-                        'icon'      =>  'fa fa-warning',
-                        'type'      =>  'text-info',
-                        'link'      =>  site_url( array( 'dashboard', store_prefix(), 'nexo', 'produits', 'lists', 'edit', $item[ 'id' ] ) ),
-                    ]);
-                }
-                $cache->delete( store_prefix() . 'items_out_of_stock' );
+        if( $itemsOutOfStock    =   $cache->get( store_prefix() . 'items_out_of_stock' ) ) {
+            foreach( $itemsOutOfStock as $item ) {
+                nexo_notices([
+                    'message'   =>  sprintf( __( 'Le stock du produit <strong>%s</strong> est faible. Cliquez-ici pour accéder au produit.', 'nexo' ), @$item[ 'design' ] ),
+                    'user_id'   =>  User::id(),
+                    'icon'      =>  'fa fa-warning',
+                    'type'      =>  'text-info',
+                    'link'      =>  dashboard_url([ 'items', 'edit', $item[ 'id' ] ] ),
+                ]);
             }
+            $cache->delete( store_prefix() . 'items_out_of_stock' );
         }
-
-        // var_dump( store_option( 'enable_order_aging', 'no' ) );die;
-
+        
         // enabling order aging
         if( store_option( 'enable_order_aging', 'no' ) == 'yes' ) {
 

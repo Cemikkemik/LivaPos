@@ -31,7 +31,7 @@ class ApiNexoItems extends Tendoo_Api
         if ( $search ) {
             return $this->response([
                 'status'    =>  'failed',
-                'message'   =>  __( 'The barcode or the SKU is already in use.' )
+                'message'   =>  __( 'Le code barre est déjà en cours d\'utilisation', 'nexo'' )
             ], 403 );
         }
 

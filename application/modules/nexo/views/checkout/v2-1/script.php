@@ -160,6 +160,19 @@ var v2Checkout					=	new function(){
 		}
 
 		/**
+		 * We might check here is the item is available for sale or not
+		 */
+
+		if ( moment( item.EXPIRATION_DATE ).isBefore( tendoo.date ) ) {
+			if ( item.ON_EXPIRE_ACTION == 'lock_sales' ) {
+				return NexoAPI.Notify().error( 
+					'<?php echo addslashes( __('Impossible d\'ajouter l\'article', 'nexo'));?>', 
+					'<?php echo addslashes(__('La date d\'expiration du produit a été atteint. Ce dernier ne peut pas être vendu. Veuillez contacter l\'administrateur pour plus d\'information.', 'nexo'));?>' 
+				);
+			}
+		}
+
+		/**
 		* If Item is "On Sale"
 		**/
 
@@ -1542,30 +1555,25 @@ var v2Checkout					=	new function(){
 
 	this.checkItemsStock			=	function( items ) {
 		var stockToReport			=	new Array;
-		var minPercentage			=	<?php echo is_numeric( @$Options[ store_prefix() . 'nexo_stock_percentage_warning' ] ) ? @$Options[ store_prefix() . 'nexo_stock_percentage_warning' ] : 100;?>;
-		var isEnabled				=	'<?php echo @$Options[ store_prefix() . 'nexo_enable_stock_warning' ];?>';
-
-		if( isEnabled == 'yes' ) {
-
-			_.each( items, function( value, key ) {
-				var leftPercentage	=	( parseInt( value.QUANTITE_RESTANTE ) * 100 ) / parseInt( value.QUANTITY );
-				if( leftPercentage <= minPercentage ) {
-					stockToReport.push({
-						'id'		:	value.ID,
-						'design'	:	value.DESIGN
-					});
-				}
-			});
-
-			if( stockToReport.length > 0 ) {
-				$.ajax({
-					url		:	'<?php echo site_url( array( 'rest', 'nexo', 'stock_report' ) );?>?store_id=<?php echo $store_id == null ? 0 : $store_id;?>',
-					method	:	'POST',
-					data	:	{
-						'reported_items'	:	stockToReport
-					}
+		_.each( items, function( value, key ) {
+			var alertQuantity 	=	parseFloat( value.ALERT_QUANTITY );
+			var currentQuantity	=	parseInt( value.QUANTITE_RESTANTE );
+			if( alertQuantity >= currentQuantity ) {
+				stockToReport.push({
+					'id'		:	value.ID,
+					'design'	:	value.DESIGN
 				});
 			}
+		});
+
+		if( stockToReport.length > 0 ) {
+			$.ajax({
+				url		:	'<?php echo site_url( array( 'rest', 'nexo', 'stock_report' ) );?>?store_id=<?php echo $store_id == null ? 0 : $store_id;?>',
+				method	:	'POST',
+				data	:	{
+					'reported_items'	:	stockToReport
+				}
+			});
 		}
 	}
 
@@ -1780,6 +1788,14 @@ var v2Checkout					=	new function(){
 						}
 					}
 
+					/**
+					 * Let's check if the item has expired
+					 */
+					let itemClass 	=	'';
+					if ( moment( value.EXPIRATION_DATE ).isBefore( tendoo.date ) ) {
+						itemClass 	=	'expired-item';
+					}
+
 					// @since 2.7.1
 					if( v2Checkout.CartShadowPriceEnabled ) {
 						MainPrice			=	NexoAPI.ParseFloat( value.SHADOW_PRICE );
@@ -1793,7 +1809,7 @@ var v2Checkout					=	new function(){
 					value.MAINPRICE 		=	MainPrice;
 
 					$( '#filter-list' ).append(
-						'<div class="col-lg-2 col-md-3 col-xs-6 shop-items filter-add-product noselect text-center" data-remaining-quantity="' + value.QUANTITE_RESTANTE + '" data-codebar="' + value.CODEBAR + '" style="' + CustomBackground + ';padding:5px; border-right: solid 1px #DEDEDE;border-bottom: solid 1px #DEDEDE;" data-design="' + value.DESIGN.toLowerCase() + '" data-category="' + value.REF_CATEGORIE + '" data-sku="' + value.SKU.toLowerCase() + '">' +
+						'<div class="col-lg-2 col-md-3 col-xs-6 ' + itemClass + ' shop-items filter-add-product noselect text-center" data-remaining-quantity="' + value.QUANTITE_RESTANTE + '" data-codebar="' + value.CODEBAR + '" style="' + CustomBackground + ';padding:5px; border-right: solid 1px #DEDEDE;border-bottom: solid 1px #DEDEDE;" data-design="' + value.DESIGN.toLowerCase() + '" data-category="' + value.REF_CATEGORIE + '" data-sku="' + value.SKU.toLowerCase() + '">' +
 							'<img data-original="<?php echo get_store_upload_url() . '/items-images/';?>' + ImagePath + '" width="100" style="max-height:64px;" class="img-responsive img-rounded lazy">' +
 							'<div class="caption text-center" style="padding:2px;overflow:hidden;"><strong class="item-grid-title">' + design + '</strong><br>' +
 							'<span class="align-center">' + NexoAPI.DisplayMoney( MainPrice ) + '</span>' + Discounted +

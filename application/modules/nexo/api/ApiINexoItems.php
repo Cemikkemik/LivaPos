@@ -17,6 +17,7 @@ class ApiNexoItems extends Tendoo_Api
 
     /**
      * Create Grouped Items
+     * @incomplete
      * @param void
      * @return json
      */
@@ -31,7 +32,7 @@ class ApiNexoItems extends Tendoo_Api
         if ( $search ) {
             return $this->response([
                 'status'    =>  'failed',
-                'message'   =>  __( 'Le code barre est déjà en cours d\'utilisation', 'nexo'' )
+                'message'   =>  __( 'Le code barre est déjà en cours d\'utilisation', 'nexo' )
             ], 403 );
         }
 
@@ -39,7 +40,7 @@ class ApiNexoItems extends Tendoo_Api
             'DESIGN'        =>  $this->post( 'item_name' ),
             'REF_CATEGORIE'     =>  $form[ 'ref_category' ],
             'SKU'           =>  $form[ 'sku' ],
-            'PRIX_DE_VENTE' =>  
-        ]
+            // 'PRIX_DE_VENTE' =>  0
+        ];
     }
 }

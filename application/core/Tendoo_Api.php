@@ -33,7 +33,8 @@ class Tendoo_Api extends CI_Model
     {
         $request_body = file_get_contents('php://input');
         $data = json_decode( $request_body, true );
-        return @$data[ $param ] ? @$data[ $param ] : $default;
+        return @$data[ $param ] ? @$data[ $param ] : 
+            $this->input->post( $param ) ? $this->input->post( $param ) : $default;
     }
 
     /**

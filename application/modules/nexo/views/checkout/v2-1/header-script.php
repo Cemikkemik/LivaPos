@@ -27,6 +27,13 @@ let checkoutHeaderCTRL      =   function( $scope, hotkeys ) {
 	}
 
 	/**
+	 * Logout
+	 */
+	$scope.signOut 		=	function() {
+		document.location 	=	'<?php echo site_url([ 'sign-out' ]);?>';
+	}
+
+	/**
 	 *  Open Calculator
 	**/
 	

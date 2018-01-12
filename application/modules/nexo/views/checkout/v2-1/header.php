@@ -45,6 +45,13 @@
                 'attrs' =>  [
                     'ng-click'  =>  'openCalculator()',
                 ]
+            ], [
+                'class' =>  'warning',
+                'text'  =>  __( 'Déconnexion', 'nexo' ),
+                'icon'  =>  'sign-out',
+                'attrs' =>  [
+                    'ng-click'  =>  'signOut()',
+                ]
             ]
         ]) as $menu ) {
             $attrs      =   '';

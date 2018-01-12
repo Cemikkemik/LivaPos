@@ -14,7 +14,7 @@ class UsersController extends Tendoo_Module
         }
 
         if (! User::can('edit_users')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+            return show_error( __( 'Access denied. You\'re not allowed to edit users', 'aauth' ) );
         }
 
         $user_group            =    farray($this->users->auth->get_user_groups($index));
@@ -52,7 +52,7 @@ class UsersController extends Tendoo_Module
         // selecting groups
         $groups                 =    $this->users->auth->list_groups();
         if (! $user) {
-            redirect(array( 'dashboard', 'unknow-user' ));
+            return show_error( __( 'Unknow user. The use you attempted to edit has not been found.', 'aauth' ) );
         }
 
         $this->events->add_filter( 'gui_page_title', function( $filter ) {
@@ -85,7 +85,7 @@ class UsersController extends Tendoo_Module
             ! User::can('delete_users') &&
             ! User::can('create_users')
         ) {
-            redirect(array( 'dashboard', 'access-denied' ));
+            return show_error( __( 'Access denied. You\'re not allowed to see this page.', 'aauth' ) );
         }
 
         $this->load->library('pagination');
@@ -132,7 +132,7 @@ class UsersController extends Tendoo_Module
     public function delete( $index )
     {
         if (! User::can('delete_users')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+            return show_error( __( 'Access denied. You\'re not allowed to see this page.', 'aauth' ) );
         }
 
         $user    =    $this->users->auth->get_user($index);
@@ -146,7 +146,7 @@ class UsersController extends Tendoo_Module
             redirect(array( 'dashboard', 'users?notice=user-deleted' ));
         }
 
-        redirect(array( 'dashboard', 'unknow-user' ));
+        return show_error( __( 'Access denied. You\'re not allowed to see this page.', 'aauth' ) );
     }
 
     /**
@@ -156,7 +156,7 @@ class UsersController extends Tendoo_Module
     public function profile()
     {
         if (! User::can('edit_profile')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+            return show_error( __( 'Access denied. You\'re not allowed to see this page.', 'aauth' ) );
         }
 
         $this->load->library('form_validation');
@@ -201,7 +201,7 @@ class UsersController extends Tendoo_Module
     public function create()
     {
         if (! User::can('create_users')) {
-            redirect(array( 'dashboard', 'access-denied' ));
+            return show_error( __( 'Access denied. You\'re not allowed to see this page.', 'aauth' ) );
         }
 
         $this->load->library('form_validation');
@@ -267,7 +267,7 @@ class UsersController extends Tendoo_Module
             ! User::can('edit_users') &&
             ! User::can('delete_users')
         ) {
-            redirect(array( 'dashboard', 'access-denied' ));
+            return show_error( __( 'Access denied. You\'re not allowed to see this page.', 'aauth' ) );
         }
 
         $groups        =    $this->users->auth->list_groups();

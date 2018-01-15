@@ -214,3 +214,8 @@ pos_loaded_order : {
 	type 	:	action,
 	desc 	:	contient l'objet ayant les détails de la commande en cours d'édition
 }
+
+nexo_open_save_box : {
+	type 	:	filter
+	desc 	:	permet de contrôler l'affichage de la boite de sauvegarde des commandes
+}

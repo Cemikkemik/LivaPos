@@ -27,6 +27,10 @@ tendooApp.controller( 'saveBox', [ '$compile', '$http', '$scope', 'hotkeys', fun
 
 	$scope.openSaveBox			=		function(){
 
+		if( ! NexoAPI.events.applyFilters( 'nexo_open_save_box', true ) ) {
+			return false;
+		}
+
 		$scope.orderName			=	typeof v2Checkout.CartTitle == 'undefined' ? '' : v2Checkout.CartTitle;
 		$scope.cart					=	new Object;
 		$scope.cart.value			=	v2Checkout.CartValue;

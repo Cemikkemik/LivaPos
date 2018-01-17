@@ -35,6 +35,7 @@ $getRoutes[]        =   [ 'nexo/supplies/detailed-worth/{shipping_id}', 'NexoSup
 $getRoutes[]        =   [ 'nexo/supplies/items/{shipping_id}', 'NexoSuppliesController@delivery_items' ];
 $getRoutes[]        =   [ 'nexo/providers', 'NexoProvidersController@lists' ];
 $getRoutes[]        =   [ 'nexo/providers/add', 'NexoProvidersController@add' ];
+$getRoutes[]        =   [ 'nexo/providers_history/{provider_id}', 'NexoProvidersController@history' ];
 $getRoutes[]        =   [ 'nexo/orders', 'NexoOrdersController@lists' ];
 $getRoutes[]        =   [ 'nexo/orders/receipt/{order_id}', 'NexoPrintController@order_receipt' ];
 $getRoutes[]        =   [ 'nexo/orders/invoice/{order_id}', 'NexoPrintController@invoice' ];

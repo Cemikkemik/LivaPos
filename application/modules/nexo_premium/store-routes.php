@@ -20,3 +20,4 @@ $StoreRoutes->get( '/nexo/quotes-cleaner', 'NexoPremiumController@quotes_cleaner
 
 $StoreRoutes->match([ 'get', 'post' ], '/nexo/expenses-categories/{action?}/{id?}', 'NexoPremiumController@expenses_list' );
 $StoreRoutes->match([ 'get', 'post' ], '/nexo/expenses/{action?}/{id?}', 'NexoPremiumController@invoices' );
+$StoreRoutes->match([ 'get', 'post' ], '/nexo/sup-expenses/{action?}/{id?}', 'NexoPremiumController@supplier_expense' );

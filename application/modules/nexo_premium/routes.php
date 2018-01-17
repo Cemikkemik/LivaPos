@@ -20,3 +20,4 @@ $Routes->get( '/nexo/quotes-cleaner', 'NexoPremiumController@quotes_cleaner' );
 
 $Routes->match([ 'get', 'post' ], '/nexo/expenses-categories/{action?}/{id?}', 'NexoPremiumController@expenses_list' );
 $Routes->match([ 'get', 'post' ], '/nexo/expenses/{action?}/{id?}', 'NexoPremiumController@invoices' );
+$Routes->match([ 'get', 'post' ], '/nexo/sup-expenses/{action?}/{id?}', 'NexoPremiumController@supplier_expense' );

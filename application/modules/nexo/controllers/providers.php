@@ -30,8 +30,8 @@ class NexoProvidersController extends CI_Model
         if( store_option( 'enable_providers_account', 'no' ) == 'yes' ) {
             array_splice( $columns, 1, 0, 'PAYABLE' );
 
-            $crud->add_action( __( 'Historique', 'nexo' ), '', dashboard_url([ 'fournisseurs', 'history' ]) . '/', 'btn btn-default fa fa-line-chart' );
-            $crud->add_action( __( 'Payer le fournisseur', 'nexo' ), '', site_url([ 'dashboard', store_slug(), 'nexo_premium', 'Controller_Factures', 'provider' ]) . '/', 'btn btn-default fa fa-money' );
+            $crud->add_action( __( 'Historique', 'nexo' ), '', dashboard_url([ 'providers_history' ]) . '/', 'fa fa-line-chart' );
+            $crud->add_action( __( 'Payer le fournisseur', 'nexo' ), '', dashboard_url([ 'sup-expenses' ]) . '/', 'fa fa-money' );
         }
 		
 		$crud->columns( $columns );
@@ -90,7 +90,6 @@ class NexoProvidersController extends CI_Model
         ];
 
         $this->data[ 'provider' ]       =   $provider[0];
-
         $this->load->library("pagination");
         $config["base_url"] = dashboard_url([ 'fournisseurs', 'history', $provider_id ]);
         //EDIT THIS (to get a count of number of rows. Might have to add in a criteria (category etc)
@@ -115,8 +114,9 @@ class NexoProvidersController extends CI_Model
         $page = $page-1;
 		if ($page<0) { 
 			$page = 0;
-		}
-		$from = intval( $page ) * $config["per_page"];
+        }
+
+        $from = intval( $page ) * $config["per_page"];
         $this->data["results"] = $this->db
         ->select( '*,
         ' . store_prefix() . 'nexo_fournisseurs_history.DATE_CREATION as DATE_CREATION,
@@ -159,7 +159,7 @@ class NexoProvidersController extends CI_Model
         
         $this->Gui->set_title( store_title( sprintf( __( '%s : Historique d\'approvisionnement', 'nexo' ), $provider[0][ 'NOM' ] ) ) );
 
-        return $this->load->module_view( 'nexo', 'providers.history-gui', $this->data );
+        $this->load->module_view( 'nexo', 'providers.history-gui', $this->data );
     }
     
     public function lists($page = 'index', $id = null)

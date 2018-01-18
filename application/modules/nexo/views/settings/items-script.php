@@ -66,7 +66,7 @@ $( document ).ready(function(e) {
 		}
 
 		this.ResetSavedBarcode	=	function() {
-			$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'trigger', 'model', 'Nexo_Products', 'reset_barcode' ));?>', {
+			$.ajax( '<?php echo dashboard_url([ 'reset-barcode' ]);?>', {
 				beforeSend : function(){
 					NexoBarcodeSettings.Notice( '<?php echo addslashes(__('Suppression du cache...', 'nexo'));?>' );
 				},
@@ -79,7 +79,7 @@ $( document ).ready(function(e) {
 
 		this.RefreshBarcode	=	function() {
 			this.ResampleIterator++;
-			$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'trigger', 'model', 'Nexo_Products', 'generate_barcode' ));?>/' + NexoBarcodeSettings.products[0].CODEBAR + '/' + NexoBarcodeSettings.products[0].BARCODE_TYPE,
+			$.ajax( '<?php echo dashboard_url([ 'generate-barcode' ]);?>/' + NexoBarcodeSettings.products[0].CODEBAR + '/' + NexoBarcodeSettings.products[0].BARCODE_TYPE,
 			{
 				success			:	function( data ){
 					if( NexoBarcodeSettings.ResampleIterator < NexoBarcodeSettings.ProductLength ) {
@@ -100,7 +100,7 @@ $( document ).ready(function(e) {
 
 		this.Resample			=	function( ){
 			this.ResampleIterator++;
-			$.ajax( '<?php echo site_url(array( 'dashboard', 'nexo', 'rest', 'trigger', 'model', 'Nexo_Products', 'resample_codebar' ));?>/' + NexoBarcodeSettings.products[0].ID + '/' + NexoBarcodeSettings.products[0].CODEBAR + '/' +
+			$.ajax( '<?php echo dashboard_url([ 'resamble-barcode' ]);?>/' + NexoBarcodeSettings.products[0].ID + '/' + NexoBarcodeSettings.products[0].CODEBAR + '/' +
 			NexoBarcodeSettings.products[0].BARCODE_TYPE,
 			{
 				success			:	function( data ){

@@ -184,7 +184,8 @@ $config[ 'nexo_multi_store_enabled' ]		=	true; // default false;
 
 $config[ 'nexo_item_type' ]		=	array(
 	1	=>	get_instance()->lang->line( 'physical_item' ),
-	2	=>	get_instance()->lang->line( 'numerical_item' )
+	2	=>	get_instance()->lang->line( 'numerical_item' ),
+	3   => 	get_instance()->lang->line( 'grouped_item' ),
 );
 
 /**

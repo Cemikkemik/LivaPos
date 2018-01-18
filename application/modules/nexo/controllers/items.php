@@ -686,7 +686,6 @@ class NexoItemsController extends CI_Model
     public function add_supply()
     {
         // Redirect if multistore is enabled but not in use
-
         if( ( multistore_enabled() && ! is_multistore() ) && $this->events->apply_filters( 'force_show_inventory', false ) == false ) {
 			return show_error( __( 'Cette fonctionnalité a été désactivée', 'nexo' ) );
 		}
@@ -737,5 +736,35 @@ class NexoItemsController extends CI_Model
 
         $this->Gui->set_title( store_title( __( 'Grouper des produits', 'nexo' ) ) );
         $this->load->module_view( 'nexo', 'items.grouped-items' );
+    }
+
+    /**
+     * Reset barcode
+     * @return view
+     */
+    public function reset_barcode()
+    {
+        $this->load->model( 'Nexo_Products' );
+        $this->Nexo_Products->reset_barcode();
+    }
+
+    /**
+     * Generate Barcode
+     * @return view
+     */
+    public function generate_barcode( $barcode, $type = null )
+    {
+        $this->load->model( 'Nexo_Products' );
+        $this->Nexo_Products->generate_barcode( $barcode, $type );
+    }
+
+    /**
+     * resample_barcode
+     * @return view
+     */
+    public function resample_barcode( $id, $barcode, $type = null ) 
+    {
+        $this->load->model( 'Nexo_Products' );
+        $this->Nexo_Products->resample_codebar( $id, $barcode, $type );
     }
 }

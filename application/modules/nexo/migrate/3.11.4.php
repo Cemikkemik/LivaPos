@@ -13,10 +13,10 @@ foreach( $stores as $store ) {
     $store_prefix       =   $store[ 'ID' ] == 0 ? '' : 'store_' . $store[ 'ID' ] . '_';
 
     $columns            =   $this->db->list_fields( $store_prefix . 'nexo_taxes' );
-    if( ! in_array( 'TYPE', $columns ) && ! in_array( 'FIXED', $columns ) ) {
+    if( ! in_array( 'TYPE', $columns ) && ! in_array( 'FLAT', $columns ) ) {
         $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_taxes` 
         ADD `TYPE` VARCHAR(200) NOT NULL AFTER `RATE`, 
-        ADD `FIXED` float(11) NOT NULL AFTER `TYPE`;' );
+        ADD `FLAT` float(11) NOT NULL AFTER `TYPE`;' );
     }
 
     $columns            =   $this->db->list_fields( $store_prefix . 'nexo_articles' );
@@ -39,7 +39,7 @@ foreach( $stores as $store ) {
     if( ! array_in([ 'PRIX_BRUT_TOTAL' ], $columns ) ) {
         // inclusive && exclusive
         $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_commandes_produits` 
-        ADD `PRIX_BRUT_TOTAL` flat(11) NOT NULL AFTER `PRIX_TOTAL`' );
+        ADD `PRIX_BRUT_TOTAL` float(11) NOT NULL AFTER `PRIX_TOTAL`' );
     }
 
     $this->options->delete( $store_prefix . 'nexo_enable_stock_warning' );

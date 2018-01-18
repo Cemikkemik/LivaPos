@@ -15,14 +15,17 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="#tab_1" data-toggle="tab" aria-expanded="false"><?php echo __( 'Details', 'nexo' );?></a>
+                        <a href="#tab_0" data-toggle="tab" aria-expanded="false"><?php echo __( 'Details', 'nexo' );?></a>
+                    </li>
+                    <li>
+                        <a href="#tab_1" data-toggle="tab" aria-expanded="false"><?php echo __( 'Statut', 'nexo' );?></a>
                     </li>
                     <li class="">
                         <a href="#tab_2" data-toggle="tab" aria-expanded="false"><?php echo __( 'Produits', 'nexo' );?> ({{ grouped_items.length}})</a>
                     </li>
                 </ul>
                 <div class="tab-content no-padding">
-                    <div class="tab-pane active" id="tab_1"  style="padding: 10px">
+                    <div class="tab-pane active" id="tab_0"  style="padding: 10px">
                         
                         <div class="form-group">
                             <div class="input-group">
@@ -31,6 +34,7 @@
                                 </div>
                                 <input type="text" ng-model="form.sku" class="form-control" placeholder="<?php echo __( 'UGS', 'nexo' );?>">
                             </div>
+                            <p class="help-description"><?php echo __( 'Unité de gestion de stock unique pour le produit.', 'nexo' );?></p>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
@@ -42,16 +46,18 @@
                                     {{ getTotal( grouped_items ) | moneyFormat }}
                                 </div>
                             </div>
+                            <p class="help-description"><?php echo __( 'Le prix auquel sera vendu le groupe de produit. Vous avez sur la droit une suggestion de prix basé sur le prix total des produits inclus.', 'nexo' );?></p>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <?php echo __( 'Categorie', 'nexo' );?>
                                 </div>
-                                <select type="text" selectpicker="{ liveSearch : true }" toggle-dropdown ng-model="form.category_id" class="form-control selectpicker category-dropdown" placeholder="<?php echo __( 'UGS', 'nexo' );?>">
+                                <select type="text" selectpicker="{ liveSearch : true }" data-live-search="true" toggle-dropdown ng-model="form.category_id" class="form-control selectpicker category-dropdown" placeholder="<?php echo __( 'UGS', 'nexo' );?>">
                                     <option value="{{ category.ID }}" ng-repeat="category in categories">{{ category.NOM }}</option>
                                 </select>
                             </div>
+                            <p class="help-description"><?php echo __( 'Assigner le produit à une catégorie.', 'nexo' );?></p>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
@@ -63,6 +69,7 @@
                                     <option value="inclusive"><?php echo __( 'Incluse', 'nexo' );?></option>
                                 </select>
                             </div>
+                            <p class="help-description"><?php echo __( 'Définir le type de taxe appliqué au produit.', 'nexo' );?></p>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
@@ -73,6 +80,7 @@
                                     <option value="{{ tax.ID }}" ng-repeat="tax in taxes">{{ tax.NAME }}</option>
                                 </select>
                             </div>
+                            <p class="help-description"><?php echo __( 'Choisir la taxe qui s\'applique au produit.', 'nexo' );?></p>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
@@ -81,6 +89,7 @@
                                 </div>
                                 <input type="text" ng-model="form.barcode" class="form-control" placeholder="<?php echo __( 'Code Barre', 'nexo' );?>">
                             </div>
+                            <p class="help-description"><?php echo __( 'Code barre unique pour le produit.', 'nexo' );?></p>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
@@ -91,6 +100,33 @@
                                     <option ng-repeat="( k, v ) in barcodes" value="{{ k }}">{{ v }}</option>
                                 </select>
                             </div>
+                            <p class="help-description"><?php echo __( 'Définir le type de code barre utilisé pour le produit.', 'nexo' );?></p>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab_1"  style="padding: 10px">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <?php echo __( 'Status', 'nexo' );?>
+                                </div>
+                                <select type="text" ng-model="form.status" class="form-control">
+                                    <option value="on_sale"><?php echo __( 'Mettre en vente', 'nexo' );?></option>
+                                    <option value="not_on_sale"><?php echo __( 'Ne pas mettre en vente', 'nexo' );?></option>
+                                </select>
+                            </div>
+                            <p class="help-description"><?php echo __( 'Le produit apparaitra directement sur le point de vente', 'nexo' );?></p>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <?php echo __( 'Activer le suivi du stock', 'nexo' );?>
+                                </div>
+                                <select type="text" ng-model="form.stock_enabled" class="form-control">
+                                    <option value="enable"><?php echo __( 'Activer', 'nexo' );?></option>
+                                    <option value="disable"><?php echo __( 'Désactiver', 'nexo' );?></option>
+                                </select>
+                            </div>
+                            <p class="help-description"><?php echo __( 'Si activé, les produits inclus devront avoir un stock supérieur à 0.', 'nexo' );?></p>
                         </div>
                     </div>
                     <!-- /.tab-pane -->

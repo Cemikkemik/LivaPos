@@ -46,6 +46,9 @@ $getRoutes[]        =   [ 'nexo/close/register/{register_id}', 'NexoRegistersCon
 $getRoutes[]        =   [ 'nexo/open/register/{register_id}', 'NexoRegistersController@__use' ];
 $getRoutes[]        =   [ 'nexo/register-history/{register_id}', 'NexoRegistersController@__use' ];
 $getRoutes[]        =   [ 'nexo/reports/monthly-sales', 'NexoReportsController@journalier' ];
+$getRoutes[]        =   [ 'nexo/reset-barcode', 'NexoItemsController@reset_barcode' ];
+$getRoutes[]        =   [ 'nexo/generate-barcode/{barcode}/{type?}', 'NexoItemsController@generate_barcode' ];
+$getRoutes[]        =   [ 'nexo/resample-barcode/{id}/{barcode}/{type?}', 'NexoItemsController@resample_barcode' ];
 
 $getPost            =   [];
 $getPost[]          =   [ [ 'get', 'post' ], 'nexo/registers/{action?}/{id?}', 'NexoRegistersController@lists' ];

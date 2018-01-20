@@ -454,4 +454,18 @@ class Nexo_Products extends CI_Model
     {
         
     }
+
+    /**
+     * get product meta
+     * @param int product id
+     * @return array
+     */
+    public function get_product_meta( $product_id ) 
+    {
+        $query      =   $this->db->where( 'REF_ARTICLE', $product_id )
+        ->get( store_prefix() . 'nexo_articles_meta' )
+        ->result_array();
+
+        return $query;
+    }
 }

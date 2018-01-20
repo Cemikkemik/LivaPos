@@ -74,6 +74,8 @@ class ApiNexoItems extends Tendoo_Api
             'TAX_TYPE'              =>  $form[ 'tax_type' ],
             'REF_TAXE'              =>  $form[ 'tax_id' ],
             'TYPE'                  =>  3, // for grouped items
+            'STATUS'                =>  $form[ 'status' ] == 'on_sale' ? 1 : 2,
+            'STOCK_ENABLED'         =>  $form[ 'stock_enabled' ]    == 'enabled' ? 1 : 2    
         ];
 
         $this->db->insert( store_prefix() . 'nexo_articles', $item_details );

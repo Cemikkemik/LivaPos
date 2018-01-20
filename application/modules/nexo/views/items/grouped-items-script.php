@@ -2,6 +2,10 @@
 var grouped_items   =   {
     api_url                 :   '<?php echo site_url([ 'api', 'nexopos', 'physicals-and-digitals', store_get_param( '?' )]);?>',
     post_item_url           :   '<?php echo site_url([ 'api', 'nexopos', 'post-grouped', store_get_param( '?' )]);?>',
+    put_item_url            :   '<?php echo site_url([ 'api', 'nexopos', 'put-grouped', @$item[0][ 'ID'], store_get_param( '?' )]);?>',
+    item                    :   <?php echo json_encode( @$item ? $item : [] );?>,
+    meta                    :   <?php echo json_encode( @$meta ? $meta : [] );?>,
+    isEditing               :   <?php echo @$item ? 'true' : 'false';?>,
     text                    :   {
         warning             :   '<?php echo _s( 'Attention', 'nexo' );?>',
         missing_item_name   :   '<?php echo _s( 'Veuillez fourni un nom à ce produit', 'nexo' );?>',

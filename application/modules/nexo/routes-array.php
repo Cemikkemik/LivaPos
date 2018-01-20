@@ -10,6 +10,7 @@ $getRoutes[]        =   [ 'nexo/items/history/{barcode}', 'NexoItemsController@h
 $getRoutes[]        =   [ 'nexo/items/supply-history/{barcode}', 'NexoItemsController@supply' ];
 $getRoutes[]        =   [ 'nexo/items-stock-adjustment/', 'NexoItemsController@stock_supply' ];
 $getRoutes[]        =   [ 'nexo/grouped-items/add', 'NexoItemsController@grouped_items' ];
+$getRoutes[]        =   [ 'nexo/grouped-items/edit/{id}', 'NexoItemsController@grouped_items' ];
 $getRoutes[]        =   [ 'nexo/settings/home', 'NexoSettingsController@home' ];
 $getRoutes[]        =   [ 'nexo/settings/checkout', 'NexoSettingsController@checkout' ];
 $getRoutes[]        =   [ 'nexo/settings/items', 'NexoSettingsController@items' ];

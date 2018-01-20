@@ -4,7 +4,29 @@ tendooApp.controller( 'groupedItemCTRL', [ '$scope', '$http', function( $scope, 
     $scope.grouped_items        =   [];
     $scope.categories           =   grouped_items.categories;
     $scope.barcodes             =   grouped_items.barcodes;
-    $scope.form                 =   {};
+
+    /**
+     * check whether we're editing an item or not
+     */
+    if ( grouped_items.isEditing ) {
+        $scope.item_name        =   grouped_items.item[0].DESIGN;
+        $scope.form             =   {
+            sku     :   grouped_items.item[0].SKU,
+            sale_price     :   grouped_items.item[0].PRIX_DE_VENTE,
+            category_id     :   grouped_items.item[0].REF_CATEGORY,
+            tax_type     :   grouped_items.item[0].TAX_TYPE,
+            tax_id     :   grouped_items.item[0].REF_TAXE,
+            barcode     :   grouped_items.item[0].CODEBAR,
+            barcode_type     :   grouped_items.item[0].BARCODE_TYPE,
+            status     :   grouped_items.item[0].STATUS == '1' ? 'on_sale' : 'not_on_sale',
+            stock_enabled     :   grouped_items.item[0].STOCK_ENABLED == '1' ? 'enable' : 'disable'
+        }
+
+        let entries            =  JSON.parse( grouped_items.meta[0].VALUE );
+        $scope.grouped_items          =   entries;
+    } else {
+        $scope.form                 =   {};
+    }
     $scope.taxes                =   grouped_items.taxes;
 
     /**
@@ -129,6 +151,7 @@ tendooApp.controller( 'groupedItemCTRL', [ '$scope', '$http', function( $scope, 
         }
 
         let formHasError    =   false;
+
         _.mapObject( $scope.form, ( value, key ) => {
             console.log( value );
             if ( [ 'category_id', 'state', 'sku', 'sale_price' ].indexOf( key ) != -1 ) {
@@ -144,7 +167,18 @@ tendooApp.controller( 'groupedItemCTRL', [ '$scope', '$http', function( $scope, 
                 grouped_items.text.formHasError
             );
         }
-        $http.post( grouped_items.post_item_url, {
+
+        let url;
+        if ( grouped_items.isEditing ) {
+            url     =   grouped_items.put_item_url;
+        } else {
+            url     =   grouped_items.post_item_url;
+        }
+
+        /**
+         * Posting URL
+         */
+        $http.post( url, {
             items,
             item_name   :   $scope.item_name,
             form        :   $scope.form
@@ -154,7 +188,10 @@ tendooApp.controller( 'groupedItemCTRL', [ '$scope', '$http', function( $scope, 
             }
         }).then( result => {
             $scope.grouped_items    =   [];
-        })
+            $scope.form             =   {};
+        }, ( error ) => {
+            NexoAPI.Toast()( error.data.message );
+        });
     }
 
     /**

@@ -339,6 +339,17 @@ class NexoItemsController extends CI_Model
                 ));
 
             }
+        } else if ( $page == 'edit' ) {
+            $this->load->model( 'Nexo_Products' );
+            $item   =   $this->Nexo_Products->get_product( $id );
+            
+            /**
+             * if the item beign editing is a grouped item. Then we should redirect it 
+             * to the appropriate UI.
+             */
+            if ( $item[0][ 'TYPE' ] == '3' ) {
+                return redirect( dashboard_url([ 'grouped-items', 'edit', $item[0][ 'ID' ] ] ) );
+            }
         } else {
             $this->Gui->set_title( store_title( __( 'Ajouter un nouvel article', 'nexo' ) ) );
         }
@@ -725,13 +736,20 @@ class NexoItemsController extends CI_Model
      * Creating Grouped Items
      * @param void
      */
-    public function grouped_items()
+    public function grouped_items( $id = null )
     {
+        $item   =   [];
+        $meta   =   [];
+        if ( $id != null ) {
+            $this->load->model( 'Nexo_Products' );
+            $item   =   $this->Nexo_Products->get_product( $id );
+            $meta   =   $this->Nexo_Products->get_product_meta( $id );
+        }
         $this->enqueue->js('../plugins/bootstrap-select/dist/js/bootstrap-select.min');
         $this->enqueue->css('../plugins/bootstrap-select/dist/css/bootstrap-select.min');
         
-        $this->events->add_action( 'dashboard_footer', function() {
-            get_instance()->load->module_view( 'nexo', 'items.grouped-items-script' );
+        $this->events->add_action( 'dashboard_footer', function() use ( $item, $meta ) {
+            get_instance()->load->module_view( 'nexo', 'items.grouped-items-script', compact( 'item', 'meta' ) );
         });
 
         $this->Gui->set_title( store_title( __( 'Grouper des produits', 'nexo' ) ) );

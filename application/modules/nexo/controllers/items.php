@@ -785,4 +785,32 @@ class NexoItemsController extends CI_Model
         $this->load->model( 'Nexo_Products' );
         $this->Nexo_Products->resample_codebar( $id, $barcode, $type );
     }
+
+    /**
+     * Upload Image
+     */
+    public function uploadImages()
+    {
+        $config['upload_path']          = './public/upload/' . ( get_store_id() !== 0 ? 'store_' . get_store_id() : '' ) . '/items-images/';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size']             = 100;
+        $config['max_width']            = 1024;
+        $config['max_height']           = 768;
+
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload( 'file' ) ) {
+            return json_encode([
+                'status'    =>  'failed',
+                'message'   =>  $this->upload->display_errors()
+            ]);
+        } else {
+            $data = array('upload_data' => $this->upload->data());
+            return json_encode([
+                'status'    =>  'success',
+                'message'   =>  __( 'Opération effectuée', 'nexo' ),
+                'response'  =>  $data
+            ]);
+        }
+    }
 }

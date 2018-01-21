@@ -70,6 +70,7 @@ class Nexo_Filters extends Tendoo_Module
         $deps[]     =   'schemaForm';
         $deps[]     =   'ngSanitize';
         $deps[]     =   'ng-pros.directive.autocomplete';
+        $deps[]     =   'ngFileUpload';
         return $deps;
     }
 

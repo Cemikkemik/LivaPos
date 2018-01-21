@@ -102,6 +102,20 @@
                             </div>
                             <p class="help-description"><?php echo __( 'Définir le type de code barre utilisé pour le produit.', 'nexo' );?></p>
                         </div>
+                        <div class="form-group">
+                            <label for=""><?php echo __( 'Aperçu', 'nexo' );?></label><br>
+                            <button type="file" ngf-select="uploadFiles($file, $invalidFiles)"
+                                accept="image/*">
+                            <?php echo __( 'Envoyer un produit' );?>
+                            </button>
+                            <p ng-show="uploadResult.response">
+                                <small>{{ uploadResult.response.upload_data.client_name }}</small>
+                            </p>
+                            <p ng-show="uploadResult.status === 'failed'">
+                                <small>{{ uploadResult.message }}</small>
+                            </p>
+                            <p class="help-description"><?php echo __( 'Envoyer une image représentative du produit.', 'nexo' );?></p>
+                        </div>
                     </div>
                     <div class="tab-pane" id="tab_1"  style="padding: 10px">
                         <div class="form-group">
@@ -245,3 +259,28 @@
         </div>
     </div>
 </div>
+<style>
+.thumb {
+    width: 24px;
+    height: 24px;
+    float: none;
+    position: relative;
+    top: 7px;
+}
+
+form .progress {
+    line-height: 15px;
+}
+
+.progress {
+    display: inline-block;
+    width: 100px;
+    border: 3px groove #CCC;
+}
+
+.progress div {
+    font-size: smaller;
+    background: orange;
+    width: 0;
+}
+</style>

@@ -184,7 +184,8 @@ class Nexo_Actions extends Tendoo_Module
         $this->enqueue->js( '../modules/nexo/bower_components/angular-schema-form/dist/schema-form.min' );
         $this->enqueue->js( '../modules/nexo/bower_components/angular-schema-form/dist/bootstrap-decorator.min' );
         $this->enqueue->js( '../modules/nexo/bower_components/np-autocomplete/src/np-autocomplete' );
-        
+        $this->enqueue->js( '../modules/nexo/bower_components/ng-file-upload/ng-file-upload-shim.min' );
+        $this->enqueue->js( '../modules/nexo/bower_components/ng-file-upload/ng-file-upload.min' );        
 
         $this->enqueue->css_namespace( 'dashboard_header' );
         $this->enqueue->css( 'css/nexo-arrow', module_url( 'nexo' ) );

@@ -70,3 +70,4 @@ $getPost[]          =   [ [ 'get', 'post' ], 'nexo/orders/{action?}/{id?}', 'Nex
 $postRoutes         =   [];
 $postRoutes[]       =   [ 'nexo/customers/{param}', 'NexoCustomersController@lists' ];
 $postRoutes[]       =   [ 'nexo/reset', 'NexoResetController@index' ];
+$postRoutes[]       =   [ 'nexo/upload_images', 'NexoItemsController@uploadImages' ];

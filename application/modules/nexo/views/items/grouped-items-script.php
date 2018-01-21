@@ -20,7 +20,8 @@ var grouped_items   =   {
     );?>,
     taxes                   :   <?php echo json_encode(
         $this->db->get( store_prefix() . 'nexo_taxes' )->result()
-    );?>
+    );?>,
+    upload_url              :   '<?php echo dashboard_url([ 'upload_images' ]);?>'
 }
 $( '.category-dropdown' ).selectpicker({
   style: 'btn-default',

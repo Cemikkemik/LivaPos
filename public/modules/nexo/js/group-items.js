@@ -1,4 +1,4 @@
-tendooApp.controller( 'groupedItemCTRL', [ '$scope', '$http', function( $scope, $http ) {
+tendooApp.controller( 'groupedItemCTRL', [ '$scope', '$http', 'Upload', '$timeout', function( $scope, $http, Upload, $timeout) {
     
     $scope.searchStatus         =   'not_found';
     $scope.grouped_items        =   [];
@@ -13,7 +13,7 @@ tendooApp.controller( 'groupedItemCTRL', [ '$scope', '$http', function( $scope, 
         $scope.form             =   {
             sku     :   grouped_items.item[0].SKU,
             sale_price     :   grouped_items.item[0].PRIX_DE_VENTE,
-            category_id     :   grouped_items.item[0].REF_CATEGORY,
+            category_id     :   grouped_items.item[0].REF_CATEGORIE,
             tax_type     :   grouped_items.item[0].TAX_TYPE,
             tax_id     :   grouped_items.item[0].REF_TAXE,
             barcode     :   grouped_items.item[0].CODEBAR,
@@ -187,8 +187,16 @@ tendooApp.controller( 'groupedItemCTRL', [ '$scope', '$http', function( $scope, 
                 [ tendoo.rest.key ]     :   tendoo.rest.value
             }
         }).then( result => {
-            $scope.grouped_items    =   [];
-            $scope.form             =   {};
+            /**
+             * reset the form if we're editing
+             */
+            if ( ! grouped_items.isEditing ) {
+                $scope.item_name        =   '';
+                $scope.grouped_items    =   [];
+                $scope.form             =   {};
+            }
+            
+            NexoAPI.Toast()( result.data.message );
         }, ( error ) => {
             NexoAPI.Toast()( error.data.message );
         });
@@ -201,6 +209,35 @@ tendooApp.controller( 'groupedItemCTRL', [ '$scope', '$http', function( $scope, 
      */
     $scope.removeFromGroup  =   function( index ) {
         $scope.grouped_items.splice( index, 1 );
+    }
+
+    /**
+     * Upload file
+     * @param object file upoaded
+     * @param object errors
+     * @return void
+     */
+
+    $scope.uploadFiles = function(file, errFiles) {
+        $scope.f = file;
+        $scope.errFile = errFiles && errFiles[0];
+        if (file) {
+            $scope.uploadResult         =   {};
+            file.upload = Upload.upload({
+                url: grouped_items.upload_url,
+                data: {
+                    [ tendoo.csrf_field_name ]  :   tendoo.csrf_field_value,
+                    file: file
+                }
+            });
+
+            file.upload.then(function (response) {
+                $timeout(function () {
+                    $scope.uploadResult     =   response.data;
+                    $scope.form.apercu      =   $scope.uploadResult.response.upload_data.file_name;
+                });
+            });
+        }   
     }
 }])
 

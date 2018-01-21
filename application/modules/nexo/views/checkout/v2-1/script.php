@@ -1768,9 +1768,10 @@ var v2Checkout					=	new function(){
 				* We test item quantity of skip that test if item is not countable.
 				* value.TYPE = 0 means item is physical, = 1 means item is numerical
 				* value.STATUS = 0 means item is on sale, = 1 means item is disabled
+				* the index "3" represent the grouped items
 				**/
 
-				if( ( ( parseInt( value.QUANTITE_RESTANTE ) > 0 && value.TYPE == '1' ) || ( value.TYPE == '2' ) ) && value.STATUS == '1' ) {
+				if( ( ( parseInt( value.QUANTITE_RESTANTE ) > 0 && value.TYPE == '1' ) || ( [ '2', '3' ].indexOf( value.TYPE ) != -1 ) ) && value.STATUS == '1' ) {
 
 					var promo_start	= moment( value.SPECIAL_PRICE_START_DATE );
 					var promo_end	= moment( value.SPECIAL_PRICE_END_DATE );
@@ -1810,7 +1811,7 @@ var v2Checkout					=	new function(){
 
 					$( '#filter-list' ).append(
 						'<div class="col-lg-2 col-md-3 col-xs-6 ' + itemClass + ' shop-items filter-add-product noselect text-center" data-remaining-quantity="' + value.QUANTITE_RESTANTE + '" data-codebar="' + value.CODEBAR + '" style="' + CustomBackground + ';padding:5px; border-right: solid 1px #DEDEDE;border-bottom: solid 1px #DEDEDE;" data-design="' + value.DESIGN.toLowerCase() + '" data-category="' + value.REF_CATEGORIE + '" data-sku="' + value.SKU.toLowerCase() + '">' +
-							'<img data-original="<?php echo get_store_upload_url() . '/items-images/';?>' + ImagePath + '" width="100" style="max-height:64px;" class="img-responsive img-rounded lazy">' +
+							'<img data-original="<?php echo get_store_upload_url() . '/items-images/';?>' + ImagePath + '" width="100" style="max-height:64px;min-height: 64px;" class="img-responsive img-rounded lazy">' +
 							'<div class="caption text-center" style="padding:2px;overflow:hidden;"><strong class="item-grid-title">' + design + '</strong><br>' +
 							'<span class="align-center">' + NexoAPI.DisplayMoney( MainPrice ) + '</span>' + Discounted +
 							'</div>' +
@@ -2860,7 +2861,6 @@ NexoAPI.events.addFilter( 'cart_item_name', ( data ) => {
 			} else if ( window.innerWidth >= 1200 ) {
 				this.screenIs         =   'xg';
 			}
-			console.log( 'Screen is : ' + this.screenIs );
 		}
 
 		this.is 			=   function( value ) {

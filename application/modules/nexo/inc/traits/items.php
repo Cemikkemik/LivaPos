@@ -188,6 +188,39 @@ trait Nexo_items
             ->or_where('SKU', $id)
             ->get( store_prefix() . 'nexo_articles')
             ->result();
+
+            /**
+             * We would like to include the stock for the items grouped
+             */
+            if ( $result[0]->TYPE == '3' ) {
+                $meta   =   $this->db->where( 'REF_ARTICLE', $result[0]->ID )
+                ->where( 'KEY', 'included_items' )
+                ->get( store_prefix() . 'nexo_articles_meta' )
+                ->result_array();
+
+                /**
+                 * if meta is set
+                 */
+                if ( $meta ) {
+                    $items  =   json_decode( $meta[0][ 'VALUE' ] );
+                    
+                    foreach ( $items as $includedItem ) {
+                        $_item   =  $this->db->where( 'CODEBAR', $includedItem->barcode )
+                        ->get( store_prefix() . 'nexo_articles' )
+                        ->result_array();
+
+                        /**
+                         * we're including the included items
+                         */
+                        if ( @$result[0]->INCLUDED_ITEMS == null ) {
+                            $result[0]->INCLUDED_ITEMS  =   [];
+                        }
+
+                        $result[0]->INCLUDED_ITEMS[]    =   array_merge( $_item[0], ( array )  $includedItem );
+                    }
+                }
+            }
+
             $result        ?    $this->response($result, 200)  : $this->response(array(), 404);
         } elseif( $filter == 'search' ) {
             $result        =    $this->db
@@ -230,7 +263,9 @@ trait Nexo_items
     public function search_item_get() 
     {
         $result        =    $this->db
-        ->like( 'DESIGN', $this->get( 'search' ) )
+        ->or_like( 'DESIGN', $this->get( 'search' ) )
+        ->or_like( 'CODEBAR', $this->get( 'search' ) )
+        ->or_like( 'SKU', $this->get( 'search' ) )
         ->get( store_prefix() . 'nexo_articles')
         ->result();
         $result        ?    $this->response($result, 200)  : $this->response(array(), 404);

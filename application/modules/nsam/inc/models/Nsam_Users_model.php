@@ -12,6 +12,7 @@ class Nsam_Users_model extends grocery_CRUD_model
           ' . $this->db->dbprefix( 'aauth_groups' ) . '.`name` as `groups`, 
           ' . $this->db->dbprefix( 'aauth_users' ) . '.`name` as `name`, 
           ' . $this->db->dbprefix( 'aauth_users' ) . '.`id` as `id`, 
+          ' . $this->db->dbprefix( 'aauth_users' ) . '.`banned` as `banned`, 
           ' . $this->db->dbprefix( 'aauth_groups' ) . '.`id` as `group_id`,
           ' . $this->db->dbprefix( 'aauth_users' ). '.*
           FROM ' . $this->db->dbprefix( 'aauth_users' ) . ' 
@@ -25,6 +26,7 @@ class Nsam_Users_model extends grocery_CRUD_model
           AND ( 
                SELECT `value` FROM ' . $this->db->dbprefix( 'options' ) . ' 
                WHERE ' . $this->db->dbprefix( 'options' ) . '.key = CONCAT( \'store_access_\', ' . $this->db->dbprefix( 'aauth_users' ) . '.`id`, "_'. get_store_id() .'" )
+               LIMIT 1
           ) = "yes"
           LIMIT 10';
           $query=$this->db->query( $this->query_str);

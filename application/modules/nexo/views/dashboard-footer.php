@@ -3,9 +3,9 @@
         "use strict";
 
     /**
-        * Popup Print dialog
-        * @param string data
-        * @return bool
+    * Popup Print dialog
+    * @param string data
+    * @return bool
     **/
 
     NexoAPI.Popup			=	function(data) {

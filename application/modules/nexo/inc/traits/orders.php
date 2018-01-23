@@ -159,12 +159,67 @@ trait Nexo_orders
             ->get( store_prefix() . 'nexo_articles' )
             ->result_array();
 
+            /**
+             * deplete included items
+             * only works for grouped items
+             */
+            if ( $fresh_item[0][ 'TYPE' ] === '3' && $fresh_item[0][ 'STOCK_ENABLED' ] == '1' ) {
+                $meta   =   $this->db->where( 'REF_ARTICLE', $fresh_item[0][ 'ID' ] )
+                ->where( 'KEY', 'included_items' )
+                ->get( store_prefix() . 'nexo_articles_meta' )
+                ->result_array();
+
+                /**
+                 * if meta is set
+                 */
+                if ( $meta ) {
+                    $items  =   json_decode( $meta[0][ 'VALUE' ] );
+                    
+                    foreach ( $items as $includedItem ) {
+
+                        $totalQuantity      =   ( floatval( $includedItem->quantity ) * floatval( $item[ 'qte_added' ] ) );
+
+                        // Add history for this item on stock flow
+                        $stock_flow     =   [
+                            'REF_ARTICLE_BARCODE'       =>  $includedItem->barcode,
+                            'QUANTITE'                  =>  $totalQuantity,
+                            'UNIT_PRICE'                =>  $includedItem->sale_price,
+                            'TOTAL_PRICE'               =>  floatval( $includedItem->sale_price ) * $totalQuantity,
+                            'REF_COMMAND_CODE'          =>  $order_details[ 'CODE' ],
+                            'AUTHOR'                    =>  User::id(),
+                            'DATE_CREATION'             =>  date_now(),
+                            'TYPE'                      =>  'sale'
+                        ];
+
+                        $__included     =   $this->db->where( 'CODEBAR', $includedItem->barcode )
+                        ->get( store_prefix() . 'nexo_articles' )
+                        ->result_array();
+
+                        // if item is a physical item, than we can consider using before and after quantity
+                        if( @$__included[0][ 'TYPE' ] === '1' ) {
+                            $stock_flow[ 'BEFORE_QUANTITE' ]    =   $__included[0][ 'QUANTITE_RESTANTE' ];
+                            $stock_flow[ 'AFTER_QUANTITE' ]     =   floatval( $__included[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $totalQuantity );
+                        }
+                        
+                        $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', $stock_flow);
+
+                        /**
+                         * updating included item stock
+                         */
+                        $this->db->where( 'CODEBAR', $includedItem->barcode )
+                        ->set( 'QUANTITE_RESTANTE', 'QUANTITE_RESTANTE-' . $totalQuantity, false )
+                        ->set( 'QUANTITE_VENDU', 'QUANTITE_VENDU+' . $totalQuantity, false )
+                        ->update( store_prefix() . 'nexo_articles' );
+                    }
+                }
+            }
+
 			/**
              * If Stock Enabled is active
              * stock enable is not checked for inline items
             **/
             
-			if( intval( $item[ 'stock_enabled' ] ) == '1' && ! in_array( $item[ 'inline' ], [ 'true', '1' ]) ) {
+			if( intval( $item[ 'stock_enabled' ] ) == '1' && ! in_array( $item[ 'inline' ], [ 'true', '1' ]) && $fresh_item[0][ 'TYPE' ] != '3' ) {
 
                 $data                       =   [];
                 $data[ 'QUANTITE_VENDU' ]   =   intval( $fresh_item[0][ 'QUANTITE_VENDU' ]) + intval($item[ 'qte_added' ]);
@@ -189,16 +244,16 @@ trait Nexo_orders
 			}
 
 			$item_data		=	array(
-				'REF_PRODUCT_CODEBAR'  =>    $item[ 'codebar' ],
-				'REF_COMMAND_CODE'     =>    $order_details[ 'CODE' ],
-                'QUANTITE'             =>    $item[ 'qte_added' ],
-                'PRIX_BRUT'            =>    $item[ 'sale_price' ],
-				'PRIX'                 =>    floatval( $item[ 'sale_price' ] ) - $discount_amount,
-				'PRIX_TOTAL'           =>    ( __floatval($item[ 'qte_added' ]) * __floatval($item[ 'sale_price' ]) ) - $discount_amount,
+				'REF_PRODUCT_CODEBAR'       =>    $item[ 'codebar' ],
+				'REF_COMMAND_CODE'          =>    $order_details[ 'CODE' ],
+                'QUANTITE'                  =>    $item[ 'qte_added' ],
+                'PRIX_BRUT'                 =>    $item[ 'sale_price' ],
+				'PRIX'                      =>    floatval( $item[ 'sale_price' ] ) - $discount_amount,
+				'PRIX_TOTAL'                =>    ( __floatval($item[ 'qte_added' ]) * __floatval($item[ 'sale_price' ]) ) - $discount_amount,
 				// @since 2.9.0
-				'DISCOUNT_TYPE'			=>	$item['discount_type'],
-				'DISCOUNT_AMOUNT'		=>	$item['discount_amount'],
-				'DISCOUNT_PERCENT'		=>	$item['discount_percent'],
+				'DISCOUNT_TYPE'			    =>	$item['discount_type'],
+				'DISCOUNT_AMOUNT'		    =>	$item['discount_amount'],
+				'DISCOUNT_PERCENT'		    =>	$item['discount_percent'],
                 // @since 3.1
                 'NAME'                      =>    $item[ 'name' ],
                 'INLINE'                    =>    $item[ 'inline' ]
@@ -532,6 +587,62 @@ trait Nexo_orders
             $fresh_item    =    $this->db->where('CODEBAR', $item[ 'codebar' ])
             ->get( store_prefix() . 'nexo_articles')
             ->result_array();
+
+            /**
+             * deplete included items
+             * only works for grouped items
+             * @todo restore previouly bought items
+             */
+            if ( $fresh_item[0][ 'TYPE' ] === '3' && $fresh_item[0][ 'STOCK_ENABLED' ] == '1' ) {
+                $meta   =   $this->db->where( 'REF_ARTICLE', $fresh_item[0][ 'ID' ] )
+                ->where( 'KEY', 'included_items' )
+                ->get( store_prefix() . 'nexo_articles_meta' )
+                ->result_array();
+
+                /**
+                 * if meta is set
+                 */
+                if ( $meta ) {
+                    $items  =   json_decode( $meta[0][ 'VALUE' ] );
+                    
+                    foreach ( $items as $includedItem ) {
+
+                        $totalQuantity      =   ( floatval( $includedItem->quantity ) * floatval( $item[ 'qte_added' ] ) );
+
+                        // Add history for this item on stock flow
+                        $stock_flow     =   [
+                            'REF_ARTICLE_BARCODE'       =>  $includedItem->barcode,
+                            'QUANTITE'                  =>  $totalQuantity,
+                            'UNIT_PRICE'                =>  $includedItem->sale_price,
+                            'TOTAL_PRICE'               =>  floatval( $includedItem->sale_price ) * $totalQuantity,
+                            'REF_COMMAND_CODE'          =>  $order_details[ 'CODE' ],
+                            'AUTHOR'                    =>  User::id(),
+                            'DATE_CREATION'             =>  date_now(),
+                            'TYPE'                      =>  'sale'
+                        ];
+
+                        $__included     =   $this->db->where( 'CODEBAR', $includedItem->barcode )
+                        ->get( store_prefix() . 'nexo_articles' )
+                        ->result_array();
+
+                        // if item is a physical item, than we can consider using before and after quantity
+                        if( @$__included[0][ 'TYPE' ] === '1' ) {
+                            $stock_flow[ 'BEFORE_QUANTITE' ]    =   $__included[0][ 'QUANTITE_RESTANTE' ];
+                            $stock_flow[ 'AFTER_QUANTITE' ]     =   floatval( $__included[0][ 'QUANTITE_RESTANTE' ] ) - floatval( $totalQuantity );
+                        }
+                        
+                        $this->db->insert( store_prefix() . 'nexo_articles_stock_flow', $stock_flow);
+
+                        /**
+                         * updating included item stock
+                         */
+                        $this->db->where( 'CODEBAR', $includedItem->barcode )
+                        ->set( 'QUANTITE_RESTANTE', 'QUANTITE_RESTANTE-' . $totalQuantity, false )
+                        ->set( 'QUANTITE_VENDU', 'QUANTITE_VENDU+' . $totalQuantity, false )
+                        ->update( store_prefix() . 'nexo_articles' );
+                    }
+                }
+            }
 
 			/**
 			 * If Stock Enabled is active

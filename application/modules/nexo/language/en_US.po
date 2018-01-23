@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NexoPOS App Translation\n"
 "POT-Creation-Date: 2018-01-12 21:57+0100\n"
-"PO-Revision-Date: 2018-01-12 21:58+0100\n"
+"PO-Revision-Date: 2018-01-23 01:58+0100\n"
 "Last-Translator: \n"
 "Language-Team: NexoPOS Dev Team <contact@nexopos.com>\n"
 "Language: en_US\n"
@@ -5276,16 +5276,12 @@ msgid "Historique d'activité sur le produit"
 msgstr "Activity on the product history"
 
 #: views/items/history/dom.php:24
-#, fuzzy
 msgid "Avant"
-msgstr ""
-"Please make sure to send at least one item on defective or stock in use, "
-"before proceed to refund."
+msgstr "Before"
 
 #: views/items/history/dom.php:26
-#, fuzzy
 msgid "Après"
-msgstr "After the expiry date, the coupon will no longer be usable."
+msgstr "After"
 
 #: views/items/parts.php:17
 #, fuzzy

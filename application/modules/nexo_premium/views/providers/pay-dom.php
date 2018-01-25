@@ -20,7 +20,7 @@
                </div>
 
                <input type="submit" value="<?php echo __( 'Enregistrer le paiement', 'nexo_premium' );?>" class="btn btn-primary">         
-               <a href="<?php echo dashboard_url([ 'fournisseurs', 'list']);?>" class="btn btn-default"><?php echo __( 'Annuler', 'nexo_premium' );?></a>
+               <a href="<?php echo dashboard_url([ 'providers']);?>" class="btn btn-default"><?php echo __( 'Annuler', 'nexo_premium' );?></a>
           </form>
      </div>
 </div>

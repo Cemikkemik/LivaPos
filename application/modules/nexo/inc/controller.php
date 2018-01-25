@@ -182,6 +182,10 @@ class Nexo_Controller extends CI_Model
 					'href'        =>    dashboard_url([ 'items' ,'add' ]),
 				),
 				array(
+					'title'        =>    __('Ajouter des produits groupés', 'nexo'),
+					'href'        =>    dashboard_url([ 'grouped-items' ,'add' ]),
+				),
+				array(
 					'title'         =>  __( 'Importer les articles', 'nexo' ),
 					'href'          =>  dashboard_url([ 'items', 'import' ])
 				),

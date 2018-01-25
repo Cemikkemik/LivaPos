@@ -382,3 +382,19 @@ function dashboard_url( $url ) {
 function api_url( $url ) {
     return site_url( array_merge([ 'api' ], $url ) ) . store_get_param('?');
 }
+
+/**
+ * Array in 
+ * @param array
+ * @param array
+ * @return boolean
+ */
+function array_in( array $needle, array $array ) {
+    $isMissing  = true;
+    foreach ( $needle as $need ) {
+        if ( ! in_array( $need, $array ) ) {
+           $isMissing  = false;
+        }
+    }
+    return $isMissing;
+}

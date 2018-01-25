@@ -21,6 +21,10 @@ class ComposerStaticInit54edb9b31ab1cd4bd63a507380e820af
         array (
             'Picqer\\Barcode\\' => 15,
         ),
+        'G' => 
+        array (
+            'GO\\' => 3,
+        ),
         'D' => 
         array (
             'Dompdf\\' => 7,
@@ -28,6 +32,7 @@ class ComposerStaticInit54edb9b31ab1cd4bd63a507380e820af
         'C' => 
         array (
             'Curl\\' => 5,
+            'Cron\\' => 5,
             'Carbon\\' => 7,
         ),
     );
@@ -49,6 +54,10 @@ class ComposerStaticInit54edb9b31ab1cd4bd63a507380e820af
         array (
             0 => __DIR__ . '/..' . '/picqer/php-barcode-generator/src',
         ),
+        'GO\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/peppeocchi/php-cron-scheduler/src/GO',
+        ),
         'Dompdf\\' => 
         array (
             0 => __DIR__ . '/..' . '/dompdf/dompdf/src',
@@ -56,6 +65,10 @@ class ComposerStaticInit54edb9b31ab1cd4bd63a507380e820af
         'Curl\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-curl-class/php-curl-class/src/Curl',
+        ),
+        'Cron\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron',
         ),
         'Carbon\\' => 
         array (

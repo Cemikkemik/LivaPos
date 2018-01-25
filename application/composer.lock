@@ -118,16 +118,16 @@
         },
         {
             "name": "pecee/simple-router",
-            "version": "3.4.8.0",
+            "version": "3.4.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/skipperbent/simple-php-router.git",
-                "reference": "877e0aa937fb8ad6dc83a59827052d7fbcf70e5e"
+                "reference": "9a7b59888009e26790cae9f24eeb6ffd3e051f90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/skipperbent/simple-php-router/zipball/877e0aa937fb8ad6dc83a59827052d7fbcf70e5e",
-                "reference": "877e0aa937fb8ad6dc83a59827052d7fbcf70e5e",
+                "url": "https://api.github.com/repos/skipperbent/simple-php-router/zipball/9a7b59888009e26790cae9f24eeb6ffd3e051f90",
+                "reference": "9a7b59888009e26790cae9f24eeb6ffd3e051f90",
                 "shasum": ""
             },
             "require": {
@@ -162,7 +162,7 @@
                 "routing",
                 "simple-php-router"
             ],
-            "time": "2017-12-06T18:06:09+00:00"
+            "time": "2018-01-06T02:33:13+00:00"
         },
         {
             "name": "rmccue/requests",
@@ -274,16 +274,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v3.4.1",
+            "version": "v3.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "e05b0a5996ad7a35ba3a19ffad8b72c9daa64dfa"
+                "reference": "17b5962d252b2d6d1d37a2485ebb7ddc5b2bef0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/e05b0a5996ad7a35ba3a19ffad8b72c9daa64dfa",
-                "reference": "e05b0a5996ad7a35ba3a19ffad8b72c9daa64dfa",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/17b5962d252b2d6d1d37a2485ebb7ddc5b2bef0a",
+                "reference": "17b5962d252b2d6d1d37a2485ebb7ddc5b2bef0a",
                 "shasum": ""
             },
             "require": {
@@ -338,7 +338,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-27T14:23:00+00:00"
+            "time": "2018-01-03T07:37:34+00:00"
         }
     ],
     "packages-dev": [],

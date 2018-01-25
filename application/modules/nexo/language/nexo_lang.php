@@ -125,3 +125,4 @@ $lang[ 'adjustment' ]			     =	__( 'Réduction', 'nexo' );
 $lang[ 'import' ]			          =	__( 'Importé', 'nexo' );
 $lang[ 'sale' ]                         =    __( 'Vente', 'nexo' );
 $lang[ 'store-closed' ]			    =	tendoo_error( __( 'Vous ne pouvez pas accéder à cette boutique, car elle est fermée.', 'nexo' ) );
+$lang[ 'grouped_item' ]             =   __( 'Produits Groupés', 'nexo' );

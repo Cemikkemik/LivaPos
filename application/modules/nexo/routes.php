@@ -6,6 +6,7 @@ $Routes->get( 'nexo/templates/customers-main', 'NexoTemplateController@customers
 $Routes->get( 'nexo/templates/customers-form', 'NexoTemplateController@customers_form' );
 $Routes->get( 'nexo/templates/shippings', 'NexoTemplateController@shippings' );
 $Routes->get( 'nexo/template/{name}', 'NexoTemplateController@load' );
+$Routes->post( 'nexo/stores/{param?}/{id?}', 'NexoStoreController@lists' );
 
 $Routes->match([ 'get', 'post' ], 'stores/{id}/{any?}', 'NexoStoreController@stores' )->where([ 
     'id'      => '[0-9]+', 

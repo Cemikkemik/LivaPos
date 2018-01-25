@@ -1,22 +1,37 @@
 <div class="row checkout-header" ng-controller="checkoutHeaderCTRL">
     <div class="col-lg-6" style="margin-bottom:10px">
-        <?php foreach( $this->events->apply_filters( 'checkout_header_menus_1', [
-            [
+        <?php
+        /**
+         * If cashier see order list
+         */
+
+        $menus  =   [];
+        if ( User::can( 'nexo.view.orders' ) ) {
+            $menus[]    =   [
                 'class' =>  'default',
                 'text'  =>  __( 'Tableau de bord', 'nexo' ),
                 'icon'  =>  'home',
                 'attrs' =>  [
                     'ng-click'  =>  'goTo( \'' . dashboard_url([ 'orders' ] ) . '\' )'
                 ]
-            ], [
+            ];
+        }
+        
+        /**
+         * If cashier can use Hold order button
+         */
+        if ( true ) {
+            $menus[]    =   [
                 'class' =>  'default history-box-button',
                 'text'  =>  __( 'En Attente', 'nexo' ),
                 'icon'  =>  'history',
                 'attrs' =>  [
                     'ng-click'  =>  'openHistoryBox()'
                 ]
-            ]
-        ]) as $menu ) {
+            ];
+        }
+        
+        foreach( $this->events->apply_filters( 'checkout_header_menus_1', $menus ) as $menu ) {
             $attrs      =   '';
             if( is_array( @$menu[ 'attrs' ] ) ) {
                 foreach( @$menu[ 'attrs' ] as $name => $value ) {
@@ -44,6 +59,13 @@
                 'icon'  =>  'calculator',
                 'attrs' =>  [
                     'ng-click'  =>  'openCalculator()',
+                ]
+            ], [
+                'class' =>  'warning',
+                'text'  =>  __( 'Déconnexion', 'nexo' ),
+                'icon'  =>  'sign-out',
+                'attrs' =>  [
+                    'ng-click'  =>  'signOut()',
                 ]
             ]
         ]) as $menu ) {

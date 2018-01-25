@@ -69,7 +69,7 @@ if ($Cache->get($report_slug) == false || @$_GET[ 'refresh' ] == 'true') {
 $( document ).ready(function(e) {
     $( '.circonstrire' ).bind( 'submit', function() {
 		if( $( '#report_date' ).val() != '' ) {
-			document.location =	'<?php echo site_url(array( 'dashboard', 'nexo_premium', 'Controller_Stats_Des_Ventes' ));
+			document.location =	'<?php echo dashboard_url([ 'reports', 'sales-stats' ]);
     ?>/' + $( '#report_date' ).val();
 		} else {
 			bootbox.alert( '<?php _e('Vous devez spécifier une date', 'nexo_premium');

@@ -107,6 +107,10 @@
 							<th style="width:50%"><?php echo __( 'Sous-Total', 'nexo' );?></th>
 							<td>{{ subTotal( data.products ) | moneyFormat }}</td>
 						</tr>
+						<tr ng-show="getDiscount() != 0">
+							<th><?php echo __( 'Remise', 'nexo' );?>:</th>
+							<td>{{ getDiscount() | moneyFormat }}</td>
+						</tr>
 						<tr>
 							<th><?php echo __( 'Livraison', 'nexo' );?>:</th>
 							<td>{{ data.order[0].SHIPPING_AMOUNT | moneyFormat }}</td>

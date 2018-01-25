@@ -7,6 +7,10 @@ class NexoItemsController extends CI_Model
             return nexo_access_denied();
         }
 
+        $this->events->add_action( 'dashboard_footer', function(){
+            get_instance()->load->module_view( 'nexo', 'items.style' );
+        });
+
         // @since 3.0.20
         /**
          * We can't allo stock modification from the item no more
@@ -33,7 +37,18 @@ class NexoItemsController extends CI_Model
         $crud->set_subject(__('Articles', 'nexo'));
 
 		global $PageNow;
-		$PageNow			=	'nexo/produits';
+        $PageNow			=	'nexo/produits';
+        
+        $this->events->add_filter( 'grocery_crud_list_item_class', function( $class, $row ) {
+            $item       =   get_instance()->db->where( 'ID', $row->ID )
+            ->get( store_prefix() . 'nexo_articles' )
+            ->result_array();
+
+            if ( $item[0][ 'STATUS' ] == 2 ) {
+                return 'not-available';
+            }
+            return $class;
+        }, 10, 2 );
 
 
         $crud->set_table($this->db->dbprefix( store_prefix() . 'nexo_articles'));
@@ -49,7 +64,6 @@ class NexoItemsController extends CI_Model
         }
 
 		$crud->add_group( 'details', __( 'Identification', 'nexo' ), $details_fields, 'fa-tag' );
-
         $item_stock     =   $this->config->item( 'nexo_item_stock_group' );
         
         if( $currentScreen == 'edit' ) {
@@ -61,7 +75,6 @@ class NexoItemsController extends CI_Model
         }
 
 		$crud->add_group( 'stock', __( 'Inventaire', 'nexo' ), $item_stock, 'fa-archive' );
-
         $price_group        =   $this->config->item( 'nexo_item_price_group' );
 
         if( $currentScreen == 'edit' ) {
@@ -81,14 +94,15 @@ class NexoItemsController extends CI_Model
 			'DESIGN',
 			'REF_CATEGORIE',
             'PRIX_DE_VENTE_TTC',
-			'PRIX_DACHAT', 
+			// 'PRIX_DACHAT', 
             'REF_TAXE',
-			'QUANTITE_RESTANTE',
+            'TAX_TYPE',
+            'QUANTITE_RESTANTE',
 			// 'QUANTITE_VENDU',
 			// 'DEFECTUEUX',			
 			'TYPE',
 			'STATUS',
-			'CODEBAR'
+			// 'CODEBAR'
         ];
 
         $columns        =   $this->events->apply_filters( 'product_columns', $columns );
@@ -98,11 +112,11 @@ class NexoItemsController extends CI_Model
 		);
 
         $crud->callback_column( 'PRIX_DE_VENTE_TTC', function( $price ){
-            return $this->Nexo_Misc->cmoney_format( $price, true );
+            get_instance()->load->model( 'Nexo_Misc' ); return get_intance()->Nexo_Misc->cmoney_format( $price, true );
         });
 
         $crud->callback_column( 'PRIX_DACHAT', function( $price ){
-            return $this->Nexo_Misc->cmoney_format( $price, true );
+            get_instance()->load->model( 'Nexo_Misc' ); return get_intance()->Nexo_Misc->cmoney_format( $price, true );
         });
         
         $crud->callback_column( 'REF_TAXE', function( $tax ){
@@ -152,18 +166,30 @@ class NexoItemsController extends CI_Model
 		$crud->display_as( 'STOCK_ENABLED', __( 'Gestion de stock', 'nexo' ) );
 		$crud->display_as( 'BARCODE_TYPE', __( 'Type de code barre', 'nexo' ) );
 		$crud->display_as( 'AUTO_BARCODE', __( 'Générer une étiquette automatiquement', 'nexo' ) );
-        $crud->display_as( 'SHADOW_PRICE', __( 'Prix fictif', 'nexo' ) );
+        // $crud->display_as( 'SHADOW_PRICE', __( 'Prix fictif', 'nexo' ) ); @deprecated
         $crud->display_as( 'REF_PROVIDER', __( 'Fournisseur', 'nexo' ) );
+        $crud->display_as( 'TAX_TYPE', __('Type de taxe', 'nexo'));
+        $crud->display_as( 'STOCK_ALERT', __('Activer les alertes pour le stock faible', 'nexo'));
+        $crud->display_as( 'ALERT_QUANTITY', __('Seuil pour alerte', 'nexo'));
+        $crud->display_as( 'ON_EXPIRE_ACTION', __('Action en cas d\'expiration', 'nexo'));
+        $crud->display_as( 'EXPIRATION_DATE', __('Date d\'expiration', 'nexo'));
 
 		$crud->field_description( 'AUTO_BARCODE', __( 'Lorsque cette option est activée, Après la création/mise à jour de cet article, une étiquette sera générée en fonction du type de code barre. Si cette option est désactivée, alors le champ "Code barre" sera utilsiée pour générer l\'étiquette de l\'article. Assurez-vous de définir une valeur unique.', 'nexo' ) );
 		$crud->field_description( 'BARCODE_TYPE', __( 'Si la valeur de ce champ est vide et que l\'option "Générer une étiquette" est activée, alors le type de code barre utilisé sera celui des réglages des articles. Si aucun réglage n\'est défini, la génération de l\'étiquette sera ignorée.', 'nexo' ) );
 		$crud->field_description( 'CODEBAR', __( 'Si la valeur de ce champ est vide et que l\'option "Générer un étiquette" est activée, la génération d\'une étiquette sera ignorée.', 'nexo' ) );
         $crud->field_description( 'PRIX_DACHAT', __( 'Le prix d\'achat représente la valeur du produit à l\'achat. Cette valeur sera utile pour déterminé la marge des bénéfices.', 'nexo' ) );
         $crud->field_description( 'PRIX_DE_VENTE', __( 'Le prix de vente peut être différent du prix de vente affiché sur le point de vente. Sa valeur pourra varifier selon la taxe applicable sur le produit.', 'nexo' ) );
-        $crud->field_description( 'SHADOW_PRICE', __( 'Si vos clients ont la capacité de discuter les prix. Vous pouvez définir le prix fictif affiché. Le prix de vente sera considéré comme prix minimal du produit.', 'nexo' ) );
+        // $crud->field_description( 'SHADOW_PRICE', __( 'Si vos clients ont la capacité de discuter les prix. Vous pouvez définir le prix fictif affiché. Le prix de vente sera considéré comme prix minimal du produit.', 'nexo' ) ); @deprecated
         $crud->field_description( 'PRIX_PROMOTIONEL', __( 'Le prix promotionnel est un prix de vente spécial applicable à un produit durant une période spécifique.', 'nexo' ) );
         $crud->field_description( 'QUANTITY', __( 'Il s\'agit ici de la quantité initiale qui sera considérée comme quantité d\'approvisionnement.', 'nexo' ) );
         $crud->field_description( 'REF_PROVIDER', __( 'Lorsque qu\'un produit est crée, il est nécessaire de définir son fournisseur, cette information sera utilisée pour identifier ce dernier sur l\'approvisionnement principal.', 'nexo' ) );
+        $crud->field_description( 'TAX_TYPE', __( 'Permet de définir si la taxe est incluse ou excluse.', 'nexo' ) );
+        $crud->field_description( 'ALERT_QUANTITY', __( 'Seuil a atteindre pour activer la notification du stock inférieure.', 'nexo' ) );
+        $crud->field_description( 'STOCK_ALERT', __( 'Permet d\'activer l\'alerte lorsque le stock du produit atteint le seuil définit.', 'nexo' ) );
+        $crud->field_description( 'EXPIRATION_DATE', __( 'Si le produit expire à un moment précis. Vous pouvez définir la date d\'expiration', 'nexo' ) );
+        $crud->field_description( 'ON_EXPIRE_ACTION', __( 'Déterminer l\'action après l\'expiration d\'un produit', 'nexo' ) );
+        $crud->field_description( 'STATUS', __( 'Définir si le produit est disponible pour la vente ou pas.', 'nexo' ) );
+        $crud->field_description( 'STOCK_ENABLED', __( 'Les produits avec le stock activé, verront leur inventaire affecté par les ventes.', 'nexo' ) );
         
         $crud->field_description( 
             'REF_TAXE', 
@@ -224,7 +250,22 @@ class NexoItemsController extends CI_Model
 		$crud->field_type( 'STATUS', 'dropdown', $this->config->item('nexo_item_status'));
 		$crud->field_type( 'STOCK_ENABLED', 'dropdown', $this->config->item('nexo_item_stock'));
 		$crud->field_type( 'AUTO_BARCODE', 'dropdown', $this->config->item('nexo_yes_no' ) );
-		$crud->field_type( 'BARCODE_TYPE', 'dropdown', $this->config->item( 'nexo_barcode_supported' ) );
+        $crud->field_type( 'BARCODE_TYPE', 'dropdown', $this->config->item( 'nexo_barcode_supported' ) );
+
+        $crud->field_type( 'ON_EXPIRE_ACTION', 'dropdown', [
+            'lock_sales'  =>  __( 'Empêcher les ventes', 'nexo' ),
+            'allow_sales'   =>  __( 'Autoriser les ventes', 'nexo' )
+        ]);
+
+        $crud->field_type( 'TAX_TYPE', 'dropdown', [
+            'inclusive'  =>  __( 'Inclusive', 'nexo' ),
+            'exclusive'   =>  __( 'Exclusive', 'nexo' )
+        ]);
+
+        $crud->field_type( 'STOCK_ALERT', 'dropdown', [
+            'enabled'  =>  __( 'Activé', 'nexo' ),
+            'disabled'   =>  __( 'Désactivé', 'nexo' )
+        ]);
 
         // Callback Before Render
         $crud->callback_before_insert(array( 	$this->Nexo_Products, 'product_save' ) );
@@ -297,6 +338,17 @@ class NexoItemsController extends CI_Model
                     array( 'col'    =>    'REF_PRODUCT_CODEBAR', 'table'    =>   store_prefix() . 'nexo_commandes_produits' )
                 ));
 
+            }
+        } else if ( $page == 'edit' ) {
+            $this->load->model( 'Nexo_Products' );
+            $item   =   $this->Nexo_Products->get_product( $id );
+            
+            /**
+             * if the item beign editing is a grouped item. Then we should redirect it 
+             * to the appropriate UI.
+             */
+            if ( $item[0][ 'TYPE' ] == '3' ) {
+                return redirect( dashboard_url([ 'grouped-items', 'edit', $item[0][ 'ID' ] ] ) );
             }
         } else {
             $this->Gui->set_title( store_title( __( 'Ajouter un nouvel article', 'nexo' ) ) );
@@ -486,11 +538,11 @@ class NexoItemsController extends CI_Model
         $crud->field_type( 'REF_ARTICLE_BARCODE', 'dropdown', $items );
 
         $crud->callback_column( 'UNIT_PRICE', function( $price ){
-            return $this->Nexo_Misc->cmoney_format( $price, true );
+            get_instance()->load->model( 'Nexo_Misc' ); return get_intance()->Nexo_Misc->cmoney_format( $price, true );
         });
 
         $crud->callback_column( 'TOTAL_PRICE', function( $price ){
-            return $this->Nexo_Misc->cmoney_format( $price, true );
+            get_instance()->load->model( 'Nexo_Misc' ); return get_intance()->Nexo_Misc->cmoney_format( $price, true );
         });
 
         $crud->set_relation('AUTHOR', 'aauth_users', 'name');
@@ -645,7 +697,6 @@ class NexoItemsController extends CI_Model
     public function add_supply()
     {
         // Redirect if multistore is enabled but not in use
-
         if( ( multistore_enabled() && ! is_multistore() ) && $this->events->apply_filters( 'force_show_inventory', false ) == false ) {
 			return show_error( __( 'Cette fonctionnalité a été désactivée', 'nexo' ) );
 		}
@@ -679,5 +730,87 @@ class NexoItemsController extends CI_Model
         $this->Gui->set_title( store_title( __( 'Historique du produit', 'nexo' ) ) );
 
         $this->load->module_view( 'nexo', 'items.history.gui' );
+    }
+
+    /**
+     * Creating Grouped Items
+     * @param void
+     */
+    public function grouped_items( $id = null )
+    {
+        $item   =   [];
+        $meta   =   [];
+        if ( $id != null ) {
+            $this->load->model( 'Nexo_Products' );
+            $item   =   $this->Nexo_Products->get_product( $id );
+            $meta   =   $this->Nexo_Products->get_product_meta( $id );
+        }
+        $this->enqueue->js('../plugins/bootstrap-select/dist/js/bootstrap-select.min');
+        $this->enqueue->css('../plugins/bootstrap-select/dist/css/bootstrap-select.min');
+        
+        $this->events->add_action( 'dashboard_footer', function() use ( $item, $meta ) {
+            get_instance()->load->module_view( 'nexo', 'items.grouped-items-script', compact( 'item', 'meta' ) );
+        });
+
+        $this->Gui->set_title( store_title( __( 'Grouper des produits', 'nexo' ) ) );
+        $this->load->module_view( 'nexo', 'items.grouped-items' );
+    }
+
+    /**
+     * Reset barcode
+     * @return view
+     */
+    public function reset_barcode()
+    {
+        $this->load->model( 'Nexo_Products' );
+        $this->Nexo_Products->reset_barcode();
+    }
+
+    /**
+     * Generate Barcode
+     * @return view
+     */
+    public function generate_barcode( $barcode, $type = null )
+    {
+        $this->load->model( 'Nexo_Products' );
+        $this->Nexo_Products->generate_barcode( $barcode, $type );
+    }
+
+    /**
+     * resample_barcode
+     * @return view
+     */
+    public function resample_barcode( $id, $barcode, $type = null ) 
+    {
+        $this->load->model( 'Nexo_Products' );
+        $this->Nexo_Products->resample_codebar( $id, $barcode, $type );
+    }
+
+    /**
+     * Upload Image
+     */
+    public function uploadImages()
+    {
+        $config['upload_path']          = './public/upload/' . ( get_store_id() !== 0 ? 'store_' . get_store_id() : '' ) . '/items-images/';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size']             = 1000;
+        $config['max_width']            = 1024;
+        $config['max_height']           = 768;
+
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload( 'file' ) ) {
+            return json_encode([
+                'status'    =>  'failed',
+                'message'   =>  $this->upload->display_errors()
+            ]);
+        } else {
+            $data = array('upload_data' => $this->upload->data());
+            return json_encode([
+                'status'    =>  'success',
+                'message'   =>  __( 'Opération effectuée', 'nexo' ),
+                'response'  =>  $data
+            ]);
+        }
     }
 }

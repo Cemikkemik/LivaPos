@@ -15,4 +15,5 @@ foreach( $stores as $store ) {
     // edit item price and taxes
     $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_articles_stock_flow` 
     CHANGE `REF_COMMAND_CODE` `REF_COMMAND_CODE` VARCHAR(200) NOT NULL;' );
+    
 }

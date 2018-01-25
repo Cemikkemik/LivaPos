@@ -171,76 +171,6 @@
         ]
     },
     {
-        "name": "symfony/translation",
-        "version": "v3.4.1",
-        "version_normalized": "3.4.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/translation.git",
-            "reference": "e05b0a5996ad7a35ba3a19ffad8b72c9daa64dfa"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/translation/zipball/e05b0a5996ad7a35ba3a19ffad8b72c9daa64dfa",
-            "reference": "e05b0a5996ad7a35ba3a19ffad8b72c9daa64dfa",
-            "shasum": ""
-        },
-        "require": {
-            "php": "^5.5.9|>=7.0.8",
-            "symfony/polyfill-mbstring": "~1.0"
-        },
-        "conflict": {
-            "symfony/config": "<2.8",
-            "symfony/dependency-injection": "<3.4",
-            "symfony/yaml": "<3.4"
-        },
-        "require-dev": {
-            "psr/log": "~1.0",
-            "symfony/config": "~2.8|~3.0|~4.0",
-            "symfony/dependency-injection": "~3.4|~4.0",
-            "symfony/finder": "~2.8|~3.0|~4.0",
-            "symfony/intl": "^2.8.18|^3.2.5|~4.0",
-            "symfony/yaml": "~3.4|~4.0"
-        },
-        "suggest": {
-            "psr/log": "To use logging capability in translator",
-            "symfony/config": "",
-            "symfony/yaml": ""
-        },
-        "time": "2017-11-27T14:23:00+00:00",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "3.4-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Symfony\\Component\\Translation\\": ""
-            },
-            "exclude-from-classmap": [
-                "/Tests/"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Translation Component",
-        "homepage": "https://symfony.com"
-    },
-    {
         "name": "nesbot/carbon",
         "version": "1.22.1",
         "version_normalized": "1.22.1.0",
@@ -297,17 +227,17 @@
     },
     {
         "name": "pecee/simple-router",
-        "version": "3.4.8.0",
-        "version_normalized": "3.4.8.0",
+        "version": "3.4.10.0",
+        "version_normalized": "3.4.10.0",
         "source": {
             "type": "git",
             "url": "https://github.com/skipperbent/simple-php-router.git",
-            "reference": "877e0aa937fb8ad6dc83a59827052d7fbcf70e5e"
+            "reference": "9a7b59888009e26790cae9f24eeb6ffd3e051f90"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/skipperbent/simple-php-router/zipball/877e0aa937fb8ad6dc83a59827052d7fbcf70e5e",
-            "reference": "877e0aa937fb8ad6dc83a59827052d7fbcf70e5e",
+            "url": "https://api.github.com/repos/skipperbent/simple-php-router/zipball/9a7b59888009e26790cae9f24eeb6ffd3e051f90",
+            "reference": "9a7b59888009e26790cae9f24eeb6ffd3e051f90",
             "shasum": ""
         },
         "require": {
@@ -316,7 +246,7 @@
         "require-dev": {
             "phpunit/phpunit": "4.7.7"
         },
-        "time": "2017-12-06T18:06:09+00:00",
+        "time": "2018-01-06T02:33:13+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -344,5 +274,75 @@
             "routing",
             "simple-php-router"
         ]
+    },
+    {
+        "name": "symfony/translation",
+        "version": "v3.4.3",
+        "version_normalized": "3.4.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/translation.git",
+            "reference": "17b5962d252b2d6d1d37a2485ebb7ddc5b2bef0a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/translation/zipball/17b5962d252b2d6d1d37a2485ebb7ddc5b2bef0a",
+            "reference": "17b5962d252b2d6d1d37a2485ebb7ddc5b2bef0a",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.5.9|>=7.0.8",
+            "symfony/polyfill-mbstring": "~1.0"
+        },
+        "conflict": {
+            "symfony/config": "<2.8",
+            "symfony/dependency-injection": "<3.4",
+            "symfony/yaml": "<3.4"
+        },
+        "require-dev": {
+            "psr/log": "~1.0",
+            "symfony/config": "~2.8|~3.0|~4.0",
+            "symfony/dependency-injection": "~3.4|~4.0",
+            "symfony/finder": "~2.8|~3.0|~4.0",
+            "symfony/intl": "^2.8.18|^3.2.5|~4.0",
+            "symfony/yaml": "~3.4|~4.0"
+        },
+        "suggest": {
+            "psr/log": "To use logging capability in translator",
+            "symfony/config": "",
+            "symfony/yaml": ""
+        },
+        "time": "2018-01-03T07:37:34+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.4-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Translation\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Translation Component",
+        "homepage": "https://symfony.com"
     }
 ]

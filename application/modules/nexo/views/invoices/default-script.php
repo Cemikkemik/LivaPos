@@ -27,7 +27,22 @@ tendooApp.controller( 'invoiceCTRL', [ '$scope', function( $scope ) {
     $scope.total        =   function(){
         let totalItems          =   parseFloat( $scope.subTotal( $scope.data.products ) );
         let totalShipping       =   parseFloat( $scope.data.order[0].SHIPPING_AMOUNT );
-        return totalItems   +   totalShipping;
+        return ( totalItems - $scope.getDiscount() )  +   totalShipping;
+    }
+
+    /**
+     * Calculate Discount
+     * @return discount
+     */
+    $scope.getDiscount    =   function(){
+        let order       =   $scope.data.order[0];
+        if ( $scope.data.order[0].REMISE_TYPE == 'percentage' ) {
+            let amount      =   ( parseFloat( order.REMISE_PERCENT ) * parseFloat( order.TOTAL ) ) / 100;
+            return amount;
+        } else {
+            return order.REMISE;
+        }
+        return 0;
     }
 }])
 </script>

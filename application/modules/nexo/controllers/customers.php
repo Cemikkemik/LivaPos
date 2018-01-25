@@ -84,7 +84,8 @@ class NexoCustomersController extends CI_Model
         $crud->callback_before_insert(array( $this, '__insert' ));
 
         $crud->callback_column( 'TOTAL_SEND', function( $data ){
-            return $this->Nexo_Misc->cmoney_format( $data, true );
+            get_instance()->load->model( 'Nexo_Misc' );
+            return get_instance()->Nexo_Misc->cmoney_format( $data, true );
         });
 
         $crud->callback_column( 'EMAIL', function( $data ){

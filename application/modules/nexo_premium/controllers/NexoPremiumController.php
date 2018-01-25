@@ -287,54 +287,6 @@ class NexoPremiumController extends Tendoo_Module
             $this->Gui->set_title( store_title( __('Liste des factures', 'nexo_premium') ));
         } elseif ($page == 'delete') {
             nexo_permission_check('delete_shop_purchases_invoices');
-        } elseif( $page == 'provider' && $index != null ) {
-            // if the payable account is not set
-            // then redirect to the config page
-            if( empty( store_option( 'providers_account_category' ) ) ) {
-                return redirect([ 'dashboard', store_slug(), 'nexo', 'settings', 'providers?notice=provider_account_cateogry_missing' ]);
-            }
-            // if page is set to 'provider'
-            // means we would like to pay a provider
-            if( $page == 'provider' ) {
-                $this->load->library('user_agent');
-                $this->load->model( 'Nexo_Misc' );
-                $provider       =   $this->db->where( 'ID', $index )->get( store_prefix() . 'nexo_fournisseurs' )
-                ->result_array();
-
-                if( ! $provider ) {
-                    $returnLink             =   '';
-                    if( $this->agent->is_referral() ) {
-                        $returnLink =  sprintf( __( '<a href="%s">Return</a>', 'nexo_premium' ), $this->agent->referrer() );
-                    }
-
-                    return show_error( sprintf( 
-                        __( 'Unable to locate the provider. %s', 'nexo_premium' ),
-                        $returnLink
-                    ) );
-                }
-
-                $this->load->library( 'form_validation' );
-                $this->form_validation->set_rules( 'amount', __( 'Montant', 'nexo_premium' ), 'required|numeric' );
-
-                if( $this->form_validation->run() ) {
-                    $result             =   $this->Nexo_Misc->setPayment([
-                        'provider_id'   =>  $index,
-                        'amount'        =>  $this->input->post( 'amount' ),
-                        'description'   =>  $this->input->post( 'description' ),
-                        'ref_category'  =>  store_option( 'providers_account_category' )
-                    ]);
-
-                    if( $result == 'payment_made' ) {
-                        return redirect([ 'dashboard', store_slug(), 'nexo', 'fournisseurs', 'lists' ]);
-                    }
-                }
-
-                $this->Gui->set_title( store_title( 
-                    sprintf( __( 'Paiement d\'un fournisseur : %s', 'nexo_premium' ), $provider[0][ 'NOM' ] ) 
-                ) );
-            }
-
-            return $this->load->module_view( 'nexo_premium', 'providers.pay-gui' );
         } else {
             if (! User::can('nexo.view.invoices')) {
                 return nexo_access_denied();
@@ -345,6 +297,57 @@ class NexoPremiumController extends Tendoo_Module
 
         $data[ 'crud_content' ]    =    $this->invoice_header( $page, $index );
         $this->load->view('../modules/nexo_premium/views/factures.php', $data);
+    }
+
+    /**
+     * Invoice for supplier
+     */
+    public function supplier_expense( $index ) 
+    {
+        // if the payable account is not set
+        // then redirect to the config page
+        if( empty( store_option( 'providers_account_category' ) ) ) {
+            return redirect([ 'dashboard', store_slug(), 'nexo', 'settings', 'providers?notice=provider_account_cateogry_missing' ]);
+        }
+        
+        $this->load->library('user_agent');
+        $this->load->model( 'Nexo_Misc' );
+        $provider       =   $this->db->where( 'ID', $index )->get( store_prefix() . 'nexo_fournisseurs' )
+        ->result_array();
+
+        if( ! $provider ) {
+            $returnLink             =   '';
+            if( $this->agent->is_referral() ) {
+                $returnLink =  sprintf( __( '<a href="%s">Return</a>', 'nexo_premium' ), $this->agent->referrer() );
+            }
+
+            return show_error( sprintf( 
+                __( 'Unable to locate the provider. %s', 'nexo_premium' ),
+                $returnLink
+            ) );
+        }
+
+        $this->load->library( 'form_validation' );
+        $this->form_validation->set_rules( 'amount', __( 'Montant', 'nexo_premium' ), 'required|numeric' );
+
+        if( $this->form_validation->run() ) {
+            $result             =   $this->Nexo_Misc->setPayment([
+                'provider_id'   =>  $index,
+                'amount'        =>  $this->input->post( 'amount' ),
+                'description'   =>  $this->input->post( 'description' ),
+                'ref_category'  =>  store_option( 'providers_account_category' )
+            ]);
+
+            if( $result == 'payment_made' ) {
+                return redirect( dashboard_url([ 'providers']) );
+            }
+        }
+
+        $this->Gui->set_title( store_title( 
+            sprintf( __( 'Paiement d\'un fournisseur : %s', 'nexo_premium' ), $provider[0][ 'NOM' ] ) 
+        ) );
+
+        $this->load->module_view( 'nexo_premium', 'providers.pay-gui' );
     }
 
     /**
@@ -385,7 +388,7 @@ class NexoPremiumController extends Tendoo_Module
 
         $data[ 'start_date' ]    =    $start_date == null ? Carbon::parse(date_now()) : $start_date;
         $data[ 'end_date' ]        =    $end_date    == null ? Carbon::parse(date_now())->addMonths(1): $end_date;
-        $data[ 'cashiers' ]        =    $this->auth->list_users('shop.cashier');
+        $data[ 'cashiers' ]        =    $this->auth->list_users('store.cashier');
 
         // $this->enqueue->js( '../modules/nexo/bower_components/Chart.js/Chart.min' );
         $this->enqueue->js('../modules/nexo/bower_components/moment/min/moment.min');

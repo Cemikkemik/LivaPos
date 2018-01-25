@@ -10,7 +10,9 @@ return array(
     'Symfony\\Component\\Translation\\' => array($vendorDir . '/symfony/translation'),
     'Stripe\\' => array($vendorDir . '/stripe/stripe-php/lib'),
     'Picqer\\Barcode\\' => array($vendorDir . '/picqer/php-barcode-generator/src'),
+    'GO\\' => array($vendorDir . '/peppeocchi/php-cron-scheduler/src/GO'),
     'Dompdf\\' => array($vendorDir . '/dompdf/dompdf/src'),
     'Curl\\' => array($vendorDir . '/php-curl-class/php-curl-class/src/Curl'),
+    'Cron\\' => array($vendorDir . '/mtdowling/cron-expression/src/Cron'),
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
 );

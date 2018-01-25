@@ -93,8 +93,13 @@ var NexoCashierPerformance	=	new function(){
 			return;
 		}
 
-		$.ajax( '<?php echo site_url(array( 'nexo', 'cashier_performance' ));?>/by-days/' + start_date + '/' + end_date + '<?php echo store_get_param( '?' );?>', {
-			data	:	_.object( [ 'cashier_id' ], [ cashier_id ] ),
+		$.ajax( '<?php echo site_url(array( 'api', 'nexopos', 'cashiers_performance' ));?>' + '<?php echo store_get_param( '?' );?>', {
+			data	:	{
+				cashier_id,
+				start_date,
+				end_date,
+				filter 	:	'by-days'
+			},
 			type	:	'POST',
 			dataType:	"json",
 			success: function( data ){

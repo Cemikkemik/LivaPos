@@ -53,8 +53,8 @@ if( $rawCategories ) {
     $this->Gui->add_item( array(
     'type'          =>    'dom',
     'content'       =>    sprintf( 
-        __( 'Vous devez <a href="%s">créer une catégorie</a> afin de l\'assigner en tant que catégories pour les comptes créditeurs des fournisseurs.<br>', 'nexo' ),
-        site_url([ 'dashboard', store_slug(), 'nexo_premium', 'expenses_list', 'add' ])
+        __( 'Vous devez <a href="%s">créer une catégorie</a> afin de l\'assigner en tant que catégories pour les comptes créditeurs des fournisseurs.<br><br>', 'nexo' ),
+        dashboard_url([ 'expenses-categories', 'add' ])
     )
     ), 'nexo_providers', 1 );
 }

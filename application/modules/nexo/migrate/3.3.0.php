@@ -24,7 +24,10 @@ foreach( $stores as $store ) {
     ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;');
 
     // edit item price and taxes
-    $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_articles` 
-    ADD `REF_TAXE` INT NOT NULL AFTER `QUANTITE_VENDU`, 
-    ADD `PRIX_DE_VENTE_TTC` FLOAT NOT NULL AFTER `PRIX_DE_VENTE`;' );
+    $columns            =   $this->db->list_fields( $store_prefix . 'nexo_articles' );
+    if ( ! array_in([ 'REF_TAXE', 'PRIX_DE_VENTE_TTC' ], $columns ) ) {
+        $this->db->query( 'ALTER TABLE `' . $this->db->dbprefix . $store_prefix . 'nexo_articles` 
+        ADD `REF_TAXE` INT NOT NULL AFTER `QUANTITE_VENDU`, 
+        ADD `PRIX_DE_VENTE_TTC` FLOAT NOT NULL AFTER `PRIX_DE_VENTE`;' );
+    }
 }

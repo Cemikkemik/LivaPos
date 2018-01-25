@@ -112,11 +112,11 @@ class NexoItemsController extends CI_Model
 		);
 
         $crud->callback_column( 'PRIX_DE_VENTE_TTC', function( $price ){
-            return $this->Nexo_Misc->cmoney_format( $price, true );
+            get_instance()->load->model( 'Nexo_Misc' ); return get_intance()->Nexo_Misc->cmoney_format( $price, true );
         });
 
         $crud->callback_column( 'PRIX_DACHAT', function( $price ){
-            return $this->Nexo_Misc->cmoney_format( $price, true );
+            get_instance()->load->model( 'Nexo_Misc' ); return get_intance()->Nexo_Misc->cmoney_format( $price, true );
         });
         
         $crud->callback_column( 'REF_TAXE', function( $tax ){
@@ -538,11 +538,11 @@ class NexoItemsController extends CI_Model
         $crud->field_type( 'REF_ARTICLE_BARCODE', 'dropdown', $items );
 
         $crud->callback_column( 'UNIT_PRICE', function( $price ){
-            return $this->Nexo_Misc->cmoney_format( $price, true );
+            get_instance()->load->model( 'Nexo_Misc' ); return get_intance()->Nexo_Misc->cmoney_format( $price, true );
         });
 
         $crud->callback_column( 'TOTAL_PRICE', function( $price ){
-            return $this->Nexo_Misc->cmoney_format( $price, true );
+            get_instance()->load->model( 'Nexo_Misc' ); return get_intance()->Nexo_Misc->cmoney_format( $price, true );
         });
 
         $crud->set_relation('AUTHOR', 'aauth_users', 'name');

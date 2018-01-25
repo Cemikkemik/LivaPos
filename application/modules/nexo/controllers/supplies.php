@@ -22,7 +22,8 @@ class NexoSuppliesController extends CI_Model
 		$crud->set_table( $this->db->dbprefix( store_prefix() . 'nexo_arrivages' ) );
 
         $crud->callback_column( 'VALUE', function( $price ){
-            return $this->Nexo_Misc->cmoney_format( $price, true );
+            get_instance()->load->model( 'Nexo_Misc' );
+            return get_instance()->Nexo_Misc->cmoney_format( $price, true );
         });
 
 		// fields
@@ -243,6 +244,7 @@ class NexoSuppliesController extends CI_Model
         $crud->fields( 'QUANTITE', 'UNIT_PRICE', 'TOTAL_PRICE' );
 
         $crud->callback_column( 'UNIT_PRICE', function( $type ){
+            get_instance()->load->model( 'Nexo_Misc' );
             return get_instance()->Nexo_Misc->cmoney_format( $type );
         });
 

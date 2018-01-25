@@ -83,7 +83,8 @@ class NexoOrdersController extends CI_Model
 		// );
 
         $crud->callback_column( 'TOTAL', function( $price ){
-            return $this->Nexo_Misc->cmoney_format( $price, true );
+            get_instance()->load->model( 'Nexo_Misc' );
+            return get_instance()->Nexo_Misc->cmoney_format( $price, true );
         });
 
         $crud->callback_column( 'TITRE', function( $titre ) {

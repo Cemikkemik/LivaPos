@@ -45,7 +45,7 @@ class NexoProvidersController extends CI_Model
         $crud->display_as('DESCRIPTION', __('Description du fournisseur', 'nexo'));
 
         $crud->callback_column( 'PAYABLE', function( $price ){
-            return $this->Nexo_Misc->cmoney_format( $price, true );
+            get_instance()->load->model( 'Nexo_Misc' ); return get_intance()->Nexo_Misc->cmoney_format( $price, true );
         });
         
         // XSS Cleaner

@@ -72,7 +72,7 @@ $this->Gui->add_item(array(
 **/
 
 $this->load->model( 'Nexo_Misc' );
-$result			=	$this->Nexo_Misc->get_customers();
+$result			=	get_instance()->Nexo_Misc->get_customers();
 $options        =    array();
 
 foreach ($result as $_r) {

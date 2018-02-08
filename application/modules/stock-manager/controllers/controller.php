@@ -59,7 +59,7 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
         $crud->set_relation('FROM_STORE', 'nexo_stores', 'NAME');
         $crud->set_relation('DESTINATION_STORE', 'nexo_stores', 'NAME');
 
-        $crud->add_action(__('Transfert Invoice', 'nexo'), '', dashboard_url([ 'transfert-invoice' ]) . '/', 'fa fa-file');
+        $crud->add_action(__('Transfert Invoice', 'nexo'), '', dashboard_url([ 'transfert', 'invoice' ]) . '/', 'fa fa-file');
     
         $crud->callback_column( 'APPROUVED', function( $primary, $row ) {
             if( $row->APPROUVED == '0' ) {
@@ -98,19 +98,19 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
 
             if( intval( $query[0][ 'APPROUVED' ] ) == 0 && intval( $row->DESTINATION_STORE ) == get_store_id() ) { // means pending
 
-                $urls[ 'receive' ]   =   site_url([ 'dashboard', store_slug(), 'transfert', 'receive', $row->ID ]);
+                $urls[ 'receive' ]   =   dashboard_url([ 'transfert', 'receive', $row->ID ]);
                 $actions[ 'receive' ]                   =   new stdClass;
                 $actions[ 'receive' ]->css_class        =   'fa fa-check';
                 $actions[ 'receive' ]->label            =   __( 'Allow the Transfert', 'stock-manager' );
                 $actions[ 'receive' ]->text             =   __( 'Approuve', 'stock-manager' );
 
-                $urls[ 'refuse' ]                   =   site_url([ 'dashboard', store_slug(), 'transfert', 'reject', $row->ID ]);
+                $urls[ 'refuse' ]                   =   dashboard_url([ 'transfert', 'reject', $row->ID ]);
                 $actions[ 'refuse' ]                =   new stdClass;
                 $actions[ 'refuse' ]->css_class     =   'fa fa-remove';
                 $actions[ 'refuse' ]->label         =   __( 'Refuse', 'stock-manager' );
                 $actions[ 'refuse' ]->text             =   __( 'Reject', 'stock-manager' );
             } else if( intval( $query[0][ 'APPROUVED' ] ) == 0 && intval( $row->FROM_STORE ) == get_store_id() ) {
-                $urls[ 'void' ]                   =   site_url([ 'dashboard', store_slug(), 'transfert', 'cancel', $row->ID ]);
+                $urls[ 'void' ]                   =   dashboard_url([ 'transfert', 'cancel', $row->ID ]);
                 $actions[ 'void' ]                =   new stdClass;
                 $actions[ 'void' ]->css_class     =   'fa fa-remove';
                 $actions[ 'void' ]->label         =   __( 'Cancel', 'stock-manager' );
@@ -181,7 +181,7 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
      * @param void
      * @return void
      */
-    public function transfert_invoice()
+    public function transfert_invoice( $id )
     {
         $this->load->library( 'parser' );
         $this->load->module_model( 'stock-manager', 'transfert_model' );
@@ -306,7 +306,6 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
                     'DESCRIPTION'       =>  $transfert[0][ 'DESCRIPTION' ],
                     'VALUE'             =>  0,
                     'ITEMS'             =>  0,
-                    'REF_PROVIDERS'     =>  '',
                     'DATE_CREATION'     =>  date_now(),
                     'AUTHOR'            =>  User::id() 
                 ]);
@@ -367,7 +366,7 @@ class Nexo_Stock_Manager_Controller extends Tendoo_Module
         $this->transfert_model->status( $transfert_id, 1 );
 
         // redirect with errors
-        return redirect([ 'dashboard', store_slug(), 'stock-transfert', 'history?notice=done&errors=' . count( $failures )]);
+        return redirect( dashboard_url([ 'transfert', 'history?notice=done&errors=' . count( $failures )] ) );
     }
 
     /**

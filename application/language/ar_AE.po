@@ -1,0 +1,1146 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2018-02-07 22:28+0100\n"
+"PO-Revision-Date: 2018-02-08 10:48+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ar_AE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_s\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: modules\n"
+"X-Poedit-SearchPathExcluded-1: mu-modules\n"
+"X-Poedit-SearchPathExcluded-2: vendor\n"
+"X-Poedit-SearchPathExcluded-3: temp\n"
+
+#: config/nexo.php:46
+msgid "Pourcentage"
+msgstr "البورسنتاج"
+
+#: config/nexo.php:47
+#, fuzzy
+msgid "Montant Fixe"
+msgstr "المبلغ"
+
+#: config/oauth.php:11
+msgid "Access user details"
+msgstr "الوصول إلى تفاصيل المستخدم"
+
+#: config/oauth.php:12
+#, fuzzy
+msgid ""
+"The current request would like to access user informations such as name, "
+"email, except password"
+msgstr ""
+"يرغب الطلب الحالي في الوصول إلى معلومات المستخدم مثل الاسم والبريد "
+"الإلكتروني باستثناء كلمة المرور"
+
+#: config/oauth.php:19
+msgid "Control Tendoo CMS"
+msgstr "مراقبه Tendoo CMS"
+
+#: config/oauth.php:20
+msgid "Give full access to modules, users and options on Tendoo CMS."
+msgstr ""
+"منح الوصول الكامل إلى الوحدات النمطية والمستخدمين والخيارات علي Tendoo CMS"
+
+#: controllers/Dashboard.php:150
+#, php-format
+msgid "Dashboard &mdash; %s"
+msgstr "لوحه التحكم والمعلومات - %s"
+
+#: controllers/Dashboard.php:170
+#, php-format
+msgid "Settings &mdash; %s"
+msgstr "إعدادات - % s"
+
+#: controllers/Dashboard.php:292
+#, fuzzy, php-format
+msgid "The request returned the following message : %s<br>Code : %s"
+msgstr "الطلب إرجاع الرسالة التالية: %s<br>التعليمات البرمجية: %s"
+
+#: controllers/Dashboard.php:328
+#, fuzzy
+msgid "Upload a zip file"
+msgstr "ارفع ملف"
+
+#: controllers/Dashboard.php:333
+#, fuzzy
+msgid ""
+"An error occured during module installation. There was a file conflict "
+"during module installation process.<br>This file seems to be already "
+"installed : "
+msgstr ""
+"حدث خطأ أثناء تثبيت الوحدة النمطية. كان هناك تعارض ملف أثناء عملية تثبيت "
+"الوحدة النمطية. <br> يبدو أن هذا الملف مثبت مسبقا:"
+
+#: controllers/Dashboard.php:336
+#, php-format
+msgid "Module List &mdash; %s"
+msgstr "قائمه الوحدات النمطية - % s"
+
+#: controllers/Dashboard.php:349
+#, fuzzy
+msgid "Back to modules list"
+msgstr "العودة إلى قائمة الوحدات النمطية"
+
+#: controllers/Dashboard.php:369
+#, php-format
+msgid "Add a new extension &mdash; %s"
+msgstr "أضافه ملحق جديد-% s"
+
+#: controllers/Dashboard.php:447
+#, php-format
+msgid "Migration &mdash; %s"
+msgstr "الترحيل - % s"
+
+#: controllers/Dashboard.php:464
+msgid "Unknow module"
+msgstr "وحده نمطيه غير معرفه"
+
+#: controllers/Dashboard.php:494 views/dashboard/modules/migrate.php:57
+msgid "Migration done."
+msgstr "الهجرة القيام به."
+
+#: controllers/Dashboard.php:501
+msgid "File not found or incorrect executable provided."
+msgstr "لم يتم العثور علي الملف أو تم توفيره للتنفيذ غير صحيح."
+
+#: controllers/Dashboard.php:506
+#, fuzzy
+msgid "An error occured"
+msgstr "ایک غلطی واقع ہو گئی"
+
+#: controllers/Dashboard.php:513
+#, fuzzy
+msgid "Migration File not found."
+msgstr "لا يمكن إيجاد الملف."
+
+#: controllers/Dashboard.php:707
+#, php-format
+msgid "Updating... &mdash; %s"
+msgstr "جاري التحديث... - % s"
+
+#: controllers/Dashboard.php:719
+#, php-format
+msgid "Update Center &mdash; %s"
+msgstr "مركز التحديث-% s"
+
+#: controllers/Dashboard.php:744
+#, php-format
+msgid "About &mdash; %s"
+msgstr "حوالي-% s"
+
+#: controllers/Do_setup.php:43
+#, php-format
+msgid "Welcome Page &mdash; %s"
+msgstr "صفحه الترحيب-% s"
+
+#: controllers/Do_setup.php:55 views/do-setup/database.php:21
+#: views/do-setup/database.php:22
+#, fuzzy
+msgid "Host Name"
+msgstr "أسم المضيف"
+
+#: controllers/Do_setup.php:56 views/do-setup/database.php:38
+#: views/do-setup/database.php:39
+#, fuzzy
+msgid "User Name"
+msgstr "اسم المستخدم"
+
+#: controllers/Do_setup.php:57 views/do-setup/database.php:26
+#: views/do-setup/database.php:27
+#, fuzzy
+msgid "Database Name"
+msgstr "اسم قاعدة البيانات"
+
+#: controllers/Do_setup.php:58 views/do-setup/database.php:48
+#: views/do-setup/database.php:49
+#, fuzzy
+msgid "Database Driver"
+msgstr "سائق قاعدة البيانات:"
+
+#: controllers/Do_setup.php:59 views/do-setup/database.php:31
+#: views/do-setup/database.php:32
+#, fuzzy
+msgid "Database Prefix"
+msgstr "بادئة جدول قاعدة البيانات"
+
+#: controllers/Do_setup.php:78
+#, php-format
+msgid "Database config &mdash; %s"
+msgstr "تكوين قاعده البيانات - % s"
+
+#: controllers/Do_setup.php:95 views/dashboard/settings/body.php:31
+#: views/do-setup/site.php:15
+#, fuzzy
+msgid "Site Name"
+msgstr "اسم الموقع"
+
+#: controllers/Do_setup.php:110
+#, php-format
+msgid "Site & Master account &mdash; %s"
+msgstr "الموقع والحساب الرئيسي-% s"
+
+#: controllers/Oauth.php:34
+#, fuzzy
+msgid "Scopes"
+msgstr "نطاقات"
+
+#: controllers/Oauth.php:50
+#, php-format
+msgid "%s &mdash; Request permissions"
+msgstr "% s -  أذونات الطلب"
+
+#: controllers/Page_403.php:30
+#, fuzzy
+msgid "You don't have access to this page."
+msgstr "ليس لديك الصلاحيات الكافية لدخول هذه الصفحة!"
+
+#: controllers/Sign_in.php:33
+#, fuzzy
+msgid "Submit button"
+msgstr "زر الإرسال"
+
+#: controllers/Sign_in.php:53
+#, php-format
+msgid "Sign In &mdash; %s"
+msgstr "تسجيل الدخول - % s"
+
+#: controllers/Sign_in.php:68
+#, fuzzy
+msgid "User Email"
+msgstr "البريد الإلكتروني للمستخدم"
+
+#: controllers/Sign_in.php:76
+#, php-format
+msgid "Recover Password &mdash; %s"
+msgstr "استرداد كلمه المرور - % s"
+
+#: controllers/Sign_up.php:41
+#, php-format
+msgid "Sign Up &mdash; %s"
+msgstr "تسجيل الدخول-% s"
+
+#: core/Tendoo_Lang.php:166 core/Tendoo_Lang.php:173
+msgid "Unable to load the requested lang file"
+msgstr "غير قادر علي تحميل الملف lang المطلوب"
+
+#: helpers/nexopos_helper.php:105
+#, php-format
+msgid "%s &rsaquo; %s &mdash; %s"
+msgstr "%s - %s < %s"
+
+#: helpers/nexopos_helper.php:105
+msgid "NexoPOS"
+msgstr "NexoPOS"
+
+#: helpers/nexopos_helper.php:108
+#, php-format
+msgid "%s &rsaquo; %s"
+msgstr "%s < %s"
+
+#: language/system_lang.php:3
+msgid "Database has been installed."
+msgstr "تم تثبيت قاعده البيانات."
+
+#: language/system_lang.php:4
+msgid "Tendoo can't access to the database."
+msgstr " Tendoo لا يمكن الوصول إلى قاعده البيانات."
+
+#: language/system_lang.php:5
+msgid "Tendoo cannot connect to your database host."
+msgstr " Tendoo لا يمكن الاتصال بمضيف قاعده البيانات."
+
+#: language/system_lang.php:6
+#, fuzzy
+msgid "An error occured."
+msgstr "عذرا، حدث خطأ."
+
+#: language/system_lang.php:7
+#, fuzzy
+msgid "An unexpected error occured."
+msgstr "حدث خطأ غير متوقع."
+
+#: language/system_lang.php:8
+#, fuzzy
+msgid "Access Denied."
+msgstr "تم رفض الوصول"
+
+#: language/system_lang.php:9
+msgid "Option was successfully saved."
+msgstr "تم حفظ الخيار بنجاح."
+
+#: language/system_lang.php:10
+msgid "Unable to find this item. It may have been deleted or moved."
+msgstr "غير قادر علي العثور علي هذا العنصر. ربما تم حذفها أو نقلها."
+
+#: language/system_lang.php:12
+#, fuzzy
+msgid "Sign in to start your session"
+msgstr "سجل الدخول لبدء الجلسة"
+
+#: language/system_lang.php:13
+msgid "Please enter your email addresse. A recovery email will be send to you."
+msgstr ""
+"الرجاء إدخال عنوان بريدك الكتروني. سيتم إرسال البريد الكتروني الانتعاش لك."
+
+#: language/system_lang.php:14
+#, fuzzy
+msgid "You logged in successfully."
+msgstr "لقد تم تسجيل الدخول بنجاح!"
+
+#: language/system_lang.php:15
+msgid "Wrong Password or User Name"
+msgstr "كلمه مرور خاطئه أو اسم مستخدم"
+
+#: language/system_lang.php:16
+#, fuzzy
+msgid "Login is required."
+msgstr "مطلوب حقل تسجيل الدخول."
+
+#: language/system_lang.php:18
+msgid "Username is already used by another user."
+msgstr "اسم المستخدم مستخدم بالفعل من قبل مستخدم آخر."
+
+#: language/system_lang.php:19
+#, fuzzy
+msgid "This email is already used."
+msgstr "بريد إلكتروني مستخدم بالفعل"
+
+#: language/system_lang.php:20
+msgid "This email seems to be already taken."
+msgstr "هذا البريد الكتروني ويبدو ان اتخذت بالفعل."
+
+#: language/system_lang.php:21
+msgid "This username seems to be already taken."
+msgstr "ويبدو ان اسم المستخدم هذا قد اتخذ بالفعل."
+
+#: language/system_lang.php:22
+#, fuzzy
+msgid "The user has been successfully created."
+msgstr "تم إنشاء المستخدم!"
+
+#: language/system_lang.php:23
+msgid "Your Account has been activated. Please Sign-up"
+msgstr "تم تنشيط حسابك. يرجى الاشتراك"
+
+#: language/system_lang.php:25
+#, fuzzy
+msgid "Unknow email address"
+msgstr "البري\\ الألكتروني"
+
+#: language/system_lang.php:26
+msgid ""
+"The recovery email has been send. Please check your email, open the recovery "
+"email and follow the instructions."
+msgstr ""
+"وقد تم إرسال البريد الكتروني الانتعاش. يرجى التحقق من البريد الكتروني الخاص "
+"بك ، وفتح البريد الكتروني الانتعاش واتبع التعليمات."
+
+#: language/system_lang.php:28
+msgid "You must logout first to access that page."
+msgstr "يجب تسجيل الخروج أولا للوصول إلى تلك الصفحة."
+
+#: language/system_lang.php:30
+msgid ""
+"A new password has been created for your account. Check your email to get it."
+msgstr "تم إنشاء كلمه مرور جديده لحسابك. تحقق من بريدك الكتروني للحصول عليه."
+
+#: language/system_lang.php:31
+msgid "The module has been enabled."
+msgstr "تم تمكين الوحدة النمطية."
+
+#: language/system_lang.php:32
+msgid "The module has been disabled."
+msgstr "تم تعطيل الوحدة النمطية."
+
+#: language/system_lang.php:33
+msgid "The module has been removed."
+msgstr "تمت أزاله الوحدة النمطية."
+
+#: language/system_lang.php:34
+msgid "The module has been extracted."
+msgstr "تم استخراج الوحدة النمطية."
+
+#: language/system_lang.php:35
+msgid "The module has been updated."
+msgstr "تم تحديث الوحدة النمطية."
+
+#: language/system_lang.php:36
+msgid "The version installed is already up to date."
+msgstr "الإصدار المثبت بالفعل محدث."
+
+#: language/system_lang.php:37
+msgid "An error occured during update."
+msgstr "حدث خطا اثناء التحديث."
+
+#: language/system_lang.php:38
+msgid ""
+"Config file hasn't been found. This file is not a valid module. Installation "
+"aborded !!!"
+msgstr ""
+"لم يتم العثور علي ملف التكوين. هذا الملف ليس وحده نمطيه صالحه. تم إحباط "
+"التثبيت!!!"
+
+#: language/system_lang.php:53
+msgid "A migration is not required or has already been done."
+msgstr "الترحيل غير مطلوب أو تم بالفعل."
+
+#: libraries/CustomQuery.php:81
+msgid "Unamed Custom Post"
+msgstr "غير الملحومة وظيفة مخصصه"
+
+#: libraries/CustomQuery.php:132
+#, fuzzy
+msgid "Untitled"
+msgstr "بدون عنوان"
+
+#: libraries/CustomQuery.php:516 libraries/PostType.php:101
+#, fuzzy, php-format
+msgid "New %s"
+msgstr "جديد s%"
+
+#: libraries/CustomQuery.php:517 libraries/PostType.php:15
+#, fuzzy, php-format
+msgid "Edit %s"
+msgstr "تعديل s%"
+
+#: libraries/CustomQuery.php:518 libraries/PostType.php:17
+#: libraries/PostType.php:96
+#, fuzzy, php-format
+msgid "%s list"
+msgstr "%s قائمة"
+
+#: libraries/CustomQuery.php:878 libraries/CustomQuery.php:879
+#, fuzzy
+msgid "Not Set"
+msgstr "لم يتم التعيين"
+
+#: libraries/CustomQuery.php:959
+#, fuzzy
+msgid "Draft"
+msgstr "مسودة"
+
+#: libraries/CustomQuery.php:962
+#, fuzzy
+msgid "Published"
+msgstr "نشرت في"
+
+#: libraries/CustomQuery.php:965
+#, fuzzy
+msgid "Pending"
+msgstr "قيد الانتظار"
+
+#: libraries/CustomQuery.php:968
+#, fuzzy
+msgid "Trash"
+msgstr "النفايات"
+
+#: libraries/CustomQuery.php:971
+#, fuzzy
+msgid "Disapproved"
+msgstr "حسناً."
+
+#: libraries/CustomQuery.php:975
+msgid "Unknow status"
+msgstr "حاله عدم المعرفة"
+
+#: libraries/Modules.php:289
+#, php-format
+msgid ""
+"<strong>%s</strong> has been disabled. This module require <strong>%s</"
+"strong> to work properly."
+msgstr ""
+"تم تعطيل <strong>% s </strong>. تتطلب هذه الوحدة النمطية <strong>% s </"
+"strong> للعمل بشكل صحيح."
+
+#: libraries/PostType.php:13
+#, php-format
+msgid "Create a new %s"
+msgstr "إنشاء% s جديد"
+
+#: libraries/PostType.php:19
+#, fuzzy, php-format
+msgid "delete %s"
+msgstr "حذف %s"
+
+#: libraries/PostType.php:29
+#, fuzzy
+msgid "Comments"
+msgstr "‏تعليقات"
+
+#: libraries/PostType.php:31
+#, fuzzy, php-format
+msgid "%s comments"
+msgstr "% تعليقات"
+
+#: libraries/Theme.php:125
+msgid "Unable to load \"index.php\" from current theme."
+msgstr ""
+
+#: libraries/Theme.php:135
+msgid "Unable to load \"blog.php\" from current theme."
+msgstr ""
+
+#: libraries/Theme.php:145
+msgid "Unable to load \"single.php\" from current theme."
+msgstr ""
+
+#: libraries/Theme.php:155
+msgid "Unable to load \"404.php\" from current theme."
+msgstr ""
+
+#: libraries/Theme.php:161
+#, php-format
+msgid ""
+"Post Type module is not enabled. <a href=\"%s\">Please log in and install/"
+"enable</a> the module first"
+msgstr ""
+
+#: libraries/User.php:56
+#, fuzzy
+msgid "N/A"
+msgstr "N / A"
+
+#: models/Dashboard_Model.php:44
+#, fuzzy
+msgid "Dashboard"
+msgstr "لوحة التحكم الرئيسية"
+
+#: models/Dashboard_Model.php:51
+msgid "Update Center"
+msgstr "مركز التحديث"
+
+#: models/Dashboard_Model.php:58
+#, fuzzy
+msgid "About"
+msgstr "ثيموم مننحن ويديجت"
+
+#: models/Dashboard_Model.php:70
+#, fuzzy
+msgid "Modules"
+msgstr "وحدات"
+
+#: models/Dashboard_Model.php:83
+#, fuzzy
+msgid "Settings"
+msgstr "الإعدادات"
+
+#: models/Login_Model.php:44 views/sign-in/recovery.php:31
+#, fuzzy
+msgid "Sign In"
+msgstr "تسجيل الدخول"
+
+#: models/Nexo_Misc.php:82 models/Nexo_Misc.php:86
+msgid "Votre licence expire le %d-%m-%Y à %h:%i"
+msgstr ""
+
+#: models/Nexo_Misc.php:380
+msgid "Le client a été correctement crée."
+msgstr "تم إنشاء العميل بشكل صحيح."
+
+#: models/Nexo_Misc.php:385
+msgid "Une erreur s'est produite."
+msgstr "حدث خطا."
+
+#: models/Nexo_Misc.php:792
+msgid "Paiement du fournisseur"
+msgstr "الدفع من المورد"
+
+#: models/Nexo_Products.php:236 models/Nexo_Products.php:303
+#, fuzzy
+msgid "Access Denied"
+msgstr "تم رفض الوصول"
+
+#: models/Update_Model.php:76
+#, php-format
+msgid ""
+"An update is ready to be installed. <a href=\"%s\">Click here to install it</"
+"a>"
+msgstr "تحديث جاهز للتثبيت. < a href = \"% s\" > انقر هنا لتثبيته </a>"
+
+#: models/Users_Model.php:93
+msgid "Master Group"
+msgstr "المجموعة الرئيسية"
+
+#: models/Users_Model.php:93
+msgid "Can create users, install modules, manage options"
+msgstr "يمكن إنشاء المستخدمين ، وتثبيت الوحدات ، وأداره الخيارات"
+
+#: models/Users_Model.php:98
+msgid "Admin Group"
+msgstr "المجموعة الاداريه"
+
+#: models/Users_Model.php:98
+msgid "Can install modules, manage options"
+msgstr "يمكن تثبيت الوحدات النمطية ، أداره الخيارات"
+
+#: models/Users_Model.php:103
+#, fuzzy
+msgid "User Group"
+msgstr "مجموعه المستخدم"
+
+#: models/Users_Model.php:103
+#, fuzzy
+msgid "Just a user"
+msgstr "عضو"
+
+#: models/Users_Model.php:297
+#, fuzzy
+msgid "Manage Core"
+msgstr "يدير"
+
+#: models/Users_Model.php:297
+msgid "Allow core management"
+msgstr "السماح باداره النظام"
+
+#: models/Users_Model.php:303 models/Users_Model.php:330
+msgid "Create Options"
+msgstr "إنشاء خيارات"
+
+#: models/Users_Model.php:303 models/Users_Model.php:330
+msgid "Allow option creation"
+msgstr "السماح بإنشاء الخيار"
+
+#: models/Users_Model.php:304
+#, fuzzy
+msgid "Edit Options"
+msgstr "خيارات التحرير"
+
+#: models/Users_Model.php:304
+msgid "Allow option edition"
+msgstr "السماح بإصدار الخيار"
+
+#: models/Users_Model.php:305
+msgid "Read Options"
+msgstr "خيارات القراءة"
+
+#: models/Users_Model.php:305
+msgid "Allow option read"
+msgstr "السماح بقراءه الخيار"
+
+#: models/Users_Model.php:306
+#, fuzzy
+msgid "Delete Options"
+msgstr "حذف الخيارات"
+
+#: models/Users_Model.php:306
+msgid "Allow option deletion."
+msgstr "يسمح لك بحذف الخيار."
+
+#: models/Users_Model.php:312
+msgid "Install Modules"
+msgstr "تثبيت الوحدات النمطية"
+
+#: models/Users_Model.php:312
+msgid "Let user install modules."
+msgstr "السماح للمستخدم بتثبيت الوحدات النمطية."
+
+#: models/Users_Model.php:313
+msgid "Update Modules"
+msgstr "تحديث الوحدات النمطية"
+
+#: models/Users_Model.php:313
+msgid "Let user update modules"
+msgstr "الحب واللذات الخاصة"
+
+#: models/Users_Model.php:314
+msgid "Delete Modules"
+msgstr "حذف الوحدات النمطية"
+
+#: models/Users_Model.php:314
+#, fuzzy
+msgid "Let user delete modules"
+msgstr "السماح للمستخدم حذف الوحدات النمطية"
+
+#: models/Users_Model.php:315
+#, fuzzy
+msgid "Enable/Disable Modules"
+msgstr "تمكين/تعطيل"
+
+#: models/Users_Model.php:315
+msgid "Let user enable/disable modules"
+msgstr "السماح للمستخدم تمكين/تعطيل وحدات"
+
+#: models/Users_Model.php:316
+msgid "Extract Modules"
+msgstr "استخراج كافة الوحدات النمطية"
+
+#: models/Users_Model.php:316
+msgid "Let user extract modules"
+msgstr "السماح للمستخدم باستخراج كافة الوحدات النمطية"
+
+#: models/Users_Model.php:322
+msgid "Create Users"
+msgstr "إنشاء مستخدمين"
+
+#: models/Users_Model.php:322
+msgid "Allow create users."
+msgstr "السماح بإنشاء مستخدمين."
+
+#: models/Users_Model.php:323
+#, fuzzy
+msgid "Edit Users"
+msgstr "تعديل المستخدمين"
+
+#: models/Users_Model.php:323
+msgid "Allow edit users."
+msgstr "السماح بتحرير المستخدمين."
+
+#: models/Users_Model.php:324
+msgid "Delete Users"
+msgstr "حذف المستخدمين"
+
+#: models/Users_Model.php:324
+msgid "Allow delete users."
+msgstr "السماح بحذف المستخدمين."
+
+#: themes/hello/404.php:11 themes/hello/404.php:15
+#, php-format
+msgid "This is not de page you're looking for &mdash; %s"
+msgstr "هذه ليست صفحه دي كنت تبحث عن - % s"
+
+#: themes/hello/blog.php:40
+#, fuzzy
+msgid "Read More"
+msgstr "قراءة المزيد"
+
+#: themes/hello/blog.php:58
+#, fuzzy
+msgid "No Posts"
+msgstr "لا توجد من المقالات"
+
+#: themes/hello/blog.php:61
+#, php-format
+msgid "No posts yet. Get to dashboard and <a href=\"%s\">start writing</a>"
+msgstr ""
+
+#: themes/hello/blog.php:66
+#, fuzzy
+msgid "Start Writing"
+msgstr "(ستان) يكتب."
+
+#: themes/hello/blog.php:73
+msgid "Get To dashboard"
+msgstr ""
+
+#: themes/hello/blog.php:74
+#, fuzzy
+msgid "Get To Home"
+msgstr "أحصل على المنزل"
+
+#: themes/hello/index.php:22
+#, fuzzy
+msgid "Hello !!!"
+msgstr "مرحبا"
+
+#: themes/hello/index.php:28
+#, php-format
+msgid ""
+"This is the first Tendoo Theme. We still working on this feature to let "
+"people create better blog With tendoo. <a href=\"%s\">Get to blog here</a>. "
+"<br>This theme use \"Post_Type\" and \"Blog\" modules."
+msgstr ""
+
+#: themes/hello/single.php:28
+#, php-format
+msgid "%s &mdash; %s"
+msgstr ""
+
+#: themes/hello/single.php:35
+#, fuzzy, php-format
+msgid "By %s"
+msgstr "بواسطة %s"
+
+#: themes/hello/single.php:35
+#, fuzzy
+msgid "Go Back"
+msgstr "العودة"
+
+#: views/dashboard/error/404.php:12
+#, fuzzy
+msgid "Error : 404"
+msgstr "خطأ 404"
+
+#: views/dashboard/error/404.php:19
+#, fuzzy
+msgid "Oops ! An error occured"
+msgstr "ایک غلطی واقع ہو گئی"
+
+#: views/dashboard/error/404.php:20
+#, fuzzy
+msgid "404"
+msgstr "404"
+
+#: views/dashboard/error/404.php:21
+msgid ""
+"We could not locate this page. You can go back to the dashboard and try again"
+msgstr ""
+"لم نتمكن من تحديد موقع هذه الصفحة. يمكنك العودة إلى لوحه المعلومات والمحاولة "
+"مره أخرى"
+
+#: views/dashboard/footer.php:11
+#, php-format
+msgid "You're using <b>%s</b> %s"
+msgstr "كنت تستخدم <b>% s </b>% s"
+
+#: views/dashboard/footer.php:13
+#, fuzzy, php-format
+msgid "Thank you for using Tendoo CMS &mdash; %s in %s seconds"
+msgstr "شكرا لك لاستخدام نظام الإدارة الوظيفية تيندو &mdash; %s في %s ثانية"
+
+#: views/dashboard/gui/gui-items.php:324
+msgid "Empty table"
+msgstr "جدول فارغ"
+
+#: views/dashboard/horizontal-menu.php:52
+#, php-format
+msgid "You have %s notices"
+msgstr "لديك إشعارات % s"
+
+#: views/dashboard/horizontal-menu.php:118
+#, fuzzy
+msgid "Profile"
+msgstr "الملف الشخصي"
+
+#: views/dashboard/horizontal-menu.php:119
+#, fuzzy
+msgid "Sign Out"
+msgstr "تسجيل الخروج"
+
+#: views/dashboard/modules/after_install.php:12
+#: views/dashboard/modules/install.php:12
+#: views/dashboard/modules/migrate.php:12
+msgid "Add new extension using ZIP file"
+msgstr "أضافه ملحق جديد باستخدام ملف ZIP"
+
+#: views/dashboard/modules/after_install.php:17
+msgid "Enable the extension"
+msgstr "تمكين الملحق"
+
+#: views/dashboard/modules/after_install.php:28
+#: views/dashboard/modules/install.php:28
+msgid "Choose the extension zip file"
+msgstr "اختر ملف الملحق المضغوط"
+
+#: views/dashboard/modules/install.php:17
+msgid "Add the extension"
+msgstr "أضافه الملحق"
+
+#: views/dashboard/modules/list-dom.php:20
+#, fuzzy
+msgid "Tendoo Extension"
+msgstr "ملحق تيندو"
+
+#: views/dashboard/modules/list-dom.php:63
+#, fuzzy
+msgid "Remove"
+msgstr "حذف"
+
+#: views/dashboard/modules/list-dom.php:68
+#, fuzzy
+msgid "Extract"
+msgstr "مستخرج رسمي"
+
+#: views/dashboard/modules/list-dom.php:89
+#, fuzzy
+msgid "Do you really want to delete this module ? "
+msgstr "هل أنت متأكد من حذف هذه الخطوة؟"
+
+#: views/dashboard/modules/list-dom.php:96
+#, fuzzy
+msgid ""
+"Do you really want to make a migration ? You should always have a backup of "
+"the current system."
+msgstr ""
+"هل تريد حقاً جعل من هجرة؟ يجب عليك دائماً نسخة احتياطية من النظام الحالي."
+
+#: views/dashboard/modules/list.php:12
+#, fuzzy
+msgid "Module List"
+msgstr "الوحدة"
+
+#: views/dashboard/modules/migrate.php:23
+msgid "Migration has started"
+msgstr "بدات الهجرة"
+
+#: views/dashboard/modules/migrate.php:41
+msgid "Migrating to"
+msgstr "يهاجر إلى"
+
+#: views/dashboard/modules/migrate.php:46
+#, fuzzy
+msgid "done."
+msgstr "تم"
+
+#: views/dashboard/modules/migrate.php:51
+#, fuzzy
+msgid "An error occured :"
+msgstr "ایک غلطی واقع ہو گئی"
+
+#: views/dashboard/modules/migrate.php:60
+msgid "Go back to modules"
+msgstr "العودة إلى الوحدات النمطية"
+
+#: views/dashboard/modules/migrate.php:68
+#, fuzzy
+msgid "No migration content available"
+msgstr "لا يوجد محتوى الهجرة المتاحة"
+
+#: views/dashboard/modules/migrate.php:80
+msgid "Migrate not available for this module."
+msgstr "ترحيل غير متوفر لهذه الوحدة النمطية."
+
+#: views/dashboard/settings/body.php:16
+#, fuzzy
+msgid "General Settings"
+msgstr "الاعدادات العامة"
+
+#: views/dashboard/settings/body.php:22 views/do-setup/database.php:65
+#, fuzzy
+msgid "Save Settings"
+msgstr "احفظ التغييرات"
+
+#: views/dashboard/settings/body.php:32
+#, fuzzy
+msgid "Enter your site name"
+msgstr "إدخل الإسم"
+
+#: views/dashboard/settings/body.php:38
+#, fuzzy
+msgid "Site Description"
+msgstr "وصف الموقع"
+
+#: views/dashboard/settings/body.php:39
+#, fuzzy
+msgid "Enter your site description"
+msgstr "أدخل الوصف هنا"
+
+#: views/dashboard/settings/body.php:45
+#, fuzzy
+msgid "Timezone"
+msgstr "منطقة زمنية"
+
+#: views/dashboard/settings/body.php:46
+msgid "Enter your site timezone"
+msgstr "ادخل المنطقة الزمنيه للموقع"
+
+#: views/dashboard/settings/body.php:54
+#, fuzzy
+msgid "Language"
+msgstr "اللغة"
+
+#: views/dashboard/settings/body.php:55
+msgid "Choose a language"
+msgstr "اختر لغة"
+
+#: views/dashboard/settings/body.php:69
+#, fuzzy
+msgid "Advanced Settings"
+msgstr "إعدادات متقدمة"
+
+#: views/dashboard/settings/body.php:75
+#, fuzzy
+msgid "Save Advanced"
+msgstr "حفظ خيارات متقدمة"
+
+#: views/dashboard/settings/body.php:84
+#, fuzzy
+msgid "Open registration"
+msgstr "فتح التسجيل"
+
+#: views/dashboard/settings/body.php:85
+#, fuzzy
+msgid "Open Registration ?"
+msgstr "فتح التسجيل"
+
+#: views/dashboard/settings/body.php:87 views/dashboard/settings/body.php:97
+#: views/dashboard/settings/body.php:110
+#, fuzzy
+msgid "No"
+msgstr "لا"
+
+#: views/dashboard/settings/body.php:88 views/dashboard/settings/body.php:98
+#: views/dashboard/settings/body.php:111
+#, fuzzy
+msgid "Yes"
+msgstr "نعم"
+
+#: views/dashboard/settings/body.php:95
+msgid "Require validation"
+msgstr "تتطلب التحقق من الصحة"
+
+#: views/dashboard/settings/body.php:100
+msgid ""
+"Each new account will have to check the verification email in order to "
+"validate their account."
+msgstr ""
+"كل حساب جديد سيكون للتحقق من التحقق من البريد الكتروني من أجل التحقق من صحة "
+"حسابهم."
+
+#: views/dashboard/settings/body.php:106
+#, fuzzy
+msgid "Enable Developer mode ?"
+msgstr "مكّن المطور نمط"
+
+#: views/dashboard/settings/body.php:107
+#, fuzzy
+msgid "Enable developer mode"
+msgstr "مكّن المطور نمط"
+
+#: views/dashboard/settings/body.php:108
+msgid "Tools like module package will be enabled."
+msgstr "سيتم تمكين أدوات مثل حزمه الوحدة النمطية."
+
+#: views/dashboard/update/core-content.php:6
+#, php-format
+msgid "Unknow Release : %s"
+msgstr "الإصدار غير المعرفة:% s"
+
+#: views/dashboard/update/core-content.php:8
+#: views/dashboard/update/core-content.php:16
+msgid "Update has been aborded...!!!"
+msgstr "تم إحباط التحديث...!!!"
+
+#: views/dashboard/update/core-content.php:14
+#, php-format
+msgid "Old Release : %s"
+msgstr "الإصدار القديم:% s"
+
+#: views/dashboard/update/core-content.php:29
+msgid "Downloading Zip file..."
+msgstr "يتم الآن تحميل ملف مضغوط..."
+
+#: views/dashboard/update/core-content.php:37
+msgid "An error occured during download..."
+msgstr "كانت هناك مشكله اثناء التحميل..."
+
+#: views/dashboard/update/core-content.php:48
+msgid "Extracting the new release..."
+msgstr "يتم الآن استخراج الإصدار الجديد..."
+
+#: views/dashboard/update/core-content.php:56
+#: views/dashboard/update/core-content.php:76
+msgid "An error occured during extraction..."
+msgstr "حدثت مشكله اثناء الاستخراج..."
+
+#: views/dashboard/update/core-content.php:67
+msgid "Installing the new release..."
+msgstr "يتم الآن تثبيت الإصدار الجديد..."
+
+#: views/dashboard/update/home-content.php:7
+#, php-format
+msgid "Tendoo CMS : %s is available"
+msgstr "  Tendoo CMS:% s متوفر"
+
+#: views/dashboard/update/home-content.php:12
+#, fuzzy
+msgid "Click Here to Update"
+msgstr "انقر هنا للتحديث"
+
+#: views/dashboard/update/home-content.php:18
+msgid "You're up to date"
+msgstr "كنت حتى الآن"
+
+#: views/do-setup/database.php:4 views/do-setup/index.php:4
+#: views/do-setup/site.php:4 views/oauth/body.php:12 views/sign-in/body.php:14
+#: views/sign-in/recovery.php:14 views/sign-up/body.php:5
+msgid "Tendoo CMS"
+msgstr "Tendoo CMS"
+
+#: views/do-setup/database.php:8
+msgid ""
+"Please enter your database details in order to proceed to installation. "
+msgstr "الرجاء إدخال تفاصيل قاعده البيانات من أجل الانتقال إلى التثبيت."
+
+#: views/do-setup/database.php:43 views/do-setup/database.php:44
+#, fuzzy
+msgid "User Password"
+msgstr "كلمة مرور المستخدم"
+
+#: views/do-setup/database.php:50
+#, fuzzy
+msgid "Select database driver"
+msgstr "اختيار قاعدة البيانات"
+
+#: views/do-setup/database.php:51
+msgid "MySQLi"
+msgstr "MySQLi"
+
+#: views/do-setup/index.php:8
+msgid ""
+"Thank for having chosen Tendoo to host your project. Here is the "
+"installation wizard. This wizard has 2 more pages : Database configuration "
+"and Site configuration. If you're ready, let's go !!!"
+msgstr ""
+"شكرا لاختيار Tendoo CMS المشروع الخاص بك هنا هو معالج التثبيت. يحتوي هذا "
+"المعالج علي صفحتين إضافيتين: تكوين قاعده البيانات وتكوين الموقع. إذا كنت "
+"مستعدا ، فلنذهب!!!"
+
+#: views/do-setup/index.php:13 views/do-setup/site.php:19
+#, fuzzy
+msgid "Select your language"
+msgstr "خپله زبه منتخب کړي"
+
+#: views/do-setup/index.php:32
+msgid "Define Database configuration"
+msgstr "تعريف تكوين قاعده البيانات"
+
+#: views/do-setup/site.php:8
+msgid "Define site settings"
+msgstr "تعريف إعدادات الموقع"
+
+#: views/do-setup/site.php:41
+msgid "Continue to dashboard"
+msgstr "الانتقال إلى لوحه المعلومات"
+
+#: views/oauth/body.php:15
+msgid "Permission request"
+msgstr "طلب اذن"
+
+#: views/oauth/body.php:46
+msgid "Callback url is not defined."
+msgstr "لم يتم تعريف url رد الاتصال."
+
+#: views/oauth/body.php:48
+msgid "One or two permissions are not available."
+msgstr "لا تتوفر أذونات واحد أو اثنين."
+
+#: views/oauth/body.php:53
+#, fuzzy
+msgid "Allow"
+msgstr "السماح"
+
+#: views/oauth/body.php:54
+#, fuzzy
+msgid "Refuse"
+msgstr "رفض"
+
+#: views/sign-in/body.php:36 views/sign-up/body.php:20
+#, fuzzy
+msgid "I Lost My Password"
+msgstr "أضعت كلمة المرور"
+
+#: views/sign-in/body.php:42 views/sign-in/recovery.php:35
+#, fuzzy
+msgid "Sign Up"
+msgstr "التسجيل"
+
+#: views/sign-up/body.php:10
+#, fuzzy
+msgid "Sign up to"
+msgstr "والتوقيع على"
+
+#: views/sign-up/body.php:24
+#, fuzzy
+msgid "I Already Have An Account"
+msgstr "لدي حساب بالفعل"

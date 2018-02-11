@@ -50,8 +50,8 @@ class NexoSuppliesController extends CI_Model
 
         // Liste des produits
         $crud->add_action(__('Liste des produits', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'supplies', 'items' )) . '/', 'fa fa-list-ol');
-        $crud->add_action(__('Etiquettes des articles', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'print', 'shipping_item_codebar' )) . '/', 'fa fa-tags');
-        $crud->add_action(__('Facture de l\'arrivage', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'supplies', 'invoice' )) . '/', 'fa fa-file');
+        $crud->add_action(__('Etiquettes des articles', 'nexo'), '', dashboard_url([ 'supplies', 'labels',]) . '/', 'fa fa-tags');
+        $crud->add_action(__('Facture de l\'arrivage', 'nexo'), '', dashboard_url([ 'supplies', 'invoice' ]) . '/', 'fa fa-file');
         // $crud->add_action(__('Valeur détaillée de l\'arrivage', 'nexo'), '', site_url(array( 'dashboard', store_slug(), 'nexo', 'supplies', 'detailed-worth' )) . '/', 'fa fa-file');
 
         $this->events->add_filter('grocery_callback_insert', array( $this->grocerycrudcleaner, 'xss_clean' ));

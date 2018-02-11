@@ -21,11 +21,11 @@ class Nexo_Stock_Manager_Filters extends Tendoo_Module
                     ],
                     [
                         'title'     =>  __( 'Transfert History', 'stock-manager' ),
-                        'href'      =>  dashboard_url([ 'transferts' ]),
+                        'href'      =>  dashboard_url([ 'transfert' ]),
                     ],
                     [
                         'title'     =>  __( 'New Transfert', 'stock-manager' ),
-                        'href'      =>  dashboard_url([ 'transferts', 'add' ]),
+                        'href'      =>  dashboard_url([ 'transfert', 'add' ]),
                     ],
                     [
                         'title'     =>  __( 'Transfert Settings', 'stock-manager' ),

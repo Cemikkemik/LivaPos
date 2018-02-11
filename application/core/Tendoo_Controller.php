@@ -99,16 +99,23 @@ class Tendoo_Controller extends CI_Controller
                 redirect(array( 'do-setup' ));
             }
 
-            // loading assets for reserved controller
-            $css_libraries        =    $this->events->apply_filters( 'default_css_libraries', array(
+            $assets     =   array(
                 'bootstrap.min',
-                'AdminLTE.min',
                 'tendoo',
                 'skins/_all-skins.min',
                 'font-awesome.min',
                 '../plugins/iCheck/skins/square/blue',
                 'toast'
-            ) );
+            );
+
+            if ( in_array( get_option( 'site_language' ), $this->config->item( 'rtl-languages' ) ) ) {
+                $assets[]   =   'AdminLTE-rtl.min';
+            } else {
+                $assets[]   =   'AdminLTE.min';
+            }
+
+            // loading assets for reserved controller
+            $css_libraries        =    $this->events->apply_filters( 'default_css_libraries', $assets );
 
             if( $css_libraries ) {
                 $this->enqueue->css_namespace( 'common_header' );

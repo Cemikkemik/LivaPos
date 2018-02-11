@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2018-02-07 22:52+0100\n"
-"PO-Revision-Date: 2018-02-08 21:23+0100\n"
+"PO-Revision-Date: 2018-02-11 10:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ar_AE\n"
@@ -42,7 +42,7 @@ msgstr "تم تعطيل هذه الميزة."
 #: views/items/templates/clothes.php:42 views/items/templates/coupon.php:42
 #, fuzzy
 msgid "Catégorie"
-msgstr "الفئة الأصل"
+msgstr "لمحه عامه عن الفئة"
 
 #: controllers/categories.php:39
 #, fuzzy
@@ -124,7 +124,7 @@ msgstr "المبلغ المحصل"
 #: views/items/history/dom.php:29 views/providers/history-dom.php:17
 #, fuzzy
 msgid "Par"
-msgstr "من قبل"
+msgstr "لا يمكنك اختيار هذا الخيار لأنه قيد الاستخدام بالفعل من قبل العمود:"
 
 #: controllers/commandes.php:102 controllers/providers.php:88
 #, fuzzy
@@ -156,7 +156,7 @@ msgstr "ضريبة القيمة المضافة"
 #: views/providers/history-dom.php:16 views/registers/dashboard_footer.php:164
 #, fuzzy
 msgid "Date"
-msgstr "تاريخ"
+msgstr "تنسيق التاريخ"
 
 #: controllers/commandes.php:107 controllers/customers.php:280
 #: controllers/stores.php:37
@@ -190,7 +190,6 @@ msgstr "صندوق المعاشات التقاعدية"
 #: controllers/commandes.php:154 controllers/customers.php:125
 #: inc/angular/register/controllers/paybox.php:570 views/commandes-script2 -
 #: Deprecated.php:38
-#, fuzzy
 msgid "Modifier"
 msgstr "تعديل"
 
@@ -819,7 +818,7 @@ msgstr "إنشاء تصنيف تلقائيا"
 #: inc/angular/items/factories/fields.php:166 views/deliveries/invoice.php:51
 #, fuzzy
 msgid "Fournisseur"
-msgstr "البائع"
+msgstr "لا يمكن استرداد مزود الخدمة."
 
 #: controllers/items.php:171
 #, fuzzy
@@ -929,7 +928,7 @@ msgstr "إذا كان المنتج ينتهي في وقت محدد. يمكنك �
 
 #: controllers/items.php:190
 msgid "Déterminer l'action après l'expiration d'un produit"
-msgstr ""
+msgstr "تحديد الاجراء بعد انتهاء صلاحيه المنتج"
 
 #: controllers/items.php:191
 #, fuzzy
@@ -940,38 +939,40 @@ msgstr "مجموعة إذا كان المنتج متوفر للبيع أم لا.
 msgid ""
 "Les produits avec le stock activé, verront leur inventaire affecté par les "
 "ventes."
-msgstr ""
+msgstr "المنتجات مع الأسهم المنشط ، وسوف يكون لها مخزون المبيعات المخصصة."
 
 #: controllers/items.php:196
 msgid ""
 "Si vous souhaitez appliquer une taxe sur le prix des produits, vous pouvez "
 "choisir cette taxe sur cette liste."
 msgstr ""
+"إذا كنت تريد تطبيق ضريبة علي سعر المنتجات ، يمكنك اختيار هذه الضريبة علي هذه "
+"القائمة."
 
 #: controllers/items.php:203 controllers/supplies.php:233
 #: views/items/stock-supply/dom.php:118
 msgid "Historique d'approvisionnement"
-msgstr ""
+msgstr "قائمة العرض"
 
 #: controllers/items.php:204 controllers/items.php:730
 msgid "Historique du produit"
-msgstr ""
+msgstr "تاريخ المنتج"
 
 #: controllers/items.php:235
 msgid "Frais Accessoires"
-msgstr ""
+msgstr "المصروفات النثرية"
 
 #: controllers/items.php:256
 msgid "Empêcher les ventes"
-msgstr ""
+msgstr "منع المبيعات"
 
 #: controllers/items.php:257
 msgid "Autoriser les ventes"
-msgstr ""
+msgstr "السماح بالمبيعات"
 
 #: controllers/items.php:261
 msgid "Inclusive"
-msgstr ""
+msgstr "شمل"
 
 #: controllers/items.php:262
 #, fuzzy
@@ -981,7 +982,9 @@ msgstr "- حصري ؟"
 #: controllers/items.php:266 language/nexo_lang.php:89
 #, fuzzy
 msgid "Activé"
-msgstr "مفعّل"
+msgstr ""
+"لم يتم تمكين المكون الإضافي <strong>NexoPOS Updater</strong>. للاستفادة من "
+"التحديثات التلقائية والدعم، يرجى تفعيل وحدة."
 
 #: controllers/items.php:267 language/nexo_lang.php:90
 #, fuzzy
@@ -1008,11 +1011,11 @@ msgstr "تضاف مادة جديدة ٩ مكررا:"
 #: views/items/templates/coupon.php:3
 #, fuzzy
 msgid "Créer un nouveau produit"
-msgstr "أنشئ جديد"
+msgstr "إنشاء منتج جديد"
 
 #: controllers/items.php:458
 msgid "Approvisonnement"
-msgstr ""
+msgstr "المشتريات"
 
 #: controllers/items.php:478 controllers/items.php:686
 #, fuzzy
@@ -1021,7 +1024,7 @@ msgstr "مخزون"
 
 #: controllers/items.php:490
 msgid "Correction du stock"
-msgstr ""
+msgstr "تصحيح الأسهم"
 
 #: controllers/items.php:491
 #, fuzzy
@@ -1057,18 +1060,20 @@ msgid ""
 "été consommé à moitié ou en totalité. Veuillez utiliser l'ajustement du "
 "stock à la place."
 msgstr ""
+"لا يمكن حذف المعاملة. وربما كان هذا الأخير قد استهلك بالفعل نصف أو كل شيء. "
+"يرجى استخدام تعديل المخزون بدلا من ذلك."
 
 #: controllers/items.php:709
 msgid "Approvisonnement du stock"
-msgstr ""
+msgstr "إمدادات المخزون"
 
 #: controllers/items.php:755
 msgid "Grouper des produits"
-msgstr ""
+msgstr "المنتجات المجمعة"
 
 #: controllers/items.php:811 views/items/stock-supply/dom.php:27
 msgid "Opération effectuée"
-msgstr ""
+msgstr "نفذت العملية"
 
 #: controllers/print.php:39
 #, php-format
@@ -1076,6 +1081,8 @@ msgid ""
 "Impossible d'afficher le ticket de caisse. Cette commande ne possède aucun "
 "article &mdash; <a href=\"%s\">Retour en arrière</a>"
 msgstr ""
+"تعذر عرض الإيصال. هذا النظام ليس لديه بنود -\n"
+"<a href=\"%s\"> الرجوع </a>"
 
 #: controllers/print.php:87
 #, fuzzy
@@ -1084,7 +1091,7 @@ msgstr "لم يتم العثور على هذا الأمر."
 
 #: controllers/print.php:147
 msgid "Arrivage non définie."
-msgstr ""
+msgstr "تسليم غير محدد"
 
 #: controllers/print.php:247
 #, fuzzy, php-format
@@ -1092,8 +1099,8 @@ msgid ""
 "Impossible d'afficher la facture. Cette commande ne possède aucun article "
 "&mdash; <a href=\"%s\">Retour en arrière</a>"
 msgstr ""
-"لا يمكن عرض الفاتورة. هذا الأمر على لا من المادة-- <a href=\"%s\">مرة أخرى</"
-"a>"
+"تعذر عرض الإيصال. هذا النظام ليس لديه بنود -\n"
+"<a href=\"%s\"> الرجوع </a>"
 
 #: controllers/providers.php:20 inc/controller.php:212 inc/controller.php:326
 #, fuzzy
@@ -1103,11 +1110,11 @@ msgstr "البائعون"
 #: controllers/providers.php:33
 #, fuzzy
 msgid "Historique"
-msgstr "تاريخي"
+msgstr "تاريخ المنتج"
 
 #: controllers/providers.php:34
 msgid "Payer le fournisseur"
-msgstr ""
+msgstr "ادفع مقدم خدمة"
 
 #: controllers/providers.php:40
 #, fuzzy
@@ -1121,11 +1128,11 @@ msgstr "مجموع"
 
 #: controllers/providers.php:42
 msgid "Email du fournisseur"
-msgstr ""
+msgstr "البريد الإلكتروني للمورد"
 
 #: controllers/providers.php:43
 msgid "BP du fournisseur"
-msgstr ""
+msgstr "عنوان بريدي"
 
 #: controllers/providers.php:44
 #, fuzzy
@@ -1139,16 +1146,16 @@ msgstr "وصف مقدم"
 
 #: controllers/providers.php:83
 msgid "Impossible de récupérer le fournisseur."
-msgstr ""
+msgstr "لا يمكن استرداد مزود الخدمة."
 
 #: controllers/providers.php:89
 msgid "Livraison de produits"
-msgstr ""
+msgstr "تسليم المنتجات"
 
 #: controllers/providers.php:160
 #, fuzzy, php-format
 msgid "%s : Historique d'approvisionnement"
-msgstr "%s: تاريخ العرض"
+msgstr "قائمة العرض"
 
 #: controllers/providers.php:171 inc/controller.php:219
 #, fuzzy
@@ -1162,7 +1169,7 @@ msgstr "إضافة موفر جديد"
 
 #: controllers/rayons.php:24 controllers/rayons.php:96
 msgid "Vous n'avez pas accès à cette page"
-msgstr ""
+msgstr "ليس لديك إمكانية الدخول إلى هذه الصفحة"
 
 #: controllers/rayons.php:38
 #, fuzzy
@@ -1171,11 +1178,11 @@ msgstr "- يجب أن نبدأ العلاج بالإشعاع -"
 
 #: controllers/rayons.php:45
 msgid "Nom du rayon"
-msgstr ""
+msgstr "اسم القسم"
 
 #: controllers/rayons.php:46
 msgid "Description du rayon"
-msgstr ""
+msgstr "وصف نصف القطر"
 
 #: controllers/rayons.php:73 controllers/rayons.php:101
 #, fuzzy
@@ -1184,7 +1191,7 @@ msgstr "أنشئ جديد"
 
 #: controllers/rayons.php:82
 msgid "Liste des rayons"
-msgstr ""
+msgstr "قائمة القطاعات"
 
 #: controllers/registers.php:21 inc/controller.php:73
 #, fuzzy
@@ -1225,7 +1232,7 @@ msgstr "استخدام النقدية"
 
 #: controllers/registers.php:69 views/registers/dashboard_footer.php:138
 msgid "Historique de la caisse"
-msgstr ""
+msgstr "أمين الصندوق التاريخ"
 
 #: controllers/registers.php:170 inc/controller.php:90
 #, fuzzy
@@ -1239,11 +1246,11 @@ msgstr "تغيير صندوق"
 
 #: controllers/registers.php:193 inc/controller.php:83
 msgid "Liste des caisses"
-msgstr ""
+msgstr "قائمة آلات تسجيل النقدية"
 
 #: controllers/registers.php:215
 msgid "Vous n'êtes pas autorisé à effectuer une vente."
-msgstr ""
+msgstr "لا يسمح لك بإجراء عملية بيع."
 
 #: controllers/registers.php:377
 #, fuzzy
@@ -1261,11 +1268,11 @@ msgstr "إجراء عملية البيع"
 
 #: controllers/registers.php:399
 msgid "Modifier une commande"
-msgstr ""
+msgstr "تعديل أمر"
 
 #: controllers/reports.php:60
 msgid "Le rapport ne peut être affiché, la date spécifiée est incorrecte"
-msgstr ""
+msgstr "لا يمكن عرض التقرير، التاريخ المحدد غير صحيح"
 
 #: controllers/reports.php:64
 #, fuzzy
@@ -1275,21 +1282,21 @@ msgstr "لا يمكن عرض التقرير، والفاصل الزمني لا �
 
 #: controllers/reports.php:74
 msgid "Rapport des ventes journalières"
-msgstr ""
+msgstr "تقرير المبيعات اليومية"
 
 #: controllers/reset_shop.php:23
 msgid "La boutique a correctement été vidée."
-msgstr ""
+msgstr "تم تفريغ المحل بشكل صحيح."
 
 #: controllers/reset_shop.php:32
 msgid ""
 "La boutique a correctement été vidée, et les données \"démo\" ont été "
 "ajoutées."
-msgstr ""
+msgstr "تم تفريغ المحل بشكل صحيح، وتم إضافة البيانات \"التجريبي\"."
 
 #: controllers/reset_shop.php:41
 msgid "La démonstration d'une boutique de vêtement à été crée."
-msgstr ""
+msgstr "تم إنشاء مظاهرة من متجر لبيع الملابس."
 
 #: controllers/reset_shop.php:52
 #, fuzzy
@@ -1302,7 +1309,7 @@ msgstr ""
 
 #: controllers/reset_shop.php:58
 msgid "Vous n'avez pas les permissions requises pour effectuer cette action"
-msgstr ""
+msgstr "ليس لديك الأذونات المطلوبة لتنفيذ هذا الإجراء"
 
 #: controllers/settings.php:8
 #, fuzzy
@@ -1313,11 +1320,11 @@ msgstr "الإعدادات العامة"
 #: views/settings/checkout.php:34 views/settings/customers.php:19
 #: views/shop-checkout-settings - Deprecated.php:5
 msgid "Réglages de la caisse"
-msgstr ""
+msgstr "إعدادات تسجيل النقدية"
 
 #: controllers/settings.php:24
 msgid "Réglages des clients"
-msgstr ""
+msgstr "إعدادات العميل"
 
 #: controllers/settings.php:32 views/settings/items.php:32
 #, fuzzy
@@ -1326,19 +1333,19 @@ msgstr "إعدادات للمنتجات"
 
 #: controllers/settings.php:40
 msgid "Réglages des emails"
-msgstr ""
+msgstr "إعدادات البريد الإلكتروني"
 
 #: controllers/settings.php:48
 msgid "Réglages des paiements"
-msgstr ""
+msgstr "إعدادات الدفع"
 
 #: controllers/settings.php:56
 msgid "Réinitialisation & Démonstration"
-msgstr ""
+msgstr "إعادة تعيين & مظاهرة"
 
 #: controllers/settings.php:64
 msgid "Réglages des factures"
-msgstr ""
+msgstr "إعدادات الفاتورة"
 
 #: controllers/settings.php:72
 #, fuzzy
@@ -1347,21 +1354,21 @@ msgstr "إعدادات لوحة المفاتيح"
 
 #: controllers/settings.php:80
 msgid "Réglages des fournisseurs"
-msgstr ""
+msgstr "إعدادات الموفر"
 
 #: controllers/settings.php:88
 msgid "Réglages des commandes"
-msgstr ""
+msgstr "إعدادات الأوامر"
 
 #: controllers/settings.php:96 controllers/stores-settings.php:14
 #: inc/controller.php:372 inc/controller.php:382 inc/install.php:836
 #: views/settings/stores.php:10
 msgid "Réglages des boutiques"
-msgstr ""
+msgstr "إعدادات المتجر"
 
 #: controllers/settings.php:104
 msgid "Réglages de Stripe"
-msgstr ""
+msgstr "معلمات Stripe"
 
 #: controllers/stores.php:23
 msgid "une boutique"
@@ -1374,7 +1381,7 @@ msgstr "من المتجر"
 
 #: controllers/stores.php:36
 msgid "Date création"
-msgstr ""
+msgstr "تاريخ الإنشاء"
 
 #: controllers/stores.php:38
 #, fuzzy
@@ -1383,7 +1390,7 @@ msgstr "من المتجر"
 
 #: controllers/stores.php:49
 msgid "Accéder à la boutique"
-msgstr ""
+msgstr "انتقل إلى المحل"
 
 #: controllers/stores.php:77
 #, fuzzy
@@ -1397,11 +1404,11 @@ msgstr "قائمة المتاجر"
 
 #: controllers/stores.php:95 controllers/stores.php:114
 msgid "Créer une nouvelle boutique"
-msgstr ""
+msgstr "إنشاء متجر جديد"
 
 #: controllers/stores.php:133
 msgid "Mode Avancé"
-msgstr ""
+msgstr "الوضع المتقدم"
 
 #: controllers/stores.php:142
 #, fuzzy
@@ -1410,16 +1417,16 @@ msgstr "جميع محلات &mdash; نيكسوبوس"
 
 #: controllers/stores.php:167
 msgid "Cette boutique est fermée"
-msgstr ""
+msgstr "هذا المحل مغلق"
 
 #: controllers/stores.php:202
 #, php-format
 msgid "The request returned the following message : %s<br>Code : %s"
-msgstr ""
+msgstr "عرض الاستعلام الرسالة التالية: %s<br>Code : %s"
 
 #: controllers/stores.php:211
 msgid "Boutique introuvable."
-msgstr ""
+msgstr "لم يتم العثور على متجر."
 
 #: controllers/stores.php:214
 #, fuzzy
@@ -1433,7 +1440,7 @@ msgstr "التوريد"
 
 #: controllers/supplies.php:42
 msgid "Produits Inclus"
-msgstr ""
+msgstr "المنتجات المدرجة"
 
 #: controllers/supplies.php:53
 #, fuzzy
@@ -1447,7 +1454,7 @@ msgstr "فاتورة شحن"
 
 #: controllers/supplies.php:113
 msgid "Liste des approvisonnements"
-msgstr ""
+msgstr "قائمة الإمدادات"
 
 #: controllers/supplies.php:126
 #, fuzzy
@@ -1456,11 +1463,11 @@ msgstr "قائمة باللوازم"
 
 #: controllers/supplies.php:141
 msgid "Ajouter une nouvelle livraison"
-msgstr ""
+msgstr "إضافة تسليم جديد"
 
 #: controllers/supplies.php:208 controllers/supplies.php:368
 msgid "Produits de l'approvisionnement"
-msgstr ""
+msgstr "توريد المنتجات"
 
 #: controllers/supplies.php:256 language/nexo_lang.php:122
 #: views/items/stock-supply/script.php:47
@@ -1478,7 +1485,7 @@ msgstr "سعر الوحدة"
 
 #: controllers/supplies.php:363
 msgid "Vous ne pouvez pas modifier cet element"
-msgstr ""
+msgstr "لا يمكنك تعديل هذا العنصر"
 
 #: controllers/supplies.php:378
 #, fuzzy
@@ -1492,7 +1499,7 @@ msgstr "ضرائب"
 
 #: controllers/taxes.php:38
 msgid "Nom de la taxe"
-msgstr ""
+msgstr "اسم الضريبة"
 
 #: controllers/taxes.php:41
 #, fuzzy
@@ -1501,15 +1508,15 @@ msgstr "معدل الضريبة"
 
 #: controllers/taxes.php:107 inc/controller.php:193
 msgid "Liste des taxes"
-msgstr ""
+msgstr "قائمة الضرائب"
 
 #: controllers/taxes.php:120 inc/controller.php:197
 msgid "Ajouter une taxe"
-msgstr ""
+msgstr "إضافة ضريبة"
 
 #: inc/actions.php:123 inc/actions.php:134
 msgid "Activez Votre Copie"
-msgstr ""
+msgstr "تنشيط نسختك"
 
 #: inc/actions.php:124
 msgid ""
@@ -1518,10 +1525,14 @@ msgid ""
 "\"https://nexopos.com/how-to-install-a-module-in-tendoo-cms/\" target="
 "\"_blank\">installer le module</a></strong> téléchargeable ici"
 msgstr ""
+"لم يتم تثبيت الوحدة <strong>NexoPOS Updater</strong>. للحصول على التحديثات "
+"والدعم التلقائي، يرجى <strong><a href=\"https://nexopos.com/how-to-install-a-"
+"module-in-tendoo-cms/\" target=\"_blank\">تثبيت وحدة</a></strong> القابلة "
+"للتنزيل هنا"
 
 #: inc/actions.php:125
 msgid "Télécharger le module"
-msgstr ""
+msgstr "تحميل وحدة"
 
 #: inc/actions.php:135
 msgid ""
@@ -1529,6 +1540,8 @@ msgid ""
 "des mises à jour automatiques et d'une assistance, veuillez activer le "
 "module."
 msgstr ""
+"لم يتم تمكين المكون الإضافي <strong>NexoPOS Updater</strong>. للاستفادة من "
+"التحديثات التلقائية والدعم، يرجى تفعيل وحدة."
 
 #: inc/actions.php:136 views/items/grouped-items-dom.php:139
 #: views/settings/customers.php:36 views/settings/home.php:106
@@ -1542,7 +1555,7 @@ msgstr "تمكين التنبيهات لمخزون منخفض"
 msgid ""
 "Le stock du produit <strong>%s</strong> est faible. Cliquez-ici pour accéder "
 "au produit."
-msgstr ""
+msgstr "مخزون المنتج <strong>%s</strong> منخفض. انقر هنا للوصول إلى المنتج."
 
 #: inc/actions.php:265
 #, fuzzy, php-format
@@ -1561,7 +1574,7 @@ msgstr "إلغاء"
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:113
 msgid "Ajouter le nom du produit."
-msgstr ""
+msgstr "أضف اسم المنتج."
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:117
 #: inc/angular/order-list/directives/payment-options.php:245
@@ -1573,19 +1586,19 @@ msgstr "سعر الوحدة"
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:118
 msgid "Veuillez définir le prix de vente unitaire du produit."
-msgstr ""
+msgstr "يرجى تحديد سعر بيع الوحدة للمنتج."
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:123
 msgid "Veuillez définir la quantité que vous souhaitez ajouter."
-msgstr ""
+msgstr "يرجى تحديد الكمية التي ترغب في إضافتها."
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:128
 msgid "Ajouter au stock"
-msgstr ""
+msgstr "إضافة إلى المخزون"
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:129
 msgid "En activant cette option, le produit sera ajouté au stock."
-msgstr ""
+msgstr "من خلال تمكين هذا الخيار، سيتم إضافة المنتج إلى المخزون."
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:132
 #: views/import/items-dom.php:20 views/import/script.php:12
@@ -1603,7 +1616,7 @@ msgstr "تجميع"
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:147
 msgid "SKU"
-msgstr ""
+msgstr "وحدة إدارة المخزون"
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:151
 #: inc/angular/items/factories/fields.php:241
@@ -1615,11 +1628,11 @@ msgstr "الرمز الشريطي"
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:180
 msgid "Vous devez remplir tous champs"
-msgstr ""
+msgstr "يجب ملء جميع الحقول"
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:210
 msgid "Ajouter le produit"
-msgstr ""
+msgstr "أضف المنتج"
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:283
 #: views/checkout/v2-1/cart_hold_button.php:3
@@ -1629,7 +1642,7 @@ msgstr "معلّقة"
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:326
 msgid "Une commande est déjà en cours, souhaitez vous la supprimer ?"
-msgstr ""
+msgstr "هناك أمر قيد التقدم بالفعل، هل تريد حذفه؟"
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:338
 #, fuzzy
@@ -1678,7 +1691,7 @@ msgstr "انتبه"
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:403
 msgid "Vous devez choisir une commande avant de l'ouvrir."
-msgstr ""
+msgstr "يجب عليك اختيار أمر قبل فتحه."
 
 #: inc/angular/cart-tool-box/controllers/cart-tool-box.php:528
 #, fuzzy
@@ -1718,7 +1731,7 @@ msgstr "أضافه/تحرير مجموعه من العملاء"
 #: inc/angular/cart-tool-box/directives/history-content.php:46
 #: views/guides/checkout.php:8 views/guides/checkout.php:37
 msgid "Détails de la commande"
-msgstr ""
+msgstr "شراء تفاصيل صنع"
 
 #: inc/angular/cart-tool-box/directives/history-content.php:51
 #: inc/angular/order-list/controllers/orders-list.php:369
@@ -1729,7 +1742,7 @@ msgstr "الكاتب"
 #: inc/angular/cart-tool-box/directives/history-content.php:56
 #, fuzzy
 msgid "Date :"
-msgstr "التاريخ: ."
+msgstr "تنسيق التاريخ"
 
 #: inc/angular/cart-tool-box/directives/history-content.php:61
 #: views/invoices/default-dom.php:40
@@ -1738,11 +1751,11 @@ msgstr "الرمز:"
 
 #: inc/angular/cart-tool-box/directives/history-content.php:66
 msgid "Impayé :"
-msgstr ""
+msgstr "المبلغ غير المدفوع:"
 
 #: inc/angular/cart-tool-box/directives/history-content.php:75
 msgid "Prix Untaire"
-msgstr ""
+msgstr "سعر الوحدة"
 
 #: inc/angular/cart-tool-box/directives/history-content.php:77
 #: views/checkout/v2-1/cart_discount_button.php:5
@@ -1766,15 +1779,15 @@ msgstr "المجموع الفرعي"
 
 #: inc/angular/cart-tool-box/directives/history-order-list.php:23
 msgid "Aucune commande disponible"
-msgstr ""
+msgstr "لا يوجد أمر متاح"
 
 #: inc/angular/cart-tool-box/filters/history-title-filter.php:10
 msgid "Commande sans désignation"
-msgstr ""
+msgstr "مبيعات لم يتم ذكرها"
 
 #: inc/angular/items/controllers/items.php:27
 msgid "Vous ne pouvez pas créer plus de 10 variations d'un même produit."
-msgstr ""
+msgstr "لا يمكنك إنشاء أكثر من 10 أشكال مختلفة من المنتج نفسه."
 
 #: inc/angular/items/controllers/items.php:227
 #: inc/angular/items/factories/options.php:8 language/nexo_lang.php:24
@@ -1808,11 +1821,12 @@ msgstr "نعم"
 #: views/shop-checkout-settings - Deprecated.php:128
 #, fuzzy
 msgid "Non"
-msgstr "لا"
+msgstr "تسليم غير محدد"
 
 #: inc/angular/items/factories/barcode-options.php:6
+#, fuzzy
 msgid "Générer une étiquette"
-msgstr ""
+msgstr "إنشاء تصنيف تلقائيا"
 
 #: inc/angular/items/factories/barcode-options.php:9
 #, fuzzy
@@ -1820,7 +1834,6 @@ msgid "Ne pas générer une étiquette"
 msgstr "لا تولد تسمية"
 
 #: inc/angular/items/factories/fields.php:9
-#, fuzzy
 msgid "Assigner à un coupon"
 msgstr "تعيين قسيمة"
 
@@ -1840,7 +1853,7 @@ msgstr "اسم للتباين"
 
 #: inc/angular/items/factories/fields.php:25
 msgid "Veuillez choisir un nom unique pour cette variation"
-msgstr ""
+msgstr "يرجى اختيار اسم فريد لهذا الشكل"
 
 #: inc/angular/items/factories/fields.php:30
 #, fuzzy
@@ -1849,24 +1862,24 @@ msgstr "قم بتعيين القيمة التي سيتم بيع المنتج."
 
 #: inc/angular/items/factories/fields.php:38
 msgid "Définissez la valeur à laquelle le produit a été acheté."
-msgstr ""
+msgstr "حدد القيمة التي تم شراء المنتج بها."
 
 #: inc/angular/items/factories/fields.php:44
 msgid "Activer les Promotion"
-msgstr ""
+msgstr "تنشيط الترويج"
 
 #: inc/angular/items/factories/fields.php:46
 msgid "Vous permet de vendre le produit à un prix spéciale."
-msgstr ""
+msgstr "يسمح لك ببيع المنتج بسعر خاص."
 
 #: inc/angular/items/factories/fields.php:53
 #, fuzzy
 msgid "Prix spécial"
-msgstr "سعر خاص"
+msgstr "خاص"
 
 #: inc/angular/items/factories/fields.php:55
 msgid "Ce prix sera utilisé lorsque le prix promotionel sera valable."
-msgstr ""
+msgstr "سيتم استخدام هذا السعر عندما تكون الأسعار الترويجية صالحة."
 
 #: inc/angular/items/factories/fields.php:61
 #, fuzzy
@@ -1875,7 +1888,7 @@ msgstr "تاريخ المغادرة"
 
 #: inc/angular/items/factories/fields.php:63
 msgid "Vous permet de définir la date de début de la promotion."
-msgstr ""
+msgstr "للسماح لك بتعيين تاريخ بدء العرض الترويجي."
 
 #: inc/angular/items/factories/fields.php:82
 #, fuzzy
@@ -1884,7 +1897,7 @@ msgstr "تاريخ الإنجاز"
 
 #: inc/angular/items/factories/fields.php:84
 msgid "Vous permet de définir la date de fin de la promotion."
-msgstr ""
+msgstr "للسماح لك بتعيين تاريخ انتهاء العرض الترويجي."
 
 #: inc/angular/items/factories/fields.php:112
 #, fuzzy
@@ -1893,11 +1906,11 @@ msgstr "إذا كان المنتج لها وزنها كبير، يمكن أن أ
 
 #: inc/angular/items/factories/fields.php:120
 msgid "Si le produit a une taille significative, vous pouvez la mentionner."
-msgstr ""
+msgstr "إذا كان المنتج لديه حجم كبير، يمكنك أن أذكر ذلك."
 
 #: inc/angular/items/factories/fields.php:128
 msgid "Si le produit a une largeur significative, vous pouvez la mentionner."
-msgstr ""
+msgstr "إذا تم قياس المنتج في العرض، يمكنك أن أذكر ذلك."
 
 #: inc/angular/items/factories/fields.php:131
 #, fuzzy
@@ -1906,11 +1919,11 @@ msgstr "الحجم (عدد الصفحات)"
 
 #: inc/angular/items/factories/fields.php:136
 msgid "Si le produit a une longueur significative, vous pouvez la mentionner."
-msgstr ""
+msgstr "إذا كان المنتج له طول كبير، يمكنك أن أذكر ذلك."
 
 #: inc/angular/items/factories/fields.php:144
 msgid "Chaque variation peut avoir une coleur qui la distingue des autres."
-msgstr ""
+msgstr "Chaque variation peut avoir une couleur qui la distingue des autres."
 
 #: inc/angular/items/factories/fields.php:147
 #, fuzzy
@@ -1919,23 +1932,24 @@ msgstr "سعة الخزان:"
 
 #: inc/angular/items/factories/fields.php:152
 msgid "Si le produit à une contenance liquide, vous pouvez la spécifier ici."
-msgstr ""
+msgstr "إذا كان المنتج لديه قدرة سائلة، يمكنك تحديده هنا."
 
 #: inc/angular/items/factories/fields.php:157
 #: inc/angular/items/factories/tabs.php:24
 #, fuzzy
 msgid "Stock"
-msgstr "الحد الأدنى من الكمية لتمكين الإخطار"
+msgstr "sku (وحده أداره المخزون)"
 
 #: inc/angular/items/factories/fields.php:171
 msgid ""
 "Si cette variation dispose d'un stock provenant de plusieurs founisseurs, "
 "vous pouvez affecter chaque quantité à un fournisseur."
 msgstr ""
+"إذا كان لهذا الاختلاف مخزون من موردين متعددين، يمكنك تعيين كل كمية إلى مورد."
 
 #: inc/angular/items/factories/fields.php:179
 msgid "Définissez une valeur numérique."
-msgstr ""
+msgstr "حدد قيمة رقمية."
 
 #: inc/angular/items/factories/fields.php:185
 #, fuzzy
@@ -1946,19 +1960,19 @@ msgstr "sku (وحده أداره المخزون)"
 msgid ""
 "L'unité de gestion de stock permet de distinguer les variations (ou les "
 "produits)"
-msgstr ""
+msgstr "وحدة إدارة المخزون تجعل من الممكن التمييز بين الاختلافات (أو المنتجات)"
 
 #: inc/angular/items/factories/fields.php:193
 msgid "Type du Codebarre"
-msgstr ""
+msgstr "نوع الباركود"
 
 #: inc/angular/items/factories/fields.php:238
 msgid "Vous pouvez utiliser le type du code barre déjà dans le produit."
-msgstr ""
+msgstr "يمكنك استخدام نوع الباركود بالفعل في المنتج."
 
 #: inc/angular/items/factories/fields.php:246
 msgid "La valeur du codebarre peut être spécifiée dans ce champ."
-msgstr ""
+msgstr "يمكن تحديد قيمة الباركود في هذا المجال."
 
 #: inc/angular/items/factories/fields.php:249
 #, fuzzy
@@ -1968,45 +1982,47 @@ msgstr "التسمية!"
 #: inc/angular/items/factories/fields.php:255
 msgid ""
 "Vous pouvez générer une étiquette pour ce produit durant l'enregistrement."
-msgstr ""
+msgstr "يمكنك إنشاء تسمية لهذا المنتج أثناء التسجيل."
 
 #: inc/angular/items/factories/itemTypes.php:7
 msgid "Vêtements & Accessoires"
-msgstr ""
+msgstr "الملابس والاكسسوارات"
 
 #: inc/angular/items/factories/itemTypes.php:8
 msgid ""
 "Produits pour boutique de vêtement : vestes, chemises, pantalon, chaussures, "
 "lunettes & tous les acccéssoires de mode."
 msgstr ""
+"الملابس متجر المنتجات: السترات والقمصان والسراويل والأحذية، والنظارات وجميع "
+"الأزياء والاكسسوارات."
 
 #: inc/angular/items/factories/itemTypes.php:13
 msgid "Comprimé & Accessoires"
-msgstr ""
+msgstr "أقراص"
 
 #: inc/angular/items/factories/itemTypes.php:14
 msgid "Ce produit disposera des champs pour les produis des pharmacies."
-msgstr ""
+msgstr "هذا المنتج يحتوي على حقول لمنتجات الصيدلة."
 
 #: inc/angular/items/factories/itemTypes.php:19
 msgid "Coupon & Bon de commande"
-msgstr ""
+msgstr "قسيمة وقسيمة"
 
 #: inc/angular/items/factories/itemTypes.php:20
 msgid "Ce produit sera liée à un bon de commande existant."
-msgstr ""
+msgstr "سيتم ربط هذا المنتج بأمر شراء موجود."
 
 #: inc/angular/items/factories/itemTypes.php:25
 msgid "Bière & Liqueurs"
-msgstr ""
+msgstr "البيرة و ليكورس"
 
 #: inc/angular/items/factories/itemTypes.php:26
 msgid "Vous permettra de créer des produits pour un bar ou snack bar."
-msgstr ""
+msgstr "سوف تقوم بإنشاء منتجات لشريط أو بار للوجبات الخفيفة."
 
 #: inc/angular/items/factories/itemTypes.php:31
 msgid "Repas & Gateaux"
-msgstr ""
+msgstr "الوجبات والكعك"
 
 #: inc/angular/items/factories/itemTypes.php:32
 #, fuzzy
@@ -2020,7 +2036,7 @@ msgstr "الخدمة"
 
 #: inc/angular/items/factories/itemTypes.php:38
 msgid "Vous pourrez créer un service vendable."
-msgstr ""
+msgstr "سوف تكون قادرة على خلق خدمة قابلة للبيع."
 
 #: inc/angular/items/factories/itemTypes.php:43
 #, fuzzy
@@ -2046,16 +2062,16 @@ msgstr "الملصقات السخيفة"
 #: inc/angular/order-list/controllers/orders-list.php:87
 #: inc/angular/order-list/controllers/orders-list.php:139
 msgid "Vous ne pouvez plus retirer de quantité"
-msgstr ""
+msgstr "لا يمكنك سحب الكمية"
 
 #: inc/angular/order-list/controllers/orders-list.php:114
 #: inc/angular/order-list/controllers/orders-list.php:164
 msgid "Vous ne pouvez plus restaurer une quantité"
-msgstr ""
+msgstr "لا يمكنك استعادة كمية"
 
 #: inc/angular/order-list/controllers/orders-list.php:197
 msgid "Le paiement ne peut pas excéder la somme à payer"
-msgstr ""
+msgstr "لا يمكن أن يتجاوز الدفع المبلغ المطلوب دفعه"
 
 #: inc/angular/order-list/controllers/orders-list.php:211
 #: views/commandes-script - Deprecated.php:713
@@ -2066,7 +2082,7 @@ msgstr "التفاصيل"
 
 #: inc/angular/order-list/controllers/orders-list.php:218
 msgid "Paiment"
-msgstr ""
+msgstr "دفع"
 
 #: inc/angular/order-list/controllers/orders-list.php:225
 #: inc/angular/order-list/controllers/orders-list.php:529
@@ -2089,7 +2105,7 @@ msgstr "طباعة"
 #: inc/angular/order-list/directives/payment-options.php:239
 #: views/refund/default.php:28 views/refund/default.php:142
 msgid "Nom de l'article"
-msgstr ""
+msgstr "اسم العنصر"
 
 #: inc/angular/order-list/controllers/orders-list.php:321
 #: views/items/grouped-items-dom.php:33 views/items/grouped-items-dom.php:35
@@ -2128,11 +2144,11 @@ msgstr "بقية"
 
 #: inc/angular/order-list/controllers/orders-list.php:367
 msgid "Détails sur la commande"
-msgstr ""
+msgstr "تفاصيل الشراء"
 
 #: inc/angular/order-list/controllers/orders-list.php:370
 msgid "Effectué le :"
-msgstr ""
+msgstr "نفذت على:"
 
 #: inc/angular/order-list/controllers/orders-list.php:371
 #, fuzzy
@@ -2146,7 +2162,7 @@ msgstr "الحالة"
 
 #: inc/angular/order-list/controllers/orders-list.php:393
 msgid "Effectuer un paiement"
-msgstr ""
+msgstr "إجراء الدفع"
 
 #: inc/angular/order-list/controllers/orders-list.php:396
 #, fuzzy
@@ -2155,11 +2171,11 @@ msgstr "طريقة دفع؟"
 
 #: inc/angular/order-list/controllers/orders-list.php:405
 msgid "Reste à payer"
-msgstr ""
+msgstr "بقية"
 
 #: inc/angular/order-list/controllers/orders-list.php:417
 msgid "Historique des paiements"
-msgstr ""
+msgstr "سجل الدفعات"
 
 #: inc/angular/order-list/controllers/orders-list.php:434
 #: inc/angular/saveorder/directives/saveorder-content.php:28
@@ -2168,7 +2184,7 @@ msgstr ""
 #: views/registers/dashboard_footer.php:162 views/registers/script.php:22
 #, fuzzy
 msgid "Montant"
-msgstr "نوع القسيمة: النسبة المئوية أو المبلغ الثابت."
+msgstr "تعيين المبلغ أو النسبة المئوية هنا..."
 
 #: inc/angular/order-list/controllers/orders-list.php:435 inc/install.php:715
 #: language/nexo_lang.php:51
@@ -2191,16 +2207,18 @@ msgid ""
 "Cette commande peut recevoir un paiement. Veuillez choisir le moyen de "
 "paiement que vous souhaitez appliquer à cette commande"
 msgstr ""
+"يمكن أن يتلقى هذا الطلب دفعة. يرجى اختيار طريقة الدفع التي تريد تطبيقها على "
+"هذا الطلب"
 
 #: inc/angular/order-list/controllers/orders-list.php:482
 msgid ""
 "Veuillez choisir le moyen de paiement que vous souhaitez appliquer à cette "
 "commande"
-msgstr ""
+msgstr "يرجى اختيار طريقة الدفع التي تريد تطبيقها على هذا الطلب"
 
 #: inc/angular/order-list/controllers/orders-list.php:533
 msgid "Qte défectueuse"
-msgstr ""
+msgstr "الكمية المعيبة"
 
 #: inc/angular/order-list/controllers/orders-list.php:536
 #, fuzzy
@@ -2208,12 +2226,13 @@ msgid "Qte vendue"
 msgstr "\"تم البيع\""
 
 #: inc/angular/order-list/controllers/orders-list.php:539
+#, fuzzy
 msgid "Qte en état"
-msgstr ""
+msgstr "في حالة جيدة"
 
 #: inc/angular/order-list/controllers/orders-list.php:542
 msgid "Etat du remboursement"
-msgstr ""
+msgstr "حالة رد الأموال"
 
 #: inc/angular/order-list/controllers/orders-list.php:543
 #, fuzzy
@@ -2235,8 +2254,9 @@ msgstr ""
 
 #: inc/angular/order-list/controllers/orders-list.php:674
 #: inc/angular/order-list/services/stripe-checkout.php:53
+#, fuzzy
 msgid "Compléter le paiement d'une commande : "
-msgstr ""
+msgstr "إكمال دفع أمر:"
 
 #: inc/angular/order-list/controllers/orders-list.php:708
 msgid "Options de la commande"
@@ -2247,8 +2267,9 @@ msgid "Souhaitez-vous confirmer ce paiement ?"
 msgstr ""
 
 #: inc/angular/order-list/controllers/orders-list.php:802
+#, fuzzy
 msgid "Souhaitez-vous confirmer le remboursement de cette commande ?"
-msgstr ""
+msgstr "أن التأكد من استرداد هذا الأمر؟"
 
 #: inc/angular/order-list/controllers/orders-list.php:816
 msgid "Le remboursement a correctement été effectué."
@@ -2298,12 +2319,14 @@ msgid ""
 msgstr ""
 
 #: inc/angular/order-list/controllers/orders-list.php:1020
+#, fuzzy
 msgid "Une erreur s'est produite durant le chargement des caisses."
-msgstr ""
+msgstr "حدث خطأ أثناء تحميل الأموال."
 
 #: inc/angular/order-list/directives/payment-options.php:40
+#, fuzzy
 msgid "Valeur du paiement"
-msgstr ""
+msgstr "قيمة الدفع"
 
 #: inc/angular/order-list/directives/payment-options.php:47
 #: views/checkout/v2-1/cart_pay_button.php:3 views/checkout/v2/col_1.php:104
@@ -2462,8 +2485,9 @@ msgstr ""
 
 #: inc/angular/register/controllers/paybox.php:490
 #: views/checkout/v2-1/script.php:1581 views/checkout/v2/script.php:1182
+#, fuzzy
 msgid "La commande a été enregistrée."
-msgstr ""
+msgstr "وقد سجل النظام."
 
 #: inc/angular/register/controllers/paybox.php:505
 #: views/checkout/v2-1/script.php:1596 views/checkout/v2/script.php:1197
@@ -2484,11 +2508,14 @@ msgid "Le paiement n'a pas pu être effectuée."
 msgstr ""
 
 #: inc/angular/register/controllers/paybox.php:551
+#, fuzzy
 msgid ""
 "Vous ne pouvez pas valider une commande qui n'a pas reçu de paiement. Si "
 "vous souhaitez enregistrer cette commande, fermer la fenêtre de paiement et "
 "cliquez sur le bouton \"En attente\"."
 msgstr ""
+"لا يمكنك ترحيل أمر التي لم تتلق أي مدفوعات. إذا كنت ترغب في حفظ هذا الأمر، "
+"قم بإغلاق إطار الدفع وانقر فوق الزر \"على عقد\"."
 
 #: inc/angular/register/controllers/paybox.php:647
 msgid ""
@@ -2506,8 +2533,9 @@ msgid "Valider la commande"
 msgstr ""
 
 #: inc/angular/register/controllers/paybox.php:743
+#, fuzzy
 msgid "Souhaitez-vous annuler la modification ?"
-msgstr ""
+msgstr "سوف يمكنك التراجع عن هذا التغيير؟"
 
 #: inc/angular/register/directives/coupon-payment.php:9
 msgid "Appliquer un coupon"
@@ -2541,7 +2569,6 @@ msgid "Montant du paiement"
 msgstr ""
 
 #: inc/angular/register/directives/default-payment.php:23
-#, fuzzy
 msgid "Définir un montant"
 msgstr "تعيين مبلغ"
 
@@ -2662,8 +2689,9 @@ msgid "Enfants"
 msgstr "الأطفال"
 
 #: inc/clothes-demo.php:70 inc/demo.php:91
+#, fuzzy
 msgid "Rayon des enfants"
-msgstr ""
+msgstr "دائرة نصف قطرها أطفال"
 
 #: inc/clothes-demo.php:76 inc/demo.php:97 inc/demo.php:152
 msgid "Cadeaux"
@@ -2681,7 +2709,7 @@ msgstr "الفئة من النساء"
 #: inc/clothes-demo.php:92
 #, fuzzy
 msgid "Accessoires"
-msgstr "ملحقات:"
+msgstr "المصروفات النثرية"
 
 #: inc/clothes-demo.php:93
 msgid "Catégorie des accéssoires"
@@ -2813,7 +2841,7 @@ msgstr ""
 #: inc/clothes-demo.php:540
 #, fuzzy
 msgid "Etoilée"
-msgstr "Etoilée"
+msgstr "نجمي"
 
 #: inc/clothes-demo.php:553
 msgid "Velvet Mock Nect Cut-Out Jumpshit"
@@ -2870,9 +2898,8 @@ msgstr ""
 
 #: inc/controller.php:26 inc/controller.php:49
 #: views/dashboard/main-store-card.php:11 views/header/store-menus.php:25
-#, fuzzy
 msgid "Boutiques"
-msgstr "يمكن لهذا المستخدم إنشاء محلات تجارية"
+msgstr "محلات"
 
 #: inc/controller.php:43
 msgid "Ajouter une boutique"
@@ -2994,7 +3021,7 @@ msgstr "صندوق المعاشات التقاعدية"
 #: inc/demo.php:46
 #, fuzzy
 msgid "Fournisseurs 1"
-msgstr "البائعون"
+msgstr "الموردون 1"
 
 #: inc/demo.php:53
 #, fuzzy
@@ -3194,8 +3221,9 @@ msgid "%s"
 msgstr "%s"
 
 #: inc/helpers.php:15
+#, fuzzy
 msgid "Vous n'avez pas accès à cette page."
-msgstr ""
+msgstr "ليس لديك إمكانية الدخول إلى هذه الصفحة"
 
 #: inc/install.php:717
 msgid "Role ayant des permissions limitées à la vente"
@@ -3252,7 +3280,7 @@ msgstr "إنشاء مقالات"
 #: inc/install.php:748
 #, fuzzy
 msgid "Voir la liste des produits"
-msgstr "قائمة المنتجات"
+msgstr "راجع قائمة المنتجات"
 
 #: inc/install.php:749
 msgid "Modifier des articles"
@@ -3281,8 +3309,9 @@ msgid "Supprimer des catégories"
 msgstr ""
 
 #: inc/install.php:757
+#, fuzzy
 msgid "Créer des départements"
-msgstr ""
+msgstr "إنشاء الإدارات"
 
 #: inc/install.php:758
 #, fuzzy
@@ -3336,8 +3365,9 @@ msgid "Créer Groupes de clients"
 msgstr ""
 
 #: inc/install.php:773
+#, fuzzy
 msgid "Voir la liste des groupes de clients"
-msgstr ""
+msgstr "قائمه مجموعات العملاء"
 
 #: inc/install.php:774
 msgid "Modifier Groupes de clients"
@@ -3388,8 +3418,9 @@ msgid "Créer des taxes"
 msgstr ""
 
 #: inc/install.php:788
+#, fuzzy
 msgid "Voir la liste des taxes"
-msgstr ""
+msgstr "قائمة الضرائب"
 
 #: inc/install.php:789
 msgid "Modifier des taxes"
@@ -3430,28 +3461,32 @@ msgid "Créer des sauvegardes"
 msgstr "إنشاء نسخ احتياطية"
 
 #: inc/install.php:800
+#, fuzzy
 msgid "Voir la liste des sauvegardes"
-msgstr ""
+msgstr "انظر قائمة النسخ الاحتياطية"
 
 #: inc/install.php:801
+#, fuzzy
 msgid "Modifier des sauvegardes"
-msgstr ""
+msgstr "تعديل النسخ الاحتياطية"
 
 #: inc/install.php:802
 msgid "Supprimer des sauvegardes"
 msgstr ""
 
 #: inc/install.php:804
+#, fuzzy
 msgid "Créer des ajustements du stock"
-msgstr ""
+msgstr "إنشاء تعديلات المخزون"
 
 #: inc/install.php:805
 msgid "Voir la liste des ajustements"
 msgstr ""
 
 #: inc/install.php:806
+#, fuzzy
 msgid "Modifier des ajustments"
-msgstr ""
+msgstr "تغيير التعديلات"
 
 #: inc/install.php:807
 msgid "Supprimer des ajustements"
@@ -3485,8 +3520,9 @@ msgid "Créer Coupons"
 msgstr "إنشاء قسائم"
 
 #: inc/install.php:816
+#, fuzzy
 msgid "Voir la liste des coupons"
-msgstr ""
+msgstr "انظر قائمة كوبونات"
 
 #: inc/install.php:817
 msgid "Modifier Coupons"
@@ -3501,8 +3537,9 @@ msgid "Consulter un rembourssement"
 msgstr ""
 
 #: inc/install.php:821
+#, fuzzy
 msgid "Créer un rembourssement"
-msgstr ""
+msgstr "خلق النقود"
 
 #: inc/install.php:822
 msgid "Modifier un rembourssement"
@@ -3559,8 +3596,9 @@ msgid "Réglages des options"
 msgstr ""
 
 #: inc/tours.php:42
+#, fuzzy
 msgid "<h4 class=\"text-center\">Bienvenue sur NexoPOS</h4>"
-msgstr ""
+msgstr "مرحبا بكم في NexoPOS"
 
 #: inc/tours.php:43 views/welcome/dom.php:2
 msgid ""
@@ -3752,8 +3790,9 @@ msgid ""
 msgstr ""
 
 #: language/nexo_lang.php:6
+#, fuzzy
 msgid "Votre licence à été activée. Merci d'avoir renouvellé votre abonnement."
-msgstr ""
+msgstr "تنشيط الترخيص الخاص بك في فصل الصيف. شكرا لك تجديد الاشتراك الخاص بك."
 
 #: language/nexo_lang.php:7
 msgid "Cette licence n'est plus valide. Veuillez fournir une licence valide."
@@ -3882,8 +3921,9 @@ msgid "Supprimer des caisses"
 msgstr ""
 
 #: language/nexo_lang.php:39
+#, fuzzy
 msgid "Peut consulter les caisses"
-msgstr ""
+msgstr "الأموال المتاحة"
 
 #: language/nexo_lang.php:41
 msgid "Donne accès à la création des caisses enregistreuses."
@@ -3976,8 +4016,9 @@ msgid "Reçu personnalisé"
 msgstr "مخصص"
 
 #: language/nexo_lang.php:70
+#, fuzzy
 msgid "Boutique introuvable"
-msgstr ""
+msgstr "لم يتم العثور على متجر."
 
 #: language/nexo_lang.php:71
 msgid "Création des boutiques"
@@ -4000,12 +4041,14 @@ msgid "Cet utilisateur pourra créer des boutiques"
 msgstr "يمكن لهذا المستخدم إنشاء محلات تجارية"
 
 #: language/nexo_lang.php:76
+#, fuzzy
 msgid "Cet utilisateur pourra supprimer des boutiques"
-msgstr ""
+msgstr "يمكن لهذا المستخدم إنشاء محلات تجارية"
 
 #: language/nexo_lang.php:77
+#, fuzzy
 msgid "Cet utilisateur pourra modifier des boutiques"
-msgstr ""
+msgstr "يمكن لهذا المستخدم إنشاء محلات تجارية"
 
 #: language/nexo_lang.php:78
 msgid "Cet utilisateur pourra servir dans une boutique"
@@ -4017,8 +4060,9 @@ msgid "Indisponible"
 msgstr "المتوفر:"
 
 #: language/nexo_lang.php:83
+#, fuzzy
 msgid "Cette fonctionnalité est désactivée."
-msgstr ""
+msgstr "تم تعطيل هذه الميزة."
 
 #: language/nexo_lang.php:85
 msgid "Article Physique"
@@ -4077,8 +4121,9 @@ msgid "Modifier les coupons"
 msgstr ""
 
 #: language/nexo_lang.php:103
+#, fuzzy
 msgid "Donne les droits pour supprimer des coupons"
-msgstr ""
+msgstr "تعطي حقوقاً لإزالة قسائم"
 
 #: language/nexo_lang.php:104
 msgid "Suppressions des coupons"
@@ -4176,7 +4221,7 @@ msgstr "سله"
 #: views/receipts/light.php:65 views/receipts/simple.php:67
 #, fuzzy
 msgid "Produits"
-msgstr "المنتجات"
+msgstr "المنتجات المجمعة"
 
 #: views/checkout/v2-1/col_1.php:16 views/checkout/v2/col_1.php:14
 #: views/checkout/v2/script.php:1356
@@ -4259,13 +4304,13 @@ msgstr "تسجيل الخروج"
 
 #: views/checkout/v2-1/options.php:3 views/checkout/v2/col_2.php:53
 #: views/checkout/v2/options.php:2
-#, fuzzy
 msgid "Filtrer les catégories"
 msgstr "تصفية الفئات"
 
 #: views/checkout/v2-1/options.php:7 views/checkout/v2/options.php:6
+#, fuzzy
 msgid "Masquer les options"
-msgstr ""
+msgstr "إخفاء الخيارات"
 
 #: views/checkout/v2-1/script.php:80
 msgid "La quantité restante du produit n'est pas suffisante."
@@ -4359,7 +4404,6 @@ msgid "Appliquer une remise"
 msgstr ""
 
 #: views/checkout/v2-1/script.php:834 views/checkout/v2/script.php:440
-#, fuzzy
 msgid "Définir le montant ou le pourcentage ici..."
 msgstr "تعيين المبلغ أو النسبة المئوية هنا..."
 
@@ -5045,7 +5089,7 @@ msgstr ""
 #: views/customers/script.php:292
 #, fuzzy
 msgid "Etat / Région"
-msgstr "الدولة/المنطقة"
+msgstr "المنطقة"
 
 #: views/customers/script.php:318 views/shippings/main-template.php:64
 #: views/shippings/main-template.php:65
@@ -5381,7 +5425,7 @@ msgstr ""
 #: views/items/grouped-items-dom.php:69
 #, fuzzy
 msgid "Incluse"
-msgstr "يسمح لك بتحديد ما إذا كانت الضريبة مضمنه أو مستثناه."
+msgstr "معها"
 
 #: views/items/grouped-items-dom.php:72
 msgid "Définir le type de taxe appliqué au produit."
@@ -5430,7 +5474,6 @@ msgstr ""
 #: views/items/grouped-items-dom.php:140 views/settings/customers.php:35
 #: views/settings/customers.php:45 views/settings/home.php:105
 #: views/settings/stores.php:26
-#, fuzzy
 msgid "Désactiver"
 msgstr "تعطيل"
 
@@ -5480,7 +5523,7 @@ msgstr "قبل عام 2001"
 #: views/items/history/dom.php:26
 #, fuzzy
 msgid "Après"
-msgstr "بعد عدد محدد من الاستخدام ، لن تكون هذه القسيمة صالحه بعد الآن"
+msgstr "بعد تاريخ انتهاء الصلاحية ، لن تعود القسيمة صالحه للاستعمال."
 
 #: views/items/parts.php:17
 msgid "Supprimer une variation"
@@ -5634,8 +5677,9 @@ msgid ""
 msgstr ""
 
 #: views/items/templates/category.php:3
+#, fuzzy
 msgid "Créer une catégorie"
-msgstr ""
+msgstr "إنشاء فئة جديده"
 
 #: views/items/templates/clothes.php:3 views/items/templates/coupon.php:3
 msgid "Changer de type"
@@ -6148,7 +6192,7 @@ msgstr ""
 #: views/settings/checkout.php:72
 #, fuzzy
 msgid "Exemple : 20"
-msgstr "مثال: 20"
+msgstr "مثال"
 
 #: views/settings/checkout.php:77 views/shop-checkout-settings -
 #: Deprecated.php:88
@@ -6438,8 +6482,9 @@ msgid "Rue de la boutique"
 msgstr "من المتجر"
 
 #: views/settings/home.php:54
+#, fuzzy
 msgid "Boite postale"
-msgstr ""
+msgstr "مربع البريدية"
 
 #: views/settings/home.php:60
 msgid "Email pour la boutique"
@@ -6494,8 +6539,9 @@ msgid "Texte du logo"
 msgstr ""
 
 #: views/settings/home.php:130
+#, fuzzy
 msgid "Lien vers URL une image"
-msgstr ""
+msgstr "رابط إلى صورة"
 
 #: views/settings/home.php:137
 msgid "Largeur du logo"
@@ -6554,10 +6600,13 @@ msgid "Hauteur Logo(px)"
 msgstr ""
 
 #: views/settings/invoices.php:52
+#, fuzzy
 msgid ""
 "Forcer la hauteur du logo. Veuillez définir une valeur numérique, par "
 "exemple : \"30\" et non \"30px\""
 msgstr ""
+"قوة ارتفاع الشعار. الرجاء تحديد قيمة رقمية، على سبيل المثال: \"30\" وليس "
+"\"30px\""
 
 #: views/settings/invoices.php:58
 msgid "Largeur Logo(px)"
@@ -6586,8 +6635,9 @@ msgid "<h4>Utilisez les balises suivantes : </h4>"
 msgstr ""
 
 #: views/settings/invoices.php:84 views/settings/invoices.php:147
+#, fuzzy
 msgid "{shop_name} pour afficher le nom de la boutique"
-msgstr ""
+msgstr "{shop_name} لعرض اسم المحل"
 
 #: views/settings/invoices.php:85 views/settings/invoices.php:148
 msgid "{shop_phone} pour afficher le numéro de téléphone de la boutique"
@@ -6606,8 +6656,9 @@ msgid "{shop_street} pour afficher la rue de la boutique"
 msgstr ""
 
 #: views/settings/invoices.php:89 views/settings/invoices.php:152
+#, fuzzy
 msgid "{shop_email} pour afficher l'email de la boutique"
-msgstr ""
+msgstr "{shop_email} لعرض البريد الإلكتروني المخزن"
 
 #: views/settings/invoices.php:90
 #, fuzzy
@@ -6637,8 +6688,9 @@ msgid "{order_cashier}, pour afficher l'auteur de la commande."
 msgstr "{order_cashier}، تعرض صاحب البلاغ للأمر."
 
 #: views/settings/invoices.php:96
+#, fuzzy
 msgid "{customer_name}, pour afficher le nom du client."
-msgstr ""
+msgstr "{customer_name}، لعرض اسم العميل."
 
 #: views/settings/invoices.php:97
 #, fuzzy
@@ -6655,9 +6707,10 @@ msgid ""
 msgstr ""
 
 #: views/settings/invoices.php:101
+#, fuzzy
 msgid ""
 "{delivery_address_2}, Pour afficher les informations de livraison addresse 2"
-msgstr ""
+msgstr "{delivery_address_2} لعرض معلومات عنوان الشحن 2"
 
 #: views/settings/invoices.php:102
 msgid "{city}, pour afficher la ville de livraison."
@@ -6672,10 +6725,11 @@ msgid "{name}, Pour afficher la personne à qui est destiné la livraison"
 msgstr ""
 
 #: views/settings/invoices.php:105
+#, fuzzy
 msgid ""
 "{surname}, Pour afifcher le prénom de la perosnne à qui est destiné la "
 "livraison."
-msgstr ""
+msgstr "{اللقب}، لعرض اسم الشخص الذي التسليم ل."
 
 #: views/settings/invoices.php:106
 msgid "{state}, Pour afficher l'état ou la livraison doit avoir lieu."
@@ -6739,12 +6793,14 @@ msgid "Rafraichissement en cours..."
 msgstr ""
 
 #: views/settings/items-script.php:95 views/settings/items-script.php:117
+#, fuzzy
 msgid "Les codes barres des produits ont été correctement mis à jour"
-msgstr ""
+msgstr "تم بنجاح تحديث الرموز شريطية المنتجات"
 
 #: views/settings/items.php:48
+#, fuzzy
 msgid "Choisir le type de Code Barre"
-msgstr ""
+msgstr "اختر نوع الرمز الشريطي"
 
 #: views/settings/items.php:55
 msgid "Limite en chiffre sur le code barre"
@@ -6800,8 +6856,9 @@ msgid ""
 msgstr ""
 
 #: views/settings/keyboard.php:26
+#, fuzzy
 msgid "Ouvrir la fenetre de paiement"
-msgstr ""
+msgstr "فتح نافذة الدفع"
 
 #: views/settings/keyboard.php:27
 msgid "Par défaut : shift+p"
@@ -6858,8 +6915,9 @@ msgid "Par défaut : shift+w"
 msgstr ""
 
 #: views/settings/keyboard.php:54
+#, fuzzy
 msgid "Ajouter une note a la commande"
-msgstr ""
+msgstr "إضافة ملاحظة إلى النظام"
 
 #: views/settings/keyboard.php:55
 #, fuzzy
@@ -6888,8 +6946,9 @@ msgid "Faire basculer le mode plein écran"
 msgstr ""
 
 #: views/settings/keyboard.php:71
+#, fuzzy
 msgid "Par défaut: shift+0"
-msgstr ""
+msgstr "الافتراضي: shift +0"
 
 #: views/settings/keyboard.php:74
 #, fuzzy
@@ -6943,23 +7002,27 @@ msgstr ""
 
 #: views/settings/providers.php:24
 msgid "Activer l'historique des fournisseurs"
-msgstr ""
+msgstr "تمكين سجل الموفر"
 
 #: views/settings/providers.php:25
 msgid ""
 "Cette fonctionnalité activera les comptes créditeurs pour les fournisseurs. "
 "Par défaut cette fonctonnalité est désactivée."
 msgstr ""
+"هذه الميزة تمكن الحسابات المستحقة الدفع للموردين. يتم تعطيل هذه الميزة "
+"افتراضيا."
 
 #: views/settings/providers.php:47
 msgid "Catégorie des comptes créditeurs"
-msgstr ""
+msgstr "فئة الحسابات الدائنة"
 
 #: views/settings/providers.php:48
 msgid ""
 "En regroupant les compteurs créditeurs sous une catégorie, il sera possible "
 "de répertorier facilement chaque transaction dans le rapport des dépenses."
 msgstr ""
+"من خلال تجميع عدادات الائتمان تحت فئة، وسوف يكون من الممكن بسهولة سرد كل "
+"معاملة في تقرير المصروفات."
 
 #: views/settings/providers.php:56
 #, php-format
@@ -6967,22 +7030,25 @@ msgid ""
 "Vous devez <a href=\"%s\">créer une catégorie</a> afin de l'assigner en tant "
 "que catégories pour les comptes créditeurs des fournisseurs.<br><br>"
 msgstr ""
+"يلزمك <a href=\"%s\"> إنشاء فئة </a> لتعيينها كفئة للحسابات المستحقة الدفع "
+"من الموردين. <br> <br>"
 
 #: views/settings/reset-script.php:4
 msgid "Sélectionner une valeur"
-msgstr ""
+msgstr "حدد قيمة"
 
 #: views/settings/reset-script.php:5
+#, fuzzy
 msgid "Vider complètement la boutique"
-msgstr ""
+msgstr "إفراغ المحل تماما"
 
 #: views/settings/reset-script.php:6
 msgid "Vide la boutique et restaure les données démos"
-msgstr ""
+msgstr "إفراغ المحل واستعادة البيانات التجريبية"
 
 #: views/settings/reset-script.php:7
 msgid "Activer la démo pour boutique de vêtements"
-msgstr ""
+msgstr "تمكين تجريبي لبيع الملابس"
 
 #: views/settings/reset-script.php:13 views/settings/reset.php:8
 #, fuzzy
@@ -6995,6 +7061,8 @@ msgid ""
 "de la boutique ou d'administrateur du site. Utilisez cette option pour "
 "reinitialiser la boutique. Un rapport d'activité sera enregistré."
 msgstr ""
+"يتم منح هذا الامتياز فقط للمستخدمين الذين لديهم دور مدير المتجر أو مسؤول "
+"الموقع. استخدم هذا الخيار لإعادة تعيين المتجر. سيتم تسجيل تقرير النشاط."
 
 #: views/settings/reset-script.php:20
 msgid ""
@@ -7002,6 +7070,8 @@ msgid ""
 "données actives: produits, catégories, rayons, fournisseurs, arrivage, "
 "commandes, clients et les réglages"
 msgstr ""
+"إعادة تعيين مخزن يزيل جميع البيانات النشطة: المنتجات، فئات، الإدارات، "
+"البائعين، شحنة، أوامر، العملاء، والإعدادات."
 
 #: views/settings/reset-script.php:36
 #, fuzzy
@@ -7010,11 +7080,12 @@ msgstr "انتبه!"
 
 #: views/settings/reset-script.php:37
 msgid "Une option de réinitialisation doit être choisie."
-msgstr ""
+msgstr "يجب اختيار خيار إعادة الضبط."
 
 #: views/settings/reset-script.php:42
+#, fuzzy
 msgid "Veuillez entrer votre mot de passe"
-msgstr ""
+msgstr "الرجاء إدخال كلمة المرور الخاصة بك"
 
 #: views/settings/reset-script.php:46
 #, fuzzy
@@ -7023,7 +7094,7 @@ msgstr "‮كلمة السر"
 
 #: views/settings/reset-script.php:47
 msgid "Vous devez spécifier un mot de passe."
-msgstr ""
+msgstr "يجب تحديد كلمة مرور."
 
 #: views/settings/reset-script.php:55
 #, fuzzy
@@ -7032,11 +7103,11 @@ msgstr "استرجاع"
 
 #: views/settings/stores.php:24
 msgid "Activer le mode \"Multi Boutique\""
-msgstr ""
+msgstr "تفعيل وضع \"متعدد بوتيك\""
 
 #: views/settings/stores.php:29
 msgid "Permet d'utiliser les fonctionnalités Multi-boutique sur NexoPOS."
-msgstr ""
+msgstr "يسمح لك لاستخدام ميزة العديد من المحلات التجارية"
 
 #: views/shippings/main-template.php:4
 msgid "Frais de livraison"
@@ -7049,13 +7120,14 @@ msgstr "& إخفِ"
 
 #: views/shippings/main-template.php:13
 msgid "Vous devez fournir une valeur sur ce champ."
-msgstr ""
+msgstr "يجب تقديم قيمة في هذا الحقل."
 
 #: views/shippings/main-template.php:17
+#, fuzzy
 msgid ""
 "Cliquer sur plus d'options pour afficher des informations relatives au "
 "détails de livraison"
-msgstr ""
+msgstr "انقر على المزيد من الخيارات لعرض المعلومات المتعلقة تفاصيل التسليم"
 
 #: views/shippings/main-template.php:21
 msgid "Titre de la livraison"
@@ -7091,7 +7163,7 @@ msgstr "العنوان:"
 #: views/shippings/main-template.php:72
 #, fuzzy
 msgid "Address 1"
-msgstr "العنوان:"
+msgstr "العنوان 1"
 
 #: views/shippings/main-template.php:78 views/shippings/main-template.php:79
 #, fuzzy

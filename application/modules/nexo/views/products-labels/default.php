@@ -36,7 +36,7 @@ if (! $products_labels = $cache->get($shipping_id) || @$_GET[ 'refresh' ] == 'tr
             </form>
             <br>
             <div class="btn-group" role="group" aria-label="...">
-                <a href="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'supplies'p ));?>" class="btn btn-default">
+                <a href="<?php echo site_url(array( 'dashboard', store_slug(), 'nexo', 'supplies' ));?>" class="btn btn-default">
 	                <?php _e('Revenir à la liste des collections', 'nexo');?>
                 </a>
                 <a href="<?php echo current_url() . '?refresh=true';?>" class="btn btn-default">

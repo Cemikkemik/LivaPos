@@ -873,7 +873,7 @@ tendooApp.controller( 'nexo_order_list', [ '$scope', '$compile', '$timeout', '$h
 			data		:	{
 				items	:	$scope.orderItems,
 				author	:	<?php echo User::id();?>,
-				date		:	tendoo.now()
+				date 	:	tendoo.now()
 			}
 		}).then(function( returned ) {
 			$scope.order_items 		=	returned.data;

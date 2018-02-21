@@ -20,7 +20,7 @@ var v2Checkout					=	new function(){
 	this.CartPayButton					=	'#cart-pay-button';
 	this.CartCancelButton				=	'#cart-return-to-order';
 
-	this.CartVATEnabled					=	<?php echo @$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' ? 'true' : 'false';?>;
+	this.CartVATEnabled					=	<?php echo in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true ) ? 'true' : 'false';?>;
 	this.CartVATPercent					=	<?php echo in_array(@$Options[ store_prefix() . 'nexo_vat_percent' ], array( null, '' )) ? 0 : @$Options[ store_prefix() . 'nexo_vat_percent' ];?>
 
 	if( this.CartVATPercent == '0' ) {

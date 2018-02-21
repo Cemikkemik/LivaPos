@@ -399,6 +399,12 @@ class NexoRegistersController extends CI_Model
 			$this->Gui->set_title( store_title( __('Modifier une commande', 'nexo')) );
 		}
 
+		/**
+		 * @since 3.11.7
+		 * load taxes on POS
+		 */
+		$data[ 'taxes' ] 		=	get_instance()->Nexo_Misc->get_taxes();
+
 		$this->load->view('../modules/nexo/views/checkout/v2-1/body.php', $data);
 	}
 

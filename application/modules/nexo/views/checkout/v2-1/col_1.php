@@ -85,8 +85,8 @@
                     <td width="200" class="text-left"><?php echo __( 'Nombre de produits', 'nexo' );?> ( <span class="items-number">0</span> )</td>
                     <td width="150" class="text-right hidden-xs"></td>
                     <td width="150" class="text-right"><?php
-                        if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui') {
-                            _e('Net hors taxe', 'nexo');
+                        if ( in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true ) ) {
+                            _e('Net hors taxe', 'nexo');                            
                         } else {
                             _e('Sous Total', 'nexo');
                         }
@@ -109,14 +109,25 @@
                     <td class="text-right cart-discount-remove-wrapper"><span class="cart-discount pull-right"></span></td>
                 </tr>
 
-                <?php if ( ( @$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ]) ) || store_option( 'disable_shipping' ) != 'yes' ):?>
+                <?php if ( (  in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true )  && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ]) ) || store_option( 'disable_shipping' ) != 'yes' ):?>
                 <tr class="active">
                     <?php if( store_option( 'disable_shipping' ) != 'yes' ):?>
-                        <?php if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])):?>
+                        <?php if ( in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true )  && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])):?>
+                            <?php if ( store_option( 'nexo_vat_type' ) == 'fixed' ):?>
+                                <td class="text-right">
+                                    <span class="pull-left"><?php echo sprintf(__('TVA (%s%%)', 'nexo'), $Options[ store_prefix() . 'nexo_vat_percent' ]);?></span>
+                                    <span class="cart-vat pull-right"></span>
+                                </td>
+                            <?php else:;?>
                             <td class="text-right">
-                                <span class="pull-left"><?php echo sprintf(__('TVA (%s%%)', 'nexo'), $Options[ store_prefix() . 'nexo_vat_percent' ]);?></span>
-                                <span class="cart-vat pull-right"></span>
+                                <div class="input-group input-group-sm">
+                                    <select type="text" class="form-control taxes_select taxes_large">
+                                        <option value=""><?php echo __( 'Selectionner une taxe', 'nexo' );?></option>
+                                    </select>
+                                    <span class="input-group-addon cart-vat"></span>
+                                </div>
                             </td>
+                            <?php endif;?>
                         <?php else:?>
                             <td></td>
                         <?php endif;?>
@@ -124,7 +135,7 @@
                     <?php else:?>
                         <td></td>
                         <td></td>
-                        <?php if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])):?>
+                        <?php if ( in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true )  && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])):?>
                             <td class="text-right">
                                 <span class="pull-right"><?php echo sprintf(__('TVA (%s%%)', 'nexo'), $Options[ store_prefix() . 'nexo_vat_percent' ]);?></span>
                             </td>
@@ -157,7 +168,7 @@
                     <!--<td><?php echo __( 'Nombre de produits', 'nexo' );?> ( <span class="items-number">0</span> )</td>-->
                     <td>
                     <span class="hidden-xs"><?php
-                    if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui') {
+                    if ( in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true ) ) {
                         _e('Net hors taxe', 'nexo');
                     } else {
                         _e('Sous Total', 'nexo');
@@ -167,7 +178,7 @@
 
                     <span class="hidden-lg hidden-md">
                     <?php
-                    if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui') {
+                    if ( in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true ) ) {
                         _e('HT', 'nexo');
                     } else {
                         _e('S.Total', 'nexo');
@@ -180,10 +191,21 @@
                 </tr>
                 <tr class="active">
                     <?php
-                    if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])) {
+                    if ( in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true )  && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])) {
                     ?>
+                    <?php if ( store_option( 'nexo_vat_type' ) == 'fixed' ):?>
                     <td><?php echo sprintf(__('TVA (%s%%)', 'nexo'), $Options[ store_prefix() . 'nexo_vat_percent' ]);
                     ?> <span class="cart-vat pull-right"></span></td>
+                    <?php else:?>
+                    <td>
+                        <div class="input-group input-group-sm">
+                            <select type="text" class="form-control taxes_select taxes_small">
+                                <option value=""><?php echo __( 'Taxe', 'nexo' );?></option>
+                            </select>
+                            <span class="input-group-addon cart-vat"></span>
+                        </div>
+                    </td>
+                    <?php endif;?>
                     <?php
                     }
                     else {

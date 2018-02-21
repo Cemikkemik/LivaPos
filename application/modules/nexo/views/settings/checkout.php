@@ -56,18 +56,19 @@ $this->Gui->add_item(array(
 
 $this->Gui->add_item(array(
     'type'        =>    'select',
-    'name'        =>    $option_prefix . 'nexo_enable_vat',
-    'label'        =>    __('Activer la TVA', 'nexo'),
+    'name'        =>    $option_prefix . 'nexo_vat_type',
+    'label'        =>    __( 'Activer la TVA', 'nexo'),
     'options'    =>    array(
 		''		=>	__( 'Veuillez choisir une option', 'nexo' ),
-        'oui'        =>    __('Oui', 'nexo'),
-        'non'        =>    __('Non', 'nexo')
+        'disabled'      =>    __('Désactiver', 'nexo'),
+        'fixed'         =>    __('TVA fixe', 'nexo'),
+        'variable'      =>    __('TVA variable', 'nexo')
     )
 ), 'Nexo_checkout', 1);
 
 $this->Gui->add_item(array(
     'type'        =>    'text',
-    'label'        =>    __('Définir le taux de la TVA (%)', 'nexo'),
+    'label'        =>    __('Définir le taux fixe de la TVA (%)', 'nexo'),
     'name'        =>    $option_prefix . 'nexo_vat_percent',
     'placeholder'    =>    __('Exemple : 20', 'nexo')
 ), 'Nexo_checkout', 1);

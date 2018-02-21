@@ -59,7 +59,8 @@ trait Nexo_orders
 			'TITRE'                 =>      $this->post( 'TITRE' ) != null ? $this->post( 'TITRE' ) : '',
             // @since 3.1
             'SHIPPING_AMOUNT'       =>      floatval( @$shipping[ 'price' ] ),
-            'REF_SHIPPING_ADDRESS'  =>      @$shipping[ 'id' ]
+            'REF_SHIPPING_ADDRESS'  =>      @$shipping[ 'id' ],
+            'REF_TAX'               =>      $this->post( 'REF_TAX' )
         );
 
         // filter order details
@@ -453,7 +454,8 @@ trait Nexo_orders
             'SHIPPING_AMOUNT'       =>      floatval( @$shipping[ 'price' ] ),
             'REF_SHIPPING_ADDRESS'  =>      @$shipping[ 'id' ],
             // @since 3.1.0
-            'TITRE'             =>  $this->put( 'TITRE' )
+            'TITRE'             =>  $this->put( 'TITRE' ),
+            'REF_TAX'               =>      $this->put( 'REF_TAX' )
         );
 
         // filter order details

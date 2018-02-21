@@ -620,7 +620,7 @@ class NexoPremiumController extends Tendoo_Module
         $this->enqueue->css( 'datepicker3', base_url() . 'public/plugins/datepicker/' );
         $this->enqueue->js( 'bootstrap-datepicker', base_url() . 'public/plugins/datepicker/' );
 
-        $this->Gui->set_title( sprintf( __( 'Bénéfices et Pertes &mdash; %s', 'nexo_premium' ), @$Options[ store_prefix() . 'site_name' ] ) );
+        $this->Gui->set_title( sprintf( __( 'Bénéfices et Pertes &mdash; %s', 'nexo_premium' ), store_option( 'site_name' ) ) );
 
         $this->events->add_action( 'dashboard_footer', function(){
             get_instance()->load->module_view( 'nexo_premium', 'profit_and_lost_script' );
@@ -644,7 +644,7 @@ class NexoPremiumController extends Tendoo_Module
         $this->enqueue->css( 'datepicker3', base_url() . 'public/plugins/datepicker/' );
         $this->enqueue->js( 'bootstrap-datepicker', base_url() . 'public/plugins/datepicker/' );
 
-        $this->Gui->set_title( sprintf( __( 'Liste des dépenses &mdash; %s', 'nexo_premium' ), @$Options[ store_prefix() . 'site_name' ] ) );
+        $this->Gui->set_title( sprintf( __( 'Liste des dépenses &mdash; %s', 'nexo_premium' ), store_option( 'site_name' ) ) );
 
         $this->events->add_action( 'dashboard_footer', function(){
             get_instance()->load->module_view( 'nexo_premium', 'expenses_listing_script' );
@@ -677,7 +677,7 @@ class NexoPremiumController extends Tendoo_Module
         $this->enqueue->css('../modules/nexo/bower_components/chosen/chosen');
         $this->enqueue->css('../modules/nexo/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min');
 
-        $this->Gui->set_title( sprintf( __( 'Rapport des ventes détaillés &mdash; %s', 'nexo_premium' ), @$Options[ store_prefix() . 'site_name' ] ) );
+        $this->Gui->set_title( sprintf( __( 'Rapport des ventes détaillés &mdash; %s', 'nexo_premium' ), store_option( 'site_name' ) ) );
 
         // Load JS
         $this->events->add_action( 'dashboard_footer', function(){

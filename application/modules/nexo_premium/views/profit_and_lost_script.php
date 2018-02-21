@@ -288,16 +288,23 @@ tendooApp.controller( 'profitAndLosses', [ '$http', '$scope', function( $http, $
     */
 
     $scope.calculateNetSellingPrice         =   function( item ){
-        return (
+        // return (
+        //     (
+        //         parseFloat( item.PRIX ) -
+        //         (
+        //             $scope.showFixedItemUniqueDiscount( item ) +
+        //             $scope.calculateItemPercentage( item )
+        //         )
+        //     )
+        //     * parseFloat( item.QUANTITE )
+        // ) - ( $scope.calculateCartPercentage( item ) + $scope.showFixedCartUniqueDiscount( item ) );
+        return ( (
+            parseFloat( item.PRIX ) -
             (
-                parseFloat( item.PRIX ) -
-                (
-                    $scope.showFixedItemUniqueDiscount( item ) +
-                    $scope.calculateItemPercentage( item )
-                )
-            )
-            * parseFloat( item.QUANTITE )
-        ) - ( $scope.calculateCartPercentage( item ) + $scope.showFixedCartUniqueDiscount( item ) );
+                $scope.showFixedItemUniqueDiscount( item ) +
+                $scope.calculateItemPercentage( item )
+            )            
+        ) - ( $scope.calculateCartPercentage( item ) + $scope.showFixedCartUniqueDiscount( item ) ) ) * parseFloat( item.QUANTITE );
     }
 
     /**

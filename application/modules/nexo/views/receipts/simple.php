@@ -195,7 +195,7 @@ body {
                                 </td>
                             </tr>
                             <?php endif;?>
-                            <?php if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui'):?>
+                            <?php if (in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true )):?>
                             <tr>
                                 <td class=""><?php _e('Net Hors Taxe', 'nexo');?></td>
                                 <td class="" style="text-align: right">(=)</td>
@@ -217,7 +217,11 @@ body {
                                 </td>
                             </tr>
                             <tr>
-                                <td class=""><?php _e('TVA', 'nexo');?> (<?php echo @$Options[ store_prefix() . 'nexo_vat_percent' ];?>%)</td>
+                                <?php if ( $tax ):?>
+                                    <td class=""><?php echo sprintf( __( '%s (%s%%)', 'nexo' ), $tax[0][ 'NAME' ], $tax[0][ 'RATE' ] );?></td>
+                                <?php else:?>
+                                    <td class=""><?php _e('TVA', 'nexo');?> (<?php echo @$Options[ store_prefix() . 'nexo_vat_percent' ];?>%)</td>
+                                <?php endif;?>
                                 <td class="" style="text-align: right">(+)</td>
                                 <?php if( @$Options[ store_prefix() . 'unit_item_discount_enabled' ] == 'yes' ):?>
                                 <td class="text-right"></td>
@@ -342,6 +346,8 @@ body {
                     $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
                     echo '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode( $order[ 'order' ][0][ 'CODE' ], $generator::TYPE_CODE_128)) . '">';
                     ?>
+                    <br>
+                    <small><?php echo $order[ 'order' ][0][ 'CODE' ];?></small>
                 </div>
 				<p class="text-center"><?php echo xss_clean( $this->parser->parse_string( @$Options[ store_prefix() . 'nexo_bills_notices' ], $template , true ) );?></p>
                 <div class="container-fluid hideOnPrint">

@@ -819,4 +819,17 @@ class Nexo_Misc extends CI_Model
 
         return 'payment_made';
     }
+
+    /**
+     * Get Taxes
+     * @return an array of taxes
+     */
+    public function get_taxes( $id = null )
+    {
+        if ( $id != null ) {
+            $this->db->where( 'ID', $id );
+        }
+        return $this->db->get( store_prefix() . 'nexo_taxes' )
+            ->result_array();       
+    }
 }

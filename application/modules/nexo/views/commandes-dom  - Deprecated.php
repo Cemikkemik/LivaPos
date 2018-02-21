@@ -49,7 +49,7 @@
                     <tbody>
                         <tr  class="bg-success">
                             <td><h5>
-                            <?php if (@$Options[ 'nexo_enable_vat' ] == 'oui'):?>
+                            <?php if ( in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true ) ):?>
 								<?php _e('Hors Taxe (HT) :', 'nexo');?>
                             <?php else:?>
                             	<?php _e('Total :', 'nexo');?>
@@ -73,7 +73,7 @@
                                 </h5></td>
                         </tr>
                         
-						<?php if (@$Options[ 'nexo_enable_vat' ] == 'oui'):?>
+						<?php if ( in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true ) ):?>
 						
                         <tr class="bg-danger">
                             <td><h5>

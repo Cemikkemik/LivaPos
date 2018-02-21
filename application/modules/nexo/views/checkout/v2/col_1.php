@@ -58,7 +58,7 @@
                     <td width="230" class="text-right"></td>
                     <td width="130" class="text-right"></td>
                     <td width="130" class="text-right"><?php 
-                        if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui') {
+                        if ( in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true ) ) {
                             _e('Net hors taxe', 'nexo');
                         } else {
                             _e('Sous Total', 'nexo');
@@ -72,7 +72,7 @@
                     <td width="110" class="text-right"><span id="cart-discount"></span></td>
                 </tr>
                 <?php 
-                if (@$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])) {
+                if (in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true ) && ! empty($Options[ store_prefix() . 'nexo_vat_percent' ])) {
                     ?>
                 <tr class="active">
                     <td width="230" class="text-right"></td>

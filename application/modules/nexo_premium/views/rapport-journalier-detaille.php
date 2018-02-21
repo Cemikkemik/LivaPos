@@ -91,7 +91,7 @@ if( ! in_array( @$Options[ 'nexo_enable_registers' ], array( null, 'non' ) ) ){
             <td id="devis_nbr"></td>
             <td id="devis_amount" class="text-right"></td>
         </tr>
-        <?php if( @$Options[ 'nexo_enable_vat' ] == 'oui' ):?>
+        <?php if( @$Options[ 'nexo_vat_type' ] == 'oui' ):?>
         <tr>
             <td id=""></td>
             <td><?php _e('Taxes collectées', 'nexo_premium');

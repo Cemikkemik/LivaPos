@@ -4,7 +4,7 @@ $this->load->config( 'nexo' );
 
 $currentRow		=	0;
 
-if( @$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' ) {
+if( in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true ) ) {
 	$rowNbr		=	7;
 } else {
 	$rowNbr		=	6;
@@ -151,7 +151,7 @@ tendooApp.directive( 'payBoxContent', function(){
 	.only(<?php echo $currentRow++;?>).add( 'td.text-right' )
 	.textContent	=	'{{ cart.discount | moneyFormat }}';
 
-	<?php if( @$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' ) :?>
+	<?php if( in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true ) ) :?>
 	HTML.query( '.cart-details-table tr' )
 	.only(<?php echo $currentRow;?>)
 	.add( 'td.text-left' )

@@ -23,13 +23,18 @@ var v2Checkout					=	new function(){
 	this.itemsStock 			=	new Object;
 	// @since 3.x
 	this.enableBarcodeSearch	=	false;
-
-	this.CartVATEnabled			=	<?php echo @$Options[ store_prefix() . 'nexo_enable_vat' ] == 'oui' ? 'true' : 'false';?>;
+	/**
+	 * @since 3.11.7
+	 */
+	this.taxes 					=	<?php echo json_encode( $taxes );?>;
+	this.CartVATType			=	'<?php echo store_option( 'nexo_vat_type' );?>';
 	this.CartVATPercent			=	<?php echo in_array(@$Options[ store_prefix() . 'nexo_vat_percent' ], array( null, '' )) ? 0 : @$Options[ store_prefix() . 'nexo_vat_percent' ];?>;
 	this.CartShowItemVAT  		=	<?php echo store_option( 'show_item_taxes' ) == 'yes' ? 'true' : 'false';?>;
 
-	if( this.CartVATPercent == '0' ) {
-		this.CartVATEnabled		=	false;
+	this.REF_TAX 				=	0;
+
+	if( this.CartVATType == '' ) {
+		this.CartVATType		=	'disabled';
 	}
 
 	/**
@@ -1382,8 +1387,24 @@ var v2Checkout					=	new function(){
 	**/
 
 	this.calculateCartVAT		=	function(){
-		if( this.CartVATEnabled == true ) {
+		if( this.CartVATType == 'fixed' ) {
 			this.CartVAT		=	NexoAPI.ParseFloat( ( this.CartVATPercent * this.CartValueRRR ) / 100 );
+		} else if ( this.CartVATType == 'variable' ) {
+			let index;
+			if( [ 'xs', 'sm' ].indexOf( layout.screenIs ) != -1 ) {
+				index 	=	$( '.taxes_small' ).val();
+			} else {
+				index 	=	$( '.taxes_large' ).val();
+			}
+
+			if ( index != '' ) {
+				let tax 	=	this.taxes[ index ];
+				if ( tax ) {
+					this.CartVAT		=	NexoAPI.ParseFloat( ( parseFloat( tax.RATE ) * this.CartValueRRR ) / 100 );
+				}
+			} else {
+				this.CartVAT = 0;
+			}
 		}
 	};
 
@@ -1469,6 +1490,8 @@ var v2Checkout					=	new function(){
 		order_details.RABAIS			=	NexoAPI.ParseFloat( this.CartRabais );
 		order_details.RISTOURNE			=	NexoAPI.ParseFloat( this.CartRistourne );
 		order_details.TVA				=	NexoAPI.ParseFloat( this.CartVAT );
+		// @since 3.11.7
+		order_details.REF_TAX 			=	this.REF_TAX;
 		order_details.REF_CLIENT		=	this.CartCustomerID == null ? this.customers.DefaultCustomerID : this.CartCustomerID;
 		order_details.PAYMENT_TYPE		=	this.CartPaymentType;
 		order_details.GROUP_DISCOUNT	=	NexoAPI.ParseFloat( this.CartGroupDiscount );
@@ -2569,6 +2592,9 @@ var v2Checkout					=	new function(){
 		this.CartType 				=	null;
 		this.From 				=	null;
 
+		// @since 3.11.7
+		this.REF_TAX 				=	0;
+
 
 		<?php if (isset($order[ 'order' ])):?>
 		this.ProcessURL					=	"<?php echo site_url(array( 'rest', 'nexo', 'order', User::id(), $order[ 'order' ][0][ 'ORDER_ID' ] ));?>?store_id=<?php echo get_store_id();?>";
@@ -2606,6 +2632,28 @@ var v2Checkout					=	new function(){
 	}
 
 	/**
+	 * Setup Taxes
+	 * @return void
+	 */
+	 this.setupTaxes 			=	function(){
+		this.taxes.forEach( ( tax, index ) => {
+			$( '.taxes_select' ).append( '<option value="' + index + '">' + tax.NAME + '</option>' );
+		});
+		
+		$( '.taxes_select' ).each( function() {
+			$( this ).bind( 'change', function() {
+				let index 	=	$( this ).val();
+				v2Checkout.refreshCartValues();
+
+				if ( index != '' ) {
+					let tax 	=	v2Checkout.taxes[ index ];
+					v2Checkout.REF_TAX 		=	tax.ID;
+				}
+			});
+		})
+	 }
+
+	/**
 	* Run Checkout
 	**/
 	this.run							=	function(){
@@ -2615,6 +2663,7 @@ var v2Checkout					=	new function(){
 		this.bindHideItemOptions();
 		// @since 2.7.3
 		this.bindAddNote();
+		this.setupTaxes();
 
 		<?php if (isset($order)):?>
 		this.emptyCartItemTable();
@@ -2850,6 +2899,8 @@ var v2Checkout					=	new function(){
 			<?php endif;?>
 
 			this.CartCustomerID					=	<?php echo $order[ 'order' ][0][ 'REF_CLIENT' ];?>;
+			// @since 3.11.7
+			this.REF_TAX 						=	<?php echo $order[ 'order' ][0][ 'REF_TAX' ];?>;
 
 			// @since 2.7.3
 			this.CartNote						=	'<?php echo $order[ 'order'][0][ 'DESCRIPTION' ];?>';
@@ -2934,37 +2985,37 @@ NexoAPI.events.addFilter( 'cart_before_item_name', function( item_name ) {
 NexoAPI.events.addFilter( 'cart_item_name', ( data ) => {
 	data.displayed 		=	data.displayed.length > 23 ? data.displayed.substr( 0, 18 ) + '...' : data.displayed;
 	return data;
-	});
-	var Responsive 			=  function(){
-		this.screenIs 		=   '';
-		this.detect 		=	function(){
-			if ( window.innerWidth < 544 ) {
-				this.screenIs         =   'xs';
-			} else if ( window.innerWidth >= 544 && window.innerWidth < 768 ) {
-				this.screenIs         =   'sm';
-			} else if ( window.innerWidth >= 768 && window.innerWidth < 992 ) {
-				this.screenIs         =   'md';
-			} else if ( window.innerWidth >= 992 && window.innerWidth < 1200 ) {
-				this.screenIs         =   'lg';
-			} else if ( window.innerWidth >= 1200 ) {
-				this.screenIs         =   'xg';
-			}
+});
+var Responsive 			=  function(){
+	this.screenIs 		=   '';
+	this.detect 		=	function(){
+		if ( window.innerWidth < 544 ) {
+			this.screenIs         =   'xs';
+		} else if ( window.innerWidth >= 544 && window.innerWidth < 768 ) {
+			this.screenIs         =   'sm';
+		} else if ( window.innerWidth >= 768 && window.innerWidth < 992 ) {
+			this.screenIs         =   'md';
+		} else if ( window.innerWidth >= 992 && window.innerWidth < 1200 ) {
+			this.screenIs         =   'lg';
+		} else if ( window.innerWidth >= 1200 ) {
+			this.screenIs         =   'xg';
 		}
-
-		this.is 			=   function( value ) {
-			if ( value === undefined ) {
-				return this.screenIs;
-			} else {
-				return this.screenIs === value;
-			}
-		}
-
-		$( window ).resize( () => {
-			this.detect();
-		});
-
-		this.detect();
 	}
+
+	this.is 			=   function( value ) {
+		if ( value === undefined ) {
+			return this.screenIs;
+		} else {
+			return this.screenIs === value;
+		}
+	}
+
+	$( window ).resize( () => {
+		this.detect();
+	});
+
+	this.detect();
+}
 var counter         =   0;
 var layout 			=	new Responsive();
 setInterval( function(){

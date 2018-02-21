@@ -27,6 +27,7 @@ class NexoPrintController extends CI_Model
             $data[ 'order' ]    		=   $this->Nexo_Checkout->get_order_products($order_id, true);
             $data[ 'cache' ]    		=   $this->cache;
             $data[ 'shipping' ]         =   $this->db->where( 'ref_order', $order_id )->get( store_prefix() . 'nexo_commandes_shippings' )->result_array();
+            $data[ 'tax' ]              =   $this->Nexo_Misc->get_taxes( $data[ 'order' ][ 'order' ][0][ 'REF_TAX' ] );
             $allowed_order_for_print	=	$this->events->apply_filters( 'allowed_order_for_print', array( 'nexo_order_comptant' ) );
 	
 
@@ -233,7 +234,8 @@ class NexoPrintController extends CI_Model
 
         $data                		=   array();
         $data[ 'order' ]    		=   $this->Nexo_Checkout->get_order_products($order_id, true);
-        $data[ 'shipping' ]         =   $this->db->where( 'ref_order', $order_id )->get( store_prefix() . 'nexo_commandes_shippings' )->result_array();
+        $data[ 'tax' ]              =   $this->Nexo_Misc->get_taxes( $data[ 'order' ][ 'order' ][0][ 'REF_TAX' ] );
+        $data[ 'shipping' ]         =   $this->db->where( 'ref_client', $data[ 'order' ][ 'order' ][0][ 'REF_CLIENT' ] )->where( 'type', 'shipping' )->get( store_prefix() . 'nexo_clients_address' )->result_array();
         $data[ 'billing' ]          =   $this->db->where( 'ref_client', $data[ 'order' ][ 'order' ][0][ 'REF_CLIENT' ] )->where( 'type', 'billing' )->get( store_prefix() . 'nexo_clients_address' )->result_array();
 
         $allowed_order_for_print	=	$this->events->apply_filters( 'allowed_order_for_print', array( 'nexo_order_comptant' ) );
@@ -252,6 +254,6 @@ class NexoPrintController extends CI_Model
         });
 
         $this->Gui->set_title( store_title( __( 'Facture', 'nexo' ) ) );
-        return $this->load->module_view( 'nexo', 'invoices.default', null, true );
+        return $this->load->module_view( 'nexo', 'invoices.default', $data, true );
     }
 }

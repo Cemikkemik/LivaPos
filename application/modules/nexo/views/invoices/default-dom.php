@@ -3,7 +3,6 @@
 		<!-- title row -->
 		<div class="row">
 			<div class="col-xs-12">
-
 			</div>
 			<!-- /.col -->
 		</div>
@@ -107,6 +106,14 @@
 							<th style="width:50%"><?php echo __( 'Sous-Total', 'nexo' );?></th>
 							<td>{{ subTotal( data.products ) | moneyFormat }}</td>
 						</tr>
+						<?php if ( in_array( store_option( 'nexo_vat_type' ), [ 'fixed', 'variable' ] ) ):?>
+							<?php if( store_option( 'nexo_vat_type' ) == 'fixed' ):?>
+							<th><?php echo sprintf( __( 'TVA (%s%%)', 'nexo' ), store_option( 'nexo_vat_percent' ) );?></th>
+							<?php else:?>
+							<th><?php echo sprintf( __( '%s (%s%%)', 'nexo' ), $tax[0][ 'NAME' ], $tax[0][ 'RATE' ] );?></th>
+							<td>{{ data.order[0].TVA | moneyFormat }}</td>
+							<?php endif;?>
+						<?php endif;?>
 						<tr ng-show="getDiscount() != 0">
 							<th><?php echo __( 'Remise', 'nexo' );?>:</th>
 							<td>{{ getDiscount() | moneyFormat }}</td>

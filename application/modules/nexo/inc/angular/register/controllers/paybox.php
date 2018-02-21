@@ -370,6 +370,8 @@ var controller						=	function( <?php echo implode( ',', $dependencies );?> ) {
 				// @endSince
 				order_details.RABAIS			=	NexoAPI.ParseFloat( v2Checkout.CartRabais );
 				order_details.RISTOURNE			=	NexoAPI.ParseFloat( v2Checkout.CartRistourne );
+				// @since 3.11.7
+				order_details.REF_TAX 			=	v2Checkout.REF_TAX;
 				order_details.TVA				=	NexoAPI.ParseFloat( v2Checkout.CartVAT );
 				order_details.REF_CLIENT			=	v2Checkout.CartCustomerID == null ? v2Checkout.customers.DefaultCustomerID : v2Checkout.CartCustomerID;
 				order_details.PAYMENT_TYPE		=	$scope.paymentList.length == 1 ? $scope.paymentList[0].namespace : 'multi'; // v2Checkout.CartPaymentType;

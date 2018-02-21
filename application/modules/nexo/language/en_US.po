@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NexoPOS App Translation\n"
 "POT-Creation-Date: 2018-01-23 17:50+0100\n"
-"PO-Revision-Date: 2018-01-23 18:18+0100\n"
+"PO-Revision-Date: 2018-02-15 10:05+0100\n"
 "Last-Translator: \n"
 "Language-Team: NexoPOS Dev Team <contact@nexopos.com>\n"
 "Language: en_US\n"
@@ -2804,9 +2804,8 @@ msgid "Général"
 msgstr "General"
 
 #: inc/controller.php:321
-#, fuzzy
 msgid "Commandes"
-msgstr "Nbr Orders (current sess)"
+msgstr "Orders"
 
 #: inc/controller.php:331
 msgid "Factures & Reçus"

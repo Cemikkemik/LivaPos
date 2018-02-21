@@ -51,7 +51,7 @@ class NexoOrdersController extends CI_Model
         // add filter for table columns
         $cols           =   $this->events->apply_filters( 'nexo_commandes_columns', $cols );
 
-        if (@$Options[ store_prefix() .'nexo_enable_vat' ] == 'oui') {
+        if ( in_array( @$Options[ store_prefix() .'nexo_vat_type' ],  [ 'fixed', 'variable' ]) ) {
             array_splice($cols, 5, 0, 'TVA');
         }
 

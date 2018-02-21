@@ -197,6 +197,7 @@ class Nexo_Install extends CI_Model
 		`TVA` float NOT NULL,
 		`GROUP_DISCOUNT` float,
 		`REF_SHIPPING_ADDRESS` int(11) NOT NULL,
+		`REF_TAX` int(11) NOT NULL,
 		`SHIPPING_AMOUNT` float(11) NOT NULL,
 		`EXPIRATION_DATE` datetime NOT NULL,
 		PRIMARY KEY (`ID`),

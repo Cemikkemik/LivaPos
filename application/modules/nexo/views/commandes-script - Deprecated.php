@@ -375,7 +375,7 @@ var	NexoCommandes			=	new function(){
 		this.SubmitByEnterPress				=	false; // pour éviter la validation des commandes en utilisant la touche entrée
 		this.RequireConfirm					=	true;
 		// @since 2.5.5
-		this.CartVATPercent					=	'<?php echo @$Options[ 'nexo_enable_vat' ] == 'oui' ? $Options[ 'nexo_vat_percent' ] : 0;?>';
+		this.CartVATPercent					=	'<?php echo in_array( store_option( 'nexo_vat_type' ),  [ 'fixed', 'variable' ], true ) ? $Options[ 'nexo_vat_percent' ] : 0;?>';
 		this.CartVAT						=	0;
 		this.CartTTC						=	0;
 		this.ReduceEffectEnabled			=	true;

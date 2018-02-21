@@ -1,4 +1,5 @@
 <div ng-controller="itemHistoryCTRL">
+<?php echo tendoo_info( __( '<strong>Pour l\'approvisionnement</strong>, La valeur total de chaque ligne est calculée en multipliant la quantité approvisionnée par le prix unitaire (valeur unitaire).', 'nexo' ) );?>
     <div class="box">
         <div class="box-header with-border">
             <h3 class="box-title">
@@ -16,6 +17,7 @@
                 }
             }
             </style>
+            
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -24,7 +26,7 @@
                         <td class="text-right" width="50"><?php echo __( 'Avant', 'nexo' );?></td>
                         <td class="text-right" width="50"><?php echo __( 'Quantité', 'nexo' );?></td>
                         <td class="text-right" width="50"><?php echo __( 'Après', 'nexo' );?></td>
-                        <td class="text-right" width="100"><?php echo __( 'Valeur', 'nexo' );?></td>
+                        <td class="text-right" width="100"><?php echo __( 'Valeur Unitaire', 'nexo' );?></td>
                         <td class="text-right" width="150"><?php echo __( 'Total', 'nexo' );?></td>
                         <td class="text-right" width="100"><?php echo __( 'Par', 'nexo' );?></td>
                         <td class="text-right" width="150"><?php echo __( 'Effectué', 'nexo' );?></td>

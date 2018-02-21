@@ -27,7 +27,8 @@ tendooApp.controller( 'invoiceCTRL', [ '$scope', function( $scope ) {
     $scope.total        =   function(){
         let totalItems          =   parseFloat( $scope.subTotal( $scope.data.products ) );
         let totalShipping       =   parseFloat( $scope.data.order[0].SHIPPING_AMOUNT );
-        return ( totalItems - $scope.getDiscount() )  +   totalShipping;
+        let VAT                 =   parseFloat( $scope.data.order[0].TVA );
+        return ( totalItems - $scope.getDiscount() )  +   totalShipping + VAT;
     }
 
     /**

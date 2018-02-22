@@ -187,7 +187,9 @@ class NexoCustomersController extends CI_Model
     public function add()
     {
 		global $PageNow;
-		$PageNow			=	'nexo/clients/add';
+        $PageNow			=	'nexo/clients/add';
+        
+        $this->load->model( 'Nexo_Misc' );
 
         if ( ! User::can('nexo.create.customers')) {
             nexo_access_denied();

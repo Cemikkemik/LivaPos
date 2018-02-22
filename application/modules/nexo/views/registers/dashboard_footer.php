@@ -8,7 +8,7 @@
                 success		:	function( data ){
                     // Somebody is logged in
                     if( data[0].STATUS == 'opened' ) {
-                        if( data[0].USED_BY != '<?php echo User::id();?>' && <?php echo ( User::in_group([ 'master', 'store.manager' ]) ) ? 'false = true' : 'true = true';?> ) {
+                        if( data[0].USED_BY != '<?php echo User::id();?>' && <?php echo ( User::in_group([ 'master', 'store.manager' ]) ) ? 'false == true' : 'true == true';?> ) {
                             // Display confirm box to logout current user and login
                             bootbox.alert( '<?php echo _s( 'Impossible d\'accéder à une caisse en cours d\'utilisation. Si le problème persiste, contactez l\'administrateur.', 'nexo' );?>' );
                         } else {
@@ -72,7 +72,7 @@
                     // Somebody is logged in
                     if( data[0].STATUS == 'opened' ) {
 
-                        if( data[0].USED_BY != '<?php echo User::id();?>' && <?php echo ( User::in_group([ 'master', 'store.manager' ]) ) ? 'false = true' : 'true = true';?> ) {
+                        if( data[0].USED_BY != '<?php echo User::id();?>' && <?php echo ( User::in_group([ 'master', 'store.manager' ]) ) ? 'false == true' : 'true == true';?> ) {
                             bootbox.alert( '<?php echo _s( 'Vous ne pouvez pas fermer cette caisse. Si le problème persiste, contactez l\'administrateur.', 'nexo' );?>' );
                             return;
                         }

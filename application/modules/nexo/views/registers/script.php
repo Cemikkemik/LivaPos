@@ -39,7 +39,7 @@
                                             <?php if( User::in_group( 'shop.cashier' ) ):?>
                                                 document.location	=	'<?php echo dashboard_url([ 'registers', 'for_cashiers?notice=register_has_been_closed' ]);?>';
                                             <?php else:?>
-                                                document.location	=	'<?php echo dashboard_url([ 'dashboard', store_slug(), 'nexo', 'registers?notice=register_has_been_closed' ]);?>';
+                                                document.location	=	'<?php echo dashboard_url([ 'registers?notice=register_has_been_closed' ]);?>';
                                             <?php endif;?>
                                         }
                                     });
